@@ -1,0 +1,341 @@
+{
+  "checker": {
+    "agent": "best-practices recheck subagent",
+    "model": "opus (Claude Code subagent, requested model override)",
+    "started_at": "2026-09-09T21:37:56-04:00",
+    "finished_at": "2026-09-09T21:56:51-04:00"
+  },
+  "verdicts": [
+    {
+      "claim_id": "G1",
+      "verdict": "CONFIRMED",
+      "source_url": "https://sentiwiki.copernicus.eu/__attachments/a_c32842b6d2a9d74e8c0419c1daee9034103ec69daf2e5b0b377815180e360620/S2-PDGS-CS-DI-PSD-V15.1.pdf",
+      "title": "Sentinel-2 Products Specification Document, ref. S2-PDGS-CS-DI-PSD, issue 15.1, dated 05/12/2025",
+      "accessed_on": "2026-09-09",
+      "quote": "A UTM tiling following the US-MGRS (US-Military Grid Reference System) grid approach is proposed: The vertical UTM boundaries and horizontal latitudinal band boundaries define 6° X 8° Grid Zones. Each Grid Zone is filled by 100,000-meter grid squares. [...] The image data is tiled in several elementary units. Each Tile is defined (with an appropriate GIPP file passed to the Level-1C processing chain), by: Its projection code (UTM code), Its anchorage point (ground coordinates of the upper-left pixel of the Tile), Pixel size in line and column, Tile size in number of lines and columns (rectangle)",
+      "corrected_wording": null,
+      "reason": "Sections 2.7.2 and 4.9.2 of the Product Specification Document define the MGRS-derived grid and fix each tile by UTM code, anchorage point of the upper-left pixel, pixel size and tile size in lines and columns. A fixed anchorage point plus fixed pixel size means a given tile, row and column resolves to the same ground coordinate on every date. The tile definition lives in a GIPP file, so it is a configured constant, not a per-product value."
+    },
+    {
+      "claim_id": "G2",
+      "verdict": "CONFIRMED",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-products",
+      "title": "S2 Products | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "For Level-1C and Level-2A, the granules, also called tiles, are 110 km x 110 km ortho-images projected onto the Universal Transversal Mercator (UTM) spatial reference system, which divides Earth into 60 longitudinal zones. Each UTM zone has a vertical width of 6° of longitude and horizontal width of 8° of latitude (see Figure 2). Earth is subdivided on a predefined set of tiles, defined in UTM/WGS84 projection and using a 100 km step. However, each tile has a surface of 110 km x 110 km in order to provide large overlap with the neighbouring.",
+      "corrected_wording": null,
+      "reason": "The 110 km extent on a 100 km grid step gives the overlap the claim describes. The Product Specification Document adds that the tiling definition shall ensure an overlap between tiles at the UTM zone borders, which is the two-UTM-zone case. Note that ESA pages are not consistent on the number: the Product Specification Document and the Collection 1 Level-1C page both describe tiles as 100 km x 100 km, which is the MGRS grid square, while SentiWiki and the product pages give the 110 km delivered tile surface. Use 110 km for the delivered raster and 100 km for the grid step."
+    },
+    {
+      "claim_id": "G3",
+      "verdict": "CONFIRMED",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-mission",
+      "title": "S2 Mission | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "The spatial resolution of Sentinel-2 is dependent on the particular spectral band: 10 metre spatial resolution: [...] B2 (490 nm), B3 (560 nm), B4 (665 nm) and B8 (842 nm) [...] 20 metre spatial resolution: [...] B5 (705 nm), B6 (740 nm), B7 (783 nm), B8a (865 nm), B11 (1610 nm) and B12 (2190 nm) [...] 60 metre spatial resolution: [...] B1 (443 nm), B9 (940 nm) and B10 (1375 nm)",
+      "corrected_wording": null,
+      "reason": "The band-to-resolution mapping matches the claim exactly. The S2 Products page confirms that Level-2A omits B10: 'The cirrus band 10 is omitted, as it does not contain surface information.' On nesting, section 4.9.2 of the Product Specification Document states that the tile definition 'insures for all resolutions: upper-left corner is at the same location [and] the number of pixels in the Tile is an integer'. Read the caveat that follows it: 'depending on the information inside the GIPP defining the Tiles, coverage of a Tile could be slightly different depending on the resolutions. Consequently, the lower-right corner could be at different locations depending on the resolutions.' The grids share an origin and an integer pixel count, so they nest, but do not assume identical extents without checking the geotransforms."
+    },
+    {
+      "claim_id": "G4",
+      "verdict": "CONFIRMED",
+      "source_url": "https://sentiwiki.copernicus.eu/__attachments/a_c32842b6d2a9d74e8c0419c1daee9034103ec69daf2e5b0b377815180e360620/S2-PDGS-CS-DI-PSD-V15.1.pdf",
+      "title": "Sentinel-2 Products Specification Document, ref. S2-PDGS-CS-DI-PSD, issue 15.1, dated 05/12/2025",
+      "accessed_on": "2026-09-09",
+      "quote": "The geographic coverage of Level-2A products is the same as the Level-1C input products. [...] The Level-2A image data product uses the same tiling, encoding and filling structure as Level-1C.",
+      "corrected_wording": null,
+      "reason": "The Product Specification Document states both the identical coverage and the identical tiling structure. The Collection 1 Level-2A page adds that 'the geometric performance improvements are directly inherited from that of the Level-1C', so Level-2A introduces no geometric step of its own."
+    },
+    {
+      "claim_id": "G5",
+      "verdict": "CONTRADICTED",
+      "source_url": "https://sentiwiki.copernicus.eu/__attachments/a_c1c656cd00b820f1842def8fc114a177b31002188d9ba50a08d98b909c9e5989/OMPC.CS.DQR.001.05-2026%20-%20i124r0%20-%20MSI%20L1C%20DQR%20June%202026.pdf",
+      "title": "Data Quality Report - Sentinel-2 L1C MSI, June 2026, ref. OMPC.CS.DQR.01.05-2026, issue 124.0, dated 09/06/2026",
+      "accessed_on": "2026-09-09",
+      "quote": "Validation results indicate the following performances for the refined products: Absolute geolocation: less than 10 m, [...] Absolute geolocation estimations for S2A refined products show a stable performance with a mean circular error probable at 95% equal to 6.08 m for April 2026. [...] Absolute geolocation estimations for S2B refined products show a stable performance with a mean circular error probable at 95% equal to 6.12 m for April 2026. [...] Absolute geolocation estimations for S2C refined products show a stable performance with a mean circular error probable at 95% equal to 6.41m for April 2026.",
+      "corrected_wording": "Absolute geolocation of geometrically refined Level-1C products is validated as less than 10 m. The June 2026 Data Quality Report measures a mean circular error probable at 95 percent of 6.08 m for Sentinel-2A, 6.12 m for Sentinel-2B and 6.41 m for Sentinel-2C for April 2026. Level-2A inherits this performance from Level-1C. The 6 m figure describes the Global Reference Image itself, not the products: 'The GRI covers most emerged land masses except Antarctica and has a global geolocation uncertainty better than 6 m.'",
+      "reason": "The claim states a figure that no ESA page gives for products. The validated product figure is 10 m and every measured value for the three units is above 6 m. The 6 m number belongs to the Global Reference Image, a different quantity. The supplied report appears to have conflated the two. The measured product figures are also referenced to a PNEO database with about seventy sites, and the report notes 'a small ACT bias (around 1.5 m) compared to the PNEO reference for the three units'."
+    },
+    {
+      "claim_id": "G6",
+      "verdict": "PARTIAL",
+      "source_url": "https://sentiwiki.copernicus.eu/__attachments/a_c1c656cd00b820f1842def8fc114a177b31002188d9ba50a08d98b909c9e5989/OMPC.CS.DQR.001.05-2026%20-%20i124r0%20-%20MSI%20L1C%20DQR%20June%202026.pdf",
+      "title": "Data Quality Report - Sentinel-2 L1C MSI, June 2026, ref. OMPC.CS.DQR.01.05-2026, issue 124.0, dated 09/06/2026",
+      "accessed_on": "2026-09-09",
+      "quote": "The spatial co-registration accuracy of Level 1C data acquired at different dates over the same geographical area shall be better than or equal to 0.3 SSD at 2 σ confidence level. [...] Less than 4.5 m at 95.5% confidence (refined products) [...] Multi-temporal co-registration (same or different satellites), same repeat orbit: better than 4.5 m at 95% confidence, [...] Multi-temporal co-registration, different repeat orbits: better than 4.5 m. [...] The multi-temporal performance for all products, whether refined or unrefined, is presented in the following figure, indicating a performance less than 6 m.",
+      "corrected_wording": "Multi-temporal registration of refined Level-1C products is better than 4.5 m at 95 percent confidence for pairs on the same repeat orbit, and better than 4.5 m for different repeat orbits. The 0.3 figure is the mission requirement, expressed as 0.3 spatial sampling distance at 2 sigma, and it applies to every band, not only the 10 m bands. Across all products, refined and unrefined together, the June 2026 report measures less than 6 m.",
+      "reason": "The 5 m bound holds, but it is the 2021 pre-operational expectation rather than the current measured figure, which is 4.5 m. The 0.3 pixel figure is a requirement stated in spatial sampling distance, so it is 3 m for the 10 m bands, 6 m for the 20 m bands and 18 m for the 60 m bands. Presenting 5 m and 0.3 pixel as alternate statements of one number is wrong. The report also measures the performance on the reference band B04 only, and takes the global figure as the 95.5 percent percentile of the mean shift over tiles."
+    },
+    {
+      "claim_id": "G7",
+      "verdict": "PARTIAL",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-processing",
+      "title": "S2 Processing | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "Copernicus Sentinel-2 data systematically distributed by the EOF-CSC are geometrically refined over the Euro-Africa region since the 30th of March, 2021, and worldwide since the 23rd of August, 2021. Since then, both the Sentinel-2 data absolute geolocation and relative (multi-temporal) performance have significantly improved.",
+      "corrected_wording": "Geometric refinement against the Global Reference Image entered operations over the Euro-Africa region on 30 March 2021, tagged with processing baseline 03.00, and worldwide on 23 August 2021. A 2017 history therefore contains three registration regimes, not two: unrefined before 30 March 2021, partly refined between 30 March and 23 August 2021, and refined after. The pre-refinement multi-temporal error figure is not on the pages read.",
+      "reason": "The August 2021 date is right for the worldwide extension but the claim omits the Euro-Africa step five months earlier, which matters for any pilot set in Europe or Africa. The Sentinel Online announcement of 17 August 2021 confirms the worldwide date and adds that no baseline identifier change accompanied it: the identifier stayed at 03.01. The '12 m' pre-refinement multi-temporal figure could not be traced to any page read. The nearest documented numbers are different quantities: the June 2026 report gives unrefined relative geolocation CE95 'remaining below 16 meters' against the Global Reference Image, and the Collection 1 pages quote '< 12 m at 95.5% confidence of Absolute Geolocation'. Leave the 12 m figure unverified."
+    },
+    {
+      "claim_id": "G8",
+      "verdict": "PARTIAL",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-processing",
+      "title": "S2 Processing | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "All historical data, from the launch of Sentinel-2A in 2015 until 13 December 2023 (when PB 05.10, used for the Collection-1 reprocessing, was deployed for nominal sensing operations), has been reprocessed, using two similar PBs, plus a third one for a few products [...] 05.00 | 4 July 2015 - 31 December 2021 | The improvements introduced in processing baselines up to baseline 04.00 (in operations since 25 January 2022) have been generalised to the historical archive: Geometric refining using the high-quality Copernicus Digital Elevation Model (introduced in PB 03.00) [...] Additional improvements were introduced over the baseline 04.00: Use of the 30 m Copernicus Digital Elevation Model (DEM), with corresponding improvement of the geolocation performance over mountainous areas in particular",
+      "corrected_wording": "Collection 1 reprocessed the whole archive from 4 July 2015 to 13 December 2023. It used processing baseline 05.00 for acquisitions from 4 July 2015 to 31 December 2021, 05.10 for 1 January 2022 to 13 December 2023, and 05.11 for a few products across the whole range. The improvements introduced up to baseline 04.00, including geometric refining, were generalised to the historical archive, so 2015 to 2021 Collection 1 products carry refined geometry wherever refinement succeeded. Read the Image_Refining flag per product to know which ones did.",
+      "reason": "The first sentence of the claim is confirmed and the open question it flags is now answered by the page: refinement was generalised to the historical archive. The page names the baselines and their date ranges, which the claim does not. It also lists further Collection 1 gains over baseline 04.00, including the 30 m Copernicus DEM and 'Optimisation of the applicability along-time of the successive radiometric and geometric calibrations'. Baseline 05.11 additionally carries 'Optimisation of geometric refining to further improve geolocation accuracy in certain cases'. Per-product refinement status still has to be read, because generalising the algorithm does not guarantee it succeeded on every datastrip."
+    },
+    {
+      "claim_id": "G9",
+      "verdict": "CONFIRMED",
+      "source_url": "https://sentinels.copernicus.eu/-/forthcoming-deployment-of-the-copernicus-sentinel-2-products-geometric-refinement",
+      "title": "Forthcoming deployment of the Copernicus Sentinel-2 products geometric refinement - Sentinel Online, 22 March 2021",
+      "accessed_on": "2026-09-09",
+      "quote": "While every new Sentinel-2 observation intersecting the GRI will be a candidate for geometric refinement, the refinement algorithm itself may not be systematically applied depending on the image features impacting the ability to extract GCPs from the underlying GRI images (e.g. observations impaired by substantial cloud or sea cover, short observations over isolated islands, etc.). The refining status of a product will be systematically reported in a specific metadata element (see the attribute flag \"REFINED\" or “NOT_REFINED\" of the XML tag Image_Refining in the product Datastrip metadata). [...] The product geometry of non-refined products will remain entirely based on the raw sensor-to-target viewing model as presently applied.",
+      "corrected_wording": null,
+      "reason": "Every part of the claim is on this page, including the three cited causes and the fallback to the unrefined sensor model. The page also answers the test the claim names: the field is the XML tag Image_Refining in the Datastrip metadata, carrying a flag attribute of REFINED or NOT_REFINED. The S2 Processing page adds a coverage-driven cause the claim omits: 'Products over Svalbard, isolated islands at high latitude and Antarctica are not covered by the GRI so are not refined.' The June 2026 Data Quality Report separates the two cases, calling a quality-criteria failure a 'fallback' and a missing GRI product 'unrefined'."
+    },
+    {
+      "claim_id": "G10",
+      "verdict": "PARTIAL",
+      "source_url": "https://tc.copernicus.org/articles/16/2629/2022/",
+      "title": "Empirical correction of systematic orthorectification error in Sentinel-2 velocity fields for Greenlandic outlet glaciers, The Cryosphere 16, 2629-2642, doi 10.5194/tc-16-2629-2022",
+      "accessed_on": "2026-09-09",
+      "quote": "A particular problem for Sentinel-2 feature tracking is the presence of systematic orthorectification errors. These are lateral off-nadir offsets in orthorectified satellite imagery resulting from vertical differences between the digital elevation model (DEM) surface used to orthorectify the imagery and the true surface at the time of acquisition. [...] When tracking displacement between two optical scenes from the same orbital path (in Sentinel mission terminology, the “relative orbit”), orthorectification errors will be the same across the two images and will be eliminated in the final displacement map. However, in scene pairs from different orbits, a systematic error will be present as the vector sum of the two orthorectification errors. [...] with Sentinel-2's swath width of 290 km, a vertical DEM error of Δh can result in a worst-case offset of ∼Δh/5.4 at the maximum off-nadir distances",
+      "corrected_wording": "Residual misregistration is a lateral off-nadir offset caused by the difference between the DEM used for orthorectification and the true surface. At the 290 km Sentinel-2 swath a vertical DEM error of Δh gives a worst-case ground offset of about Δh/5.4 at maximum off-nadir distance, so the error grows with DEM error and with distance from nadir. The error is identical in two images from the same relative orbit and cancels between them, and it adds as a vector sum between images from different relative orbits. No page read gives the 0.5 to 1 pixel figure for steep terrain at 10 m.",
+      "reason": "The mechanism and the DEM dependence are confirmed, and the paper adds a fact the claim misses that matters more for a time series: the offset cancels within a relative orbit and only bites across relative orbits. The specific magnitudes in the claim are not supported. The paper's own magnitudes are 'tens of metres' for cross-track pairs over Greenland ice, which is not a general terrain figure. ESA states the terrain dependence only qualitatively, in the Collection 1 baseline note about the 30 m Copernicus DEM giving 'improvement of the geolocation performance over mountainous areas in particular'. Treat the 0.5 to 1 pixel figure as unverified and measure it on the pilot set."
+    },
+    {
+      "claim_id": "R1",
+      "verdict": "CONFIRMED",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-products",
+      "title": "S2 Products | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "Please note that starting with the Processing Baseline (PB) 04.00 (25th January 2022), the dynamic range of the Level-2A products is shifted by a band-dependent constant: BOA_ADD_OFFSET. This offset will allow encoding negative surface reflectances that may occur over very dark surfaces. From the user’s point of view, the L2A Surface Reflectance (L2A_SR) shall be retrieved from the output radiometry as follows: Digital Number DN=0 remains the “NO_DATA” value [...] L2A_SRi = (L2A_DNi + BOA_ADD_OFFSETi) / QUANTIFICATION_VALUE [...] The offset per spectral band and quantification values are reported in the General_Info/Product_Image_Characteristics section of the product metadata.",
+      "corrected_wording": null,
+      "reason": "The formula, the baseline and the metadata location all match the claim. Two details the claim does not carry and Practice P8 needs: digital number 0 stays NO_DATA and must not be run through the formula, and the May 2026 Level-2A Data Quality Report states the current value, 'It is set to -1000 Digital counts for all spectral bands', which is a value to check against, never to hard-code. Level-1C carries the same shift under a different field name, RADIO_ADD_OFFSET, from the same baseline."
+    },
+    {
+      "claim_id": "R2",
+      "verdict": "PARTIAL",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-products",
+      "title": "S2 Products | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "Nxxyy: the Processing Baseline number (e.g. N0204) [...] As mentioned in news on Sentinel Online and the CDSE, please note that Collection-0 products up to 13 December 2023, have been removed from the Copernicus Data Space Ecosystem. Only products tagged with PB 05.00, 05.10 and 05.11 are now available.",
+      "corrected_wording": "Each product records its processing baseline in its name, as the Nxxyy field of the compact naming convention, and in its metadata. Reprocessed products do not always sit beside the originals: on the Copernicus Data Space Ecosystem the Collection 0 products up to 13 December 2023 have been removed, leaving only baselines 05.00, 05.10 and 05.11. Whether a given access route keeps both revisions is a route-specific question for discovery.",
+      "reason": "The first sentence is confirmed: the baseline is in the name and, per the S2 Processing page, 'The PB version is included in the product metadata.' The second sentence does not hold for the primary distribution service, which deleted the superseded originals rather than keeping them alongside. This strengthens rather than weakens Practice P9, because it means the same tile and sensing time can change value under the same product identity when a route re-syncs. Key by tile, sensing time, baseline and product id, and expect deletions, not only additions."
+    },
+    {
+      "claim_id": "R3",
+      "verdict": "CONFIRMED",
+      "source_url": "https://sentiwiki.copernicus.eu/__attachments/a_678c1e7e8cff6c024154c784d1257e3fdd6a8d37f0fd3dce736adfc8d5c63dab/OMPC.CS.DQR.002.04-2026-i97r0-MSI-L2A-DQR-May-2026.pdf",
+      "title": "Data Quality Report - Sentinel-2 MSI L2A, May 2026, ref. OMPC.CS.DQR.002.04-2026, issue 97.0, dated 13/05/2026",
+      "accessed_on": "2026-09-09",
+      "quote": "The RadCalNet sites consists of different environments: vegetation: La Crau [and] arid sites: Gobabeb and Railroad Valley Playa [...] The Hypernets sites (see Figure 4) consider a wider variety of landscapes that the current RadCalNet sites: forest: Jarvselja, Wytham Woods, arid sites: Gobabeb, agricultural: Jolanda di Savoia, Lonzee. [...] The selection of randomized Sentinel-2 L2A products involves filtering randomized Sentinel-2 L2A products to meet specific criteria: cloud percentage between 15-25%, snow coverage below 50%, water pixels less than 20%, and no data pixels less than 10%.",
+      "corrected_wording": null,
+      "reason": "Every surface reflectance validation site named in the current report is vegetation, arid, forest or agricultural. No inland water site appears. The scene classification validation goes further and filters out water: randomized products are selected with water pixels under 20 percent, and the reported accuracy is a clear-versus-cloud figure, not a per-class water figure. The S2 Processing page confirms the processor: the Level-2A algorithms 'rely on the Sen2Cor processor algorithm'. The USGS publication states the wider point independently: 'To date, surface reflectance products at national scales and with minimal latency are typically designed exclusively for terrestrial environments. Rectifying this situation can be accomplished by applying aquatic-focused atmospheric correction algorithms independent of those used for terrestrial ecosystems.'"
+    },
+    {
+      "claim_id": "Q1",
+      "verdict": "PARTIAL",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-processing",
+      "title": "S2 Processing | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "The classification map is produced for each Sentinel-2 Level-2A product at 20 m and resamples to 60 m resolution using a “mode” resampling algorithm. Byte values of the classification map are organised as shown in Table 3: [...] 0 NO_DATA | 1 SATURATED_OR_DEFECTIVE | 2 CAST_SHADOWS | 3 CLOUD_SHADOWS | 4 VEGETATION | 5 NOT_VEGETATED | 6 WATER | 7 UNCLASSIFIED | 8 CLOUD_MEDIUM_PROBABILITY | 9 CLOUD_HIGH_PROBABILITY | 10 THIN_CIRRUS | 11 SNOW or ICE",
+      "corrected_wording": "Level-2A carries a scene classification layer produced at 20 m and resampled to 60 m by mode. Its twelve classes are 0 NO_DATA, 1 SATURATED_OR_DEFECTIVE, 2 CAST_SHADOWS, 3 CLOUD_SHADOWS, 4 VEGETATION, 5 NOT_VEGETATED, 6 WATER, 7 UNCLASSIFIED, 8 CLOUD_MEDIUM_PROBABILITY, 9 CLOUD_HIGH_PROBABILITY, 10 THIN_CIRRUS and 11 SNOW or ICE. There is no dark area class in the current list: class 2 was DARK_FEATURES and was renamed CAST_SHADOWS with processing baseline 05.11.",
+      "reason": "The resolutions and most of the class names are right, but 'dark area' is out of date and a store keyed on class names will break across baselines. The same page records the rename: baseline 05.11 covers 'Renaming the DARK_FEATURES class (SCL = 2) in the Level-2A Scene Classification Layer by CAST_SHADOWS'. Two further details bear on small ponds: the 60 m layer is a mode resampling of the 20 m layer, so it is not an independent classification, and the layer is produced at 20 m only, which is coarser than the 10 m bands the pond may occupy."
+    },
+    {
+      "claim_id": "Q2",
+      "verdict": "CONFIRMED",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-products",
+      "title": "S2 Products | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "Level-2A products additionally include quality information like Cloud Masks, Detector Footprint Masks and Quality Masks, and auxiliary ECMWF and CAMS data, inherited from Level-1C products. Cloud and snow probabilities at 20 and 60 m resolutions from Level-2A processing are also provided.",
+      "corrected_wording": null,
+      "reason": "Cloud probability and snow probability are both delivered, at 20 m and 60 m. The May 2026 Level-2A Data Quality Report lists them beside the other layers: 'SCL), Water Vapour (WVP), cloud probability and snow probability maps.' The S2 Processing page names them as the two quality indicators of the scene classification algorithm, 'a map of cloud probability and a map of snow probability', so they come from the same threshold chain as the scene classification and are not an independent cloud test."
+    },
+    {
+      "claim_id": "Q3",
+      "verdict": "CONFIRMED",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-processing",
+      "title": "S2 Processing | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "The Level-1C masks are in in raster format (JP2000, single-bit/multi-layer raster files) and are composed of: MSK_CLASSI (cloud, cirrus and snow) MSK_QUALIT (lost ancillary packets, degraded ancillary packets, lost MSI packets, degraded MSI packets, defective pixels, no data, partially corrected crosstalk and saturated pixels) MSK_DETFOO: the 12 detector footprints",
+      "corrected_wording": null,
+      "reason": "All four mask kinds the claim names are present: detector footprint as MSK_DETFOO, defective pixels and saturation as sub-types of MSK_QUALIT, and technical quality as MSK_QUALIT itself, whose former name in the same page's table is MSK_TECQUA. The format change is dated on the S2 Products page: 'The results of the quality checks are presented as XML reports and GML quality masks for data processed prior to Processing Baseline 04.00 (since January 24th 2022), and in JP2 format for data processed after that date.' The Product Specification Document change log records the same step as 'replaced the GML format into RAW/JP2 for L1 and L2 masks'. Note that the masks were regrouped as well as re-encoded, so a pre-2022 reader keyed on the old file names will find nothing."
+    },
+    {
+      "claim_id": "Q4",
+      "verdict": "PARTIAL",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-products",
+      "title": "S2 Products | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "The current scene classification algorithm has some known limitations [...] Under-detection of semi-transparent clouds or cloud edges: fixed with PB >= 04.00, [...] Topographic shadows may be miss-classified as water: fixed with PB >= 04.00, [...] Open fires can be miss-classified as cirrus, Dark areas miss-classified as cloud shadows: this can occur when bright objects are incorrectly classified as clouds, and with most of occurrences in winter period when the sun is low on the horizon (High solar zenith angle), [...] Omission of very low altitude clouds or fog: since PB 04.00, the SCL algorithm introduced a processing based on pixel parallax to solve the issue of over-detection of clouds over bright targets. The downside of this algorithm is that the SCL map can omit very low altitude clouds or fog and classify them as “not vegetated”.",
+      "corrected_wording": "ESA documents that dark areas are misclassified as cloud shadows, most often at high solar zenith angle, that topographic shadows were misclassified as water before baseline 04.00, and that the layer omits very low altitude clouds and fog and under-detected semi-transparent clouds and cloud edges before baseline 04.00. ESA does not document the specific water direction the claim states, and its own validation excludes water: the scene classification is validated only as clear versus cloud on scenes with water pixels under 20 percent. Treat the behaviour of the scene classification over small, dark or turbid ponds as unmeasured.",
+      "reason": "The direction of the failure modes is close to the claim but not the same. ESA documents dark area to cloud shadow and topographic shadow to water, not water to cloud shadow or water to cloud, and it dates several fixes to baseline 04.00 so the behaviour differs across a 2017 history. Independent peer-reviewed evidence supports the omission half rather than the water half: CloudSEN12 reports that knowledge-driven algorithms including Sen2Cor 'have problems associated with thin cloud omission and non-cloud object commission, frequently at cloud edges and under surfaces with a smooth texture or high reflectance', and measures Sen2Cor as the worst cloud-shadow detector tested, with producer's accuracy under 0.1 on 64.50 percent of image patches. No page read isolates the water case, so the claim cannot be settled as written."
+    },
+    {
+      "claim_id": "Q5",
+      "verdict": "PARTIAL",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-products",
+      "title": "S2 Products | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "Additional Level-2A output image products are an Aerosol Optical Thickness (AOT) map, a Water Vapour (WV) map and a Scene Classification (SCL) map. [...] Level-2A products additionally include quality information like Cloud Masks, Detector Footprint Masks and Quality Masks, and auxiliary ECMWF and CAMS data, inherited from Level-1C products. Cloud and snow probabilities at 20 and 60 m resolutions from Level-2A processing are also provided. [...] Because the viewing angles are not the same for even and odd detectors, differences in measured radiometry can be observed on non-Lambertian surfaces. This is especially visible on Sun glint over sea surfaces",
+      "corrected_wording": "The documented Level-2A output layers are aerosol optical thickness, water vapour, scene classification, cloud probability and snow probability, plus the cloud, detector footprint and quality masks inherited from Level-1C. None of them flags sun glint, and none of the twelve scene classification classes is a glint class. ESA documents sun glint as a known image feature, visible as an odd-even detector stripe pattern over water, not as a flagged condition. Glint flags come from third-party water processors, not from the ESA product.",
+      "reason": "The verdict rests on an enumerated layer list that contains no glint flag, not on an explicit ESA statement that no such flag exists, so it is an argument from absence and stays PARTIAL. Supporting evidence that glint is handled outside the ESA product: the Frontiers in Remote Sensing comparison lists a glint flag only among third-party processor outputs, 'Quality_flag_sun_glint_risk (potential presence of sun glint on pixels) in 8%-19% of cases', which is a C2RCC flag. Discovery question 4 in the document, whether glint is detectable from the delivered bands alone at 10 m ponds, remains open."
+    },
+    {
+      "claim_id": "Q6",
+      "verdict": "PARTIAL",
+      "source_url": "https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2024.1423332/full",
+      "title": "Suitability of different in-water algorithms for eutrophic and absorbing waters applied to Sentinel-2 MSI and Sentinel-3 OLCI data, Frontiers in Remote Sensing, doi 10.3389/frsen.2024.1423332",
+      "accessed_on": "2026-09-09",
+      "quote": "To estimate errors associated with the vicinity of the land, Chl a match-ups were analyzed in relation to the distance from the shore. Higher errors appeared closer to the shore (<5 km) and decreased further away from shore due to the adjacency effect on the pixels near land [...] S2 MSI algorithms had a higher overall error (∼280%) between distance groups close to the shore (<5 km) and away from the shore (>5 km) than S3 OLCI (∼70%). [...] S2 MSI ACOLITE Chl a algorithms exhibited high errors near the shore, potentially due to higher reflectance values in the red and NIR bands [...] Bulgarelli and Zibordi (2018a) compared S2 MSI and S3 OLCI reflectance data, finding an adjacency effect up to ∼36 km from the shore for S3 OLCI and ∼20 km for S2 MSI. However, these studies focus on seas and oceans, not lakes.",
+      "corrected_wording": "Adjacency effects from surrounding land bias water reflectance retrieved from Sentinel-2, and the bias grows towards the shore. Measured errors are higher within 5 km of shore than beyond it, and published estimates put the detectable range for Sentinel-2 MSI at about 20 km over seas. The scale is kilometres, not a few hundred metres, so for a small pond every pixel is inside the affected zone and there is no clean interior to compare against a contaminated edge.",
+      "reason": "The direction and the mechanism hold, and the paper attributes the near-shore error to 'higher reflectance values in the red and NIR bands', which is the raised apparent reflectance the claim describes. The distance in the claim is wrong by two orders of magnitude, and the correction matters for design: Practice P7, flagging one pixel in from the mask edge, does not separate adjacency-clean from adjacency-affected pixels for a pond a few hundred metres across. The paper also notes the published ranges come from seas and oceans, not lakes, so the lake-specific scale is still open."
+    },
+    {
+      "claim_id": "Q7",
+      "verdict": "PARTIAL",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-mission",
+      "title": "S2 Mission | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "The Sentinel-2 mission baseline consists of two identical satellites operating together, today Sentinel-2B (launched in 2017) and Sentinel-2C (launched in 2024) that were launched using the European VEGA launcher. [...] Sentinel-2C has replaced Sentinel-2A in operation on January 21st, 2025, as announced here, and Sentinel-2D will succeed Sentinel-2B. [...] Starting in March 2025, Sentinel-2A is performing an extension campaign, exceptionally complementing the nominal two-satellites (Sentinel-2B/2C) mission constellation operations configuration. [...] With nominal two-satellites (Sentinel-2B/2C) operations configuration, all regular areas, indicated in green in Figure 4, will be revisited every five days under the same viewing conditions (i.e. viewing angles). The Sentinel-2A extension campaign brings an improved revisit frequency for some areas. However, due to overlap between swaths from adjacent orbits, the revisit frequency is increased with different viewing conditions",
+      "corrected_wording": "The nominal Sentinel-2 constellation is two satellites, and since 21 January 2025 the pair is Sentinel-2B and Sentinel-2C, not Sentinel-2A and Sentinel-2B. Sentinel-2C launched on 5 September 2024 and replaced Sentinel-2A. The two-satellite configuration revisits all regular areas every five days under the same viewing conditions, and overlap between swaths from adjacent orbits raises the revisit frequency further, under different viewing conditions. Since March 2025 Sentinel-2A is running an extension campaign that adds revisits on top of the nominal pair, so a scene count per tile per month is not constant over the archive.",
+      "reason": "The five-day figure and the extra revisits from adjacent-orbit overlap are confirmed, but the satellite pair named in the claim is out of date and the third satellite did not simply join, it replaced Sentinel-2A and then Sentinel-2A returned as a supplement. The Copernicus Data Space Ecosystem documentation gives the same dates: 'Copernicus Sentinel-2C satellite was launched into orbit 5 September 2024. It has replaced Sentinel-2A in operation on 21 January 2025.' The consequence for the assessment is that revisit density is not uniform across a 2017 to 2026 history and must be counted per period, not assumed."
+    }
+  ],
+  "additional_findings": [
+    {
+      "fact": "The metadata element that records whether geometric refinement was applied is the XML tag Image_Refining in the Datastrip metadata. It carries an attribute named flag whose value is REFINED or NOT_REFINED. The Product Specification Document also defines Image_Refining/Refining_Characteristics/REFERENCE_BAND, a Reference_Image_List of the Global Reference Image products used, and Geometric_Refining_Quality/Image_Refining/Correlation_Quality and Performance_Indicators in the Datastrip quality indicators.",
+      "source_url": "https://sentinels.copernicus.eu/-/forthcoming-deployment-of-the-copernicus-sentinel-2-products-geometric-refinement",
+      "title": "Forthcoming deployment of the Copernicus Sentinel-2 products geometric refinement - Sentinel Online, 22 March 2021",
+      "accessed_on": "2026-09-09",
+      "quote": "The refining status of a product will be systematically reported in a specific metadata element (see the attribute flag \"REFINED\" or “NOT_REFINED\" of the XML tag Image_Refining in the product Datastrip metadata).",
+      "bears_on": "G9, Practice P4, and the discovery question 'Does refinement status appear in product metadata on every route?'. The flag lives in the Datastrip metadata, not the tile metadata, so a route that serves per-tile assets without the datastrip XML may not expose it at all. Test this per route before promising refinement status as a stored attribute."
+    },
+    {
+      "fact": "The scene classification layer has twelve classes: 0 NO_DATA, 1 SATURATED_OR_DEFECTIVE, 2 CAST_SHADOWS, 3 CLOUD_SHADOWS, 4 VEGETATION, 5 NOT_VEGETATED, 6 WATER, 7 UNCLASSIFIED, 8 CLOUD_MEDIUM_PROBABILITY, 9 CLOUD_HIGH_PROBABILITY, 10 THIN_CIRRUS, 11 SNOW or ICE. Class 2 was called DARK_FEATURES until processing baseline 05.11 renamed it CAST_SHADOWS.",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-processing",
+      "title": "S2 Processing | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "0 | NO_DATA | 1 | SATURATED_OR_DEFECTIVE | 2 | CAST_SHADOWS | 3 | CLOUD_SHADOWS | 4 | VEGETATION | 5 | NOT_VEGETATED | 6 | WATER | 7 | UNCLASSIFIED | 8 | CLOUD_MEDIUM_PROBABILITY | 9 | CLOUD_HIGH_PROBABILITY | 10 | THIN_CIRRUS | 11 | SNOW or ICE",
+      "bears_on": "Q1 and Practice P11. Store the class code, never the class name, because the name of code 2 changed with the baseline while the code did not. Any derived quality flag that keys on 'dark features' will silently miss Collection 1 products."
+    },
+    {
+      "fact": "The radiometric offset is -1000 digital counts for all spectral bands, at both Level-1C (RADIO_ADD_OFFSET) and Level-2A (BOA_ADD_OFFSET). It was introduced with processing baseline 04.00, deployed on 25 January 2022, and is still present in later baselines. The quantification value is not fixed in the specification and must be read from the product. Digital number 0 stays NO_DATA and must not be run through the formula.",
+      "source_url": "https://sentiwiki.copernicus.eu/__attachments/a_678c1e7e8cff6c024154c784d1257e3fdd6a8d37f0fd3dce736adfc8d5c63dab/OMPC.CS.DQR.002.04-2026-i97r0-MSI-L2A-DQR-May-2026.pdf",
+      "title": "Data Quality Report - Sentinel-2 MSI L2A, May 2026, ref. OMPC.CS.DQR.002.04-2026, issue 97.0, dated 13/05/2026",
+      "accessed_on": "2026-09-09",
+      "quote": "We remind here that a radiometric offset on reflectance digital numbers has been introduced with PB 04.00, and that it is still present in the more recent processing baselines. [...] The radiometric offset value is reported in the field: General_Info/Product_Image_Characteristics/BOA_ADD_OFFSET_VALUES_LIST/BOA_ADD_OFFSET of the User Product Metadata, as well as in the field: Image_Data_Info/Radiometric_Info/BOA_ADD_OFFSET_VALUES_LIST/BOA_ADD_OFFSET of the Datastrip Metadata. It is set to -1000 Digital counts for all spectral bands.",
+      "bears_on": "R1 and Practice P8. The exact metadata paths let a prototype read the offset without guessing. The current value gives a check that the reader is working, and the NO_DATA rule matters most for small ponds, where a handful of zero pixels can dominate a mean."
+    },
+    {
+      "fact": "Collection 1 used three processing baselines. Baseline 05.00 covers acquisitions from 4 July 2015 to 31 December 2021, baseline 05.10 covers 1 January 2022 to 13 December 2023, and baseline 05.11 covers a few products across the whole range. Baseline 05.10 has been the operational baseline since 13 December 2023. Product format follows PSD v14.9 for 05.00 and 05.10 and PSD v15.0 for 05.11.",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-processing",
+      "title": "S2 Processing | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "05.00 | 4 July 2015 - 31 December 2021 [...] 05.10 | 1 January 2022 - 13 December 2023 | Similar to PB 05.00, plus a computing optimization. PB 05.10 has been the operational baseline since 13 December 2023. [...] 05.11 | 4 July 2015 - 13 December 2023 (few products only) [...] Please note that the Level-1C and Level-2A product format is based on version 14.9 of the Product Specification Document (PSD v14.9) for Collection-1 products generated with PB 05.00 and PB 05.10, and on version 15.0 (PSD v15.0) for Collection-1 products generated with PB 05.11.",
+      "bears_on": "G8, R2 and Practice P9. A store keyed by baseline must expect three values across a Collection 1 history and a fourth, 05.12 from 4 February 2026, for recent nominal production. The 05.11 subset is scattered across the whole date range, so baseline is not a function of sensing date."
+    },
+    {
+      "fact": "The Collection 0 products up to 13 December 2023 have been removed from the Copernicus Data Space Ecosystem. Only products tagged with baselines 05.00, 05.10 and 05.11 remain there.",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-products",
+      "title": "S2 Products | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "As mentioned in news on Sentinel Online and the CDSE, please note that Collection-0 products up to 13 December 2023, have been removed from the Copernicus Data Space Ecosystem. Only products tagged with PB 05.00, 05.10 and 05.11 are now available.",
+      "bears_on": "R2 and Practice P9. Reprocessing is not purely additive on the primary service. A route sync can delete as well as add, so the store needs a policy for a source product that disappears, and a comparison of what each candidate route actually still carries."
+    },
+    {
+      "fact": "Sentinel-2C launched on 5 September 2024 and replaced Sentinel-2A in operation on 21 January 2025. The nominal constellation is Sentinel-2B and Sentinel-2C, phased 180 degrees apart. Since March 2025 Sentinel-2A runs an extension campaign 36 degrees from Sentinel-2B, adding revisits over Europe and the tropical regions of Africa and South America. Sentinel-2D will succeed Sentinel-2B.",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-mission",
+      "title": "S2 Mission | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "Sentinel-2C has replaced Sentinel-2A in operation on January 21st, 2025, as announced here, and Sentinel-2D will succeed Sentinel-2B. [...] Starting in March 2025, Sentinel-2A is performing an extension campaign, exceptionally complementing the nominal two-satellites (Sentinel-2B/2C) mission constellation operations configuration. [...] On this orbit, Sentinel-2B and Sentinel-2C are separated by 180°. During the extension campaign, Sentinel-2A is located 36° away from Sentinel-2B",
+      "bears_on": "Q7 and assumption A17 on the scale driver. Distinct tile-dates read per year is not constant across the archive: it rises for the extension-campaign regions from March 2025. Size a benchmark on the densest period, not the mean."
+    },
+    {
+      "fact": "A Level-2A product is about 800 MB for each 110 by 110 km tile and is available within 8 hours of sensing. A Level-1C tile is about 700 MB and available within 6 hours.",
+      "source_url": "https://sentinels.copernicus.eu/web/sentinel/sentinel-data-access/sentinel-products/sentinel-2-data-products/collection-1-level-2a",
+      "title": "Copernicus Sentinel-2 Collection 1 MSI Level-2A (L2A) - Sentinel Online",
+      "accessed_on": "2026-09-09",
+      "quote": "Data Volume | Data Volume 800 MB (each 110x110 km2) | Data Delivery | Available within 8 hours from sensing",
+      "bears_on": "Cost and volume estimates for any route that transfers whole products. It also sizes the gain from a route that serves band subsets or windowed reads, since a pond needs a few pixels out of an 800 MB product."
+    },
+    {
+      "fact": "Level-1C quality masks are named MSK_CLASSI (opaque cloud, cirrus, snow and ice), MSK_QUALIT (ancillary lost and degraded, MSI lost and degraded, defective pixels, no data, partially corrected crosstalk, saturated pixels) and MSK_DETFOO (the twelve detector footprints). Before January 2022 the same content was split across MSK_CLOUDS, MSK_SNOICE, MSK_TECQUA, MSK_DEFECT, MSK_NODATA and QT_SATURATED_PIXELS_L1A, and was encoded as GML vectors rather than JP2 rasters.",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-processing",
+      "title": "S2 Processing | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "The Level-1C masks are in in raster format (JP2000, single-bit/multi-layer raster files) and are composed of: MSK_CLASSI (cloud, cirrus and snow) MSK_QUALIT (lost ancillary packets, degraded ancillary packets, lost MSI packets, degraded MSI packets, defective pixels, no data, partially corrected crosstalk and saturated pixels) MSK_DETFOO: the 12 detector footprints",
+      "bears_on": "Q3 and Practice P11. A reader must handle two mask layouts and two encodings across a 2017 history, and the mapping between old and new names is many-to-one. The page carries the full mapping table, including the bit and band assignment for each sub-type inside the multi-band rasters."
+    },
+    {
+      "fact": "Since Sen2Cor 2.10, that is Level-2A baseline 04.00 and later, clouds, cloud shadows and snow in the scene classification are dilated: cloud by 80 m, cloud shadow by 40 m and snow by 20 m. Cloud dilation is suppressed in shoreline regions.",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-processing",
+      "title": "S2 Processing | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "Since Sen2Cor version 2.10 (L2A PB >= 04.00), a dilation of clouds, cloud shadows and snow is performed with the following characteristics: + 80 m cloud mask + 40 m cloud shadow mask + 20 m snow mask The dilation is performed carefully to avoid the dilation of false cloud leading to higher commission error: No cloud dilation in shoreline regions (bright sand / white caps issues)",
+      "bears_on": "Practices P12 and P13 and the value of the scene classification over small ponds. An 80 m cloud dilation covers a whole 10 m pond several times over, so a single cloudy pixel nearby can flag every pixel of the water body. The shoreline exception means the dilation rule itself differs between a pond near a coast and one inland, and the behaviour changed at baseline 04.00."
+    },
+    {
+      "fact": "The Level-2A no-data mask is common to all bands and computed at 20 m, then oversampled to 10 m. This can fill 10 m pixels at the swath edge with interpolated data and produce very low reflectance values. ESA recommends filtering with the per-band MSK_DETFOO from the Level-2A QI_DATA folder.",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-products",
+      "title": "S2 Products | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "The nodata mask at L2A is common to all the bands and computed at 20 m resolution, while each band has its own nodata mask at L1C. [...] this process of generating a common nodata mask to all bands from heterogenous spatial resolution, by nearest downsampling to 20 m followed by nearest oversampling to 10 m can induce some artefacts at the edge of the swath. That means that it could happen that some artificially created 10 m bands pixels are filled with interpolated data, resulting in very low reflectance values at the edge of the swath border area. [...] It is recommended to use the MSK_DETFOO per band (available in L2A Granule QI_DATA folder) to filter out those additional artificial pixels and keep only pixels for which data has been acquired.",
+      "bears_on": "Practice P11 and P12. A pond at a swath edge can return spurious low reflectance that looks like plausible dark water. The detector footprint mask is the only way to tell, which makes MSK_DETFOO a required layer for the store, not an optional one."
+    },
+    {
+      "fact": "The scene classification post-processing step uses the DEM to clean pixels initially classified as water, cloud shadow or cloud medium probability, and reclassifies pixels in topographic shadow as cast shadows. The atmospheric correction separately uses water bodies as reference areas for aerosol optical thickness retrieval.",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-processing",
+      "title": "S2 Processing | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "This step consists in “cleaning” some pixels initially identified as “water”, “cloud shadow” or “cloud medium probability”, using the information provided by the DEM. Additionally, pixels located in topographic shadows are classified to “cast_shadows” pixels. [...] The aerosol type and visibility or optical thickness of the atmosphere is derived using the Dense Dark Vegetation (DDV) algorithm. This algorithm requires that the scene contains reference areas of known reflectance behaviour, preferably DDV and water bodies.",
+      "bears_on": "Q4 and Practice P13. The water class is not a pure spectral result: a DEM and an auxiliary land cover map can remove water pixels, so the class depends on inputs unrelated to the pond. The Collection 1 Level-2A page names the auxiliary water map used, ESACCI-LC-L4-WB-Map-150m-P13Y-2000-v4.0.tif, at 150 m, which cannot resolve a 10 m pond."
+    },
+    {
+      "fact": "Adjacent tiles disagree over their overlap area. The scene classification may differ for a few pixels and the aerosol optical depth and surface reflectances are generally different, because Level-2A is processed per tile.",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-products",
+      "title": "S2 Products | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "The L2A products are processed at tile level and some differences can occur in the overlap area between adjacent tiles: The scene classification may be different for a few pixels The Aerosol Optical Depth (AOD) and surface reflectances are generally different, although the difference should be small.",
+      "bears_on": "G2 and Practice P2. Choosing one tile per water body is not only a deduplication convenience: keeping both tiles introduces a real value difference for the same ground pixel on the same date. Record the tile choice as part of the stored key, and if both are kept, do not average them."
+    },
+    {
+      "fact": "Level-2A products with a mean sun zenith angle above 70 degrees are processed with the angle clipped to 70 degrees, which under-corrects the atmosphere. ESA states the surface reflectance of these products must not be used for quantitative or scientific analysis. The angle is in the granule metadata field Mean_Sun_Angle/ZENITH_ANGLE and, since baseline 02.14, a warning appears in the GENERAL_QUALITY report.",
+      "source_url": "https://sentiwiki.copernicus.eu/web/s2-products",
+      "title": "S2 Products | SentiWiki",
+      "accessed_on": "2026-09-09",
+      "quote": "Users are advised that products with a Sun-Zenith Angle (SZA) higher than 70° are processed with a clipped SZA value of 70°. This results in an under-correction of the atmospheric signal, which results in a bluish colour on the L2A products. The surface reflectance of products with SZA > 70° should not be used for quantitative/scientific analysis. The value of the SZA can be obtained from the GRANULE metadata (MTD_TL.xml, field Mean_Sun_Angle/ZENITH_ANGLE). Since Processing Baseline 02.14 (February 4th, 2020), a warning message is introduced in the GENERAL_QUALITY report to identify these products.",
+      "bears_on": "Practice P11 and assumption A2. This is a product-level quality flag the store can carry cheaply from one metadata field, and it is the strongest documented reason to exclude a whole date for a mid or high latitude water body in winter."
+    },
+    {
+      "fact": "Refinement is disabled when quality criteria are not met, a case ESA calls fallback, and is also absent where no Global Reference Image product covers the datastrip, a case ESA calls unrefined. The Global Reference Image does not cover Svalbard, isolated islands at high latitude or Antarctica, and orbit R109 is empty because it is almost entirely over sea.",
+      "source_url": "https://sentiwiki.copernicus.eu/__attachments/a_c1c656cd00b820f1842def8fc114a177b31002188d9ba50a08d98b909c9e5989/OMPC.CS.DQR.001.05-2026%20-%20i124r0%20-%20MSI%20L1C%20DQR%20June%202026.pdf",
+      "title": "Data Quality Report - Sentinel-2 L1C MSI, June 2026, ref. OMPC.CS.DQR.01.05-2026, issue 124.0, dated 09/06/2026",
+      "accessed_on": "2026-09-09",
+      "quote": "In order to avoid any case of badly refined products, refining is disabled if some quality criteria are not met (“fallback” case). Additionally, there can be instances of non-refined products when there is no product in the GRI covering the current datastrip (“unrefined” case), such as over Antarctica. [...] A significant reduction in the fall-back rate was achieved since November 2024 following parameter adjustments.",
+      "bears_on": "G9 and Practice P4. There are two distinct reasons a product is not refined and they have different consequences: fallback is scene-dependent and varies with date, coverage is location-dependent and permanent. Counting unrefined scenes per year over the pilot set should separate them, and the fallback rate itself changed in November 2024."
+    },
+    {
+      "fact": "Orthorectification error caused by DEM error is identical in two images from the same relative orbit and cancels between them. It adds as a vector sum between images from different relative orbits.",
+      "source_url": "https://tc.copernicus.org/articles/16/2629/2022/",
+      "title": "Empirical correction of systematic orthorectification error in Sentinel-2 velocity fields for Greenlandic outlet glaciers, The Cryosphere 16, 2629-2642, doi 10.5194/tc-16-2629-2022",
+      "accessed_on": "2026-09-09",
+      "quote": "When tracking displacement between two optical scenes from the same orbital path (in Sentinel mission terminology, the “relative orbit”), orthorectification errors will be the same across the two images and will be eliminated in the final displacement map. However, in scene pairs from different orbits, a systematic error will be present as the vector sum of the two orthorectification errors.",
+      "bears_on": "G10 and Practice P5. Where a water body sits in the overlap of two relative orbits, a time series that mixes orbits carries a registration step that a single-orbit series does not. Recording the relative orbit with every extracted value costs nothing and lets a consumer build a single-orbit series when stability matters more than frequency."
+    }
+  ],
+  "limitations": [
+    "sentinel.esa.int did not resolve from this environment. Every attempt, by curl and by the fetch tool, failed at DNS. The pages that section 6 of the document lists on that domain were therefore read from their Sentinel Online equivalents on sentinels.copernicus.eu and from SentiWiki, which is the current home of the Sentinel-2 technical guides and the Data Quality Reports. The URLs recorded here are the ones actually read.",
+    "mdpi.com, sciencedirect.com, tandfonline.com and doi.org all returned HTTP 403 from this environment, by curl and by the fetch tool. Three papers that address Q6 and G10 directly could not be read: Paulino et al. 2022 on adjacency correction over inland waters (10.3390/rs14081829), Warren et al. 2019 on atmospheric correction over coastal and inland waters (10.1016/j.rse.2019.03.018), and the European Journal of Remote Sensing study of DEM influence on Sentinel-2 orthorectification (10.1080/22797254.2018.1478676). Q6 and G10 rest on open-access substitutes on frontiersin.org and copernicus.org, which are weaker on the specific numbers.",
+    "The Data Quality Report and Product Specification Document URLs carry a cache-busting query string that ESA may change. The stable entry point is the SentiWiki S2 documents page at https://sentiwiki.copernicus.eu/web/s2-documents. The June 2026 Level-1C report and the May 2026 Level-2A report were the most recent of each when read.",
+    "No Sentinel-2 product was downloaded or opened. Every metadata field name recorded here comes from the Product Specification Document or an ESA announcement, not from an observed product. The tests named in the document that require inspecting a real product, including reading Image_Refining and comparing geotransforms, remain to be run.",
+    "The pre-refinement multi-temporal registration figure in G7, 12 m, could not be traced. Data Quality Reports from 2021 are not listed on the current SentiWiki documents page, only reports from late 2025 onward, and the 2025 Annual Performance Report covers 2025 only.",
+    "Q5 is settled by absence from an enumerated list of Level-2A layers rather than by an explicit ESA statement, so it is recorded as PARTIAL. If a stronger statement exists it would be in the Level-2A Algorithm Theoretical Basis Document, which was not read.",
+    "Q4 could not be settled for the specific case the claim states, water misclassified as cloud shadow, dark area or cloud. ESA documents the neighbouring failure modes and excludes water-dominated scenes from its own scene classification validation. Searches for a peer-reviewed per-class accuracy for the Sen2Cor water class over small inland water bodies returned only sources on blocked publisher domains."
+  ]
+}

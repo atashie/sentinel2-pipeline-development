@@ -1,0 +1,1871 @@
+{
+ "dimension": "processing_workflow",
+ "researcher": {
+  "agent": "processing-workflow research agent",
+  "model": "opus (Claude Code subagent, requested model override)",
+  "started_at": "2026-09-09T21:35:00-04:00",
+  "finished_at": "2026-09-09T22:05:00-04:00"
+ },
+ "endpoints_queried": [
+  {
+   "url": "https://openeo.dataspace.copernicus.eu/openeo/1.2/processes",
+   "purpose": "Read the process definitions the Copernicus Data Space Ecosystem openEO back-end publishes, for aggregate_spatial, resample_spatial, load_collection and save_result.",
+   "accessed_on": "2026-09-09",
+   "returned": "HTTP 200, JSON listing 143 processes. No image data requested or returned."
+  }
+ ],
+ "sources": [
+  {
+   "id": "src-gdal-vfs",
+   "url": "https://gdal.org/en/stable/user/virtual_file_systems.html",
+   "title": "GDAL Virtual File Systems (compressed, network hosted, etc...): /vsimem, /vsizip, /vsitar, /vsicurl, ...",
+   "publisher": "GDAL / Open Source Geospatial Foundation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-gdal-configoptions",
+   "url": "https://gdal.org/en/stable/user/configoptions.html",
+   "title": "Configuration options",
+   "publisher": "GDAL / Open Source Geospatial Foundation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-gdal-cog",
+   "url": "https://gdal.org/en/stable/drivers/raster/cog.html",
+   "title": "COG -- Cloud Optimized GeoTIFF generator",
+   "publisher": "GDAL / Open Source Geospatial Foundation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-gdal-jp2openjpeg",
+   "url": "https://gdal.org/en/stable/drivers/raster/jp2openjpeg.html",
+   "title": "JP2OpenJPEG -- JPEG2000 driver based on OpenJPEG library",
+   "publisher": "GDAL / Open Source Geospatial Foundation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-gdal-rasterize",
+   "url": "https://gdal.org/en/stable/programs/gdal_rasterize.html",
+   "title": "gdal_rasterize",
+   "publisher": "GDAL / Open Source Geospatial Foundation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-rasterio-windowed",
+   "url": "https://rasterio.readthedocs.io/en/stable/topics/windowed-rw.html",
+   "title": "Windowed reading and writing",
+   "publisher": "rasterio documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-rasterio-resampling",
+   "url": "https://rasterio.readthedocs.io/en/stable/topics/resampling.html",
+   "title": "Resampling",
+   "publisher": "rasterio documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-rasterio-reading",
+   "url": "https://rasterio.readthedocs.io/en/stable/topics/reading.html",
+   "title": "Reading Datasets",
+   "publisher": "rasterio documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-rasterio-concurrency",
+   "url": "https://rasterio.readthedocs.io/en/stable/topics/concurrency.html",
+   "title": "Concurrent processing",
+   "publisher": "rasterio documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-rioxarray-api",
+   "url": "https://corteva.github.io/rioxarray/stable/rioxarray.html",
+   "title": "rioxarray package",
+   "publisher": "rioxarray documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-exactextract",
+   "url": "https://isciences.github.io/exactextract/",
+   "title": "exactextract",
+   "publisher": "exactextract documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-rasterstats-manual",
+   "url": "https://pythonhosted.org/rasterstats/manual.html",
+   "title": "User Manual",
+   "publisher": "rasterstats documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-odc-stac-load",
+   "url": "https://odc-stac.readthedocs.io/en/latest/_api/odc.stac.load.html",
+   "title": "odc.stac.load",
+   "publisher": "odc-stac documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-odc-stac-best-practice",
+   "url": "https://odc-stac.readthedocs.io/en/latest/stac-best-practice.html",
+   "title": "Best Practices",
+   "publisher": "odc-stac documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-stackstac-stack",
+   "url": "https://stackstac.readthedocs.io/en/latest/api/main/stackstac.stack.html",
+   "title": "stackstac.stack",
+   "publisher": "stackstac documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-dask-scheduling",
+   "url": "https://docs.dask.org/en/stable/scheduling.html",
+   "title": "Scheduling",
+   "publisher": "Dask documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-zarr-v3-core",
+   "url": "https://zarr-specs.readthedocs.io/en/latest/v3/core/index.html",
+   "title": "Zarr core specification",
+   "publisher": "Zarr specs documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-xarray-open-zarr",
+   "url": "https://docs.xarray.dev/en/stable/generated/xarray.open_zarr.html",
+   "title": "xarray.open_zarr",
+   "publisher": "xarray documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-icechunk-overview",
+   "url": "https://icechunk.io/en/latest/overview/",
+   "title": "Overview - Icechunk",
+   "publisher": "Icechunk documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-icechunk-parallel",
+   "url": "https://icechunk.io/en/latest/understanding/parallel/",
+   "title": "Parallel / Distributed Writing - Icechunk",
+   "publisher": "Icechunk documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-icechunk-storage",
+   "url": "https://icechunk.io/en/latest/guides/storage/",
+   "title": "Storage - Icechunk",
+   "publisher": "Icechunk documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-rio-cogeo-cli",
+   "url": "https://cogeotiff.github.io/rio-cogeo/CLI/",
+   "title": "Command-line interface (CLI) - rio-cogeo",
+   "publisher": "rio-cogeo documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-sh-process",
+   "url": "https://docs.sentinel-hub.com/api/latest/api/process/",
+   "title": "Processing API",
+   "publisher": "Sentinel Hub documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-sh-statistical",
+   "url": "https://docs.sentinel-hub.com/api/latest/api/statistical/",
+   "title": "Statistical API",
+   "publisher": "Sentinel Hub documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-sh-async",
+   "url": "https://docs.sentinel-hub.com/api/latest/api/async-process/",
+   "title": "Asynchronous Processing API",
+   "publisher": "Sentinel Hub documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-sh-rate-limiting",
+   "url": "https://docs.sentinel-hub.com/api/latest/api/overview/rate-limiting/",
+   "title": "Rate limiting",
+   "publisher": "Sentinel Hub documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-sh-evalscript-v3",
+   "url": "https://docs.sentinel-hub.com/api/latest/evalscript/v3/",
+   "title": "Evalscript V3",
+   "publisher": "Sentinel Hub documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-sh-s2l2a",
+   "url": "https://docs.sentinel-hub.com/api/latest/data/sentinel-2-l2a/",
+   "title": "Sentinel-2 L2A",
+   "publisher": "Sentinel Hub documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-gee-reduceregion",
+   "url": "https://developers.google.com/earth-engine/apidocs/ee-image-reduceregion",
+   "title": "ee.Image.reduceRegion",
+   "publisher": "Google Earth Engine documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-gee-samplerectangle",
+   "url": "https://developers.google.com/earth-engine/apidocs/ee-image-samplerectangle",
+   "title": "ee.Image.sampleRectangle",
+   "publisher": "Google Earth Engine documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-gee-scale",
+   "url": "https://developers.google.com/earth-engine/guides/scale",
+   "title": "Scale",
+   "publisher": "Google Earth Engine documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-gee-export-images",
+   "url": "https://developers.google.com/earth-engine/guides/exporting_images",
+   "title": "Exporting Images",
+   "publisher": "Google Earth Engine documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-gee-s2-sr-harmonized",
+   "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+   "title": "Harmonized Sentinel-2 MSI: MultiSpectral Instrument, Level-2A (SR)",
+   "publisher": "Google Earth Engine Data Catalog",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-openeo-cdse",
+   "url": "https://documentation.dataspace.copernicus.eu/APIs/openEO/openEO.html",
+   "title": "openEO",
+   "publisher": "Copernicus Data Space Ecosystem documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-openeo-cdse-processes",
+   "url": "https://openeo.dataspace.copernicus.eu/openeo/1.2/processes",
+   "title": "openEO process listing of the Copernicus Data Space Ecosystem back-end",
+   "publisher": "Copernicus Data Space Ecosystem",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-eopf-zarr-samples",
+   "url": "https://zarr.eopf.copernicus.eu/",
+   "title": "EOPF Sentinel Zarr Samples Service",
+   "publisher": "European Space Agency, EOPF Sentinel Zarr Samples Service",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-cdse-eopf-zarr",
+   "url": "https://dataspace.copernicus.eu/ecosystem/services/eopf-sentinel-zarr-samples",
+   "title": "EOPF Sentinel Zarr Samples",
+   "publisher": "Copernicus Data Space Ecosystem",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  },
+  {
+   "id": "src-cdse-sentinel2",
+   "url": "https://documentation.dataspace.copernicus.eu/Data/SentinelMissions/Sentinel2.html",
+   "title": "Sentinel-2",
+   "publisher": "Copernicus Data Space Ecosystem documentation",
+   "accessed_on": "2026-09-09",
+   "page_updated": null
+  }
+ ],
+ "claims": [
+  {
+   "id": "cl-wf-mask-once-windowed-read_pattern",
+   "candidate": "wf-mask-once-windowed",
+   "field": "read_pattern",
+   "value": "HTTP range requests read only the bytes a window needs",
+   "unit": null,
+   "note": "Tool: GDAL /vsicurl. The design depends on the server honouring byte ranges. GDAL states range support is most effective for static pre-computed files.",
+   "source_ids": [
+    "src-gdal-vfs"
+   ],
+   "quote": "A range request includes a header from the client (GDAL) asking the server to return only a specific portion of the resource, defined by start and end offsets. This allows most GDAL drivers to consume datasets piece-wise without downloading the entire file.",
+   "locator": "Section '/vsicurl/ vs /vsicurl_streaming/ vs HTTP pseudo-driver'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-read_pattern-2",
+   "candidate": "wf-mask-once-windowed",
+   "field": "read_pattern",
+   "value": "Windowed reads are most efficient when aligned to dataset blocks",
+   "unit": null,
+   "note": "Tool: rasterio. A one-pixel pond still costs one whole block. The block shape per band is readable from block_shapes.",
+   "source_ids": [
+    "src-rasterio-windowed"
+   ],
+   "quote": "Raster datasets are generally composed of multiple blocks of data and windowed reads and writes are most efficient when the windows match the dataset’s own block structure.",
+   "locator": "Heading 'Blocks'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-read_pattern-3",
+   "candidate": "wf-mask-once-windowed",
+   "field": "read_pattern",
+   "value": "Partial download granularity is 16 KB by default",
+   "unit": null,
+   "note": "Tool: GDAL /vsicurl. CPL_VSIL_CURL_CHUNK_SIZE changes it. GDAL also keeps a 16 MB shared least-recently-used cache.",
+   "source_ids": [
+    "src-gdal-vfs"
+   ],
+   "quote": "Partial downloads (requires the HTTP server to support random reading) are done with a 16 KB granularity by default.",
+   "locator": "Section '/vsicurl/ (http/https/ftp files: random access)'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-read_pattern-4",
+   "candidate": "wf-mask-once-windowed",
+   "field": "read_pattern",
+   "value": "COG layout is tiled at 512 pixels and ordered for random access",
+   "unit": null,
+   "note": "Tool: GDAL COG driver. Describes files the driver writes and the layout a reader exploits. It does not describe any particular Sentinel-2 asset.",
+   "source_ids": [
+    "src-gdal-cog"
+   ],
+   "quote": "Optimized layout of TIFF sections to minimize the number of GET requests needed by a reader doing random read access.",
+   "locator": "Section 'File format details' > 'High level'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-read_pattern-5",
+   "candidate": "wf-mask-once-windowed",
+   "field": "read_pattern",
+   "value": "JPEG 2000 decoding covers the internal tiles a request intersects",
+   "unit": null,
+   "note": "Tool: GDAL JP2OpenJPEG driver. Partial decoding granularity is the internal tile of the file, not the requested window. The internal tile size of an ESA granule is not stated on this page.",
+   "source_ids": [
+    "src-gdal-jp2openjpeg"
+   ],
+   "quote": "By default, if the JPEG2000 file has internal tiling, GDAL will try to\ndecode several tiles in multiple threads if the RasterIO() request it\nreceives intersect several tiles.",
+   "locator": "Heading 'Thread support'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-geolocation_handling",
+   "candidate": "wf-mask-once-windowed",
+   "field": "geolocation_handling",
+   "value": "Native geotransform kept; window_transform() gives the window affine",
+   "unit": null,
+   "note": "Tool: rasterio. Each tile file is opened on its own, so no cross-tile grid is imposed. Tile overlap handling is a design choice, not a tool behaviour.",
+   "source_ids": [
+    "src-rasterio-windowed"
+   ],
+   "quote": "The affine transform of a window can be accessed using a dataset’s\nwindow_transform() method:",
+   "locator": "Heading 'Window transforms'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-geolocation_handling-2",
+   "candidate": "wf-mask-once-windowed",
+   "field": "geolocation_handling",
+   "value": "Rasterization uses pixel centres unless ALL_TOUCHED is enabled",
+   "unit": null,
+   "note": "Tool: GDAL gdal_rasterize. Bears on practice P1 and assumption A7: a pond smaller than a cell may contain no pixel centre and rasterize to nothing.",
+   "source_ids": [
+    "src-gdal-rasterize"
+   ],
+   "quote": "Enables the ALL_TOUCHED rasterization option so that all pixels touched\nby lines or polygons will be updated, not just those on the line render path,\nor whose center point is within the polygon (behavior is unspecified when the\npolygon is just touching the pixel center). Defaults to disabled for normal\nrendering rules.",
+   "locator": "Option '-at'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-geolocation_handling-3",
+   "candidate": "wf-mask-once-windowed",
+   "field": "geolocation_handling",
+   "value": "exactextract computes a per-pixel coverage fraction for each polygon",
+   "unit": null,
+   "note": "Tool: exactextract. An alternative to a binary mask. rasterstats offers the same binary choice as GDAL through its all_touched flag.",
+   "source_ids": [
+    "src-exactextract",
+    "src-rasterstats-manual"
+   ],
+   "quote": "accurate - exactextract computes the fraction of each pixel that is covered by a polygon to determine if the pixel should be used and/or to weigh computations using this coverage fraction.",
+   "locator": "Heading 'exactextract', goals list",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-offset_handling",
+   "candidate": "wf-mask-once-windowed",
+   "field": "offset_handling",
+   "value": "Not applied by default; rioxarray mask_and_scale defaults to False",
+   "unit": null,
+   "note": "Tool: rioxarray. Scales and offsets come from rasterio, which exposes them without applying them. The caller must apply them or store them.",
+   "source_ids": [
+    "src-rioxarray-api"
+   ],
+   "quote": "mask_and_scale (bool, default=False) – Lazily scale (using the scales and offsets from rasterio) and mask.",
+   "locator": "Function 'rioxarray.open_rasterio', parameter 'mask_and_scale'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-resampling_policy",
+   "candidate": "wf-mask-once-windowed",
+   "field": "resampling_policy",
+   "value": "Native resolution unless the caller asks for a different array size",
+   "unit": null,
+   "note": "Tool: rasterio. Reading each band into an array of its own shape leaves 10 m, 20 m and 60 m grids untouched, which matches practice P3.",
+   "source_ids": [
+    "src-rasterio-resampling"
+   ],
+   "quote": "By reading from a raster source into an output array of a different size or by\nspecifying an out_shape of a different size you are effectively resampling\nthe data.",
+   "locator": "Heading 'Up and downsampling'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-raw_pixel_access",
+   "candidate": "wf-mask-once-windowed",
+   "field": "raw_pixel_access",
+   "value": "read() returns the stored values as a numpy array",
+   "unit": null,
+   "note": "Tool: rasterio. Band dtypes and nodata values are exposed through dtypes and nodatavals. No aggregation is imposed.",
+   "source_ids": [
+    "src-rasterio-reading"
+   ],
+   "quote": "The returned object is a 2-dimensional numpy.ndarray.",
+   "locator": "Page 'Reading Datasets'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-scaling_water_bodies",
+   "candidate": "wf-mask-once-windowed",
+   "field": "scaling_water_bodies",
+   "value": "Grows with distinct blocks touched, not with polygon count",
+   "unit": null,
+   "note": "Unmeasured. Assumption A17 says the same thing without a measurement. A benchmark must count blocks, not ponds.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-mask-once-windowed-read_pattern-2",
+    "cl-wf-mask-once-windowed-read_pattern-3",
+    "cl-wf-mask-once-windowed-read_pattern-4"
+   ],
+   "reasoning": "A windowed read pulls whole dataset blocks, so ponds that share a block share one read and cost rises with distinct blocks rather than with water bodies.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-scaling_history",
+   "candidate": "wf-mask-once-windowed",
+   "field": "scaling_history",
+   "value": "Linear in tile-dates read; nothing is shared between dates",
+   "unit": null,
+   "note": "Unmeasured. Holds only while each scene is read independently.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-mask-once-windowed-read_pattern",
+    "cl-wf-mask-once-windowed-read_pattern-2"
+   ],
+   "reasoning": "Each scene is an independent set of range reads, so a longer history multiplies the read count with no shared cost.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-orchestrator_dependency",
+   "candidate": "wf-mask-once-windowed",
+   "field": "orchestrator_dependency",
+   "value": "No scheduler named; work parallelises per window in one process",
+   "unit": null,
+   "note": "Tool: rasterio. The page shows concurrent.futures pools, not a cluster or a scheduler. It warns that dataset objects cannot be shared across processes.",
+   "source_ids": [
+    "src-rasterio-concurrency"
+   ],
+   "quote": "This means that it is possible to parallelize tasks that need to be performed\nfor a set of windows/pixels in the raster.",
+   "locator": "Page 'Concurrent processing'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-idempotency",
+   "candidate": "wf-mask-once-windowed",
+   "field": "idempotency",
+   "value": "No HTTP retry by default; GDAL_HTTP_MAX_RETRY is 0",
+   "unit": null,
+   "note": "Tool: GDAL. Retries must be turned on. GDAL_HTTP_RETRY_DELAY defaults to 30 seconds and GDAL_HTTP_RETRY_CODES selects the codes retried.",
+   "source_ids": [
+    "src-gdal-configoptions"
+   ],
+   "quote": "The default value is 0, meaning no retry.",
+   "locator": "Option 'GDAL_HTTP_MAX_RETRY'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-mask-once-windowed-engineering_effort",
+   "candidate": "wf-mask-once-windowed",
+   "field": "engineering_effort",
+   "value": "High: pixel rule, offset, and retry are all hand-built",
+   "unit": null,
+   "note": "Effort classes in this file are relative to the other five workflows, not to an absolute scale.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-mask-once-windowed-geolocation_handling-2",
+    "cl-wf-mask-once-windowed-offset_handling",
+    "cl-wf-mask-once-windowed-idempotency"
+   ],
+   "reasoning": "The documented defaults leave polygon-to-pixel selection, scale and offset application, and HTTP retry to the caller, so each has to be written and tested.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-full-tile-then-mask-read_pattern",
+   "candidate": "wf-full-tile-then-mask",
+   "field": "read_pattern",
+   "value": "Sequential whole-file fetch; GDAL grows the chunk to 2 MB",
+   "unit": null,
+   "note": "Tool: GDAL /vsicurl. Sequential reading is detected and the request size is raised. This is the opposite of the windowed pattern.",
+   "source_ids": [
+    "src-gdal-vfs"
+   ],
+   "quote": "If the driver detects sequential reading, it will progressively increase the chunk size up to 128 times CPL_VSIL_CURL_CHUNK_SIZE (so 2 MB by default) to improve download performance.",
+   "locator": "Section '/vsicurl/ (http/https/ftp files: random access)'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-full-tile-then-mask-read_pattern-2",
+   "candidate": "wf-full-tile-then-mask",
+   "field": "read_pattern",
+   "value": "Transfer unit is a tile of about 110 km by 110 km",
+   "unit": null,
+   "note": "Tool: none. Provider page. Tiles overlap by design, so neighbouring tiles repeat ground area and repeat transfer.",
+   "source_ids": [
+    "src-cdse-sentinel2"
+   ],
+   "quote": "Each Sentinel-2 products is composed of approximately 110x110 km tiles in cartographic geometry (UTM/WGS84 projection). Earth is subdivided on a predefined set of tiles, defined in UTM/WGS84 projection and using a 100 km step. However, each tile has a surface of 110x110 km² in order to provide large overlap with the neighbouring.",
+   "locator": "Section 'Sentinel-2 mission'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-full-tile-then-mask-geolocation_handling",
+   "candidate": "wf-full-tile-then-mask",
+   "field": "geolocation_handling",
+   "value": "Native geotransform kept; window_transform() gives the window affine",
+   "unit": null,
+   "note": "Tool: rasterio. After the tile is owned locally the extraction step is the same windowed read as the reference design.",
+   "source_ids": [
+    "src-rasterio-windowed"
+   ],
+   "quote": "The affine transform of a window can be accessed using a dataset’s\nwindow_transform() method:",
+   "locator": "Heading 'Window transforms'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-full-tile-then-mask-offset_handling",
+   "candidate": "wf-full-tile-then-mask",
+   "field": "offset_handling",
+   "value": "Not applied by default; rioxarray mask_and_scale defaults to False",
+   "unit": null,
+   "note": "Tool: rioxarray. Owning the file does not change the default. The product metadata still has to be read.",
+   "source_ids": [
+    "src-rioxarray-api"
+   ],
+   "quote": "mask_and_scale (bool, default=False) – Lazily scale (using the scales and offsets from rasterio) and mask.",
+   "locator": "Function 'rioxarray.open_rasterio', parameter 'mask_and_scale'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-full-tile-then-mask-resampling_policy",
+   "candidate": "wf-full-tile-then-mask",
+   "field": "resampling_policy",
+   "value": "Native resolution unless the caller asks for a different array size",
+   "unit": null,
+   "note": "Tool: rasterio. Same reader behaviour as the windowed design.",
+   "source_ids": [
+    "src-rasterio-resampling"
+   ],
+   "quote": "By reading from a raster source into an output array of a different size or by\nspecifying an out_shape of a different size you are effectively resampling\nthe data.",
+   "locator": "Heading 'Up and downsampling'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-full-tile-then-mask-raw_pixel_access",
+   "candidate": "wf-full-tile-then-mask",
+   "field": "raw_pixel_access",
+   "value": "read() returns the stored values as a numpy array",
+   "unit": null,
+   "note": "Tool: rasterio. The whole tile is held, so any later pixel selection rule can be applied without a second fetch.",
+   "source_ids": [
+    "src-rasterio-reading"
+   ],
+   "quote": "The returned object is a 2-dimensional numpy.ndarray.",
+   "locator": "Page 'Reading Datasets'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-full-tile-then-mask-scaling_water_bodies",
+   "candidate": "wf-full-tile-then-mask",
+   "field": "scaling_water_bodies",
+   "value": "Flat in water-body count; set by distinct tile-dates",
+   "unit": null,
+   "note": "Unmeasured. Transfer cost per tile-date is the same for one pond or a thousand in that tile.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-full-tile-then-mask-read_pattern-2",
+    "cl-wf-full-tile-then-mask-raw_pixel_access"
+   ],
+   "reasoning": "The whole tile is fetched regardless of how many polygons fall inside it, so adding water bodies within a tile adds no transfer.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-full-tile-then-mask-scaling_history",
+   "candidate": "wf-full-tile-then-mask",
+   "field": "scaling_history",
+   "value": "Linear in tile-dates at whole-tile transfer volume per date",
+   "unit": null,
+   "note": "Unmeasured. The per-date constant is much larger than for a windowed read.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-full-tile-then-mask-read_pattern",
+    "cl-wf-full-tile-then-mask-read_pattern-2"
+   ],
+   "reasoning": "Every extra date costs another set of whole-tile band files, so volume rises in step with history length.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-full-tile-then-mask-orchestrator_dependency",
+   "candidate": "wf-full-tile-then-mask",
+   "field": "orchestrator_dependency",
+   "value": "No scheduler named; work parallelises per window in one process",
+   "unit": null,
+   "note": "Tool: rasterio. Fetching a tile is an independent unit with a declared input and output.",
+   "source_ids": [
+    "src-rasterio-concurrency"
+   ],
+   "quote": "This means that it is possible to parallelize tasks that need to be performed\nfor a set of windows/pixels in the raster.",
+   "locator": "Page 'Concurrent processing'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-full-tile-then-mask-idempotency",
+   "candidate": "wf-full-tile-then-mask",
+   "field": "idempotency",
+   "value": "No HTTP retry by default; GDAL_HTTP_MAX_RETRY is 0",
+   "unit": null,
+   "note": "Tool: GDAL. A partial download must be detected by the caller. GDAL adds no transaction.",
+   "source_ids": [
+    "src-gdal-configoptions"
+   ],
+   "quote": "The default value is 0, meaning no retry.",
+   "locator": "Option 'GDAL_HTTP_MAX_RETRY'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-full-tile-then-mask-engineering_effort",
+   "candidate": "wf-full-tile-then-mask",
+   "field": "engineering_effort",
+   "value": "Moderate: simple reads, but owned tile copies need lifecycle rules",
+   "unit": null,
+   "note": "Effort classes in this file are relative to the other five workflows.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-full-tile-then-mask-read_pattern-2",
+    "cl-wf-full-tile-then-mask-idempotency",
+    "cl-wf-full-tile-then-mask-resampling_policy"
+   ],
+   "reasoning": "Reader behaviour matches the windowed design while the tile copies add storage lifecycle, partial-download detection, and retry handling.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-datacube-read_pattern",
+   "candidate": "wf-datacube",
+   "field": "read_pattern",
+   "value": "Read whole chunks; the chunk shape sets the smallest read",
+   "unit": null,
+   "note": "Tool: Zarr v3 core specification. A mask that touches one element still pulls the chunk that holds it.",
+   "source_ids": [
+    "src-zarr-v3-core"
+   ],
+   "quote": "An array is divided into a set of chunks, where each chunk is a\nhyperrectangle defined by a tuple of intervals, one for each\ndimension of the array.",
+   "locator": "Section 'Terminology', entry 'Chunk'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-datacube-read_pattern-2",
+   "candidate": "wf-datacube",
+   "field": "read_pattern",
+   "value": "Each encoded chunk is a separate key in the store",
+   "unit": null,
+   "note": "Tool: Zarr v3 core specification. On object storage one chunk is one object, so chunk shape decides request count.",
+   "source_ids": [
+    "src-zarr-v3-core"
+   ],
+   "quote": "There\nis a further distinction between “metadata keys” which are storage\nkeys used to store metadata documents, and “chunk keys” which are\nstorage keys used to store encoded chunks.",
+   "locator": "Section 'Storage'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-datacube-read_pattern-3",
+   "candidate": "wf-datacube",
+   "field": "read_pattern",
+   "value": "A provider Zarr store exists as an early-access samples service",
+   "unit": null,
+   "note": "Tool: none. Provider page. The European Space Agency runs the EOPF Sentinel Zarr Samples Service on the Copernicus Data Space Ecosystem. Neither page states the coverage of the samples.",
+   "source_ids": [
+    "src-eopf-zarr-samples",
+    "src-cdse-eopf-zarr"
+   ],
+   "quote": "Providing Copernicus Data Space Ecosystem users with early access to the new data format, the EOPF Sentinel Zarr Samples aims to demonstrate:",
+   "locator": "Section 'Get familiar with the new data format'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-datacube-offset_handling",
+   "candidate": "wf-datacube",
+   "field": "offset_handling",
+   "value": "xarray.open_zarr applies scale_factor and add_offset by default",
+   "unit": null,
+   "note": "Tool: xarray. The default is the opposite of rioxarray.open_rasterio. A cube built with these attributes returns scaled values unless the caller turns decoding off.",
+   "source_ids": [
+    "src-xarray-open-zarr"
+   ],
+   "quote": "mask_and_scale (bool, optional) – If True, replace array values equal to _FillValue with NA and scale\nvalues according to the formula original_values * scale_factor +\nadd_offset, where _FillValue, scale_factor and add_offset are\ntaken from variable attributes (if they exist).",
+   "locator": "Function signature and parameter 'mask_and_scale'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-datacube-offset_handling-2",
+   "candidate": "wf-datacube",
+   "field": "offset_handling",
+   "value": "The documented default of mask_and_scale is True",
+   "unit": null,
+   "note": "Tool: xarray. Quoted from the call signature on the same page.",
+   "source_ids": [
+    "src-xarray-open-zarr"
+   ],
+   "quote": "decode_cf=True, mask_and_scale=True, decode_times=True",
+   "locator": "Function signature of xarray.open_zarr",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-datacube-resampling_policy",
+   "candidate": "wf-datacube",
+   "field": "resampling_policy",
+   "value": "Each array carries its own regular chunk grid",
+   "unit": null,
+   "note": "Tool: Zarr v3 core specification. A 10 m band and a 20 m band can be separate arrays, so no common grid is forced by the format.",
+   "source_ids": [
+    "src-zarr-v3-core"
+   ],
+   "quote": "The chunks of an array are organised into a grid. This\nspecification only considers the case where all chunks have the\nsame chunk shape and the chunks form a regular grid.",
+   "locator": "Section 'Terminology', entry 'Grid'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-datacube-raw_pixel_access",
+   "candidate": "wf-datacube",
+   "field": "raw_pixel_access",
+   "value": "Arrays hold the stored elements at their own data type",
+   "unit": null,
+   "note": "Tool: Zarr v3 core specification. Nothing in the format aggregates values.",
+   "source_ids": [
+    "src-zarr-v3-core"
+   ],
+   "quote": "An array is a node in a hierarchy. An array is a data structure\nwith zero or more dimensions whose lengths define the shape of\nthe array. An array contains zero or more data elements. All\nelements in an array conform to the same data type.",
+   "locator": "Section 'Terminology', entry 'Array'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-datacube-scaling_water_bodies",
+   "candidate": "wf-datacube",
+   "field": "scaling_water_bodies",
+   "value": "Flat once the cube exists; the build carries the cost",
+   "unit": null,
+   "note": "Unmeasured. Slicing cost still depends on chunk shape, which is a design choice.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-datacube-read_pattern",
+    "cl-wf-datacube-read_pattern-2"
+   ],
+   "reasoning": "Slicing more masks from an existing cube adds only chunk reads, while the cube build cost is fixed by tile count and history.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-datacube-scaling_history",
+   "candidate": "wf-datacube",
+   "field": "scaling_history",
+   "value": "Linear in appended dates; each append is one commit",
+   "unit": null,
+   "note": "Unmeasured. Snapshot count and expired-chunk cleanup were not costed here.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-datacube-idempotency",
+    "cl-wf-datacube-idempotency-2",
+    "cl-wf-datacube-orchestrator_dependency"
+   ],
+   "reasoning": "Appending a date writes new chunks and one immutable snapshot, so both storage and commit count rise with history length.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-datacube-orchestrator_dependency",
+   "candidate": "wf-datacube",
+   "field": "orchestrator_dependency",
+   "value": "No scheduler required, but one commit must know every write",
+   "unit": null,
+   "note": "Tool: Icechunk. This is a real coupling between distributed writers. It is a library requirement, not an orchestrator choice.",
+   "source_ids": [
+    "src-icechunk-parallel"
+   ],
+   "quote": "The Session object keeps a record of all writes, that is then bundled together in a commit. Thus Session.commit must be executed on a Session object that knows about all writes, including those executed remotely in a multi-processing or any other remote execution context.",
+   "locator": "Section 'Why is Icechunk different from any other Zarr store?'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-datacube-orchestrator_dependency-2",
+   "candidate": "wf-datacube",
+   "field": "orchestrator_dependency",
+   "value": "Icechunk runs on S3-compatible object storage or a filesystem",
+   "unit": null,
+   "note": "Tool: Icechunk. No managed service is required to hold the store.",
+   "source_ids": [
+    "src-icechunk-storage"
+   ],
+   "quote": "Icechunk can be configured to work with both object storage and filesystem backends.",
+   "locator": "Heading 'Storage'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-datacube-idempotency",
+   "candidate": "wf-datacube",
+   "field": "idempotency",
+   "value": "Icechunk adds snapshots and ACID transactions over Zarr",
+   "unit": null,
+   "note": "Tool: Icechunk. Plain Zarr has no transaction. Icechunk documents that a failed write leaves no partial state.",
+   "source_ids": [
+    "src-icechunk-overview"
+   ],
+   "quote": "Icechunk provides git-like snapshots combined with ACID transactions.",
+   "locator": "Section 'Why Icechunk?'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-datacube-idempotency-2",
+   "candidate": "wf-datacube",
+   "field": "idempotency",
+   "value": "Every write creates an immutable snapshot readers see whole",
+   "unit": null,
+   "note": "Tool: Icechunk. Supports practice P9: a reprocessed scene becomes a new revision rather than an overwrite.",
+   "source_ids": [
+    "src-icechunk-overview"
+   ],
+   "quote": "Every write operation creates an immutable snapshot, while branches and tags provide familiar version control semantics.",
+   "locator": "Section 'Why Icechunk?'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-datacube-engineering_effort",
+   "candidate": "wf-datacube",
+   "field": "engineering_effort",
+   "value": "High: chunk design, decode defaults, and commit coordination",
+   "unit": null,
+   "note": "Effort classes in this file are relative to the other five workflows.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-datacube-orchestrator_dependency",
+    "cl-wf-datacube-offset_handling",
+    "cl-wf-datacube-read_pattern"
+   ],
+   "reasoning": "Chunk shape, the scale and offset decoding default, and the rule that one commit must see every write all have to be designed before any data lands.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-quality_layers",
+   "candidate": "wf-lazy-array-stack",
+   "field": "quality_layers",
+   "value": "All GeoTIFF and JPEG 2000 assets load; one band per asset only",
+   "unit": null,
+   "note": "Tool: stackstac. A scene classification or probability layer published as a single-band asset loads like any band. Multi-band assets are not supported.",
+   "source_ids": [
+    "src-stackstac-stack"
+   ],
+   "quote": "By default, returns all assets with a GeoTIFF\nor JPEG2000 type.",
+   "locator": "Parameter 'assets'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-quality_layers-2",
+   "candidate": "wf-lazy-array-stack",
+   "field": "quality_layers",
+   "value": "Multi-band assets are not supported",
+   "unit": null,
+   "note": "Tool: stackstac. A quality layer packed with others in one file cannot be stacked.",
+   "source_ids": [
+    "src-stackstac-stack"
+   ],
+   "quote": "Note: each asset’s data must contain exactly one band. Multi-band assets (like an RGB GeoTIFF)\nare not yet supported.",
+   "locator": "Parameter 'assets'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-read_pattern",
+   "candidate": "wf-lazy-array-stack",
+   "field": "read_pattern",
+   "value": "Dask chunks default to 1024 pixels square",
+   "unit": null,
+   "note": "Tool: stackstac. A single-pixel pond is read inside a 1024 by 1024 chunk unless the chunk size is changed.",
+   "source_ids": [
+    "src-stackstac-stack"
+   ],
+   "quote": "The chunksize to use for the Dask array. Default: 1024. Picking a good chunksize will\nhave significant effects on performance!",
+   "locator": "Parameter 'chunksize'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-read_pattern-2",
+   "candidate": "wf-lazy-array-stack",
+   "field": "read_pattern",
+   "value": "By default every STAC asset becomes its own chunk in time and band",
+   "unit": null,
+   "note": "Tool: stackstac. Read amplification per water body follows from the spatial chunk size, not from the polygon.",
+   "source_ids": [
+    "src-stackstac-stack"
+   ],
+   "quote": "The time and band dimensions will have a chunksize of 1,\nmeaning that every STAC Asset will be its own chunk. (This is the default.)",
+   "locator": "Parameter 'chunksize'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-geolocation_handling",
+   "candidate": "wf-lazy-array-stack",
+   "field": "geolocation_handling",
+   "value": "stackstac needs one shared proj:epsg unless epsg is given",
+   "unit": null,
+   "note": "Tool: stackstac. Bears on practice P2: a water body that falls in two UTM zones cannot be stacked without choosing an output CRS, which reprojects.",
+   "source_ids": [
+    "src-stackstac-stack"
+   ],
+   "quote": "Reproject into this coordinate reference system, as given by an EPSG code.\nIf None (default), uses whatever CRS is set on all the items. In this case, all Items/Assets\nmust have the proj:epsg field, and it must be the same value for all of them.",
+   "locator": "Parameter 'epsg'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-geolocation_handling-2",
+   "candidate": "wf-lazy-array-stack",
+   "field": "geolocation_handling",
+   "value": "odc-stac fuses overlapping items by first valid pixel wins",
+   "unit": null,
+   "note": "Tool: odc-stac. Overlapping tiles are merged silently under the default groupby of 'time'. The provenance of a fused pixel is not recorded.",
+   "source_ids": [
+    "src-odc-stac-load"
+   ],
+   "quote": "By default, pixels are only copied where valid (i.e. not nodata) pixels\nhave not yet been copied from previous items.",
+   "locator": "Parameter 'fuse_func'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-geolocation_handling-3",
+   "candidate": "wf-lazy-array-stack",
+   "field": "geolocation_handling",
+   "value": "Output pixel edges snap to multiples of the pixel size",
+   "unit": null,
+   "note": "Tool: odc-stac. The returned extent can exceed the requested bounds by a fraction of a pixel.",
+   "source_ids": [
+    "src-odc-stac-load"
+   ],
+   "quote": "It should be noted that returned data is likely to reach outside of the requested bounds by\nfraction of a pixel when using bbox, x, y or lon, lat mechanisms. This is due to\npixel grid “snapping”.",
+   "locator": "Section 'Control Pixel Grid of Output'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-offset_handling",
+   "candidate": "wf-lazy-array-stack",
+   "field": "offset_handling",
+   "value": "stackstac applies raster:bands scale and offset by default",
+   "unit": null,
+   "note": "Tool: stackstac. rescale defaults to True, so returned values are already scaled and the raw DN is not what reaches the store unless rescale is turned off.",
+   "source_ids": [
+    "src-stackstac-stack"
+   ],
+   "quote": "Whether to rescale pixel values by the scale and offset present in the raster:bands metadata\nfor each asset.\nDefault: True.",
+   "locator": "Parameter 'rescale'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-offset_handling-2",
+   "candidate": "wf-lazy-array-stack",
+   "field": "offset_handling",
+   "value": "odc-stac currently ignores raster:bands scale and offset",
+   "unit": null,
+   "note": "Tool: odc-stac. The two libraries disagree on this default, so the same catalogue yields different numbers.",
+   "source_ids": [
+    "src-odc-stac-best-practice"
+   ],
+   "quote": "currently ignored, but will be supported in the future",
+   "locator": "Table of understood extension elements, row 'Raster Extension' / '[planned] scale, offset'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-resampling_policy",
+   "candidate": "wf-lazy-array-stack",
+   "field": "resampling_policy",
+   "value": "stackstac upscales every band to the finest asset resolution",
+   "unit": null,
+   "note": "Tool: stackstac. This contradicts practice P3: 20 m and 60 m bands are resampled to 10 m unless a resolution is set.",
+   "source_ids": [
+    "src-stackstac-stack"
+   ],
+   "quote": "If None (default), we try to calculate each Asset’s resolution based on whatever metadata is available,\nand pick the minimum of all the resolutions—meaning by default, all data will be upscaled to\nmatch the “finest” or “highest-resolution” Asset.",
+   "locator": "Parameter 'resolution'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-resampling_policy-2",
+   "candidate": "wf-lazy-array-stack",
+   "field": "resampling_policy",
+   "value": "stackstac resampling defaults to nearest neighbour",
+   "unit": null,
+   "note": "Tool: stackstac. Nearest neighbour keeps categorical layers such as a scene classification usable, but the grid still changes.",
+   "source_ids": [
+    "src-stackstac-stack"
+   ],
+   "quote": "The rasterio resampling method to use when reprojecting or rescaling data to a different CRS or resolution.\nDefault: rasterio.enums.Resampling.nearest.",
+   "locator": "Parameter 'resampling'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-resampling_policy-3",
+   "candidate": "wf-lazy-array-stack",
+   "field": "resampling_policy",
+   "value": "odc-stac returns one requested projection and resolution",
+   "unit": null,
+   "note": "Tool: odc-stac. The output grid is chosen by crs, resolution, geobox or like. Reading each band on its own native grid is not the documented path.",
+   "source_ids": [
+    "src-odc-stac-load"
+   ],
+   "quote": "By default odc.stac.load() loads all available pixels in the requested\nprojection and resolution.",
+   "locator": "Section 'Control Pixel Grid of Output'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-raw_pixel_access",
+   "candidate": "wf-lazy-array-stack",
+   "field": "raw_pixel_access",
+   "value": "Per-pixel values reach the caller; default dtype is float64",
+   "unit": null,
+   "note": "Tool: stackstac. The default fill value is NaN, which forces a floating point array even for integer bands. rescale=False with an integer dtype returns the stored numbers.",
+   "source_ids": [
+    "src-stackstac-stack"
+   ],
+   "quote": "The NumPy data type of the output array. Default: float64. Must be a data type\nthat’s compatible with fill_value.",
+   "locator": "Parameter 'dtype'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-scaling_water_bodies",
+   "candidate": "wf-lazy-array-stack",
+   "field": "scaling_water_bodies",
+   "value": "Grows with 1024-pixel chunks touched, not with polygon count",
+   "unit": null,
+   "note": "Unmeasured. Read amplification for a one-pixel pond is the open question in this workflow.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-lazy-array-stack-read_pattern",
+    "cl-wf-lazy-array-stack-read_pattern-2"
+   ],
+   "reasoning": "The default spatial chunk is 1024 pixels square and each asset is its own chunk, so a single-pixel pond still costs a full chunk read.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-scaling_history",
+   "candidate": "wf-lazy-array-stack",
+   "field": "scaling_history",
+   "value": "Linear in items; the task graph grows with scenes times bands",
+   "unit": null,
+   "note": "Unmeasured. Graph size is a documented performance concern in the stackstac chunksize guidance.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-lazy-array-stack-read_pattern-2",
+    "cl-wf-lazy-array-stack-idempotency"
+   ],
+   "reasoning": "Every asset becomes its own chunk by default, so the number of tasks rises with the product of scenes and bands.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-orchestrator_dependency",
+   "candidate": "wf-lazy-array-stack",
+   "field": "orchestrator_dependency",
+   "value": "No cluster required; Dask defaults to a single-machine scheduler",
+   "unit": null,
+   "note": "Tool: Dask. The distributed scheduler is optional. This satisfies assumption A12 as long as the workload fits the chosen machine.",
+   "source_ids": [
+    "src-dask-scheduling"
+   ],
+   "quote": "Single-machine scheduler: This scheduler provides basic features on a\nlocal process or thread pool. This scheduler was made first and is the\ndefault.",
+   "locator": "Heading 'Scheduling'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-orchestrator_dependency-2",
+   "candidate": "wf-lazy-array-stack",
+   "field": "orchestrator_dependency",
+   "value": "Dask arrays are optional in odc-stac; chunks is off by default",
+   "unit": null,
+   "note": "Tool: odc-stac. Without chunks the load runs in the calling process.",
+   "source_ids": [
+    "src-odc-stac-load"
+   ],
+   "quote": "Rather than loading pixel data directly, construct\nDask backed arrays.",
+   "locator": "Parameter 'chunks'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-idempotency",
+   "candidate": "wf-lazy-array-stack",
+   "field": "idempotency",
+   "value": "Load failures abort by default; fail_on_error can skip them",
+   "unit": null,
+   "note": "Tool: odc-stac. A rerun after a transient failure repeats the whole load. There is no transaction.",
+   "source_ids": [
+    "src-odc-stac-load"
+   ],
+   "quote": "Set this to False to skip over load failures.",
+   "locator": "Parameter 'fail_on_error'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-idempotency-2",
+   "candidate": "wf-lazy-array-stack",
+   "field": "idempotency",
+   "value": "stackstac turns a 404 into nodata by default",
+   "unit": null,
+   "note": "Tool: stackstac. A missing asset becomes fill value rather than an error, so a silent gap can enter the output.",
+   "source_ids": [
+    "src-stackstac-stack"
+   ],
+   "quote": "Exception patterns to ignore when opening datasets or reading data.\nExceptions matching the pattern will be logged as warnings, and just\nproduce nodata (fill_value).",
+   "locator": "Parameter 'errors_as_nodata'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-lazy-array-stack-engineering_effort",
+   "candidate": "wf-lazy-array-stack",
+   "field": "engineering_effort",
+   "value": "Low to write, high to make correct for small ponds",
+   "unit": null,
+   "note": "Effort classes in this file are relative to the other five workflows.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-lazy-array-stack-resampling_policy",
+    "cl-wf-lazy-array-stack-offset_handling",
+    "cl-wf-lazy-array-stack-offset_handling-2"
+   ],
+   "reasoning": "A few lines produce a stack, but the resampling and rescale defaults differ between the two libraries and must be overridden to keep native grids and unscaled values.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-quality_layers",
+   "candidate": "wf-server-side-extraction",
+   "field": "quality_layers",
+   "value": "SCL, SNW and CLD at 20 m; CLP and CLM at 160 m",
+   "unit": null,
+   "note": "Tool: Sentinel Hub, Sentinel-2 L2A collection. CLP and CLM come from s2cloudless, not from Sen2Cor, and are delivered at 160 m.",
+   "source_ids": [
+    "src-sh-s2l2a"
+   ],
+   "quote": "SCL Scene classification data, based on Sen2Cor processor, codelist 20m SNW Snow probability, based on Sen2Cor processor 20m CLD Cloud probability, based on Sen2Cor processor 20m CLP Cloud probability, based on s2cloudless (more) 160m CLM Cloud masks (more) 160m",
+   "locator": "Table under 'Available Bands and Data', rows SCL, SNW, CLD, CLP, CLM",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-quality_layers-2",
+   "candidate": "wf-server-side-extraction",
+   "field": "quality_layers",
+   "value": "Earth Engine QA60 cloud mask is discontinuous from 2022 to 2024",
+   "unit": null,
+   "note": "Tool: Google Earth Engine. A quality layer that changes definition mid-archive breaks a uniform history, which matters for the 2017 history scenario in assumption A10.",
+   "source_ids": [
+    "src-gee-s2-sr-harmonized"
+   ],
+   "quote": "QA60 is a bitmask band that contained rasterized cloud mask\npolygons until 2022-01-25, when these polygons stopped being produced.\nStarting 2024-02-28, legacy-consistent QA60 bands are constructed from\nthe MSK_CLASSI cloud classification bands.",
+   "locator": "Section 'Description'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-read_pattern",
+   "candidate": "wf-server-side-extraction",
+   "field": "read_pattern",
+   "value": "Provider computes; the client sends an area and a script",
+   "unit": null,
+   "note": "Tool: Sentinel Hub Process API. No product bytes reach the client. The evalscript decides what comes back.",
+   "source_ids": [
+    "src-sh-process"
+   ],
+   "quote": "The Processing API (or shortly \"Process API\") is the most commonly used API in Sentinel Hub as it provides images based on satellite data.",
+   "locator": "Heading 'Processing API'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-read_pattern-2",
+   "candidate": "wf-server-side-extraction",
+   "field": "read_pattern",
+   "value": "Sentinel Hub Statistical API returns statistics, not images",
+   "unit": null,
+   "note": "Tool: Sentinel Hub Statistical API. This path returns aggregates, which does not meet assumption A1 on its own.",
+   "source_ids": [
+    "src-sh-statistical"
+   ],
+   "quote": "Instead of returning images, it calculates requested statistics and returns the results in a json format.",
+   "locator": "Heading 'General approach'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-read_pattern-3",
+   "candidate": "wf-server-side-extraction",
+   "field": "read_pattern",
+   "value": "openEO aggregate_spatial reduces each geometry to one value",
+   "unit": null,
+   "note": "Tool: openEO on the Copernicus Data Space Ecosystem. Raw pixels need save_result on the cube instead.",
+   "source_ids": [
+    "src-openeo-cdse-processes"
+   ],
+   "quote": "Aggregates statistics for one or more geometries (e.g. zonal statistics for polygons) over the spatial dimensions.",
+   "locator": "processes[] where id = 'aggregate_spatial', field 'description'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-geolocation_handling",
+   "candidate": "wf-server-side-extraction",
+   "field": "geolocation_handling",
+   "value": "Sentinel Hub stitches tiles and hides the tile grid",
+   "unit": null,
+   "note": "Tool: Sentinel Hub Process API. The native tile geotransform and tile identity are not part of the response by default, which works against practices P2 and P9.",
+   "source_ids": [
+    "src-sh-process"
+   ],
+   "quote": "Tiles are therefore automatically stitched together based on defined parameters (AOI, time period, cloud coverage, priority, etc., depending on the data type).",
+   "locator": "Heading 'Processing API'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-geolocation_handling-2",
+   "candidate": "wf-server-side-extraction",
+   "field": "geolocation_handling",
+   "value": "openEO polygon aggregation counts pixels whose centre is inside",
+   "unit": null,
+   "note": "Tool: openEO on the Copernicus Data Space Ecosystem. A pond smaller than a cell can contain no pixel centre and return no value. Bears on assumption A7 and A20.",
+   "source_ids": [
+    "src-openeo-cdse-processes"
+   ],
+   "quote": "For **polygons**, the process considers all pixels for which the point at the pixel center intersects with the corresponding polygon (as defined in the Simple Features standard by the OGC).",
+   "locator": "processes[] where id = 'aggregate_spatial', parameters[] where name = 'geometries'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-geolocation_handling-3",
+   "candidate": "wf-server-side-extraction",
+   "field": "geolocation_handling",
+   "value": "Earth Engine reduceRegion works in the first band's projection",
+   "unit": null,
+   "note": "Tool: Google Earth Engine. The projection and scale of a reduction come from the request, not from the band being read.",
+   "source_ids": [
+    "src-gee-reduceregion"
+   ],
+   "quote": "The projection to work in. If unspecified, the projection of the image's first band is used. If specified in addition to scale, rescaled to the specified scale.",
+   "locator": "Argument table, row 'crs'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-offset_handling",
+   "candidate": "wf-server-side-extraction",
+   "field": "offset_handling",
+   "value": "Sentinel Hub harmonizes baseline 04.00 values by default",
+   "unit": null,
+   "note": "Tool: Sentinel Hub, Sentinel-2 L2A collection. harmonizeValues is true unless the caller sets it false.",
+   "source_ids": [
+    "src-sh-s2l2a"
+   ],
+   "quote": "harmonizeValues can be true (default) or false, and it's behavior depends on the units chosen:",
+   "locator": "Heading 'Harmonize Values'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-offset_handling-2",
+   "candidate": "wf-server-side-extraction",
+   "field": "offset_handling",
+   "value": "The default also clamps negative reflectance to zero",
+   "unit": null,
+   "note": "Tool: Sentinel Hub. Bears directly on dark water targets, where negative surface reflectance after correction is common. The clamp is not reversible downstream.",
+   "source_ids": [
+    "src-sh-s2l2a"
+   ],
+   "quote": "harmonizeValues = true: negative reflectance values are clamped to zero. In other words, pixels with negative reflectance return zero reflectance instead.",
+   "locator": "Heading 'Harmonize Values', REFLECTANCE case",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-offset_handling-3",
+   "candidate": "wf-server-side-extraction",
+   "field": "offset_handling",
+   "value": "Earth Engine harmonized collection shifts newer scenes back",
+   "unit": null,
+   "note": "Tool: Google Earth Engine. The offset is removed by the provider, so the delivered numbers are not the product digital numbers.",
+   "source_ids": [
+    "src-gee-s2-sr-harmonized"
+   ],
+   "quote": "After 2022-01-25, Sentinel-2 scenes with PROCESSING_BASELINE '04.00' or above\nhave their DN (value) range shifted by 1000. The HARMONIZED collection\nshifts data in newer scenes to be in the same range as in older scenes.",
+   "locator": "Section 'Description'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-resampling_policy",
+   "candidate": "wf-server-side-extraction",
+   "field": "resampling_policy",
+   "value": "Sentinel Hub upsampling and downsampling default to NEAREST",
+   "unit": null,
+   "note": "Tool: Sentinel Hub, Sentinel-2 L2A processing options. The output resolution is whatever the request asks for, so a 20 m band can be served on a 10 m grid.",
+   "source_ids": [
+    "src-sh-s2l2a"
+   ],
+   "quote": "upsampling Defines the interpolation used for processing when the pixel resolution is greater than the source resolution (e.g. 5m/px with a 10m/px source) NEAREST - nearest neighbour interpolation BILINEAR - bilinear interpolation BICUBIC - bicubic interpolation NEAREST",
+   "locator": "Table under 'Processing Options', row 'upsampling', columns Parameter, Description, Values, Default",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-resampling_policy-2",
+   "candidate": "wf-server-side-extraction",
+   "field": "resampling_policy",
+   "value": "Earth Engine picks a pyramid level from the requested scale",
+   "unit": null,
+   "note": "Tool: Google Earth Engine. Scale is set by the output request, not by the input band, and resampling is nearest neighbour by default.",
+   "source_ids": [
+    "src-gee-scale"
+   ],
+   "quote": "When you use an image in your code,\n Earth Engine chooses a level of the pyramid with the closest scale less than or equal to\n the scale specified by your analysis and resamples (using nearest neighbor by default)\n as necessary.",
+   "locator": "Heading 'Image Pyramids'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-resampling_policy-3",
+   "candidate": "wf-server-side-extraction",
+   "field": "resampling_policy",
+   "value": "openEO resample_spatial changes nothing unless asked; method near",
+   "unit": null,
+   "note": "Tool: openEO on the Copernicus Data Space Ecosystem. Resolution default is 0, meaning no change; the method parameter defaults to 'near'.",
+   "source_ids": [
+    "src-openeo-cdse-processes"
+   ],
+   "quote": "Resamples the data cube to the target resolution, which can be specified either as separate values for x and y or as a single value for both axes. Specified in the units of the target projection. Doesn't change the resolution by default (`0`).",
+   "locator": "processes[] where id = 'resample_spatial', parameters[] where name = 'resolution'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-raw_pixel_access",
+   "candidate": "wf-server-side-extraction",
+   "field": "raw_pixel_access",
+   "value": "Sentinel Hub Process API can return raw satellite data",
+   "unit": null,
+   "note": "Tool: Sentinel Hub Process API. The output is an image the client requests, so raw values can be served, subject to the sample type chosen in the evalscript.",
+   "source_ids": [
+    "src-sh-process"
+   ],
+   "quote": "Users can request raw satellite data, simple band combinations such as false colour composites, calculations of simple remote sensing indices like NDVI, or more advanced processing such as calculation of Leaf area index (LAI).",
+   "locator": "Heading 'Processing API'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-raw_pixel_access-2",
+   "candidate": "wf-server-side-extraction",
+   "field": "raw_pixel_access",
+   "value": "Evalscript sampleType defaults to AUTO, an 8-bit stretch",
+   "unit": null,
+   "note": "Tool: Sentinel Hub Evalscript V3. UINT16 or FLOAT32 must be set explicitly, otherwise values are stretched into a byte raster and clamped.",
+   "source_ids": [
+    "src-sh-evalscript-v3"
+   ],
+   "quote": "AUTO (default) - values should range from 0-1, which will then automatically be stretched from the interval [0, 1] to [0, 255] and written into an UINT8 raster. Values below 0 and above 1 will be clamped to 0 and 255, respectively.",
+   "locator": "Heading 'SampleType'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-raw_pixel_access-3",
+   "candidate": "wf-server-side-extraction",
+   "field": "raw_pixel_access",
+   "value": "Earth Engine sampleRectangle returns an array per band",
+   "unit": null,
+   "note": "Tool: Google Earth Engine. Each band is sampled in its own projection, so per-band native grids survive this call.",
+   "source_ids": [
+    "src-gee-samplerectangle"
+   ],
+   "quote": "Extracts a rectangular region of pixels from an image into a ND array per band. The arrays are returned in a feature retaining the same properties as the image and a geometry the same as that used to sample the image (or the image footprint if unspecified). Each band is sampled in its input projection, and if no geometry is specified, sampled using its footprint.",
+   "locator": "Section 'Description'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-raw_pixel_access-4",
+   "candidate": "wf-server-side-extraction",
+   "field": "raw_pixel_access",
+   "value": "Asynchronous output cannot exceed 10000 pixels in any dimension",
+   "unit": null,
+   "note": "Tool: Sentinel Hub Asynchronous Processing API. A documented ceiling on how much raw imagery one request returns.",
+   "source_ids": [
+    "src-sh-async"
+   ],
+   "quote": "The maximum output image size can not exceed 10000 pixels in any dimension.",
+   "locator": "Bullet list under 'Asynchronous Processing API'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-scaling_water_bodies",
+   "candidate": "wf-server-side-extraction",
+   "field": "scaling_water_bodies",
+   "value": "Bounded by concurrent request limits, not by area",
+   "unit": null,
+   "note": "Tool: openEO on the Copernicus Data Space Ecosystem. The free tier allows two concurrent synchronous requests and two concurrent batch jobs.",
+   "source_ids": [
+    "src-openeo-cdse"
+   ],
+   "quote": "Synchronous requests are limited to 2 concurrent requests",
+   "locator": "Section 'Free tier limitations'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-scaling_water_bodies-2",
+   "candidate": "wf-server-side-extraction",
+   "field": "scaling_water_bodies",
+   "value": "Sentinel Hub bills processing units and requests per minute",
+   "unit": null,
+   "note": "Tool: Sentinel Hub. Both policies must be satisfied at once, so per-water-body request count drives throughput.",
+   "source_ids": [
+    "src-sh-rate-limiting"
+   ],
+   "quote": "A rate limiting policy defines either how many processing units or HTTP requests can be used per given time period or in total. Both processing units and requests are rate limited and the level of rate limiting depends on your account (see pricing plans).",
+   "locator": "Heading 'Rate limiting policy'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-scaling_history",
+   "candidate": "wf-server-side-extraction",
+   "field": "scaling_history",
+   "value": "One request can cover many time intervals",
+   "unit": null,
+   "note": "Tool: Sentinel Hub Statistical API. A long history need not become one request per date.",
+   "source_ids": [
+    "src-sh-statistical"
+   ],
+   "quote": "The Statistical API supports requesting statistics for multiple time intervals with only one request.",
+   "locator": "Heading 'Split requested timeRange into multiple time intervals'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-orchestrator_dependency",
+   "candidate": "wf-server-side-extraction",
+   "field": "orchestrator_dependency",
+   "value": "Earth Engine exports run as provider batch tasks",
+   "unit": null,
+   "note": "Tool: Google Earth Engine. Bulk extraction depends on the provider's task queue, which is a scheduler outside our control.",
+   "source_ids": [
+    "src-gee-export-images"
+   ],
+   "quote": "When this code is run, an export task will be created in the Code Editor\nTasks tab. Click the Run button next to the task to start it.",
+   "locator": "Section 'to Drive'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-idempotency",
+   "candidate": "wf-server-side-extraction",
+   "field": "idempotency",
+   "value": "Rate limits return HTTP 429 with a Retry-After header",
+   "unit": null,
+   "note": "Tool: Sentinel Hub. Reruns must handle throttling. Requests are stateless, so a repeat request recomputes rather than resumes.",
+   "source_ids": [
+    "src-sh-rate-limiting"
+   ],
+   "quote": "Retry-After: Time in milliseconds until the next request is available.",
+   "locator": "Heading 'Response Headers'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-server-side-extraction-engineering_effort",
+   "candidate": "wf-server-side-extraction",
+   "field": "engineering_effort",
+   "value": "Low code, high dependence on provider defaults",
+   "unit": null,
+   "note": "Effort classes in this file are relative to the other five workflows. Provider terms and price are an access-route question.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-server-side-extraction-offset_handling-2",
+    "cl-wf-server-side-extraction-resampling_policy",
+    "cl-wf-server-side-extraction-geolocation_handling"
+   ],
+   "reasoning": "Little code is needed, but the clamping, resampling and tile-stitching defaults must be pinned and rechecked for each provider before any value is stored.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-chip-archive-read_pattern",
+   "candidate": "wf-chip-archive",
+   "field": "read_pattern",
+   "value": "One chip file per water-body-scene; COG tiles are 512 by default",
+   "unit": null,
+   "note": "Tool: GDAL COG driver. A chip smaller than one tile is one block, so a later read costs one request.",
+   "source_ids": [
+    "src-gdal-cog"
+   ],
+   "quote": "BLOCKSIZE=<integer>: Defaults to 512. Sets the tile width and height in pixels. Must be divisible by 16.",
+   "locator": "Section 'General creation options'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-chip-archive-read_pattern-2",
+   "candidate": "wf-chip-archive",
+   "field": "read_pattern",
+   "value": "Overviews are generated until the smallest is under 512 pixels",
+   "unit": null,
+   "note": "Tool: GDAL COG driver. For a chip of a few hundred pixels no overview level is needed, so the write is close to the raw window.",
+   "source_ids": [
+    "src-gdal-cog"
+   ],
+   "quote": "Overviews until the maximum dimension of the smallest overview level is\nlower than 512 pixels.",
+   "locator": "Section 'File format details' > 'High level'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-chip-archive-geolocation_handling",
+   "candidate": "wf-chip-archive",
+   "field": "geolocation_handling",
+   "value": "Chip affine comes from the source window through window_transform()",
+   "unit": null,
+   "note": "Tool: rasterio. Each chip keeps the tile geotransform of the tile it was cut from, so a chip records which tile produced it.",
+   "source_ids": [
+    "src-rasterio-windowed"
+   ],
+   "quote": "The affine transform of a window can be accessed using a dataset’s\nwindow_transform() method:",
+   "locator": "Heading 'Window transforms'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-chip-archive-offset_handling",
+   "candidate": "wf-chip-archive",
+   "field": "offset_handling",
+   "value": "Not applied by default; rioxarray mask_and_scale defaults to False",
+   "unit": null,
+   "note": "Tool: rioxarray. A chip stores whatever the writer put in it, so the conversion state must be recorded beside the chip.",
+   "source_ids": [
+    "src-rioxarray-api"
+   ],
+   "quote": "mask_and_scale (bool, default=False) – Lazily scale (using the scales and offsets from rasterio) and mask.",
+   "locator": "Function 'rioxarray.open_rasterio', parameter 'mask_and_scale'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-chip-archive-resampling_policy",
+   "candidate": "wf-chip-archive",
+   "field": "resampling_policy",
+   "value": "rio-cogeo resamples only with the web-optimized option",
+   "unit": null,
+   "note": "Tool: rio-cogeo. Cutting a chip therefore keeps the native grid unless the caller asks for a tiling scheme.",
+   "source_ids": [
+    "src-rio-cogeo-cli"
+   ],
+   "quote": "--resampling, -r Resampling algorithm (default: nearest). Will only be applied with the `--web-optimized` option.",
+   "locator": "Options table of the 'cogeo create' command, row '--resampling'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-chip-archive-resampling_policy-2",
+   "candidate": "wf-chip-archive",
+   "field": "resampling_policy",
+   "value": "Overview resampling defaults to nearest",
+   "unit": null,
+   "note": "Tool: rio-cogeo. Overviews inside a chip are decimated copies; the stored full-resolution band is untouched.",
+   "source_ids": [
+    "src-rio-cogeo-cli"
+   ],
+   "quote": "--overview-resampling Overview creation resampling algorithm (default: nearest).",
+   "locator": "Options table of the 'cogeo create' command, row '--overview-resampling'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-chip-archive-raw_pixel_access",
+   "candidate": "wf-chip-archive",
+   "field": "raw_pixel_access",
+   "value": "read() returns the stored values as a numpy array",
+   "unit": null,
+   "note": "Tool: rasterio. Chips hold pixels, so the context around a pond stays available for later checks.",
+   "source_ids": [
+    "src-rasterio-reading"
+   ],
+   "quote": "The returned object is a 2-dimensional numpy.ndarray.",
+   "locator": "Page 'Reading Datasets'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-chip-archive-scaling_water_bodies",
+   "candidate": "wf-chip-archive",
+   "field": "scaling_water_bodies",
+   "value": "Linear: one chip per water body per scene",
+   "unit": null,
+   "note": "Unmeasured. Object count, not only bytes, is the scaling risk.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-chip-archive-read_pattern",
+    "cl-wf-chip-archive-read_pattern-2"
+   ],
+   "reasoning": "Each water body gets its own chip file for each scene, so both stored bytes and object count rise with the product of water bodies and scenes.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-chip-archive-scaling_history",
+   "candidate": "wf-chip-archive",
+   "field": "scaling_history",
+   "value": "Linear in scenes; chips accumulate with no shared storage",
+   "unit": null,
+   "note": "Unmeasured. Chip size policy sets the constant and is undecided.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-chip-archive-read_pattern",
+    "cl-wf-chip-archive-idempotency"
+   ],
+   "reasoning": "Nothing is shared between dates, so the archive grows in step with history length once the chip extent is fixed.",
+   "locator": null,
+   "proposed_status": "estimated"
+  },
+  {
+   "id": "cl-wf-chip-archive-orchestrator_dependency",
+   "candidate": "wf-chip-archive",
+   "field": "orchestrator_dependency",
+   "value": "No scheduler named; work parallelises per window in one process",
+   "unit": null,
+   "note": "Tool: rasterio. Cutting one chip is an independent unit with a declared input and output.",
+   "source_ids": [
+    "src-rasterio-concurrency"
+   ],
+   "quote": "This means that it is possible to parallelize tasks that need to be performed\nfor a set of windows/pixels in the raster.",
+   "locator": "Page 'Concurrent processing'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-chip-archive-idempotency",
+   "candidate": "wf-chip-archive",
+   "field": "idempotency",
+   "value": "A written chip can be validated as a COG after the fact",
+   "unit": null,
+   "note": "Tool: GDAL COG driver. A rerun can check the output instead of trusting it, which supports a retry-safe unit.",
+   "source_ids": [
+    "src-gdal-cog"
+   ],
+   "quote": "Validation whether a TIFF file is a valid COG file can be done with gdal driver cog validate.",
+   "locator": "Section 'COG -- Cloud Optimized GeoTIFF generator'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-chip-archive-idempotency-2",
+   "candidate": "wf-chip-archive",
+   "field": "idempotency",
+   "value": "Overviews are built in a temporary dataset before transfer",
+   "unit": null,
+   "note": "Tool: GDAL COG driver. The final file appears after the temporary stage, and the temporary stage needs about a third of the final size.",
+   "source_ids": [
+    "src-gdal-cog"
+   ],
+   "quote": "During the writing process, if overviews are generated,\nthey will be created in a temporary dataset, requiring storage capacity\nof roughly one third of the final file size, before being transferred to the\noutput file.",
+   "locator": "Section 'COG -- Cloud Optimized GeoTIFF generator'",
+   "proposed_status": "documented"
+  },
+  {
+   "id": "cl-wf-chip-archive-engineering_effort",
+   "candidate": "wf-chip-archive",
+   "field": "engineering_effort",
+   "value": "Moderate: cutting is a library call, chip extent is a decision",
+   "unit": null,
+   "note": "Effort classes in this file are relative to the other five workflows.",
+   "source_ids": [],
+   "basis": [
+    "cl-wf-chip-archive-read_pattern",
+    "cl-wf-chip-archive-resampling_policy",
+    "cl-wf-chip-archive-geolocation_handling"
+   ],
+   "reasoning": "COG creation is a library call, while the chip extent that keeps context around a pond is an open design question tied to assumption A20.",
+   "locator": null,
+   "proposed_status": "estimated"
+  }
+ ],
+ "candidate_notes": {
+  "wf-mask-once-windowed": {
+   "questions_answered": [
+    "What library reads windows from COG and JPEG 2000 efficiently? GDAL through /vsicurl with rasterio windows reads byte ranges; the JPEG 2000 driver decodes only the internal tiles a request intersects.",
+    "Which pixels does a rasterized polygon select? GDAL uses the pixel centre unless ALL_TOUCHED is enabled; exactextract offers a coverage fraction instead."
+   ],
+   "questions_open": [
+    "Per-scene request count for one pond is not documented anywhere. It depends on the internal block size of the delivered asset, which is a property of the access route, not of GDAL. Measure it.",
+    "Neither GDAL nor rasterio documents any handling of tile overlap or of refinement status. Both are design work for this project, not tool behaviour.",
+    "The JPEG 2000 driver page does not state a decode cost for a small window of a Sentinel-2 JP2 granule. It documents only that intersecting internal tiles are decoded, with multi-threading. No page gives the internal tile size of an ESA JP2 band.",
+    "quality_layers is left null. The GDAL and rasterio pages describe reading any raster; which quality layers exist is set by the access route."
+   ],
+   "observations": [
+    "GDAL_DISABLE_READDIR_ON_OPEN defaults to FALSE, so GDAL lists the whole directory of the file it opens. On a bucket prefix holding thousands of objects this adds a listing per open.",
+    "GDAL_HTTP_MULTIRANGE defaults to YES and GDAL_HTTP_MERGE_CONSECUTIVE_RANGES defaults to YES, so several block ranges for one read are issued in parallel and merged when adjacent.",
+    "A 16 MB shared least-recently-used cache is kept across file handles in one process, so repeated reads of the same block within a process may not hit the network."
+   ]
+  },
+  "wf-full-tile-then-mask": {
+   "questions_answered": [
+    "Does owning tiles change the reader? No. After the fetch the extraction step uses the same rasterio window and transform calls as the windowed design."
+   ],
+   "questions_open": [
+    "Transfer bytes per tile-date across all bands are not documented on any primary page found. The Copernicus pages give the tile footprint of about 110 km square but no product volume in bytes for Level-2A. Measure it, or read it from asset metadata on the chosen route.",
+    "No primary page states a Level-2A product size. The Copernicus Data Space Sentinel-2 page gives a size only for Level-1B granules, about 27 MB each, which is a different product level and not usable here.",
+    "Whether owning tiles simplifies reprocessing is a storage-layout question. No tool page addresses it.",
+    "quality_layers is left null for the same reason as the windowed design."
+   ],
+   "observations": [
+    "GDAL treats sequential reading differently from random reading: it raises the request size up to 2 MB by default. Whole-file fetches therefore behave differently from windowed reads even through the same virtual file system."
+   ]
+  },
+  "wf-datacube": {
+   "questions_answered": [
+    "Does any provider publish Sentinel-2 as a cube already? The European Space Agency runs the EOPF Sentinel Zarr Samples Service on the Copernicus Data Space Ecosystem. Its own pages describe it as early access to samples.",
+    "How are new scenes appended and reprocessed scenes versioned? Icechunk documents snapshots and ACID transactions over Zarr, with branches and tags."
+   ],
+   "questions_open": [
+    "Neither page consulted states the geographic or temporal coverage of the EOPF Zarr samples, nor whether Level-2A is complete for any area. The pages call it a samples service and give no archive extent.",
+    "The Zarr version 3 core specification defines no coordinate reference system, no geotransform and no tile identity. geolocation_handling is left null: georeferencing would come from a convention layered on top, which was not settled from a primary page here.",
+    "What building a cube costs at the 2017 and 2021 histories is not documented on any page. It needs a measurement.",
+    "quality_layers is left null. Zarr stores arrays; which quality layers exist is set by the access route.",
+    "Icechunk snapshot expiration and garbage collection were listed in the documentation navigation but the expiration page did not return readable content over HTTP, so retention cost is unsettled."
+   ],
+   "observations": [
+    "The decoding defaults of the two common readers disagree. xarray.open_zarr applies scale_factor and add_offset by default, while rioxarray.open_rasterio does not. A cube and a direct read of the same product can return different numbers unless the default is pinned.",
+    "Icechunk requires that one commit see every write of a transaction, including writes made in other processes. That is a real coupling between distributed writers and it constrains how ingestion units are defined."
+   ]
+  },
+  "wf-lazy-array-stack": {
+   "questions_answered": [
+    "How does chunking interact with single-pixel ponds? stackstac defaults to a 1024-pixel square Dask chunk with one asset per chunk, so a one-pixel pond is read inside a full chunk.",
+    "Do the libraries apply the STAC raster:bands scale and offset? stackstac does by default, odc-stac does not. The two disagree."
+   ],
+   "questions_open": [
+    "odc-stac does not document what resolution it picks when crs and resolution are left unset. The page says only that data is returned in the requested projection and resolution. The native-resolution default is unsettled.",
+    "Read amplification against a windowed read is not documented. Both figures need a measurement on the same tile and polygon set.",
+    "odc-stac documents no equivalent of the stackstac epsg constraint, so how it treats items from two UTM zones in one load was not settled."
+   ],
+   "observations": [
+    "stackstac upscales every band to the finest asset resolution by default. For Sentinel-2 that puts 20 m and 60 m bands on the 10 m grid, which contradicts practice P3 unless a resolution is set.",
+    "odc-stac merges overlapping items silently under the default groupby of 'time', keeping the first valid pixel. The identity of the tile a fused pixel came from is not recorded, which works against practices P2 and P9.",
+    "stackstac converts a 404 into nodata by default, so a missing asset produces a silent gap rather than a failure."
+   ]
+  },
+  "wf-server-side-extraction": {
+   "questions_answered": [
+    "Which providers export raw pixels rather than statistics? The Sentinel Hub Processing API returns images and states that raw satellite data can be requested. Earth Engine sampleRectangle returns an array of pixels per band. The Sentinel Hub Statistical API and the openEO aggregate_spatial process return aggregates only.",
+    "What are the size limits? The Sentinel Hub Asynchronous Processing API caps output at 10000 pixels in any dimension. openEO on the Copernicus Data Space Ecosystem is tested to about 100 km square at 10 m and limits the free tier to two concurrent synchronous requests and two concurrent batch jobs."
+   ],
+   "questions_open": [
+    "No primary page was found that states a maximum polygon count or polygon size for one Sentinel Hub Statistical API request. Community forum answers exist but are not primary sources.",
+    "The Sentinel Hub processing unit page now redirects to docs.planet.com, which did not return readable content over plain HTTP, so the processing unit formula could not be quoted from a primary page.",
+    "Earth Engine documents no per-request polygon count limit on the pages read. reduceRegion caps at 10 million pixels by default through maxPixels.",
+    "Whether any provider returns the processing baseline, the tile identity or the refinement status beside the values was not settled from these pages."
+   ],
+   "observations": [
+    "The Sentinel Hub default harmonizeValues clamps negative reflectance to zero. Dark water often produces negative surface reflectance after atmospheric correction, so the default removes information that cannot be recovered downstream.",
+    "Earth Engine decides scale from the output request and reads the matching image pyramid level, resampling with nearest neighbour. A request that does not pin scale and crs can silently read an aggregated pyramid level rather than native pixels.",
+    "The openEO aggregate_spatial pixel-centre rule means a polygon smaller than one cell can return no value at all. This bears directly on assumption A7 and the open selection rule in assumption A20.",
+    "The Sentinel Hub documentation carries a banner saying it is moving to a new home at docs.planet.com and that these pages will no longer be accessible. Every Sentinel Hub citation here may need a new URL later."
+   ]
+  },
+  "wf-chip-archive": {
+   "questions_answered": [
+    "What does COG creation cost in layout terms? The GDAL COG driver tiles at 512 pixels by default and builds overviews until the smallest is under 512 pixels, so a small chip needs no overview level.",
+    "Does chip creation resample? rio-cogeo applies its resampling algorithm only with the web-optimized option, so a plain chip keeps the source grid."
+   ],
+   "questions_open": [
+    "What chip size preserves context for adjacency and glint checks is not documented anywhere. It is a design decision tied to assumption A20 and needs a measurement or an owner decision.",
+    "Storage cost per water-body-scene depends on the chip extent, the band set and compression. No primary page settles it.",
+    "quality_layers is left null. A chip archive can hold any layer the access route delivers."
+   ],
+   "observations": [
+    "The GDAL COG driver builds overviews in a temporary dataset before transferring them, needing about a third of the final file size in scratch space. A chip writer must account for that on the compute platform.",
+    "GDAL can validate that a written file is a valid COG, so a rerun can verify its own output rather than trust it."
+   ]
+  }
+ },
+ "not_assessed": [
+  {
+   "option": "Sentinel Hub Batch Processing API",
+   "reason": "Named on the Sentinel Hub pages read as a route to larger outputs. It is a provider feature of the server-side workflow, not a separate workflow candidate, and its own reference page was not read."
+  },
+  {
+   "option": "Icechunk virtual datasets, which reference existing files instead of copying chunks",
+   "reason": "Listed in the Icechunk documentation navigation. It is a variant of the datacube candidate that would change the storage cost, but no page was read for it in this pass."
+  },
+  {
+   "option": "Google Earth Engine Export.image.toCloudStorage and toAsset",
+   "reason": "Documented alternatives to a Drive export within the same server-side workflow. Only the task-queue behaviour common to all three was cited."
+  },
+  {
+   "option": "openEO reduce_spatial and resample_cube_spatial",
+   "reason": "Named in the aggregate_spatial and resample_spatial descriptions as related processes. They are alternatives within the same candidate."
+  },
+  {
+   "option": "GDAL /vsis3 with requester-pays configuration",
+   "reason": "Present on the GDAL virtual file systems page. It changes who pays and how credentials are supplied, which is an access-route field, not a workflow field."
+  }
+ ],
+ "limitations": [
+  "Workflows are designs, not products. Every documented claim here is a claim about a documented default or behaviour of a named tool. It is not a claim that the design as a whole behaves that way, and it is not a measurement.",
+  "No image asset was opened. No GeoTIFF, JPEG 2000 or Zarr chunk bytes were read. No package was installed. Every claim comes from a documentation page or, in one case, a process-listing API response.",
+  "Library documentation states the default of the version the page describes. Version numbers appear in several page titles: rasterio 1.4.4, rioxarray 0.22.0, odc-stac 0.5.3, rasterstats 0.10.3, GDAL stable. A pinned environment may differ and must be checked at prototyping time.",
+  "The Sentinel Hub pages carry a notice that the documentation is moving to a new home at docs.planet.com and that these pages will stop being accessible. The processing unit page already redirects there and did not return readable content over plain HTTP.",
+  "The Icechunk expiration page and the Icechunk version-control page did not return readable content over plain HTTP, so snapshot retention and conflict resolution are not covered.",
+  "No primary page gave a Level-2A product volume in bytes, so the transfer cost of the full-tile workflow is stated only as a tile footprint and left for measurement.",
+  "Third-party blogs, forums and question-and-answer sites were excluded. Two facts that circulate widely, the Sentinel Hub synchronous 2500 by 2500 pixel output limit and the polygon limits of the Statistical API, were dropped because only forum posts stated them.",
+  "The field quality_layers is left null for four candidates. For a workflow that reads delivered assets, which quality layers exist is a property of the access route. Only the two candidates whose tool documentation names layers carry a claim.",
+  "Values here are proposals. None is checked. A different agent must verify each quote against its page before any of this reaches the inventory."
+ ]
+}

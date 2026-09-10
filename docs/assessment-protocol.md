@@ -12,14 +12,15 @@ Discovery focuses on processing workflows and their options, per [decision 0001]
 
 ## Step 1: discover and collate before selecting
 
-Selection remains open. The preferred route (assumption A13 in [assumptions.md](assumptions.md)) confers no selected status.
+The source is decided: AWS-hosted Sentinel-2, assumption A13 in [assumptions.md](assumptions.md). The AWS route, workflow, platform, and layout remain open.
 
-1. Inventory access routes on AWS, then managed and non-AWS alternatives.
-2. Inventory processing workflows for per-water-body extraction, from the reference mask-once design (assumption A9) to full-tile and datacube designs.
-3. Inventory compute platforms and storage layouts that each workflow can run on, naming no orchestrator (assumption A12).
-4. Compare on the criteria below. Record documented facts with sources. Leave unknowns null.
-5. Collate candidates, findings, unresolved questions, and combinations in the inventory and its HTML view.
-6. Present for owner, Codex, and Claude Code review. Record the owner's selection of prototype candidates in a new decision.
+1. Inventory the AWS-hosted routes. Record managed and non-AWS options as context, per [decision 0002](decisions/0002-aws-source-pixel-classes-tile-provenance.md).
+2. Register every ingestion and processing issue with its evidence, its consequence for the store, and a status.
+3. Inventory processing workflows for per-water-body extraction, from the reference mask-once design (assumption A9) to full-tile and datacube designs.
+4. Inventory compute platforms and storage layouts that each workflow can run on, naming no orchestrator (assumption A12).
+5. Compare on the criteria below. Record documented facts with sources. Leave unknowns null.
+6. Collate issues, candidates, findings, unresolved questions, and combinations in the inventory and its HTML view.
+7. Present for owner, Codex, and Claude Code review. Record the owner's selection of prototype candidates in a new decision.
 
 Evaluate individual options and complementary combinations using the same criteria. Report documented cost terms separately from measured costs.
 Leave unknowns explicit. Specify a bounded probe when documentation cannot settle an important question.
@@ -49,8 +50,9 @@ Every claim in [options-inventory.json](options-inventory.json) and [s2-best-pra
 | `documented` | Cites a dated primary page |
 | `measured` | Names the code version, lockfile, sample, artifact checksums, environment, and result |
 | `unverified` | Names the test that would settle it |
+| `estimated` | A project inference, not a source fact. Names the documented claims and the reasoning it rests on |
 
-Every populated inventory claim links primary evidence and an independent AI check. [assessment-data-format.md](assessment-data-format.md) defines the binding.
+Every populated `documented` claim links primary evidence and an independent AI check. An `estimated` claim links its basis claims and is labeled an estimate wherever it appears. [assessment-data-format.md](assessment-data-format.md) defines the binding.
 AI checks verify documentation. They do not establish human approval, archive completeness, data quality, or measured costs.
 
 ## Scale and cost

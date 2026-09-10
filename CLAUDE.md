@@ -8,8 +8,9 @@ build the production system. `README.md` is the human overview. `docs/README.md`
 
 ## Development workflow
 
-Current phase: initialized on 2026-09-09, awaiting owner review. The next step is discovery, specified in
-[docs/discovery-plan.md](docs/discovery-plan.md). [Decision 0001](docs/decisions/0001-scope-and-sequence.md) records scope and sequence.
+Current phase: discovery accepted on 2026-09-10. [Decision 0003](docs/decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md)
+selects Earth Search and the 2021 scenario. The next step is the data gap survey in [docs/work-plan.md](docs/work-plan.md),
+which precedes any substantial analysis. [Decision 0001](docs/decisions/0001-scope-and-sequence.md) records scope and sequence.
 No access route, processing workflow, compute platform, or storage layout is selected.
 
 Follow [docs/development-workflow.md](docs/development-workflow.md). Complete one authorized step, then pause for owner, Codex, and Claude Code review.
@@ -22,6 +23,9 @@ Codex reads [AGENTS.md](AGENTS.md), which points here. Keep shared conventions i
 uv sync --locked                          # pinned environment, Python 3.12.13
 uv run pytest                             # documentation and inventory tests, no network
 uv run ruff check . && uv run ruff format --check .
+uv run python tools/collate_checks.py          # rebuild the inventory from check records, no network
+uv run python tools/render_options.py          # regenerate docs/s2-options.html, no network
+uv run python tools/collate_checks.py --check && uv run python tools/render_options.py --check
 ```
 
 CI runs, in order: `uv sync --locked`, `ruff check`, `ruff format --check`, `pytest`. Run `/check` before you finish a change.
@@ -35,13 +39,13 @@ Record bucket, region, and payer in every result.
 | Path | What it is |
 |---|---|
 | `docs/` | Assumptions, protocol, best practices, contract draft, discovery plan, work plan, decisions, reviews |
-| `docs/options-inventory.json` | Canonical assessment dataset: candidates, claims, sources, findings |
+| `docs/options-inventory.json` | Canonical assessment dataset: issues, candidates, claims, sources, findings |
 | `docs/assessment-checks/` | Research drafts and independent check records that bind claims |
 | `docs/references/` | Supplied reference documents and their provenance |
 | `benchmarks/` | Measurement scripts and `workloads.json`. `results/*.json` are evidence |
 | `examples/` | Public water-body manifest format for prototypes. Never customer data |
 | `tests/` | Documentation link check and inventory schema check. No network |
-| `tools/` | Assessment renderer, once discovery produces data |
+| `tools/` | `collate_checks.py` rebuilds the inventory from check records. `render_options.py` renders it to HTML |
 | `data/` | Local downloads and stores. Ignored by git |
 | `src/` | Prototype code, once a prototype step is authorized. Does not exist yet |
 
@@ -56,8 +60,8 @@ Record bucket, region, and payer in every result.
 - Keep unvalidated specifications null. Every populated claim needs primary evidence and an independent check.
 - The assessment has four phases: discovery, prototyping, integration specs, and tradeoffs. Discovery compares
   access routes, processing workflows, compute platforms, and storage layouts. It does not rank vendors.
-- Sentinel-2 via AWS is the preferred route (assumption A13). Alternatives are assessed on the same criteria.
-  Preference is not selection.
+- Earth Search is the access route (assumption A13, decision 0003). Collection 1 COG assets first, the older
+  collection's JPEG 2000 assets as fallback. Non-AWS and managed options are context, never compared for selection.
 - The store serves raw band values and quality flags. It serves no derived water-quality index (assumption A1).
 - Customer polygons never enter this repository. Prototypes use public water-body polygons (assumption A8).
 - Specifications name no orchestrator (assumption A12). Describe work as idempotent units with declared inputs and outputs.
@@ -73,19 +77,21 @@ Record bucket, region, and payer in every result.
 
 ## Gotchas
 
-- Sentinel-2 bands have three native resolutions: 10 m, 20 m, and 60 m. A 10 m pond covers at most one
-  10 m pixel and a fraction of a 20 m pixel. Report pixel counts per resolution for every water body.
-  Never resample without recording the policy. See [docs/s2-best-practices.md](docs/s2-best-practices.md).
-- Tiles overlap, and a water body can sit in two tiles or two UTM zones. Choose one tile per water body
-  before counting scenes, or count the duplicates. Practice P2 in the best-practices document.
-- Level-2A reflectance carries an additive offset from a later processing baseline onward. Read the offset
-  and quantification value from product metadata. Never hard-code them. Claim R1 in the best-practices document.
-- Geometric refinement changed in 2021. The 2017 and 2021 history scenarios differ in registration quality,
-  not only in length. Claims G5 to G9 in the best-practices document.
-- The scale driver is distinct tile-dates read, not water-body count (assumption A17, unmeasured).
-  A benchmark that reads one tile says nothing about ten thousand water bodies.
-- The scene classification layer is a land product. Treat its water, shadow, and cloud classes over small
-  ponds as unverified until measured. Claim Q4 in the best-practices document.
-- Reprocessed products exist beside originals. Key values by tile, sensing time, and processing baseline,
-  never by product name alone. Practice P9 in the best-practices document.
+Each gotcha points to its canonical claim in [docs/s2-best-practices.md](docs/s2-best-practices.md) or its issue in the
+inventory. Numbers live there, not here. Read the claim before relying on it.
+
+- Bands have three native resolutions, and every water body is stored as three pixel classes per resolution
+  (assumption A20). A 10 m pond has no interior pixel. Claim G3, practice P6.
+- **Cross-tile mosaicking is a MAJOR CONCERN (issue I-30). The store never mosaics.** Tiles overlap and differ
+  in their overlap. Every record carries its tile and a primary or overlap marker under assumption A22. Claim G11,
+  practice P2, decisions 0002 and 0003.
+- The radiometric offset arrives in different states per route and per item. Read the conversion from the
+  asset's own metadata. Never hard-code it. Claim R1, practice P8, issue I-05.
+- Acquisition date is not processing baseline. Collection 1 reprocessed the archive. Claims G7 and G8, issue I-08.
+- The scale driver is expected to be distinct tile-dates read, not water-body count (assumption A17,
+  unmeasured). Issue I-20.
+- The scene classification is a land product with conditional cloud dilation. Store codes, not names.
+  Claims Q1, Q4, and Q8, issue I-01.
+- Reprocessed products replace originals at the source. Key values by tile, sensing time, baseline, and
+  product. Claim R2, practice P9.
 - The supplied PDF's summary table is truncated in its render. Do not cite the table. Cite the pages it cites.

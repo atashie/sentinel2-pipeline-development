@@ -1,4 +1,10 @@
 # Tools
 
-The assessment renderer lives here once the discovery step writes it. It reads [../docs/options-inventory.json](../docs/options-inventory.json) and writes a standalone HTML view with the embedded dataset.
-It uses the standard library and performs no network access. Until it exists, `uv run pytest tests/test_inventory.py` checks the dataset.
+Deterministic scripts. Standard library only. No network.
+
+| Script | Reads | Writes | Check mode |
+|---|---|---|---|
+| [collate_checks.py](collate_checks.py) | `docs/assessment-checks/*-research.json` and `*-checks.json`, the current inventory | `docs/options-inventory.json` | `--check` fails when the inventory is stale |
+| [render_options.py](render_options.py) | `docs/options-inventory.json`, check records for verdicts | `docs/s2-options.html` | `--check` fails when the HTML is stale |
+
+[../docs/assessment-data-format.md](../docs/assessment-data-format.md) defines the formats and the regeneration order.

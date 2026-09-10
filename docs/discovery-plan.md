@@ -1,6 +1,8 @@
 # Discovery plan, prepared 2026-09-09
 
-Status: proposed. Starts after the owner accepts the initialization review. Authority: [decision 0001](decisions/0001-scope-and-sequence.md).
+Status: executed on 2026-09-09 and 2026-09-10. Results and limits are in the [discovery review](reviews/2026-09-10-discovery.md). Authority: [decision 0001](decisions/0001-scope-and-sequence.md).
+
+Revision on 2026-09-10, [decision 0002](decisions/0002-aws-source-pixel-classes-tile-provenance.md): the owner fixed AWS as the source. Non-AWS and managed candidates became context. Discovery now centres on an issue register of ingestion and processing issues and on comparing workflows, platforms, and layouts. Acceptance adds: every issue names its evidence and carries a status.
 
 ## Question
 

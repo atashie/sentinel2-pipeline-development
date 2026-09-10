@@ -1,0 +1,816 @@
+{
+  "dimension": "storage_layout",
+  "checker": {
+    "agent": "storage-layout checking subagent",
+    "model": "sonnet (Claude Code subagent, requested model override)",
+    "started_at": "2026-09-09T23:10:00+00:00",
+    "finished_at": "2026-09-09T23:55:00+00:00"
+  },
+  "checks": [
+    {
+      "id": "chk-cl-sl-parquet-object-store-format",
+      "claim_id": "cl-sl-parquet-object-store-format",
+      "verdict": "confirmed",
+      "approved_value": "Apache Parquet, columns split into row groups",
+      "approved_unit": null,
+      "approved_note": "The Apache Parquet site documents the layout. It states no numbered specification version on this page. The page and the Thrift definition are read together.",
+      "source_ids": [
+        "src-parquet-file-format"
+      ],
+      "quote": "In the above example, there are N columns in this table, split into M row groups.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-format-2",
+      "claim_id": "cl-sl-parquet-object-store-format-2",
+      "verdict": "confirmed",
+      "approved_value": "GeoParquet 1.1.0 adds geometry columns to Parquet",
+      "approved_unit": null,
+      "approved_note": "Only needed if a geometry column is stored beside the pixel rows. The releases page lists v2.0.0-rc.1 as Latest Release and v1.1.0 as the newest release that is not a candidate.",
+      "source_ids": [
+        "src-geoparquet-v110",
+        "src-geoparquet-releases"
+      ],
+      "quote": "This is version 1.1.0 of the GeoParquet specification.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-format-3",
+      "claim_id": "cl-sl-parquet-object-store-format-3",
+      "verdict": "confirmed",
+      "approved_value": "GeoParquet geometry encoded as WKB or GeoArrow",
+      "approved_unit": null,
+      "approved_note": "Geometry columns must sit at the root of the schema and must not be repeated.",
+      "source_ids": [
+        "src-geoparquet-v110"
+      ],
+      "quote": "Geometry columns MUST be encoded as WKB or using the single-geometry type encodings based on the GeoArrow specification.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-idempotency",
+      "claim_id": "cl-sl-parquet-object-store-idempotency",
+      "verdict": "confirmed",
+      "approved_value": "No atomic update across keys on Amazon S3",
+      "approved_unit": null,
+      "approved_note": "A publication that spans several Parquet objects has no documented all-or-nothing commit. Any multi-object commit must be built in the application.",
+      "source_ids": [
+        "src-aws-s3-welcome"
+      ],
+      "quote": "Updates are key-based. There is no way to make atomic updates across keys. For example, you cannot make the update of one key dependent on the update of another key unless you design this functionality into your application.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-idempotency-2",
+      "claim_id": "cl-sl-parquet-object-store-idempotency-2",
+      "verdict": "confirmed",
+      "approved_value": "Concurrent PUTs to one key: latest timestamp wins",
+      "approved_unit": null,
+      "approved_note": "Two writers of the same object key are not serialised. A rerun that writes the same key twice is safe only if the bytes are identical.",
+      "source_ids": [
+        "src-aws-s3-welcome"
+      ],
+      "quote": "Amazon S3 does not support object locking for concurrent writers. If two PUT requests are simultaneously made to the same key, the request with the latest timestamp wins.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-idempotency-3",
+      "claim_id": "cl-sl-parquet-object-store-idempotency-3",
+      "verdict": "confirmed",
+      "approved_value": "Strong read-after-write consistency for PUT and DELETE",
+      "approved_unit": null,
+      "approved_note": "A rerun that rewrites one object is immediately visible. Single-key updates are atomic: a reader gets old or new data, never partial data.",
+      "source_ids": [
+        "src-aws-s3-welcome"
+      ],
+      "quote": "Amazon S3 provides strong read-after-write consistency for PUT and DELETE requests of objects in your Amazon S3 bucket in all AWS Regions.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-revision_handling",
+      "claim_id": "cl-sl-parquet-object-store-revision_handling",
+      "verdict": "confirmed",
+      "approved_value": "S3 Versioning preserves every version of every object",
+      "approved_unit": null,
+      "approved_note": "This is object-level versioning, not table-level. It gives no as-of query over a set of objects. An as-of query must come from a revision column or a partition key in the data.",
+      "source_ids": [
+        "src-aws-s3-versioning"
+      ],
+      "quote": "You can use the S3 Versioning feature to preserve, retrieve, and restore every version of every object stored in your buckets.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-revision_handling-2",
+      "claim_id": "cl-sl-parquet-object-store-revision_handling-2",
+      "verdict": "confirmed",
+      "approved_value": "Each stored version is charged as a whole object",
+      "approved_unit": null,
+      "approved_note": "Keeping the original beside a reprocessed product doubles stored bytes for that scene, whether the second copy is an S3 version or a new key.",
+      "source_ids": [
+        "src-aws-s3-versioning"
+      ],
+      "quote": "Normal Amazon S3 rates apply for every version of an object stored and transferred. Each version of an object is the entire object; it is not just a diff from the previous version. Thus, if you have three versions of an object stored, you are charged for three objects.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-scaling_water_bodies",
+      "claim_id": "cl-sl-parquet-object-store-scaling_water_bodies",
+      "verdict": "confirmed",
+      "approved_value": "Hive partition filters skip files not needed",
+      "approved_unit": null,
+      "approved_note": "DuckDB reads partition key values from directory names and pushes filters down. Read cost then follows the partitions selected, not the whole store. Athena bills on bytes scanned, so the same pruning lowers price.",
+      "source_ids": [
+        "src-duckdb-hive"
+      ],
+      "quote": "Filters on the partition keys are automatically pushed down into the files. This way the system skips reading files that are not necessary to answer a query.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-unit_price",
+      "claim_id": "cl-sl-parquet-object-store-unit_price",
+      "verdict": "confirmed",
+      "approved_value": "0.023",
+      "approved_unit": "USD per GB-month",
+      "approved_note": "S3 Standard, first 50 TB per month, US East (N. Virginia). Next 450 TB is 0.0220 and over 500 TB is 0.0210. Currency USD. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-s3-standard",
+        "src-aws-s3-pricing"
+      ],
+      "quote": "\"Standard Storage First 50 TB per GB Mo\":{\"rateCode\":\"WP9ANXZGBYYSGJEA.JRTCKXETXF.PGHJ3S3EYE\",\"price\":\"0.0230000000\",\"RegionlessRateCode\":\"p4bzR3TnNAZ1pIxclJhB2U2uxj0OxddXC0xTvc2xErU\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-unit_price-2",
+      "claim_id": "cl-sl-parquet-object-store-unit_price-2",
+      "verdict": "confirmed",
+      "approved_value": "0.000005",
+      "approved_unit": "USD per request",
+      "approved_note": "S3 Standard PUT, COPY, POST or LIST, US East (N. Virginia). The page states this as 0.005 USD per 1,000 requests. LIST is charged at the same rate for every storage class. DELETE and CANCEL are free. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-s3-standard",
+        "src-aws-s3-pricing"
+      ],
+      "quote": "\"PUT COPY/POST or LIST requests per Requests\":{\"rateCode\":\"E9YHNFENF4XQBZR6.JRTCKXETXF.6YS6EN2CT7\",\"price\":\"0.0000050000\",\"RegionlessRateCode\":\"hNBHJqnKI5uFf7JYcwkZFOr5HgyQpk0dvH9X8evGWYA\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-unit_price-3",
+      "claim_id": "cl-sl-parquet-object-store-unit_price-3",
+      "verdict": "confirmed",
+      "approved_value": "0.0000004",
+      "approved_unit": "USD per request",
+      "approved_note": "S3 Standard GET and all other requests, US East (N. Virginia). The page states this as 0.0004 USD per 1,000 requests. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-s3-standard",
+        "src-aws-s3-pricing"
+      ],
+      "quote": "\"GET and all other requests per Requests\":{\"rateCode\":\"ZWQ6Q48CRJXX4FXE.JRTCKXETXF.6YS6EN2CT7\",\"price\":\"0.0000004000\",\"RegionlessRateCode\":\"NxmTNXLOXWd028DoD65kAsC_briW7zRuPUw-Lk97sOg\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-unit_price-4",
+      "claim_id": "cl-sl-parquet-object-store-unit_price-4",
+      "verdict": "confirmed",
+      "approved_value": "5.00",
+      "approved_unit": "USD per TB scanned",
+      "approved_note": "Amazon Athena SQL queries, US East (N. Virginia). Bytes scanned are rounded up to the nearest megabyte with a 10 MB minimum per query. DDL statements and failed queries are not charged. Cancelled queries are charged for bytes scanned. Query results are billed at standard S3 rates. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-athena",
+        "src-aws-athena-pricing"
+      ],
+      "quote": "\"Athena Queries\":{\"rateCode\":\"B6WHE3FUNCDQVVX4.JRTCKXETXF.6YS6EN2CT7\",\"price\":\"5.0000000000\",\"RegionlessRateCode\":\"lQ1qMVmRa-J588tVPftvsrKamlBAZalTLlKKbn1r_uU\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-parquet-object-store-unit_price-5",
+      "claim_id": "cl-sl-parquet-object-store-unit_price-5",
+      "verdict": "confirmed",
+      "approved_value": "0.0125",
+      "approved_unit": "USD per GB-month",
+      "approved_note": "S3 Standard-Infrequent Access, US East (N. Virginia). Minimum billable object size 128 KB. Minimum storage duration 30 days with a pro-rated early deletion charge. Retrieval is charged separately at 0.0100 USD per GB and GET requests at 0.000001 USD each. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-s3-ia",
+        "src-aws-s3-pricing"
+      ],
+      "quote": "\"Standard Infrequent Access Storage per GB-Mo\":{\"rateCode\":\"379GYJUQ5WFBUYGM.JRTCKXETXF.6YS6EN2CT7\",\"price\":\"0.0125000000\",\"RegionlessRateCode\":\"QmVBwFDXQsaMaQANdCzUyqZhKFK31IGXLSO1U-iKAOU\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-format",
+      "claim_id": "cl-sl-zarr-icechunk-format",
+      "verdict": "confirmed",
+      "approved_value": "Zarr N-dimensional arrays, core specification version 3.1",
+      "approved_unit": null,
+      "approved_note": "The page states it is the latest version and that it supersedes Zarr v2. Minor versions add features only.",
+      "source_ids": [
+        "src-zarr-v3-core"
+      ],
+      "quote": "Version: 3.1",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-format-2",
+      "claim_id": "cl-sl-zarr-icechunk-format-2",
+      "verdict": "confirmed",
+      "approved_value": "Icechunk specification version 2.1 stores Zarr data",
+      "approved_unit": null,
+      "approved_note": "Icechunk is a storage specification layered over Zarr, not a replacement array format.",
+      "source_ids": [
+        "src-icechunk-spec"
+      ],
+      "quote": "This is the current Icechunk specification (spec version 2.1), used by Icechunk 2.1.0 and higher.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-format-3",
+      "claim_id": "cl-sl-zarr-icechunk-format-3",
+      "verdict": "confirmed",
+      "approved_value": "Uninitialised array regions need no stored chunk",
+      "approved_unit": null,
+      "approved_note": "This is the closest documented statement about sparse coverage. It sits in the non-normative Implementation Notes and describes resizing, not general sparse writes.",
+      "source_ids": [
+        "src-zarr-v3-core"
+      ],
+      "quote": "For areas where no chunks existed previously, they implicitly have the fill value after updating the metadata, no new chunks need to be written in this case.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-idempotency",
+      "claim_id": "cl-sl-zarr-icechunk-idempotency",
+      "verdict": "confirmed",
+      "approved_value": "Commits are atomic and never partially visible",
+      "approved_unit": null,
+      "approved_note": "A rerun either commits a whole snapshot or commits nothing. Readers take no locks.",
+      "source_ids": [
+        "src-icechunk-spec"
+      ],
+      "quote": "Serializable isolation - Reads will be isolated from concurrent writes and always use a committed snapshot of a repository. Writes to repositories will be committed atomically and will not be partially visible. Readers will not acquire locks.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-idempotency-2",
+      "claim_id": "cl-sl-zarr-icechunk-idempotency-2",
+      "verdict": "confirmed",
+      "approved_value": "Concurrent writes raise a conflict at commit time",
+      "approved_unit": null,
+      "approved_note": "The documentation shows a ConflictError when a second session commits against a stale parent snapshot. A rebase path is documented on the same page.",
+      "source_ids": [
+        "src-icechunk-version-control"
+      ],
+      "quote": "In situations where two users or processes attempt to modify the same data at the same time, Icechunk will detect the conflict and raise an exception at commit time.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-idempotency-3",
+      "claim_id": "cl-sl-zarr-icechunk-idempotency-3",
+      "verdict": "confirmed",
+      "approved_value": "Needs object storage with conditional update",
+      "approved_unit": null,
+      "approved_note": "This is a requirement on the store, not a claim about any one provider. Confirm against the Amazon S3 conditional write documentation before quoting it for S3.",
+      "source_ids": [
+        "src-icechunk-spec"
+      ],
+      "quote": "Conditional update \u2014 the storage system MUST support atomically updating a file only if the current version is known to the writer.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-idempotency-4",
+      "claim_id": "cl-sl-zarr-icechunk-idempotency-4",
+      "verdict": "confirmed",
+      "approved_value": "No external database or catalog is required",
+      "approved_unit": null,
+      "approved_note": "The repository is a directory in object storage. Nothing else must be run to hold the metadata pointer.",
+      "source_ids": [
+        "src-icechunk-spec"
+      ],
+      "quote": "Object storage - the format is designed around the consistency features and performance characteristics available in modern cloud object storage. No external database or catalog is required.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-revision_handling",
+      "claim_id": "cl-sl-zarr-icechunk-revision_handling",
+      "verdict": "confirmed",
+      "approved_value": "Every write creates an immutable snapshot",
+      "approved_unit": null,
+      "approved_note": "Branches and tags name snapshots. A tag is an immutable reference used for a release.",
+      "source_ids": [
+        "src-icechunk-overview"
+      ],
+      "quote": "Every write operation creates an immutable snapshot, while branches and tags provide familiar version control semantics.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-revision_handling-2",
+      "claim_id": "cl-sl-zarr-icechunk-revision_handling-2",
+      "verdict": "confirmed",
+      "approved_value": "Previous snapshots stay readable after new ones",
+      "approved_unit": null,
+      "approved_note": "This is the documented basis for an as-of read. A read-only session is opened by snapshot id, branch name or tag name.",
+      "source_ids": [
+        "src-icechunk-spec",
+        "src-icechunk-version-control"
+      ],
+      "quote": "Time travel - Previous snapshots of a repository remain accessible after new ones have been written.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-revision_handling-3",
+      "claim_id": "cl-sl-zarr-icechunk-revision_handling-3",
+      "verdict": "confirmed",
+      "approved_value": "Expiration plus garbage collection deletes expired snapshot data",
+      "approved_unit": null,
+      "approved_note": "The documentation marks expiry as irreversible and states that the first snapshot is never expired. Running it removes history that an as-of query would otherwise reach.",
+      "source_ids": [
+        "src-icechunk-expiration"
+      ],
+      "quote": "\"Expiration\" allows you to mark snapshots as expired, and \"garbage collection\" deletes all data (manifests, chunks, snapshots, etc.) associated with expired snapshots.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-unit_price",
+      "claim_id": "cl-sl-zarr-icechunk-unit_price",
+      "verdict": "confirmed",
+      "approved_value": "Not listed",
+      "approved_unit": null,
+      "approved_note": "The Icechunk documentation describes an open-source engine and lists no product price. Cost is the underlying object storage and requests.",
+      "source_ids": [
+        "src-icechunk-overview"
+      ],
+      "quote": "Icechunk is an open-source transactional storage engine for Zarr .",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-unit_price-2",
+      "claim_id": "cl-sl-zarr-icechunk-unit_price-2",
+      "verdict": "confirmed",
+      "approved_value": "0.023",
+      "approved_unit": "USD per GB-month",
+      "approved_note": "S3 Standard, first 50 TB per month, US East (N. Virginia). Currency USD. Chunk objects, manifests and snapshot files all sit in this class unless a lifecycle rule moves them. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-s3-standard",
+        "src-aws-s3-pricing"
+      ],
+      "quote": "\"Standard Storage First 50 TB per GB Mo\":{\"rateCode\":\"WP9ANXZGBYYSGJEA.JRTCKXETXF.PGHJ3S3EYE\",\"price\":\"0.0230000000\",\"RegionlessRateCode\":\"p4bzR3TnNAZ1pIxclJhB2U2uxj0OxddXC0xTvc2xErU\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-zarr-icechunk-unit_price-3",
+      "claim_id": "cl-sl-zarr-icechunk-unit_price-3",
+      "verdict": "confirmed",
+      "approved_value": "0.000005",
+      "approved_unit": "USD per request",
+      "approved_note": "S3 Standard PUT, COPY, POST or LIST, US East (N. Virginia), stated on the page as 0.005 USD per 1,000 requests. Each chunk write is at least one PUT. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-s3-standard",
+        "src-aws-s3-pricing"
+      ],
+      "quote": "\"PUT COPY/POST or LIST requests per Requests\":{\"rateCode\":\"E9YHNFENF4XQBZR6.JRTCKXETXF.6YS6EN2CT7\",\"price\":\"0.0000050000\",\"RegionlessRateCode\":\"hNBHJqnKI5uFf7JYcwkZFOr5HgyQpk0dvH9X8evGWYA\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-format",
+      "claim_id": "cl-sl-lakehouse-table-format",
+      "verdict": "confirmed",
+      "approved_value": "Apache Iceberg table spec, versions 1 to 3 adopted",
+      "approved_unit": null,
+      "approved_note": "Version 4 is under active development and not formally adopted. Version 2 adds row-level deletes. Version 3 adds new types, default values, row lineage and deletion vectors.",
+      "source_ids": [
+        "src-iceberg-spec"
+      ],
+      "quote": "Versions 1, 2 and 3 of the Iceberg spec are complete and adopted by the community.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-format-2",
+      "claim_id": "cl-sl-lakehouse-table-format-2",
+      "verdict": "confirmed",
+      "approved_value": "Athena reads Iceberg Parquet, ORC and Avro",
+      "approved_unit": null,
+      "approved_note": "Athena engine version 3. The same page states that Athena only creates and operates on Iceberg v2 tables and supports Iceberg version 1.4.2.",
+      "source_ids": [
+        "src-aws-athena-iceberg"
+      ],
+      "quote": "Supported file formats \u2013 Athena engine version 3 supports the following Iceberg file formats. Parquet ORC Avro",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-format-3",
+      "claim_id": "cl-sl-lakehouse-table-format-3",
+      "verdict": "corrected",
+      "approved_value": "S3 table buckets store tables in Apache Iceberg format",
+      "approved_unit": null,
+      "approved_note": "S3 Tables is a separate bucket type in the s3tables namespace. Using standard SQL statements, you can query tables with query engines that support Iceberg, such as Amazon Athena, Amazon Redshift, and Apache Spark.",
+      "source_ids": [
+        "src-aws-s3-tables"
+      ],
+      "quote": "S3 Tables uses a different service namespace than Amazon S3: the s3tables namespace.",
+      "reason": "The cited page (Working with Amazon S3 Tables and table buckets) supports the value and the s3tables-namespace detail, quoted here. It does not state the default quotas of 10 table buckets per account per Region or 10,000 tables per table bucket; that page only links to a separate 'AWS Regions, endpoints, and service quotas' page, which is not among this claim's cited sources. The quota sentence is dropped from the note as unsupported by the cited source.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-idempotency",
+      "claim_id": "cl-sl-lakehouse-table-idempotency",
+      "verdict": "confirmed",
+      "approved_value": "Atomic metadata swap gives serializable isolation",
+      "approved_unit": null,
+      "approved_note": "A commit adds and removes files in one operation. A failed or repeated writer leaves no partial table state.",
+      "source_ids": [
+        "src-iceberg-spec"
+      ],
+      "quote": "Serializable isolation -- Reads will be isolated from concurrent writes and always use a committed snapshot of a table\u2019s data. Writes will support removing and adding files in a single operation and are never partially visible. Readers will not acquire locks.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-idempotency-2",
+      "claim_id": "cl-sl-lakehouse-table-idempotency-2",
+      "verdict": "confirmed",
+      "approved_value": "Each metadata change is committed by an atomic operation",
+      "approved_unit": null,
+      "approved_note": "The spec does not standardise which atomic operation. On AWS the swap is the catalog check-and-put.",
+      "source_ids": [
+        "src-iceberg-spec"
+      ],
+      "quote": "Table metadata is stored as JSON. Each table metadata change creates a new table metadata file that is committed by an atomic operation. This operation is used to ensure that a new version of table metadata replaces the version on which it was based. This produces a linear history of table versions and ensures that concurrent writes are not lost.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-idempotency-3",
+      "claim_id": "cl-sl-lakehouse-table-idempotency-3",
+      "verdict": "confirmed",
+      "approved_value": "Athena supports AWS Glue optimistic locking only",
+      "approved_unit": null,
+      "approved_note": "A second lock implementation against the same table is documented as a data-loss risk. This constrains which engines may write the table.",
+      "source_ids": [
+        "src-aws-athena-iceberg"
+      ],
+      "quote": "Table locking support by AWS Glue only \u2013 Unlike the open source Glue catalog implementation, which supports plug-in custom locking, Athena supports AWS Glue optimistic locking only. Using Athena to modify an Iceberg table with any other lock implementation will cause potential data loss and break transactions.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-revision_handling",
+      "claim_id": "cl-sl-lakehouse-table-revision_handling",
+      "verdict": "confirmed",
+      "approved_value": "Snapshot log serves point-in-time reads by timestamp",
+      "approved_unit": null,
+      "approved_note": "This is the documented as-of query. The spec warns that snapshot-log is optional and that an implementation must raise an error when it is absent.",
+      "source_ids": [
+        "src-iceberg-spec"
+      ],
+      "quote": "When processing point in time queries implementations should use \"snapshot-log\" metadata to lookup the table state at the given point in time. This ensures time-travel queries reflect the state of the table at the provided timestamp.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-revision_handling-2",
+      "claim_id": "cl-sl-lakehouse-table-revision_handling-2",
+      "verdict": "confirmed",
+      "approved_value": "Snapshots expire under a configurable retention policy",
+      "approved_unit": null,
+      "approved_note": "Retention is set by min-snapshots-to-keep, max-snapshot-age-ms and max-ref-age-ms, globally or per reference. Expiry removes the history an as-of query would reach.",
+      "source_ids": [
+        "src-iceberg-spec"
+      ],
+      "quote": "Table snapshots expire and are removed from metadata to allow removed or replaced data files to be physically deleted. The snapshot expiration procedure removes snapshots from table metadata and applies the table's retention policy.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-revision_handling-3",
+      "claim_id": "cl-sl-lakehouse-table-revision_handling-3",
+      "verdict": "confirmed",
+      "approved_value": "S3 Tables runs snapshot management automatically by default",
+      "approved_unit": null,
+      "approved_note": "Automatic maintenance also compacts small objects and removes unreferenced files. Maintenance is configurable per table and per table bucket.",
+      "source_ids": [
+        "src-aws-s3-tables"
+      ],
+      "quote": "To optimize your tables for querying, S3 continuously performs automatic maintenance operations, such as compaction, snapshot management, and unreferenced file removal.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-unit_price",
+      "claim_id": "cl-sl-lakehouse-table-unit_price",
+      "verdict": "confirmed",
+      "approved_value": "0.0265",
+      "approved_unit": "USD per GB-month",
+      "approved_note": "S3 Tables Standard storage, first 50 TB per month, US East (N. Virginia). Higher than the 0.023 S3 Standard rate for the same tier. The pricing page row reads \"S3 Tables Standard ... First 50 TB / Month {priceOf!s3/s3!vyumENRmqmT81hMzMF7_wl7c1ePW2uCLtzWJCmA_upY} per GB\", which resolves to this data-file key. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-s3",
+        "src-aws-s3-pricing"
+      ],
+      "quote": "\"vyumENRmqmT81hMzMF7_wl7c1ePW2uCLtzWJCmA_upY\":{\"rateCode\":\"ZRGCHTXR5ZDB55NB.JRTCKXETXF.PGHJ3S3EYE\",\"price\":\"0.0265000000\",\"RegionlessRateCode\":\"vyumENRmqmT81hMzMF7_wl7c1ePW2uCLtzWJCmA_upY\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-unit_price-2",
+      "claim_id": "cl-sl-lakehouse-table-unit_price-2",
+      "verdict": "confirmed",
+      "approved_value": "0.000025",
+      "approved_unit": "USD per object per month",
+      "approved_note": "S3 Tables object monitoring, US East (N. Virginia). The pricing page states it as 0.025 USD per 1,000 objects per month under \"S3 Tables monitoring pricing\". It is charged per object stored in a table bucket. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-s3",
+        "src-aws-s3-pricing"
+      ],
+      "quote": "\"ucwKh8RVNB_l32WQHKgO79E7FyhTH-ZzvuPf_0CY3f8\":{\"rateCode\":\"KMHPJVCG2HMSZMWX.JRTCKXETXF.6YS6EN2CT7\",\"price\":\"0.0000250000\",\"RegionlessRateCode\":\"ucwKh8RVNB_l32WQHKgO79E7FyhTH-ZzvuPf_0CY3f8\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-unit_price-3",
+      "claim_id": "cl-sl-lakehouse-table-unit_price-3",
+      "verdict": "confirmed",
+      "approved_value": "0.005",
+      "approved_unit": "USD per GB processed",
+      "approved_note": "S3 Tables compaction, default binpack strategy, US East (N. Virginia). Sort or Z-order is 0.0100 USD per GB processed. Objects processed are charged separately at 0.000002 USD each. The page states these charges stop if automatic compaction is disabled for the table. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-s3",
+        "src-aws-s3-pricing"
+      ],
+      "quote": "\"o5GnJzM5gcIb6NKeyQhYJjZuZsqkuFpAbjPUiZWZzlI\":{\"rateCode\":\"UXYE5TDKWJ4BXQUZ.JRTCKXETXF.6YS6EN2CT7\",\"price\":\"0.0050000000\",\"RegionlessRateCode\":\"o5GnJzM5gcIb6NKeyQhYJjZuZsqkuFpAbjPUiZWZzlI\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-unit_price-4",
+      "claim_id": "cl-sl-lakehouse-table-unit_price-4",
+      "verdict": "confirmed",
+      "approved_value": "1.00",
+      "approved_unit": "USD per 100,000 metadata objects per month",
+      "approved_note": "AWS Glue Data Catalog metadata storage, above the first million objects, per month. Currency USD. The page notes pricing can vary by AWS Region and does not label this figure with a Region. A metadata object is a table, table version, partition, partition index, statistic, database or catalog.",
+      "source_ids": [
+        "src-aws-glue-pricing"
+      ],
+      "quote": "With the Data Catalog, you can store up to a million metadata objects for free. If you store more than a million metadata objects, you will be charged $1.00 per 100,000 objects over a million, per month.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-unit_price-5",
+      "claim_id": "cl-sl-lakehouse-table-unit_price-5",
+      "verdict": "confirmed",
+      "approved_value": "1.00",
+      "approved_unit": "USD per million metadata requests",
+      "approved_note": "AWS Glue Data Catalog metadata access requests, above the first million per month. Currency USD. The page notes pricing can vary by AWS Region and does not label this figure with a Region.",
+      "source_ids": [
+        "src-aws-glue-pricing"
+      ],
+      "quote": "The first million metadata access requests to the Data Catalog per month are free. If you exceed a million metadata requests in a month, you will be charged $1.00 per million requests over the first million.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-lakehouse-table-unit_price-6",
+      "claim_id": "cl-sl-lakehouse-table-unit_price-6",
+      "verdict": "confirmed",
+      "approved_value": "5.00",
+      "approved_unit": "USD per TB scanned",
+      "approved_note": "Amazon Athena SQL queries, US East (N. Virginia). Bytes scanned are rounded up to the nearest megabyte with a 10 MB minimum per query. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-athena",
+        "src-aws-athena-pricing"
+      ],
+      "quote": "\"Athena Queries\":{\"rateCode\":\"B6WHE3FUNCDQVVX4.JRTCKXETXF.6YS6EN2CT7\",\"price\":\"5.0000000000\",\"RegionlessRateCode\":\"lQ1qMVmRa-J588tVPftvsrKamlBAZalTLlKKbn1r_uU\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-format",
+      "claim_id": "cl-sl-chip-archive-format",
+      "verdict": "confirmed",
+      "approved_value": "Cloud Optimized GeoTIFF, OGC standard 21-026 version 1.0",
+      "approved_unit": null,
+      "approved_note": "Approval date 2023-05-08, publication date 2023-07-14. External identifier http://www.opengis.net/doc/is/COG/1.0. It builds on TIFF v6, GeoTIFF keys and HTTP range.",
+      "source_ids": [
+        "src-ogc-cog"
+      ],
+      "quote": "This standard formalizes the requirements for a TIFF file to become a COG file and for the HTTP server to make COG files available in a fast fashion on the web.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-format-2",
+      "claim_id": "cl-sl-chip-archive-format-2",
+      "verdict": "confirmed",
+      "approved_value": "COG reads parts of a file by HTTP range request",
+      "approved_unit": null,
+      "approved_note": "For a chip that is already small, the range-request benefit is limited. The value is a self-describing georeferenced raster per water body and scene.",
+      "source_ids": [
+        "src-cogeo-org"
+      ],
+      "quote": "A Cloud Optimized GeoTIFF (COG) is a regular GeoTIFF file, aimed at being hosted on a HTTP file server, with an internal organization that enables more efficient workflows on the cloud. It does this by leveraging the ability of clients issuing \u200b HTTP GET range requests to ask for just the parts of a file they need.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-format-3",
+      "claim_id": "cl-sl-chip-archive-format-3",
+      "verdict": "confirmed",
+      "approved_value": "rio-cogeo enforces internal overviews and internal tiles",
+      "approved_unit": null,
+      "approved_note": "Default profiles use 512x512 internal tiles. Overviews can be removed with --overview-level 0. From version 2.2 the --use-cog-driver option writes with the GDAL COG driver.",
+      "source_ids": [
+        "src-rio-cogeo"
+      ],
+      "quote": "While it respects the COG specifications , this plugin also enforces several features: Internal overviews (User can remove overview with option --overview-level 0 ) Internal tiles (default profiles have 512x512 internal tiles)",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-idempotency",
+      "claim_id": "cl-sl-chip-archive-idempotency",
+      "verdict": "confirmed",
+      "approved_value": "No atomic update across keys on Amazon S3",
+      "approved_unit": null,
+      "approved_note": "A chip set for one scene spans many objects. Nothing makes the set appear at once. The application must publish a manifest or marker after the chips.",
+      "source_ids": [
+        "src-aws-s3-welcome"
+      ],
+      "quote": "Updates are key-based. There is no way to make atomic updates across keys. For example, you cannot make the update of one key dependent on the update of another key unless you design this functionality into your application.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-idempotency-2",
+      "claim_id": "cl-sl-chip-archive-idempotency-2",
+      "verdict": "confirmed",
+      "approved_value": "Strong read-after-write consistency for PUT and DELETE",
+      "approved_unit": null,
+      "approved_note": "Rewriting one chip is immediately visible. Updates to a single key are atomic, so a reader never sees a half-written chip.",
+      "source_ids": [
+        "src-aws-s3-welcome"
+      ],
+      "quote": "Amazon S3 provides strong read-after-write consistency for PUT and DELETE requests of objects in your Amazon S3 bucket in all AWS Regions.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-revision_handling",
+      "claim_id": "cl-sl-chip-archive-revision_handling",
+      "verdict": "confirmed",
+      "approved_value": "S3 Versioning preserves every version of every object",
+      "approved_unit": null,
+      "approved_note": "Object-level only. A reprocessed chip can also be a new key that carries the processing baseline. Neither route gives an as-of query without a separate index.",
+      "source_ids": [
+        "src-aws-s3-versioning"
+      ],
+      "quote": "You can use the S3 Versioning feature to preserve, retrieve, and restore every version of every object stored in your buckets.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-scaling_water_bodies",
+      "claim_id": "cl-sl-chip-archive-scaling_water_bodies",
+      "verdict": "confirmed",
+      "approved_value": "No documented limit on objects per bucket",
+      "approved_unit": null,
+      "approved_note": "The limit is cost and listing time, not a quota. One chip per water body per scene per band multiplies quickly against the request and monitoring prices.",
+      "source_ids": [
+        "src-aws-s3-welcome"
+      ],
+      "quote": "A general purpose bucket is a container for objects stored in Amazon S3, and you can store any number of objects in a bucket and across all storage classes (except for S3 Express One Zone), so you can redundantly store objects across multiple Availability Zones.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-unit_price",
+      "claim_id": "cl-sl-chip-archive-unit_price",
+      "verdict": "confirmed",
+      "approved_value": "0.023",
+      "approved_unit": "USD per GB-month",
+      "approved_note": "S3 Standard, first 50 TB per month, US East (N. Virginia). Currency USD. S3 Standard has no minimum billable object size. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-s3-standard",
+        "src-aws-s3-pricing"
+      ],
+      "quote": "\"Standard Storage First 50 TB per GB Mo\":{\"rateCode\":\"WP9ANXZGBYYSGJEA.JRTCKXETXF.PGHJ3S3EYE\",\"price\":\"0.0230000000\",\"RegionlessRateCode\":\"p4bzR3TnNAZ1pIxclJhB2U2uxj0OxddXC0xTvc2xErU\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-unit_price-2",
+      "claim_id": "cl-sl-chip-archive-unit_price-2",
+      "verdict": "confirmed",
+      "approved_value": "0.000005",
+      "approved_unit": "USD per request",
+      "approved_note": "S3 Standard PUT, COPY, POST or LIST, US East (N. Virginia), stated on the page as 0.005 USD per 1,000 requests. One chip is one PUT. LIST costs the same rate. DELETE and CANCEL are free. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-s3-standard",
+        "src-aws-s3-pricing"
+      ],
+      "quote": "\"PUT COPY/POST or LIST requests per Requests\":{\"rateCode\":\"E9YHNFENF4XQBZR6.JRTCKXETXF.6YS6EN2CT7\",\"price\":\"0.0000050000\",\"RegionlessRateCode\":\"hNBHJqnKI5uFf7JYcwkZFOr5HgyQpk0dvH9X8evGWYA\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-unit_price-3",
+      "claim_id": "cl-sl-chip-archive-unit_price-3",
+      "verdict": "confirmed",
+      "approved_value": "128",
+      "approved_unit": "KB minimum billable object size",
+      "approved_note": "Applies to S3 Standard-Infrequent Access and S3 One Zone-IA. The same page states a 128 KB minimum billable object size for S3 Glacier Instant Retrieval. A chip smaller than 128 KB is billed as 128 KB in those classes.",
+      "source_ids": [
+        "src-aws-s3-pricing"
+      ],
+      "quote": "S3 Standard-IA and S3 One Zone-IA storage have a minimum billable object size of 128 KB. Smaller objects may be stored but will be charged for 128 KB of storage at the appropriate storage class rate.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-unit_price-4",
+      "claim_id": "cl-sl-chip-archive-unit_price-4",
+      "verdict": "confirmed",
+      "approved_value": "30",
+      "approved_unit": "day minimum storage duration",
+      "approved_note": "S3 Standard-IA and S3 One Zone-IA. Objects deleted, overwritten or transitioned before 30 days incur the normal storage charge plus a pro-rated charge for the rest of the 30 days.",
+      "source_ids": [
+        "src-aws-s3-pricing"
+      ],
+      "quote": "S3 Standard-IA, and S3 One Zone-IA storage are charged for a minimum storage duration of 30 days, and objects deleted before 30 days incur a pro-rated charge equal to the storage charge for the remaining days.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-unit_price-5",
+      "claim_id": "cl-sl-chip-archive-unit_price-5",
+      "verdict": "confirmed",
+      "approved_value": "0.004",
+      "approved_unit": "USD per GB-month",
+      "approved_note": "S3 Glacier Instant Retrieval, US East (N. Virginia). Minimum storage duration 90 days. Minimum billable object size 128 KB. PUT is 0.00002 USD per request and GET is 0.00001 USD per request, both higher than S3 Standard. Retrieval is 0.0300 USD per GB. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "source_ids": [
+        "src-aws-pricemap-s3-gir",
+        "src-aws-s3-pricing"
+      ],
+      "quote": "\"Glacier Instant Retrieval Storage\":{\"rateCode\":\"NMJQ7TNW84EMBGZM.JRTCKXETXF.6YS6EN2CT7\",\"price\":\"0.0040000000\",\"RegionlessRateCode\":\"LrvzzFQbTnVopVQv6QoLtGMv7Ildvy0riMRXkvOnxWc\"}",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-sl-chip-archive-unit_price-6",
+      "claim_id": "cl-sl-chip-archive-unit_price-6",
+      "verdict": "confirmed",
+      "approved_value": "90",
+      "approved_unit": "day minimum storage duration",
+      "approved_note": "S3 Glacier Instant Retrieval and S3 Glacier Flexible Retrieval. S3 Glacier Deep Archive is 180 days. Early deletion incurs a pro-rated charge for the remaining days.",
+      "source_ids": [
+        "src-aws-s3-pricing"
+      ],
+      "quote": "Objects that are archived to S3 Glacier Instant Retrieval and S3 Glacier Flexible Retrieval are charged for a minimum storage duration of 90 days, and S3 Glacier Deep Archive has a minimum storage duration of 180 days.",
+      "reason": "Quote found verbatim (whitespace-normalized) on the cited page/data file at the given locator; value and unit match the file exactly.",
+      "checked_on": "2026-09-09"
+    }
+  ],
+  "skipped_estimated": [
+    "cl-sl-parquet-object-store-scaling_history",
+    "cl-sl-parquet-object-store-engineering_effort",
+    "cl-sl-zarr-icechunk-scaling_water_bodies",
+    "cl-sl-zarr-icechunk-scaling_history",
+    "cl-sl-zarr-icechunk-engineering_effort",
+    "cl-sl-lakehouse-table-scaling_water_bodies",
+    "cl-sl-lakehouse-table-scaling_history",
+    "cl-sl-lakehouse-table-engineering_effort",
+    "cl-sl-chip-archive-scaling_history",
+    "cl-sl-chip-archive-engineering_effort"
+  ],
+  "limitations": [
+    "All AWS numeric prices were re-fetched fresh from the pricing data files named in each pricing page's own data-pricing-endpoint attribute (https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/...), and matched by rate code or RegionlessRateCode hash under the 'US East (N. Virginia)' region key, not assumed from the draft's own transcription.",
+    "The pricing data files carry no human-readable labels for most S3 Tables line items (opaque hash keys). Where the cited pricing page's static HTML text supplied a readable label next to the same hash (S3 Tables Standard storage, monitoring, compaction binpack, compaction sort/Z-order, compaction objects processed), that mapping was independently re-derived from the fetched page text rather than trusted from the draft's note.",
+    "cl-sl-lakehouse-table-format-3 note asserted default quotas (10 table buckets per account per Region, 10,000 tables per table bucket) that do not appear on the cited 'Working with Amazon S3 Tables and table buckets' page; that page only links to a separate quotas page that is not among the cited sources. Verdict corrected; see the check record's reason.",
+    "GeoParquet's two cited pages (v1.1.0 and Releases) render with an empty <title> tag in the static HTML; substance was confirmed instead against each page's <h1>, which matches the source titles recorded in the research file.",
+    "No cloud API was called and no package was installed. Every page and data file was fetched fresh with curl using a browser user agent; none required a second retry."
+  ]
+}

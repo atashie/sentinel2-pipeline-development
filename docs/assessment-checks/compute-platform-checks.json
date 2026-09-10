@@ -1,0 +1,740 @@
+{
+  "dimension": "compute_platform",
+  "checker": {
+    "agent": "compute-platform checking subagent",
+    "model": "sonnet (Claude Code subagent, requested model override)",
+    "started_at": "2026-09-09T17:15:00+00:00",
+    "finished_at": "2026-09-09T20:05:00+00:00"
+  },
+  "checks": [
+    {
+      "id": "chk-cl-cp-serverless-functions-scaling_water_bodies",
+      "claim_id": "cl-cp-serverless-functions-scaling_water_bodies",
+      "verdict": "confirmed",
+      "approved_value": "Scales automatically up to the account concurrency quota",
+      "approved_unit": null,
+      "approved_note": "Default quota is 1,000 concurrent executions per Region across all functions. The same page states the per-function concurrency scaling rate as 1,000 execution environment instances every 10 seconds. Concurrency is a per-Region account quota, so parallel scene-tile units share it.",
+      "source_ids": [
+        "src-aws-lambda-scaling"
+      ],
+      "quote": "By default, your account has a concurrency limit of 1,000 concurrent executions across all functions in a Region.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-serverless-functions-scaling_water_bodies-2",
+      "claim_id": "cl-cp-serverless-functions-scaling_water_bodies-2",
+      "verdict": "confirmed",
+      "approved_value": "One invocation runs at most 15 minutes with 10,240 MB memory",
+      "approved_unit": null,
+      "approved_note": "This bounds one unit of work, not the number of units. The same page's quota tables list /tmp directory storage between 512 MB and 10,240 MB, invocation payload 6 MB for a synchronous request and response and 1 MB for an asynchronous invocation, and a default concurrent-executions quota of 1,000 that can be increased to tens of thousands. The 90-minute figure in the quote applies only to Lambda Managed Instances functions.",
+      "source_ids": [
+        "src-aws-lambda-quotas"
+      ],
+      "quote": "Code can run for up to 15 minutes in a single invocation (up to 90 minutes for Lambda Managed Instances functions invoked asynchronously or through any event source mapping except Amazon MQ and Amazon DocumentDB) and a single function can use up to 10,240 MB of memory.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-serverless-functions-global_coverage",
+      "claim_id": "cl-cp-serverless-functions-global_coverage",
+      "verdict": "confirmed",
+      "approved_value": "AWS Lambda is a core service included in all Region launches",
+      "approved_unit": null,
+      "approved_note": "The page names AWS Lambda in the list of core services present at every new Region launch. The same page states that China Regions need a separate set of account credentials. It records no other Region restriction for Lambda.",
+      "source_ids": [
+        "src-aws-regional-services"
+      ],
+      "quote": "The following core services are included in all Region launches: Access Analyzer, Amazon API Gateway, AWS AppConfig, AWS Application Auto Scaling, Amazon Application Recovery Controller, Amazon Aurora, AWS Batch, AWS Certificate Manager (ACM), AWS Cloud Map, AWS CloudFormation, AWS CloudTrail, Amazon CloudWatch, Amazon CloudWatch Events, Amazon CloudWatch Logs, AWS Config, AWS Database Migration Service (AWS DMS), AWS Direct Connect, Amazon DynamoDB, Amazon EC2 Auto Scaling, Amazon EKS, Amazon Elastic Container Registry, Amazon Elastic Container Service, Elastic Block Store (EBS), Elastic Compute Cloud (EC2), Elastic Load Balancing (ELB), Amazon ElastiCache, Amazon EMR, Amazon EventBridge, AWS Fargate, AWS Health Dashboard, AWS Identity & Access Management (IAM), AWS Key Management Service (AWS KMS), Amazon Kinesis Streams, AWS Lambda, AWS Management Console, AWS Marketplace, Amazon OpenSearch Service, AWS PrivateLink, Amazon Redshift, Amazon Relational Database Service (Amazon RDS), Amazon Route 53, AWS Secrets Manager, AWS Security Token Service (AWS STS), Service Quotas, Amazon Simple Notification Service (Amazon SNS), Amazon Simple Queue Service (Amazon SQS), Amazon Simple Storage Service (Amazon S3), Amazon Simple Workflow Service (Amazon SWF), AWS Site-to-Site VPN, AWS Step Functions, AWS Support, AWS Systems Manager (SSM), AWS Trusted Advisor, Amazon Virtual Private Cloud (VPC), AWS X-Ray.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-serverless-functions-orchestrator_dependency",
+      "claim_id": "cl-cp-serverless-functions-orchestrator_dependency",
+      "verdict": "confirmed",
+      "approved_value": "Amazon S3 event notifications invoke the function, no scheduler named",
+      "approved_unit": null,
+      "approved_note": "The same page states that Amazon S3 invokes the function asynchronously with an event that contains details about the object. Fan-out is therefore one invocation per new object, driven by the bucket notification, with no external scheduler in the path.",
+      "source_ids": [
+        "src-aws-lambda-s3-events"
+      ],
+      "quote": "Amazon S3 can send an event to a Lambda function when an object is created or deleted.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-serverless-functions-orchestrator_dependency-2",
+      "claim_id": "cl-cp-serverless-functions-orchestrator_dependency-2",
+      "verdict": "confirmed",
+      "approved_value": "Lambda creates execution environments at 1,000 instances per 10 seconds",
+      "approved_unit": null,
+      "approved_note": "This is the documented native fan-out rate per function, per Region. The page adds that the concurrency scaling rate is a function-level limit and that each function scales independently of other functions.",
+      "source_ids": [
+        "src-aws-lambda-scaling"
+      ],
+      "quote": "In each AWS Region, and for each function, your concurrency scaling rate is 1,000 execution environment instances every 10 seconds (or 10,000 requests per second every 10 seconds).",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-serverless-functions-idempotency",
+      "claim_id": "cl-cp-serverless-functions-idempotency",
+      "verdict": "confirmed",
+      "approved_value": "No native deduplication. Function code must handle duplicate events",
+      "approved_unit": null,
+      "approved_note": "The page attributes duplicates to an eventually consistent asynchronous event queue. It also states that events can be deleted from the queue without being sent to the function, and that expired or fully failed events are discarded.",
+      "source_ids": [
+        "src-aws-lambda-async-errors"
+      ],
+      "quote": "Ensure that your function code gracefully handles duplicate events, and that you have enough concurrency available to handle all invocations.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-serverless-functions-idempotency-2",
+      "claim_id": "cl-cp-serverless-functions-idempotency-2",
+      "verdict": "confirmed",
+      "approved_value": "Asynchronous invocation retries a function error twice by default",
+      "approved_unit": null,
+      "approved_note": "Applies to asynchronous invocation, which is how Amazon S3 and Amazon SNS invoke a function. The same page states that throttling errors (429) and system errors (500-series) are returned to the queue and retried for up to 6 hours by default. A dead-letter queue or an on-failure destination captures discarded events.",
+      "source_ids": [
+        "src-aws-lambda-async-errors"
+      ],
+      "quote": "If the function returns an error, by default Lambda attempts to run it two more times, with a one-minute wait between the first two attempts, and two minutes between the second and third attempts.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-serverless-functions-unit_price",
+      "claim_id": "cl-cp-serverless-functions-unit_price",
+      "verdict": "confirmed",
+      "approved_value": "0.0000166667 per GB-second of function duration",
+      "approved_unit": "USD per GB-second",
+      "approved_note": "USD, x86 architecture, US East (N. Virginia), first duration tier. The pricing-examples section states \"All examples below are based on price in US East (N. Virginia).\" A free tier of 400,000 GB-seconds per month applies. The price table itself renders its numbers with JavaScript, so this quote comes from the worked example on the same page. Duration cost depends on the memory allocated to the function.",
+      "source_ids": [
+        "src-aws-lambda-pricing"
+      ],
+      "quote": "The monthly compute price is $0.0000166667 per GB-s and the free tier provides 400,000 GB-s.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-serverless-functions-unit_price-2",
+      "claim_id": "cl-cp-serverless-functions-unit_price-2",
+      "verdict": "confirmed",
+      "approved_value": "0.20 per one million requests",
+      "approved_unit": "USD per 1,000,000 requests",
+      "approved_note": "USD, US East (N. Virginia), same pricing-examples section as the duration price. A free tier of 1 million requests per month applies. The page states that an asynchronous event is charged as 1 request for the first 256 KB, with 1 additional request for each 64 KB beyond that, up to 1 MB.",
+      "source_ids": [
+        "src-aws-lambda-pricing"
+      ],
+      "quote": "The monthly request price is $0.20 per one million requests and the free tier provides 1 million requests per month.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-serverless-functions-unit_price-3",
+      "claim_id": "cl-cp-serverless-functions-unit_price-3",
+      "verdict": "confirmed",
+      "approved_value": "0.0000000309 per GB-second of ephemeral storage above 512 MB",
+      "approved_unit": "USD per GB-second",
+      "approved_note": "USD, US East (N. Virginia), same pricing-examples section. Charged only on ephemeral storage configured above the 512 MB that every function gets at no additional cost. Ephemeral storage is configurable between 512 MB and 10,240 MB.",
+      "source_ids": [
+        "src-aws-lambda-pricing"
+      ],
+      "quote": "The monthly ephemeral storage price is $0.0000000309 for every GB-second and Lambda provides 512 MB of storage at no additional cost.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-batch-containers-scaling_water_bodies",
+      "claim_id": "cl-cp-batch-containers-scaling_water_bodies",
+      "verdict": "confirmed",
+      "approved_value": "One array job spawns between 2 and 10,000 child jobs",
+      "approved_unit": null,
+      "approved_note": "The page states that array jobs are submitted like regular jobs and that the parent array job is a reference that manages all child jobs. The attemptDurationSeconds timeout applies to each child job. The parent array job has no timeout.",
+      "source_ids": [
+        "src-aws-batch-array-jobs"
+      ],
+      "quote": "However, you specify an array size (between 2 and 10,000) to define how many child jobs should run in the array.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-batch-containers-global_coverage",
+      "claim_id": "cl-cp-batch-containers-global_coverage",
+      "verdict": "confirmed",
+      "approved_value": "AWS Batch and AWS Fargate are core services in Region launches",
+      "approved_unit": null,
+      "approved_note": "The page names both AWS Batch and AWS Fargate in the list of core services present at every new Region launch. A footnote on the same page says the table captures AWS Fargate availability when used with Amazon ECS and points to separate documentation for Fargate with Amazon EKS.",
+      "source_ids": [
+        "src-aws-regional-services"
+      ],
+      "quote": "The following core services are included in all Region launches: Access Analyzer, Amazon API Gateway, AWS AppConfig, AWS Application Auto Scaling, Amazon Application Recovery Controller, Amazon Aurora, AWS Batch, AWS Certificate Manager (ACM), AWS Cloud Map, AWS CloudFormation, AWS CloudTrail, Amazon CloudWatch, Amazon CloudWatch Events, Amazon CloudWatch Logs, AWS Config, AWS Database Migration Service (AWS DMS), AWS Direct Connect, Amazon DynamoDB, Amazon EC2 Auto Scaling, Amazon EKS, Amazon Elastic Container Registry, Amazon Elastic Container Service, Elastic Block Store (EBS), Elastic Compute Cloud (EC2), Elastic Load Balancing (ELB), Amazon ElastiCache, Amazon EMR, Amazon EventBridge, AWS Fargate, AWS Health Dashboard, AWS Identity & Access Management (IAM), AWS Key Management Service (AWS KMS), Amazon Kinesis Streams, AWS Lambda, AWS Management Console, AWS Marketplace, Amazon OpenSearch Service, AWS PrivateLink, Amazon Redshift, Amazon Relational Database Service (Amazon RDS), Amazon Route 53, AWS Secrets Manager, AWS Security Token Service (AWS STS), Service Quotas, Amazon Simple Notification Service (Amazon SNS), Amazon Simple Queue Service (Amazon SQS), Amazon Simple Storage Service (Amazon S3), Amazon Simple Workflow Service (Amazon SWF), AWS Site-to-Site VPN, AWS Step Functions, AWS Support, AWS Systems Manager (SSM), AWS Trusted Advisor, Amazon Virtual Private Cloud (VPC), AWS X-Ray.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-batch-containers-orchestrator_dependency",
+      "claim_id": "cl-cp-batch-containers-orchestrator_dependency",
+      "verdict": "confirmed",
+      "approved_value": "Native job queues schedule jobs onto compute environments",
+      "approved_unit": null,
+      "approved_note": "The page states that an account can have several job queues and that queues carry a priority the scheduler uses to decide which jobs are evaluated first. No external scheduler is named.",
+      "source_ids": [
+        "src-aws-batch-queues"
+      ],
+      "quote": "Jobs are submitted to a job queue where they reside until they can be scheduled to run in a compute environment.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-batch-containers-orchestrator_dependency-2",
+      "claim_id": "cl-cp-batch-containers-orchestrator_dependency-2",
+      "verdict": "confirmed",
+      "approved_value": "Array jobs carry SEQUENTIAL and N_TO_N dependency types",
+      "approved_unit": null,
+      "approved_note": "This is the documented native ordering mechanism between units of work. The page describes N_TO_N as making each index child wait for the corresponding index child of each dependency.",
+      "source_ids": [
+        "src-aws-batch-array-jobs"
+      ],
+      "quote": "For array job dependencies, you can specify a type for a dependency, such as SEQUENTIAL or N_TO_N.",
+      "reason": "Quote verified on the cited page. The fetched HTML inserts a stray space before the closing period around the inline <code> element (\"N_TO_N .\" instead of \"N_TO_N.\"), a rendering artifact of the fetch, not a wording difference; the surrounding sentence and the N_TO_N dependency description are otherwise identical to the page. Value, unit, and note are supported.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-batch-containers-orchestrator_dependency-3",
+      "claim_id": "cl-cp-batch-containers-orchestrator_dependency-3",
+      "verdict": "confirmed",
+      "approved_value": "Job queues map to Fargate, EC2, and Amazon EKS compute environments",
+      "approved_unit": null,
+      "approved_note": "The page's topic list names Fargate compute environments, Amazon ECS Managed Instances compute environments, and Amazon EKS compute environments, alongside managed and unmanaged EC2 compute environments.",
+      "source_ids": [
+        "src-aws-batch-compute-env"
+      ],
+      "quote": "Job queues are mapped to one or more compute environments.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-batch-containers-idempotency",
+      "claim_id": "cl-cp-batch-containers-idempotency",
+      "verdict": "confirmed",
+      "approved_value": "Retry strategy of 1 to 10 attempts per job",
+      "approved_unit": null,
+      "approved_note": "The default is one attempt. An evaluateOnExit object can hold up to 6 retry strategies. If evaluateOnExit is set but no strategy matches, the job is retried. The AWS_BATCH_JOB_ATTEMPT environment variable carries the attempt number to the container. The page documents retry, not deduplication.",
+      "source_ids": [
+        "src-aws-batch-retries"
+      ],
+      "quote": "However, both the job definition and the job submission workflows can be used to specify a retry strategy with between 1 and 10 attempts.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-batch-containers-idempotency-2",
+      "claim_id": "cl-cp-batch-containers-idempotency-2",
+      "verdict": "confirmed",
+      "approved_value": "Cancelled, terminated, and invalid-definition jobs are not retried",
+      "approved_unit": null,
+      "approved_note": "Named failure scenarios that a retry strategy does cover are any non-zero exit code from a container job, Amazon EC2 instance failure or termination, and an internal AWS service error or outage.",
+      "source_ids": [
+        "src-aws-batch-retries"
+      ],
+      "quote": "Jobs that are cancelled or terminated aren't retried. Also, jobs that fail because of an invalid job definition aren't retried.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-batch-containers-unit_price",
+      "claim_id": "cl-cp-batch-containers-unit_price",
+      "verdict": "confirmed",
+      "approved_value": "No additional charge for AWS Batch itself",
+      "approved_unit": "USD",
+      "approved_note": "The service carries no separate fee. Cost comes from the compute environment resources. The page states that Reserved Instances, Savings Plans, EC2 Spot Instances, and Fargate can be used with AWS Batch and that discounts are applied at billing time. No Region is named because the statement is not a rate.",
+      "source_ids": [
+        "src-aws-batch-pricing"
+      ],
+      "quote": "There is no additional charge for AWS Batch. You pay for AWS resources (e.g. EC2 instances, AWS Lambda functions or AWS Fargate) you create to store and run your application.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-batch-containers-unit_price-2",
+      "claim_id": "cl-cp-batch-containers-unit_price-2",
+      "verdict": "confirmed",
+      "approved_value": "0.000011244 per vCPU second on Linux and x86 Fargate",
+      "approved_unit": "USD per vCPU-second",
+      "approved_note": "USD, US East (N. Virginia), Linux/X86, on-demand. The pricing-examples section states \"All examples below are based on price in US East (N. Virginia).\" The same sentence gives Fargate ephemeral storage at $0.0000000308 per GB per second. The rate table on the page renders its numbers with JavaScript, so this quote comes from the worked example. The Arm example on the same page gives $0.0000089944 per vCPU second.",
+      "source_ids": [
+        "src-aws-fargate-pricing"
+      ],
+      "quote": "Using the Linux/X86 pricing for US East (N. Virginia) Region where CPU cost: $0.000011244 per vCPU second, memory cost: $0.000001235 per GB per second, and ephemeral storage cost: $0.0000000308 per GB per second",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-batch-containers-unit_price-3",
+      "claim_id": "cl-cp-batch-containers-unit_price-3",
+      "verdict": "confirmed",
+      "approved_value": "0.000001235 per GB second of Fargate memory",
+      "approved_unit": "USD per GB-second",
+      "approved_note": "USD, US East (N. Virginia), Linux/X86, on-demand. Same sentence and same worked example as the vCPU rate. The Arm example on the same page gives $0.0000009889 per GB per second. A minimum charge of one minute applies to a Fargate task.",
+      "source_ids": [
+        "src-aws-fargate-pricing"
+      ],
+      "quote": "Using the Linux/X86 pricing for US East (N. Virginia) Region where CPU cost: $0.000011244 per vCPU second, memory cost: $0.000001235 per GB per second, and ephemeral storage cost: $0.0000000308 per GB per second",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-batch-containers-unit_price-4",
+      "claim_id": "cl-cp-batch-containers-unit_price-4",
+      "verdict": "confirmed",
+      "approved_value": "0.0004 per 1,000 S3 Standard GET requests",
+      "approved_unit": "USD per 1,000 requests",
+      "approved_note": "USD, US East (N. Virginia), S3 Standard storage class. Recorded for the request_price term of the cost formula in the assessment protocol. It applies to any AWS compute platform that reads objects, not to AWS Batch alone. The example that carries the rate states \"This example uses the US East (N. Virginia) Region.\" The S3 request rate table renders its numbers with JavaScript.",
+      "source_ids": [
+        "src-aws-s3-pricing"
+      ],
+      "quote": "S3 GET requests from the S3 Standard storage class cost $0.0004 per 1,000 requests.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-batch-containers-unit_price-5",
+      "claim_id": "cl-cp-batch-containers-unit_price-5",
+      "verdict": "confirmed",
+      "approved_value": "0.02 per GB transferred out from US West (Oregon) to US East (N. Virginia)",
+      "approved_unit": "USD per GB",
+      "approved_note": "USD. Recorded for the transfer_price term of the cost formula in the assessment protocol. It applies to any AWS compute platform reading a bucket in another Region. The same page's Multi-Region Access Point example states that the data transfer charge from US East (N. Virginia) to US East (Ohio) is $0.01 per GB, so the rate depends on the Region pair. Never summed or converted here.",
+      "source_ids": [
+        "src-aws-s3-pricing"
+      ],
+      "quote": "Inter-region Data Transfer OUT from US-West (Oregon) to US-East (N. Virginia) is $0.02 per GB",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-kubernetes-dask-scaling_water_bodies",
+      "claim_id": "cl-cp-kubernetes-dask-scaling_water_bodies",
+      "verdict": "confirmed",
+      "approved_value": "DaskAutoscaler scales the worker group to the wanted worker count",
+      "approved_unit": null,
+      "approved_note": "The page shows cluster.adapt(minimum=1, maximum=10) as the Python form. Worker groups are described as homogeneous and separately scalable, so different unit sizes need different groups. The autoscaler scales workers, not the Kubernetes nodes under them.",
+      "source_ids": [
+        "src-dask-kubernetes-operator"
+      ],
+      "quote": "A DaskAutoscaler resource will communicate with the scheduler periodically and auto scale the default DaskWorkerGroup to the desired number of workers.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-kubernetes-dask-global_coverage",
+      "claim_id": "cl-cp-kubernetes-dask-global_coverage",
+      "verdict": "confirmed",
+      "approved_value": "Amazon EKS is a core service included in all Region launches",
+      "approved_unit": null,
+      "approved_note": "The page names Amazon EKS in the list of core services present at every new Region launch. Dask and the Dask Kubernetes operator run on any Kubernetes cluster and carry no Region restriction of their own.",
+      "source_ids": [
+        "src-aws-regional-services"
+      ],
+      "quote": "The following core services are included in all Region launches: Access Analyzer, Amazon API Gateway, AWS AppConfig, AWS Application Auto Scaling, Amazon Application Recovery Controller, Amazon Aurora, AWS Batch, AWS Certificate Manager (ACM), AWS Cloud Map, AWS CloudFormation, AWS CloudTrail, Amazon CloudWatch, Amazon CloudWatch Events, Amazon CloudWatch Logs, AWS Config, AWS Database Migration Service (AWS DMS), AWS Direct Connect, Amazon DynamoDB, Amazon EC2 Auto Scaling, Amazon EKS, Amazon Elastic Container Registry, Amazon Elastic Container Service, Elastic Block Store (EBS), Elastic Compute Cloud (EC2), Elastic Load Balancing (ELB), Amazon ElastiCache, Amazon EMR, Amazon EventBridge, AWS Fargate, AWS Health Dashboard, AWS Identity & Access Management (IAM), AWS Key Management Service (AWS KMS), Amazon Kinesis Streams, AWS Lambda, AWS Management Console, AWS Marketplace, Amazon OpenSearch Service, AWS PrivateLink, Amazon Redshift, Amazon Relational Database Service (Amazon RDS), Amazon Route 53, AWS Secrets Manager, AWS Security Token Service (AWS STS), Service Quotas, Amazon Simple Notification Service (Amazon SNS), Amazon Simple Queue Service (Amazon SQS), Amazon Simple Storage Service (Amazon S3), Amazon Simple Workflow Service (Amazon SWF), AWS Site-to-Site VPN, AWS Step Functions, AWS Support, AWS Systems Manager (SSM), AWS Trusted Advisor, Amazon Virtual Private Cloud (VPC), AWS X-Ray.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-kubernetes-dask-orchestrator_dependency",
+      "claim_id": "cl-cp-kubernetes-dask-orchestrator_dependency",
+      "verdict": "confirmed",
+      "approved_value": "DaskJob runs one task to completion beside a cluster it removes",
+      "approved_unit": null,
+      "approved_note": "The page adds that once the job Pod runs to completion the cluster is removed automatically to save resources. The operator is a controller that watches the Kubernetes API for events on its custom resources and creates Pods and Services.",
+      "source_ids": [
+        "src-dask-kubernetes-operator"
+      ],
+      "quote": "A DaskJob is a batch style resource that creates a Pod to perform some specific task from start to finish alongside a DaskCluster that can be leveraged to perform the work.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-kubernetes-dask-orchestrator_dependency-2",
+      "claim_id": "cl-cp-kubernetes-dask-orchestrator_dependency-2",
+      "verdict": "confirmed",
+      "approved_value": "Kubernetes Job retries Pods until the required completions succeed",
+      "approved_unit": null,
+      "approved_note": "The page documents .spec.completions and .spec.parallelism for fan-out, and an Indexed completion mode that gives each Pod a completion index from 0 to .spec.completions-1, available as the JOB_COMPLETION_INDEX environment variable. Default .spec.backoffLimit is 6, with an exponential back-off delay of 10s, 20s, 40s capped at six minutes.",
+      "source_ids": [
+        "src-k8s-jobs"
+      ],
+      "quote": "A Job creates one or more Pods and will continue to retry execution of the Pods until a specified number of them successfully terminate.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-kubernetes-dask-idempotency",
+      "claim_id": "cl-cp-kubernetes-dask-idempotency",
+      "verdict": "confirmed",
+      "approved_value": "Kubernetes may start the same program twice, so tolerate duplicates",
+      "approved_unit": null,
+      "approved_note": "The page also states that pods must be tolerant of concurrency when parallelism and completions both exceed 1, and, for Indexed Jobs, that more than one Pod could be started for the same index, in which case only the first Pod to complete successfully counts.",
+      "source_ids": [
+        "src-k8s-jobs"
+      ],
+      "quote": "Note that even if you specify .spec.parallelism = 1 and .spec.completions = 1 and .spec.template.spec.restartPolicy = \"Never\", the same program may sometimes be started twice.",
+      "reason": "Quote verified on the cited page. The fetched HTML inserts a stray space before the comma around inline <code> markup (\"\\\"Never\\\" , the\" instead of \"\\\"Never\\\", the\"), a rendering artifact of the fetch, not a wording difference. Value, unit, and note are supported, including the separate statement that more than one Pod can be started for the same index.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-kubernetes-dask-idempotency-2",
+      "claim_id": "cl-cp-kubernetes-dask-idempotency-2",
+      "verdict": "confirmed",
+      "approved_value": "Dask task retries default to 0 and are set per submission",
+      "approved_unit": null,
+      "approved_note": "The retries parameter appears on Client.submit, Client.map, Client.compute, Client.persist, and Client.get. No deduplication feature is documented on this page.",
+      "source_ids": [
+        "src-dask-futures"
+      ],
+      "quote": "Number of allowed automatic retries if the task fails",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-kubernetes-dask-unit_price",
+      "claim_id": "cl-cp-kubernetes-dask-unit_price",
+      "verdict": "confirmed",
+      "approved_value": "0.10 per cluster per hour under standard Kubernetes version support",
+      "approved_unit": "USD per cluster-hour",
+      "approved_note": "USD. The page states this figure without a Region selector, so it reads as one price for all Regions. Worker node cost is separate: the page states that you also pay for the Amazon EC2 instances, Amazon EBS volumes, public IPv4 addresses, and cross-AZ traffic from nodes to the control plane. A Kubernetes version is under standard support for the first 14 months after its Amazon EKS release.",
+      "source_ids": [
+        "src-aws-eks-pricing"
+      ],
+      "quote": "You pay $0.10 per hour for each Amazon EKS cluster that you create.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-kubernetes-dask-unit_price-2",
+      "claim_id": "cl-cp-kubernetes-dask-unit_price-2",
+      "verdict": "confirmed",
+      "approved_value": "0.60 per cluster per hour under extended Kubernetes version support",
+      "approved_unit": "USD per cluster-hour",
+      "approved_note": "USD, no Region selector on the page. The page states the $0.60 rate is inclusive of the $0.10 standard rate, that extended support runs for the 12 months after standard support ends, and that a cluster can stay on one version for up to 26 months. The page also lists Provisioned Control Plane tiers from $1.65 to $13.90 per cluster per hour.",
+      "source_ids": [
+        "src-aws-eks-pricing"
+      ],
+      "quote": "You will be charged $0.60 per hour for each Amazon EKS cluster that is running on a Kubernetes version covered under extended support.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-spark-cluster-scaling_water_bodies",
+      "claim_id": "cl-cp-spark-cluster-scaling_water_bodies",
+      "verdict": "confirmed",
+      "approved_value": "EMR Serverless adds and removes workers within configured limits",
+      "approved_unit": null,
+      "approved_note": "The page states that a job specification can set the minimum and maximum number of concurrent workers, and that a worker takes 1 to 16 vCPU, 2 GB to 120 GB of memory, and 20 GB to 200 GB of standard storage, or up to 2 TB of shuffle-optimized storage.",
+      "source_ids": [
+        "src-aws-emr-pricing"
+      ],
+      "quote": "EMR automatically adds and removes workers based on what the job requires within your specified limits.",
+      "reason": "Quote verified on the cited page. Minor note imprecision: the page lists discrete per-worker vCPU choices (1, 2, 4, 8, or 16 vCPU), not a continuous 1-to-16 range; the note's phrasing is a reasonable approximation and does not change the claim's value or unit. Memory (2 GB-120 GB), standard storage (20 GB-200 GB), and shuffle-optimized storage (up to 2 TB) figures in the note are confirmed verbatim.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-spark-cluster-scaling_water_bodies-2",
+      "claim_id": "cl-cp-spark-cluster-scaling_water_bodies-2",
+      "verdict": "confirmed",
+      "approved_value": "Apache Sedona splits each GeoTIFF into tiles, one row each",
+      "approved_unit": null,
+      "approved_note": "This sets the unit of parallelism for raster work on Spark: a tile, not a water body. The same page states that Cloud Optimized GeoTIFFs are the recommended source format because they already organize pixels in square tiles, and that a multi-gigabyte GeoTIFF would yield many rows.",
+      "source_ids": [
+        "src-sedona-raster"
+      ],
+      "quote": "The raster data source loads GeoTIFFs and automatically splits each file into tiles. Every tile becomes a row in a DataFrame with a Raster-typed column.",
+      "reason": "Quote verified on the cited page. The fetched HTML inserts a stray space around a hyphen next to inline markup (\"Raster -typed\" instead of \"Raster-typed\"), a rendering artifact of the fetch, not a wording difference. Value, unit, and note are supported, including the COG tiling and multi-gigabyte-file observations elsewhere on the same page.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-spark-cluster-global_coverage",
+      "claim_id": "cl-cp-spark-cluster-global_coverage",
+      "verdict": "confirmed",
+      "approved_value": "Amazon EMR is a core service included in all Region launches",
+      "approved_unit": null,
+      "approved_note": "The page names Amazon EMR in the list of core services present at every new Region launch. It records no separate entry for EMR Serverless, so EMR Serverless Region availability is not settled by this page.",
+      "source_ids": [
+        "src-aws-regional-services"
+      ],
+      "quote": "The following core services are included in all Region launches: Access Analyzer, Amazon API Gateway, AWS AppConfig, AWS Application Auto Scaling, Amazon Application Recovery Controller, Amazon Aurora, AWS Batch, AWS Certificate Manager (ACM), AWS Cloud Map, AWS CloudFormation, AWS CloudTrail, Amazon CloudWatch, Amazon CloudWatch Events, Amazon CloudWatch Logs, AWS Config, AWS Database Migration Service (AWS DMS), AWS Direct Connect, Amazon DynamoDB, Amazon EC2 Auto Scaling, Amazon EKS, Amazon Elastic Container Registry, Amazon Elastic Container Service, Elastic Block Store (EBS), Elastic Compute Cloud (EC2), Elastic Load Balancing (ELB), Amazon ElastiCache, Amazon EMR, Amazon EventBridge, AWS Fargate, AWS Health Dashboard, AWS Identity & Access Management (IAM), AWS Key Management Service (AWS KMS), Amazon Kinesis Streams, AWS Lambda, AWS Management Console, AWS Marketplace, Amazon OpenSearch Service, AWS PrivateLink, Amazon Redshift, Amazon Relational Database Service (Amazon RDS), Amazon Route 53, AWS Secrets Manager, AWS Security Token Service (AWS STS), Service Quotas, Amazon Simple Notification Service (Amazon SNS), Amazon Simple Queue Service (Amazon SQS), Amazon Simple Storage Service (Amazon S3), Amazon Simple Workflow Service (Amazon SWF), AWS Site-to-Site VPN, AWS Step Functions, AWS Support, AWS Systems Manager (SSM), AWS Trusted Advisor, Amazon Virtual Private Cloud (VPC), AWS X-Ray.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-spark-cluster-orchestrator_dependency",
+      "claim_id": "cl-cp-spark-cluster-orchestrator_dependency",
+      "verdict": "confirmed",
+      "approved_value": "Jobs are submitted to an EMR Serverless application, no scheduler named",
+      "approved_unit": null,
+      "approved_note": "The page frames the application as the long-lived object and the job as the unit of submission. Fan-out inside a job is Spark's own partitioning across workers.",
+      "source_ids": [
+        "src-aws-emr-pricing"
+      ],
+      "quote": "With EMR Serverless, you create an application using an open-source framework version and then submit jobs to the application.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-spark-cluster-idempotency",
+      "claim_id": "cl-cp-spark-cluster-idempotency",
+      "verdict": "confirmed",
+      "approved_value": "Spark retries a task up to spark.task.maxFailures, default 4",
+      "approved_unit": null,
+      "approved_note": "The configuration table gives spark.task.maxFailures a default of 4. The page adds that the total number of failures spread across different tasks does not fail the job. The page documents task-level retry, not deduplication of outputs.",
+      "source_ids": [
+        "src-spark-configuration"
+      ],
+      "quote": "Number of continuous failures of any particular task before giving up on the job.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-spark-cluster-unit_price",
+      "claim_id": "cl-cp-spark-cluster-unit_price",
+      "verdict": "confirmed",
+      "approved_value": "0.105 per hour Amazon EMR charge for one c4.2xlarge instance",
+      "approved_unit": "USD per instance-hour",
+      "approved_note": "USD, US East (N. Virginia), on-demand. The example is headed \"Pricing based on US-East-1 pricing.\" This is the Amazon EMR uplift only. The page states the Amazon EMR price is added to the Amazon EC2 price and the Amazon EBS price, all billed per second with a one-minute minimum. The Amazon EMR on EKS example on the same page gives an uplift of $0.01012 per vCPU-hour and $0.00111125 per GB-hour.",
+      "source_ids": [
+        "src-aws-emr-pricing"
+      ],
+      "quote": "EMR charges = 1 instance x 0.105 USD hourly x (100 / 100 utilized/month) x 730 hours in a month = 76.65 USD (EMR master node cost)",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-spark-cluster-unit_price-2",
+      "claim_id": "cl-cp-spark-cluster-unit_price-2",
+      "verdict": "confirmed",
+      "approved_value": "0.398 per hour on-demand for one c4.2xlarge EC2 instance",
+      "approved_unit": "USD per instance-hour",
+      "approved_note": "USD, US East (N. Virginia), on-demand. Taken from the same Amazon EMR worked example, which is headed \"Pricing based on US-East-1 pricing.\" Recorded as the compute_price term for a representative instance type. The Amazon EC2 On-Demand pricing page renders its instance table with JavaScript and returned no rates to a plain fetch, so this Amazon EMR example is the primary page used.",
+      "source_ids": [
+        "src-aws-emr-pricing"
+      ],
+      "quote": "EC2 charges = 1 instance x 0.398 USD hourly x 730 hours in a month = 290.54 USD (EC2 master node cost)",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-spark-cluster-unit_price-3",
+      "claim_id": "cl-cp-spark-cluster-unit_price-3",
+      "verdict": "confirmed",
+      "approved_value": "0.052624 per vCPU-hour on EMR Serverless",
+      "approved_unit": "USD per vCPU-hour",
+      "approved_note": "USD. The Example 3 block does not name a Region, unlike Examples 1 and 2 on the same page, so the Region behind this rate is not settled. Billing is per second with a one-minute minimum, measured from the start of the image download until the workers stop.",
+      "source_ids": [
+        "src-aws-emr-pricing"
+      ],
+      "quote": "Total vCPU-hours cost = (100 * $0.052624 * 0.5) + (200 * $0.052624* 0.25) = (number of vCPU * per vCPU-hours rate * job runtime in hour) = $5.2624",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-spark-cluster-unit_price-4",
+      "claim_id": "cl-cp-spark-cluster-unit_price-4",
+      "verdict": "confirmed",
+      "approved_value": "0.0057785 per GB-hour of EMR Serverless memory",
+      "approved_unit": "USD per GB-hour",
+      "approved_note": "USD. Same Example 3 block, which names no Region. Memory is billed on the amount configured for the workers, not the amount used. Intermediate data operations incur no storage charge with serverless storage for EMR Serverless.",
+      "source_ids": [
+        "src-aws-emr-pricing"
+      ],
+      "quote": "Total GB-hours = (750 * $0.0057785 * 0.5) + (1500 * $0.0057785 * 0.25) = (Total GB of memory configured * per GB-hours rate * job runtime in hour) = $4.333875",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-provider-compute-scaling_water_bodies",
+      "claim_id": "cl-cp-provider-compute-scaling_water_bodies",
+      "verdict": "confirmed",
+      "approved_value": "openEO is tested up to 100 by 100 km at 10 m resolution",
+      "approved_unit": null,
+      "approved_note": "The page calls this a rule of thumb and says larger extents may work. It warns that temporal extent also has a significant impact and that large-area jobs can produce outputs of multiple gigabytes. Job resources can be increased.",
+      "source_ids": [
+        "src-cdse-openeo"
+      ],
+      "quote": "As a rule of thumb, openEO is tested up to areas of 100x100km at 10m resolution.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-provider-compute-scaling_water_bodies-2",
+      "claim_id": "cl-cp-provider-compute-scaling_water_bodies-2",
+      "verdict": "confirmed",
+      "approved_value": "CDSE free tier allows two concurrent openEO batch jobs",
+      "approved_unit": null,
+      "approved_note": "The same section limits synchronous requests to 2 concurrent requests. The page says the limits exist to stop one user overloading the service and invites a support request if they block a use case. The Quotas page lists 2 concurrent API requests for the openEO API for Copernicus General Users.",
+      "source_ids": [
+        "src-cdse-openeo"
+      ],
+      "quote": "Batch jobs are limited to 2 concurrent jobs",
+      "reason": "Quote verified on the cited openEO page, including the 2-concurrent-jobs and 2-concurrent-requests limits and the anti-overload rationale. The note's final sentence about the CDSE Quotas page (src-cdse-quotas) refers to a source not listed in this claim's source_ids and was not independently fetched for this check; it does not affect the value, unit, or note drawn from the cited source.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-provider-compute-global_coverage",
+      "claim_id": "cl-cp-provider-compute-global_coverage",
+      "verdict": "confirmed",
+      "approved_value": "Sentinel Hub APIs run in two deployments, EU-Central-1 and US-West-2",
+      "approved_unit": null,
+      "approved_note": "The deployment table on the page marks the BatchV2 API available in both deployments and marks Batch Statistical API and Third Party Data Import API available only in EU-Central-1. The page carries a banner saying these docs are moving to docs.planet.com and will no longer be accessible.",
+      "source_ids": [
+        "src-sentinel-hub-overview"
+      ],
+      "quote": "Metadata service for the EU-Central-1 deployment is global. This means that the endpoint US-West-2 queries this endpoint to obtain results.",
+      "reason": "Quote verified verbatim on the cited page. The quote itself names both EU-Central-1 and US-West-2, and the page's full deployment table (Service / EU-Central-1 / US-West-2, with BatchV2 API checked in both columns and Batch Statistical API and Third Party Data Import API checked only in EU-Central-1) directly confirms the two-deployment claim and the note. The page's migration banner to docs.planet.com is also present as described in the note.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-provider-compute-global_coverage-2",
+      "claim_id": "cl-cp-provider-compute-global_coverage-2",
+      "verdict": "confirmed",
+      "approved_value": "Earth Engine imagery is offered for global-scale data processing",
+      "approved_unit": null,
+      "approved_note": "The statement covers the hosted archive, not a list of compute Regions. The page names no Region restriction on Earth Engine compute. It states that Earth Engine hosts satellite imagery in a public data archive going back more than forty years.",
+      "source_ids": [
+        "src-gee-pricing"
+      ],
+      "quote": "The images, ingested on a daily basis, are then made available for global-scale data processing.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-provider-compute-orchestrator_dependency",
+      "claim_id": "cl-cp-provider-compute-orchestrator_dependency",
+      "verdict": "confirmed",
+      "approved_value": "Sentinel Hub BatchV2 is an asynchronous service writing to your bucket",
+      "approved_unit": null,
+      "approved_note": "The page documents task statuses CREATED, ANALYSING, ANALYSIS_DONE, PROCESSING, DONE, FAILED, and STOPPED, and user actions ANALYSE, START, and STOP. The service divides the area of interest into tiles from a predefined tiling grid and processes each tile separately. No external scheduler is named.",
+      "source_ids": [
+        "src-sentinel-hub-batchv2"
+      ],
+      "quote": "It is an asynchronous REST service, meaning data won't be returned immediately but delivered to your specified object storage instead.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-provider-compute-orchestrator_dependency-2",
+      "claim_id": "cl-cp-provider-compute-orchestrator_dependency-2",
+      "verdict": "confirmed",
+      "approved_value": "Earth Engine batch computations run asynchronously and export results",
+      "approved_unit": null,
+      "approved_note": "The page names two processing environments, Online and Batch, and prices both per EECU-hour. It states that batch export tasks have a concurrency limit per billing account that is subject to availability.",
+      "source_ids": [
+        "src-gee-pricing"
+      ],
+      "quote": "Batch: run computations asynchronously and output results for later access (in Google Cloud Storage, the Earth Engine asset store, etc.).",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-provider-compute-idempotency",
+      "claim_id": "cl-cp-provider-compute-idempotency",
+      "verdict": "confirmed",
+      "approved_value": "BatchV2 records per-feature status in an execution database",
+      "approved_unit": null,
+      "approved_note": "The database is named execution-<requestId>.sqlite in the root output folder of the user's bucket and carries a delivered flag that is True when the output reached the delivery bucket. The page does not state whether restarting a task reprocesses features already marked DONE, so it does not settle deduplication.",
+      "source_ids": [
+        "src-sentinel-hub-batchv2"
+      ],
+      "quote": "The database contains the name and status of each feature. The database is updated periodically during the execution of the task.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-provider-compute-unit_price",
+      "claim_id": "cl-cp-provider-compute-unit_price",
+      "verdict": "confirmed",
+      "approved_value": "0.40 per EECU-hour for the first 10,000 hours per month",
+      "approved_unit": "USD per EECU-hour",
+      "approved_note": "USD. Same rate for Online and Batch compute. The tier is 0 hour to 10,000 hour per month per account, then $0.28 and then $0.16 per hour at the higher tiers. The page states one EECU-hour is an online or batch managed worker executing customer tasks for one hour, and that EECU-seconds do not correspond directly to CPU-seconds. Prices in other currencies come from the Cloud Platform SKUs page.",
+      "source_ids": [
+        "src-gee-pricing"
+      ],
+      "quote": "$0.40 / 1 hour, per 1 month / account",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-provider-compute-unit_price-2",
+      "claim_id": "cl-cp-provider-compute-unit_price-2",
+      "verdict": "confirmed",
+      "approved_value": "500 per month platform fee on the Earth Engine Basic plan",
+      "approved_unit": "USD per month",
+      "approved_note": "USD. The Basic plan row lists 100 batch EECU-hours, 33 online EECU-hours, 100 GB of Earth Engine Cloud storage, 20 concurrent high-volume API requests per project, and up to 8 concurrent batch export tasks per billing account, with no SLA. The Professional plan fee on the same table is $2000 per month.",
+      "source_ids": [
+        "src-gee-pricing"
+      ],
+      "quote": "$500 per month",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-provider-compute-unit_price-3",
+      "claim_id": "cl-cp-provider-compute-unit_price-3",
+      "verdict": "confirmed",
+      "approved_value": "10,000 free openEO credits per month for a Copernicus General user",
+      "approved_unit": "credits per month",
+      "approved_note": "Credits, not currency. The page gives no euro or dollar value for a credit and points to CREODIAS for purchased packages. Collaborative Ground Segment and Copernicus Service users receive 20,000 credits per month. Footnote 1 calls the 10,000 figure a boost announced on 3 September 2024. Free tier credits are not refundable.",
+      "source_ids": [
+        "src-cdse-openeo-credits"
+      ],
+      "quote": "A Copernicus General user** receives 10,000(¹) free openEO credits automatically on the first of every month to explore and start using the openEO API.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-provider-compute-unit_price-4",
+      "claim_id": "cl-cp-provider-compute-unit_price-4",
+      "verdict": "confirmed",
+      "approved_value": "7 credits per openEO synchronous request",
+      "approved_unit": "credits per request",
+      "approved_note": "Credits, not currency. The page lists credit drivers as CPU seconds, memory GB-seconds, storage GB-days, data access to specific layers, and third-party added-value costs. It states the conversion factor from resource usage to credits is subject to change because the backend determines it.",
+      "source_ids": [
+        "src-cdse-openeo-credits"
+      ],
+      "quote": "Usage of synchronous requests, which currently have a fixed cost of 7 credits per request.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-cp-provider-compute-unit_price-5",
+      "claim_id": "cl-cp-provider-compute-unit_price-5",
+      "verdict": "confirmed",
+      "approved_value": "2 credits fixed startup and storage cost per openEO batch job",
+      "approved_unit": "credits per batch job",
+      "approved_note": "Credits, not currency. The worked example on the page charges a 10-hectare Sentinel-2 job 3.9 credits for 3.64 GB-hours, 2.3 credits for 1.4 CPU-hours, and 2 credits fixed, totalling 8.2 credits, with conversion factors dated March 2026.",
+      "source_ids": [
+        "src-cdse-openeo-credits"
+      ],
+      "quote": "Startup & storage cost of batch jobs is currently two credits.",
+      "reason": "Quote verified verbatim on the cited page (fetched by curl with a browser user agent on 2026-09-09). Value, unit, and note are supported by the page content. Source URL is HTTPS and the page title matches the cited source title in substance.",
+      "checked_on": "2026-09-09"
+    }
+  ],
+  "skipped_estimated": [
+    "cl-cp-serverless-functions-engineering_effort",
+    "cl-cp-batch-containers-engineering_effort",
+    "cl-cp-kubernetes-dask-engineering_effort",
+    "cl-cp-spark-cluster-engineering_effort",
+    "cl-cp-provider-compute-engineering_effort"
+  ],
+  "limitations": [
+    "Every cited page was fetched fresh over HTTPS with curl using a browser user agent on 2026-09-09; none of the 25 pages cited by documented claims required a second retry, and none returned JavaScript placeholder tokens for the specific worked examples the draft quoted.",
+    "Two sources listed in the research file, src-cdse-quotas and src-rasterframes, are not cited by any documented claim's source_ids (they appear only in candidate_notes observations) and were not fetched for this check, which covers documented claims only.",
+    "HTML-to-text extraction for this check replaces tags with spaces, which occasionally inserts a stray space around inline <code> or <em> elements at a hyphen or before a comma/period. Three quotes (cl-cp-batch-containers-orchestrator_dependency-2, cl-cp-kubernetes-dask-idempotency, cl-cp-spark-cluster-scaling_water_bodies-2) needed punctuation-aware whitespace normalization to match for this reason; each was manually inspected in context on the source page and confirmed as a rendering artifact, not a wording difference.",
+    "Verification covered each claim's quote, value, unit, and the specific factual assertions in its note. It did not re-verify every sentence in candidate_notes, not_assessed, or the draft's own limitations section, since those are not claim records under the check schema.",
+    "No cloud API was called, no package was installed, and no page requiring an authenticated session or a JavaScript-executing browser was used, consistent with the documentation-and-pricing-pages-only bound on this check.",
+    "Checks were not performed for claims with proposed_status 'estimated'; their IDs are listed in skipped_estimated for the parent to review."
+  ]
+}

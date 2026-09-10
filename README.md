@@ -1,7 +1,9 @@
 # Sentinel-2 ingestion options for water-quality modeling
 
-**Current phase on 2026-09-09: repository initialized. Discovery is the next step and awaits owner review.**
-[Decision 0001](docs/decisions/0001-scope-and-sequence.md) records scope and sequence. Nothing is selected.
+**Current phase on 2026-09-10: discovery accepted. Next is a data gap survey, then prototyping.**
+[Decision 0002](docs/decisions/0002-aws-source-pixel-classes-tile-provenance.md) fixes three pixel classes per water body and a tile provenance marker. [Decision 0003](docs/decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) selects Earth Search as the route and the 2021 scenario first. Workflow, platform, and layout remain open. **Cross-tile mosaicking is a MAJOR CONCERN under investigation, issue I-30.**
+
+**Assessment ready for review:** open [docs/s2-options.html](docs/s2-options.html) in a browser. The Discovery tab opens with the issue register. Then come one table per dimension, expandable candidate cards with claims, sources, and check verdicts, findings, and combinations. The [discovery review](docs/reviews/2026-09-10-discovery.md) records verification, its limits, and the proposed next step.
 
 This repository assesses how to ingest Sentinel-2 surface reflectance from public AWS repositories into an
 internal store that serves per-water-body pixel values to a water-quality modeling project. The company runs
@@ -13,12 +15,13 @@ pixel that a water-body mask covers, records when each scene became visible loca
 provider at query time. It serves no derived water-quality index. Modeling, validation against field data,
 and the join with weather features are separate projects.
 
-The deliverable is an assessment, not a production system. It compares access routes, processing workflows,
-compute platforms, and storage layouts. It prototypes the leading options on public water-body polygons. It
+The deliverable is an assessment, not a production system. It registers the issues of ingesting and processing
+Sentinel-2 from the AWS buckets and compares processing workflows, compute platforms, and storage layouts.
+Non-AWS options are documented for context only. It prototypes the leading options on public water-body polygons. It
 measures cost at 1,000 and 10,000 water bodies for 2017-onward and 2021-onward histories. It ends in technical
 specifications for the engineering team, who build the system.
 
-**Status:** no code, no measurements, no selected option. [docs/work-plan.md](docs/work-plan.md) lists the
+**Status:** no prototype code, no measurements, no selected option. [docs/work-plan.md](docs/work-plan.md) lists the
 steps. [docs/assumptions.md](docs/assumptions.md) lists what is assumed and where each assumption came from.
 
 ## Quick start

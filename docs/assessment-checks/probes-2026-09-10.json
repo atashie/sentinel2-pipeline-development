@@ -1,0 +1,90 @@
+{
+  "recorded_on": "2026-09-10",
+  "recorded_by": "Claude Code parent agent. Catalog metadata and HTTP HEAD requests only. No imagery bytes were transferred. Not independently checked.",
+  "probes": [
+    {
+      "id": "PR-01",
+      "question": "Which Earth Search collections hold Level-2A items for June 2017 over a southeastern US box?",
+      "method": "GET STAC search, bbox -84,30,-80,34, datetime 2017-06-01 to 2017-06-30, limit 1, one request per collection",
+      "endpoints": [
+        "https://earth-search.aws.element84.com/v1/search?collections=sentinel-2-c1-l2a&bbox=-84,30,-80,34&datetime=2017-06-01T00:00:00Z/2017-06-30T23:59:59Z&limit=1",
+        "https://earth-search.aws.element84.com/v1/search?collections=sentinel-2-pre-c1-l2a&bbox=-84,30,-80,34&datetime=2017-06-01T00:00:00Z/2017-06-30T23:59:59Z&limit=1",
+        "https://earth-search.aws.element84.com/v1/search?collections=sentinel-2-l2a&bbox=-84,30,-80,34&datetime=2017-06-01T00:00:00Z/2017-06-30T23:59:59Z&limit=1",
+        "https://earth-search.aws.element84.com/v1/search?collections=sentinel-2-l1c&bbox=-84,30,-80,34&datetime=2017-06-01T00:00:00Z/2017-06-30T23:59:59Z&limit=1"
+      ],
+      "result": {
+        "sentinel-2-c1-l2a": {
+          "numberMatched": 0
+        },
+        "sentinel-2-pre-c1-l2a": {
+          "numberMatched": 0
+        },
+        "sentinel-2-l2a": {
+          "numberMatched": 24,
+          "first_item": "S2A_16SGB_20170624_0_L2A",
+          "s2:processing_baseline": "00.01"
+        },
+        "sentinel-2-l1c": {
+          "numberMatched": 26,
+          "first_item": "S2A_17SKR_20170624_0_L1C",
+          "s2:processing_baseline": "02.05"
+        }
+      },
+      "limits": "One month, one box. Says nothing about other regions or months."
+    },
+    {
+      "id": "PR-02",
+      "question": "Does the Earth Search Collection 1 collection hold items in the gap periods its README named as of April 2024?",
+      "method": "GET STAC search on sentinel-2-c1-l2a, same box, June 2019 and June 2022, limit 1",
+      "endpoints": [
+        "https://earth-search.aws.element84.com/v1/search?collections=sentinel-2-c1-l2a&bbox=-84,30,-80,34&datetime=2019-06-01T00:00:00Z/2019-06-30T23:59:59Z&limit=1",
+        "https://earth-search.aws.element84.com/v1/search?collections=sentinel-2-c1-l2a&bbox=-84,30,-80,34&datetime=2022-06-01T00:00:00Z/2022-06-30T23:59:59Z&limit=1"
+      ],
+      "result": {
+        "2019-06": {
+          "numberMatched": 246,
+          "first_item": "S2B_T16SGB_20190629T162627_L2A",
+          "s2:processing_baseline": "05.00"
+        },
+        "2022-06": {
+          "numberMatched": 0
+        }
+      },
+      "limits": "One month per period, one box. The 2019 gap named in April 2024 is filled for this sample. The 2022 gap persists for this sample."
+    },
+    {
+      "id": "PR-03",
+      "question": "What temporal extent and description do the three Earth Search Level-2A collections declare?",
+      "method": "GET collection metadata",
+      "endpoints": [
+        "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a",
+        "https://earth-search.aws.element84.com/v1/collections/sentinel-2-pre-c1-l2a",
+        "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a"
+      ],
+      "result": {
+        "all_three_start": "2015-06-27T10:25:31.456000Z",
+        "end": null,
+        "sentinel-2-pre-c1-l2a_description": "Sentinel-2 Pre-Collection 1 Level-2A (baseline < 05.00), with data and metadata matching collection sentinel-2-c1-l2a"
+      },
+      "limits": "A declared extent is not archive completeness. PR-01 shows an empty month inside the declared extent."
+    },
+    {
+      "id": "PR-04",
+      "question": "Do the Sinergise buckets answer unsigned requests, which requester-pays buckets refuse?",
+      "method": "HTTP HEAD without credentials on one metadata object and one imagery object per bucket. Headers only. No bytes transferred.",
+      "endpoints": [
+        "https://sentinel-s2-l2a.s3.eu-central-1.amazonaws.com/tiles/15/R/TN/2026/9/9/0/tileInfo.json",
+        "https://sentinel-s2-l1c.s3.eu-central-1.amazonaws.com/tiles/15/R/TN/2026/9/9/0/tileInfo.json",
+        "https://sentinel-s2-l2a.s3.eu-central-1.amazonaws.com/tiles/15/R/TN/2026/9/9/0/R20m/SCL.jp2",
+        "https://sentinel-s2-l1c.s3.eu-central-1.amazonaws.com/tiles/15/R/TN/2026/9/9/0/B04.jp2"
+      ],
+      "result": {
+        "l2a_tileInfo.json": "HTTP/1.1 200 OK",
+        "l1c_tileInfo.json": "HTTP/1.1 200 OK",
+        "l2a_SCL.jp2": "HTTP/1.1 200 OK",
+        "l1c_B04.jp2": "HTTP/1.1 200 OK"
+      },
+      "limits": "One object of each kind on one date. A 200 to an unsigned HEAD means the object is anonymously readable at that moment. It does not establish a policy for every prefix or date."
+    }
+  ]
+}

@@ -1,0 +1,2026 @@
+{
+  "dimension": "access_route",
+  "researcher": {
+    "agent": "access-route research subagent",
+    "model": "opus (Claude Code subagent, requested model override)",
+    "started_at": "2026-09-09T20:35:00-04:00",
+    "finished_at": "2026-09-09T22:05:00-04:00"
+  },
+  "endpoints_queried": [
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections",
+      "purpose": "List Earth Search STAC collections and their titles, licenses, and temporal extents",
+      "accessed_on": "2026-09-09",
+      "returned": "JSON with 9 collections, including sentinel-2-l1c, sentinel-2-l2a, sentinel-2-c1-l2a, and sentinel-2-pre-c1-l2a"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a",
+      "purpose": "Read the Collection 1 Level-2A collection record, item_assets, and providers",
+      "accessed_on": "2026-09-09",
+      "returned": "JSON collection with 23 item_assets including scl, cloud, snow, and temporal start 2015-06-27T10:25:31.456000Z"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/search?collections=sentinel-2-c1-l2a&bbox=-95.5,29.5,-95.0,30.0&limit=1",
+      "purpose": "Inspect one Collection 1 item for asset keys, raster:bands scale and offset, baseline, and storage properties",
+      "accessed_on": "2026-09-09",
+      "returned": "One item S2B_T15RTN_20260909T170118_L2A, baseline 05.12, storage:region us-west-2, storage:requester_pays false, red asset scale 0.0001 offset -0.1"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/search?collections=sentinel-2-l2a&bbox=-95.5,29.5,-95.0,30.0&limit=1",
+      "purpose": "Inspect one sentinel-2-l2a item for COG and JPEG 2000 asset sets and offset metadata",
+      "accessed_on": "2026-09-09",
+      "returned": "One item S2B_15RTN_20260909_0_L2A with COG assets on sentinel-cogs and -jp2 assets on s3://sentinel-s2-l2a, red asset scale 0.0001 offset -0.1"
+    },
+    {
+      "url": "https://stac.dataspace.copernicus.eu/v1/collections/sentinel-2-l2a",
+      "purpose": "Read the CDSE STAC Sentinel-2 Level-2A collection record, item_assets, storage schemes, and license link",
+      "accessed_on": "2026-09-09",
+      "returned": "JSON collection, license other, temporal start 2015-06-27T10:25:31Z, item_assets typed image/jp2 with raster:scale 0.0001 and raster:offset -0.1, storage schemes cdse-s3 and creodias-s3"
+    },
+    {
+      "url": "https://stac.dataspace.copernicus.eu/v1/search?collections=sentinel-2-l2a&bbox=-95.5,29.5,-95.0,30.0&limit=1",
+      "purpose": "Inspect one CDSE item for asset keys, timeliness, and S3 hrefs",
+      "accessed_on": "2026-09-09",
+      "returned": "One item S2B_MSIL2A_20260909T164849_N0512_R026_T15RUP_20260909T204234 with CLD, SNW, SCL, AOT, WVP assets, product:timeliness PT24H, s3://eodata hrefs"
+    },
+    {
+      "url": "https://stac.dataspace.copernicus.eu/v1/collections",
+      "purpose": "Check how many collections the CDSE STAC API exposes",
+      "accessed_on": "2026-09-09",
+      "returned": "JSON page of 10 collections with numberMatched 419"
+    },
+    {
+      "url": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-2-l2a",
+      "purpose": "Read the Planetary Computer Sentinel-2 Level-2A collection record, storage account, region, item_assets, and license link",
+      "accessed_on": "2026-09-09",
+      "returned": "JSON collection, msft:region westeurope, msft:storage_account sentinel2l2a01, item_assets AOT B01-B12 SCL WVP visual and metadata, license link to Copernicus Sentinel data terms"
+    },
+    {
+      "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search?collections=sentinel-2-l2a&bbox=-95.5,29.5,-95.0,30.0&limit=1",
+      "purpose": "Inspect one Planetary Computer item for asset hrefs and any scale or offset metadata",
+      "accessed_on": "2026-09-09",
+      "returned": "One item S2B_MSIL2A_20260909T164849_R026_T15RUP_20260909T204234, blob.core.windows.net COG hrefs, baseline 05.12, no raster:bands scale or offset on any asset"
+    },
+    {
+      "url": "https://planetarycomputer.microsoft.com/api/stac/v1/collections",
+      "purpose": "Check which Sentinel collections the Planetary Computer catalog lists",
+      "accessed_on": "2026-09-09",
+      "returned": "JSON with 136 collections, one Sentinel-2 collection (sentinel-2-l2a), all msft:region westeurope"
+    },
+    {
+      "url": "https://planetarycomputer.microsoft.com/api/sas/v1/openapi.json",
+      "purpose": "Confirm the Data Authentication API token and sign endpoints",
+      "accessed_on": "2026-09-09",
+      "returned": "OpenAPI 3.1.0 document for the Planetary Computer Data Authentication API with /token/{collection_id} and /sign paths"
+    },
+    {
+      "url": "https://cmr.earthdata.nasa.gov/stac/LPCLOUD/collections/HLSS30_2.0",
+      "purpose": "Read the CMR-STAC collection record for HLSS30 v2.0, its license and temporal extent",
+      "accessed_on": "2026-09-09",
+      "returned": "JSON collection, license CC0-1.0, temporal start 2015-11-28T00:00:00.000Z, global bbox"
+    },
+    {
+      "url": "https://cmr.earthdata.nasa.gov/stac/LPCLOUD/search?collections=HLSS30_2.0&bbox=-95.5,29.5,-95.0,30.0&limit=1",
+      "purpose": "Inspect one HLSS30 item for asset hrefs, bucket, and region",
+      "accessed_on": "2026-09-09",
+      "returned": "One item HLS.S30.T15RUN.2015338T170702.v2.0 with HTTPS and s3:// assets for B01-B12, Fmask, SAA, SZA, VAA, VZA and storage:schemes bucket lp-prod-protected region us-west-2"
+    },
+    {
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/eu-central-1/index.json",
+      "purpose": "Read the published Amazon S3 request prices for eu-central-1, the region of the Sentinel-2 requester-pays buckets",
+      "accessed_on": "2026-09-09",
+      "returned": "AWS price list offer file version 20260831092225 with SKU TUSXZSTYY6YJH244 priced at $0.0043 per 10,000 GET and all other requests"
+    },
+    {
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AWSDataTransfer/current/eu-central-1/index.json",
+      "purpose": "Read the published inter-region data transfer prices out of eu-central-1",
+      "accessed_on": "2026-09-09",
+      "returned": "AWS price list offer file version 20260831121448 with $0.02 per GB from EU (Germany) to US West (Oregon) and to US East (Northern Virginia)"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-earth-search-collections",
+      "url": "https://earth-search.aws.element84.com/v1/collections",
+      "title": "Earth Search STAC API collections listing",
+      "publisher": "Element 84",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-earth-search-c1-item",
+      "url": "https://earth-search.aws.element84.com/v1/search?collections=sentinel-2-c1-l2a&bbox=-95.5,29.5,-95.0,30.0&limit=1",
+      "title": "Earth Search STAC search, sentinel-2-c1-l2a, one item",
+      "publisher": "Element 84",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-earth-search-l2a-item",
+      "url": "https://earth-search.aws.element84.com/v1/search?collections=sentinel-2-l2a&bbox=-95.5,29.5,-95.0,30.0&limit=1",
+      "title": "Earth Search STAC search, sentinel-2-l2a, one item",
+      "publisher": "Element 84",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-e84-earth-search-readme",
+      "url": "https://github.com/Element84/earth-search/blob/main/README.md",
+      "title": "Earth Search STAC API README",
+      "publisher": "Element 84",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-aws-registry-s2-cogs",
+      "url": "https://registry.opendata.aws/sentinel-2-l2a-cogs/",
+      "title": "Sentinel-2 Cloud-Optimized GeoTIFFs, Registry of Open Data on AWS",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-aws-registry-s2",
+      "url": "https://registry.opendata.aws/sentinel-2/",
+      "title": "Sentinel-2, Registry of Open Data on AWS",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-aws-open-data-sponsorship",
+      "url": "https://aws.amazon.com/opendata/open-data-sponsorship-program/",
+      "title": "Open Data Sponsorship Program",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-roda-s2-l2a",
+      "url": "https://roda.sentinel-hub.com/sentinel-s2-l2a/readme.html",
+      "title": "Sentinel-2 L2A dataset",
+      "publisher": "Sinergise",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-roda-s2-l1c",
+      "url": "https://roda.sentinel-hub.com/sentinel-s2-l1c/readme.html",
+      "title": "Sentinel-2 L1C dataset",
+      "publisher": "Sinergise",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-aws-requester-pays-guide",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html",
+      "title": "Using Requester Pays general purpose buckets for storage transfers and usage",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-aws-price-s3-euc1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/eu-central-1/index.json",
+      "title": "AWS Price List offer file, Amazon S3, eu-central-1",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-09-09",
+      "page_updated": "2026-08-31"
+    },
+    {
+      "id": "src-aws-price-dt-euc1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AWSDataTransfer/current/eu-central-1/index.json",
+      "title": "AWS Price List offer file, AWS Data Transfer, eu-central-1",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-09-09",
+      "page_updated": "2026-08-31"
+    },
+    {
+      "id": "src-cdse-s2",
+      "url": "https://documentation.dataspace.copernicus.eu/Data/SentinelMissions/Sentinel2.html",
+      "title": "Sentinel-2, Copernicus Data Space Ecosystem documentation",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-cdse-s3",
+      "url": "https://documentation.dataspace.copernicus.eu/APIs/S3.html",
+      "title": "S3 Access, Copernicus Data Space Ecosystem documentation",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-cdse-quotas",
+      "url": "https://documentation.dataspace.copernicus.eu/Quotas.html",
+      "title": "Quotas and Limitations, Copernicus Data Space Ecosystem documentation",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-cdse-stac-doc",
+      "url": "https://documentation.dataspace.copernicus.eu/APIs/STAC.html",
+      "title": "STAC product catalogue, Copernicus Data Space Ecosystem documentation",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-cdse-stac-collection",
+      "url": "https://stac.dataspace.copernicus.eu/v1/collections/sentinel-2-l2a",
+      "title": "CDSE STAC collection sentinel-2-l2a",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-cdse-stac-item",
+      "url": "https://stac.dataspace.copernicus.eu/v1/search?collections=sentinel-2-l2a&bbox=-95.5,29.5,-95.0,30.0&limit=1",
+      "title": "CDSE STAC search, sentinel-2-l2a, one item",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-cdse-terms",
+      "url": "https://dataspace.copernicus.eu/terms-and-conditions",
+      "title": "Terms and Conditions of the Copernicus Data Space Ecosystem",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-cdse-sh-processing-unit",
+      "url": "https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Overview/ProcessingUnit.html",
+      "title": "Processing Unit, Sentinel Hub API documentation on the Copernicus Data Space Ecosystem",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-sentinel-legal-notice",
+      "url": "https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice",
+      "title": "Legal notice on the use of Copernicus Sentinel Data and Service Information",
+      "publisher": "European Commission",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-pc-stac-collection",
+      "url": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-2-l2a",
+      "title": "Planetary Computer STAC collection sentinel-2-l2a",
+      "publisher": "Microsoft",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-pc-stac-item",
+      "url": "https://planetarycomputer.microsoft.com/api/stac/v1/search?collections=sentinel-2-l2a&bbox=-95.5,29.5,-95.0,30.0&limit=1",
+      "title": "Planetary Computer STAC search, sentinel-2-l2a, one item",
+      "publisher": "Microsoft",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-pc-sas-doc",
+      "url": "https://github.com/microsoft/PlanetaryComputerDataCatalog/blob/main/docs/concepts/sas.md",
+      "title": "Using Tokens for Data Access, Planetary Computer documentation source",
+      "publisher": "Microsoft",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-pc-about-doc",
+      "url": "https://github.com/microsoft/PlanetaryComputerDataCatalog/blob/main/docs/overview/about.md",
+      "title": "About the Microsoft Planetary Computer, documentation source",
+      "publisher": "Microsoft",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-gee-s2-sr-harmonized",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+      "title": "Harmonized Sentinel-2 MSI: MultiSpectral Instrument, Level-2A (SR)",
+      "publisher": "Google",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-gee-cloud-score-plus",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_CLOUD_SCORE_PLUS_V1_S2_HARMONIZED",
+      "title": "Cloud Score+ S2_HARMONIZED V1",
+      "publisher": "Google",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-gee-pricing",
+      "url": "https://cloud.google.com/earth-engine/pricing",
+      "title": "Google Earth Engine pricing",
+      "publisher": "Google",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-gee-terms",
+      "url": "https://earthengine.google.com/terms/",
+      "title": "Terms of Service, Google Earth Engine",
+      "publisher": "Google",
+      "accessed_on": "2026-09-09",
+      "page_updated": "2022-09-29"
+    },
+    {
+      "id": "src-sh-s2-l2a",
+      "url": "https://docs.sentinel-hub.com/api/latest/data/sentinel-2-l2a/",
+      "title": "Sentinel-2 L2A, Sentinel Hub API documentation",
+      "publisher": "Sinergise, Planet",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-sh-s2-l1c",
+      "url": "https://docs.sentinel-hub.com/api/latest/data/sentinel-2-l1c/",
+      "title": "Sentinel-2 L1C, Sentinel Hub API documentation",
+      "publisher": "Sinergise, Planet",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-sh-process",
+      "url": "https://docs.sentinel-hub.com/api/latest/api/process/",
+      "title": "Processing API, Sentinel Hub API documentation",
+      "publisher": "Sinergise, Planet",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-sh-billing",
+      "url": "https://docs.sentinel-hub.com/api/latest/api/overview/billing/",
+      "title": "Billing, Sentinel Hub API documentation",
+      "publisher": "Sinergise, Planet",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-lpdaac-hlss30",
+      "url": "https://www.earthdata.nasa.gov/data/catalog/lpcloud-hlss30-2.0",
+      "title": "HLS Sentinel-2 Multi-spectral Instrument Surface Reflectance Daily Global 30m v2.0",
+      "publisher": "NASA LP DAAC",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-nasa-hls-project",
+      "url": "https://www.earthdata.nasa.gov/data/projects/hls",
+      "title": "HLS - Harmonized Landsat and Sentinel-2",
+      "publisher": "NASA Earthdata",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-cmr-stac-hlss30",
+      "url": "https://cmr.earthdata.nasa.gov/stac/LPCLOUD/collections/HLSS30_2.0",
+      "title": "CMR-STAC collection HLSS30_2.0",
+      "publisher": "NASA Earthdata",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-cmr-stac-hls-item",
+      "url": "https://cmr.earthdata.nasa.gov/stac/LPCLOUD/search?collections=HLSS30_2.0&bbox=-95.5,29.5,-95.0,30.0&limit=1",
+      "title": "CMR-STAC search, HLSS30_2.0, one item",
+      "publisher": "NASA Earthdata",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    },
+    {
+      "id": "src-earthdata-cloud-evolution",
+      "url": "https://www.earthdata.nasa.gov/about/earthdata-cloud-evolution",
+      "title": "Earthdata Cloud Evolution",
+      "publisher": "NASA Earthdata",
+      "accessed_on": "2026-09-09",
+      "page_updated": null
+    }
+  ],
+  "claims": [
+    {
+      "id": "cl-ar-earth-search-cogs-data_level",
+      "candidate": "ar-earth-search-cogs",
+      "field": "data_level",
+      "value": "Level-1C, Level-2A, and Collection 1 Level-2A",
+      "unit": null,
+      "note": "The API also lists sentinel-2-pre-c1-l2a. Collection ids are sentinel-2-l1c, sentinel-2-l2a, sentinel-2-c1-l2a.",
+      "source_ids": [
+        "src-earth-search-collections"
+      ],
+      "quote": "\"title\":\"Sentinel-2 Collection 1 Level-2A\"",
+      "locator": "collections array, sentinel-2-c1-l2a entry",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-format",
+      "candidate": "ar-earth-search-cogs",
+      "field": "format",
+      "value": "Cloud-optimized GeoTIFF, with JPEG 2000 assets in sentinel-2-l2a",
+      "unit": null,
+      "note": "The sentinel-2-c1-l2a collection carries COG assets only. The sentinel-2-l2a collection carries both COG assets and -jp2 assets that point at s3://sentinel-s2-l2a.",
+      "source_ids": [
+        "src-e84-earth-search-readme",
+        "src-earth-search-l2a-item"
+      ],
+      "quote": "The Level-1 data is the original JPEG 2000 files, and the Level-2 data includes a set of assets for the original JPEG 2000 files, as well as a set of assets for the Cloud-Optimized GeoTIFF (COG) versions.",
+      "locator": "Sentinel-2 L1C and L2A (sentinel-2-l1c and sentinel-2-l2a)",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-region",
+      "candidate": "ar-earth-search-cogs",
+      "field": "region",
+      "value": "us-west-2",
+      "unit": null,
+      "note": "Buckets sentinel-cogs and e84-earth-search-sentinel-data are both listed in us-west-2. One sampled Collection 1 item carries the item property storage:region us-west-2.",
+      "source_ids": [
+        "src-aws-registry-s2-cogs",
+        "src-earth-search-c1-item"
+      ],
+      "quote": "Amazon Resource Name (ARN) arn:aws:s3:::sentinel-cogs AWS Region us-west-2",
+      "locator": "Resources on AWS, Level 2A scenes and metadata",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-payer",
+      "candidate": "ar-earth-search-cogs",
+      "field": "payer",
+      "value": "Provider. Buckets are not requester pays",
+      "unit": null,
+      "note": "The registry lists no-sign-request access for both buckets. The sampled Collection 1 item carries storage:requester_pays false. AWS states its Open Data Sponsorship Program covers storing and sharing costs.",
+      "source_ids": [
+        "src-aws-registry-s2-cogs",
+        "src-earth-search-c1-item",
+        "src-aws-open-data-sponsorship"
+      ],
+      "quote": "AWS CLI Access (No AWS account required) aws s3 ls --no-sign-request s3://sentinel-cogs/",
+      "locator": "Resources on AWS, Level 2A scenes and metadata",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-payer-2",
+      "candidate": "ar-earth-search-cogs",
+      "field": "payer",
+      "value": "Provider. Buckets are not requester pays",
+      "unit": null,
+      "note": "Second source for the same value. AWS states the program covers the cost of storing and sharing the dataset.",
+      "source_ids": [
+        "src-aws-open-data-sponsorship"
+      ],
+      "quote": "The AWS Open Data Sponsorship Program covers the cost of storing and sharing publicly available, high-value, cloud-optimized datasets on the Registry of Open Data on AWS .",
+      "locator": "What the program offers",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-discovery_mechanism",
+      "candidate": "ar-earth-search-cogs",
+      "field": "discovery_mechanism",
+      "value": "STAC API, SNS topics, and S3 inventory files",
+      "unit": null,
+      "note": "SNS topic arn:aws:sns:us-west-2:608149789419:cirrus-es-prod-publish for Collection 1 and cirrus-v0-publish for the older collection. Daily parquet inventory in e84-earth-search-sentinel-data-inventory.",
+      "source_ids": [
+        "src-aws-registry-s2-cogs",
+        "src-e84-earth-search-readme"
+      ],
+      "quote": "New scene notifications, can subscribe with Lambda or SQS . Message contains entire STAC record for each new Item.",
+      "locator": "Resources on AWS, SNS Topic entries",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-discovery_mechanism-2",
+      "candidate": "ar-earth-search-cogs",
+      "field": "discovery_mechanism",
+      "value": "STAC API, SNS topics, and S3 inventory files",
+      "unit": null,
+      "note": "Second source. The README also lists the message attributes available for SNS filtering: collection, datetime, bbox corners, cloud_cover, and status.",
+      "source_ids": [
+        "src-e84-earth-search-readme"
+      ],
+      "quote": "Inventory reports are generated daily and stored as parquet files, under the `primary` configuration name",
+      "locator": "Sentinel-2 Collection 1 Level-2A S3 Data, Inventory Report",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-coverage_start_l2a",
+      "candidate": "ar-earth-search-cogs",
+      "field": "coverage_start_l2a",
+      "value": "December 2018 globally, April 2017 for wider Europe",
+      "unit": "date",
+      "note": "Statement covers the Sentinel-2 Cloud-Optimized GeoTIFFs dataset. The STAC collections sentinel-2-l2a and sentinel-2-c1-l2a both report a temporal extent starting 2015-06-27T10:25:31.456000Z, which is the Level-1C start. The registry text and the STAC extent disagree.",
+      "source_ids": [
+        "src-aws-registry-s2-cogs"
+      ],
+      "quote": "L2A data are available from April 2017 over wider Europe region and globally since December 2018.",
+      "locator": "Description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-reprocessed_products",
+      "candidate": "ar-earth-search-cogs",
+      "field": "reprocessed_products",
+      "value": "Yes, in the separate collection sentinel-2-c1-l2a",
+      "unit": null,
+      "note": "The README states this collection is intended to replace sentinel-2-l2a and that reprocessing was incomplete as of April 2024. It names gaps for November 2016 to November 2019 and for 2022.",
+      "source_ids": [
+        "src-e84-earth-search-readme"
+      ],
+      "quote": "Items in this collection only contain assets referring to COGs of data processed to at least baseline 5.0.",
+      "locator": "Sentinel-2 Collection 1 L2A (sentinel-2-c1-l2a)",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-quality_layers",
+      "candidate": "ar-earth-search-cogs",
+      "field": "quality_layers",
+      "value": "scl, cloud, and snow assets, plus aot and wvp",
+      "unit": null,
+      "note": "Asset keys on the sampled Collection 1 item. cloud is CLD_20m and snow is SNW_20m, both 20 m uint8. scl is SCL.tif at 20 m.",
+      "source_ids": [
+        "src-earth-search-c1-item"
+      ],
+      "quote": "\"title\":\"Cloud Probabilities\"",
+      "locator": "features[0].assets.cloud",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-offset_delivery",
+      "candidate": "ar-earth-search-cogs",
+      "field": "offset_delivery",
+      "value": "Per-asset raster:bands scale and offset in the STAC item",
+      "unit": null,
+      "note": "The README says a non-zero offset means the offset has not been applied to the COG. Apply the offset after the scale factor.",
+      "source_ids": [
+        "src-e84-earth-search-readme"
+      ],
+      "quote": "The `raster:bands` field has fields for both `scale` and `offset`.  If the `offset` is anything other than 0, then it should be applied after the scale factor to correct the data.",
+      "locator": "Gain/Offset in Items after Jan 25, 2022",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-offset_delivery-2",
+      "candidate": "ar-earth-search-cogs",
+      "field": "offset_delivery",
+      "value": "Per-asset raster:bands scale and offset in the STAC item",
+      "unit": null,
+      "note": "Observed value on the red asset of one Collection 1 item at processing baseline 05.12. Offset is non-zero, so it is not pre-applied.",
+      "source_ids": [
+        "src-earth-search-c1-item"
+      ],
+      "quote": "\"raster:bands\":[{\"nodata\":0,\"data_type\":\"uint16\",\"spatial_resolution\":10,\"scale\":0.0001,\"offset\":-0.1}]",
+      "locator": "features[0].assets.red.raster:bands",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-publication_latency",
+      "candidate": "ar-earth-search-cogs",
+      "field": "publication_latency",
+      "value": "Usually within a few hours of Copernicus availability",
+      "unit": "hours",
+      "note": "The registry gives no numeric target and no service level. Wording is qualitative.",
+      "source_ids": [
+        "src-aws-registry-s2-cogs"
+      ],
+      "quote": "New Sentinel data are added regularly, usually within few hours after they are available on Copernicus OpenHub.",
+      "locator": "Update Frequency",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-raw_pixel_access",
+      "candidate": "ar-earth-search-cogs",
+      "field": "raw_pixel_access",
+      "value": "Yes. Public HTTPS COG assets need no authentication",
+      "unit": null,
+      "note": "Supports assumption A1. Range reads of a COG return per-pixel digital numbers that the reader converts with the asset scale and offset.",
+      "source_ids": [
+        "src-e84-earth-search-readme"
+      ],
+      "quote": "For publicly-available assets, an `https://` URL is used since no authentication is needed.",
+      "locator": "s3 vs http URLs",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-global_coverage",
+      "candidate": "ar-earth-search-cogs",
+      "field": "global_coverage",
+      "value": "Global since December 2018, most antimeridian scenes excluded",
+      "unit": null,
+      "note": "The README records the antimeridian exclusion as a known issue for sentinel-2-l1c and sentinel-2-l2a and says historical scenes will be indexed later.",
+      "source_ids": [
+        "src-aws-registry-s2-cogs",
+        "src-e84-earth-search-readme"
+      ],
+      "quote": "Most of the scenes crossing the antimeridian are excluded from the Catalog.",
+      "locator": "Sentinel-2 L1C and L2A, Known Issues",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-earth-search-cogs-license",
+      "candidate": "ar-earth-search-cogs",
+      "field": "license",
+      "value": "Free, full and open Copernicus Sentinel data terms",
+      "unit": null,
+      "note": "The registry License section links the Copernicus Sentinel data terms and conditions. The Legal Notice grants reproduction, distribution, communication to the public, adaptation and modification, and requires the notice 'Copernicus Sentinel data [Year]'. No platform terms of use are stated on the registry page.",
+      "source_ids": [
+        "src-aws-registry-s2-cogs",
+        "src-sentinel-legal-notice"
+      ],
+      "quote": "Access to Sentinel data is free, full and open for the broad Regional, National, European and International user community.",
+      "locator": "License",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-data_level",
+      "candidate": "ar-aws-requester-pays",
+      "field": "data_level",
+      "value": "Level-1C and Level-2A",
+      "unit": null,
+      "note": "Buckets sentinel-s2-l1c and sentinel-s2-l2a. Zipped product buckets with a three day retention period exist for both levels.",
+      "source_ids": [
+        "src-aws-registry-s2"
+      ],
+      "quote": "Description Level 1C scenes and metadata, in Requester Pays S3 bucket",
+      "locator": "Resources on AWS, first entry",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-format",
+      "candidate": "ar-aws-requester-pays",
+      "field": "format",
+      "value": "JPEG 2000 files in the original SAFE product structure",
+      "unit": null,
+      "note": "The COG registry entry describes the same dataset as the source of its JP2K files. The L2A readme says tile data follow the original product specification.",
+      "source_ids": [
+        "src-aws-registry-s2-cogs",
+        "src-roda-s2-l2a"
+      ],
+      "quote": "This dataset is the same as the Sentinel-2 dataset, except the JP2K files were converted into Cloud-Optimized GeoTIFFs (COGs).",
+      "locator": "Description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-region",
+      "candidate": "ar-aws-requester-pays",
+      "field": "region",
+      "value": "eu-central-1",
+      "unit": null,
+      "note": "Both scene buckets and the L2A notification topic are in eu-central-1. The L1C notification topic is in eu-west-1.",
+      "source_ids": [
+        "src-aws-registry-s2"
+      ],
+      "quote": "Amazon Resource Name (ARN) arn:aws:s3:::sentinel-s2-l1c AWS Region eu-central-1",
+      "locator": "Resources on AWS, Level 1C scenes and metadata",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-payer",
+      "candidate": "ar-aws-requester-pays",
+      "field": "payer",
+      "value": "Requester for L1C. Registry lists L2A as no-sign-request",
+      "unit": null,
+      "note": "The registry marks sentinel-s2-l1c, sentinel-s2-l1c-zips and sentinel-s2-l2a-zips Requester Pays. It shows sentinel-s2-l2a with a no-sign-request command. The Sinergise readme for L2A still says Requester Pays. The two pages disagree for the L2A bucket.",
+      "source_ids": [
+        "src-aws-registry-s2"
+      ],
+      "quote": "Description Level 2A scenes and metadata, in S3 bucket Resource type S3 Bucket Amazon Resource Name (ARN) arn:aws:s3:::sentinel-s2-l2a AWS Region eu-central-1 AWS CLI Access (No AWS account required) aws s3 ls --no-sign-request s3://sentinel-s2-l2a/",
+      "locator": "Resources on AWS, Level 2A scenes and metadata",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-payer-2",
+      "candidate": "ar-aws-requester-pays",
+      "field": "payer",
+      "value": "Requester for L1C. Registry lists L2A as no-sign-request",
+      "unit": null,
+      "note": "Conflicting statement recorded beside the registry entry. The Sinergise readme for the L2A bucket states Requester Pays.",
+      "source_ids": [
+        "src-roda-s2-l2a"
+      ],
+      "quote": "The data is in Requester Pays S3 bucket.",
+      "locator": "Accessing the Sentinel-2 L2A dataset",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-payer-3",
+      "candidate": "ar-aws-requester-pays",
+      "field": "payer",
+      "value": "Requester for L1C. Registry lists L2A as no-sign-request",
+      "unit": null,
+      "note": "Definition of the charge. AWS states the requester pays request and download costs and the bucket owner pays storage. Anonymous requests are not allowed on a Requester Pays bucket.",
+      "source_ids": [
+        "src-aws-requester-pays-guide"
+      ],
+      "quote": "With Requester Pays buckets, the requester instead of the bucket owner pays the cost of the request and the data download from the bucket.",
+      "locator": "Using Requester Pays general purpose buckets for storage transfers and usage",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-discovery_mechanism",
+      "candidate": "ar-aws-requester-pays",
+      "field": "discovery_mechanism",
+      "value": "SNS topics and S3 inventory files, plus Earth Search STAC",
+      "unit": null,
+      "note": "SNS topics arn:aws:sns:eu-west-1:214830741341:NewSentinel2Product for L1C and arn:aws:sns:eu-central-1:214830741341:SentinelS2L2A for L2A. Inventory files in sentinel-inventory in ORC and CSV. The registry Explore links also name Earth Search and static STAC endpoints.",
+      "source_ids": [
+        "src-aws-registry-s2"
+      ],
+      "quote": "Description New scene notifications for L2A, can subscribe with Lambda or SQS . Resource type SNS Topic Amazon Resource Name (ARN) arn:aws:sns:eu-central-1:214830741341:SentinelS2L2A",
+      "locator": "Resources on AWS, New scene notifications for L2A",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-coverage_start_l2a",
+      "candidate": "ar-aws-requester-pays",
+      "field": "coverage_start_l2a",
+      "value": "January 2017 globally, November 2016 in Europe",
+      "unit": "date",
+      "note": "The registry Description carries the same two dates for this dataset.",
+      "source_ids": [
+        "src-roda-s2-l2a",
+        "src-aws-registry-s2"
+      ],
+      "quote": "L2A data are available in Europe from November 2016 and from January 2017 globally.",
+      "locator": "Sentinel-2 L2A dataset, first paragraph",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-quality_layers",
+      "candidate": "ar-aws-requester-pays",
+      "field": "quality_layers",
+      "value": "SCL, AOT and WVP as JPEG 2000 objects",
+      "unit": null,
+      "note": "Observed as -jp2 assets on one Earth Search sentinel-2-l2a item, which point into this bucket. The Sinergise readme does not enumerate quality layers.",
+      "source_ids": [
+        "src-earth-search-l2a-item"
+      ],
+      "quote": "\"href\":\"s3://sentinel-s2-l2a/tiles/15/R/TN/2026/9/9/0/R20m/SCL.jp2\"",
+      "locator": "features[0].assets.scl-jp2.href",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-publication_latency",
+      "candidate": "ar-aws-requester-pays",
+      "field": "publication_latency",
+      "value": "Usually within a few hours of Copernicus availability",
+      "unit": "hours",
+      "note": "No numeric target and no service level are stated.",
+      "source_ids": [
+        "src-aws-registry-s2"
+      ],
+      "quote": "New Sentinel data are added regularly, usually within few hours after they are available on Copernicus OpenHub.",
+      "locator": "Update Frequency",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-raw_pixel_access",
+      "candidate": "ar-aws-requester-pays",
+      "field": "raw_pixel_access",
+      "value": "Yes. Each file is a separate object in Amazon S3",
+      "unit": null,
+      "note": "Supports assumption A1. A range read of a JPEG 2000 object is not equivalent to a COG range read, because JPEG 2000 codestreams need different client handling.",
+      "source_ids": [
+        "src-roda-s2-l2a"
+      ],
+      "quote": "Each file is its own object in Amazon S3.",
+      "locator": "Data structure",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-global_coverage",
+      "candidate": "ar-aws-requester-pays",
+      "field": "global_coverage",
+      "value": "Global for L2A from January 2017",
+      "unit": null,
+      "note": "Tiles follow the Military Grid Reference System. Path is tiles/[UTM code]/latitude band/square/[year]/[month]/[day]/[sequence]/DATA.",
+      "source_ids": [
+        "src-roda-s2-l2a"
+      ],
+      "quote": "The mission provides a global coverage of the Earth's land surface every 5 days, making the data of great use in on-going studies. L2A data are available in Europe from November 2016 and from January 2017 globally.",
+      "locator": "Sentinel-2 L2A dataset, first paragraph",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-unit_price",
+      "candidate": "ar-aws-requester-pays",
+      "field": "unit_price",
+      "value": "0.0043 USD per 10,000 GET requests in eu-central-1",
+      "unit": "USD per 10,000 requests",
+      "note": "Amazon S3 published price for eu-central-1, SKU TUSXZSTYY6YJH244, group S3-API-Tier2, unit Requests, effective 2026-08-01, offer file version 20260831092225. Currency USD. Applies to a Requester Pays read because the requester pays the request cost. No plan or allowance is attached. Not summed with any other price.",
+      "source_ids": [
+        "src-aws-price-s3-euc1"
+      ],
+      "quote": "$0.0043 per 10,000 GET and all other requests",
+      "locator": "terms.OnDemand, SKU TUSXZSTYY6YJH244, priceDimensions",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-unit_price-2",
+      "candidate": "ar-aws-requester-pays",
+      "field": "unit_price",
+      "value": "0.02 USD per GB from EU (Germany) to US West (Oregon)",
+      "unit": "USD per GB",
+      "note": "AWS Data Transfer published price out of eu-central-1, usage type EUC1-USW2-AWS-Out-Bytes, offer file version 20260831121448. Currency USD. The same file gives the same rate to US East (Northern Virginia). Not summed with the request price.",
+      "source_ids": [
+        "src-aws-price-dt-euc1"
+      ],
+      "quote": "$0.02 per GB - EU (Germany) data transfer to US West (Oregon)",
+      "locator": "terms.OnDemand, usagetype EUC1-USW2-AWS-Out-Bytes, priceDimensions",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-license",
+      "candidate": "ar-aws-requester-pays",
+      "field": "license",
+      "value": "Free, full and open Copernicus Sentinel data terms",
+      "unit": null,
+      "note": "The registry and the Sinergise readme both link the Copernicus Sentinel data terms. The Legal Notice requires the notice 'Copernicus Sentinel data [Year]' when data are distributed, and 'Contains modified Copernicus Sentinel data [Year]' when modified. AWS Requester Pays terms are a separate access condition, not a data licence.",
+      "source_ids": [
+        "src-sentinel-legal-notice",
+        "src-aws-registry-s2"
+      ],
+      "quote": "EU law grants free access to Copernicus Sentinel Data and Service Information for the purpose of the following use in so far as it is lawful",
+      "locator": "Legal notice, paragraph two",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-data_level",
+      "candidate": "ar-cdse",
+      "field": "data_level",
+      "value": "Level-1B, Level-1C, Level-2A, and Level-3 quarterly mosaics",
+      "unit": null,
+      "note": "The documentation page carries an overview for each level. The STAC API exposes Sentinel-2 Level-1C and Level-2A collections, plus GRI L1C and Global Mosaics.",
+      "source_ids": [
+        "src-cdse-s2",
+        "src-cdse-stac-doc"
+      ],
+      "quote": "Sentinel-2 Level 2A Surface Reflectance Overview Sentinel-2 Level 1C Top of Atmosphere (TOA) Overview Sentinel-2 Level 1B Overview Sentinel-2 Level 3 Quarterly Mosaics",
+      "locator": "On this page",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-format",
+      "candidate": "ar-cdse",
+      "field": "format",
+      "value": "JPEG 2000 assets in SAFE products, plus a zipped product asset",
+      "unit": null,
+      "note": "Asset type on every band asset of the STAC collection is image/jp2. A separate Product asset of type application/zip carries the whole SAFE package.",
+      "source_ids": [
+        "src-cdse-stac-collection"
+      ],
+      "quote": "\"B04_10m\":{\"gsd\":10,\"type\":\"image/jp2\"",
+      "locator": "item_assets.B04_10m",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-region",
+      "candidate": "ar-cdse",
+      "field": "region",
+      "value": "CloudFerro Cloud or OpenTelekom Cloud, resolver dependent",
+      "unit": null,
+      "note": "Default endpoint https://eodata.dataspace.copernicus.eu. Users who need OpenTelekom Cloud must call https://eodata.ams.dataspace.copernicus.eu. No AWS region is offered.",
+      "source_ids": [
+        "src-cdse-s3"
+      ],
+      "quote": "A Global Service Load Balancer (GSLB) directs the request to either CloudFerro Cloud or OpenTelekom Cloud (OTC) S3 endpoint.",
+      "locator": "Object Storage endpoints",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-payer",
+      "candidate": "ar-cdse",
+      "field": "payer",
+      "value": "Provider, inside free quotas. CREODIAS S3 is requester pays",
+      "unit": null,
+      "note": "Copernicus General Users get 2000 S3 requests per minute, 4 concurrent connections, 20 MB/s per connection and a 12 TB rolling 30 day transfer limit. Above the transfer limit bandwidth drops to 1 MB/s and concurrency to 1. The STAC collection marks cdse-s3 requester_pays false and creodias-s3 requester_pays true.",
+      "source_ids": [
+        "src-cdse-quotas"
+      ],
+      "quote": "Every user account is set a limited quota to guarantee fair sharing of free tier resources within all users of Copernicus Data Space Ecosystem.",
+      "locator": "Quotas and Limitations",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-payer-2",
+      "candidate": "ar-cdse",
+      "field": "payer",
+      "value": "Provider, inside free quotas. CREODIAS S3 is requester pays",
+      "unit": null,
+      "note": "Second source. The STAC collection declares two storage schemes with different payment rules.",
+      "source_ids": [
+        "src-cdse-stac-collection"
+      ],
+      "quote": "\"creodias-s3\":{\"type\":\"custom-s3\",\"title\":\"CREODIAS S3\",\"platform\":\"https://eodata.cloudferro.com\"",
+      "locator": "storage:schemes.creodias-s3",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-discovery_mechanism",
+      "candidate": "ar-cdse",
+      "field": "discovery_mechanism",
+      "value": "STAC API and OData catalogue, plus catalog subscriptions",
+      "unit": null,
+      "note": "STAC endpoint https://stac.dataspace.copernicus.eu/v1/. The legacy endpoint under catalogue.dataspace.copernicus.eu/stac is deprecated from 17 November 2025. The documentation menu also lists Catalog subscriptions and a Traceability API.",
+      "source_ids": [
+        "src-cdse-stac-doc"
+      ],
+      "quote": "It is important to note that the STAC catalogue does not replace the existing CDSE Open Data Protocol (Odata) catalogue but serves as a complementary resource, expanding data discovery and accessibility options.",
+      "locator": "STAC product catalogue, first paragraph",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-coverage_start_l2a",
+      "candidate": "ar-cdse",
+      "field": "coverage_start_l2a",
+      "value": "2015-06-27T10:25:31Z per the STAC temporal extent",
+      "unit": "date",
+      "note": "This is the collection temporal extent, which starts at the mission start. The collection description says the products are Collection 1. The documentation pages do not state a separate global Level-2A start date.",
+      "source_ids": [
+        "src-cdse-stac-collection"
+      ],
+      "quote": "\"temporal\":{\"interval\":[[\"2015-06-27T10:25:31Z\",null]]}",
+      "locator": "extent.temporal.interval",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-reprocessed_products",
+      "candidate": "ar-cdse",
+      "field": "reprocessed_products",
+      "value": "Collection 1 reprocessed products, archive moving to baseline 5.0",
+      "unit": null,
+      "note": "The page says reprocessing to baseline 5.0 or better covers historical L1C and L2A up to 13 December 2023 and is near the end. The STAC collection sentinel-2-l2a describes its products as Collection 1.",
+      "source_ids": [
+        "src-cdse-s2"
+      ],
+      "quote": "The processing baseline indicates the version of the processing algorithm applied to the raw data to generate the Sentinel-2 products. Re-processed products are referred as Sentinel-2 Collection-1.",
+      "locator": "Sentinel-2, introduction",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-reprocessed_products-2",
+      "candidate": "ar-cdse",
+      "field": "reprocessed_products",
+      "value": "Collection 1 reprocessed products, archive moving to baseline 5.0",
+      "unit": null,
+      "note": "Second source. The STAC collection description names the product as Collection 1.",
+      "source_ids": [
+        "src-cdse-stac-collection"
+      ],
+      "quote": "The Sentinel-2 Level-2A Collection 1 product provides orthorectified Surface Reflectance (Bottom-Of-Atmosphere: BOA), with sub-pixel multispectral and multitemporal registration accuracy.",
+      "locator": "description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-quality_layers",
+      "candidate": "ar-cdse",
+      "field": "quality_layers",
+      "value": "SCL, CLD, SNW, AOT and WVP assets at 20 m and 60 m",
+      "unit": null,
+      "note": "Asset keys on one sampled item. The collection item_assets list omits CLD and SNW, but the item carries CLD_20m, CLD_60m, SNW_20m and SNW_60m.",
+      "source_ids": [
+        "src-cdse-stac-item"
+      ],
+      "quote": "\"CLD_20m\"",
+      "locator": "features[0].assets keys",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-offset_delivery",
+      "candidate": "ar-cdse",
+      "field": "offset_delivery",
+      "value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalogue",
+      "unit": null,
+      "note": "The catalogue publishes scale 0.0001 and offset -0.1 per band asset. The asset files are the original SAFE JPEG 2000 files, so the reader applies both.",
+      "source_ids": [
+        "src-cdse-stac-collection"
+      ],
+      "quote": "\"raster:scale\":0.0001",
+      "locator": "item_assets.B04_10m.raster:scale",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-offset_delivery-2",
+      "candidate": "ar-cdse",
+      "field": "offset_delivery",
+      "value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalogue",
+      "unit": null,
+      "note": "Second half of the same asset record.",
+      "source_ids": [
+        "src-cdse-stac-collection"
+      ],
+      "quote": "\"raster:offset\":-0.1",
+      "locator": "item_assets.B04_10m.raster:offset",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-publication_latency",
+      "candidate": "ar-cdse",
+      "field": "publication_latency",
+      "value": "PT24H, near real time, on the sampled item",
+      "unit": "hours",
+      "note": "Item property product:timeliness on one item sensed and published on 2026-09-09. The item was published 2026-09-09T21:31:26Z for a 16:48:49Z sensing time. The documentation pages state no Sentinel-2 latency target. A different item may carry a different value.",
+      "source_ids": [
+        "src-cdse-stac-item"
+      ],
+      "quote": "\"product:timeliness\":\"PT24H\"",
+      "locator": "features[0].properties.product:timeliness",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-raw_pixel_access",
+      "candidate": "ar-cdse",
+      "field": "raw_pixel_access",
+      "value": "Yes. S3 API access to EO data objects",
+      "unit": null,
+      "note": "Supports assumption A1. Credentials come from a registered account. Each downloaded file counts as one request against the quota.",
+      "source_ids": [
+        "src-cdse-s3"
+      ],
+      "quote": "S3 API is one of the main access methods for EO data. It is suitable for Third Party applications that require high-performance parallel access and scalability.",
+      "locator": "Access to EO data via S3",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-global_coverage",
+      "candidate": "ar-cdse",
+      "field": "global_coverage",
+      "value": "Global bounding box in the STAC collection",
+      "unit": null,
+      "note": "Spatial extent covers the whole globe. No regional restriction is stated in the documentation.",
+      "source_ids": [
+        "src-cdse-stac-collection"
+      ],
+      "quote": "\"spatial\":{\"bbox\":[[-180,-90,180,90]]}",
+      "locator": "extent.spatial.bbox",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-license",
+      "candidate": "ar-cdse",
+      "field": "license",
+      "value": "Copernicus Sentinel data free, full and open. Portal content non-commercial",
+      "unit": null,
+      "note": "Data licence and platform terms are separate. The data licence is the Legal Notice on the use of Copernicus Sentinel Data. The portal terms restrict other portal content to non-commercial use and withhold the right to resell or redistribute portal material.",
+      "source_ids": [
+        "src-cdse-terms",
+        "src-sentinel-legal-notice"
+      ],
+      "quote": "The access and use of Copernicus Sentinel data is available on a free, full and open basis through the Copernicus Data Space Ecosystem and shall be governed by the Legal Notice on the use of Copernicus Sentinel Data and Service published here",
+      "locator": "3. Copyrights",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-cdse-license-2",
+      "candidate": "ar-cdse",
+      "field": "license",
+      "value": "Copernicus Sentinel data free, full and open. Portal content non-commercial",
+      "unit": null,
+      "note": "Second source, for the platform terms half of the note.",
+      "source_ids": [
+        "src-cdse-terms"
+      ],
+      "quote": "Any other contents of the Copernicus Data Space Ecosystem portal are intended for non-commercial use.",
+      "locator": "3. Copyrights",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-data_level",
+      "candidate": "ar-planetary-computer",
+      "field": "data_level",
+      "value": "Level-2A",
+      "unit": null,
+      "note": "The STAC collections listing returns 136 collections and one Sentinel-2 collection, sentinel-2-l2a. No Sentinel-2 Level-1C collection is listed.",
+      "source_ids": [
+        "src-pc-stac-collection"
+      ],
+      "quote": "This dataset contains the global Sentinel-2 archive, from 2016 to the present, processed to L2A (bottom-of-atmosphere).",
+      "locator": "msft:short_description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-format",
+      "candidate": "ar-planetary-computer",
+      "field": "format",
+      "value": "Cloud-optimized GeoTIFF",
+      "unit": null,
+      "note": "Asset media type on every band asset is image/tiff; application=geotiff; profile=cloud-optimized. Files sit under a SAFE-shaped path in Azure Blob Storage.",
+      "source_ids": [
+        "src-pc-stac-collection"
+      ],
+      "quote": "converted to [cloud-optimized GeoTIFF](https://www.cogeo.org/) format.",
+      "locator": "description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-region",
+      "candidate": "ar-planetary-computer",
+      "field": "region",
+      "value": "westeurope",
+      "unit": null,
+      "note": "Storage account sentinel2l2a01, container sentinel2-l2. Asset hrefs resolve to sentinel2l2a01.blob.core.windows.net.",
+      "source_ids": [
+        "src-pc-stac-collection"
+      ],
+      "quote": "\"msft:region\":\"westeurope\"",
+      "locator": "msft:region",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-payer",
+      "candidate": "ar-planetary-computer",
+      "field": "payer",
+      "value": "Provider. Data free, but assets need a SAS token",
+      "unit": null,
+      "note": "Tokens are anonymous. Rate limiting and token expiry depend on whether the caller is inside West Europe and whether a subscription key is supplied.",
+      "source_ids": [
+        "src-pc-sas-doc"
+      ],
+      "quote": "The data hosted by the Planetary Computer is free for anyone to use.",
+      "locator": "Using Tokens for Data Access, first paragraph",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-payer-2",
+      "candidate": "ar-planetary-computer",
+      "field": "payer",
+      "value": "Provider. Data free, but assets need a SAS token",
+      "unit": null,
+      "note": "Second source for the token half of the value.",
+      "source_ids": [
+        "src-pc-sas-doc"
+      ],
+      "quote": "The STAC metatdata API is available to all users and does not require an account or a token to use. All data assets require a token for accessing files on Azure Blob storage.",
+      "locator": "When a token is needed",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-discovery_mechanism",
+      "candidate": "ar-planetary-computer",
+      "field": "discovery_mechanism",
+      "value": "STAC API, public and anonymous",
+      "unit": null,
+      "note": "Endpoint https://planetarycomputer.microsoft.com/api/stac/v1. No notification topic or inventory file is documented on these pages.",
+      "source_ids": [
+        "src-pc-about-doc"
+      ],
+      "quote": "The [STAC API](../reference/stac) is public and can be accessed anonymously.",
+      "locator": "About the Preview",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-coverage_start_l2a",
+      "candidate": "ar-planetary-computer",
+      "field": "coverage_start_l2a",
+      "value": "2016 to the present per the dataset description",
+      "unit": "date",
+      "note": "The STAC collection temporal extent starts at 2015-06-27T10:25:31Z, which is the mission start rather than the Level-2A start. The description text and the extent disagree.",
+      "source_ids": [
+        "src-pc-stac-collection"
+      ],
+      "quote": "This dataset represents the global Sentinel-2 archive, from 2016 to the present, processed to L2A (bottom-of-atmosphere) using [Sen2Cor](https://step.esa.int/main/snap-supported-plugins/sen2cor/)",
+      "locator": "description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-quality_layers",
+      "candidate": "ar-planetary-computer",
+      "field": "quality_layers",
+      "value": "SCL, AOT and WVP",
+      "unit": null,
+      "note": "The collection item_assets list enumerates AOT, B01 to B12, B8A, SCL, WVP, visual, preview and five metadata assets. It carries no cloud probability and no snow probability asset.",
+      "source_ids": [
+        "src-pc-stac-collection"
+      ],
+      "quote": "\"SCL\":{\"gsd\":20.0,\"type\":\"image/tiff; application=geotiff; profile=cloud-optimized\",\"roles\":[\"data\"],\"title\":\"Scene classfication map (SCL)\"}",
+      "locator": "item_assets.SCL",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-raw_pixel_access",
+      "candidate": "ar-planetary-computer",
+      "field": "raw_pixel_access",
+      "value": "Yes. Signed Azure Blob URLs to COG assets",
+      "unit": null,
+      "note": "Supports assumption A1. The planetary-computer Python package signs URLs, assets, items and item collections and caches token expiry.",
+      "source_ids": [
+        "src-pc-sas-doc"
+      ],
+      "quote": "The `href` field here contains the full, signed URL which may be used directly.",
+      "locator": "Signing a URL with a token",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-global_coverage",
+      "candidate": "ar-planetary-computer",
+      "field": "global_coverage",
+      "value": "Global archive, with egress rate limits outside West Europe",
+      "unit": null,
+      "note": "Rate limiting tier depends on whether the request comes from West Europe and whether a subscription key is present. The page states that the least throttled access is in the West Europe Azure region.",
+      "source_ids": [
+        "src-pc-sas-doc"
+      ],
+      "quote": "Rate limiting is put into place in certain cases to limit the amount of egress against our datasets.",
+      "locator": "Rate limits and access restrictions",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-global_coverage-2",
+      "candidate": "ar-planetary-computer",
+      "field": "global_coverage",
+      "value": "Global archive, with egress rate limits outside West Europe",
+      "unit": null,
+      "note": "Second source for the region dependence.",
+      "source_ids": [
+        "src-pc-sas-doc"
+      ],
+      "quote": "For the most un-throttled access, we recommend doing your work in the West Europe Azure region.",
+      "locator": "Rate limits and access restrictions",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-license",
+      "candidate": "ar-planetary-computer",
+      "field": "license",
+      "value": "Copernicus Sentinel data terms",
+      "unit": null,
+      "note": "The collection license field is 'proprietary' and the license link points at the Copernicus Sentinel Data Terms and Conditions PDF. ESA is named producer and licensor, Microsoft host and processor, Esri processor. Platform terms of use live on a separate page that could not be read.",
+      "source_ids": [
+        "src-pc-stac-collection"
+      ],
+      "quote": "\"rel\":\"license\",\"href\":\"https://scihub.copernicus.eu/twiki/pub/SciHubWebPortal/TermsConditions/Sentinel_Data_Terms_and_Conditions.pdf\",\"title\":\"Copernicus Sentinel data terms\"",
+      "locator": "links, license relation",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-data_level",
+      "candidate": "ar-google-earth-engine",
+      "field": "data_level",
+      "value": "Level-2A surface reflectance, harmonized collection",
+      "unit": null,
+      "note": "Collection id COPERNICUS/S2_SR_HARMONIZED. Google states the Level-2 data are downloaded from CDSE and were computed by running Sen2Cor.",
+      "source_ids": [
+        "src-gee-s2-sr-harmonized"
+      ],
+      "quote": "Harmonized Sentinel-2 MSI: MultiSpectral Instrument, Level-2A (SR)",
+      "locator": "Page title",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-format",
+      "candidate": "ar-google-earth-engine",
+      "field": "format",
+      "value": "Earth Engine ImageCollection assets, 12 UINT16 bands",
+      "unit": null,
+      "note": "Not a file format. The user reads bands through the Earth Engine API. Reflectance is scaled by 10000 and B10 is absent.",
+      "source_ids": [
+        "src-gee-s2-sr-harmonized"
+      ],
+      "quote": "The assets contain 12 UINT16 spectral bands representing SR scaled by 10000 (unlike in L1 data, there is no B10).",
+      "locator": "Description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-payer",
+      "candidate": "ar-google-earth-engine",
+      "field": "payer",
+      "value": "Subscription. Commercial use requires a paid plan",
+      "unit": null,
+      "note": "Non-commercial and government research use stays under the Earth Engine Terms of Service. Other use moves to Google Cloud commercial terms and a fee.",
+      "source_ids": [
+        "src-gee-terms"
+      ],
+      "quote": "Your continued use of the Services under these Google Earth Engine Terms of Service must qualify as a non-commercial or government research activity. If it doesn’t, then you must pay a fee to use the Services and you will be subject to GCP commercial terms .",
+      "locator": "Preamble above Terms of Service",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-discovery_mechanism",
+      "candidate": "ar-google-earth-engine",
+      "field": "discovery_mechanism",
+      "value": "Earth Engine ImageCollection filters",
+      "unit": null,
+      "note": "No STAC endpoint, notification topic or inventory file is offered on this page. Filtering happens inside the Earth Engine API.",
+      "source_ids": [
+        "src-gee-s2-sr-harmonized"
+      ],
+      "quote": "ee.ImageCollection(\"COPERNICUS/S2_SR_HARMONIZED\")",
+      "locator": "Earth Engine Snippet",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-coverage_start_l2a",
+      "candidate": "ar-google-earth-engine",
+      "field": "coverage_start_l2a",
+      "value": "2017-03-28",
+      "unit": "date",
+      "note": "Dataset Availability reads 2017-03-28T00:00:00Z to the access date. Google warns that 2017 to 2018 Level-2 coverage in the collection is not yet global.",
+      "source_ids": [
+        "src-gee-s2-sr-harmonized"
+      ],
+      "quote": "The dataset is available from March 28, 2017, and has a revisit interval of 5 days.",
+      "locator": "Page Summary",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-quality_layers",
+      "candidate": "ar-google-earth-engine",
+      "field": "quality_layers",
+      "value": "SCL, MSK_CLDPRB, MSK_SNWPRB, QA60 and MSK_CLASSI bands",
+      "unit": null,
+      "note": "QA60 is masked out between 2022-01-25 and 2024-02-28 inclusive. MSK_CLDPRB and MSK_SNWPRB are described as missing in some products. MSK_CLASSI bands are masked out before February 2024.",
+      "source_ids": [
+        "src-gee-s2-sr-harmonized"
+      ],
+      "quote": "MSK_CLDPRB 0 100 20 meters None Cloud Probability Map (missing in some products) MSK_SNWPRB 0 100 10 meters None Snow Probability Map (missing in some products)",
+      "locator": "Bands table",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-quality_layers-2",
+      "candidate": "ar-google-earth-engine",
+      "field": "quality_layers",
+      "value": "Cloud Score+ cs and cs_cdf bands in a separate collection",
+      "unit": null,
+      "note": "Collection GOOGLE/CLOUD_SCORE_PLUS/V1/S2_HARMONIZED, produced from the harmonized Sentinel-2 L1C collection, linked to source images by system:index. Backfill of the whole archive was still in progress at the access date.",
+      "source_ids": [
+        "src-gee-cloud-score-plus"
+      ],
+      "quote": "The Cloud Score+ S2_HARMONIZED dataset includes two QA bands, cs and cs_cdf , that both grade the usability of individual pixels with respect to surface visibility on a continuous scale between 0 and 1",
+      "locator": "Description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-offset_delivery",
+      "candidate": "ar-google-earth-engine",
+      "field": "offset_delivery",
+      "value": "Pre-applied. Newer scenes shifted back to the older range",
+      "unit": null,
+      "note": "Consequential for this dimension. The user never sees the baseline 04.00 offset. The unharmonized collection COPERNICUS/S2_SR is the alternative.",
+      "source_ids": [
+        "src-gee-s2-sr-harmonized"
+      ],
+      "quote": "After 2022-01-25, Sentinel-2 scenes with PROCESSING_BASELINE '04.00' or above have their DN (value) range shifted by 1000. The HARMONIZED collection shifts data in newer scenes to be in the same range as in older scenes.",
+      "locator": "Description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-raw_pixel_access",
+      "candidate": "ar-google-earth-engine",
+      "field": "raw_pixel_access",
+      "value": "Yes. Batch export writes results to Google Cloud Storage",
+      "unit": null,
+      "note": "Supports assumption A1 only through an export step. The page says data extraction was free at the time of writing but will be priced at standard Google Cloud data transfer rates.",
+      "source_ids": [
+        "src-gee-pricing"
+      ],
+      "quote": "Batch: run computations asynchronously and output results for later access (in Google Cloud Storage, the Earth Engine asset store, etc.).",
+      "locator": "Overview of Google Earth Engine pricing",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-global_coverage",
+      "candidate": "ar-google-earth-engine",
+      "field": "global_coverage",
+      "value": "2017 to 2018 Level-2 coverage is not yet global",
+      "unit": null,
+      "note": "Matters for the 2017 history scenario in assumption A10.",
+      "source_ids": [
+        "src-gee-s2-sr-harmonized"
+      ],
+      "quote": "The Sentinel-2 L2 data are downloaded from CDSE. They were computed by running sen2cor. WARNING: 2017-2018 L2 coverage in the EE collection is not yet global.",
+      "locator": "Description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-unit_price",
+      "candidate": "ar-google-earth-engine",
+      "field": "unit_price",
+      "value": "0.40 USD per EECU-hour up to 10,000 hours per month",
+      "unit": "USD per EECU-hour",
+      "note": "Google Earth Engine on-demand compute price, online and batch alike. Currency USD. Tiers: 0 to 10,000 hours at 0.40, 10,000 to 500,000 hours at 0.28, above 500,000 hours at 0.16, per month per account. Storage is priced separately at 0.000035616 USD per gibibyte hour. Plan credits offset usage before these rates apply. Not summed with the platform fee.",
+      "source_ids": [
+        "src-gee-pricing"
+      ],
+      "quote": "Operation Price (USD) Compute (Online and Batch) 0 hour to 10,000 hour $0.40 / 1 hour, per 1 month / account 10,000 hour to 500,000 hour $0.28 / 1 hour, per 1 month / account 500,000 hour and above $0.16 / 1 hour, per 1 month / account",
+      "locator": "Usage fees for compute and storage",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-monthly_price",
+      "candidate": "ar-google-earth-engine",
+      "field": "monthly_price",
+      "value": "500 USD per month Basic, 2000 USD per month Professional",
+      "unit": "USD per month",
+      "note": "Currency USD. Basic includes 100 batch EECU-hours, 33 online EECU-hours, 100 GB storage credit, 20 concurrent high-volume requests, up to 8 concurrent batch export tasks, no SLA. Professional includes 500 batch EECU-hours, 166 online EECU-hours, 1 TB storage credit, up to 500 concurrent high-volume requests, up to 20 concurrent batch export tasks, and an SLA. Premium is quoted on request. A Limited plan carries usage fees only and no credits. Credits refill each billing cycle. Not summed with usage fees.",
+      "source_ids": [
+        "src-gee-pricing"
+      ],
+      "quote": "Monthly Platform Fee $500 per month $2000 per month Contact us Batch EECU credit 100 EECU-hour per month credit included 500 EECU-hour per month credit included Contact us",
+      "locator": "Pricing Plans, Enterprise table",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-google-earth-engine-license",
+      "candidate": "ar-google-earth-engine",
+      "field": "license",
+      "value": "Copernicus Sentinel Data Terms and Conditions, plus Earth Engine terms",
+      "unit": null,
+      "note": "Data licence and platform terms are separate. The dataset page names the Copernicus Sentinel data terms as the data licence. The Earth Engine Terms of Service govern platform use and separate non-commercial from commercial use.",
+      "source_ids": [
+        "src-gee-s2-sr-harmonized",
+        "src-gee-terms"
+      ],
+      "quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "locator": "Terms of Use",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-sentinel-hub-data_level",
+      "candidate": "ar-sentinel-hub",
+      "field": "data_level",
+      "value": "Sentinel-2 Level-1C and Level-2A collections",
+      "unit": null,
+      "note": "Data type identifiers sentinel-2-l1c and sentinel-2-l2a. Level-2A is described as bottom of atmosphere reflectance processed from L1C with Sen2Cor.",
+      "source_ids": [
+        "src-sh-s2-l2a",
+        "src-sh-s2-l1c"
+      ],
+      "quote": "Use sentinel-2-l2a (previously S2L2A ) as the value of the input.data.type parameter in your API requests.",
+      "locator": "Data type identifier: sentinel-2-l2a",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-sentinel-hub-format",
+      "candidate": "ar-sentinel-hub",
+      "field": "format",
+      "value": "API response images, 8 or 16 bit TIFF, JPG or PNG",
+      "unit": null,
+      "note": "One processing unit is defined for an output format up to 16 bits per pixel. A 32 bit float TIFF doubles the processing unit cost. application/octet-stream costs a factor of 1.4. Quote is from the Sentinel Hub API documentation hosted by the Copernicus Data Space Ecosystem, because the equivalent page on docs.sentinel-hub.com redirects.",
+      "source_ids": [
+        "src-cdse-sh-processing-unit"
+      ],
+      "quote": "Output format 8 bit or 16 bit TIFF/JPG/PNG Requesting 32 bit float TIFF will result in a multiplication factor of 2 due to larger memory consumption and data traffic.",
+      "locator": "General data processing, multiplication factor table",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-sentinel-hub-region",
+      "candidate": "ar-sentinel-hub",
+      "field": "region",
+      "value": "services.sentinel-hub.com endpoint",
+      "unit": null,
+      "note": "The page names a service endpoint, not a cloud region. No hosting region is stated for the Sentinel-2 collections on this page.",
+      "source_ids": [
+        "src-sh-s2-l2a"
+      ],
+      "quote": "Endpoint Locations Service Notes services.sentinel-hub.com/ Europe since November 2016 Global since January 2017",
+      "locator": "Endpoint Locations",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-sentinel-hub-payer",
+      "candidate": "ar-sentinel-hub",
+      "field": "payer",
+      "value": "Subscription. Users choose a subscription package",
+      "unit": null,
+      "note": "Packages differ by monthly, yearly or custom quotas of processing units and requests. Requests that breach a policy return HTTP 403 with the exceeded limit named.",
+      "source_ids": [
+        "src-sh-billing"
+      ],
+      "quote": "Users of Sentinel Hub can choose between various subscription packages . These differ, among other, by the monthly/yearly/custom quotas of processing units and requests.",
+      "locator": "Billing",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-sentinel-hub-discovery_mechanism",
+      "candidate": "ar-sentinel-hub",
+      "field": "discovery_mechanism",
+      "value": "Catalog API search requests",
+      "unit": null,
+      "note": "Collection identifier sentinel-2-l2a. Filter extension supports eo:cloud_cover. A distinct extension supports date.",
+      "source_ids": [
+        "src-sh-s2-l2a"
+      ],
+      "quote": "To access Sentinel 2 L2A product metadata you need to send search request to our Catalog API .",
+      "locator": "Catalog API Capabilities",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-sentinel-hub-coverage_start_l2a",
+      "candidate": "ar-sentinel-hub",
+      "field": "coverage_start_l2a",
+      "value": "Global since January 2017",
+      "unit": "date",
+      "note": "The Basic Facts table says data availability starts October 2016 and is global from January 2017. The Endpoint Locations table on the same page says Europe since November 2016. The two rows disagree on the European start month.",
+      "source_ids": [
+        "src-sh-s2-l2a"
+      ],
+      "quote": "Data availability Since October 2016 Global Since January 2017",
+      "locator": "Basic Facts table",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-sentinel-hub-quality_layers",
+      "candidate": "ar-sentinel-hub",
+      "field": "quality_layers",
+      "value": "SCL, SNW, CLD, CLP and CLM bands",
+      "unit": null,
+      "note": "SNW and CLD are Sen2Cor snow and cloud probability at 20 m. CLP and CLM are s2cloudless products at 160 m. AOT is also available. dataMask marks data and no data pixels.",
+      "source_ids": [
+        "src-sh-s2-l2a"
+      ],
+      "quote": "SCL Scene classification data, based on Sen2Cor processor, codelist 20m SNW Snow probability, based on Sen2Cor processor 20m CLD Cloud probability, based on Sen2Cor processor 20m CLP Cloud probability, based on s2cloudless ( more ) 160m CLM Cloud masks ( more ) 160m",
+      "locator": "Available Bands and Data table",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-sentinel-hub-offset_delivery",
+      "candidate": "ar-sentinel-hub",
+      "field": "offset_delivery",
+      "value": "harmonizeValues defaults to true and harmonizes DN across baselines",
+      "unit": null,
+      "note": "Consequential for this dimension. With harmonizeValues false, DN values are exactly as in the source files. With REFLECTANCE units, harmonizeValues true also clamps negative reflectance to zero.",
+      "source_ids": [
+        "src-sh-s2-l2a"
+      ],
+      "quote": "harmonizeValues = true : DN values are harmonized so they are comparable with data from previous baselines. Therefore it still holds that DN = 10000 * REFLECTANCE . In addition, negative values are clamped to zero.",
+      "locator": "Harmonize Values",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-sentinel-hub-raw_pixel_access",
+      "candidate": "ar-sentinel-hub",
+      "field": "raw_pixel_access",
+      "value": "Yes. DN units return the exact source pixel values",
+      "unit": null,
+      "note": "Supports assumption A1, with a caveat. The same page says resampling may produce interpolated values, and the Process API stitches tiles automatically.",
+      "source_ids": [
+        "src-sh-s2-l2a"
+      ],
+      "quote": "Bands requested in DN units contain exactly the pixel values of the source data (See also Harmonize Values ).",
+      "locator": "Units",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-sentinel-hub-raw_pixel_access-2",
+      "candidate": "ar-sentinel-hub",
+      "field": "raw_pixel_access",
+      "value": "Yes. DN units return the exact source pixel values",
+      "unit": null,
+      "note": "Second source. The Process API is described as returning raw satellite data among other outputs.",
+      "source_ids": [
+        "src-sh-process"
+      ],
+      "quote": "Users can request raw satellite data, simple band combinations such as false colour composites, calculations of simple remote sensing indices like NDVI, or more advanced processing such as calculation of Leaf area index (LAI).",
+      "locator": "Processing API, first paragraph",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-sentinel-hub-global_coverage",
+      "candidate": "ar-sentinel-hub",
+      "field": "global_coverage",
+      "value": "Land and coastal areas between 56 degrees South and 83 degrees North",
+      "unit": null,
+      "note": "Matches the Sentinel-2 mission coverage. Rendering is available up to 1500 m per pixel.",
+      "source_ids": [
+        "src-sh-s2-l2a"
+      ],
+      "quote": "Spatial coverage Land and coastal areas between latitudes 56°S and 83°N",
+      "locator": "Basic Facts table",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-sentinel-hub-license",
+      "candidate": "ar-sentinel-hub",
+      "field": "license",
+      "value": "Free access under EU law. Attribution to Sentinel Hub required",
+      "unit": null,
+      "note": "Data licence and platform terms are separate. The data licence is the Copernicus Sentinel data licence. The page also states the acknowledgment string and that tracing based on Sentinel imagery is allowed for commercial purposes. Subscription terms are a separate condition.",
+      "source_ids": [
+        "src-sh-s2-l2a"
+      ],
+      "quote": "Acknowledgment or credit: Contains modified Copernicus Sentinel data [Year] processed by Sentinel Hub",
+      "locator": "Attribution and Use",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-data_level",
+      "candidate": "ar-nasa-hls",
+      "field": "data_level",
+      "value": "Processing Level 3, 30 m BRDF-adjusted surface reflectance",
+      "unit": null,
+      "note": "Fails assumption A7 at 10 m. The HLSS30 product resamples Sentinel-2 MSI to 30 m on the Sentinel-2 MGRS grid and adjusts it to the Landsat 8 and 9 spectral response function.",
+      "source_ids": [
+        "src-lpdaac-hlss30"
+      ],
+      "quote": "The HLSS30 product provides 30-m Nadir Bidirectional Reflectance Distribution Function (BRDF)-Adjusted Reflectance (NBAR) and is derived from Sentinel-2A, Sentinel-2B, and Sentinel-2C MSI data products.",
+      "locator": "Description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-format",
+      "candidate": "ar-nasa-hls",
+      "field": "format",
+      "value": "Cloud Optimized GeoTIFF, one file per band",
+      "unit": null,
+      "note": "Thirteen spectral bands, four angle bands and one quality assessment band per granule. Stated dataset size is 20 MB.",
+      "source_ids": [
+        "src-lpdaac-hlss30"
+      ],
+      "quote": "The HLSS30 product is provided in Cloud Optimized GeoTIFF (COG) format, and each band is distributed as a separate COG. There are 13 bands included in the HLSS30 product along with four angle bands and a quality assessment (QA) band.",
+      "locator": "Description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-region",
+      "candidate": "ar-nasa-hls",
+      "field": "region",
+      "value": "us-west-2",
+      "unit": null,
+      "note": "Bucket lp-prod-protected. The same item also exposes HTTPS hrefs under data.lpdaac.earthdatacloud.nasa.gov. Public browse images sit in lp-prod-public.",
+      "source_ids": [
+        "src-cmr-stac-hls-item"
+      ],
+      "quote": "\"storage:schemes\":{\"aws\":{\"type\":\"aws-s3\",\"platform\":\"https://{bucket}.s3.{region}.amazonaws.com\",\"bucket\":\"lp-prod-protected\",\"region\":\"us-west-2\"}}",
+      "locator": "features[0].properties.storage:schemes",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-payer",
+      "candidate": "ar-nasa-hls",
+      "field": "payer",
+      "value": "Provider. NASA data are free to access and download",
+      "unit": null,
+      "note": "Users pay for their own AWS storage and compute. Direct S3 access requires Earthdata Login credentials, and the assets sit in a protected bucket.",
+      "source_ids": [
+        "src-earthdata-cloud-evolution"
+      ],
+      "quote": "Under NASA’s full and open data policy, all NASA data will continue to be free to access and download. This means that users will be able to employ cloud-based EOSDIS-provided services to discover, search, access, and download data at no cost. Users who wish to store data in their own Amazon Web Services (AWS) cloud instance or cloud storage, are responsible for covering these costs.",
+      "locator": "Benefits to Data Users and the Scientific Community, Cost effectiveness",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-discovery_mechanism",
+      "candidate": "ar-nasa-hls",
+      "field": "discovery_mechanism",
+      "value": "CMR-STAC API and Earthdata Search",
+      "unit": null,
+      "note": "CMR-STAC collection id HLSS30_2.0 under the LPCLOUD catalog. CMR concept id C2021957295-LPCLOUD. Search returns both HTTPS and s3 asset hrefs.",
+      "source_ids": [
+        "src-nasa-hls-project",
+        "src-cmr-stac-hlss30"
+      ],
+      "quote": "These data are available through Earthdata Search as well as through NASA's Land Processes Distributed Active Archive Center ( LP DAAC ).",
+      "locator": "HLS project description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-coverage_start_l2a",
+      "candidate": "ar-nasa-hls",
+      "field": "coverage_start_l2a",
+      "value": "2015-11-28",
+      "unit": "date",
+      "note": "This is the HLSS30 temporal extent start, not a Sentinel-2 Level-2A date. HLS derives its surface reflectance from Sentinel-2 Level-1C, not from Level-2A. CMR-STAC reports the same start of 2015-11-28T00:00:00.000Z.",
+      "source_ids": [
+        "src-lpdaac-hlss30",
+        "src-cmr-stac-hlss30"
+      ],
+      "quote": "Temporal Extent 2015-11-28 to Present",
+      "locator": "Data at a Glance",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-quality_layers",
+      "candidate": "ar-nasa-hls",
+      "field": "quality_layers",
+      "value": "Fmask quality bits, including aerosol level bits",
+      "unit": null,
+      "note": "Fmask is a uint8 bit field with fill value 255. Four angle bands accompany it. There is no SCL, no cloud probability and no snow probability layer.",
+      "source_ids": [
+        "src-lpdaac-hlss30"
+      ],
+      "quote": "Aerosol QA bits from the USGS Land Surface Reflectance Code (LaSRC) model output have been added into the Function of Mask (Fmask) data layer. The two added bits indicate the aerosol levels: high, medium, low, and climatology aerosol.",
+      "locator": "Version Description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-offset_delivery",
+      "candidate": "ar-nasa-hls",
+      "field": "offset_delivery",
+      "value": "Scale factor 0.0001 with Offset listed as N/A",
+      "unit": null,
+      "note": "Read from the Variables table, whose columns are Name, Description, Units, Data Type, Fill Value, Valid Range, Scale Factor and Offset. Every reflectance band row carries int16, fill value -9999, scale factor 0.0001 and Offset N/A. The page does not say how the Sentinel-2 baseline 04.00 offset is handled upstream.",
+      "source_ids": [
+        "src-lpdaac-hlss30"
+      ],
+      "quote": "Band 4 Red N/A int16 -9999 N/A 0.0001 N/A",
+      "locator": "Variables table, Band 4 row",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-publication_latency",
+      "candidate": "ar-nasa-hls",
+      "field": "publication_latency",
+      "value": "Two to three day latency",
+      "unit": "hours",
+      "note": "Stated for HLS data products as a whole. The project page also says low-latency HLS products are anticipated to be completed in 2027.",
+      "source_ids": [
+        "src-nasa-hls-project"
+      ],
+      "quote": "Coordination between these partners on the data life cycle ensures that HLS data are high-quality (research quality once the provisional tag is removed), freely available, and accessible to end users with two to three day latency.",
+      "locator": "HLS partners section",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-raw_pixel_access",
+      "candidate": "ar-nasa-hls",
+      "field": "raw_pixel_access",
+      "value": "Yes. COG files over HTTPS or S3 in us-west-2",
+      "unit": null,
+      "note": "Supports assumption A1 at 30 m only. Assets are in the protected bucket lp-prod-protected and need Earthdata Login credentials.",
+      "source_ids": [
+        "src-cmr-stac-hls-item"
+      ],
+      "quote": "\"s3_B04\"",
+      "locator": "features[0].assets keys",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-global_coverage",
+      "candidate": "ar-nasa-hls",
+      "field": "global_coverage",
+      "value": "All land masses globally, outside Antarctica",
+      "unit": null,
+      "note": "The catalog page states location GLOBAL LAND and a spatial extent of the whole globe.",
+      "source_ids": [
+        "src-nasa-hls-project"
+      ],
+      "quote": "The current version of the HLS algorithm is a cloud-based software stack that expands the spatial coverage to include all land masses globally, outside of Antarctica.",
+      "locator": "HLS project description",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-license",
+      "candidate": "ar-nasa-hls",
+      "field": "license",
+      "value": "CC0-1.0 in the CMR-STAC collection record",
+      "unit": null,
+      "note": "Data licence and platform terms are separate. The catalog page adds that the dataset is openly shared without restriction under the EOSDIS Data Use and Citation Guidance. Access to the protected bucket needs an Earthdata Login account.",
+      "source_ids": [
+        "src-cmr-stac-hlss30"
+      ],
+      "quote": "\"license\":\"CC0-1.0\"",
+      "locator": "license",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-nasa-hls-license-2",
+      "candidate": "ar-nasa-hls",
+      "field": "license",
+      "value": "CC0-1.0 in the CMR-STAC collection record",
+      "unit": null,
+      "note": "Second source for the openly shared statement.",
+      "source_ids": [
+        "src-lpdaac-hlss30"
+      ],
+      "quote": "This dataset is openly shared, without restriction, in accordance with the EOSDIS Data Use and Citation Guidance .",
+      "locator": "Citation",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-planetary-computer-format-2",
+      "candidate": "ar-planetary-computer",
+      "field": "format",
+      "value": "Cloud-optimized GeoTIFF",
+      "unit": null,
+      "note": "Observed media type on the red band asset of one sampled item. The href resolves to sentinel2l2a01.blob.core.windows.net under the sentinel2-l2 container.",
+      "source_ids": [
+        "src-pc-stac-item"
+      ],
+      "quote": "\"type\":\"image/tiff; application=geotiff; profile=cloud-optimized\"",
+      "locator": "features[0].assets.B04.type",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-aws-requester-pays-data_level-2",
+      "candidate": "ar-aws-requester-pays",
+      "field": "data_level",
+      "value": "Level-1C and Level-2A",
+      "unit": null,
+      "note": "Second source. The Sinergise readme for the L1C bucket states the L1C start date and the same tile path layout as the L2A bucket.",
+      "source_ids": [
+        "src-roda-s2-l1c"
+      ],
+      "quote": "L1C data are available from June 2015 globally.",
+      "locator": "Sentinel-2 L1C dataset, first paragraph",
+      "proposed_status": "documented"
+    }
+  ],
+  "candidate_notes": {
+    "ar-earth-search-cogs": {
+      "questions_answered": [
+        "Which collections exist and what level and baseline does each carry? sentinel-2-l1c, sentinel-2-l2a, sentinel-2-c1-l2a and sentinel-2-pre-c1-l2a. Collection 1 items carry baseline 5.0 or later.",
+        "Which bucket and region hold the assets, and who pays? sentinel-cogs and e84-earth-search-sentinel-data, both us-west-2, neither requester pays.",
+        "How are new scenes announced? SNS topic cirrus-es-prod-publish for Collection 1, with message attributes for collection, datetime, bbox corners, cloud cover and status.",
+        "Which quality layers are delivered as assets? scl, cloud, snow, aot and wvp.",
+        "Are Collection 1 reprocessed products present? Yes, in the separate collection sentinel-2-c1-l2a."
+      ],
+      "questions_open": [
+        "How far back does Level-2A coverage really go? The registry text says globally since December 2018 for this dataset, but both STAC collections report a temporal extent starting 2015-06-27. Neither page reconciles the two.",
+        "Is the reprocessing gap still open? The README records missing periods of November 2016 to November 2019 and 2022 as of April 2024. No page gives a later status.",
+        "What does a read cost? The registry states no price. The AWS Open Data Sponsorship Program page says AWS covers storing and sharing, but names no rate and no condition on the reader's region. Not settled.",
+        "Does the offset stay unapplied for every item? The README says the offset has been applied to some Items. Only two items were sampled, both with offset -0.1."
+      ],
+      "observations": [
+        "One sampled Collection 1 item carried s2:processing_baseline 05.12, storage:platform AWS, storage:region us-west-2 and storage:requester_pays false.",
+        "The sentinel-2-l2a item carried both COG assets on sentinel-cogs and -jp2 assets pointing at s3://sentinel-s2-l2a, which is the requester-pays route's bucket.",
+        "The Collection 1 red asset file:size was 109709322 bytes for a 10980 by 10980 uint16 band.",
+        "The README states the API comes with no guaranteed service."
+      ]
+    },
+    "ar-aws-requester-pays": {
+      "questions_answered": [
+        "Which buckets, regions, and formats? sentinel-s2-l1c and sentinel-s2-l2a in eu-central-1, JPEG 2000 in SAFE product layout.",
+        "What does requester pays cost per request? 0.0043 USD per 10,000 GET requests in eu-central-1, plus 0.02 USD per GB out to US West (Oregon).",
+        "Are notifications or inventories available? Yes. SNS topics NewSentinel2Product and SentinelS2L2A, plus ORC and CSV inventory files under sentinel-inventory.",
+        "Are Level-2A quality layers included? SCL, AOT and WVP are present as JPEG 2000 objects."
+      ],
+      "questions_open": [
+        "Is sentinel-s2-l2a still requester pays? The AWS registry entry shows a no-sign-request command for it while the Sinergise readme says Requester Pays. The two provider pages disagree and the bucket was not touched.",
+        "How does the baseline offset reach the reader? No page in this route documents the offset, the quantification value or where they sit in the SAFE metadata. Not settled.",
+        "Are Collection 1 reprocessed products present in these buckets? Neither the registry entry nor the Sinergise readme mentions Collection 1.",
+        "Do Level-2A cloud and snow probability layers exist here? The Earth Search item exposes scl-jp2, aot-jp2 and wvp-jp2 only. No CLD or SNW JPEG 2000 asset was seen.",
+        "What is the price of a GET against the L1C bucket from a US region? The request price is regional to eu-central-1 and the data transfer price is a separate line. They were not combined, per the rule against summing prices."
+      ],
+      "observations": [
+        "The registry lists zipped product buckets for both levels with a three day retention period, both requester pays.",
+        "The Sinergise readme notes that s3cmd with --recursive counts each downloaded file as a separate request.",
+        "AWS states that Requester Pays buckets do not allow anonymous requests, so every read must be authenticated."
+      ]
+    },
+    "ar-cdse": {
+      "questions_answered": [
+        "What is the object store endpoint? https://eodata.dataspace.copernicus.eu, load balanced between CloudFerro Cloud and OpenTelekom Cloud, with https://eodata.ams.dataspace.copernicus.eu for OpenTelekom Cloud.",
+        "What are the quotas? Copernicus General Users get 2000 S3 requests per minute, 4 concurrent connections, 20 MB/s per connection, a 12 TB rolling 30 day transfer limit, 100 active sessions and a 10 minute token life.",
+        "Which catalogs exist? STAC at https://stac.dataspace.copernicus.eu/v1/, the OData catalogue, and catalog subscriptions.",
+        "How complete is the Collection 1 archive? The documentation says historical L1C and L2A up to 13 December 2023 will soon be at baseline 5.0 or better and that the process is near the end."
+      ],
+      "questions_open": [
+        "Do the processing APIs export raw pixels for polygons? The Sentinel Hub, openEO and Data Workspace APIs on CDSE were not examined for raw per-pixel export. Only the S3 object route was settled.",
+        "What is the egress term beyond the free tier? The quotas page says users above the limit move to a slower interface at 1 MB/s with one connection. It names no paid tier and no price. The CREODIAS S3 scheme is marked requester pays with no rate published on the pages read.",
+        "Is there a published price list? The quotas page links commercial cloud credits and sponsorship applications. That page was not read, so no unit price or monthly price is claimed.",
+        "What Level-2A start date applies globally? The STAC extent starts at the mission start. No documentation page states a global Level-2A start."
+      ],
+      "observations": [
+        "The sampled item carried product:timeliness PT24H and product:timeliness_category NRT, sensed 16:48:49Z and published 21:31:26Z the same day.",
+        "The STAC collection declares CEOS ARD fields (ceosard:type, ceosard:specification) and auth schemes s3 and openIdConnect.",
+        "Sentinel Hub APIs on CDSE give Copernicus General Users 30,000 requests per month, 300 requests per minute and 10,000 processing units per month. Sentinel Hub Batch Processing API is not available to Copernicus General Users.",
+        "Direct HTTP access to COGs is listed with 50,000 requests per month for Copernicus General Users."
+      ]
+    },
+    "ar-planetary-computer": {
+      "questions_answered": [
+        "Which collections, regions, and token requirements? One Sentinel-2 collection, sentinel-2-l2a, storage account sentinel2l2a01 in westeurope, and a SAS token for every data asset.",
+        "Which quality layers are delivered? SCL, AOT and WVP. No cloud probability and no snow probability asset appears in item_assets."
+      ],
+      "questions_open": [
+        "What are the egress terms to AWS? The SAS documentation says rate limiting depends on whether the request comes from West Europe and whether a subscription key is supplied, but states no rate, no quota number and no price. Not settled.",
+        "How does the baseline offset reach the reader? No asset on the sampled item carried raster:bands scale or offset, and no page read documents the offset. Not settled.",
+        "Are Collection 1 reprocessed products present, and how are they distinguished? Nothing on the pages read addresses reprocessing. The sampled item carried baseline 05.12.",
+        "What is the publication latency? No page read states a time from sensing to availability.",
+        "What are the platform terms of use? https://planetarycomputer.microsoft.com/terms needs JavaScript and returned no content."
+      ],
+      "observations": [
+        "The dataset page, the docs pages and the terms page all return only 'You need to enable JavaScript to run this app'. Claims here cite the STAC API and the provider's own documentation source files on GitHub.",
+        "The STAC collection names Esri as a processor alongside Microsoft as host and processor.",
+        "The item asset paths keep the SAFE granule layout under a blob container, so a reader must parse SAFE paths rather than a flat key scheme.",
+        "The docs say datasets are anonymously accessible and no subscription key is needed to get a SAS token."
+      ]
+    },
+    "ar-google-earth-engine": {
+      "questions_answered": [
+        "Which cloud masks are available? SCL, MSK_CLDPRB, MSK_SNWPRB, QA60 and the MSK_CLASSI bands, plus the separate Cloud Score+ collection with cs and cs_cdf.",
+        "What are the commercial terms? Non-commercial or government research use falls under the Earth Engine Terms of Service. Other use needs a paid plan under Google Cloud commercial terms.",
+        "What does it cost? 500 USD per month Basic and 2000 USD per month Professional, plus 0.40 USD per EECU-hour in the first tier and 0.000035616 USD per gibibyte hour of storage."
+      ],
+      "questions_open": [
+        "Can raw per-pixel values be exported for thousands of polygons, and at what quota? The pricing page documents batch output to Google Cloud Storage and concurrent batch export task limits of 8 or 20 per billing account, but the export and sampling guides could not be read, so per-pixel export methods and their quotas are not settled.",
+        "Which cloud region holds the data? No page read names a storage region for the collection.",
+        "Are Collection 1 reprocessed products distinguished? The collection carries a PROCESSING_BASELINE property, but no page read states how reprocessed scenes are handled or deduplicated.",
+        "What is the publication latency? No page read states a time from sensing to availability."
+      ],
+      "observations": [
+        "Dataset Availability read 2017-03-28T00:00:00Z to 2026-09-09T16:03:57.569000Z at the access date.",
+        "Google states the Level-2 data are downloaded from CDSE and computed by running Sen2Cor.",
+        "QA60 is masked out between 2022-01-25 and 2024-02-28 inclusive, and MSK_CLASSI bands are masked out before February 2024, so cloud masking method changes twice inside the assessment history window.",
+        "The pricing page says data extraction was free at the time of writing but will be priced at standard Google Cloud data transfer rates.",
+        "Every developer guide under developers.google.com/earth-engine/guides returned a JavaScript shell with no content."
+      ]
+    },
+    "ar-sentinel-hub": {
+      "questions_answered": [
+        "Which API returns raw pixels for a polygon? The Process API, with bands requested in DN units, which contain exactly the pixel values of the source data.",
+        "What are the processing-unit rules for small polygons? One processing unit is 512 by 512 pixels, 3 input bands, one sample per pixel, up to 16 bits per pixel. The area factor has a floor of 0.01, which is 0.25 square kilometres at 10 m. The minimum request cost is 0.005 PU for Process API and 0.01 PU for Statistical API.",
+        "Which quality layers are available? SCL, SNW, CLD, CLP, CLM, AOT and dataMask."
+      ],
+      "questions_open": [
+        "What is the unit price and the subscription price? https://www.sentinel-hub.com/pricing/ redirects to https://www.planet.com/pricing/, which renders its plan table with JavaScript and returned only the heading 'Planet Pricing'. The Planet support pricing article is behind a bot check. No currency price could be quoted.",
+        "What are the retention terms? No page read states how long results or orders are retained.",
+        "Are Collection 1 reprocessed products distinguished? The L2A page describes mosaickingOrder handling of reprocessed tiles but names no Collection 1 identifier or filter.",
+        "What is the publication latency? No page read states a time from sensing to availability.",
+        "Which cloud region hosts the service? The page names the endpoint services.sentinel-hub.com and no cloud region."
+      ],
+      "observations": [
+        "The documentation banner reads 'Sentinel Hub Documentation is moving to a new home at docs.planet.com . These docs will no longer be accessible.'",
+        "The Processing Unit page notes costs marked with two asterisks are not yet applied, including 200 PU per GB egressed off the platform and 20 PU per image for Orders and Subscriptions APIs.",
+        "Batch V2 and Batch Statistical APIs carry a minimum request cost of 100 PU. Asynchronous Processing API carries 10 PU.",
+        "Statistical API and Batch Statistical API return statistics rather than pixels, which is relevant to assumption A1.",
+        "The Processing Unit quotes come from the Copernicus Data Space Ecosystem copy of the Sentinel Hub documentation, because docs.sentinel-hub.com/api/latest/api/overview/processing-unit/ redirects to docs.planet.com and then to a monitoring credits page."
+      ]
+    },
+    "ar-nasa-hls": {
+      "questions_answered": [
+        "Is 30 m resolution compatible with assumption A7? No. The product is 30 m by 30 m, so a 10 m water body is a fraction of one cell.",
+        "What bands and masks does it deliver? Thirteen spectral bands, four angle bands and an Fmask quality band, each as a separate COG.",
+        "What is the latency? Two to three days."
+      ],
+      "questions_open": [
+        "How is the Sentinel-2 baseline 04.00 offset handled upstream? The Variables table lists scale factor 0.0001 and Offset N/A for every reflectance band, but no page read states how the L1C input offset is treated.",
+        "Are reprocessed products present, and how are they distinguished? Version 2.0 is the collection version. No page read describes reprocessing inside version 2.0.",
+        "What does direct S3 access require and cost? The assets sit in the protected bucket lp-prod-protected. Earthdata Login and temporary S3 credentials were not exercised, and no price page was read."
+      ],
+      "observations": [
+        "CMR-STAC reports HLSS30_2.0 with license CC0-1.0 and a temporal start of 2015-11-28T00:00:00.000Z.",
+        "The catalog page reports 21,822,893 files or granules and processing level 3.",
+        "Reflectance bands are int16 with fill value -9999 and scale factor 0.0001. Angle bands are uint16 with fill value 40000 and scale factor 0.01.",
+        "The project page says a suite of HLS vegetation index products arrived in February 2025 and low-latency HLS products are anticipated to be completed in 2027.",
+        "Items carry both HTTPS hrefs under data.lpdaac.earthdatacloud.nasa.gov and s3:// hrefs under lp-prod-protected."
+      ]
+    }
+  },
+  "not_assessed": [
+    {
+      "option": "Earth Search collection sentinel-2-pre-c1-l2a",
+      "seen_on": "src-earth-search-collections",
+      "reason": "A fourth Sentinel-2 collection on the Earth Search route, titled 'Sentinel-2 Pre-Collection 1 Level-2A', for baselines below 05.00. In scope as part of the assessed route. Its availability and semantics remain unverified. Rationale revised by the parent agent on 2026-09-10 after the Codex follow-up, finding D04."
+    },
+    {
+      "option": "CREODIAS S3, eodata.cloudferro.com",
+      "seen_on": "src-cdse-stac-collection",
+      "reason": "Declared in the CDSE STAC storage schemes as a commercial part of CDSE with requester_pays true and no predefined quota limits. A separate commercial offering, not the CDSE candidate."
+    },
+    {
+      "option": "CDSE openEO API and Data Workspace API",
+      "seen_on": "src-cdse-quotas",
+      "reason": "Separate CDSE interfaces with their own quotas. Only the object store and catalogs were in scope for this dimension."
+    },
+    {
+      "option": "Sentinel Hub Batch Processing API V2, Statistical API, Batch Statistical API, Asynchronous Processing API",
+      "seen_on": "src-cdse-sh-processing-unit",
+      "reason": "Processing interfaces that belong to the processing workflow dimension rather than the access route dimension."
+    },
+    {
+      "option": "Sentinel-2 Level-3 Quarterly Mosaics and Global Mosaics",
+      "seen_on": "src-cdse-s2",
+      "reason": "Derived mosaic products, not per-scene Level-2A. They would fail assumption A1 for raw band values per scene."
+    },
+    {
+      "option": "Google Earth Engine collections COPERNICUS/S2_SR and COPERNICUS/S2_CLOUD_PROBABILITY",
+      "seen_on": "src-gee-s2-sr-harmonized",
+      "reason": "The unharmonized Level-2A collection and a separate cloud probability collection. Only the harmonized collection and Cloud Score+ were assessed."
+    },
+    {
+      "option": "HLSL30 v2.0, the Landsat member of HLS",
+      "seen_on": "src-nasa-hls-project",
+      "reason": "Landsat-derived, not Sentinel-2. Outside the Sentinel-2 scope of this assessment."
+    },
+    {
+      "option": "Element 84 FilmDrop private catalog offering",
+      "seen_on": "src-e84-earth-search-readme",
+      "reason": "A commercial private catalog offer named in the README. Not a public access route."
+    },
+    {
+      "option": "AWS S3 Inventory files for Earth Search Collection 1 (parquet, daily)",
+      "seen_on": "src-e84-earth-search-readme",
+      "reason": "Recorded inside the discovery mechanism claim rather than as a separate route."
+    }
+  ],
+  "limitations": [
+    "The Amazon S3 pricing page at https://aws.amazon.com/s3/pricing/ renders its price tables from client-side placeholders such as {priceOf!s3/s3-standard!GET!...}. No number could be quoted from it. The request and data transfer prices were taken from the AWS Price List offer files for eu-central-1 instead, which are official AWS files with a stated publication date.",
+    "No currency price for Sentinel Hub could be quoted. https://www.sentinel-hub.com/pricing/ redirects to https://www.planet.com/pricing/, whose plan table is rendered with JavaScript, and the Planet support pricing article is behind a bot check. unit_price and monthly_price stay null for that candidate.",
+    "Every Microsoft Planetary Computer web page tried, including the dataset page, the docs pages and the terms page, returned only a JavaScript shell. Claims for that candidate cite the STAC API and the provider's own documentation source files in the microsoft/PlanetaryComputerDataCatalog repository.",
+    "Google Earth Engine developer guide pages under developers.google.com/earth-engine/guides also returned JavaScript shells. Only the data catalog pages, the Google Cloud pricing page and the Earth Engine terms page could be quoted. The raw pixel access claim for that route therefore rests on the pricing page's description of batch output rather than on an export guide.",
+    "LP DAAC product URLs under lpdaac.usgs.gov redirect to the NASA Earthdata site. The HLSS30 v2.0 claims cite https://www.earthdata.nasa.gov/data/catalog/lpcloud-hlss30-2.0 instead.",
+    "One STAC item per collection was sampled, all over a bounding box near the Texas coast on the access date. Item-level values such as processing baseline, timeliness and asset scale or offset may differ for other items and other dates.",
+    "No image asset bytes were read. No requester-pays bucket was contacted. No credentials were used. All values come from documentation pages and from catalog and metadata endpoints that return JSON or HTML.",
+    "Prices are quoted as published. None was converted between currencies and none was summed with another.",
+    "Coverage start dates conflict between prose and STAC temporal extents for three routes. Both values are recorded, and the conflict is left open rather than resolved.",
+    "The offset_delivery field is settled for five routes and open for two: the requester-pays buckets and the Planetary Computer. Neither publishes a statement about the processing-baseline offset on any page read."
+  ]
+}
