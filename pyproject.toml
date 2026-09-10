@@ -1,0 +1,27 @@
+[project]
+name = "sentinel2-pipeline-development"
+version = "0.1.0"
+description = "Assessment of Sentinel-2 ingestion options for water-quality modeling"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/atashie/sentinel2-pipeline-development"
+
+[dependency-groups]
+dev = ["pytest>=8.4,<10", "ruff>=0.12,<1"]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

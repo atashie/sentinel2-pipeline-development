@@ -1,0 +1,21 @@
+.venv/
+.uv-cache/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+data/
+.env
+*.parquet
+*.duckdb*
+*.tif
+*.tiff
+*.jp2
+*.zarr/
+!tests/fixtures/**
+dist/
+.DS_Store
+
+# Claude Code personal overrides
+CLAUDE.local.md
+.claude/settings.local.json

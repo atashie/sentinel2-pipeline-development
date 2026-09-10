@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "seed": 20260909,
+  "water_body_counts": [1, 10, 100, 1000, 10000],
+  "patterns": ["clustered", "dispersed"],
+  "pattern_note": "Clustered water bodies share few tiles. Dispersed water bodies touch many tiles. Report distinct tiles and tile-dates with every run.",
+  "history_starts": ["2017-01-01", "2021-01-01"],
+  "modes": ["backfill", "daily"],
+  "replay_days": [1, 30, 365],
+  "size_classes_m": [10, 30, 100, 300, 1000],
+  "size_note": "Smallest water body is 10 m across, assumption A7. Report interior and shoreline pixel counts per resolution.",
+  "live_provider_policy": "Run counts progressively. One request stream at first. Fixture runs are not a provider capacity benchmark. Record bucket, region, payer, bytes, and requests.",
+  "targets": null,
+  "targets_note": "No target is set. Assumption A14: no budget exists. Targets follow measurements."
+}

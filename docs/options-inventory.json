@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "assessed_on": null,
+  "selection": {
+    "status": "open",
+    "decision": "decisions/0001-scope-and-sequence.md",
+    "note": "No route, workflow, platform, or layout is selected. Preference is recorded in assumption A13 and is not selection."
+  },
+  "scope": {
+    "assumptions": "assumptions.md"
+  },
+  "missing_value_policy": "Null means undocumented, inaccessible, ambiguous, or conflicting. It does not mean zero, false, or absent. An explicit absence is a claim with value 'Not listed'.",
+  "dimensions": {
+    "access_route": "How Sentinel-2 products reach us: bucket, catalog, notification feed, or API.",
+    "processing_workflow": "How products become per-water-body records: locate, read, mask, flag, write.",
+    "compute_platform": "What runs the workflow: functions, containers, clusters, or provider compute.",
+    "storage_layout": "What holds the records: format, partitioning, indexing, revisions."
+  },
+  "fields": [
+    {"id": "data_level", "label": "Data level", "group": "data", "definition": "Product level delivered: L1C, L2A, Collection 1 L2A", "unit": null, "applies_to": ["access_route"]},
+    {"id": "format", "label": "File format", "group": "data", "definition": "COG, JPEG 2000, Zarr, or API response", "unit": null, "applies_to": ["access_route", "storage_layout"]},
+    {"id": "region", "label": "Region", "group": "access", "definition": "Cloud region or provider location that hosts the data", "unit": null, "applies_to": ["access_route"]},
+    {"id": "payer", "label": "Payer", "group": "access", "definition": "Who pays for reads: provider, requester, or subscription", "unit": null, "applies_to": ["access_route"]},
+    {"id": "discovery_mechanism", "label": "Scene discovery", "group": "access", "definition": "STAC, notifications, inventory files, or API", "unit": null, "applies_to": ["access_route"]},
+    {"id": "coverage_start_l2a", "label": "L2A coverage start", "group": "data", "definition": "Earliest global Level-2A date on this route", "unit": "date", "applies_to": ["access_route"]},
+    {"id": "reprocessed_products", "label": "Reprocessed products", "group": "data", "definition": "Whether Collection 1 reprocessed products are present and how they are distinguished", "unit": null, "applies_to": ["access_route"]},
+    {"id": "quality_layers", "label": "Quality layers", "group": "quality", "definition": "SCL, cloud probability, snow probability, L1C masks, other cloud masks", "unit": null, "applies_to": ["access_route", "processing_workflow"]},
+    {"id": "publication_latency", "label": "Publication latency", "group": "latency", "definition": "Documented time from sensing to availability", "unit": "hours", "applies_to": ["access_route"]},
+    {"id": "read_pattern", "label": "Read pattern", "group": "workflow", "definition": "Windowed range read, full download, or server-side extraction", "unit": null, "applies_to": ["processing_workflow"]},
+    {"id": "geolocation_handling", "label": "Geolocation handling", "group": "correctness", "definition": "How tile grid, overlap, and refinement status are handled", "unit": null, "applies_to": ["processing_workflow"]},
+    {"id": "offset_handling", "label": "Offset handling", "group": "correctness", "definition": "How the processing-baseline offset is read and applied", "unit": null, "applies_to": ["processing_workflow"]},
+    {"id": "resampling_policy", "label": "Resampling policy", "group": "correctness", "definition": "Whether bands are read at native resolution", "unit": null, "applies_to": ["processing_workflow"]},
+    {"id": "raw_pixel_access", "label": "Raw pixel access", "group": "correctness", "definition": "Whether raw per-pixel values can be served, assumption A1", "unit": null, "applies_to": ["access_route", "processing_workflow"]},
+    {"id": "scaling_water_bodies", "label": "Scaling with water bodies", "group": "scale", "definition": "Documented or reasoned cost behaviour as water-body count grows", "unit": null, "applies_to": ["processing_workflow", "compute_platform", "storage_layout"]},
+    {"id": "scaling_history", "label": "Scaling with history", "group": "scale", "definition": "Cost behaviour as history length grows", "unit": null, "applies_to": ["processing_workflow", "storage_layout"]},
+    {"id": "global_coverage", "label": "Global coverage", "group": "scale", "definition": "Anything that limits global use, assumption A4", "unit": null, "applies_to": ["access_route", "compute_platform"]},
+    {"id": "orchestrator_dependency", "label": "Orchestrator dependency", "group": "operability", "definition": "Whether the option requires a specific orchestrator, assumption A12", "unit": null, "applies_to": ["processing_workflow", "compute_platform"]},
+    {"id": "idempotency", "label": "Idempotency and retry", "group": "operability", "definition": "How reruns and partial failures behave", "unit": null, "applies_to": ["processing_workflow", "compute_platform", "storage_layout"]},
+    {"id": "revision_handling", "label": "Revision handling", "group": "operability", "definition": "How reprocessed products and corrections are kept", "unit": null, "applies_to": ["storage_layout"]},
+    {"id": "unit_price", "label": "Unit price", "group": "cost", "definition": "Documented price per unit with plan conditions", "unit": "varies", "applies_to": ["access_route", "compute_platform", "storage_layout"]},
+    {"id": "monthly_price", "label": "Subscription price", "group": "cost", "definition": "Documented plan price", "unit": "currency per month", "applies_to": ["access_route"]},
+    {"id": "license", "label": "License and terms", "group": "terms", "definition": "Data license, attribution, retention, redistribution, commercial use", "unit": null, "applies_to": ["access_route"]},
+    {"id": "engineering_effort", "label": "Engineering effort", "group": "cost", "definition": "Reasoned effort class with rationale", "unit": null, "applies_to": ["processing_workflow", "compute_platform", "storage_layout"]}
+  ],
+  "sources": [],
+  "claims": [],
+  "candidates": [
+    {"id": "ar-earth-search-cogs", "name": "Earth Search STAC over the Sentinel-2 COG bucket on AWS Open Data", "dimension": "access_route", "class": "public-aws", "specs": {}, "questions": ["Which collections exist and what level and baseline does each carry?", "Which bucket and region hold the assets, and who pays?", "How are new scenes announced?", "Which quality layers are delivered as assets?", "How far back does Level-2A coverage go, and are Collection 1 reprocessed products present?"]},
+    {"id": "ar-aws-requester-pays", "name": "Sentinel-2 L2A and L1C requester-pays buckets on AWS", "dimension": "access_route", "class": "public-aws", "specs": {}, "questions": ["Which buckets, regions, and formats?", "What does requester pays cost per request and per byte from the company's region?", "Are notifications or inventories available for new scenes?", "Are Level-1C quality masks and Level-2A probability layers included?"]},
+    {"id": "ar-cdse", "name": "Copernicus Data Space Ecosystem object store, catalogs, and processing APIs", "dimension": "access_route", "class": "non-aws", "specs": {}, "questions": ["What are the object store endpoint, quotas, and egress terms?", "Which catalogs exist and what do they expose?", "Do the processing APIs export raw pixels for polygons?", "How complete is the Collection 1 archive?"]},
+    {"id": "ar-planetary-computer", "name": "Microsoft Planetary Computer STAC and Azure storage", "dimension": "access_route", "class": "non-aws", "specs": {}, "questions": ["Which collections, regions, and token requirements?", "What are the egress terms to AWS?", "Which quality layers are delivered?"]},
+    {"id": "ar-google-earth-engine", "name": "Google Earth Engine Sentinel-2 collections", "dimension": "access_route", "class": "managed", "specs": {}, "questions": ["Can raw per-pixel values be exported for thousands of polygons, and at what quota and price?", "Which cloud masks are available?", "What are the commercial terms?"]},
+    {"id": "ar-sentinel-hub", "name": "Sentinel Hub APIs", "dimension": "access_route", "class": "managed", "specs": {}, "questions": ["Which API returns raw pixels for a polygon, and at what unit price?", "What are the processing-unit rules for small polygons?", "What are the commercial and retention terms?"]},
+    {"id": "ar-nasa-hls", "name": "NASA Harmonized Landsat Sentinel-2", "dimension": "access_route", "class": "non-aws", "specs": {}, "questions": ["Is 30 m resolution compatible with assumption A7?", "What bands, masks, and latency does it deliver?"]},
+    {"id": "wf-mask-once-windowed", "name": "Mask once, windowed reads per scene", "dimension": "processing_workflow", "class": "self-built", "specs": {}, "questions": ["What is the per-scene request count for a pond, and does it scale with water bodies per tile?", "How are tile overlap and refinement status recorded?", "What library reads windows from COG and JPEG 2000 efficiently?"]},
+    {"id": "wf-full-tile-then-mask", "name": "Full tile fetch, then mask", "dimension": "processing_workflow", "class": "self-built", "specs": {}, "questions": ["What are transfer bytes per tile-date across all bands?", "Does owning tiles simplify reprocessing and revisions?"]},
+    {"id": "wf-datacube", "name": "Per-tile datacube, then slice by mask", "dimension": "processing_workflow", "class": "self-built", "specs": {}, "questions": ["Does any provider publish Sentinel-2 as a cube already?", "What does building a cube cost at 2017 and 2021 histories?", "How are new scenes appended and reprocessed scenes versioned?"]},
+    {"id": "wf-lazy-array-stack", "name": "Lazy array stack from STAC with chunked computation", "dimension": "processing_workflow", "class": "self-built", "specs": {}, "questions": ["How does chunking interact with single-pixel ponds?", "What is the read amplification versus windowed reads?"]},
+    {"id": "wf-server-side-extraction", "name": "Provider-side extraction for polygons", "dimension": "processing_workflow", "class": "managed", "specs": {}, "questions": ["Which providers export raw pixels rather than statistics?", "What are the polygon count and size limits?"]},
+    {"id": "wf-chip-archive", "name": "Per-water-body chip archive", "dimension": "processing_workflow", "class": "self-built", "specs": {}, "questions": ["What chip size preserves context for adjacency and glint checks?", "What is the storage cost per water-body-scene?"]},
+    {"id": "cp-serverless-functions", "name": "Serverless functions per scene-tile", "dimension": "compute_platform", "class": "public-aws", "specs": {}, "questions": ["What are the memory, duration, and concurrency limits?", "What does a scene-tile unit cost?"]},
+    {"id": "cp-batch-containers", "name": "Batch containers", "dimension": "compute_platform", "class": "public-aws", "specs": {}, "questions": ["How is a unit of work retried and deduplicated?", "What is the cost per compute hour and the startup latency?"]},
+    {"id": "cp-kubernetes-dask", "name": "Kubernetes cluster with distributed arrays", "dimension": "compute_platform", "class": "self-built", "specs": {}, "questions": ["What operational effort does the cluster need?", "Is it justified at the workload sizes in workloads.json?"]},
+    {"id": "cp-spark-cluster", "name": "Managed Spark cluster", "dimension": "compute_platform", "class": "public-aws", "specs": {}, "questions": ["Which raster libraries run on it?", "What is the cost per compute hour?"]},
+    {"id": "cp-provider-compute", "name": "Provider-hosted compute", "dimension": "compute_platform", "class": "managed", "specs": {}, "questions": ["Which providers run user code next to the data?", "What are the quotas and prices?"]},
+    {"id": "sl-parquet-object-store", "name": "Parquet on object storage", "dimension": "storage_layout", "class": "public-aws", "specs": {}, "questions": ["What partitioning serves per-water-body queries and per-scene writes?", "What is the size per water-body-scene?"]},
+    {"id": "sl-zarr-icechunk", "name": "Zarr with Icechunk versioning", "dimension": "storage_layout", "class": "self-built", "specs": {}, "questions": ["How do sparse per-water-body pixels fit a chunked array?", "How do snapshots serve as-of queries?"]},
+    {"id": "sl-lakehouse-table", "name": "Lakehouse table format", "dimension": "storage_layout", "class": "public-aws", "specs": {}, "questions": ["What does the catalog and compaction add in cost and effort?", "How are revisions represented?"]},
+    {"id": "sl-chip-archive", "name": "Chip archive of small rasters", "dimension": "storage_layout", "class": "self-built", "specs": {}, "questions": ["What index serves queries across chips?", "What is the object count at 10,000 water bodies over five years?"]}
+  ],
+  "findings": [],
+  "combinations": [],
+  "gaps": [],
+  "verification": {
+    "method": "No verification has run. See discovery-plan.md for the method.",
+    "checkers": [],
+    "limits": "Seeded candidates are names and questions only. Nothing here is a documented claim."
+  }
+}

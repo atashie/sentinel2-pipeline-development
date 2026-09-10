@@ -1,0 +1,6 @@
+{
+  "type": "FeatureCollection",
+  "manifest_version": 0,
+  "note": "Empty on 2026-09-09. The prototyping step fills it from a public dataset by a checked-in script.",
+  "features": []
+}
