@@ -4,10 +4,10 @@ Scripts that produce evidence. Each writes one JSON file to `results/`. The file
 
 | Script | Contacts | Writes | Runs when |
 |---|---|---|---|
-| [gap_survey.py](gap_survey.py) | Earth Search STAC API, and the Copernicus Data Space Ecosystem catalogs as a reference count. Catalog metadata only, no imagery, no credentials | `results/gap-survey.json`, raw listings under `data/gap-survey/` | The user invokes it. Plan and rerun steps in [../docs/gap-survey-plan.md](../docs/gap-survey-plan.md) |
+| [gap_survey.py](gap_survey.py) | Earth Search STAC API, and the Copernicus Data Space Ecosystem catalogs as a reference count. Catalog metadata only, no imagery, no credentials | `results/gap-survey.json`, raw listings under `data/gap-survey/` | The user invokes it. Plan and rerun steps in [../docs/gap-survey-plan.md](../docs/gap-survey-plan.md). `--manifest` surveys the pilot manifest's water bodies by bounding box |
 | [fallback_survey.py](fallback_survey.py) | The same catalogs, plus HEAD requests without credentials on a sample of GeoTIFF objects in the public `sentinel-cogs` bucket. Headers only, no pixel | `results/fallback-survey.json`, raw listings under `data/fallback-survey/` | The user invokes it, after `gap_survey.py`, whose result it reads |
 
-`gap-survey-sites.json` lists the public water bodies the gap survey uses as points, with the reason for each. It stands in for the pilot manifest until [../examples/water-bodies-public-pilot.geojson](../examples/water-bodies-public-pilot.geojson) is populated.
+`gap-survey-sites.json` lists the public water bodies the gap survey used as points on 2026-09-10, with the reason for each. The [pilot manifest](../examples/water-bodies-public-pilot.geojson) anchors its regions on these sites, and the survey takes either file.
 
 Prototype benchmarks arrive with the prototyping step in [../docs/work-plan.md](../docs/work-plan.md).
 

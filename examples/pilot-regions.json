@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "note": "Regions for tools/build_pilot_manifest.py. Each region names a gap survey site as its anchor, a box to search for small water bodies, and a terrain setting. The settings are descriptions, not measurements. Customer water bodies never enter this repository (assumption A8).",
+  "size_classes_m": [10, 30, 100, 300, 1000],
+  "regions": [
+    {
+      "region_id": "tahoe",
+      "name": "Lake Tahoe basin, California and Nevada",
+      "survey_site_id": "tahoe",
+      "include_anchor": true,
+      "box": {"latitude": 39.05, "longitude": -120.1, "half_width_deg": 0.3},
+      "setting": "mountain",
+      "setting_basis": "Sierra Nevada basin. The lake surface is near 1,900 m with steep relief on every shore.",
+      "why": "Mountain terrain with snow and shadow. The anchor lake straddles UTM zones 10 and 11, so it lies in two tiles."
+    },
+    {
+      "region_id": "lanier",
+      "name": "Lake Lanier area, Georgia",
+      "survey_site_id": "lanier",
+      "include_anchor": true,
+      "box": {"latitude": 34.25, "longitude": -83.95, "half_width_deg": 0.15},
+      "setting": "hills",
+      "setting_basis": "Piedmont with rolling hills. The lake surface is near 330 m.",
+      "why": "Dendritic reservoir shown in the Discovery maps, with many farm and golf ponds nearby."
+    },
+    {
+      "region_id": "okeechobee",
+      "name": "Lake Okeechobee north shore, Florida",
+      "survey_site_id": "okeechobee",
+      "include_anchor": true,
+      "box": {"latitude": 27.05, "longitude": -80.65, "half_width_deg": 0.15},
+      "setting": "flat",
+      "setting_basis": "Florida lowland. The lake surface is near 5 m and the surrounding land is nearly level.",
+      "why": "Subtropical flat terrain with many small ponds and a bloom-prone anchor lake."
+    },
+    {
+      "region_id": "grand-st-marys",
+      "name": "Grand Lake St. Marys area, Ohio",
+      "survey_site_id": "grand-st-marys",
+      "include_anchor": true,
+      "box": {"latitude": 40.53, "longitude": -84.5, "half_width_deg": 0.1},
+      "setting": "flat",
+      "setting_basis": "Ohio till plain under farmland. The lake surface is near 265 m.",
+      "why": "Flat farmland with a shallow bloom-prone reservoir and small ponds."
+    },
+    {
+      "region_id": "washington",
+      "name": "Lake Washington area, Washington",
+      "survey_site_id": "washington",
+      "include_anchor": true,
+      "box": {"latitude": 47.62, "longitude": -122.26, "half_width_deg": 0.1},
+      "setting": "lowland",
+      "setting_basis": "Seattle area with low relief and built-up shores.",
+      "why": "Urban ponds beside an urban lake."
+    },
+    {
+      "region_id": "iliamna",
+      "name": "Iliamna Lake north-east shore, Alaska",
+      "survey_site_id": "iliamna",
+      "include_anchor": false,
+      "box": {"latitude": 59.75, "longitude": -154.6, "half_width_deg": 0.25},
+      "setting": "hills",
+      "setting_basis": "Alaska Peninsula with low mountains and tundra at high latitude.",
+      "why": "High latitude with low winter sun. The anchor lake is too large to carry, so only small lakes are included."
+    }
+  ]
+}

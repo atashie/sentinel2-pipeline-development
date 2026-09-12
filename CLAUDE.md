@@ -10,8 +10,8 @@ build the production system. `README.md` is the human overview and the document 
 
 Discovery and the gap surveys are complete. The presentation was revised and reviewed on 2026-09-11.
 The [latest review](docs/reviews/2026-09-11-prototyping-handoff.md) records corrections, verification, and remaining questions.
-The next session begins Phase 2, Prototyping, scoped jointly by the owner, Codex, and Claude Code.
-Start with the handoff in [docs/work-plan.md](docs/work-plan.md).
+Phase 2, Prototyping, began on 2026-09-11 with the public pilot manifest, [record](docs/reviews/2026-09-11-pilot-manifest.md).
+The gap survey rerun on the manifest and the first bounded comparison await the owner. Start with [docs/work-plan.md](docs/work-plan.md).
 No processing workflow, compute platform, or storage layout is selected. No workflow prototype has run.
 [Decision 0004](docs/decisions/0004-cog-fallback-and-presentation-clarifications.md) consolidates the agreed COG fallback and presentation direction.
 Earlier scope decisions remain active except where explicitly revised.
@@ -41,6 +41,7 @@ uv run ruff check . && uv run ruff format --check .
 uv run python tools/collate_checks.py          # rebuild the inventory from check records, no network
 uv run python tools/render_options.py          # regenerate docs/s2-options.html, no network
 uv run python tools/gap_report.py              # regenerate the gap survey report, no network
+uv run python tools/build_pilot_manifest.py    # rebuild the pilot manifest from the saved run, no network
 uv run python tools/collate_checks.py --check && uv run python tools/render_options.py --check && uv run python tools/gap_report.py --check
 ```
 
@@ -50,6 +51,7 @@ Two scripts contact providers: `benchmarks/gap_survey.py` queries catalog metada
 and the Copernicus catalogs, and `benchmarks/fallback_survey.py` adds header-only requests on public GeoTIFF objects.
 Neither reads a pixel. Such scripts run only to produce a measurement that a document cites, and only when the user
 invokes them. Requester-pays buckets charge the reader. Record bucket or endpoint, region, and payer in every result.
+`tools/build_pilot_manifest.py --fetch` contacts the USGS hydrography service for polygons only, and runs only when the owner asks.
 
 The separate educational map builder, [tools/build_discovery_maps.py](tools/build_discovery_maps.py), reads pixels only with `--download` and explicit authorization.
 The owner authorized one public image crop for the presentation on 2026-09-11. This does not authorize workflow prototypes or additional surveys.
@@ -64,9 +66,9 @@ The owner authorized one public image crop for the presentation on 2026-09-11. T
 | `docs/assessment-checks/` | Research drafts and independent check records that bind claims. Evidence, not prose |
 | `docs/references/` | Supplied reference documents and their provenance |
 | `benchmarks/` | Survey scripts, `workloads.json`, and the survey sites. `results/*.json` are evidence |
-| `examples/` | Public water-body manifest format for prototypes. Never customer data |
-| `tests/` | Documentation link check, inventory schema check, survey and report fixture tests. No network |
-| `tools/` | Inventory and report renderers, the Discovery presentation template, and its educational map builder. See [tools/README.md](tools/README.md) |
+| `examples/` | The public pilot water-body manifest, its region configuration, and the format. Never customer data |
+| `tests/` | Documentation link check, inventory schema check, survey, report, and manifest fixture tests. No network |
+| `tools/` | Inventory and report renderers, the Discovery presentation template, its map builder, and the pilot manifest builder. See [tools/README.md](tools/README.md) |
 | `data/` | Local downloads, raw listings, and stores. Ignored by git |
 | `src/` | Prototype code, once a prototype step is authorized. Does not exist yet |
 

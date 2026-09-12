@@ -8,7 +8,7 @@ A checked box means the work exists in this repository with evidence.
 Discovery review and documentation reconciliation are recorded in the [handoff review](reviews/2026-09-11-prototyping-handoff.md).
 Read that review, [measurements](measurements.md), and the [draft contract](data-contract.md) before selecting the first bounded comparison together.
 
-- Establish the public pilot polygons and identify the input product used by the existing model.
+- The public pilot polygons exist since 2026-09-11. Identify the input product used by the existing model.
 - Choose the first methods, comparison cases, tolerances, and resource bounds with the owner, Codex, and Claude Code.
 - Prioritize offset correctness and cross-tile differences alongside runtime, bytes, requests, memory, and output size.
 - Carry unresolved fill policy, missing quality layers, Alaska scope, processing-version comparability, and record layout into those experiments.
@@ -115,7 +115,8 @@ The owner requested a narrative for engineering and business colleagues with lim
 
 ## Phase 2: Prototyping
 
-- [ ] Public pilot manifest derived from a public water-body dataset by a checked-in script. Rerun the gap survey on its tiles.
+- [x] Public pilot manifest derived from the USGS National Hydrography Dataset by [a checked-in script](../tools/build_pilot_manifest.py), 2026-09-11. [Manifest](../examples/water-bodies-public-pilot.geojson), [record](reviews/2026-09-11-pilot-manifest.md).
+- [ ] Rerun the gap survey with `--manifest`, then the fallback survey and the report. The owner invokes it.
 - [ ] Bounded prototypes of the selected candidates on the pilot set. Fixture tests, no network.
 - [ ] Live probes with recorded bytes, requests, cost, and limitations. Results in `benchmarks/results/`.
 - [ ] Offset pixel check, issue I-05. Read one 60 m band window from a GeoTIFF and from its JPEG 2000 alternate. Do it for a flag-true and a flag-false 04.00 item.

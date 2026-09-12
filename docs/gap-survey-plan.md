@@ -18,13 +18,14 @@ Which quality assets does each collection deliver, and does that change with bas
 
 ## Sites and tiles
 
-The pilot manifest is empty. The survey uses named public water bodies as points, listed in [../benchmarks/gap-survey-sites.json](../benchmarks/gap-survey-sites.json) with the reason for each.
+The 2026-09-10 run used named public water bodies as points, listed in [../benchmarks/gap-survey-sites.json](../benchmarks/gap-survey-sites.json) with the reason for each.
 Seventeen sites lie in the United States, the service area of assumption A4. Three context sites outside it show whether a gap is regional or global.
 One site straddles a UTM zone boundary, so it lies in two tiles.
+The [pilot manifest](../examples/water-bodies-public-pilot.geojson) exists since 2026-09-11. With `--manifest`, the survey takes its water bodies as sites and discovers tiles by each bounding box.
+A bounding box can add a tile the polygon does not touch. The result records which site mode ran.
 
 Tiles are discovered from the catalog, not computed. For each site, the survey lists Collection 1 items whose footprint covers the point in the last year and takes their tile codes.
-A tile whose items never cover the point in that year is not surveyed. That limit is recorded in the result file.
-Rerun the survey on the pilot manifest's tiles when the manifest is populated.
+A tile whose items never cover the point, or the box, in that year is not surveyed. That limit is recorded in the result file.
 
 ## Collections and window
 
@@ -106,7 +107,7 @@ Every number in the report comes from the inputs. `--check` fails when the commi
 
 ## Rerun
 
-1. Run `uv run python benchmarks/gap_survey.py` from the repository root.
+1. Run `uv run python benchmarks/gap_survey.py --manifest examples/water-bodies-public-pilot.geojson` from the repository root. Without `--manifest`, the survey uses the point list.
 2. Wait for the final line, which names the result file and the request total.
 3. Update the tables in [measurements.md](measurements.md) from the new file.
 4. Run `uv run python benchmarks/fallback_survey.py`, then `uv run python tools/gap_report.py`.

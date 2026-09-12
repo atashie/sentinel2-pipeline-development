@@ -388,15 +388,38 @@ def window_datetime(start: str, end: str) -> str:
     return f"{start}T00:00:00Z/{end}T23:59:59Z"
 
 
+def manifest_sites(manifest: dict) -> list[dict]:
+    """One survey site per manifest feature. Discovery then uses the feature's bounding box."""
+    sites = []
+    for feature in manifest["features"]:
+        props = feature["properties"]
+        sites.append(
+            {
+                "site_id": props["water_body_id"],
+                "name": props["name"],
+                "group": "pilot",
+                "bbox": feature["bbox"],
+                "why": props.get("why", ""),
+            }
+        )
+    return sites
+
+
 def discover_tiles(client: Client, site: dict, start: str, end: str) -> dict:
-    """Tiles whose Collection 1 item footprints cover the site point in the last year."""
+    """Tiles whose Collection 1 items cover the site point or its bounding box in the last year."""
     body = {
         "collections": [PRIMARY],
-        "intersects": {"type": "Point", "coordinates": [site["longitude"], site["latitude"]]},
         "datetime": window_datetime(start, end),
         "limit": PAGE_LIMIT,
         "fields": {"include": ["id", "properties.grid:code"], "exclude": EXCLUDE},
     }
+    if "bbox" in site:
+        body["bbox"] = site["bbox"]
+    else:
+        body["intersects"] = {
+            "type": "Point",
+            "coordinates": [site["longitude"], site["latitude"]],
+        }
     features = paged_search(client, ES_ROOT, body, f"discover {site['site_id']}")
     counts = Counter(tile_code(f.get("properties", {}), f["id"]) for f in features)
     return {str(k): v for k, v in sorted(counts.items()) if k}
@@ -569,6 +592,9 @@ def main(argv=None) -> int:
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument("--sites", type=Path, default=Path("benchmarks/gap-survey-sites.json"))
+    parser.add_argument(
+        "--manifest", type=Path, help="Survey the pilot manifest's water bodies instead of --sites"
+    )
     parser.add_argument("--start", default="2021-01-01")
     parser.add_argument("--end", default=datetime.now(UTC).date().isoformat())
     parser.add_argument(
@@ -591,8 +617,15 @@ def main(argv=None) -> int:
     raw_dir = args.raw_dir / measured_at.replace(":", "")
     raw_dir.mkdir(parents=True, exist_ok=True)
     client = Client(pause=args.pause)
-    sites_doc = json.loads(args.sites.read_text())
-    sites = sites_doc["sites"][: args.max_sites] if args.max_sites else sites_doc["sites"]
+    if args.manifest:
+        sites_path = args.manifest
+        all_sites = manifest_sites(json.loads(sites_path.read_text()))
+        site_mode = "pilot manifest bounding boxes"
+    else:
+        sites_path = args.sites
+        all_sites = json.loads(sites_path.read_text())["sites"]
+        site_mode = "site points"
+    sites = all_sites[: args.max_sites] if args.max_sites else all_sites
 
     print(f"gap survey {measured_at}: {len(months)} months, {len(sites)} sites", flush=True)
     collections = {}
@@ -633,8 +666,9 @@ def main(argv=None) -> int:
         "measured_at": measured_at,
         "code_version": code_version(),
         "script": "benchmarks/gap_survey.py",
-        "sites_file": str(args.sites),
-        "sites_sha256": sha256_file(args.sites),
+        "sites_file": str(sites_path),
+        "sites_sha256": sha256_file(sites_path),
+        "site_mode": site_mode,
         "window": {"start": args.start, "end": args.end, "months": months},
         "tile_discovery_window": {"start": discovery_start, "end": args.end, "collection": PRIMARY},
         "endpoints": {
@@ -678,14 +712,15 @@ def main(argv=None) -> int:
             "a listed asset opens or holds valid pixels.",
             "Sensing keys pair the date with the platform letter. Two acquisitions of one tile "
             "by one unit on one date would collapse into one key.",
-            "Tiles come from Collection 1 footprints covering the site point in the last year. "
-            "A tile whose items never cover the point is not surveyed.",
+            "Tiles come from Collection 1 items covering the site point, or intersecting the "
+            "water body's bounding box, in the last year. A bounding box can add a tile the "
+            "polygon does not touch. A tile with no such item is not surveyed.",
             "The Copernicus catalogs are a reference for what ESA lists today, not a route. "
             "Their completeness is not independently established.",
             "Counts describe the catalogs at measured_at. Ingestion continues and can change "
             "every number.",
-            "Site points stand in for the pilot manifest, which does not exist yet. Rerun on "
-            "the manifest's tiles when it exists.",
+            f"Sites are {site_mode}. Pass --manifest to survey the pilot manifest's water "
+            "bodies, or --sites for the point list.",
         ],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)

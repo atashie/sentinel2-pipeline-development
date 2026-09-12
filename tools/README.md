@@ -36,3 +36,10 @@ The renderer takes the displayed sensing date and time from the source provenanc
 The small display images and [provenance record](../docs/assets/discovery/provenance.json) live beside the HTML.
 Share the page with its `assets/discovery/` directory. It opens directly from disk and loads no external services.
 These are educational displays, not a selected processing workflow or a performance benchmark.
+
+## Pilot manifest builder
+
+[build_pilot_manifest.py](build_pilot_manifest.py) derives [../examples/water-bodies-public-pilot.geojson](../examples/water-bodies-public-pilot.geojson) from [../examples/pilot-regions.json](../examples/pilot-regions.json) and the USGS National Hydrography Dataset. Standard library only.
+With `--fetch` it contacts The National Map hydro service for polygons, and saves every response under ignored `data/pilot-manifest/<time>/`. It reads no imagery and no catalog.
+Without `--fetch` it rebuilds the manifest from the newest saved run and contacts nothing.
+Selection rules, terms, and the request log are recorded in the manifest. The format and limits are in [../examples/README.md](../examples/README.md).

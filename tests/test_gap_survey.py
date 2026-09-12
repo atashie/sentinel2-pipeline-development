@@ -170,3 +170,45 @@ def test_sites_file_is_well_formed():
         assert -90 <= site["latitude"] <= 90
         assert -180 <= site["longitude"] <= 180
         assert site["why"]
+
+
+def test_manifest_sites_discover_by_bounding_box(monkeypatch):
+    manifest = {
+        "features": [
+            {
+                "type": "Feature",
+                "bbox": [-120.2, 38.9, -119.9, 39.2],
+                "properties": {"water_body_id": "nhd-1", "name": "Lake", "why": "Two tiles."},
+            }
+        ]
+    }
+    sites = gap_survey.manifest_sites(manifest)
+    assert sites == [
+        {
+            "site_id": "nhd-1",
+            "name": "Lake",
+            "group": "pilot",
+            "bbox": [-120.2, 38.9, -119.9, 39.2],
+            "why": "Two tiles.",
+        }
+    ]
+    captured = {}
+
+    def fake_paged_search(client, root, body, note):
+        captured[note] = body
+        return [
+            es_feature("S2A_10SGJ_20260101_0_L2A", "2026-01-01T18:00:00Z"),
+            es_feature(
+                "S2A_11SKD_20260101_0_L2A", "2026-01-01T18:00:00Z", **{"grid:code": "MGRS-11SKD"}
+            ),
+        ]
+
+    monkeypatch.setattr(gap_survey, "paged_search", fake_paged_search)
+    found = gap_survey.discover_tiles(None, sites[0], "2025-01-01", "2026-01-01")
+    assert found == {"10SGJ": 1, "11SKD": 1}
+    assert captured["discover nhd-1"]["bbox"] == [-120.2, 38.9, -119.9, 39.2]
+    assert "intersects" not in captured["discover nhd-1"]
+    point = {"site_id": "tahoe", "latitude": 39.09, "longitude": -120.03}
+    gap_survey.discover_tiles(None, point, "2025-01-01", "2026-01-01")
+    assert captured["discover tahoe"]["intersects"]["coordinates"] == [-120.03, 39.09]
+    assert "bbox" not in captured["discover tahoe"]

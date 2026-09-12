@@ -37,7 +37,7 @@ uv sync --locked
 uv run pytest
 ```
 
-The tests check documentation links, the inventory schema, and the survey logic on fixtures. The tests contact nothing.
+The tests check documentation links, the inventory schema, the survey logic, and the pilot manifest on fixtures. The tests contact nothing.
 
 ## Documents
 
@@ -56,7 +56,7 @@ The tests check documentation links, the inventory schema, and the survey logic 
 | [docs/reviews/](docs/reviews/README.md) | The current review cycle and the generated gap survey report |
 | [docs/references/](docs/references/README.md) | Supplied reference documents and their provenance |
 | [benchmarks/README.md](benchmarks/README.md) | Survey scripts, workloads, and how to rerun a measurement |
-| [examples/README.md](examples/README.md) | The public water-body manifest format |
+| [examples/README.md](examples/README.md) | The public pilot water-body manifest, its regions, and the format |
 | [tools/README.md](tools/README.md) | Deterministic scripts that rebuild the inventory, HTML, and report |
 | [CLAUDE.md](CLAUDE.md) | Conventions, workflow, and gotchas for AI coding agents. [AGENTS.md](AGENTS.md) points Codex here |
 
