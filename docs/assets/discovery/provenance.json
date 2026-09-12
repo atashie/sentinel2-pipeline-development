@@ -1,0 +1,291 @@
+{
+  "purpose": "Illustrative band views, not a benchmark or water-quality estimate",
+  "place": "Lake Lanier, Georgia",
+  "item_id": "S2B_T17SKU_20251015T162249_L2A",
+  "item_url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a/items/S2B_T17SKU_20251015T162249_L2A",
+  "product_uri": "S2B_MSIL2A_20251015T162149_N0511_R040_T17SKU_20251015T202039.SAFE",
+  "sensing_time": "2025-10-15T16:33:46.519000Z",
+  "collection": "sentinel-2-c1-l2a",
+  "region": "us-west-2",
+  "payer": "Public unsigned reads. Item declares requester pays false.",
+  "attribution": "Contains modified Copernicus Sentinel data (2025), served by Element 84.",
+  "license_url": "https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice",
+  "retrieved_at": "2026-09-11T12:09:42.069183+00:00",
+  "catalog_bytes": 17705,
+  "crs": "EPSG:32617",
+  "transform": [
+    10.0,
+    0.0,
+    225340.0,
+    0.0,
+    -10.0,
+    3801120.0
+  ],
+  "window": [
+    2536,
+    9888,
+    800,
+    800
+  ],
+  "bounds": [
+    225340.0,
+    3793120.0,
+    233340.0,
+    3801120.0
+  ],
+  "width": 800,
+  "height": 800,
+  "pixel_size_m": 10,
+  "assets": {
+    "red": {
+      "href": "https://e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com/sentinel-2-c1-l2a/17/S/KU/2025/10/S2B_T17SKU_20251015T162249_L2A/B04.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "Red - 10m",
+      "eo:bands": [
+        {
+          "name": "B04",
+          "common_name": "red",
+          "center_wavelength": 0.665,
+          "full_width_half_max": 0.038
+        }
+      ],
+      "gsd": 10,
+      "proj:shape": [
+        10980,
+        10980
+      ],
+      "proj:transform": [
+        10,
+        0,
+        199980,
+        0,
+        -10,
+        3900000
+      ],
+      "raster:bands": [
+        {
+          "nodata": 0,
+          "data_type": "uint16",
+          "spatial_resolution": 10,
+          "scale": 0.0001,
+          "offset": -0.1
+        }
+      ],
+      "file:checksum": "122050b91d750442c331c51343be2b2a22a4a057958dcfca59b5bdfc5a63e6d76a00",
+      "file:size": 168194315,
+      "roles": [
+        "data",
+        "reflectance"
+      ]
+    },
+    "green": {
+      "href": "https://e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com/sentinel-2-c1-l2a/17/S/KU/2025/10/S2B_T17SKU_20251015T162249_L2A/B03.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "Green - 10m",
+      "eo:bands": [
+        {
+          "name": "B03",
+          "common_name": "green",
+          "center_wavelength": 0.56,
+          "full_width_half_max": 0.045
+        }
+      ],
+      "gsd": 10,
+      "proj:shape": [
+        10980,
+        10980
+      ],
+      "proj:transform": [
+        10,
+        0,
+        199980,
+        0,
+        -10,
+        3900000
+      ],
+      "raster:bands": [
+        {
+          "nodata": 0,
+          "data_type": "uint16",
+          "spatial_resolution": 10,
+          "scale": 0.0001,
+          "offset": -0.1
+        }
+      ],
+      "file:checksum": "122095af23410351fe9f74a40fbc5c39d1bcccd36dbcadc8e5c85726d548ebf0f7ab",
+      "file:size": 170861270,
+      "roles": [
+        "data",
+        "reflectance"
+      ]
+    },
+    "blue": {
+      "href": "https://e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com/sentinel-2-c1-l2a/17/S/KU/2025/10/S2B_T17SKU_20251015T162249_L2A/B02.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "Blue - 10m",
+      "eo:bands": [
+        {
+          "name": "B02",
+          "common_name": "blue",
+          "center_wavelength": 0.49,
+          "full_width_half_max": 0.098
+        }
+      ],
+      "gsd": 10,
+      "proj:shape": [
+        10980,
+        10980
+      ],
+      "proj:transform": [
+        10,
+        0,
+        199980,
+        0,
+        -10,
+        3900000
+      ],
+      "raster:bands": [
+        {
+          "nodata": 0,
+          "data_type": "uint16",
+          "spatial_resolution": 10,
+          "scale": 0.0001,
+          "offset": -0.1
+        }
+      ],
+      "file:checksum": "122039a2f4c7abf666d9df47eb74c4e2249c746cdfb2bedb3b432f7eb82b0149d380",
+      "file:size": 155772753,
+      "roles": [
+        "data",
+        "reflectance"
+      ]
+    },
+    "nir": {
+      "href": "https://e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com/sentinel-2-c1-l2a/17/S/KU/2025/10/S2B_T17SKU_20251015T162249_L2A/B08.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "NIR 1 - 10m",
+      "eo:bands": [
+        {
+          "name": "B08",
+          "common_name": "nir",
+          "center_wavelength": 0.842,
+          "full_width_half_max": 0.145
+        }
+      ],
+      "gsd": 10,
+      "proj:shape": [
+        10980,
+        10980
+      ],
+      "proj:transform": [
+        10,
+        0,
+        199980,
+        0,
+        -10,
+        3900000
+      ],
+      "raster:bands": [
+        {
+          "nodata": 0,
+          "data_type": "uint16",
+          "spatial_resolution": 10,
+          "scale": 0.0001,
+          "offset": -0.1
+        }
+      ],
+      "file:checksum": "122072dacfe7c1cbc869774ba0b3b5edeb44c395882a725523351bf3d81cc8d4672f",
+      "file:size": 186680176,
+      "roles": [
+        "data",
+        "reflectance"
+      ]
+    },
+    "scl": {
+      "href": "https://e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com/sentinel-2-c1-l2a/17/S/KU/2025/10/S2B_T17SKU_20251015T162249_L2A/SCL.tif",
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "Scene classification map (SCL)",
+      "gsd": 20,
+      "proj:shape": [
+        5490,
+        5490
+      ],
+      "proj:transform": [
+        20,
+        0,
+        199980,
+        0,
+        -20,
+        3900000
+      ],
+      "raster:bands": [
+        {
+          "nodata": 0,
+          "data_type": "uint8",
+          "spatial_resolution": 20
+        }
+      ],
+      "file:checksum": "1220e524ec5b1e724072223a75c396362b39488e5e4eed36e2b4a9ef52be177e62e4",
+      "file:size": 1067604,
+      "roles": [
+        "data"
+      ]
+    }
+  },
+  "calibration": "Apply asset scale and offset once before display or indices.",
+  "display": "RGB and red: 0 to 0.3 reflectance. NIR: 0 to 0.5. Gamma 2.2. Fixed index range -1 to 1.",
+  "index_formulas": {
+    "ndvi": "(nir-red)/(nir+red)",
+    "ndwi": "(green-nir)/(green+nir)"
+  },
+  "quality": "Show SCL 4,5,6,7 only. Nearest-neighbour expansion from 20 m. Other pixels are grey.",
+  "index_validity": "Keep negative inputs. Exclude denominators <= 0.000001. Clip each index to -1..1.",
+  "limitations": [
+    "One scene and crop, chosen for low scene cloud cover. No field validation.",
+    "Illustrative screening does not guarantee cloud-free or artifact-free pixels.",
+    "Bands retain their native grid. No tile mosaic or reflectance resampling.",
+    "Display stretches and indices show spectral contrast, not concentrations.",
+    "Small index denominators can exaggerate minor band differences. Display clipping also flattens extremes. The cause of visible texture is unverified.",
+    "No performance measurements. GDAL transfer logs can be saved locally from stderr."
+  ],
+  "code_sha256": "dd87c8e07c8b0263ceca0d466abd527e13c0930a4ad430b18c9a49a2735a5592",
+  "input_sha256": "97211722bda8fe8151d521cbd38d4122729544b58a8df69cad18e92667fbb550",
+  "images": {
+    "true-color": {
+      "file": "true-color.png",
+      "sha256": "2bda66a937ec1c1e95280e93a5ff6dac939b54cf407359065e18f7a269ab32a0",
+      "bytes": 1197375,
+      "valid_fraction": 0.9776515625
+    },
+    "false-color": {
+      "file": "false-color.png",
+      "sha256": "717ad31a60d7fd3bb411f8391afcfdeaba6280e1929f9276a93b627e0da126b6",
+      "bytes": 1217882,
+      "valid_fraction": 0.9776515625
+    },
+    "red": {
+      "file": "red.png",
+      "sha256": "62e347b3f784272e2211b66665ba4757a1471b1880cc4b1e2b00c364bf7d30e0",
+      "bytes": 635363,
+      "valid_fraction": 0.9776515625
+    },
+    "nir": {
+      "file": "nir.png",
+      "sha256": "02328def628acb3e6251449f600ab0f0f2107c64c46101c19aef17ecc69174d9",
+      "bytes": 653677,
+      "valid_fraction": 0.9776515625
+    },
+    "ndvi": {
+      "file": "ndvi.png",
+      "sha256": "660a74db4316615ef378355191bda033c672aa820513d60f826a2506957afe32",
+      "bytes": 1195292,
+      "valid_fraction": 0.977615625
+    },
+    "ndwi": {
+      "file": "ndwi.png",
+      "sha256": "8031a0d961f7c78266ffc7cda79608e01203c41a114fab8193573726096b93b9",
+      "bytes": 1071330,
+      "valid_fraction": 0.9776515625
+    }
+  }
+}

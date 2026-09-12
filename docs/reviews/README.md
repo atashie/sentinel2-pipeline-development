@@ -1,15 +1,23 @@
 # Reviews
 
-Dated reviews of this repository. A review records what was checked, by whom or by what, and what it found. It does not change the code. Fixes land in separate commits that cite the review.
+Dated records of the current review cycle. A review records what was checked, by whom or by what, and what it found. Fixes land separately and cite the review.
+Earlier reviews, the initialization review and the discovery cycle, were archived outside git on 2026-09-10. Their outcomes live in [decisions 0001 to 0003](../decisions/README.md) and the inventory.
 
-The Codex review was revised after owner clarification. It records factual caveats and issues for later joint development.
+Start with the latest review below. Earlier reviews and the dated survey report retain findings and pending actions from their original review stage.
+The latest handoff records subsequent corrections and resolved wording.
 
 | Date | Review | Reviewer |
 |---|---|---|
-| 2026-09-10 | [Response to the Codex follow-up: remaining corrections, baseline timeline, and four bounded probes](2026-09-10-codex-follow-up-response.md) | Claude Code (AI coding agent), directed by the repository owner |
-| 2026-09-10 | [Codex follow-up: response verification, accepted cloud hypothesis, and remaining corrections](2026-09-10-codex-discovery-follow-up.md) | Codex |
-| 2026-09-10 | [Response to the Codex discovery review: dispositions for D01 to D10, additions, and one held point](2026-09-10-codex-discovery-response.md) | Claude Code (AI coding agent), directed by the repository owner |
-| 2026-09-10 | [Codex discovery review: technical accuracy, evidence limits, and AWS relevance](2026-09-10-codex-discovery-review.md) | Codex |
-| 2026-09-10 | [Response to owner feedback: decision 0002, issue register, pixel classes, tile provenance, context roles](2026-09-10-owner-feedback-response.md) | Claude Code (AI coding agent), directed by the repository owner |
-| 2026-09-10 | [Discovery review: inventory, checks, best-practices recheck, dispositions, proposed next step](2026-09-10-discovery.md) | Claude Code (AI coding agent), directed by the repository owner |
-| 2026-09-09 | [Initialization review, revised after owner clarification](2026-09-09-codex-initialization-review.md) | Codex |
+| 2026-09-11 | [Discovery review, documentation reconciliation, and Phase 2 handoff](2026-09-11-prototyping-handoff.md) | Codex, with separate scientific source research and checking |
+| 2026-09-11 | [Owner review, round two: archive names and links, larger figures, colour-coded effort with technical dropdowns, one row per pixel](2026-09-11-owner-review-round-two.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-09-11 | [Plain-language pass over the Discovery page: about forty sentences reworded, no fact or layout changed](2026-09-11-plain-language-pass.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-09-11 | [Codex's archive review applied and section 02 condensed: dispositions of four findings, findings F-21 and F-22, a shorter and less prescriptive archive section](2026-09-11-archive-section-condensed.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-09-11 | [Archive history corrected: measured counts, processing versions, and an explicitly inferred ingestion history](2026-09-11-archive-history-correction.md) | Codex, with independent source research and checking |
+| 2026-09-11 | [Independent archive comparison: overlapping COG sources, processing lineage, access costs, and corrections to the revised explanation](2026-09-11-codex-archive-comparison.md) | Codex, with independent research and checking agents |
+| 2026-09-11 | [Archive lineage and pull cost: both Earth Search collections are Element 84 conversions of the ESA product, checked claims, probe, finding, page section 02 rewritten](2026-09-11-archive-lineage.md) | Claude Code (AI coding agent), directed by the repository owner, with separate research and checking agents |
+| 2026-09-11 | [Discovery presentation revised: sensor rationale, archive tradeoff, risk bullets, three more illustrations, index-map fix, Vercel](2026-09-11-presentation-revision.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-09-11 | [Claude Code review of the Discovery presentation: the owner's direction, nine findings, the index-map defect explained](2026-09-11-presentation-review.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-09-11 | [Discovery presentation: four tabs, visual explanations, and real satellite examples](2026-09-11-discovery-presentation.md) | Codex, with separate source research and checking agents |
+| 2026-09-10 | [Codex gap survey review: evidence checked, five corrections, implications](2026-09-10-codex-gap-survey-review.md) | Codex |
+| 2026-09-10 | [Gap survey report, machine-readable, generated from the survey results](2026-09-10-gap-survey-report.json) | Generated by `tools/gap_report.py` |
+| 2026-09-10 | [Gap survey: plan, script, measurements, findings, fill-policy options, and dispositions of the Codex review](2026-09-10-gap-survey.md) | Claude Code (AI coding agent), directed by the repository owner |

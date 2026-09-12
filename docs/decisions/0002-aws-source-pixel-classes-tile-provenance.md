@@ -4,9 +4,9 @@ Status: active. Refines [decision 0001](0001-scope-and-sequence.md), which stays
 
 ## Context
 
-The owner reviewed the [discovery review](../reviews/2026-09-10-discovery.md) on 2026-09-10 and gave five directions.
+The owner reviewed the discovery review, archived on 2026-09-10, and gave five directions.
 The discovery inventory had compared seven access routes on equal terms. It had left the pixel selection rule for small ponds and the handling of overlapping tiles open.
-The [response](../reviews/2026-09-10-owner-feedback-response.md) records each direction and its disposition.
+The response to that feedback, also archived, records each direction and its disposition.
 
 ## Decision
 

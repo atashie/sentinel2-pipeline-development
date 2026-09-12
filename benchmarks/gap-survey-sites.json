@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "note": "Survey sites for benchmarks/gap_survey.py. Public, well-known water bodies chosen for geographic spread. They are points, not polygons, and stand in for the pilot manifest until examples/water-bodies-public-pilot.geojson exists. Customer water bodies never enter this repository (assumption A8). Group us is the service area (assumption A4). Group context tests whether a gap is regional or global.",
+  "sites": [
+    {"site_id": "tahoe", "name": "Lake Tahoe, California and Nevada", "group": "us", "latitude": 39.09, "longitude": -120.03, "why": "Straddles the UTM zone 10 and 11 boundary, so it lies in two tiles"},
+    {"site_id": "clear", "name": "Clear Lake, California", "group": "us", "latitude": 39.05, "longitude": -122.80, "why": "Bloom-prone lake in the west"},
+    {"site_id": "washington", "name": "Lake Washington, Washington", "group": "us", "latitude": 47.62, "longitude": -122.26, "why": "Urban lake in the Pacific Northwest"},
+    {"site_id": "flathead", "name": "Flathead Lake, Montana", "group": "us", "latitude": 47.90, "longitude": -114.10, "why": "Mountain lake in the northern Rockies"},
+    {"site_id": "mead", "name": "Lake Mead, Nevada and Arizona", "group": "us", "latitude": 36.13, "longitude": -114.42, "why": "Desert reservoir in the southwest"},
+    {"site_id": "great-salt", "name": "Great Salt Lake, Utah", "group": "us", "latitude": 41.10, "longitude": -112.50, "why": "Large saline lake in the interior west"},
+    {"site_id": "sakakawea", "name": "Lake Sakakawea, North Dakota", "group": "us", "latitude": 47.60, "longitude": -101.95, "why": "Northern plains reservoir with winter ice"},
+    {"site_id": "travis", "name": "Lake Travis, Texas", "group": "us", "latitude": 30.40, "longitude": -97.95, "why": "Southern plains reservoir"},
+    {"site_id": "winnebago", "name": "Lake Winnebago, Wisconsin", "group": "us", "latitude": 44.02, "longitude": -88.42, "why": "Shallow bloom-prone lake in the upper midwest"},
+    {"site_id": "grand-st-marys", "name": "Grand Lake St. Marys, Ohio", "group": "us", "latitude": 40.53, "longitude": -84.50, "why": "Small bloom-prone reservoir in the midwest"},
+    {"site_id": "erie-west", "name": "Western Lake Erie, Ohio", "group": "us", "latitude": 41.70, "longitude": -83.00, "why": "Bloom-prone basin of a Great Lake"},
+    {"site_id": "champlain", "name": "Lake Champlain, Vermont and New York", "group": "us", "latitude": 44.53, "longitude": -73.33, "why": "Northeastern lake"},
+    {"site_id": "lanier", "name": "Lake Lanier, Georgia", "group": "us", "latitude": 34.25, "longitude": -83.95, "why": "Southeastern reservoir"},
+    {"site_id": "marion", "name": "Lake Marion, South Carolina", "group": "us", "latitude": 33.47, "longitude": -80.35, "why": "Inside the box that probes PR-01 and PR-02 sampled"},
+    {"site_id": "okeechobee", "name": "Lake Okeechobee, Florida", "group": "us", "latitude": 26.94, "longitude": -80.80, "why": "Subtropical bloom-prone lake"},
+    {"site_id": "pontchartrain", "name": "Lake Pontchartrain, Louisiana", "group": "us", "latitude": 30.20, "longitude": -90.11, "why": "Gulf coast estuary"},
+    {"site_id": "iliamna", "name": "Lake Iliamna, Alaska", "group": "us", "latitude": 59.55, "longitude": -155.00, "why": "High latitude, winter sun zenith above the Level-2A limit"},
+    {"site_id": "victoria", "name": "Lake Victoria, Uganda shore", "group": "context", "latitude": -0.30, "longitude": 32.60, "why": "Equatorial Africa, inside the Euro-Africa refinement region of claim G7"},
+    {"site_id": "geneva", "name": "Lake Geneva, Switzerland and France", "group": "context", "latitude": 46.40, "longitude": 6.50, "why": "Europe, densest revisit"},
+    {"site_id": "taupo", "name": "Lake Taupo, New Zealand", "group": "context", "latitude": -38.80, "longitude": 175.90, "why": "Southern hemisphere, near the antimeridian"}
+  ]
+}

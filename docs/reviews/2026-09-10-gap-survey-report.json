@@ -1,0 +1,4467 @@
+{
+ "schema_version": 1,
+ "report": "gap-survey-report",
+ "generated_by": "tools/gap_report.py",
+ "generated_from": {
+  "gap_survey_measured_at": "2026-09-10T20:16:28+00:00",
+  "fallback_survey_measured_at": "2026-09-11T00:11:08+00:00",
+  "probes_recorded_on": "2026-09-10"
+ },
+ "purpose": "Machine-readable record of the data gap survey and the fallback survey for review. Every number is computed from the inputs by tools/gap_report.py. Statements are the agent's readings of those numbers.",
+ "how_to_verify": [
+  "uv run python tools/gap_report.py --check",
+  "Open each evidence path in the named input and compare with the numbers in the finding.",
+  "Rerun benchmarks/gap_survey.py and benchmarks/fallback_survey.py to refresh the inputs. Catalogs change, so counts can move."
+ ],
+ "inputs": [
+  {
+   "id": "gap",
+   "path": "benchmarks/results/gap-survey.json",
+   "sha256": "69fc79749807ada9874065891d2ca3d330e4e73eaf9df9085c00add8c49a7b98",
+   "measured_at": "2026-09-10T20:16:28+00:00",
+   "script": "benchmarks/gap_survey.py",
+   "requests": 900,
+   "imagery_bytes": 0
+  },
+  {
+   "id": "fallback",
+   "path": "benchmarks/results/fallback-survey.json",
+   "sha256": "bdad0f24a567b013afd7f85bf0274866a03a99aed58e001c658df1fc4d5fe9f0",
+   "measured_at": "2026-09-11T00:11:08+00:00",
+   "script": "benchmarks/fallback_survey.py",
+   "requests": 870,
+   "imagery_bytes": 0
+  },
+  {
+   "id": "probes",
+   "path": "docs/assessment-checks/probes-2026-09-10.json",
+   "sha256": "764e70f0830e080fa5d1137acac077f9479f8065e52430c48ad6a509601cbc63",
+   "recorded_on": "2026-09-10"
+  }
+ ],
+ "scope": {
+  "window": {
+   "start": "2021-01-01",
+   "end": "2026-09-10",
+   "months": 69
+  },
+  "sites": [
+   {
+    "site_id": "tahoe",
+    "group": "us",
+    "tiles": [
+     "10SGJ",
+     "11SKD"
+    ]
+   },
+   {
+    "site_id": "clear",
+    "group": "us",
+    "tiles": [
+     "10SEJ"
+    ]
+   },
+   {
+    "site_id": "washington",
+    "group": "us",
+    "tiles": [
+     "10TET"
+    ]
+   },
+   {
+    "site_id": "flathead",
+    "group": "us",
+    "tiles": [
+     "11UQP"
+    ]
+   },
+   {
+    "site_id": "mead",
+    "group": "us",
+    "tiles": [
+     "11SQA"
+    ]
+   },
+   {
+    "site_id": "great-salt",
+    "group": "us",
+    "tiles": [
+     "12TUL"
+    ]
+   },
+   {
+    "site_id": "sakakawea",
+    "group": "us",
+    "tiles": [
+     "13TGN"
+    ]
+   },
+   {
+    "site_id": "travis",
+    "group": "us",
+    "tiles": [
+     "14RNU",
+     "14RPU"
+    ]
+   },
+   {
+    "site_id": "winnebago",
+    "group": "us",
+    "tiles": [
+     "16TCP"
+    ]
+   },
+   {
+    "site_id": "grand-st-marys",
+    "group": "us",
+    "tiles": [
+     "16TGK",
+     "17TKE",
+     "17TKF"
+    ]
+   },
+   {
+    "site_id": "erie-west",
+    "group": "us",
+    "tiles": [
+     "17TLG"
+    ]
+   },
+   {
+    "site_id": "champlain",
+    "group": "us",
+    "tiles": [
+     "18TXQ"
+    ]
+   },
+   {
+    "site_id": "lanier",
+    "group": "us",
+    "tiles": [
+     "16SGC",
+     "16SGD",
+     "17SKT",
+     "17SKU"
+    ]
+   },
+   {
+    "site_id": "marion",
+    "group": "us",
+    "tiles": [
+     "17SNT"
+    ]
+   },
+   {
+    "site_id": "okeechobee",
+    "group": "us",
+    "tiles": [
+     "17RNK"
+    ]
+   },
+   {
+    "site_id": "pontchartrain",
+    "group": "us",
+    "tiles": [
+     "15RYP",
+     "16RBU"
+    ]
+   },
+   {
+    "site_id": "iliamna",
+    "group": "us",
+    "tiles": [
+     "05VLG"
+    ]
+   },
+   {
+    "site_id": "victoria",
+    "group": "context",
+    "tiles": [
+     "36MVE"
+    ]
+   },
+   {
+    "site_id": "geneva",
+    "group": "context",
+    "tiles": [
+     "31TGM",
+     "32TLS"
+    ]
+   },
+   {
+    "site_id": "taupo",
+    "group": "context",
+    "tiles": [
+     "60HUC",
+     "60HVC"
+    ]
+   }
+  ],
+  "tiles": [
+   "05VLG",
+   "10SEJ",
+   "10SGJ",
+   "10TET",
+   "11SKD",
+   "11SQA",
+   "11UQP",
+   "12TUL",
+   "13TGN",
+   "14RNU",
+   "14RPU",
+   "15RYP",
+   "16RBU",
+   "16SGC",
+   "16SGD",
+   "16TCP",
+   "16TGK",
+   "17RNK",
+   "17SKT",
+   "17SKU",
+   "17SNT",
+   "17TKE",
+   "17TKF",
+   "17TLG",
+   "18TXQ",
+   "31TGM",
+   "32TLS",
+   "36MVE",
+   "60HUC",
+   "60HVC"
+  ],
+  "route_absent_tiles": [
+   "05VLG"
+  ],
+  "earth_search_collections": [
+   "sentinel-2-c1-l2a",
+   "sentinel-2-pre-c1-l2a",
+   "sentinel-2-l2a",
+   "sentinel-2-l1c"
+  ],
+  "reference": "Copernicus Data Space Ecosystem STAC and OData catalogs, reference count only, not a route",
+  "acquisition_key": "sensing date plus platform letter within one tile"
+ },
+ "findings": [
+  {
+   "id": "GS-01",
+   "title": "Collection 1 is nearly empty from January to November 2022 in every surveyed tile, and the shape is global",
+   "status": "measured",
+   "numbers": {
+    "tiles": 30,
+    "months_empty_in_every_tile": [
+     "2022-01",
+     "2022-02",
+     "2022-04",
+     "2022-05",
+     "2022-09",
+     "2022-11"
+    ],
+    "collection1_status_by_month_2022": {
+     "2022-01": {
+      "empty": 30
+     },
+     "2022-02": {
+      "empty": 30
+     },
+     "2022-03": {
+      "empty": 3,
+      "partial": 27
+     },
+     "2022-04": {
+      "empty": 30
+     },
+     "2022-05": {
+      "empty": 30
+     },
+     "2022-06": {
+      "empty": 29,
+      "partial": 1
+     },
+     "2022-07": {
+      "empty": 28,
+      "partial": 2
+     },
+     "2022-08": {
+      "empty": 28,
+      "partial": 2
+     },
+     "2022-09": {
+      "empty": 30
+     },
+     "2022-10": {
+      "empty": 27,
+      "partial": 3
+     },
+     "2022-11": {
+      "empty": 30
+     },
+     "2022-12": {
+      "partial": 30
+     }
+    },
+    "collection1_global_items_by_month_2022": {
+     "2022-01": 742,
+     "2022-02": 676,
+     "2022-03": 40798,
+     "2022-04": 1181,
+     "2022-05": 1391,
+     "2022-06": 883,
+     "2022-07": 1776,
+     "2022-08": 1654,
+     "2022-09": 1794,
+     "2022-10": 2816,
+     "2022-11": 1838,
+     "2022-12": 228156
+    },
+    "collection1_global_items_other_months_min_max": [
+     152138,
+     487234
+    ],
+    "reference_baselines_2022_present_tiles": {
+     "05.00": 1,
+     "05.10": 4295,
+     "05.11": 5
+    },
+    "present_tiles_2022": {
+     "reference": 4196,
+     "collection1": 339,
+     "missing": 3857,
+     "covered_by_older_collection": 3842,
+     "uncovered": 15
+    },
+    "older_collection_baselines_2022_present_tiles": {
+     "03.01": 284,
+     "04.00": 3717,
+     "05.09": 308,
+     "05.10": 37,
+     "05.11": 5
+    }
+   },
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "summary.months_empty_in_every_tile"
+    },
+    {
+     "input": "gap",
+     "path": "summary.primary_status_by_month"
+    },
+    {
+     "input": "gap",
+     "path": "summary.global_window_monthly.sentinel-2-c1-l2a"
+    },
+    {
+     "input": "gap",
+     "path": "tiles.<tile>.gaps.{reference,primary,missing,covered_by_fallback,uncovered}"
+    },
+    {
+     "input": "gap",
+     "path": "tiles.<tile>.reference.baselines"
+    },
+    {
+     "input": "probes",
+     "path": "probes[id=PR-06].result"
+    }
+   ],
+   "bears_on": [
+    "I-08"
+   ],
+   "for_review": "Confirm the month statuses from the per-tile arrays: six months empty in every tile, the other 2022 months empty or partial per tile, never complete. Confirm the reference baselines for 2022 are 05.10 rather than 04.00."
+  },
+  {
+   "id": "GS-02",
+   "title": "Collection 1 holds baseline 05.09 originals from December 2022 to December 2023 where ESA serves 05.10",
+   "status": "measured",
+   "numbers": {
+    "collection1_baselines_2023_present_tiles": {
+     "05.09": 4036,
+     "05.10": 221,
+     "05.11": 20
+    },
+    "reference_baselines_2023_present_tiles": {
+     "05.10": 4258,
+     "05.11": 20
+    },
+    "collection1_baselines_2022_12_present_tiles": {
+     "05.09": 302
+    },
+    "reference_baselines_2022_12_present_tiles": {
+     "05.10": 362
+    },
+    "collection1_baselines_by_year": {
+     "2021": {
+      "05.00": 4309
+     },
+     "2022": {
+      "05.11": 6,
+      "05.10": 37,
+      "05.09": 305
+     },
+     "2023": {
+      "05.09": 4036,
+      "05.10": 221,
+      "05.11": 20
+     },
+     "2024": {
+      "05.10": 2413,
+      "05.11": 2027
+     },
+     "2025": {
+      "05.11": 5328
+     },
+     "2026": {
+      "05.11": 451,
+      "05.12": 3348
+     }
+    }
+   },
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "tiles.<tile>.earth_search.sentinel-2-c1-l2a.baselines"
+    },
+    {
+     "input": "gap",
+     "path": "tiles.<tile>.reference.baselines"
+    },
+    {
+     "input": "gap",
+     "path": "summary.primary_baselines_by_year"
+    }
+   ],
+   "bears_on": [
+    "I-29",
+    "I-08"
+   ],
+   "for_review": "Confirm from claims R2 and R5 in docs/s2-best-practices.md that ESA reprocessed 2022 to 2023 at 05.10 and removed the earlier products."
+  },
+  {
+   "id": "GS-03",
+   "title": "Tiles on no Earth Search collection for most of the window",
+   "status": "measured",
+   "numbers": {
+    "absent_tiles": {
+     "05VLG": {
+      "sites": [
+       "iliamna"
+      ],
+      "reference_acquisitions": 1507,
+      "collection1_acquisitions": 347,
+      "older_collection_items": 0,
+      "level1c_items": 0,
+      "first_month_with_collection1_items": "2022-12",
+      "uncovered_acquisitions": 1162,
+      "months_by_status": {
+       "complete": 15,
+       "empty": 52,
+       "partial": 2
+      }
+     }
+    },
+    "probe_pr06_boxes": {
+     "alaska": {
+      "sentinel-2-c1-l2a": {
+       "window_total": 507706,
+       "months_below_5pct_of_median": [
+        "2022-01",
+        "2022-02",
+        "2022-04",
+        "2022-05",
+        "2022-06",
+        "2022-07",
+        "2022-08",
+        "2022-09",
+        "2022-10",
+        "2022-11"
+       ]
+      },
+      "sentinel-2-l2a": {
+       "window_total": 737618,
+       "months_below_5pct_of_median": []
+      },
+      "sentinel-2-l1c": {
+       "window_total": 683686,
+       "months_below_5pct_of_median": []
+      }
+     },
+     "hawaii": {
+      "sentinel-2-c1-l2a": {
+       "window_total": 16930,
+       "months_below_5pct_of_median": [
+        "2022-01",
+        "2022-02",
+        "2022-03",
+        "2022-04",
+        "2022-05",
+        "2022-06",
+        "2022-07",
+        "2022-08",
+        "2022-09",
+        "2022-10",
+        "2022-11"
+       ]
+      },
+      "sentinel-2-l2a": {
+       "window_total": 23681,
+       "months_below_5pct_of_median": []
+      },
+      "sentinel-2-l1c": {
+       "window_total": 22407,
+       "months_below_5pct_of_median": []
+      }
+     },
+     "northern_plains_sample": {
+      "sentinel-2-c1-l2a": {
+       "window_total": 25879,
+       "months_below_5pct_of_median": [
+        "2022-01",
+        "2022-02",
+        "2022-04",
+        "2022-05",
+        "2022-06",
+        "2022-07",
+        "2022-08",
+        "2022-09",
+        "2022-10",
+        "2022-11"
+       ]
+      },
+      "sentinel-2-l2a": {
+       "window_total": 35922,
+       "months_below_5pct_of_median": []
+      },
+      "sentinel-2-l1c": {
+       "window_total": 33515,
+       "months_below_5pct_of_median": []
+      }
+     }
+    }
+   },
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "tiles.<tile>.earth_search.{sentinel-2-l2a,sentinel-2-l1c}.items_total"
+    },
+    {
+     "input": "gap",
+     "path": "tiles.<tile>.gaps.uncovered_total"
+    },
+    {
+     "input": "probes",
+     "path": "probes[id=PR-06]"
+    }
+   ],
+   "bears_on": [
+    "I-08"
+   ],
+   "for_review": "Confirm that the older collection and Level-1C are empty for these tiles, that Collection 1 holds isolated items before sustained coverage begins, and that decision 0003's first review trigger applies if the tiles are in scope."
+  },
+  {
+   "id": "GS-04",
+   "title": "The pre-Collection 1 collection is three months of late 2022",
+   "status": "measured",
+   "numbers": {
+    "global_total_count": 35018,
+    "global_datetime_min": "2022-10-01T08:08:17.646Z",
+    "global_datetime_max": "2022-12-05T14:11:53.454Z",
+    "items_in_surveyed_tiles": {
+     "31TGM": 29,
+     "32TLS": 41
+    }
+   },
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "collections.sentinel-2-pre-c1-l2a"
+    },
+    {
+     "input": "gap",
+     "path": "tiles.<tile>.earth_search.sentinel-2-pre-c1-l2a.items_total"
+    }
+   ],
+   "bears_on": [
+    "I-08"
+   ],
+   "for_review": "Confirm the collection extent against the aggregation values recorded in the input."
+  },
+  {
+   "id": "GS-05",
+   "title": "The provider's offset flag varies per item and disagrees with the asset's declared offset",
+   "status": "measured",
+   "numbers": {
+    "offset_flag_by_collection_and_baseline": {
+     "sentinel-2-c1-l2a 05.00": {
+      "None": 4309
+     },
+     "sentinel-2-c1-l2a 05.09": {
+      "None": 4341
+     },
+     "sentinel-2-c1-l2a 05.10": {
+      "None": 2671
+     },
+     "sentinel-2-c1-l2a 05.11": {
+      "None": 7832
+     },
+     "sentinel-2-c1-l2a 05.12": {
+      "None": 3348
+     },
+     "sentinel-2-l1c 02.09": {
+      "None": 1040
+     },
+     "sentinel-2-l1c 03.00": {
+      "None": 1093
+     },
+     "sentinel-2-l1c 03.01": {
+      "None": 2458
+     },
+     "sentinel-2-l1c 04.00": {
+      "None": 3715
+     },
+     "sentinel-2-l1c 05.00": {
+      "None": 2842
+     },
+     "sentinel-2-l1c 05.09": {
+      "None": 4370
+     },
+     "sentinel-2-l1c 05.10": {
+      "None": 2690
+     },
+     "sentinel-2-l1c 05.11": {
+      "None": 7622
+     },
+     "sentinel-2-l1c 05.12": {
+      "None": 3161
+     },
+     "sentinel-2-l2a 02.14": {
+      "False": 1038,
+      "None": 2
+     },
+     "sentinel-2-l2a 03.00": {
+      "False": 1094
+     },
+     "sentinel-2-l2a 03.01": {
+      "False": 2452,
+      "None": 6
+     },
+     "sentinel-2-l2a 04.00": {
+      "False": 693,
+      "True": 3024
+     },
+     "sentinel-2-l2a 05.00": {
+      "True": 4751,
+      "None": 1
+     },
+     "sentinel-2-l2a 05.09": {
+      "True": 4373
+     },
+     "sentinel-2-l2a 05.10": {
+      "False": 37,
+      "True": 2644,
+      "None": 10
+     },
+     "sentinel-2-l2a 05.11": {
+      "False": 570,
+      "True": 7071,
+      "None": 2
+     },
+     "sentinel-2-l2a 05.12": {
+      "False": 5,
+      "True": 3169
+     },
+     "sentinel-2-pre-c1-l2a 04.00": {
+      "None": 70
+     }
+    },
+    "sampled_red_offset_by_collection_baseline_flag": [
+     {
+      "collection": "sentinel-2-c1-l2a",
+      "baseline": "05.00",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-c1-l2a",
+      "baseline": "05.09",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-c1-l2a",
+      "baseline": "05.10",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-c1-l2a",
+      "baseline": "05.11",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-c1-l2a",
+      "baseline": "05.12",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "baseline": "02.09",
+      "flag": "None",
+      "raster_bands_offset": "0"
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "baseline": "03.00",
+      "flag": "None",
+      "raster_bands_offset": "0"
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "baseline": "03.01",
+      "flag": "None",
+      "raster_bands_offset": "0"
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "baseline": "04.00",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "baseline": "05.00",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "baseline": "05.09",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "baseline": "05.10",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "baseline": "05.11",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "baseline": "05.12",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "02.14",
+      "flag": "False",
+      "raster_bands_offset": "0"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "02.14",
+      "flag": "None",
+      "raster_bands_offset": "0"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "03.00",
+      "flag": "False",
+      "raster_bands_offset": "0"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "03.01",
+      "flag": "False",
+      "raster_bands_offset": "0"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "03.01",
+      "flag": "None",
+      "raster_bands_offset": "0"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "04.00",
+      "flag": "False",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "04.00",
+      "flag": "True",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "05.00",
+      "flag": "True",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "05.09",
+      "flag": "True",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "05.10",
+      "flag": "False",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "05.10",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "05.10",
+      "flag": "True",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "05.11",
+      "flag": "True",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "baseline": "05.12",
+      "flag": "True",
+      "raster_bands_offset": "-0.1"
+     },
+     {
+      "collection": "sentinel-2-pre-c1-l2a",
+      "baseline": "04.00",
+      "flag": "None",
+      "raster_bands_offset": "-0.1"
+     }
+    ]
+   },
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "summary.offset_flag_by_collection_and_baseline"
+    },
+    {
+     "input": "gap",
+     "path": "asset_samples[].red.offset"
+    },
+    {
+     "input": "fallback",
+     "path": "summary.fallback_offset_flags"
+    }
+   ],
+   "bears_on": [
+    "I-05"
+   ],
+   "for_review": "Confirm that flag true and flag false items at baseline 04.00 both declare a raster:bands offset of -0.1, and that the README's rule and the flag cannot both hold."
+  },
+  {
+   "id": "GS-06",
+   "title": "Quality assets depend on the collection and on the provider's ingestion software version",
+   "status": "measured",
+   "numbers": {
+    "quality_asset_layouts": [
+     {
+      "collection": "sentinel-2-c1-l2a",
+      "software": {
+       "sentinel-2-c1-l2a-to-stac": "v2023.12.01"
+      },
+      "quality_assets": {
+       "aot": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "cloud": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "scl": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "snow": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "wvp": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       }
+      },
+      "requester_pays": false,
+      "baselines": [
+       "05.00",
+       "05.09",
+       "05.10"
+      ],
+      "sample_item_ids": [
+       "S2B_T10SEJ_20211230T185801_L2A",
+       "S2B_T10SEJ_20231210T185757_L2A",
+       "S2B_T10SEJ_20240129T185629_L2A"
+      ]
+     },
+     {
+      "collection": "sentinel-2-c1-l2a",
+      "software": {
+       "sentinel-2-c1-l2a-to-stac": "v2024.02.01"
+      },
+      "quality_assets": {
+       "aot": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "cloud": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "scl": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "snow": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "wvp": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       }
+      },
+      "requester_pays": false,
+      "baselines": [
+       "05.00",
+       "05.10",
+       "05.11"
+      ],
+      "sample_item_ids": [
+       "S2A_T10SEJ_20240722T190019_L2A",
+       "S2A_T14RNU_20210119T172226_L2A",
+       "S2C_T10SEJ_20250607T190117_L2A"
+      ]
+     },
+     {
+      "collection": "sentinel-2-c1-l2a",
+      "software": {
+       "sentinel-2-c1-l2a-to-stac": "v2025.06.05"
+      },
+      "quality_assets": {
+       "aot": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "cloud": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "scl": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "snow": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "wvp": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       }
+      },
+      "requester_pays": false,
+      "baselines": [
+       "05.11"
+      ],
+      "sample_item_ids": [
+       "S2B_T05VLG_20250609T220527_L2A"
+      ]
+     },
+     {
+      "collection": "sentinel-2-c1-l2a",
+      "software": {
+       "sentinel-2-c1-l2a-to-stac": "v2025.06.10"
+      },
+      "quality_assets": {
+       "aot": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "cloud": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "scl": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "snow": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "wvp": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       }
+      },
+      "requester_pays": false,
+      "baselines": [
+       "05.11"
+      ],
+      "sample_item_ids": [
+       "S2B_T05VLG_20250616T215528_L2A"
+      ]
+     },
+     {
+      "collection": "sentinel-2-c1-l2a",
+      "software": {
+       "sentinel-2-c1-l2a-to-stac": "v2025.06.17"
+      },
+      "quality_assets": {
+       "aot": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "cloud": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "scl": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "snow": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "wvp": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       }
+      },
+      "requester_pays": false,
+      "baselines": [
+       "05.11",
+       "05.12"
+      ],
+      "sample_item_ids": [
+       "S2B_T05VLG_20260909T215525_L2A",
+       "S2C_T05VLG_20260203T214712_L2A"
+      ]
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "software": {
+       "sentinel2-to-stac": "0.1.0"
+      },
+      "quality_assets": {},
+      "requester_pays": null,
+      "baselines": [
+       "02.09",
+       "03.00",
+       "03.01",
+       "04.00",
+       "05.00",
+       "05.09"
+      ],
+      "sample_item_ids": [
+       "S2A_10SEJ_20210628_0_L1C",
+       "S2A_10SEJ_20220124_0_L1C",
+       "S2A_10SEJ_20230708_0_L1C",
+       "S2B_10SEJ_20210328_0_L1C",
+       "S2B_10SEJ_20211230_1_L1C",
+       "S2B_10SEJ_20221205_0_L1C"
+      ]
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "software": {
+       "sentinel2-to-stac": "0.1.1"
+      },
+      "quality_assets": {},
+      "requester_pays": null,
+      "baselines": [
+       "02.09",
+       "03.00",
+       "03.01",
+       "05.00",
+       "05.09",
+       "05.10",
+       "05.11"
+      ],
+      "sample_item_ids": [
+       "S2A_10SEJ_20211019_0_L1C",
+       "S2A_10SEJ_20240722_0_L1C",
+       "S2B_10SEJ_20210325_0_L1C",
+       "S2B_10SEJ_20210424_1_L1C",
+       "S2B_10SEJ_20210626_0_L1C",
+       "S2B_10SEJ_20231210_0_L1C",
+       "S2B_10SEJ_20250205_0_L1C"
+      ]
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "software": {
+       "sentinel2-to-stac": "2025.03.06"
+      },
+      "quality_assets": {},
+      "requester_pays": null,
+      "baselines": [
+       "04.00",
+       "05.09",
+       "05.10",
+       "05.11",
+       "05.12"
+      ],
+      "sample_item_ids": [
+       "S2A_10SEJ_20260816_1_L1C",
+       "S2B_10SEJ_20220320_1_L1C",
+       "S2B_17RNK_20221114_0_L1C",
+       "S2B_31TGM_20231031_0_L1C",
+       "S2C_10SEJ_20260202_0_L1C"
+      ]
+     },
+     {
+      "collection": "sentinel-2-l1c",
+      "software": {
+       "sentinel2-to-stac": "2026.08.16"
+      },
+      "quality_assets": {},
+      "requester_pays": null,
+      "baselines": [
+       "02.09",
+       "03.01",
+       "04.00",
+       "05.00",
+       "05.09",
+       "05.10",
+       "05.11",
+       "05.12"
+      ],
+      "sample_item_ids": [
+       "S2A_10SEJ_20211228_1_L1C",
+       "S2A_10SEJ_20250821_0_L1C",
+       "S2A_11SQA_20240112_0_L1C",
+       "S2B_10SEJ_20231021_0_L1C",
+       "S2B_10SEJ_20260908_0_L1C",
+       "S2B_11SQA_20210211_1_L1C",
+       "S2B_15RYP_20220107_0_L1C",
+       "S2B_17RNK_20221121_0_L1C"
+      ]
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "software": {
+       "sentinel2-to-stac": "0.1.0"
+      },
+      "quality_assets": {
+       "aot": {
+        "class": "cog",
+        "host": "sentinel-cogs.s3.us-west-2.amazonaws.com"
+       },
+       "aot-jp2": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "scl": {
+        "class": "cog",
+        "host": "sentinel-cogs.s3.us-west-2.amazonaws.com"
+       },
+       "scl-jp2": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "wvp": {
+        "class": "cog",
+        "host": "sentinel-cogs.s3.us-west-2.amazonaws.com"
+       },
+       "wvp-jp2": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       }
+      },
+      "requester_pays": null,
+      "baselines": [
+       "02.14",
+       "03.00",
+       "03.01",
+       "04.00",
+       "05.00",
+       "05.09"
+      ],
+      "sample_item_ids": [
+       "S2A_10SEJ_20210628_0_L2A",
+       "S2A_10SEJ_20220124_0_L2A",
+       "S2A_10SEJ_20230708_0_L2A",
+       "S2B_10SEJ_20210328_0_L2A",
+       "S2B_10SEJ_20211230_1_L2A",
+       "S2B_10SEJ_20221205_0_L2A"
+      ]
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "software": {
+       "sentinel2-to-stac": "0.1.1"
+      },
+      "quality_assets": {
+       "aot": {
+        "class": "cog",
+        "host": "sentinel-cogs.s3.us-west-2.amazonaws.com"
+       },
+       "aot-jp2": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "scl": {
+        "class": "cog",
+        "host": "sentinel-cogs.s3.us-west-2.amazonaws.com"
+       },
+       "scl-jp2": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "wvp": {
+        "class": "cog",
+        "host": "sentinel-cogs.s3.us-west-2.amazonaws.com"
+       },
+       "wvp-jp2": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       }
+      },
+      "requester_pays": null,
+      "baselines": [
+       "05.00",
+       "05.09",
+       "05.10",
+       "05.11"
+      ],
+      "sample_item_ids": [
+       "S2A_10SEJ_20211019_1_L2A",
+       "S2A_10SEJ_20240722_0_L2A",
+       "S2B_10SEJ_20231210_0_L2A",
+       "S2B_10SEJ_20250205_0_L2A"
+      ]
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "software": {
+       "sentinel2-to-stac": "2025.03.06"
+      },
+      "quality_assets": {
+       "aot": {
+        "class": "cog",
+        "host": "sentinel-cogs.s3.us-west-2.amazonaws.com"
+       },
+       "aot-jp2": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "cloud": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "scl": {
+        "class": "cog",
+        "host": "sentinel-cogs.s3.us-west-2.amazonaws.com"
+       },
+       "scl-jp2": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "snow": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "wvp": {
+        "class": "cog",
+        "host": "sentinel-cogs.s3.us-west-2.amazonaws.com"
+       },
+       "wvp-jp2": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       }
+      },
+      "requester_pays": null,
+      "baselines": [
+       "04.00",
+       "05.10",
+       "05.11",
+       "05.12"
+      ],
+      "sample_item_ids": [
+       "S2A_10SEJ_20260816_1_L2A",
+       "S2B_10SEJ_20220320_1_L2A",
+       "S2B_17RNK_20221114_0_L2A",
+       "S2C_10SEJ_20260202_0_L2A"
+      ]
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "software": {
+       "sentinel2-to-stac": "2026.08.16"
+      },
+      "quality_assets": {
+       "aot": {
+        "class": "cog",
+        "host": "sentinel-cogs.s3.us-west-2.amazonaws.com"
+       },
+       "aot-jp2": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "cloud": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "scl": {
+        "class": "cog",
+        "host": "sentinel-cogs.s3.us-west-2.amazonaws.com"
+       },
+       "scl-jp2": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "snow": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "wvp": {
+        "class": "cog",
+        "host": "sentinel-cogs.s3.us-west-2.amazonaws.com"
+       },
+       "wvp-jp2": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       }
+      },
+      "requester_pays": null,
+      "baselines": [
+       "03.00",
+       "04.00",
+       "05.00",
+       "05.09",
+       "05.11",
+       "05.12"
+      ],
+      "sample_item_ids": [
+       "S2A_10SEJ_20211228_2_L2A",
+       "S2A_10SEJ_20250821_1_L2A",
+       "S2B_10SEJ_20231021_0_L2A",
+       "S2B_10SEJ_20260908_0_L2A",
+       "S2B_17RNK_20221121_0_L2A",
+       "S2B_60HVC_20210508_0_L2A"
+      ]
+     },
+     {
+      "collection": "sentinel-2-l2a",
+      "software": {
+       "sentinel2-to-stac": "2026.08.16"
+      },
+      "quality_assets": {
+       "aot": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "cloud": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "scl": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "snow": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       },
+       "wvp": {
+        "class": "other",
+        "host": "sentinel-s2-l2a"
+       }
+      },
+      "requester_pays": null,
+      "baselines": [
+       "02.14",
+       "03.01",
+       "05.10"
+      ],
+      "sample_item_ids": [
+       "S2A_11SQA_20240112_0_L2A",
+       "S2B_11SQA_20210211_1_L2A",
+       "S2B_15RYP_20220107_0_L2A"
+      ]
+     },
+     {
+      "collection": "sentinel-2-pre-c1-l2a",
+      "software": {
+       "sentinel-2-c1-l2a-to-stac": "v2024.02.01"
+      },
+      "quality_assets": {
+       "aot": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "cloud": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "scl": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "snow": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       },
+       "wvp": {
+        "class": "cog",
+        "host": "e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com"
+       }
+      },
+      "requester_pays": false,
+      "baselines": [
+       "04.00"
+      ],
+      "sample_item_ids": [
+       "S2B_T31TGM_20221205T103321_L2A"
+      ]
+     }
+    ],
+    "fallback_items_used_by_software": {
+     "{\"sentinel2-to-stac\": \"0.1.0\"}": 3831,
+     "{\"sentinel2-to-stac\": \"0.1.1\"}": 2,
+     "{\"sentinel2-to-stac\": \"2025.03.06\"}": 1,
+     "{\"sentinel2-to-stac\": \"2026.08.16\"}": 11
+    },
+    "fallback_items_used_cloud_snow": {
+     "None/None": 3833,
+     "jp2/jp2": 12
+    }
+   },
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "asset_samples[]"
+    },
+    {
+     "input": "fallback",
+     "path": "summary.fallback_software"
+    },
+    {
+     "input": "fallback",
+     "path": "summary.fallback_cloud_snow"
+    }
+   ],
+   "bears_on": [
+    "I-26"
+   ],
+   "for_review": "Confirm from the asset samples which layouts occur. One software version can carry several layouts, so do not infer a layout from the version alone."
+  },
+  {
+   "id": "GS-07",
+   "title": "The older collection keeps originals beside reprocessings. Collection 1 keeps one product per acquisition key, except same-day splits and one mixed-baseline group",
+   "status": "measured",
+   "numbers": {
+    "collection_totals": {
+     "sentinel-2-c1-l2a": {
+      "items_total": 22501,
+      "acquisitions_total": 21873,
+      "duplicate_acquisitions_total": 628,
+      "aggregation_matches_listing": 30
+     },
+     "sentinel-2-pre-c1-l2a": {
+      "items_total": 70,
+      "acquisitions_total": 66,
+      "duplicate_acquisitions_total": 4,
+      "aggregation_matches_listing": 30
+     },
+     "sentinel-2-l2a": {
+      "items_total": 30942,
+      "acquisitions_total": 25326,
+      "duplicate_acquisitions_total": 4945,
+      "aggregation_matches_listing": 30
+     },
+     "sentinel-2-l1c": {
+      "items_total": 28991,
+      "acquisitions_total": 25326,
+      "duplicate_acquisitions_total": 3496,
+      "aggregation_matches_listing": 30
+     },
+     "reference cdse stac": {
+      "items_total": 27701,
+      "acquisitions_total": 26865,
+      "duplicate_acquisitions_total": 830,
+      "odata_matches_stac": 15
+     }
+    },
+    "duplicate_groups_collection1": {
+     "mixed_baselines": 1,
+     "same_baseline": 627
+    },
+    "mixed_baseline_groups_collection1": {
+     "05.09+05.11": 1
+    },
+    "duplicate_groups_older_collection": {
+     "mixed_baselines": 4260,
+     "same_baseline": 685
+    },
+    "collection1_acquisitions_absent_from_reference": 30
+   },
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "summary.collection_totals"
+    },
+    {
+     "input": "gap",
+     "path": "summary.duplicate_baseline_sets_by_collection"
+    },
+    {
+     "input": "gap",
+     "path": "tiles.<tile>.gaps.primary_not_in_reference"
+    }
+   ],
+   "bears_on": [
+    "I-16",
+    "I-25"
+   ],
+   "for_review": "Confirm that mixed-baseline duplicate groups are original plus reprocessed pairs, and that same-baseline groups are same-day datastrip splits. A date and platform key does not identify one product. Product ids do."
+  },
+  {
+   "id": "GS-08",
+   "title": "Sites in more than one tile",
+   "status": "measured",
+   "numbers": {
+    "sites": 20,
+    "multi_tile_sites": [
+     {
+      "site_id": "tahoe",
+      "group": "us",
+      "tiles": [
+       "10SGJ",
+       "11SKD"
+      ]
+     },
+     {
+      "site_id": "travis",
+      "group": "us",
+      "tiles": [
+       "14RNU",
+       "14RPU"
+      ]
+     },
+     {
+      "site_id": "grand-st-marys",
+      "group": "us",
+      "tiles": [
+       "16TGK",
+       "17TKE",
+       "17TKF"
+      ]
+     },
+     {
+      "site_id": "lanier",
+      "group": "us",
+      "tiles": [
+       "16SGC",
+       "16SGD",
+       "17SKT",
+       "17SKU"
+      ]
+     },
+     {
+      "site_id": "pontchartrain",
+      "group": "us",
+      "tiles": [
+       "15RYP",
+       "16RBU"
+      ]
+     },
+     {
+      "site_id": "geneva",
+      "group": "context",
+      "tiles": [
+       "31TGM",
+       "32TLS"
+      ]
+     },
+     {
+      "site_id": "taupo",
+      "group": "context",
+      "tiles": [
+       "60HUC",
+       "60HVC"
+      ]
+     }
+    ]
+   },
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "sites[].tiles"
+    }
+   ],
+   "bears_on": [
+    "I-30"
+   ],
+   "for_review": "Confirm the tile lists per site."
+  },
+  {
+   "id": "GS-09",
+   "title": "Tile counts overstate coverage at a point",
+   "status": "measured",
+   "numbers": {
+    "point_versus_tile": [
+     {
+      "site_id": "tahoe",
+      "tile": "10SGJ",
+      "footprints_covering_point_last_year": 177,
+      "tile_items_last_13_months": 185
+     },
+     {
+      "site_id": "tahoe",
+      "tile": "11SKD",
+      "footprints_covering_point_last_year": 177,
+      "tile_items_last_13_months": 185
+     },
+     {
+      "site_id": "clear",
+      "tile": "10SEJ",
+      "footprints_covering_point_last_year": 179,
+      "tile_items_last_13_months": 187
+     },
+     {
+      "site_id": "washington",
+      "tile": "10TET",
+      "footprints_covering_point_last_year": 182,
+      "tile_items_last_13_months": 192
+     },
+     {
+      "site_id": "flathead",
+      "tile": "11UQP",
+      "footprints_covering_point_last_year": 176,
+      "tile_items_last_13_months": 187
+     },
+     {
+      "site_id": "mead",
+      "tile": "11SQA",
+      "footprints_covering_point_last_year": 87,
+      "tile_items_last_13_months": 210
+     },
+     {
+      "site_id": "great-salt",
+      "tile": "12TUL",
+      "footprints_covering_point_last_year": 85,
+      "tile_items_last_13_months": 184
+     },
+     {
+      "site_id": "sakakawea",
+      "tile": "13TGN",
+      "footprints_covering_point_last_year": 173,
+      "tile_items_last_13_months": 182
+     },
+     {
+      "site_id": "travis",
+      "tile": "14RNU",
+      "footprints_covering_point_last_year": 87,
+      "tile_items_last_13_months": 185
+     },
+     {
+      "site_id": "travis",
+      "tile": "14RPU",
+      "footprints_covering_point_last_year": 87,
+      "tile_items_last_13_months": 187
+     },
+     {
+      "site_id": "winnebago",
+      "tile": "16TCP",
+      "footprints_covering_point_last_year": 171,
+      "tile_items_last_13_months": 180
+     },
+     {
+      "site_id": "grand-st-marys",
+      "tile": "16TGK",
+      "footprints_covering_point_last_year": 175,
+      "tile_items_last_13_months": 183
+     },
+     {
+      "site_id": "grand-st-marys",
+      "tile": "17TKE",
+      "footprints_covering_point_last_year": 175,
+      "tile_items_last_13_months": 183
+     },
+     {
+      "site_id": "grand-st-marys",
+      "tile": "17TKF",
+      "footprints_covering_point_last_year": 175,
+      "tile_items_last_13_months": 181
+     },
+     {
+      "site_id": "erie-west",
+      "tile": "17TLG",
+      "footprints_covering_point_last_year": 89,
+      "tile_items_last_13_months": 184
+     },
+     {
+      "site_id": "champlain",
+      "tile": "18TXQ",
+      "footprints_covering_point_last_year": 178,
+      "tile_items_last_13_months": 188
+     },
+     {
+      "site_id": "lanier",
+      "tile": "16SGC",
+      "footprints_covering_point_last_year": 171,
+      "tile_items_last_13_months": 179
+     },
+     {
+      "site_id": "lanier",
+      "tile": "16SGD",
+      "footprints_covering_point_last_year": 171,
+      "tile_items_last_13_months": 178
+     },
+     {
+      "site_id": "lanier",
+      "tile": "17SKT",
+      "footprints_covering_point_last_year": 171,
+      "tile_items_last_13_months": 179
+     },
+     {
+      "site_id": "lanier",
+      "tile": "17SKU",
+      "footprints_covering_point_last_year": 171,
+      "tile_items_last_13_months": 179
+     },
+     {
+      "site_id": "marion",
+      "tile": "17SNT",
+      "footprints_covering_point_last_year": 87,
+      "tile_items_last_13_months": 177
+     },
+     {
+      "site_id": "okeechobee",
+      "tile": "17RNK",
+      "footprints_covering_point_last_year": 173,
+      "tile_items_last_13_months": 184
+     },
+     {
+      "site_id": "pontchartrain",
+      "tile": "15RYP",
+      "footprints_covering_point_last_year": 177,
+      "tile_items_last_13_months": 187
+     },
+     {
+      "site_id": "pontchartrain",
+      "tile": "16RBU",
+      "footprints_covering_point_last_year": 177,
+      "tile_items_last_13_months": 188
+     },
+     {
+      "site_id": "iliamna",
+      "tile": "05VLG",
+      "footprints_covering_point_last_year": 204,
+      "tile_items_last_13_months": 284
+     },
+     {
+      "site_id": "victoria",
+      "tile": "36MVE",
+      "footprints_covering_point_last_year": 105,
+      "tile_items_last_13_months": 111
+     },
+     {
+      "site_id": "geneva",
+      "tile": "31TGM",
+      "footprints_covering_point_last_year": 210,
+      "tile_items_last_13_months": 226
+     },
+     {
+      "site_id": "geneva",
+      "tile": "32TLS",
+      "footprints_covering_point_last_year": 210,
+      "tile_items_last_13_months": 334
+     },
+     {
+      "site_id": "taupo",
+      "tile": "60HUC",
+      "footprints_covering_point_last_year": 72,
+      "tile_items_last_13_months": 152
+     },
+     {
+      "site_id": "taupo",
+      "tile": "60HVC",
+      "footprints_covering_point_last_year": 72,
+      "tile_items_last_13_months": 152
+     }
+    ]
+   },
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "sites[].tiles (footprints covering the point in the discovery window)"
+    },
+    {
+     "input": "gap",
+     "path": "tiles.<tile>.earth_search.sentinel-2-c1-l2a.items (last 13 months of the window, which contain the discovery window)"
+    }
+   ],
+   "bears_on": [
+    "I-30",
+    "A20"
+   ],
+   "for_review": "The tile count spans 13 months and contains the 12-month discovery window, so it is an upper bound. Confirm the direction of the difference, not its exact size."
+  },
+  {
+   "id": "GS-10",
+   "title": "The older collection's GeoTIFFs cover the missing acquisitions",
+   "status": "measured",
+   "numbers": {
+    "tiles_surveyed": 30,
+    "totals": {
+     "reference": 5406,
+     "primary": 384,
+     "missing": 5022,
+     "complete_cog": 3840,
+     "partial_cog": 0,
+     "jp2_only": 5,
+     "uncovered": 1177
+    },
+    "by_month": {
+     "2021-01": {
+      "reference": 16,
+      "primary": 0,
+      "missing": 16,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 16
+     },
+     "2021-02": {
+      "reference": 21,
+      "primary": 0,
+      "missing": 21,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 21
+     },
+     "2021-03": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2021-04": {
+      "reference": 24,
+      "primary": 0,
+      "missing": 24,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2021-05": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2021-06": {
+      "reference": 36,
+      "primary": 11,
+      "missing": 25,
+      "complete_cog": 1,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2021-07": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2021-08": {
+      "reference": 24,
+      "primary": 0,
+      "missing": 24,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2021-09": {
+      "reference": 24,
+      "primary": 0,
+      "missing": 24,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2021-10": {
+      "reference": 24,
+      "primary": 0,
+      "missing": 24,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2021-11": {
+      "reference": 23,
+      "primary": 0,
+      "missing": 23,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 23
+     },
+     "2021-12": {
+      "reference": 2,
+      "primary": 0,
+      "missing": 2,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 2
+     },
+     "2022-01": {
+      "reference": 372,
+      "primary": 0,
+      "missing": 372,
+      "complete_cog": 351,
+      "partial_cog": 0,
+      "jp2_only": 5,
+      "uncovered": 16
+     },
+     "2022-02": {
+      "reference": 347,
+      "primary": 0,
+      "missing": 347,
+      "complete_cog": 326,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 21
+     },
+     "2022-03": {
+      "reference": 383,
+      "primary": 37,
+      "missing": 346,
+      "complete_cog": 317,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 29
+     },
+     "2022-04": {
+      "reference": 370,
+      "primary": 0,
+      "missing": 370,
+      "complete_cog": 341,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 29
+     },
+     "2022-05": {
+      "reference": 385,
+      "primary": 0,
+      "missing": 385,
+      "complete_cog": 360,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2022-06": {
+      "reference": 371,
+      "primary": 1,
+      "missing": 370,
+      "complete_cog": 344,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 26
+     },
+     "2022-07": {
+      "reference": 381,
+      "primary": 2,
+      "missing": 379,
+      "complete_cog": 355,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2022-08": {
+      "reference": 369,
+      "primary": 2,
+      "missing": 367,
+      "complete_cog": 341,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 26
+     },
+     "2022-09": {
+      "reference": 370,
+      "primary": 0,
+      "missing": 370,
+      "complete_cog": 344,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 26
+     },
+     "2022-10": {
+      "reference": 386,
+      "primary": 3,
+      "missing": 383,
+      "complete_cog": 359,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2022-11": {
+      "reference": 364,
+      "primary": 0,
+      "missing": 364,
+      "complete_cog": 341,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 23
+     },
+     "2022-12": {
+      "reference": 354,
+      "primary": 295,
+      "missing": 59,
+      "complete_cog": 58,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 1
+     },
+     "2023-01": {
+      "reference": 16,
+      "primary": 0,
+      "missing": 16,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 16
+     },
+     "2023-02": {
+      "reference": 22,
+      "primary": 0,
+      "missing": 22,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 22
+     },
+     "2023-03": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2023-04": {
+      "reference": 35,
+      "primary": 10,
+      "missing": 25,
+      "complete_cog": 1,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2023-05": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2023-06": {
+      "reference": 24,
+      "primary": 0,
+      "missing": 24,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2023-07": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2023-08": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2023-09": {
+      "reference": 24,
+      "primary": 0,
+      "missing": 24,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2023-10": {
+      "reference": 24,
+      "primary": 0,
+      "missing": 24,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2023-11": {
+      "reference": 22,
+      "primary": 0,
+      "missing": 22,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 22
+     },
+     "2023-12": {
+      "reference": 2,
+      "primary": 0,
+      "missing": 2,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 2
+     },
+     "2024-01": {
+      "reference": 22,
+      "primary": 5,
+      "missing": 17,
+      "complete_cog": 1,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 16
+     },
+     "2024-02": {
+      "reference": 23,
+      "primary": 0,
+      "missing": 23,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 23
+     },
+     "2024-03": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2024-04": {
+      "reference": 24,
+      "primary": 0,
+      "missing": 24,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2024-05": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2024-06": {
+      "reference": 24,
+      "primary": 0,
+      "missing": 24,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2024-07": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2024-08": {
+      "reference": 24,
+      "primary": 0,
+      "missing": 24,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2024-09": {
+      "reference": 24,
+      "primary": 0,
+      "missing": 24,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2024-10": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2024-11": {
+      "reference": 22,
+      "primary": 0,
+      "missing": 22,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 22
+     },
+     "2024-12": {
+      "reference": 12,
+      "primary": 0,
+      "missing": 12,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 12
+     },
+     "2025-01": {
+      "reference": 21,
+      "primary": 0,
+      "missing": 21,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 21
+     },
+     "2025-02": {
+      "reference": 22,
+      "primary": 0,
+      "missing": 22,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 22
+     },
+     "2025-03": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2025-04": {
+      "reference": 24,
+      "primary": 0,
+      "missing": 24,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 24
+     },
+     "2025-05": {
+      "reference": 25,
+      "primary": 0,
+      "missing": 25,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 25
+     },
+     "2025-06": {
+      "reference": 24,
+      "primary": 18,
+      "missing": 6,
+      "complete_cog": 0,
+      "partial_cog": 0,
+      "jp2_only": 0,
+      "uncovered": 6
+     }
+    },
+    "fallback_items_used_baselines": {
+     "03.01": 276,
+     "04.00": 3563,
+     "05.00": 1,
+     "05.09": 4,
+     "05.10": 1
+    },
+    "fallback_items_used_offset_flags": {
+     "False": 945,
+     "None": 5,
+     "True": 2895
+    },
+    "fallback_full_cog_items": 3840,
+    "definitions": {
+     "incomplete_month": "A month whose gap survey status is empty or partial for the tile.",
+     "complete_cog": "An acquisition Collection 1 lacks, where an older-collection item has all twelve reflectance bands and the scene classification as cloud-optimized GeoTIFFs in the sentinel-cogs bucket.",
+     "partial_cog": "Some GeoTIFF assets in that bucket, but not the full set.",
+     "jp2_only": "Only JPEG 2000 assets, which point into the Sinergise bucket.",
+     "uncovered": "No older-collection item for the acquisition.",
+     "fallback_full_cog": "Best item also has aerosol and water vapour as GeoTIFFs.",
+     "reflectance_bands": [
+      "coastal",
+      "blue",
+      "green",
+      "red",
+      "rededge1",
+      "rededge2",
+      "rededge3",
+      "nir",
+      "nir08",
+      "nir09",
+      "swir16",
+      "swir22"
+     ],
+     "head_sample": "Per tile and month, the first complete_cog item's scene classification and red band objects, HEAD without credentials."
+    }
+   },
+   "evidence": [
+    {
+     "input": "fallback",
+     "path": "summary.totals"
+    },
+    {
+     "input": "fallback",
+     "path": "summary.by_month"
+    },
+    {
+     "input": "fallback",
+     "path": "tiles.<tile>.monthly.<month>"
+    }
+   ],
+   "bears_on": [
+    "I-08",
+    "I-26"
+   ],
+   "for_review": "Confirm the complete_cog definition against assumption A3's band list. Confirm that every missing acquisition outside the absent tiles is classed complete_cog, jp2_only, or uncovered, with no partial_cog case."
+  },
+  {
+   "id": "GS-11",
+   "title": "Sampled GeoTIFF objects exist in the public bucket and answer unsigned requests",
+   "status": "measured",
+   "numbers": {
+    "requests": 702,
+    "status": {
+     "200": 702
+    },
+    "content_length_bytes": {
+     "red": {
+      "min": 454695,
+      "max": 264001994,
+      "count": 351
+     },
+     "scl": {
+      "min": 53632,
+      "max": 5690939,
+      "count": 351
+     }
+    },
+    "request_charged_headers_seen": [
+     "None"
+    ],
+    "storage_classes_seen": [
+     "INTELLIGENT_TIERING",
+     "None"
+    ],
+    "content_types_seen": [
+     "image/tiff; application=geotiff; profile=cloud-optimized"
+    ]
+   },
+   "evidence": [
+    {
+     "input": "fallback",
+     "path": "summary.head_status"
+    },
+    {
+     "input": "fallback",
+     "path": "tiles.<tile>.head_sample[]"
+    }
+   ],
+   "bears_on": [
+    "I-08",
+    "I-18"
+   ],
+   "for_review": "A 200 to HEAD shows existence and size only. Confirm the sampling rule, one item per tile and month, two objects each."
+  },
+  {
+   "id": "GS-12",
+   "title": "The two surveys agree on missing and covered acquisitions in the incomplete months",
+   "status": "measured",
+   "numbers": {
+    "tile_months_compared": 405,
+    "disagreements": []
+   },
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "tiles.<tile>.gaps.{missing,covered_by_fallback}"
+    },
+    {
+     "input": "fallback",
+     "path": "tiles.<tile>.monthly.<month>.{missing,complete_cog,partial_cog,jp2_only,no_data_assets}"
+    }
+   ],
+   "bears_on": [
+    "I-08"
+   ],
+   "for_review": "Any disagreement means one survey listed an item the other did not. Zero disagreements is expected because both ran within hours."
+  }
+ ],
+ "per_tile": [
+  {
+   "tile": "05VLG",
+   "sites": [
+    "iliamna"
+   ],
+   "route_absent": true,
+   "reference_acquisitions": 1507,
+   "collection1_acquisitions": 347,
+   "missing": 1162,
+   "covered_by_older_collection": 0,
+   "uncovered": 1162,
+   "months_by_status": {
+    "complete": 15,
+    "empty": 52,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2021-01",
+    "2021-02",
+    "2021-03",
+    "2021-04",
+    "2021-05",
+    "2021-06",
+    "2021-07",
+    "2021-08",
+    "2021-09",
+    "2021-10",
+    "2021-11",
+    "2021-12",
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12",
+    "2023-01",
+    "2023-02",
+    "2023-03",
+    "2023-04",
+    "2023-05",
+    "2023-06",
+    "2023-07",
+    "2023-08",
+    "2023-09",
+    "2023-10",
+    "2023-11",
+    "2023-12",
+    "2024-01",
+    "2024-02",
+    "2024-03",
+    "2024-04",
+    "2024-05",
+    "2024-06",
+    "2024-07",
+    "2024-08",
+    "2024-09",
+    "2024-10",
+    "2024-11",
+    "2024-12",
+    "2025-01",
+    "2025-02",
+    "2025-03",
+    "2025-04",
+    "2025-05",
+    "2025-06"
+   ],
+   "fallback": {
+    "reference": 1181,
+    "primary": 19,
+    "missing": 1162,
+    "complete_cog": 0,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 1162,
+    "head_status": {}
+   }
+  },
+  {
+   "tile": "10SEJ",
+   "sites": [
+    "clear"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 875,
+   "collection1_acquisitions": 742,
+   "missing": 134,
+   "covered_by_older_collection": 134,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 145,
+    "primary": 11,
+    "missing": 134,
+    "complete_cog": 134,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "10SGJ",
+   "sites": [
+    "tahoe"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 876,
+   "collection1_acquisitions": 743,
+   "missing": 133,
+   "covered_by_older_collection": 133,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 143,
+    "primary": 10,
+    "missing": 133,
+    "complete_cog": 133,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "10TET",
+   "sites": [
+    "washington"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 886,
+   "collection1_acquisitions": 754,
+   "missing": 133,
+   "covered_by_older_collection": 133,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 145,
+    "primary": 12,
+    "missing": 133,
+    "complete_cog": 133,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "11SKD",
+   "sites": [
+    "tahoe"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 876,
+   "collection1_acquisitions": 743,
+   "missing": 133,
+   "covered_by_older_collection": 133,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 143,
+    "primary": 10,
+    "missing": 133,
+    "complete_cog": 133,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "11SQA",
+   "sites": [
+    "mead"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 858,
+   "collection1_acquisitions": 729,
+   "missing": 132,
+   "covered_by_older_collection": 131,
+   "uncovered": 1,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 145,
+    "primary": 13,
+    "missing": 132,
+    "complete_cog": 131,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 1,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "11UQP",
+   "sites": [
+    "flathead"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 876,
+   "collection1_acquisitions": 742,
+   "missing": 134,
+   "covered_by_older_collection": 133,
+   "uncovered": 1,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 144,
+    "primary": 10,
+    "missing": 134,
+    "complete_cog": 133,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 1,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "12TUL",
+   "sites": [
+    "great-salt"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 847,
+   "collection1_acquisitions": 715,
+   "missing": 133,
+   "covered_by_older_collection": 132,
+   "uncovered": 1,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 9,
+    "partial": 3
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 146,
+    "primary": 13,
+    "missing": 133,
+    "complete_cog": 132,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 1,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "13TGN",
+   "sites": [
+    "sakakawea"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 873,
+   "collection1_acquisitions": 739,
+   "missing": 134,
+   "covered_by_older_collection": 133,
+   "uncovered": 1,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 145,
+    "primary": 11,
+    "missing": 134,
+    "complete_cog": 133,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 1,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "14RNU",
+   "sites": [
+    "travis"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 888,
+   "collection1_acquisitions": 755,
+   "missing": 133,
+   "covered_by_older_collection": 133,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 143,
+    "primary": 10,
+    "missing": 133,
+    "complete_cog": 133,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "14RPU",
+   "sites": [
+    "travis"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 888,
+   "collection1_acquisitions": 754,
+   "missing": 134,
+   "covered_by_older_collection": 133,
+   "uncovered": 1,
+   "months_by_status": {
+    "complete": 56,
+    "empty": 10,
+    "partial": 3
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12",
+    "2023-04"
+   ],
+   "fallback": {
+    "reference": 154,
+    "primary": 20,
+    "missing": 134,
+    "complete_cog": 133,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 1,
+    "head_status": {
+     "200": 26
+    }
+   }
+  },
+  {
+   "tile": "15RYP",
+   "sites": [
+    "pontchartrain"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 861,
+   "collection1_acquisitions": 733,
+   "missing": 132,
+   "covered_by_older_collection": 132,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 145,
+    "primary": 13,
+    "missing": 132,
+    "complete_cog": 131,
+    "partial_cog": 0,
+    "jp2_only": 1,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "16RBU",
+   "sites": [
+    "pontchartrain"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 860,
+   "collection1_acquisitions": 733,
+   "missing": 131,
+   "covered_by_older_collection": 131,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 144,
+    "primary": 13,
+    "missing": 131,
+    "complete_cog": 130,
+    "partial_cog": 0,
+    "jp2_only": 1,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "16SGC",
+   "sites": [
+    "lanier"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 872,
+   "collection1_acquisitions": 737,
+   "missing": 135,
+   "covered_by_older_collection": 135,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 146,
+    "primary": 11,
+    "missing": 135,
+    "complete_cog": 135,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "16SGD",
+   "sites": [
+    "lanier"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 872,
+   "collection1_acquisitions": 737,
+   "missing": 135,
+   "covered_by_older_collection": 135,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 146,
+    "primary": 11,
+    "missing": 135,
+    "complete_cog": 135,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "16TCP",
+   "sites": [
+    "winnebago"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 858,
+   "collection1_acquisitions": 727,
+   "missing": 131,
+   "covered_by_older_collection": 131,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 9,
+    "partial": 3
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 145,
+    "primary": 14,
+    "missing": 131,
+    "complete_cog": 131,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "16TGK",
+   "sites": [
+    "grand-st-marys"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 875,
+   "collection1_acquisitions": 744,
+   "missing": 133,
+   "covered_by_older_collection": 132,
+   "uncovered": 1,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 145,
+    "primary": 12,
+    "missing": 133,
+    "complete_cog": 132,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 1,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "17RNK",
+   "sites": [
+    "okeechobee"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 876,
+   "collection1_acquisitions": 742,
+   "missing": 134,
+   "covered_by_older_collection": 134,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 146,
+    "primary": 12,
+    "missing": 134,
+    "complete_cog": 134,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "17SKT",
+   "sites": [
+    "lanier"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 872,
+   "collection1_acquisitions": 737,
+   "missing": 135,
+   "covered_by_older_collection": 135,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 146,
+    "primary": 11,
+    "missing": 135,
+    "complete_cog": 135,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "17SKU",
+   "sites": [
+    "lanier"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 872,
+   "collection1_acquisitions": 737,
+   "missing": 135,
+   "covered_by_older_collection": 135,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 146,
+    "primary": 11,
+    "missing": 135,
+    "complete_cog": 135,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "17SNT",
+   "sites": [
+    "marion"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 870,
+   "collection1_acquisitions": 735,
+   "missing": 135,
+   "covered_by_older_collection": 135,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 146,
+    "primary": 11,
+    "missing": 135,
+    "complete_cog": 135,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "17TKE",
+   "sites": [
+    "grand-st-marys"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 875,
+   "collection1_acquisitions": 744,
+   "missing": 133,
+   "covered_by_older_collection": 132,
+   "uncovered": 1,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 145,
+    "primary": 12,
+    "missing": 133,
+    "complete_cog": 131,
+    "partial_cog": 0,
+    "jp2_only": 1,
+    "uncovered": 1,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "17TKF",
+   "sites": [
+    "grand-st-marys"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 875,
+   "collection1_acquisitions": 744,
+   "missing": 133,
+   "covered_by_older_collection": 132,
+   "uncovered": 1,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 145,
+    "primary": 12,
+    "missing": 133,
+    "complete_cog": 131,
+    "partial_cog": 0,
+    "jp2_only": 1,
+    "uncovered": 1,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "17TLG",
+   "sites": [
+    "erie-west"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 875,
+   "collection1_acquisitions": 744,
+   "missing": 133,
+   "covered_by_older_collection": 131,
+   "uncovered": 2,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 145,
+    "primary": 12,
+    "missing": 133,
+    "complete_cog": 131,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 2,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "18TXQ",
+   "sites": [
+    "champlain"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 867,
+   "collection1_acquisitions": 739,
+   "missing": 129,
+   "covered_by_older_collection": 127,
+   "uncovered": 2,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 10,
+    "partial": 2
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 142,
+    "primary": 13,
+    "missing": 129,
+    "complete_cog": 126,
+    "partial_cog": 0,
+    "jp2_only": 1,
+    "uncovered": 2,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "31TGM",
+   "sites": [
+    "geneva"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 934,
+   "collection1_acquisitions": 801,
+   "missing": 135,
+   "covered_by_older_collection": 134,
+   "uncovered": 1,
+   "months_by_status": {
+    "complete": 56,
+    "empty": 9,
+    "partial": 4
+   },
+   "incomplete_months": [
+    "2021-06",
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 158,
+    "primary": 23,
+    "missing": 135,
+    "complete_cog": 134,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 1,
+    "head_status": {
+     "200": 26
+    }
+   }
+  },
+  {
+   "tile": "32TLS",
+   "sites": [
+    "geneva"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 1398,
+   "collection1_acquisitions": 1200,
+   "missing": 200,
+   "covered_by_older_collection": 198,
+   "uncovered": 2,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 9,
+    "partial": 3
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 217,
+    "primary": 17,
+    "missing": 200,
+    "complete_cog": 198,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 2,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "36MVE",
+   "sites": [
+    "victoria"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 457,
+   "collection1_acquisitions": 392,
+   "missing": 66,
+   "covered_by_older_collection": 66,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 56,
+    "empty": 10,
+    "partial": 3
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12",
+    "2024-01"
+   ],
+   "fallback": {
+    "reference": 77,
+    "primary": 11,
+    "missing": 66,
+    "complete_cog": 66,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 26
+    }
+   }
+  },
+  {
+   "tile": "60HUC",
+   "sites": [
+    "taupo"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 823,
+   "collection1_acquisitions": 692,
+   "missing": 131,
+   "covered_by_older_collection": 131,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 9,
+    "partial": 3
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 144,
+    "primary": 13,
+    "missing": 131,
+    "complete_cog": 131,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  },
+  {
+   "tile": "60HVC",
+   "sites": [
+    "taupo"
+   ],
+   "route_absent": false,
+   "reference_acquisitions": 823,
+   "collection1_acquisitions": 692,
+   "missing": 131,
+   "covered_by_older_collection": 131,
+   "uncovered": 0,
+   "months_by_status": {
+    "complete": 57,
+    "empty": 9,
+    "partial": 3
+   },
+   "incomplete_months": [
+    "2022-01",
+    "2022-02",
+    "2022-03",
+    "2022-04",
+    "2022-05",
+    "2022-06",
+    "2022-07",
+    "2022-08",
+    "2022-09",
+    "2022-10",
+    "2022-11",
+    "2022-12"
+   ],
+   "fallback": {
+    "reference": 144,
+    "primary": 13,
+    "missing": 131,
+    "complete_cog": 131,
+    "partial_cog": 0,
+    "jp2_only": 0,
+    "uncovered": 0,
+    "head_status": {
+     "200": 24
+    }
+   }
+  }
+ ],
+ "coverage_by_month": [
+  {
+   "month": "2021-01",
+   "reference": 375,
+   "collection1": 359,
+   "older_collection_fill": 0,
+   "uncovered": 16
+  },
+  {
+   "month": "2021-02",
+   "reference": 347,
+   "collection1": 326,
+   "older_collection_fill": 0,
+   "uncovered": 21
+  },
+  {
+   "month": "2021-03",
+   "reference": 383,
+   "collection1": 358,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2021-04",
+   "reference": 372,
+   "collection1": 348,
+   "older_collection_fill": 0,
+   "uncovered": 24
+  },
+  {
+   "month": "2021-05",
+   "reference": 379,
+   "collection1": 360,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2021-06",
+   "reference": 372,
+   "collection1": 347,
+   "older_collection_fill": 1,
+   "uncovered": 24
+  },
+  {
+   "month": "2021-07",
+   "reference": 382,
+   "collection1": 357,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2021-08",
+   "reference": 377,
+   "collection1": 353,
+   "older_collection_fill": 0,
+   "uncovered": 24
+  },
+  {
+   "month": "2021-09",
+   "reference": 370,
+   "collection1": 346,
+   "older_collection_fill": 0,
+   "uncovered": 24
+  },
+  {
+   "month": "2021-10",
+   "reference": 387,
+   "collection1": 363,
+   "older_collection_fill": 0,
+   "uncovered": 24
+  },
+  {
+   "month": "2021-11",
+   "reference": 362,
+   "collection1": 339,
+   "older_collection_fill": 0,
+   "uncovered": 23
+  },
+  {
+   "month": "2021-12",
+   "reference": 352,
+   "collection1": 350,
+   "older_collection_fill": 0,
+   "uncovered": 2
+  },
+  {
+   "month": "2022-01",
+   "reference": 372,
+   "collection1": 0,
+   "older_collection_fill": 351,
+   "uncovered": 21
+  },
+  {
+   "month": "2022-02",
+   "reference": 347,
+   "collection1": 0,
+   "older_collection_fill": 326,
+   "uncovered": 21
+  },
+  {
+   "month": "2022-03",
+   "reference": 383,
+   "collection1": 37,
+   "older_collection_fill": 317,
+   "uncovered": 29
+  },
+  {
+   "month": "2022-04",
+   "reference": 370,
+   "collection1": 0,
+   "older_collection_fill": 341,
+   "uncovered": 29
+  },
+  {
+   "month": "2022-05",
+   "reference": 385,
+   "collection1": 0,
+   "older_collection_fill": 360,
+   "uncovered": 25
+  },
+  {
+   "month": "2022-06",
+   "reference": 371,
+   "collection1": 1,
+   "older_collection_fill": 344,
+   "uncovered": 26
+  },
+  {
+   "month": "2022-07",
+   "reference": 381,
+   "collection1": 2,
+   "older_collection_fill": 355,
+   "uncovered": 24
+  },
+  {
+   "month": "2022-08",
+   "reference": 369,
+   "collection1": 2,
+   "older_collection_fill": 341,
+   "uncovered": 26
+  },
+  {
+   "month": "2022-09",
+   "reference": 370,
+   "collection1": 0,
+   "older_collection_fill": 344,
+   "uncovered": 26
+  },
+  {
+   "month": "2022-10",
+   "reference": 386,
+   "collection1": 3,
+   "older_collection_fill": 359,
+   "uncovered": 24
+  },
+  {
+   "month": "2022-11",
+   "reference": 364,
+   "collection1": 0,
+   "older_collection_fill": 341,
+   "uncovered": 23
+  },
+  {
+   "month": "2022-12",
+   "reference": 354,
+   "collection1": 295,
+   "older_collection_fill": 58,
+   "uncovered": 1
+  },
+  {
+   "month": "2023-01",
+   "reference": 376,
+   "collection1": 360,
+   "older_collection_fill": 0,
+   "uncovered": 16
+  },
+  {
+   "month": "2023-02",
+   "reference": 345,
+   "collection1": 323,
+   "older_collection_fill": 0,
+   "uncovered": 22
+  },
+  {
+   "month": "2023-03",
+   "reference": 383,
+   "collection1": 358,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2023-04",
+   "reference": 365,
+   "collection1": 340,
+   "older_collection_fill": 1,
+   "uncovered": 24
+  },
+  {
+   "month": "2023-05",
+   "reference": 383,
+   "collection1": 358,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2023-06",
+   "reference": 366,
+   "collection1": 342,
+   "older_collection_fill": 0,
+   "uncovered": 24
+  },
+  {
+   "month": "2023-07",
+   "reference": 378,
+   "collection1": 353,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2023-08",
+   "reference": 375,
+   "collection1": 350,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2023-09",
+   "reference": 357,
+   "collection1": 333,
+   "older_collection_fill": 0,
+   "uncovered": 24
+  },
+  {
+   "month": "2023-10",
+   "reference": 386,
+   "collection1": 362,
+   "older_collection_fill": 0,
+   "uncovered": 24
+  },
+  {
+   "month": "2023-11",
+   "reference": 360,
+   "collection1": 338,
+   "older_collection_fill": 0,
+   "uncovered": 22
+  },
+  {
+   "month": "2023-12",
+   "reference": 355,
+   "collection1": 353,
+   "older_collection_fill": 0,
+   "uncovered": 2
+  },
+  {
+   "month": "2024-01",
+   "reference": 375,
+   "collection1": 358,
+   "older_collection_fill": 1,
+   "uncovered": 16
+  },
+  {
+   "month": "2024-02",
+   "reference": 354,
+   "collection1": 331,
+   "older_collection_fill": 0,
+   "uncovered": 23
+  },
+  {
+   "month": "2024-03",
+   "reference": 379,
+   "collection1": 354,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2024-04",
+   "reference": 365,
+   "collection1": 341,
+   "older_collection_fill": 0,
+   "uncovered": 24
+  },
+  {
+   "month": "2024-05",
+   "reference": 383,
+   "collection1": 358,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2024-06",
+   "reference": 372,
+   "collection1": 348,
+   "older_collection_fill": 0,
+   "uncovered": 24
+  },
+  {
+   "month": "2024-07",
+   "reference": 378,
+   "collection1": 353,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2024-08",
+   "reference": 382,
+   "collection1": 358,
+   "older_collection_fill": 0,
+   "uncovered": 24
+  },
+  {
+   "month": "2024-09",
+   "reference": 356,
+   "collection1": 332,
+   "older_collection_fill": 0,
+   "uncovered": 24
+  },
+  {
+   "month": "2024-10",
+   "reference": 378,
+   "collection1": 353,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2024-11",
+   "reference": 411,
+   "collection1": 392,
+   "older_collection_fill": 0,
+   "uncovered": 22
+  },
+  {
+   "month": "2024-12",
+   "reference": 444,
+   "collection1": 434,
+   "older_collection_fill": 0,
+   "uncovered": 12
+  },
+  {
+   "month": "2025-01",
+   "reference": 370,
+   "collection1": 349,
+   "older_collection_fill": 0,
+   "uncovered": 21
+  },
+  {
+   "month": "2025-02",
+   "reference": 342,
+   "collection1": 320,
+   "older_collection_fill": 0,
+   "uncovered": 22
+  },
+  {
+   "month": "2025-03",
+   "reference": 437,
+   "collection1": 412,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2025-04",
+   "reference": 448,
+   "collection1": 424,
+   "older_collection_fill": 0,
+   "uncovered": 24
+  },
+  {
+   "month": "2025-05",
+   "reference": 475,
+   "collection1": 450,
+   "older_collection_fill": 0,
+   "uncovered": 25
+  },
+  {
+   "month": "2025-06",
+   "reference": 445,
+   "collection1": 439,
+   "older_collection_fill": 0,
+   "uncovered": 6
+  },
+  {
+   "month": "2025-07",
+   "reference": 473,
+   "collection1": 473,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2025-08",
+   "reference": 468,
+   "collection1": 468,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2025-09",
+   "reference": 456,
+   "collection1": 456,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2025-10",
+   "reference": 459,
+   "collection1": 459,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2025-11",
+   "reference": 466,
+   "collection1": 466,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2025-12",
+   "reference": 461,
+   "collection1": 461,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2026-01",
+   "reference": 399,
+   "collection1": 399,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2026-02",
+   "reference": 363,
+   "collection1": 381,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2026-03",
+   "reference": 437,
+   "collection1": 438,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2026-04",
+   "reference": 450,
+   "collection1": 450,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2026-05",
+   "reference": 468,
+   "collection1": 468,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2026-06",
+   "reference": 447,
+   "collection1": 447,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2026-07",
+   "reference": 476,
+   "collection1": 476,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2026-08",
+   "reference": 479,
+   "collection1": 479,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  },
+  {
+   "month": "2026-09",
+   "reference": 130,
+   "collection1": 130,
+   "older_collection_fill": 0,
+   "uncovered": 0
+  }
+ ],
+ "corrections": [
+  {
+   "id": "GC-01",
+   "about": "decision 0003 and assumption A13",
+   "statement": "They call the fallback the older collection's JPEG 2000 assets. Its primary assets are cloud-optimized GeoTIFFs in the public sentinel-cogs bucket, with JPEG 2000 alternates. The wording is for the owner to amend.",
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "asset_samples[collection=sentinel-2-l2a].red.href_host"
+    },
+    {
+     "input": "fallback",
+     "path": "summary.totals.complete_cog"
+    }
+   ]
+  },
+  {
+   "id": "GC-02",
+   "about": "issue I-08 before this step",
+   "statement": "It cited the provider README's April 2024 statement of a 2022 gap. The gap is now measured, global, and dated to the run.",
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "summary.months_empty_in_every_tile"
+    }
+   ]
+  },
+  {
+   "id": "GC-03",
+   "about": "the discovery response",
+   "statement": "It described the pre-Collection 1 collection as baseline below 05.00. Measured, it holds items from three months of 2022 only.",
+   "evidence": [
+    {
+     "input": "gap",
+     "path": "collections.sentinel-2-pre-c1-l2a"
+    }
+   ]
+  }
+ ],
+ "decision_inputs": {
+  "decision": "0004, to be written by the owner",
+  "gaps": [
+   {
+    "id": "A",
+    "gap": "January to November 2022 in every tile",
+    "findings": [
+     "GS-01",
+     "GS-05",
+     "GS-06",
+     "GS-10",
+     "GS-11"
+    ],
+    "options": [
+     {
+      "id": "A1",
+      "option": "Fill from the older collection's GeoTIFF assets, 03.01 then 04.00 originals",
+      "available_now": true,
+      "risks": [
+       "offset state unknown until a pixel check",
+       "no cloud or snow probability",
+       "items before 2022-01-25 carry no offset, items after do"
+      ]
+     },
+     {
+      "id": "A2",
+      "option": "Leave 2022 absent and backfill as a revision when the route ingests the 05.10 reprocessing",
+      "available_now": false,
+      "risks": [
+       "timing unknown"
+      ]
+     },
+     {
+      "id": "A3",
+      "option": "Fetch ESA's 05.10 products for 2022 from the Copernicus catalog once",
+      "available_now": true,
+      "risks": [
+       "outside the route of decision 0003",
+       "credentials and egress from a non-AWS store"
+      ]
+     },
+     {
+      "id": "A4",
+      "option": "Start the 2021 scenario at 2023",
+      "available_now": true,
+      "risks": [
+       "loses a year"
+      ]
+     }
+    ],
+    "agent_proposal": "A1 as a labelled provisional fill keyed by baseline after the pixel check, with A2 as the standing rule."
+   },
+   {
+    "id": "B",
+    "gap": "December 2022 to December 2023 at 05.09 where ESA serves 05.10",
+    "findings": [
+     "GS-02"
+    ],
+    "options": [
+     {
+      "id": "B1",
+      "option": "Accept the route's 05.09 products with the baseline recorded",
+      "available_now": true,
+      "risks": [
+       "05.09 to 05.10 differences unassessed"
+      ]
+     },
+     {
+      "id": "B2",
+      "option": "Treat as gap A",
+      "available_now": false,
+      "risks": [
+       "the provider may never re-ingest"
+      ]
+     }
+    ],
+    "agent_proposal": "B1, plus a recheck of the 05.10 release note against claim R5."
+   },
+   {
+    "id": "C",
+    "gap": "tiles absent from every Earth Search collection",
+    "findings": [
+     "GS-03"
+    ],
+    "options": [
+     {
+      "id": "C1",
+      "option": "Confirm whether Alaska water bodies are in scope"
+     },
+     {
+      "id": "C2",
+      "option": "If in scope, survey the tiles the customer set touches, using tile ids derived in-house"
+     },
+     {
+      "id": "C3",
+      "option": "For absent tiles, choose exclusion or a non-route source, which reopens decision 0003 for those tiles"
+     }
+    ],
+    "agent_proposal": "C1 first."
+   },
+   {
+    "id": "D",
+    "gap": "single acquisitions on no Earth Search collection",
+    "findings": [
+     "GS-01",
+     "GS-10"
+    ],
+    "options": [
+     {
+      "id": "D1",
+      "option": "Record as absent in the store's missingness fields and rerun the survey before backfill"
+     }
+    ],
+    "agent_proposal": "D1."
+   },
+   {
+    "id": "E",
+    "gap": "the offset flag, a blocker for A1",
+    "findings": [
+     "GS-05"
+    ],
+    "options": [
+     {
+      "id": "E1",
+      "option": "Prototyping measurement: compare one 60 m band window from a GeoTIFF with its JPEG 2000 alternate for a flag-true and a flag-false 04.00 item"
+     }
+    ],
+    "agent_proposal": "E1 before any A1 fill."
+   }
+  ]
+ },
+ "open_questions": [
+  "Why tile 05VLG and possibly its neighbours are absent from every Earth Search collection before June 2025.",
+  "Why 15 single acquisitions in 2022 have no Level-2A item on the route while ESA lists them.",
+  "Why Collection 1 lists 30 acquisitions that the Copernicus catalog no longer lists.",
+  "Whether the offset flag or the raster:bands offset describes the pixels of 04.00 items in the older collection.",
+  "What changed between baselines 05.09 and 05.10 for Level-2A products."
+ ],
+ "limitations": [
+  "Asset classes come from catalog media types and hosts. A catalog entry can be stale.",
+  "Catalog metadata only. No imagery byte was read, so nothing here shows whether a listed asset opens or holds valid pixels.",
+  "Counts describe the catalogs and bucket at measured_at.",
+  "Counts describe the catalogs at measured_at. Ingestion continues and can change every number.",
+  "Headers only. A 200 to HEAD shows the object exists and its size. It shows nothing about the pixels or the offset state.",
+  "One item per tile and month was HEAD-checked, two objects each. Other objects of the same item and other items are assumed to match their catalog entries.",
+  "Only months the gap survey marked empty or partial are surveyed. Months marked complete are not rechecked here.",
+  "Sensing keys pair date and platform, as in the gap survey.",
+  "Sensing keys pair the date with the platform letter. Two acquisitions of one tile by one unit on one date would collapse into one key.",
+  "Site points stand in for the pilot manifest, which does not exist yet. Rerun on the manifest's tiles when it exists.",
+  "The Copernicus catalogs are a reference for what ESA lists today, not a route. Their completeness is not independently established.",
+  "Tiles come from Collection 1 footprints covering the site point in the last year. A tile whose items never cover the point is not surveyed."
+ ]
+}

@@ -2,7 +2,7 @@
 
 Read [CLAUDE.md](CLAUDE.md) before changing this repository. It owns the project conventions and current names.
 Read the applicable rules under [.claude/rules/](.claude/rules/) before editing matching paths.
-Follow [development-workflow.md](docs/development-workflow.md) for scope, verification, and review gates.
+Follow the Workflow section of [CLAUDE.md](CLAUDE.md) for scope, verification, and review gates.
 
 Use the repository [check workflow](.claude/skills/check/SKILL.md) before finishing a change.
 Agents without slash commands must execute its documented commands directly.

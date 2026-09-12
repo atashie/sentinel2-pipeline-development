@@ -2,9 +2,12 @@
 
 Status: active. Builds on [decision 0002](0002-aws-source-pixel-classes-tile-provenance.md), which stays active.
 
+The fallback format below is historical. [Decision 0004](0004-cog-fallback-and-presentation-clarifications.md) replaces it with the older collection's COG assets.
+The other provisions remain active.
+
 ## Context
 
-The owner accepted the discovery step on 2026-09-10 after the [discovery review](../reviews/2026-09-10-discovery.md), two Codex reviews, and four bounded probes recorded in the inventory.
+The owner accepted the discovery step on 2026-09-10 after the discovery review, two Codex reviews, and four bounded probes recorded in the inventory. The reviews were archived on 2026-09-10.
 The probes showed three things. Earth Search's Collection 1 collection lacks June 2017 and June 2022 over a sampled box. Its older collection holds 2017 products at a provider baseline. The Sinergise buckets answer unsigned requests.
 
 ## Decision

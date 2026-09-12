@@ -20,5 +20,5 @@ The geometry is a `Polygon` or `MultiPolygon`. A manifest also carries top-level
 ## Pilot manifest
 
 [water-bodies-public-pilot.geojson](water-bodies-public-pilot.geojson) is empty on 2026-09-09. The prototyping step derives it from a public dataset by a checked-in script that records the dataset, version, and access date.
-Candidate datasets, none selected: national hydrography products, global lake databases, and global surface-water masks. Small ponds need a dataset that carries them. The [initialization review](../docs/reviews/2026-09-09-codex-initialization-review.md) records that HydroBASINS delineates sub-basins, not lakes, and that HydroLAKES targets lakes of 10 hectares and more.
+Candidate datasets, none selected: national hydrography products, global lake databases, and global surface-water masks. Small ponds need a dataset that carries them. The Codex initialization review of 2026-09-09, archived, recorded that HydroBASINS delineates sub-basins, not lakes, and that HydroLAKES targets lakes of 10 hectares and more.
 The pilot must include every size class in [../benchmarks/workloads.json](../benchmarks/workloads.json) and flat and mountainous settings. It must include at least one water body that spans two tiles and bodies with no interior pixel at 10 m (assumption A20).

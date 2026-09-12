@@ -4,7 +4,7 @@
     "agent": "access-route checking subagent",
     "model": "sonnet (Claude Code subagent, requested model override)",
     "started_at": "2026-09-09T22:10:00-04:00",
-    "finished_at": "2026-09-10T01:05:00-04:00"
+    "finished_at": "2026-09-11T15:40:00-04:00"
   },
   "checks": [
     {
@@ -1422,6 +1422,107 @@
       "quote": "L1C data are available from June 2015 globally.",
       "reason": "The Sinergise L1C readme's first paragraph gives the quote verbatim.",
       "checked_on": "2026-09-09"
+    },
+    {
+      "id": "chk-cl-ar-earth-search-cogs-operator",
+      "claim_id": "cl-ar-earth-search-cogs-operator",
+      "verdict": "confirmed",
+      "approved_value": "Element 84",
+      "approved_unit": null,
+      "approved_note": "The registry lists two data buckets for this dataset, e84-earth-search-sentinel-data and sentinel-cogs, both with no-sign-request access. The README says the API is a best effort by Element 84 with no guaranteed service.",
+      "source_ids": [
+        "src-aws-registry-s2-cogs",
+        "src-e84-earth-search-readme"
+      ],
+      "quote": "See all datasets managed by Element 84",
+      "reason": "Fetched https://registry.opendata.aws/sentinel-2-l2a-cogs/ fresh with a browser user agent. The page's Managed By section shows the Element 84 logo and the sentence 'See all datasets managed by Element 84.' verbatim (Element 84 as link text). The same page's Resources on AWS list gives e84-earth-search-sentinel-data and sentinel-cogs, both with a --no-sign-request CLI line, matching the note. The README (fetched from raw.githubusercontent.com) states on its General Notes line 'This public API does not come with any guaranteed service.', matching the note's second half.",
+      "checked_on": "2026-09-11"
+    },
+    {
+      "id": "chk-cl-ar-earth-search-cogs-operator-2",
+      "claim_id": "cl-ar-earth-search-cogs-operator-2",
+      "verdict": "confirmed",
+      "approved_value": "Element 84",
+      "approved_unit": null,
+      "approved_note": "Second source for the same value. The README also states that the public API does not come with any guaranteed service.",
+      "source_ids": [
+        "src-e84-earth-search-readme"
+      ],
+      "quote": "The Earth Search API is made available as a best effort by Element 84.",
+      "reason": "The README's 'Contributions' section gives the quote verbatim, as the section's first sentence.",
+      "checked_on": "2026-09-11"
+    },
+    {
+      "id": "chk-cl-ar-earth-search-cogs-source_dataset",
+      "claim_id": "cl-ar-earth-search-cogs-source_dataset",
+      "verdict": "confirmed",
+      "approved_value": "Cloud-optimized GeoTIFFs converted from the ESA/Sinergise JPEG 2000 files of the Sentinel-2 dataset",
+      "approved_unit": null,
+      "approved_note": "Collection sentinel-2-c1-l2a sits in bucket e84-earth-search-sentinel-data. Collection sentinel-2-l2a sits in bucket sentinel-cogs. The README says sentinel-2-c1-l2a is intended to eventually replace sentinel-2-l2a.",
+      "source_ids": [
+        "src-aws-registry-s2-cogs",
+        "src-e84-earth-search-readme"
+      ],
+      "quote": "This dataset is the same as the Sentinel-2 dataset, except the JP2K files were converted into Cloud-Optimized GeoTIFFs (COGs).",
+      "reason": "The registry page's Description section gives the quote verbatim. The same page's Resources on AWS list gives the bucket for the Collection 1 Level 2A resource as e84-earth-search-sentinel-data (Explore link to the sentinel-2-c1-l2a collection) and the bucket for the Level 2A scenes resource as sentinel-cogs (Explore link to the sentinel-2-l2a collection), matching the note's bucket-per-collection mapping. The README states this data is stored in the S3 Bucket e84-earth-search-sentinel-data, and separately says the sentinel-2-c1-l2a collection is intended to 'eventually replace the other Sentinel-2 L2A collection (sentinel-2-l2a)', matching the note.",
+      "checked_on": "2026-09-11"
+    },
+    {
+      "id": "chk-cl-ar-earth-search-cogs-source_dataset-2",
+      "claim_id": "cl-ar-earth-search-cogs-source_dataset-2",
+      "verdict": "confirmed",
+      "approved_value": "Cloud-optimized GeoTIFFs converted from the ESA/Sinergise JPEG 2000 files of the Sentinel-2 dataset",
+      "approved_unit": null,
+      "approved_note": "Second source for the same value. The README names the Collection 1 input files and the bucket that holds the generated COGs.",
+      "source_ids": [
+        "src-e84-earth-search-readme"
+      ],
+      "quote": "As part of Earth Search, Cloud-optimized GeoTIFFs (COGs) are generated for the Sentinel-2 Collection 1 Level-2A dataset from the ESA/Sinergise JPEG 2000 files.",
+      "reason": "The README's 'Sentinel-2 Collection 1 Level-2A S3 Data' section gives the quote verbatim, immediately followed by the statement that this data is stored in the S3 Bucket e84-earth-search-sentinel-data.",
+      "checked_on": "2026-09-11"
+    },
+    {
+      "id": "chk-cl-ar-aws-requester-pays-operator",
+      "claim_id": "cl-ar-aws-requester-pays-operator",
+      "verdict": "confirmed",
+      "approved_value": "Element 84",
+      "approved_unit": null,
+      "approved_note": "The registry page names Element 84, not Sinergise. The same page links the two Sinergise readmes as documentation and gives a Sentinel Hub forum as contact. The page does not name the bucket owner.",
+      "source_ids": [
+        "src-aws-registry-s2"
+      ],
+      "quote": "See all datasets managed by Element 84",
+      "reason": "Fetched https://registry.opendata.aws/sentinel-2/ fresh with a browser user agent. The Managed By section shows the Element 84 logo and the sentence 'See all datasets managed by Element 84.' verbatim, immediately after a Documentation section linking https://roda.sentinel-hub.com/sentinel-s2-l1c/readme.html and .../sentinel-s2-l2a/readme.html, and immediately before a Contact section giving https://forum.sentinel-hub.com/c/aws-sentinel. The word 'owner' does not occur anywhere on the page (checked with a case-insensitive search over the full HTML), so the page names who manages the registry entry but never states who owns the sentinel-s2-l1c or sentinel-s2-l2a buckets.",
+      "checked_on": "2026-09-11"
+    },
+    {
+      "id": "chk-cl-ar-aws-requester-pays-operator-2",
+      "claim_id": "cl-ar-aws-requester-pays-operator-2",
+      "verdict": "confirmed",
+      "approved_value": "Element 84",
+      "approved_unit": null,
+      "approved_note": "Second source for the same value. The dataset YAML behind the registry page carries the ManagedBy key that the page renders.",
+      "source_ids": [
+        "src-aws-registry-s2-yaml"
+      ],
+      "quote": "ManagedBy: \"[Element 84](https://www.element84.com/)\"",
+      "reason": "Fetched https://raw.githubusercontent.com/awslabs/open-data-registry/main/datasets/sentinel-2.yaml fresh with curl (9508 bytes, matching the researcher's recorded size). Line 12 is exactly the quoted ManagedBy key. The same file's Resources list carries RequesterPays: True for sentinel-s2-l1c and RequesterPays: False for sentinel-s2-l2a, consistent with the registry page's rendering checked under the payer claims.",
+      "checked_on": "2026-09-11"
+    },
+    {
+      "id": "chk-cl-ar-aws-requester-pays-source_dataset",
+      "claim_id": "cl-ar-aws-requester-pays-source_dataset",
+      "verdict": "confirmed",
+      "approved_value": "Copernicus Sentinel-2 data, stored per tile as in the original product specification",
+      "approved_unit": null,
+      "approved_note": "The bucket holds per-tile files, not SAFE packages. The registry says new data arrive within hours of availability on Copernicus OpenHub. No page read names the producing organisation or calls the bucket a mirror.",
+      "source_ids": [
+        "src-roda-s2-l2a",
+        "src-aws-registry-s2"
+      ],
+      "quote": "DATA - data for each tile are organised as in original product S2 MSI Product Specification.",
+      "reason": "Fetched https://roda.sentinel-hub.com/sentinel-s2-l2a/readme.html fresh with curl (4817 bytes, matching the researcher's recorded size). The 'Data structure' section gives the quote verbatim, describing per-tile file layout rather than SAFE packages. The readme names no operator or owner of the bucket anywhere: its 'Contact' section only points to the Sentinel Hub forum, and its 'License' section only links the Copernicus terms and an 'AWS Public Datasets' tag; neither names an operating organisation. The registry page's Update Frequency section gives 'usually within few hours after they are available on Copernicus OpenHub', matching the note.",
+      "checked_on": "2026-09-11"
     }
   ],
   "skipped_estimated": [],
@@ -1435,6 +1536,8 @@
     "No image asset bytes were read, no requester-pays bucket was contacted, no credentials were used, and no package was installed, consistent with the bounds of this check.",
     "One item per STAC collection was checked against the same single sampled item the researcher recorded (Texas-coast bounding box, accessed 2026-09-09); this check re-fetched each search query fresh rather than trusting the researcher's transcription, and the returned item ids, properties and asset structures match what the research file reports.",
     "Two claim pairs describe genuinely conflicting sources rather than checker uncertainty: the AWS registry (no-sign-request) versus the Sinergise readme (Requester Pays) for the sentinel-s2-l2a bucket, and the Sentinel Hub L2A page's own Basic Facts table (October 2016) versus its Endpoint Locations table (November 2016) for the European coverage start. Both sides of each conflict were independently fetched and read; see the corresponding check records' reasons for which source states which fact.",
-    "No claim in this dimension required a corrected or not_verifiable verdict: every cited quote was found verbatim (whitespace and, in one case, HTML-entity decoding aside) on its cited page or in its cited JSON/PDF, and every value, unit and note follows from the quoted text."
+    "No claim in this dimension required a corrected or not_verifiable verdict: every cited quote was found verbatim (whitespace and, in one case, HTML-entity decoding aside) on its cited page or in its cited JSON/PDF, and every value, unit and note follows from the quoted text.",
+    "Two of the seven newly checked draft claims (both operator claims) rest on a registry page's 'Managed By' section, which names who manages the registry entry, not who owns or operates the underlying S3 bucket; a case-insensitive search of both registry.opendata.aws/sentinel-2-l2a-cogs/ and registry.opendata.aws/sentinel-2/ for the word 'owner' found no match on either page, so bucket ownership stays unstated by these sources for both routes.",
+    "The Sinergise readme at roda.sentinel-hub.com/sentinel-s2-l2a/readme.html names no operator for the sentinel-s2-l2a bucket; it gives only a Sentinel Hub forum contact and a Copernicus/AWS Public Datasets license line, so the source_dataset claim's producing organisation rests on the registry page's Copernicus OpenHub reference, not on an explicit operator statement."
   ]
 }

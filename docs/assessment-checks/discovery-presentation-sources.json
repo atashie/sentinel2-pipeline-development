@@ -1,0 +1,218 @@
+{
+  "purpose": "Primary-source checks for explanatory sensor and archive context and map recipes, outside candidate specifications.",
+  "accessed_on": "2026-09-11",
+  "researcher": "Codex research agent /root/sensor_sources, inherited parent model",
+  "checker": "Independent Codex agent /root/check_sensor_sources, gpt-5.6-sol",
+  "method": "Researcher and checker separately opened the primary pages. Parent used the checked wording in the presentation.",
+  "checks": [
+    {
+      "topic": "Operational baseline deployment dates in the archive-history table",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "Operational baseline 05.09 was deployed on 2022-12-06. Operational baseline 05.10 was deployed on 2023-12-13.",
+      "source_urls": [
+        "https://sentinels.copernicus.eu/documents/d/sentinel/ompc-cs-dqr-002-03-2023-i60r0-msi-l2a-dqr-april-2023",
+        "https://sentiwiki.copernicus.eu/web/s2-processing"
+      ],
+      "locator": "April 2023 L2A Data Quality Report, processing-baseline deployment history; SentiWiki Collection-1 processing baseline section",
+      "qualification": "The CDSE baseline table lists availability by sensing date. Its 05.09 range begins on 2022-04-29 and does not establish deployment chronology.",
+      "researcher": "Codex research agent /root/independent_archives, inherited parent model",
+      "checker": "Independent Codex checking agent /root/check_archive_claims, gpt-5.6-sol",
+      "accessed_on": "2026-09-11",
+      "review": "../reviews/2026-09-11-archive-history-correction.md"
+    },
+    {
+      "topic": "Reprocessing of late-2024 Sentinel-2C tandem acquisitions",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "CDSE announced completed reprocessing of Sentinel-2C tandem acquisitions on 2026-09-02. Acquisitions from 2024-10-29 through 2024-12-19 are available at baseline 05.11.",
+      "source_urls": [
+        "https://dataspace.copernicus.eu/news/2026-9-2-copernicus-sentinel-2c-tandem-data-reprocessing-campaign-completed"
+      ],
+      "locator": "Announcement date and the two paragraphs describing completion and acquisition dates",
+      "qualification": "This is one bounded reprocessing campaign. The announcement establishes CDSE availability, not AWS or Earth Search replication.",
+      "researcher": "Codex research agent /root/independent_archives, inherited parent model",
+      "checker": "Independent Codex checking agent /root/check_archive_claims, gpt-5.6-sol",
+      "accessed_on": "2026-09-11",
+      "review": "../reviews/2026-09-11-archive-history-correction.md"
+    },
+    {
+      "topic": "Sentinel-2 bands and sampling",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "B02, B03, B04, and B08 have 10 m sampling. B05, B06, B07, B8A, B11, and B12 have 20 m sampling.",
+      "source_urls": [
+        "https://sentiwiki.copernicus.eu/web/s2-mission"
+      ],
+      "locator": "Spatial Resolution and Spectral Resolution",
+      "qualification": "Do not imply every visible or near-infrared band is 10 m. Smaller-pixel benefits are a project inference, not measured superiority."
+    },
+    {
+      "topic": "Landsat 8/9 comparison",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "Landsat 8/9 multispectral sampling is 30 m. Thermal measurements are acquired at 100 m. Their orbits have an eight-day offset.",
+      "source_urls": [
+        "https://www.usgs.gov/landsat-missions/landsat-9"
+      ],
+      "locator": "OLI-2, TIRS-2, and Mission Details",
+      "qualification": "The panchromatic band is 15 m. Nominal revisit does not guarantee cloud-free or usable imagery."
+    },
+    {
+      "topic": "Relative revisit opportunities",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "Sentinel-2 offers more frequent nominal optical coverage than the Landsat 8/9 pair.",
+      "source_urls": [
+        "https://sentiwiki.copernicus.eu/web/s2-mission",
+        "https://www.usgs.gov/landsat-missions/landsat-9"
+      ],
+      "locator": "Geographical Coverage and Mission Details",
+      "qualification": "Comparison of nominal five-day Sentinel-2 coverage and eight-day Landsat pair offset. Actual coverage depends on operations, latitude, overlap, and clouds."
+    },
+    {
+      "topic": "Landsat history",
+      "status": "documented",
+      "verdict": "corrected",
+      "approved_wording": "The Landsat archive reaches back to 1972.",
+      "source_urls": [
+        "https://www.usgs.gov/faqs/what-landsat-satellite-program-and-why-it-important"
+      ],
+      "locator": "Continuous 1972-present archive",
+      "qualification": "Removed an unsupported attribution to this FAQ about differing mission generations. No claim of uniform sensor capability across the archive."
+    },
+    {
+      "topic": "Sentinel-2 map recipes",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "True color: B04/B03/B02. Infrared false color: B08/B04/B03. NDVI: (B08-B04)/(B08+B04). Green-NIR NDWI: (B03-B08)/(B03+B08).",
+      "source_urls": [
+        "https://sentiwiki.copernicus.eu/web/copernicus-applications"
+      ],
+      "locator": "Table 2",
+      "qualification": "Apply reflectance calibration first. NDWI has other definitions. The presentation uses the green-NIR formulation."
+    },
+    {
+      "topic": "Vegetation interpretation",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "NDVI contrasts red and near-infrared response. Vegetation absorbs red light and reflects strongly in near-infrared.",
+      "source_urls": [
+        "https://science.nasa.gov/earth/earth-observatory/global-vegetation-8622/"
+      ],
+      "locator": "NDVI explanation",
+      "qualification": "Spectral contrast is not a direct plant-health diagnosis or a validated water-quality concentration."
+    },
+    {
+      "topic": "Sentinel-2 satellites and instrument",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "Sentinel-2A launched in 2015, 2B in 2017, and 2C on 2024-09-05. Each satellite carries a single payload, the Multi-Spectral Instrument, with four bands at 10 m, six at 20 m, and three at 60 m.",
+      "source_urls": [
+        "https://sentiwiki.copernicus.eu/web/s2-mission"
+      ],
+      "locator": "Mission overview and Spatial Resolution",
+      "qualification": "The page names one instrument for every satellite. It does not use the word same. Ground processing baselines still change and are tracked separately.",
+      "researcher": "Claude Code (AI coding agent), fetched during the 2026-09-11 presentation review",
+      "checker": "Independent Claude Code checking agent, general-purpose subagent, separate context",
+      "accessed_on": "2026-09-11",
+      "review": "../reviews/2026-09-11-presentation-review.md"
+    },
+    {
+      "topic": "Landsat sensor generations",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "Landsat sensors changed across missions: MSS on Landsat 1 to 5 at 60 m, TM on 4 and 5 at 30 m, ETM+ on 7 at 30 m, and OLI with TIRS on 8 and 9 at 30 m with 100 m thermal. Band designations differ between sensors.",
+      "source_urls": [
+        "https://www.usgs.gov/faqs/what-are-band-designations-landsat-satellites"
+      ],
+      "locator": "Band designation tables per sensor",
+      "qualification": "Resolutions come from table cells. TM thermal is 120 m and ETM+ thermal 60 m, both resampled to 30 m. The only prose sentence on differing designations covers Landsat 1-3 versus 4-5. Other differences show in the tables' band numbering.",
+      "researcher": "Claude Code (AI coding agent), fetched during the 2026-09-11 presentation review",
+      "checker": "Independent Claude Code checking agent, general-purpose subagent, separate context",
+      "accessed_on": "2026-09-11",
+      "review": "../reviews/2026-09-11-presentation-review.md"
+    },
+    {
+      "topic": "Landsat 6 loss",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "Landsat 6 launched on 1993-10-05 and did not achieve orbit.",
+      "source_urls": [
+        "https://www.usgs.gov/landsat-missions/landsat-6"
+      ],
+      "locator": "Mission summary",
+      "qualification": "",
+      "researcher": "Claude Code (AI coding agent), fetched during the 2026-09-11 presentation review",
+      "checker": "Independent Claude Code checking agent, general-purpose subagent, separate context",
+      "accessed_on": "2026-09-11",
+      "review": "../reviews/2026-09-11-presentation-review.md"
+    },
+    {
+      "topic": "Landsat 7 Scan Line Corrector failure",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "Landsat 7's Scan Line Corrector failed on 2003-05-31. Later scenes keep 78 percent of their pixels after duplicated areas are removed. Science imaging was suspended on 2024-01-19 and the mission decommissioned on 2025-06-04.",
+      "source_urls": [
+        "https://www.usgs.gov/landsat-missions/landsat-7"
+      ],
+      "locator": "SLC failure and mission status",
+      "qualification": "The page's word is suspended, not ended.",
+      "researcher": "Claude Code (AI coding agent), fetched during the 2026-09-11 presentation review",
+      "checker": "Independent Claude Code checking agent, general-purpose subagent, separate context",
+      "accessed_on": "2026-09-11",
+      "review": "../reviews/2026-09-11-presentation-review.md"
+    },
+    {
+      "topic": "HLS S30 product at 30 m",
+      "status": "documented",
+      "verdict": "corrected",
+      "approved_wording": "NASA's HLS S30 product is derived from Sentinel-2A, 2B, and 2C MSI data at 30 m. It is gridded to the same resolution and MGRS tiling system as the HLS Landsat product, so the two are stackable for time series.",
+      "source_urls": [
+        "https://www.earthdata.nasa.gov/data/catalog/lpcloud-hlss30-2.0"
+      ],
+      "locator": "Product description",
+      "qualification": "Corrected from 'resampled to the Landsat grid'. The page ties the grid to the HLS L30 product, not to Landsat's native products, and says derived, not resampled. That the owner's 30 m Sentinel-2 data came from HLS is an inference, not a documented fact.",
+      "researcher": "Claude Code (AI coding agent), fetched during the 2026-09-11 presentation review",
+      "checker": "Independent Claude Code checking agent, general-purpose subagent, separate context",
+      "accessed_on": "2026-09-11",
+      "review": "../reviews/2026-09-11-presentation-review.md"
+    },
+    {
+      "topic": "Same-orbit terrain-related displacement",
+      "status": "documented",
+      "verdict": "corrected",
+      "approved_wording": "Terrain-model errors can produce similar position shifts on repeat passes from the same relative orbit. Other alignment errors can remain.",
+      "source_urls": [
+        "https://tc.copernicus.org/articles/16/2629/2022/"
+      ],
+      "locator": "Chudley et al. 2022, section 2.1.2 and same-track results",
+      "qualification": "Cancellation concerns one DEM-related component under stable elevation and viewing geometry. The observations concern Greenland imagery before August 2021, not validation of this lake sample.",
+      "accessed_on": "2026-09-11",
+      "researcher": "Codex research agent /root/independent_archives, inherited parent model",
+      "checker": "Independent Codex checking agent /root/check_archive_claims, gpt-5.6-sol",
+      "review": "../reviews/2026-09-11-prototyping-handoff.md"
+    },
+    {
+      "topic": "Conditional cloud-mask dilation",
+      "status": "documented",
+      "verdict": "corrected",
+      "approved_wording": "Cloud-mask expansion can mark clear pond pixels as cloudy within 80 m of qualifying clouds. Shoreline and other exclusion rules apply.",
+      "source_urls": [
+        "https://sentiwiki.copernicus.eu/web/s2-processing"
+      ],
+      "locator": "Cloud and shadow dilation",
+      "qualification": "Baseline 04.00 and later. Cloud probability above 65 percent, components larger than three pixels. Shoreline and soil/snow boundary exclusions apply. Urban dilation requires more than 1000 pixels at 20 m.",
+      "accessed_on": "2026-09-11",
+      "researcher": "Codex research agent /root/independent_archives, inherited parent model",
+      "checker": "Independent Codex checking agent /root/check_archive_claims, gpt-5.6-sol",
+      "review": "../reviews/2026-09-11-prototyping-handoff.md"
+    }
+  ],
+  "limitations": [
+    "Documentation checks are not sensor validation or human approval.",
+    "The owner supplied the Sentinel-2-versus-Landsat emphasis on 2026-09-11 and the page carries it. Which bands carry which water-quality signal is project rationale, not a checked claim.",
+    "AWS and processing summaries use existing repository evidence. They were not newly surveyed for this presentation.",
+    "The educational map crop does not validate the fallback archive or select a production workflow."
+  ]
+}

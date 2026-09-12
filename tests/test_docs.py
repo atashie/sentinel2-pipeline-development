@@ -7,7 +7,16 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 LINK = re.compile(r"\[[^\]]*\]\(([^)\s#]+)(?:#[^)]*)?\)")
-SKIP_DIRS = {".venv", ".uv-cache", ".git", "data", "dist", ".pytest_cache", ".ruff_cache"}
+SKIP_DIRS = {
+    ".venv",
+    ".uv-cache",
+    ".git",
+    "data",
+    "dist",
+    ".pytest_cache",
+    ".ruff_cache",
+    "archive",
+}
 
 
 def markdown_files():

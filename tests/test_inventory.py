@@ -203,3 +203,18 @@ def test_inventory_matches_check_records():
         check=False,
     )
     assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_issues_carry_plain_language_and_belong_to_one_theme(inventory):
+    issue_ids = [issue["id"] for issue in inventory["issues"]]
+    for issue in inventory["issues"]:
+        for key in ("plain", "why"):
+            assert issue.get(key), f"{issue['id']} needs {key}"
+    themes = inventory.get("themes", [])
+    assert themes, "themes are required for the rendered view"
+    assigned = [issue_id for theme in themes for issue_id in theme["issues"]]
+    assert sorted(assigned) == sorted(issue_ids), "every issue belongs to exactly one theme"
+    for theme in themes:
+        for key in ("id", "title", "intro", "issues"):
+            assert theme.get(key), f"theme needs {key}"
+    assert inventory["selection"].get("next"), "selection.next lists the open decisions"

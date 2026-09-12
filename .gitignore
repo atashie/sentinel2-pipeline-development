@@ -19,3 +19,6 @@ dist/
 # Claude Code personal overrides
 CLAUDE.local.md
 .claude/settings.local.json
+
+# Quarantined documents, local only
+docs/archive/
