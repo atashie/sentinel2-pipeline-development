@@ -1,8 +1,9 @@
 # Measurements, 2026-09-10
 
-Two measurements exist. The data gap survey required by [decision 0003](decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) ran once on 2026-09-10 and wrote [gap-survey.json](../benchmarks/results/gap-survey.json).
+Three measurement sets exist. The data gap survey required by [decision 0003](decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) ran once on 2026-09-10 and wrote [gap-survey.json](../benchmarks/results/gap-survey.json).
 The fallback survey the owner asked for the same day ran once and wrote [fallback-survey.json](../benchmarks/results/fallback-survey.json). Both are summarized for review in the generated [gap survey report](reviews/2026-09-10-gap-survey-report.json).
-The plan, definitions, and rerun steps are in [gap-survey-plan.md](gap-survey-plan.md). Every number below is a count of catalog items, acquisitions, requests, or bytes, as labelled. No imagery byte was read.
+The plan, definitions, and rerun steps are in [gap-survey-plan.md](gap-survey-plan.md). Every number in the survey sections is a count of catalog items, acquisitions, requests, or bytes, as labelled. The surveys read no imagery byte.
+The third set is [prototype stage 1](#prototype-stage-1-raw-access-to-whole-tiles-2026-09-14), which read whole tiles on 2026-09-14.
 
 An acquisition is one sensing date and platform within one tile. Item counts stand beside acquisition counts because one acquisition can appear as several items.
 
@@ -205,3 +206,70 @@ Over the 405 tile-months both surveys covered, their missing and covered counts 
 - Completeness after the survey window. Saved listings contain recent products in both collections, as described in the [archive comparison](reviews/2026-09-11-codex-archive-comparison.md). Future ingestion is unverified.
 
 Raw listings are under `data/gap-survey/2026-09-10T201628+0000/` and `data/fallback-survey/2026-09-11T001108+0000/`, outside git. Their digests are in the result files. The fill policy options are in the [gap survey review](reviews/2026-09-10-gap-survey.md).
+
+## Prototype stage 1: raw access to whole tiles, 2026-09-14
+
+Stage 1 of [work-plan.md](work-plan.md) ran on 2026-09-14 on the owner's laptop over the internet, outside us-west-2 (assumption A25).
+[raw_access.py](../benchmarks/raw_access.py) read every band of one acquisition, tile 17SKU on 2025-10-15, from both GeoTIFF copies. The same ESA product, `S2B_MSIL2A_20251015T162149_N0511_R040_T17SKU_20251015T202039.SAFE`, sits on both.
+Two read modes: `vsicurl`, where GDAL asks for byte ranges, and `whole-object`, one GET per file then a decode from memory. Three repetitions each, every run in a fresh process.
+Results: [raw-access.json](../benchmarks/results/raw-access.json) with 60 runs, of which 12 failed on one asset, and [raw-access-older-quality-all.json](../benchmarks/results/raw-access-older-quality-all.json), the 12 older-copy runs repeated with that asset skipped.
+[copy_difference.py](../benchmarks/copy_difference.py) then compared six files pixel by pixel, [copy-difference.json](../benchmarks/results/copy-difference.json).
+Machine: 10-core arm64 laptop, 17 GB memory, rasterio 1.5.1 on GDAL 3.12.4. Every time below includes the internet path from the laptop to the buckets.
+
+### 13. Whole-tile read cost per band set
+
+Medians of three runs. Bytes are what the reader asked for. Range reads skip the overview pyramids, whole-object reads include them.
+Time is the sum of the per-file open, read, fetch, and decode timers. It excludes the digest and statistics each run also computed. The quality and all-band sets hold different files on the two copies.
+
+| Band set | Files | Collection 1, range reads | Collection 1, whole object | Older copy, range reads | Older copy, whole object |
+|---|---|---|---|---|---|
+| Four 10 m bands | 4 | 508 MB, 54 s, 61 requests | 682 MB, 43 s, 4 requests | 507 MB, 69 s, 195 requests | 681 MB, 45 s, 4 requests |
+| Six 20 m bands | 6 | 213 MB, 24 s, 36 requests | 284 MB, 20 s, 6 requests | 212 MB, 25 s, 46 requests | 283 MB, 21 s, 6 requests |
+| Two 60 m bands | 2 | 7 MB, 1.7 s, 6 requests | 9 MB, 1.8 s, 2 requests | 7 MB, 1.5 s, 6 requests | 9 MB, 1.8 s, 2 requests |
+| Quality layers | 5 or 3 | 32 MB, 4.5 s, 17 requests | 44 MB, 5.3 s, 5 requests | 38 MB, 6.8 s, 29 requests | 80 MB, 5.7 s, 3 requests |
+| Everything | 17 or 15 | 759 MB, 76 s, 120 requests | 1,019 MB, 66 s, 17 requests | 765 MB, 91 s, 276 requests | 1,053 MB, 85 s, 15 requests |
+
+Peak resident memory of the worker while holding a whole set, on Collection 1: 1.0 GB for the 10 m bands by range reads. Everything by range reads peaked at 1.2 GB and by whole-object reads at 1.7 GB. The peak includes process start-up and a copy made for the digest.
+CPU time was 7 s per 10 m set and 11 to 12 s for everything, against 43 to 91 s of read time. The reads waited on the network for most of the time.
+Whole-object reads were faster than range reads for the 10 m, 20 m, and all-band sets on this connection, despite moving a third more bytes. For the 10 m set they made 4 requests instead of 61. The 60 m sets and the Collection 1 quality layers went the other way by a small margin.
+Per-request latency is one explanation consistent with these timings. The run order was fixed and the connection uncontrolled, so the cause is not isolated.
+Three runs exceeded 1.5 times their set's median wall time. A Collection 1 20 m whole-object run took 36 s against 20 s. An older-copy 20 m whole-object run took 99 s against 21 s. An older-copy 60 m run took 7.5 s against 1.8 s.
+
+### 14. The two copies are laid out differently, and the older copy's quality layers differ
+
+- The older copy's 10 m bands have the same 1024-pixel blocks, four overviews, and deflate compression as Collection 1. Yet they needed 47 to 51 range requests per band against 14 to 17. Range reads of its 10 m set took 25 percent longer.
+- The older copy's `swir16` uses 1024-pixel blocks and three overviews. Its five other 20 m bands use 512-pixel blocks and four overviews, like Collection 1.
+- The older copy's `cloud` and `snow` assets are JPEG 2000 files in the `sentinel-s2-l2a` bucket, outside this GeoTIFF benchmark. The first pass opened them through an unconfigured S3 path and failed 12 of 60 runs with the errors saved in the result. Whether they open without credentials is untested. The registry documents unsigned access and the older readme says requester pays, issue I-18. The rerun skips them and records why. Most 2022 fallback items lack these assets in the catalog, finding 10.
+- Aerosol and water vapour are 20 m grids on Collection 1. On the older copy aerosol is a 1,830-pixel 60 m grid and water vapour a 10,980-pixel 10 m grid. Both catalogs declare 20 m for them.
+- No whole-object response carried a requester-pays charge header on either bucket.
+
+### 15. The copies differ by the offset applied and clamped, measured on one product
+
+Six files of the same product were compared pixel by pixel, older copy minus Collection 1, where both have data. The comparison ran twice on 2026-09-14. The owner invoked the second run at 19:56 UTC with the rule check added. It reproduced the first run's difference counts exactly and replaced its file.
+
+| File | Valid in both | Differ | Most common difference | Next most common |
+|---|---|---|---|---|
+| coastal | 2,627,222 | all | −1,000 on 98.3 percent | −999, −998, −997, tailing to −102 |
+| nir09 | 2,627,905 | all but 641 | −1,000 on 99.0 percent | 0 on 641 pixels, then −952 |
+| red | 94,546,915 | all | −1,000 on 99.98 percent | −999, −998, tailing to −633 |
+| scl | 23,636,736 | none | identical | |
+| aot, wvp | | | different grids, not compared | |
+
+The dominant difference is exactly −1,000, the radiometric offset −0.1 at scale 0.0001 in stored units. Every difference lies between −1,000 and 0. That excludes an unclamped subtraction, which would wrap below zero in unsigned integers, and any positive shift.
+The rule `older = max(c1 − 1000, 1)` was then checked on every pixel valid in both copies. It held without exception: zero violations on 99,802,042 pixels across the three reflectance bands. That is the conversion the provider described for the older copy, subtract the offset and clamp low values, now measured for this product.
+The clamp touches every Collection 1 value at or below 1,000, which is reflectance at or below zero after the offset. On this tile that is 44,936 coastal pixels, 1.71 percent of those valid in both. For nir09 it is 26,317 pixels, 1.00 percent, and for red 20,898, 0.02 percent. Those pixels keep their value only on Collection 1. How many of them lie over water is not measured.
+The rule check also ran on the classification, where it has no meaning and reports every pixel as a violation. The values there are identical.
+The older item's `earthsearch:boa_offset_applied` flag is true and the Collection 1 item has no such flag. Both items' `raster:bands` declare offset −0.1 for these assets. A reader that applies the declaration on the older copy would subtract the offset twice. No-data masks agree exactly. The scene classification is identical.
+This is one 05.11 product. It says nothing about the 04.00 items with mixed flags that the gap survey found, issue I-05.
+
+### What stage 1 does not show
+
+- Anything about an instance beside the buckets. Every time includes the laptop's internet path. Repeat from us-west-2 when access exists.
+- Windowed reads of a water body. Only whole tiles were read. Requests per pond, the question of issue I-20, is stage 2 work.
+- Other acquisitions, tiles, or processing versions. One 05.11 product was read. The 04.00 items that the gap survey found with mixed offset flags are the subject of issue I-05 and stage 5.
+- Whether the clamp rule holds on the other nine reflectance bands, on other items, or at other baselines. Three bands of one 05.11 product were checked.
+- Whether the older copy's JPEG 2000 quality files open without credentials. The failures were reader configuration, not an access decision.
+- Delivered network bytes. Requested ranges and machine-wide counters are recorded separately. The counters include other traffic and, on one run, recorded far less than requested.
+- The two outlier runs' cause. Nothing on the laptop was controlled during the runs.
+
+Worker specifications, GDAL logs, and per-run results are under `data/raw-access/`, outside git.

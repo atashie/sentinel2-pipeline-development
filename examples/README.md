@@ -19,12 +19,12 @@ A manifest is a GeoJSON `FeatureCollection` in EPSG:4326. Each feature carries t
 | `setting` | Terrain description of the region: `mountain`, `hills`, `flat`, or `lowland`. A description, not a measurement |
 | `tier` | `large` for an anchor lake, `pilot` for a size-class pick |
 | `size_class_m` | The workload size class the width falls in, from [../benchmarks/workloads.json](../benchmarks/workloads.json) |
-| `width_m` | Square root of the area, in metres |
+| `width_m` | Area-equivalent width: square root of area in metres, not a measured distance across the water body |
 | `area_m2` | Polygon area from the stored coordinates, holes removed |
 | `fcode` | The dataset's feature code |
 | `gnis_id` | Geographic Names Information System id, when the dataset has one |
 | `reachcode` | The dataset's reach code |
-| `nhd_feature_date` | The dataset's feature date |
+| `nhd_feature_date` | NHD FDate: last feature modification, not shoreline observation |
 | `vertex_count` | Vertices in the stored geometry |
 | `why` | Why the water body is in the pilot |
 
@@ -40,7 +40,8 @@ USGS states that The National Map data are free and in the public domain. It ask
 
 Each region names a gap survey site as its anchor and a box to search. Five regions carry the anchor lake itself, tier `large`.
 The Alaska region carries only small lakes, because Iliamna Lake is too large to store.
-For each region and size class, the script takes the lake or pond whose width is nearest the class width. Intermittent ponds and treatment, disposal, cooling, and pool codes are left out.
+For each region and size class, the script selects the eligible feature nearest the target area-equivalent width.
+Explicit intermittent, treatment, disposal, evaporation, cooling, and pool codes are excluded. Unspecified reservoir-purpose codes remain eligible.
 The rules, the counts, and every request are in the manifest.
 
 What the pilot covers, from the manifest's `summary`:
@@ -48,13 +49,16 @@ What the pilot covers, from the manifest's `summary`:
 - Every size class in [../benchmarks/workloads.json](../benchmarks/workloads.json), 10 m to 1,000 m, plus five larger anchor lakes.
 - Flat, lowland, hill, and mountain settings.
 - Lake Tahoe, Lake Lanier, and Grand Lake, which the [gap survey](../docs/measurements.md) found in more than one tile.
-- Five bodies in the 10 m class. Rasterization decides whether such a body has an interior pixel at 10 m (assumption A20). None is expected.
+- Five bodies in the 10 m area-equivalent class. Their actual spans and interior-pixel counts are not determined by that class.
 
 Limits:
 
 - United States only. The three context sites outside the service area remain points in the survey site list.
-- Tile membership is not in the manifest. Rerun the gap survey with `--manifest` to discover it from the catalog, as [../docs/gap-survey-plan.md](../docs/gap-survey-plan.md) describes.
-- Whether a mapped pond holds water on a given date is unknown. The dataset's feature date is recorded.
+- Tile membership is not in the manifest. The survey's `--manifest` option finds candidate tiles intersecting unbuffered bounding boxes, as [the plan](../docs/gap-survey-plan.md) describes.
+- Whether a mapped pond holds water on a given date is unknown. NHD FDate records modification, not a shoreline observation.
+- NHD is no longer maintained. The service's July 2026 refresh does not establish current water boundaries. [Documented source checks](../docs/reviews/2026-09-12-pilot-manifest-review.md#source-checks).
+- Unspecified-purpose reservoir codes do not establish water-storage use. The smallest Tahoe feature and Grand Lake carry such a code.
+- Mapping accuracy for the selected small polygons remains unverified. Six decimal places provide coordinate precision, not measured shoreline accuracy.
 - Terrain settings are descriptions from the region configuration, not measurements.
 - Area uses a spherical approximation. Widths serve the size classes, not measurement.
 - The Alaska box has no body under 17 m wide, so that region lacks the 10 m class.
@@ -65,6 +69,9 @@ Rebuild without network from the newest saved run under `data/pilot-manifest/`:
 uv run python tools/build_pilot_manifest.py
 ```
 
+The builder verifies the configuration and saved-response digests before rebuilding. Changed inputs fail instead of inheriting the original provenance.
+The saved responses are local files under ignored `data/`. A fresh checkout cannot rebuild this download without obtaining those files.
+
 Refetch only when the owner asks. The run saves every response and a request log, then rebuilds the manifest:
 
 ```sh
@@ -73,4 +80,4 @@ uv run python tools/build_pilot_manifest.py --fetch
 
 Earlier candidates, none selected, were national hydrography products, global lake databases, and global surface-water masks.
 The Codex initialization review of 2026-09-09, archived, recorded that HydroBASINS delineates sub-basins, not lakes, and that HydroLAKES targets lakes of 10 hectares and more.
-The national dataset was chosen because it carries ponds down to the 10 m class and answers box queries without a bulk download.
+The saved regional responses contain polygons in the pilot's 10 m area-equivalent class. That does not establish a dataset-wide mapping threshold.

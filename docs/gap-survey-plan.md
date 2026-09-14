@@ -21,10 +21,11 @@ Which quality assets does each collection deliver, and does that change with bas
 The 2026-09-10 run used named public water bodies as points, listed in [../benchmarks/gap-survey-sites.json](../benchmarks/gap-survey-sites.json) with the reason for each.
 Seventeen sites lie in the United States, the service area of assumption A4. Three context sites outside it show whether a gap is regional or global.
 One site straddles a UTM zone boundary, so it lies in two tiles.
-The [pilot manifest](../examples/water-bodies-public-pilot.geojson) exists since 2026-09-11. With `--manifest`, the survey takes its water bodies as sites and discovers tiles by each bounding box.
-A bounding box can add a tile the polygon does not touch. The result records which site mode ran.
+The [pilot manifest](../examples/water-bodies-public-pilot.geojson) exists since 2026-09-11. With `--manifest`, the survey finds candidate tiles intersecting each unbuffered bounding box.
+A bounding box can add a tile the polygon does not touch. It omits any extension needed for near-land pixels.
+The result records which site mode ran. Exact polygon and buffer coverage remains separate work.
 
-Tiles are discovered from the catalog, not computed. For each site, the survey lists Collection 1 items whose footprint covers the point in the last year and takes their tile codes.
+Tiles are discovered from the catalog. The survey lists Collection 1 items intersecting the point or box during the last year, then takes their tile codes.
 A tile whose items never cover the point, or the box, in that year is not surveyed. That limit is recorded in the result file.
 
 ## Collections and window
@@ -107,11 +108,20 @@ Every number in the report comes from the inputs. `--check` fails when the commi
 
 ## Rerun
 
-1. Run `uv run python benchmarks/gap_survey.py --manifest examples/water-bodies-public-pilot.geojson` from the repository root. Without `--manifest`, the survey uses the point list.
-2. Wait for the final line, which names the result file and the request total.
-3. Update the tables in [measurements.md](measurements.md) from the new file.
-4. Run `uv run python benchmarks/fallback_survey.py`, then `uv run python tools/gap_report.py`.
-5. Run `/check`.
+The pilot rerun has not started. The owner invokes provider runs, as [CLAUDE.md](../CLAUDE.md) specifies.
+Use separate outputs to preserve the Discovery survey. The default output names belong to that earlier evidence.
+
+```sh
+uv run python benchmarks/gap_survey.py --manifest examples/water-bodies-public-pilot.geojson --output benchmarks/results/pilot-gap-survey.json
+uv run python benchmarks/fallback_survey.py --gap-survey benchmarks/results/pilot-gap-survey.json --output benchmarks/results/pilot-fallback-survey.json
+```
+
+Run the fallback survey only after reviewing the pilot survey's scope and successful completion.
+These commands survey unbuffered bounding boxes. They do not establish complete coverage of the extraction geometry.
+
+Before generating a pilot report, adapt `tools/gap_report.py` to distinguish point and bounding-box discovery and review its snapshot-specific interpretations.
+Use its `--gap`, `--fallback`, and `--output` options for a separate report. Keep the Discovery report and its presentation inputs intact.
+Add pilot findings to the Prototyping section with their own evidence, then run `/check`.
 
 Pass `--max-sites 1 --output data/smoke.json --raw-dir data/smoke` for a smoke run that writes no evidence.
 Pass `--tiles 10SGJ 11SKD` to survey named tiles without discovery. Pass `--no-reference` to skip the Copernicus catalogs.

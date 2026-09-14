@@ -1,6 +1,7 @@
 # Phase 2, step 1: public pilot manifest, 2026-09-11
 
 Author: Claude Code (AI coding agent), directed by the repository owner.
+Follow-up: the [2026-09-12 review](2026-09-12-pilot-manifest-review.md) corrects source qualifications, verifies the saved results, and supersedes the rerun instructions below.
 On 2026-09-11 the owner authorized the commit and push of the Discovery work, then the start of Step 3. This record covers the first Phase 2 item in [work-plan.md](../work-plan.md).
 
 ## The step

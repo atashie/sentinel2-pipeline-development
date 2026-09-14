@@ -7355,6 +7355,24 @@
         "cl-ar-aws-requester-pays-unit_price",
         "cl-ar-aws-requester-pays-unit_price-2"
       ]
+    },
+    {
+      "id": "F-23",
+      "title": "The two GeoTIFF copies hold the same product in different units, measured on one product, and the older copy's quality layers differ",
+      "text": "Prototype stage 1 read one 05.11 product, tile 17SKU on 2025-10-15, from both copies and compared six files pixel by pixel. On the three reflectance bands compared, the older copy holds Collection 1's integer minus 1,000, clamped to a minimum of 1, on every one of 99,802,042 pixels valid in both. That is the radiometric offset already applied and reflectance at or below zero discarded. Both catalogs declare the same offset of -0.1 for both copies, so applying the declaration on the older copy would subtract it twice. The scene classification is identical. Aerosol and water vapour are 20 m grids on Collection 1 and 60 m and 10 m grids on the older copy. The older copy's cloud and snow probability assets are JPEG 2000 links into the sentinel-s2-l2a bucket, outside the GeoTIFF benchmark, and whether they open unsigned is untested. Its 10 m bands needed about three times the range requests of Collection 1 for similar bytes. Measurement findings 13 to 15 hold the numbers. One product and three of twelve reflectance bands were checked. The 04.00 items with mixed offset flags remain issue I-05.",
+      "claim_ids": [
+        "cl-ar-earth-search-cogs-offset_delivery",
+        "cl-ar-earth-search-cogs-offset_delivery-2",
+        "cl-ar-earth-search-cogs-quality_layers",
+        "cl-ar-earth-search-cogs-format",
+        "cl-ar-earth-search-cogs-raw_pixel_access"
+      ],
+      "evidence": [
+        "benchmarks/results/raw-access.json",
+        "benchmarks/results/raw-access-older-quality-all.json",
+        "benchmarks/results/copy-difference.json",
+        "docs/measurements.md#15-the-copies-differ-by-the-offset-consistent-with-the-providers-conversion"
+      ]
     }
   ],
   "combinations": [
@@ -7758,7 +7776,7 @@
     {
       "id": "I-05",
       "title": "The radiometric offset arrives in different states",
-      "text": "From baseline 04.00 the integers carry an offset of minus 1000. Earth Search applied the offset during COG conversion for some items, and each asset's catalog scale and offset describe the remaining conversion. The Sinergise buckets document nothing about the offset. Non-AWS routes pre-apply, harmonize, or clamp. Measured on 2026-09-10 (PR-05): no Collection 1 item carries the provider's offset flag, and every sampled Collection 1 band asset declares a raster:bands offset of -0.1. In the older collection the flag varies per item inside one baseline, true on 3,024 and false on 693 items at 04.00, while every sampled asset from 04.00 declares -0.1 regardless.",
+      "text": "From baseline 04.00 the integers carry an offset of minus 1000. Earth Search applied the offset during COG conversion for some items, and each asset's catalog scale and offset describe the remaining conversion. The Sinergise buckets document nothing about the offset. Non-AWS routes pre-apply, harmonize, or clamp. Measured on 2026-09-10 (PR-05): no Collection 1 item carries the provider's offset flag, and every sampled Collection 1 band asset declares a raster:bands offset of -0.1. In the older collection the flag varies per item inside one baseline, true on 3,024 and false on 693 items at 04.00, while every sampled asset from 04.00 declares -0.1 regardless. Measured on 2026-09-14 for one 05.11 product: on three bands and every pixel valid in both, the older copy's integer is Collection 1's minus 1,000, clamped to 1, while both catalogs declare the offset. Finding F-23 and measurement finding 15.",
       "consequence": "The store records the conversion state per asset in one representation and reads the values from the asset's own metadata. ESA metadata and catalog metadata use different conventions, mapped in the draft contract. Digital number 0 stays no data. For the 2022 fallback items the two statements cannot both hold, so catalog metadata cannot settle the conversion state.",
       "status": "measure",
       "decision": "Draft contract fields scale, offset, and conversion_source. Practice P8. A pixel-level comparison of a GeoTIFF window with its JPEG 2000 alternate, for a flag-true and a flag-false 04.00 item, is a prototyping measurement and a blocker for filling 2022 from the older collection.",

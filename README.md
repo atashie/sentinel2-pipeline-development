@@ -1,11 +1,11 @@
 # Sentinel-2 ingestion options for water-quality modeling
 
-**Discovery review completed on 2026-09-11. Next session: Phase 2, Prototyping. Workflow, platform, and layout remain open.**
-Read the [review and handoff](docs/reviews/2026-09-11-prototyping-handoff.md), then the [work plan](docs/work-plan.md).
+**Prototyping is underway. Initial whole-tile access measurements are complete on one laptop and one acquisition. Lake extraction, AWS performance, and scientific validation remain open. Workflow, platform, and layout remain open.**
+Read the [stage 1 record](docs/reviews/2026-09-14-prototype-structure-and-stage-1.md) and [Codex's review](docs/reviews/2026-09-14-codex-stage-1-review.md), then the [work plan](docs/work-plan.md).
 [Decision 0002](docs/decisions/0002-aws-source-pixel-classes-tile-provenance.md) fixes three pixel classes per water body and a tile provenance marker. [Decision 0003](docs/decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) selects Earth Search as the route and the 2021 scenario first. Workflow, platform, and layout remain open. **Cross-tile mosaicking is a MAJOR CONCERN under investigation, issue I-30.**
 
 **Start here:** [Discovery presentation](docs/s2-options.html) explains the data, AWS archives, quality risks, processing work, and real map examples.
-It is written for engineering and business colleagues. Prototyping, Integration Specs, and Tradeoffs & Issues are placeholders.
+It is written for engineering and business colleagues. Prototyping shows the test cases and the stage 1 access measurements. Integration Specs and Tradeoffs & Issues remain placeholders.
 Vercel hosting is prepared but no deployment is recorded, see [docs/vercel-hosting.md](docs/vercel-hosting.md). Locally, open the HTML from disk with its `assets/discovery/` directory beside it.
 The gap surveys are in [docs/measurements.md](docs/measurements.md) and the generated [report](docs/reviews/2026-09-10-gap-survey-report.json).
 
@@ -25,7 +25,7 @@ Non-AWS options are documented for context only. It prototypes the leading optio
 measures cost at 1,000 and 10,000 water bodies for 2017-onward and 2021-onward histories. It ends in technical
 specifications for the engineering team, who build the system.
 
-**Status:** two measurements, the [data gap survey and its fallback survey](docs/measurements.md). No prototype code. No selected workflow, platform, or layout. [docs/work-plan.md](docs/work-plan.md) lists the
+**Status:** the [data gap and fallback surveys and the stage 1 raw access measurements](docs/measurements.md), plus the [public pilot manifest](examples/README.md). No lake extraction has run. No workflow, platform, or layout is selected. [docs/work-plan.md](docs/work-plan.md) lists the
 steps. [docs/assumptions.md](docs/assumptions.md) lists what is assumed and where each assumption came from.
 
 ## Quick start
@@ -50,7 +50,7 @@ The tests check documentation links, the inventory schema, the survey logic, and
 | [docs/data-contract.md](docs/data-contract.md) | Draft of what the store serves. Not selected |
 | [docs/measurements.md](docs/measurements.md) | What was measured, and what the numbers do not show |
 | [docs/gap-survey-plan.md](docs/gap-survey-plan.md) | Data gap survey: sites, collections, gap definitions, rerun steps |
-| [docs/s2-options.html](docs/s2-options.html) | The colleague-facing Discovery story, diagrams, and interactive satellite map examples |
+| [docs/s2-options.html](docs/s2-options.html) | Discovery story, satellite map examples, and partial Prototyping results |
 | [docs/vercel-hosting.md](docs/vercel-hosting.md) | Prepared Vercel configuration and deployment instructions |
 | [docs/options-inventory.json](docs/options-inventory.json) | The canonical assessment dataset. [Format](docs/assessment-data-format.md), [check records](docs/assessment-checks/README.md) |
 | [docs/reviews/](docs/reviews/README.md) | The current review cycle and the generated gap survey report |

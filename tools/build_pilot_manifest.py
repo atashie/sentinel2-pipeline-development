@@ -480,9 +480,17 @@ def fetch_run(config: dict, sites: dict, run_dir: Path, config_path: Path, pause
     print(f"saved {len(client.log)} responses under {run_dir}", flush=True)
 
 
-def load_run(config: dict, run_dir: Path) -> dict:
+def load_run(config: dict, run_dir: Path, config_path: Path) -> dict:
+    """Load a saved run only when its configuration and saved files still match."""
+    fetch = json.loads((run_dir / "fetch.json").read_text())
+    if sha256_file(config_path) != fetch["config_sha256"]:
+        raise ValueError("configuration differs from the saved fetch run")
+
     def read(name: str) -> dict:
-        return json.loads((run_dir / name).read_text())
+        path = run_dir / name
+        if name not in fetch["files"] or sha256_file(path) != fetch["files"][name]:
+            raise ValueError(f"saved response differs from its recorded digest: {name}")
+        return json.loads(path.read_text())
 
     regions = {}
     for region in config["regions"]:
@@ -494,7 +502,7 @@ def load_run(config: dict, run_dir: Path) -> dict:
     return {
         "service": read("service.json"),
         "layer": read("layer.json"),
-        "fetch": read("fetch.json"),
+        "fetch": fetch,
         "regions": regions,
     }
 
@@ -529,7 +537,7 @@ def main(argv=None) -> int:
     else:
         explicit = (args.raw_dir / "fetch.json").exists()
         run_dir = args.raw_dir if explicit else newest_run(args.raw_dir)
-    manifest = build_manifest(config, load_run(config, run_dir))
+    manifest = build_manifest(config, load_run(config, run_dir, args.config))
     dump_manifest(manifest, args.output)
     summary = manifest["summary"]
     print(

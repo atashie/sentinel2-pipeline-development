@@ -5,11 +5,13 @@ A checked box means the work exists in this repository with evidence.
 
 ## Next session: Phase 2, Prototyping
 
-Discovery review and documentation reconciliation are recorded in the [handoff review](reviews/2026-09-11-prototyping-handoff.md).
+The public pilot manifest was [reviewed on 2026-09-12](reviews/2026-09-12-pilot-manifest-review.md). Stage 1 raw access ran on 2026-09-14 on one laptop and one acquisition, [reviewed by Codex](reviews/2026-09-14-codex-stage-1-review.md). Lake extraction, AWS performance, and scientific validation remain open.
 Read that review, [measurements](measurements.md), and the [draft contract](data-contract.md) before selecting the first bounded comparison together.
 
 - The public pilot polygons exist since 2026-09-11. Identify the input product used by the existing model.
-- Choose the first methods, comparison cases, tolerances, and resource bounds with the owner, Codex, and Claude Code.
+- Treat small mapped polygons as geometry cases until their water-body type and shoreline suitability are checked.
+- Keep pilot survey evidence separate from Discovery. Resolve discovery scope and adapt the report before presenting new coverage findings.
+- The owner chose the stages, methods, and copies on 2026-09-14. Tolerances and resource bounds are declared per stage before comparison.
 - Prioritize offset correctness and cross-tile differences alongside runtime, bytes, requests, memory, and output size.
 - Carry unresolved fill policy, missing quality layers, Alaska scope, processing-version comparability, and record layout into those experiments.
 
@@ -115,14 +117,43 @@ The owner requested a narrative for engineering and business colleagues with lim
 
 ## Phase 2: Prototyping
 
+The owner set the structure on 2026-09-14: four workload stages first, then the scientific and quality checks.
+Each stage is one authorized step with its own record. Measurements run on the owner's laptop until AWS access exists (assumption A25).
+Every measurement reports wall time, CPU time, peak memory, bytes, requests, pixels read, and output bytes, with the machine and code version.
+
+Preparation:
+
 - [x] Public pilot manifest derived from the USGS National Hydrography Dataset by [a checked-in script](../tools/build_pilot_manifest.py), 2026-09-11. [Manifest](../examples/water-bodies-public-pilot.geojson), [record](reviews/2026-09-11-pilot-manifest.md).
-- [ ] Rerun the gap survey with `--manifest`, then the fallback survey and the report. The owner invokes it.
-- [ ] Bounded prototypes of the selected candidates on the pilot set. Fixture tests, no network.
-- [ ] Live probes with recorded bytes, requests, cost, and limitations. Results in `benchmarks/results/`.
+- [x] Pilot manifest reviewed and Prototyping tab populated with partial results, 2026-09-12. [Review](reviews/2026-09-12-pilot-manifest-review.md).
+- [x] Measurement harness under `src/s2proto/` with fixture tests, 2026-09-14. [Record](reviews/2026-09-14-prototype-structure-and-stage-1.md).
+- [ ] Rerun the gap survey with `--manifest` using separate outputs. Review geometry scope and adapt the report, as [the plan](gap-survey-plan.md#rerun) records.
+
+Stage 1, raw access. One acquisition on both GeoTIFF copies. Whole-tile reads of the 10 m, 20 m, and 60 m band sets, the quality layers, and all of them together. Two read modes: GDAL range reads and one whole-object GET.
+
+- [x] Script and fixture tests, 2026-09-14. [Script](../benchmarks/raw_access.py).
+- [x] Smoke run, full run, and the older-copy rerun on the laptop, 2026-09-14. [Results](../benchmarks/results/raw-access.json), [rerun](../benchmarks/results/raw-access-older-quality-all.json), findings 13 and 14 in [measurements.md](measurements.md).
+- [x] Pixel comparison of six files between the copies, with the offset-and-clamp rule checked on every pixel, 2026-09-14. [Result](../benchmarks/results/copy-difference.json), finding 15.
+- [ ] Repeat from an instance in us-west-2 once AWS access exists.
+
+Stage 2, one lake at a time. For every pilot size class, extract the pixel classes with four methods. They are naive clip per scene, precomputed raster mask, precomputed index lists, and a lazy array stack.
+
+- [ ] Methods prototyped with fixture tests on synthetic rasters. Tolerances declared before any comparison.
+- [ ] Measured on the pilot lakes. Interior and shoreline pixel counts per resolution recorded.
+
+Stage 3, many lakes in one tile. The same methods, reading every pilot lake in a tile. Per-lake reads against one shared whole-tile read, and lake-by-lake order against tile-by-tile order.
+
+- [ ] Prototyped and measured.
+
+Stage 4, lakes across tiles. Lakes the survey found in two or more tiles. Per-lake reads from every tile against per-tile extraction followed by concatenation. Records keep their tile id and role. Nothing is blended across tiles.
+
+- [ ] Prototyped and measured. **Cross-tile mosaicking is a MAJOR CONCERN, issue I-30.**
+
+Stage 5, scientific and quality checks, after stages 1 to 4:
+
 - [ ] Offset pixel check, issue I-05. Read one 60 m band window from a GeoTIFF and from its JPEG 2000 alternate. Do it for a flag-true and a flag-false 04.00 item.
 - [ ] Recheck of the 05.10 release note against claim R5, for the 05.09 products of 2023.
 - [ ] Quality-flag derivation prototyped and measured against the pilot set.
-- [ ] **Cross-tile measurement: differences between tiles over the same pixels and dates, per band and quality layer, issue I-30.**
+- [ ] Cross-tile measurement: differences between tiles over the same pixels and dates, per band and quality layer, issue I-30.
 - [ ] Contract revised from evidence. Processing version introduced.
 
 ## Phase 3: Integration Specs

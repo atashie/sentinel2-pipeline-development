@@ -8,6 +8,9 @@ The latest handoff records subsequent corrections and resolved wording.
 
 | Date | Review | Reviewer |
 |---|---|---|
+| 2026-09-14 | [Stage 1 evidence audit, interpretation corrections, and safeguards for later runs](2026-09-14-codex-stage-1-review.md) | Codex, with separate primary-source research and checking |
+| 2026-09-14 | [Prototype structure set by the owner, the measurement harness, and the stage 1 raw access script](2026-09-14-prototype-structure-and-stage-1.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-09-12 | [Pilot manifest audit and partial Prototyping presentation](2026-09-12-pilot-manifest-review.md) | Codex, with separate USGS source research and checking |
 | 2026-09-11 | [Phase 2, step 1: public pilot manifest from the USGS National Hydrography Dataset, and the survey's manifest option](2026-09-11-pilot-manifest.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-09-11 | [Discovery review, documentation reconciliation, and Phase 2 handoff](2026-09-11-prototyping-handoff.md) | Codex, with separate scientific source research and checking |
 | 2026-09-11 | [Owner review, round two: archive names and links, larger figures, colour-coded effort with technical dropdowns, one row per pixel](2026-09-11-owner-review-round-two.md) | Claude Code (AI coding agent), directed by the repository owner |

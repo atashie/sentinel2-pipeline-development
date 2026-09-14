@@ -1,0 +1,835 @@
+{
+ "schema_version": 1,
+ "measured_at": "2026-09-14T19:56:19+00:00",
+ "code_version": "67ecd1a-dirty",
+ "script": "benchmarks/copy_difference.py",
+ "machine": {
+  "system": "Darwin",
+  "release": "25.3.0",
+  "machine": "arm64",
+  "python": "3.12.13",
+  "cpu_count": 10,
+  "memory_total_bytes": 17179869184,
+  "libraries": {
+   "rasterio": "1.5.1",
+   "numpy": "2.5.3",
+   "gdal": "3.12.4"
+  }
+ },
+ "endpoints": {
+  "c1": {
+   "collection": "sentinel-2-c1-l2a",
+   "bucket": "e84-earth-search-sentinel-data",
+   "region": "us-west-2",
+   "payer": "provider. Public bucket, unsigned requests, RequesterPays false."
+  },
+  "older": {
+   "collection": "sentinel-2-l2a",
+   "bucket": "sentinel-cogs",
+   "region": "us-west-2",
+   "payer": "provider. Public bucket, unsigned requests, RequesterPays false."
+  }
+ },
+ "catalog": {
+  "root": "https://earth-search.aws.element84.com/v1",
+  "tile": "17SKU",
+  "date": "2025-10-15"
+ },
+ "pairing": "same ESA product on every copy: S2B_MSIL2A_20251015T162149_N0511_R040_T17SKU_20251015T202039.SAFE",
+ "items": {
+  "c1": {
+   "id": "S2B_T17SKU_20251015T162249_L2A",
+   "collection": "sentinel-2-c1-l2a",
+   "datetime": "2025-10-15T16:33:46.519000Z",
+   "platform": "sentinel-2b",
+   "product_uri": "S2B_MSIL2A_20251015T162149_N0511_R040_T17SKU_20251015T202039.SAFE",
+   "processing_baseline": "05.11",
+   "sequence": null,
+   "created": "2025-10-15T21:53:41.165Z",
+   "software": {
+    "sentinel-2-c1-l2a-to-stac": "v2025.06.17"
+   },
+   "boa_offset_applied": null,
+   "requester_pays": false,
+   "asset_keys": [
+    "aot",
+    "blue",
+    "cloud",
+    "coastal",
+    "granule_metadata",
+    "green",
+    "nir",
+    "nir08",
+    "nir09",
+    "preview",
+    "product_metadata",
+    "red",
+    "rededge1",
+    "rededge2",
+    "rededge3",
+    "scl",
+    "snow",
+    "swir16",
+    "swir22",
+    "thumbnail",
+    "tileinfo_metadata",
+    "visual",
+    "wvp"
+   ]
+  },
+  "older": {
+   "id": "S2B_17SKU_20251015_0_L2A",
+   "collection": "sentinel-2-l2a",
+   "datetime": "2025-10-15T16:33:46.519000Z",
+   "platform": "sentinel-2b",
+   "product_uri": "S2B_MSIL2A_20251015T162149_N0511_R040_T17SKU_20251015T202039.SAFE",
+   "processing_baseline": "05.11",
+   "sequence": "0",
+   "created": "2025-10-15T21:38:29.365Z",
+   "software": {
+    "sentinel2-to-stac": "2025.03.06"
+   },
+   "boa_offset_applied": true,
+   "requester_pays": null,
+   "asset_keys": [
+    "aot",
+    "aot-jp2",
+    "blue",
+    "blue-jp2",
+    "cloud",
+    "coastal",
+    "coastal-jp2",
+    "granule_metadata",
+    "green",
+    "green-jp2",
+    "nir",
+    "nir-jp2",
+    "nir08",
+    "nir08-jp2",
+    "nir09",
+    "nir09-jp2",
+    "product_metadata",
+    "red",
+    "red-jp2",
+    "rededge1",
+    "rededge1-jp2",
+    "rededge2",
+    "rededge2-jp2",
+    "rededge3",
+    "rededge3-jp2",
+    "scl",
+    "scl-jp2",
+    "snow",
+    "swir16",
+    "swir16-jp2",
+    "swir22",
+    "swir22-jp2",
+    "thumbnail",
+    "tileinfo_metadata",
+    "visual",
+    "visual-jp2",
+    "wvp",
+    "wvp-jp2"
+   ]
+  }
+ },
+ "by_key": {
+  "coastal": {
+   "hrefs": {
+    "c1": "https://e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com/sentinel-2-c1-l2a/17/S/KU/2025/10/S2B_T17SKU_20251015T162249_L2A/B01.tif",
+    "older": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/17/S/KU/2025/10/S2B_17SKU_20251015_0_L2A/B01.tif"
+   },
+   "catalog_scale_offset": {
+    "c1": {
+     "scale": 0.0001,
+     "offset": -0.1
+    },
+    "older": {
+     "scale": 0.0001,
+     "offset": -0.1
+    }
+   },
+   "gsd": {
+    "c1": 60,
+    "older": 60
+   },
+   "reads": {
+    "c1": {
+     "dtype": "uint16",
+     "width": 1830,
+     "height": 1830,
+     "nodata": 0.0,
+     "block_shape": [
+      256,
+      256
+     ],
+     "compression": "deflate",
+     "overview_count": 3,
+     "crs": "EPSG:32617",
+     "transform": [
+      60.0,
+      0.0,
+      199980.0,
+      0.0,
+      -60.0,
+      3900000.0
+     ],
+     "open_seconds": 0.6204,
+     "read_seconds": 0.5884,
+     "requests": 2,
+     "bytes": 3013167,
+     "size_requests": 1
+    },
+    "older": {
+     "dtype": "uint16",
+     "width": 1830,
+     "height": 1830,
+     "nodata": 0.0,
+     "block_shape": [
+      256,
+      256
+     ],
+     "compression": "deflate",
+     "overview_count": 3,
+     "crs": "EPSG:32617",
+     "transform": [
+      60.0,
+      0.0,
+      199980.0,
+      0.0,
+      -60.0,
+      3900000.0
+     ],
+     "open_seconds": 0.429,
+     "read_seconds": 0.6148,
+     "requests": 2,
+     "bytes": 2988380,
+     "size_requests": 1
+    }
+   },
+   "comparison": {
+    "same_shape": true,
+    "pixels": 3348900,
+    "identical": false,
+    "nodata_agrees": true,
+    "valid_in_both": 2627222,
+    "valid_only_in_first": 0,
+    "valid_only_in_second": 0,
+    "equal_where_both_valid": 0,
+    "differing_where_both_valid": 2627222,
+    "difference_min": -1000,
+    "difference_max": -102,
+    "most_common_differences": [
+     {
+      "second_minus_first": -1000,
+      "pixels": 2582286
+     },
+     {
+      "second_minus_first": -999,
+      "pixels": 4266
+     },
+     {
+      "second_minus_first": -998,
+      "pixels": 3806
+     },
+     {
+      "second_minus_first": -997,
+      "pixels": 3497
+     },
+     {
+      "second_minus_first": -996,
+      "pixels": 3160
+     },
+     {
+      "second_minus_first": -995,
+      "pixels": 2744
+     },
+     {
+      "second_minus_first": -994,
+      "pixels": 2317
+     },
+     {
+      "second_minus_first": -993,
+      "pixels": 2186
+     }
+    ],
+    "min_first": 0,
+    "max_first": 8354,
+    "min_second": 0,
+    "max_second": 7354,
+    "offset_clamp_rule": {
+     "rule": "second == max(first - 1000, 1) on pixels valid in both",
+     "violations": 0,
+     "first_at_or_below_offset": 44936
+    }
+   }
+  },
+  "nir09": {
+   "hrefs": {
+    "c1": "https://e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com/sentinel-2-c1-l2a/17/S/KU/2025/10/S2B_T17SKU_20251015T162249_L2A/B09.tif",
+    "older": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/17/S/KU/2025/10/S2B_17SKU_20251015_0_L2A/B09.tif"
+   },
+   "catalog_scale_offset": {
+    "c1": {
+     "scale": 0.0001,
+     "offset": -0.1
+    },
+    "older": {
+     "scale": 0.0001,
+     "offset": -0.1
+    }
+   },
+   "gsd": {
+    "c1": 60,
+    "older": 60
+   },
+   "reads": {
+    "c1": {
+     "dtype": "uint16",
+     "width": 1830,
+     "height": 1830,
+     "nodata": 0.0,
+     "block_shape": [
+      256,
+      256
+     ],
+     "compression": "deflate",
+     "overview_count": 3,
+     "crs": "EPSG:32617",
+     "transform": [
+      60.0,
+      0.0,
+      199980.0,
+      0.0,
+      -60.0,
+      3900000.0
+     ],
+     "open_seconds": 0.3334,
+     "read_seconds": 0.3028,
+     "requests": 2,
+     "bytes": 4102353,
+     "size_requests": 1
+    },
+    "older": {
+     "dtype": "uint16",
+     "width": 1830,
+     "height": 1830,
+     "nodata": 0.0,
+     "block_shape": [
+      256,
+      256
+     ],
+     "compression": "deflate",
+     "overview_count": 3,
+     "crs": "EPSG:32617",
+     "transform": [
+      60.0,
+      0.0,
+      199980.0,
+      0.0,
+      -60.0,
+      3900000.0
+     ],
+     "open_seconds": 0.2623,
+     "read_seconds": 0.3628,
+     "requests": 2,
+     "bytes": 4073565,
+     "size_requests": 1
+    }
+   },
+   "comparison": {
+    "same_shape": true,
+    "pixels": 3348900,
+    "identical": false,
+    "nodata_agrees": true,
+    "valid_in_both": 2627905,
+    "valid_only_in_first": 0,
+    "valid_only_in_second": 0,
+    "equal_where_both_valid": 641,
+    "differing_where_both_valid": 2627264,
+    "difference_min": -1000,
+    "difference_max": 0,
+    "most_common_differences": [
+     {
+      "second_minus_first": -1000,
+      "pixels": 2601588
+     },
+     {
+      "second_minus_first": 0,
+      "pixels": 641
+     },
+     {
+      "second_minus_first": -952,
+      "pixels": 608
+     },
+     {
+      "second_minus_first": -951,
+      "pixels": 592
+     },
+     {
+      "second_minus_first": -948,
+      "pixels": 592
+     },
+     {
+      "second_minus_first": -944,
+      "pixels": 592
+     },
+     {
+      "second_minus_first": -950,
+      "pixels": 591
+     },
+     {
+      "second_minus_first": -947,
+      "pixels": 586
+     }
+    ],
+    "min_first": 0,
+    "max_first": 9296,
+    "min_second": 0,
+    "max_second": 8296,
+    "offset_clamp_rule": {
+     "rule": "second == max(first - 1000, 1) on pixels valid in both",
+     "violations": 0,
+     "first_at_or_below_offset": 26317
+    }
+   }
+  },
+  "red": {
+   "hrefs": {
+    "c1": "https://e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com/sentinel-2-c1-l2a/17/S/KU/2025/10/S2B_T17SKU_20251015T162249_L2A/B04.tif",
+    "older": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/17/S/KU/2025/10/S2B_17SKU_20251015_0_L2A/B04.tif"
+   },
+   "catalog_scale_offset": {
+    "c1": {
+     "scale": 0.0001,
+     "offset": -0.1
+    },
+    "older": {
+     "scale": 0.0001,
+     "offset": -0.1
+    }
+   },
+   "gsd": {
+    "c1": 10,
+    "older": 10
+   },
+   "reads": {
+    "c1": {
+     "dtype": "uint16",
+     "width": 10980,
+     "height": 10980,
+     "nodata": 0.0,
+     "block_shape": [
+      1024,
+      1024
+     ],
+     "compression": "deflate",
+     "overview_count": 4,
+     "crs": "EPSG:32617",
+     "transform": [
+      10.0,
+      0.0,
+      199980.0,
+      0.0,
+      -10.0,
+      3900000.0
+     ],
+     "open_seconds": 0.2578,
+     "read_seconds": 11.2547,
+     "requests": 14,
+     "bytes": 125448459,
+     "size_requests": 1
+    },
+    "older": {
+     "dtype": "uint16",
+     "width": 10980,
+     "height": 10980,
+     "nodata": 0.0,
+     "block_shape": [
+      1024,
+      1024
+     ],
+     "compression": "deflate",
+     "overview_count": 4,
+     "crs": "EPSG:32617",
+     "transform": [
+      10.0,
+      0.0,
+      199980.0,
+      0.0,
+      -10.0,
+      3900000.0
+     ],
+     "open_seconds": 0.4903,
+     "read_seconds": 15.5337,
+     "requests": 47,
+     "bytes": 125411139,
+     "size_requests": 1
+    }
+   },
+   "comparison": {
+    "same_shape": true,
+    "pixels": 120560400,
+    "identical": false,
+    "nodata_agrees": true,
+    "valid_in_both": 94546915,
+    "valid_only_in_first": 0,
+    "valid_only_in_second": 0,
+    "equal_where_both_valid": 0,
+    "differing_where_both_valid": 94546915,
+    "difference_min": -1000,
+    "difference_max": -633,
+    "most_common_differences": [
+     {
+      "second_minus_first": -1000,
+      "pixels": 94526017
+     },
+     {
+      "second_minus_first": -999,
+      "pixels": 3190
+     },
+     {
+      "second_minus_first": -998,
+      "pixels": 2551
+     },
+     {
+      "second_minus_first": -997,
+      "pixels": 2286
+     },
+     {
+      "second_minus_first": -996,
+      "pixels": 2022
+     },
+     {
+      "second_minus_first": -995,
+      "pixels": 1657
+     },
+     {
+      "second_minus_first": -994,
+      "pixels": 1308
+     },
+     {
+      "second_minus_first": -993,
+      "pixels": 1148
+     }
+    ],
+    "min_first": 0,
+    "max_first": 17248,
+    "min_second": 0,
+    "max_second": 16248,
+    "offset_clamp_rule": {
+     "rule": "second == max(first - 1000, 1) on pixels valid in both",
+     "violations": 0,
+     "first_at_or_below_offset": 20898
+    }
+   }
+  },
+  "scl": {
+   "hrefs": {
+    "c1": "https://e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com/sentinel-2-c1-l2a/17/S/KU/2025/10/S2B_T17SKU_20251015T162249_L2A/SCL.tif",
+    "older": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/17/S/KU/2025/10/S2B_17SKU_20251015_0_L2A/SCL.tif"
+   },
+   "catalog_scale_offset": {
+    "c1": {
+     "scale": null,
+     "offset": null
+    },
+    "older": {
+     "scale": null,
+     "offset": null
+    }
+   },
+   "gsd": {
+    "c1": 20,
+    "older": 20
+   },
+   "reads": {
+    "c1": {
+     "dtype": "uint8",
+     "width": 5490,
+     "height": 5490,
+     "nodata": 0.0,
+     "block_shape": [
+      512,
+      512
+     ],
+     "compression": "deflate",
+     "overview_count": 4,
+     "crs": "EPSG:32617",
+     "transform": [
+      20.0,
+      0.0,
+      199980.0,
+      0.0,
+      -20.0,
+      3900000.0
+     ],
+     "open_seconds": 0.4365,
+     "read_seconds": 0.4658,
+     "requests": 2,
+     "bytes": 789076,
+     "size_requests": 1
+    },
+    "older": {
+     "dtype": "uint8",
+     "width": 5490,
+     "height": 5490,
+     "nodata": 0.0,
+     "block_shape": [
+      512,
+      512
+     ],
+     "compression": "deflate",
+     "overview_count": 4,
+     "crs": "EPSG:32617",
+     "transform": [
+      20.0,
+      0.0,
+      199980.0,
+      0.0,
+      -20.0,
+      3900000.0
+     ],
+     "open_seconds": 0.4144,
+     "read_seconds": 0.5281,
+     "requests": 2,
+     "bytes": 892842,
+     "size_requests": 1
+    }
+   },
+   "comparison": {
+    "same_shape": true,
+    "pixels": 30140100,
+    "identical": true,
+    "nodata_agrees": true,
+    "valid_in_both": 23636736,
+    "valid_only_in_first": 0,
+    "valid_only_in_second": 0,
+    "equal_where_both_valid": 23636736,
+    "differing_where_both_valid": 0,
+    "difference_min": 0,
+    "difference_max": 0,
+    "most_common_differences": [
+     {
+      "second_minus_first": 0,
+      "pixels": 23636736
+     }
+    ],
+    "min_first": 0,
+    "max_first": 10,
+    "min_second": 0,
+    "max_second": 10,
+    "offset_clamp_rule": {
+     "rule": "second == max(first - 1000, 1) on pixels valid in both",
+     "violations": 23636736,
+     "first_at_or_below_offset": 23636736
+    }
+   }
+  },
+  "aot": {
+   "hrefs": {
+    "c1": "https://e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com/sentinel-2-c1-l2a/17/S/KU/2025/10/S2B_T17SKU_20251015T162249_L2A/AOT.tif",
+    "older": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/17/S/KU/2025/10/S2B_17SKU_20251015_0_L2A/AOT.tif"
+   },
+   "catalog_scale_offset": {
+    "c1": {
+     "scale": 0.001,
+     "offset": 0
+    },
+    "older": {
+     "scale": 0.001,
+     "offset": 0
+    }
+   },
+   "gsd": {
+    "c1": 20,
+    "older": 20
+   },
+   "reads": {
+    "c1": {
+     "dtype": "uint16",
+     "width": 5490,
+     "height": 5490,
+     "nodata": 0.0,
+     "block_shape": [
+      512,
+      512
+     ],
+     "compression": "deflate",
+     "overview_count": 4,
+     "crs": "EPSG:32617",
+     "transform": [
+      20.0,
+      0.0,
+      199980.0,
+      0.0,
+      -20.0,
+      3900000.0
+     ],
+     "open_seconds": 0.2623,
+     "read_seconds": 0.3273,
+     "requests": 2,
+     "bytes": 935597,
+     "size_requests": 1
+    },
+    "older": {
+     "dtype": "uint16",
+     "width": 1830,
+     "height": 1830,
+     "nodata": 0.0,
+     "block_shape": [
+      256,
+      256
+     ],
+     "compression": "deflate",
+     "overview_count": 3,
+     "crs": "EPSG:32617",
+     "transform": [
+      60.0,
+      0.0,
+      199980.0,
+      0.0,
+      -60.0,
+      3900000.0
+     ],
+     "open_seconds": 0.2108,
+     "read_seconds": 0.1355,
+     "requests": 2,
+     "bytes": 296880,
+     "size_requests": 1
+    }
+   },
+   "comparison": {
+    "same_shape": false,
+    "grid_mismatch": "width differs: 5490 against 1830",
+    "shapes": [
+     [
+      5490,
+      5490
+     ],
+     [
+      1830,
+      1830
+     ]
+    ]
+   }
+  },
+  "wvp": {
+   "hrefs": {
+    "c1": "https://e84-earth-search-sentinel-data.s3.us-west-2.amazonaws.com/sentinel-2-c1-l2a/17/S/KU/2025/10/S2B_T17SKU_20251015T162249_L2A/WVP.tif",
+    "older": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/17/S/KU/2025/10/S2B_17SKU_20251015_0_L2A/WVP.tif"
+   },
+   "catalog_scale_offset": {
+    "c1": {
+     "scale": 0.001,
+     "offset": 0
+    },
+    "older": {
+     "scale": 0.001,
+     "offset": 0
+    }
+   },
+   "gsd": {
+    "c1": 20,
+    "older": 20
+   },
+   "reads": {
+    "c1": {
+     "dtype": "uint16",
+     "width": 5490,
+     "height": 5490,
+     "nodata": 0.0,
+     "block_shape": [
+      512,
+      512
+     ],
+     "compression": "deflate",
+     "overview_count": 4,
+     "crs": "EPSG:32617",
+     "transform": [
+      20.0,
+      0.0,
+      199980.0,
+      0.0,
+      -20.0,
+      3900000.0
+     ],
+     "open_seconds": 0.2505,
+     "read_seconds": 2.1338,
+     "requests": 4,
+     "bytes": 29768513,
+     "size_requests": 1
+    },
+    "older": {
+     "dtype": "uint16",
+     "width": 10980,
+     "height": 10980,
+     "nodata": 0.0,
+     "block_shape": [
+      1024,
+      1024
+     ],
+     "compression": "deflate",
+     "overview_count": 4,
+     "crs": "EPSG:32617",
+     "transform": [
+      10.0,
+      0.0,
+      199980.0,
+      0.0,
+      -10.0,
+      3900000.0
+     ],
+     "open_seconds": 0.2947,
+     "read_seconds": 5.9051,
+     "requests": 22,
+     "bytes": 37300540,
+     "size_requests": 1
+    }
+   },
+   "comparison": {
+    "same_shape": false,
+    "grid_mismatch": "width differs: 5490 against 10980",
+    "shapes": [
+     [
+      5490,
+      5490
+     ],
+     [
+      10980,
+      10980
+     ]
+    ]
+   }
+  }
+ },
+ "catalog_request_log": [
+  {
+   "host": "earth-search.aws.element84.com",
+   "method": "POST",
+   "path": "/v1/search",
+   "note": "search sentinel-2-c1-l2a 17SKU 2025-10-15",
+   "status": 200,
+   "bytes": 18379,
+   "seconds": 0.37,
+   "attempt": 1
+  },
+  {
+   "host": "earth-search.aws.element84.com",
+   "method": "POST",
+   "path": "/v1/search",
+   "note": "search sentinel-2-l2a 17SKU 2025-10-15",
+   "status": 200,
+   "bytes": 21580,
+   "seconds": 0.321,
+   "attempt": 1
+  }
+ ],
+ "limitations": [
+  "One acquisition of one tile. The listed assets only.",
+  "Differences are between stored integers. The catalog's scale and offset are recorded beside them, not applied.",
+  "A dominant difference equal to the declared offset in stored units is consistent with one copy having the offset applied. The provider's own statement of what it applied is the per-item flag, recorded from the catalog.",
+  "The offset and clamp rule is checked pixel by pixel with a fixed offset of 1000 and floor of 1. Violations are counted, not explained.",
+  "Same product and same grid are required before pixels are subtracted. A grid mismatch is recorded and not compared."
+ ]
+}

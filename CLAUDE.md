@@ -9,10 +9,11 @@ build the production system. `README.md` is the human overview and the document 
 ## Current phase
 
 Discovery and the gap surveys are complete. The presentation was revised and reviewed on 2026-09-11.
-The [latest review](docs/reviews/2026-09-11-prototyping-handoff.md) records corrections, verification, and remaining questions.
+The [latest review](docs/reviews/2026-09-12-pilot-manifest-review.md) records the pilot audit, corrections, and remaining questions.
 Phase 2, Prototyping, began on 2026-09-11 with the public pilot manifest, [record](docs/reviews/2026-09-11-pilot-manifest.md).
-The gap survey rerun on the manifest and the first bounded comparison await the owner. Start with [docs/work-plan.md](docs/work-plan.md).
-No processing workflow, compute platform, or storage layout is selected. No workflow prototype has run.
+The owner set the Phase 2 structure on 2026-09-14: four workload stages, then scientific checks, one authorized step per stage. [Record](docs/reviews/2026-09-14-prototype-structure-and-stage-1.md).
+Stage 1 ran on 2026-09-14, findings 13 to 15 in [docs/measurements.md](docs/measurements.md). Stage 2 is next. Start with [docs/work-plan.md](docs/work-plan.md).
+No processing workflow, compute platform, or storage layout is selected. No workflow prototype has run. Measurements run on the owner's laptop until AWS access exists (assumption A25).
 [Decision 0004](docs/decisions/0004-cog-fallback-and-presentation-clarifications.md) consolidates the agreed COG fallback and presentation direction.
 Earlier scope decisions remain active except where explicitly revised.
 
@@ -35,13 +36,14 @@ Codex reads [AGENTS.md](AGENTS.md), which points here. Keep shared conventions i
 ## Commands
 
 ```sh
-uv sync --locked                          # pinned environment, Python 3.12.13
+uv sync --locked                          # pinned environment, Python 3.12.13, with the prototype group
 uv run pytest                             # documentation, inventory, survey, and report tests, no network
 uv run ruff check . && uv run ruff format --check .
 uv run python tools/collate_checks.py          # rebuild the inventory from check records, no network
 uv run python tools/render_options.py          # regenerate docs/s2-options.html, no network
 uv run python tools/gap_report.py              # regenerate the gap survey report, no network
 uv run python tools/build_pilot_manifest.py    # rebuild the pilot manifest from the saved run, no network
+uv run python benchmarks/raw_access.py --dry-run   # print the stage 1 plan, no network
 uv run python tools/collate_checks.py --check && uv run python tools/render_options.py --check && uv run python tools/gap_report.py --check
 ```
 
@@ -52,6 +54,7 @@ and the Copernicus catalogs, and `benchmarks/fallback_survey.py` adds header-onl
 Neither reads a pixel. Such scripts run only to produce a measurement that a document cites, and only when the user
 invokes them. Requester-pays buckets charge the reader. Record bucket or endpoint, region, and payer in every result.
 `tools/build_pilot_manifest.py --fetch` contacts the USGS hydrography service for polygons only, and runs only when the owner asks.
+`benchmarks/raw_access.py` and `benchmarks/copy_difference.py` read pixels from both public GeoTIFF buckets. They run only when the user invokes them. `--dry-run` contacts nothing.
 
 The separate educational map builder, [tools/build_discovery_maps.py](tools/build_discovery_maps.py), reads pixels only with `--download` and explicit authorization.
 The owner authorized one public image crop for the presentation on 2026-09-11. This does not authorize workflow prototypes or additional surveys.
@@ -65,12 +68,12 @@ The owner authorized one public image crop for the presentation on 2026-09-11. T
 | `docs/options-inventory.json` | Canonical assessment dataset: issues, candidates, claims, sources, probes, findings |
 | `docs/assessment-checks/` | Research drafts and independent check records that bind claims. Evidence, not prose |
 | `docs/references/` | Supplied reference documents and their provenance |
-| `benchmarks/` | Survey scripts, `workloads.json`, and the survey sites. `results/*.json` are evidence |
+| `benchmarks/` | Survey and prototype measurement scripts, `workloads.json`, and the survey sites. `results/*.json` are evidence |
 | `examples/` | The public pilot water-body manifest, its region configuration, and the format. Never customer data |
-| `tests/` | Documentation link check, inventory schema check, survey, report, and manifest fixture tests. No network |
+| `tests/` | Documentation link check, inventory schema check, survey, report, manifest, harness, and prototype fixture tests. No network |
 | `tools/` | Inventory and report renderers, the Discovery presentation template, its map builder, and the pilot manifest builder. See [tools/README.md](tools/README.md) |
 | `data/` | Local downloads, raw listings, and stores. Ignored by git |
-| `src/` | Prototype code, once a prototype step is authorized. Does not exist yet |
+| `src/` | Prototype code. `s2proto/harness.py` is the shared measurement harness. Not production code |
 
 ## Conventions
 
@@ -126,4 +129,5 @@ inventory, or its finding in [docs/measurements.md](docs/measurements.md). Numbe
   The ESA-format copy on AWS is the JPEG 2000 bucket with the Sinergise readme, context only. Its registry entry is
   also Element 84's, and no page names the bucket owner. Neither GeoTIFF bucket is requester pays. Inventory claims
   `operator` and `source_dataset`, findings F-21 and F-22, probe PR-08.
+- On one product and three bands, the older copy's integer is Collection 1's minus 1,000, clamped to 1, on every pixel checked. The offset is already applied and reflectance at or below zero is lost. Its catalog still declares the offset. Its cloud and snow assets are JPEG 2000 links outside the GeoTIFF benchmark, and its aerosol and water-vapour grids differ. Measurement findings 14 and 15.
 - The supplied PDF's summary table is truncated in its render. Do not cite the table. Cite the pages it cites.

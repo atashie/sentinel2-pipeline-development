@@ -1,9 +1,9 @@
-"""Render the colleague-facing Discovery page. Standard library only, no network.
+"""Render the colleague-facing assessment page. Standard library only, no network.
 
 Edit s2-options.template.html for the narrative and layout. The renderer fills the markers:
 survey counts and the monthly coverage strip from the gap survey report, the risk and cost
-bullets from the inventory's plain-language lines, map facts from the provenance record, and
-the digests of those three inputs.
+bullets from the inventory's plain-language lines, map facts from the provenance record,
+pilot counts from the manifest, and the input digests.
 """
 
 from __future__ import annotations
@@ -13,6 +13,8 @@ import hashlib
 import html
 import json
 import re
+import statistics
+from collections import Counter
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -21,6 +23,18 @@ DOCS = ROOT / "docs"
 INVENTORY = DOCS / "options-inventory.json"
 REPORT = DOCS / "reviews" / "2026-09-10-gap-survey-report.json"
 MAPS = DOCS / "assets" / "discovery" / "provenance.json"
+PILOT = ROOT / "examples" / "water-bodies-public-pilot.geojson"
+RESULTS = ROOT / "benchmarks" / "results"
+RAW_ACCESS = [RESULTS / "raw-access.json", RESULTS / "raw-access-older-quality-all.json"]
+COPY_DIFFERENCE = RESULTS / "copy-difference.json"
+GROUP_LABELS = {
+    "10m": "Four 10 m bands",
+    "20m": "Six 20 m bands",
+    "60m": "Two 60 m bands",
+    "quality": "Quality layers",
+    "all": "Everything together",
+}
+COPY_LABELS = {"c1": "Collection 1 copy", "older": "older copy"}
 TEMPLATE = Path(__file__).with_name("s2-options.template.html")
 OUTPUT = DOCS / "s2-options.html"
 
@@ -104,12 +118,126 @@ def coverage_strip(rows: list[dict]) -> str:
     return "".join(parts)
 
 
+def read_seconds(run: dict) -> float:
+    """Sum of the per-file open, read, fetch, and decode timers, without digest and statistics."""
+    keys = ("open_seconds", "read_seconds", "fetch_seconds", "decode_seconds")
+    return sum(band.get(key, 0.0) for band in run["bands"] for key in keys)
+
+
+def seconds_label(value: float) -> str:
+    return f"{value:.1f} s" if value < 10 else f"{value:,.0f} s"
+
+
+def raw_access_rows(results: list[dict]) -> str:
+    """One table row per band group from the stage 1 results, later files overriding earlier."""
+    rows: dict[tuple, dict] = {}
+    bands: dict[tuple, int] = {}
+    for result in results:
+        runs_by_key: dict[tuple, list] = {}
+        for run in result["runs"]:
+            if "error" not in run:
+                key = (run["copy"], run["group"], run["mode"])
+                runs_by_key.setdefault(key, []).append(read_seconds(run))
+        for row in result["summary"]["by_copy_group_mode"]:
+            key = (row["copy"], row["group"], row["mode"])
+            if row["failed"] < row["runs"]:
+                rows[key] = {**row, "read_median": statistics.median(runs_by_key[key])}
+        for copy, groups in result["assets"].items():
+            for group, resolved in groups.items():
+                bands[(copy, group)] = len(resolved["assets"])
+    parts = []
+    for group in GROUP_LABELS:
+        cells = [f'<th scope="row">{GROUP_LABELS[group]}</th>']
+        for copy in COPY_LABELS:
+            ranged = rows.get((copy, group, "vsicurl"))
+            whole = rows.get((copy, group, "whole-object"))
+            count = bands.get((copy, group), 0)
+            if ranged:
+                megabytes = ranged["bytes_requested_median"] / 1e6
+                cells.append(
+                    f"<td>{count} files · {megabytes:,.0f} MB · "
+                    f"{seconds_label(ranged['read_median'])} · "
+                    f"{ranged['requests_median']} requests</td>"
+                )
+            else:
+                cells.append("<td>failed</td>")
+            if whole:
+                megabytes = whole["bytes_requested_median"] / 1e6
+                cells.append(
+                    f"<td>{megabytes:,.0f} MB · {seconds_label(whole['read_median'])} · "
+                    f"{whole['requests_median']} requests</td>"
+                )
+            else:
+                cells.append("<td>failed</td>")
+        peaks = [r["peak_rss_bytes_max"] for (c, g, m), r in rows.items() if g == group]
+        cells.append(f"<td>{max(peaks) / 1e9:.1f} GB</td>" if peaks else "<td>failed</td>")
+        parts.append("<tr>" + "".join(cells) + "</tr>")
+    return "\n".join(parts)
+
+
+def copy_difference_rows(result: dict) -> str:
+    """One table row per compared asset from the copy difference result."""
+    parts = []
+    for key, entry in result["by_key"].items():
+        comparison = entry.get("comparison")
+        if not comparison or not comparison.get("same_shape"):
+            shapes = (comparison or {}).get("shapes")
+            note = "not compared"
+            if shapes:
+                note = (
+                    f"different grids, {shapes[0][0]:,} × {shapes[0][1]:,} against "
+                    f"{shapes[1][0]:,} × {shapes[1][1]:,}, not compared"
+                )
+            parts.append(
+                f'<tr><th scope="row">{html.escape(key)}</th><td colspan="4">{note}</td></tr>'
+            )
+            continue
+        valid = comparison["valid_in_both"]
+        top = comparison["most_common_differences"][:1]
+        if comparison["identical"]:
+            summary = "identical"
+        elif top:
+            share = 100 * top[0]["pixels"] / valid if valid else 0
+            summary = f"{top[0]['second_minus_first']:+,} on {share:.2f} % of valid pixels"
+        else:
+            summary = "no valid pixel in both"
+        rule = comparison.get("offset_clamp_rule")
+        if comparison["identical"]:
+            rule_cell = "not applicable, values identical"
+        elif rule is None:
+            rule_cell = "not checked"
+        elif rule["violations"] == 0:
+            rule_cell = f"holds, {rule['first_at_or_below_offset']:,} pixels clamped"
+        else:
+            rule_cell = f"{rule['violations']:,} violations"
+        parts.append(
+            f'<tr><th scope="row">{html.escape(key)}</th>'
+            f"<td>{comparison['differing_where_both_valid']:,} of {valid:,}</td>"
+            f"<td>{summary}</td>"
+            f"<td>{rule_cell}</td>"
+            f"<td>{'yes' if comparison['nodata_agrees'] else 'no'}</td></tr>"
+        )
+    return "\n".join(parts)
+
+
+def machine_label(machine: dict) -> str:
+    memory = machine.get("memory_total_bytes") or 0
+    return f"{machine['cpu_count']}-core {machine['machine']} laptop, {memory / 1e9:.0f} GB memory"
+
+
 def build_html(inventory: Path = INVENTORY) -> str:
     issues = {issue["id"]: issue for issue in json.loads(inventory.read_text())["issues"]}
     check_placement(issues)
     report = json.loads(REPORT.read_text())
     maps = json.loads(MAPS.read_text())
+    pilot = json.loads(PILOT.read_text())
+    pilot_props = [feature["properties"] for feature in pilot["features"]]
+    pilot_tiers = Counter(p["tier"] for p in pilot_props)
+    pilot_classes = sorted({p["size_class_m"] for p in pilot_props if p["tier"] == "pilot"})
+    pilot_regions = sorted({p["region"] for p in pilot_props})
     totals = next(f for f in report["findings"] if f["id"] == "GS-10")["numbers"]["totals"]
+    raw_results = [json.loads(path.read_text()) for path in RAW_ACCESS]
+    copy_difference = json.loads(COPY_DIFFERENCE.read_text())
     for entry in maps["images"].values():
         path = MAPS.parent / entry["file"]
         if hashlib.sha256(path.read_bytes()).hexdigest() != entry["sha256"]:
@@ -133,6 +261,22 @@ def build_html(inventory: Path = INVENTORY) -> str:
         "INVENTORY_DIGEST": hashlib.sha256(inventory.read_bytes()).hexdigest(),
         "REPORT_DIGEST": hashlib.sha256(REPORT.read_bytes()).hexdigest(),
         "MAP_DIGEST": hashlib.sha256(MAPS.read_bytes()).hexdigest(),
+        "PILOT_TOTAL": str(len(pilot_props)),
+        "PILOT_REGIONS": str(len(pilot_regions)),
+        "PILOT_PICKS": str(pilot_tiers["pilot"]),
+        "PILOT_ANCHORS": str(pilot_tiers["large"]),
+        "PILOT_CLASSES": ", ".join(f"{c:,}" for c in pilot_classes),
+        "PILOT_TINY": str(sum(p["size_class_m"] == 10 for p in pilot_props)),
+        "PILOT_DATE": html.escape(pilot["retrieval"]["accessed_at"][:10]),
+        "PILOT_DIGEST": hashlib.sha256(PILOT.read_bytes()).hexdigest(),
+        "RAW_ROWS": raw_access_rows(raw_results),
+        "RAW_DATE": html.escape(raw_results[0]["measured_at"][:10]),
+        "RAW_TILE": html.escape(raw_results[0]["catalog"]["tile"]),
+        "RAW_SCENE_DATE": html.escape(raw_results[0]["catalog"]["date"]),
+        "RAW_MACHINE": html.escape(machine_label(raw_results[0]["machine"])),
+        "RAW_DIGESTS": ", ".join(hashlib.sha256(p.read_bytes()).hexdigest() for p in RAW_ACCESS),
+        "DIFF_ROWS": copy_difference_rows(copy_difference),
+        "DIFF_DIGEST": hashlib.sha256(COPY_DIFFERENCE.read_bytes()).hexdigest(),
     }
     rendered = TEMPLATE.read_text()
     for key, value in replacements.items():
@@ -155,7 +299,7 @@ def main() -> int:
         if not args.output.exists() or args.output.read_text() != rendered:
             print(f"{args.output} is stale. Run tools/render_options.py.")
             return 1
-        print("The Discovery page matches its template, evidence inputs, and map assets.")
+        print("The assessment page matches its template, evidence inputs, and map assets.")
         return 0
     args.output.write_text(rendered)
     print(f"Wrote {args.output} ({len(rendered.encode()):,} bytes)")

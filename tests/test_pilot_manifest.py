@@ -224,6 +224,39 @@ def test_build_manifest_rejects_ambiguous_anchor():
         bpm.build_manifest(fixture_config(), fixture_raw(anchors=0))
 
 
+@pytest.mark.parametrize("changed", [None, "config", "response", "unrecorded_response"])
+def test_load_run_checks_configuration_and_response_digests(tmp_path, changed):
+    config = fixture_config()
+    raw = fixture_raw()
+    config_path = tmp_path / "config.json"
+    config_path.write_text(json.dumps(config))
+    documents = {"service.json": raw["service"], "layer.json": raw["layer"]}
+    for region in config["regions"]:
+        rid = region["region_id"]
+        documents[f"{rid}-candidates.json"] = raw["regions"][rid]["candidates"]
+        if region["include_anchor"]:
+            documents[f"{rid}-anchor.json"] = raw["regions"][rid]["anchor"]
+    for name, document in documents.items():
+        (tmp_path / name).write_text(json.dumps(document))
+    fetch = raw["fetch"]
+    fetch["config_sha256"] = bpm.sha256_file(config_path)
+    fetch["files"] = {name: bpm.sha256_file(tmp_path / name) for name in documents}
+    if changed == "config":
+        config["regions"][0]["box"]["longitude"] = -100
+        config_path.write_text(json.dumps(config))
+    elif changed == "response":
+        (tmp_path / "alpha-candidates.json").write_text('{"pages": []}')
+    elif changed == "unrecorded_response":
+        del fetch["files"]["alpha-candidates.json"]
+    (tmp_path / "fetch.json").write_text(json.dumps(fetch))
+    if changed:
+        message = "configuration differs" if changed == "config" else "recorded digest"
+        with pytest.raises(ValueError, match=message):
+            bpm.load_run(config, tmp_path, config_path)
+    else:
+        assert bpm.load_run(config, tmp_path, config_path) == raw
+
+
 def documented_properties():
     rows = re.findall(r"^\| `(\w+)` \|", README.read_text(), flags=re.MULTILINE)
     return set(rows)

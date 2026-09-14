@@ -140,6 +140,11 @@ summary{cursor:pointer;color:var(--teal)}
 .future .eyebrow{color:var(--teal);margin-bottom:20px}
 .future h1{max-width:750px}
 .future p{max-width:600px;margin-top:24px;font-size:18px;color:var(--muted)}
+.prototype-intro{padding-block:54px 32px}
+.prototype-intro .eyebrow{color:var(--teal);margin-bottom:20px}
+.prototype-intro h1{max-width:820px}
+.prototype-intro p{max-width:740px;margin-top:22px;font-size:18px;color:var(--muted)}
+.pilot-counts b{font-size:28px;line-height:1.3}
 .back-button{border:0;background:var(--teal);color:#fff;padding:11px 18px;border-radius:3px;margin-top:26px;font-size:14px}
 footer{padding-block:25px 35px;font-size:11px;color:var(--muted);display:flex;gap:15px;justify-content:space-between}
 footer a{color:inherit}
@@ -824,11 +829,102 @@ footer{display:block}
 <p class="closing">Discovery gives us the questions to test. Prototyping will tell us which approach preserves useful information, performs consistently, and scales at an acceptable cost.</p>
 </section>
 </section>
-<section class="future" id="prototyping" role="tabpanel" aria-labelledby="tab-prototyping" hidden>
-<div class="eyebrow">Prototyping / To come</div>
-<h1>Test the methods and measure the differences.</h1>
-<p>This section will hold the processing comparisons, runtimes, resource use, and consistency findings as we develop them together.</p>
-<button class="back-button" data-return>Return to Discovery</button>
+<section id="prototyping" role="tabpanel" aria-labelledby="tab-prototyping" hidden>
+<div class="prototype-intro">
+<div class="eyebrow">Prototyping / Partial results</div>
+<h1>Test cases are ready and raw access is timed.<br>The extraction tests are still ahead.</h1>
+<p>Initial whole-tile access measurements are complete on one laptop and one acquisition. Public lake and pond boundaries are assembled as the test cases.</p>
+<p><strong>No lake extraction has run.</strong> Extraction speed, memory use, cost, AWS performance, and scientific validation remain open.</p>
+</div>
+<div class="needs pilot-counts" aria-label="Pilot manifest counts">
+<div><b data-pilot-count="features">32</b><span>Public water-body polygons</span></div>
+<div><b data-pilot-count="regions">6</b><span>U.S. regions</span></div>
+<div><b data-pilot-count="pilot">27</b><span>Size-class selections</span></div>
+<div><b data-pilot-count="large">5</b><span>Larger anchor lakes</span></div>
+</div>
+<p class="source-note"><b>Measured:</b> counts from the <a href="../examples/water-bodies-public-pilot.geojson">public pilot manifest</a>, retrieved 2026-09-12 UTC. Source: USGS National Hydrography Dataset. These are polygon counts, not imagery or performance results.</p>
+
+<section class="chapter" aria-labelledby="pilot-why">
+<div class="chapter-head"><div class="chapter-num">01 / Test cases</div><div>
+<h2 id="pilot-why">Give each method the same difficult cases.</h2>
+<p>Small ponds, complex shorelines, and contrasting settings help us expose differences before we estimate the cost of serving thousands of water bodies.</p>
+</div></div>
+<div class="risk-grid">
+<article class="risk"><h3>Small ponds</h3>
+<p>The pilot spans 10, 30, 100, 300, 1,000 m size classes, including 5 bodies in the smallest class. We still need to count interior and shoreline pixels.</p>
+<p class="response"><b>Why it matters:</b> a mapped pond may have no fully contained satellite pixel. Area alone cannot tell us.</p></article>
+<article class="risk"><h3>Complex shorelines</h3>
+<p>Tahoe, Lanier, Okeechobee, Grand Lake St. Marys, and Washington contribute larger polygons. Lanier adds a particularly detailed boundary.</p>
+<p class="response"><b>Why it matters:</b> shoreline complexity and area can change extraction work. Their effects on runtime have not been measured.</p></article>
+<article class="risk"><h3>Contrasting settings</h3>
+<p>The six regions include mountain, hill, flat, and lowland settings. Alaska contributes smaller lakes near Iliamna, without the large lake itself.</p>
+<p class="response"><b>Why it matters:</b> these cases support later checks across different conditions. The terrain labels are descriptive, and seasonal imagery has not been tested.</p></article>
+</div>
+<p class="note-line"><strong>What “10 m” means here.</strong> Size labels use the square root of polygon area, not the actual distance across a pond. These mapped boundaries are test inputs. Their shoreline accuracy and water presence on any image date remain unverified.</p>
+<p class="source-note"><b>Documented:</b> USGS no longer maintains NHD. A service refresh does not date the shoreline observations. Some reservoir codes leave their purpose unspecified. Confirm water-body type and boundaries before interpreting extracted pixels. <a href="reviews/2026-09-12-pilot-manifest-review.md#source-checks">Independent USGS source checks</a>.</p>
+<p class="source-note"><b>Measured:</b> selection and geometry metadata in the <a href="../examples/water-bodies-public-pilot.geojson">manifest</a>. <b>Unverified:</b> current water extent and suitability for the model. This small, deliberately selected set is not a representative workload sample.</p>
+</section>
+
+<section class="chapter" aria-labelledby="pilot-status">
+<div class="chapter-head"><div class="chapter-num">02 / Findings so far</div><div>
+<h2 id="pilot-status">Preparation is complete. Validation is open.</h2>
+<p>The remaining work will test correctness alongside resource use. We will develop those comparisons together and add results as evidence arrives.</p>
+</div></div>
+<div class="table-scroll"><table class="plans datasets">
+<caption class="small">Status of the first Prototyping pass</caption>
+<thead><tr><th scope="col">Question</th><th scope="col">What we have established</th><th scope="col">Still to test</th></tr></thead>
+<tbody>
+<tr><th scope="row">Can we reproduce the test set?</th><td><span class="tag">Checked locally</span><br>The saved downloads reproduce the committed manifest exactly. All polygons passed a geometry validity check.</td><td>Geometry validity does not establish accurate or current shorelines.</td></tr>
+<tr><th scope="row">Which images cover these bodies?</th><td><span class="tag">Code prepared</span><br>The catalog survey accepts each polygon’s bounding box. Fixture tests cover the new option.</td><td>The survey has not run on this manifest. Exact polygon and buffer coverage still need checking.</td></tr>
+<tr><th scope="row">Do methods preserve the pixel values?</th><td>Not yet measured for this pilot.</td><td>Reflectance offsets, differences across overlapping tiles, quality flags, and pixel selection.</td></tr>
+<tr><th scope="row">What will processing cost?</th><td>Not yet measured for this pilot. No method or platform is selected.</td><td>Runtime, memory, requests, imagery bytes, output size, and scaling across tiles and dates.</td></tr>
+</tbody></table></div>
+<p class="note-line"><strong>Keep the two samples distinct.</strong> Discovery’s archive findings come from the earlier survey of 20 points. They are not results for these 32 polygons. The Discovery satellite maps are educational examples, separate from the processing comparisons.</p>
+<p class="source-note"><b>Evidence:</b> <a href="reviews/2026-09-11-pilot-manifest.md">initial preparation record</a>, <a href="reviews/2026-09-12-pilot-manifest-review.md">independent review and limitations</a>, and <a href="../examples/README.md">manifest format and selection rules</a>. The review records the local checks. Integration specifications and tradeoffs remain open.</p>
+</section>
+
+<section class="chapter" aria-labelledby="stage-1">
+<div class="chapter-head"><div class="chapter-num">03 / Stage 1 · Raw access</div><div>
+<h2 id="stage-1">Reading whole tiles from both copies.</h2>
+<p>Before comparing extraction methods, we timed the simplest thing: read every band of one tile from each copy. One acquisition, tile 17SKU on 2025-10-15, the same ESA product on both copies. Every combination ran three times in a fresh process.</p>
+</div></div>
+<div class="table-scroll"><table class="plans datasets">
+<caption class="small">Median of three runs per band set. Time is read and decode time from the per-file timers, without the digest and statistics the runs also computed. Range reads ask for only the blocks needed. Whole-object reads fetch each file in one request. The quality and all-band sets hold different files on the two copies.</caption>
+<thead><tr><th scope="col">Band set</th><th scope="col">Collection 1 copy · range reads</th><th scope="col">Collection 1 copy · whole object</th><th scope="col">Older copy · range reads</th><th scope="col">Older copy · whole object</th><th scope="col">Peak memory, highest of both copies and modes</th></tr></thead>
+<tbody>
+<tr><th scope="row">Four 10 m bands</th><td>4 files · 508 MB · 54 s · 61 requests</td><td>682 MB · 43 s · 4 requests</td><td>4 files · 507 MB · 69 s · 195 requests</td><td>680 MB · 45 s · 4 requests</td><td>1.4 GB</td></tr>
+<tr><th scope="row">Six 20 m bands</th><td>6 files · 212 MB · 24 s · 36 requests</td><td>284 MB · 20 s · 6 requests</td><td>6 files · 212 MB · 25 s · 46 requests</td><td>283 MB · 21 s · 6 requests</td><td>0.6 GB</td></tr>
+<tr><th scope="row">Two 60 m bands</th><td>2 files · 7 MB · 1.7 s · 6 requests</td><td>9 MB · 1.8 s · 2 requests</td><td>2 files · 7 MB · 1.5 s · 6 requests</td><td>9 MB · 1.8 s · 2 requests</td><td>0.1 GB</td></tr>
+<tr><th scope="row">Quality layers</th><td>5 files · 32 MB · 4.5 s · 17 requests</td><td>44 MB · 5.3 s · 5 requests</td><td>3 files · 38 MB · 6.8 s · 29 requests</td><td>80 MB · 5.7 s · 3 requests</td><td>1.0 GB</td></tr>
+<tr><th scope="row">Everything together</th><td>17 files · 759 MB · 76 s · 120 requests</td><td>1,019 MB · 66 s · 17 requests</td><td>15 files · 765 MB · 91 s · 276 requests</td><td>1,053 MB · 85 s · 15 requests</td><td>1.7 GB</td></tr>
+</tbody></table></div>
+<div class="risk-grid">
+<article class="risk"><h3>Fewer, larger requests were faster on this connection</h3>
+<p>For the 10 m, 20 m, and all-band sets, fetching each whole file beat range reads, even though it moved a third more bytes for the overview pyramids. Four requests against sixty-one for the 10 m set. The 60 m sets and the Collection 1 quality layers went the other way by a small margin.</p>
+<p class="response"><b>Why it matters:</b> per-request latency on this connection is one explanation consistent with the timings. The run order and the connection were not controlled, so the cause is not isolated. For small windows, range reads are the only option that avoids the whole file.</p></article>
+<article class="risk"><h3>The two copies are laid out differently</h3>
+<p>Similar volume, same block size, but the older copy's 10 m bands needed about three times as many range requests and took a quarter longer. One of its 20 m bands uses a different block size and overview count from its siblings.</p>
+<p class="response"><b>Why it matters:</b> read cost depends on how each file is arranged internally, and the older copy is less uniform.</p></article>
+<article class="risk"><h3>Two quality layers are not GeoTIFFs on the older copy</h3>
+<p>Its catalog entries for cloud and snow probability point at JPEG 2000 files in the ESA-format bucket, outside this GeoTIFF benchmark. The first pass tried them through an unconfigured S3 path and lost twelve runs. Collection 1 serves both as small GeoTIFFs.</p>
+<p class="response"><b>Why it matters:</b> Plan B, using the older copy for backfill, has no cloud or snow probability as GeoTIFF. Whether those JPEG 2000 files open without credentials is untested, and most 2022 fallback items lack the assets in the catalog altogether.</p></article>
+</div>
+<h3 class="plans-title">Do the two copies hold the same numbers?</h3>
+<p>The decoded values were compared pixel by pixel for a sample of files from the same product.</p>
+<div class="table-scroll"><table class="plans datasets">
+<caption class="small">Stored integers, older copy minus Collection 1 copy, where both copies have data. The rule is older = max(Collection 1 − 1,000, 1), checked on every pixel valid in both.</caption>
+<thead><tr><th scope="col">File</th><th scope="col">Pixels that differ</th><th scope="col">Most common difference</th><th scope="col">Offset-and-clamp rule</th><th scope="col">No-data agrees</th></tr></thead>
+<tbody>
+<tr><th scope="row">coastal</th><td>2,627,222 of 2,627,222</td><td>-1,000 on 98.29 % of valid pixels</td><td>holds, 44,936 pixels clamped</td><td>yes</td></tr>
+<tr><th scope="row">nir09</th><td>2,627,264 of 2,627,905</td><td>-1,000 on 99.00 % of valid pixels</td><td>holds, 26,317 pixels clamped</td><td>yes</td></tr>
+<tr><th scope="row">red</th><td>94,546,915 of 94,546,915</td><td>-1,000 on 99.98 % of valid pixels</td><td>holds, 20,898 pixels clamped</td><td>yes</td></tr>
+<tr><th scope="row">scl</th><td>0 of 23,636,736</td><td>identical</td><td>not applicable, values identical</td><td>yes</td></tr>
+<tr><th scope="row">aot</th><td colspan="4">different grids, 5,490 × 5,490 against 1,830 × 1,830, not compared</td></tr>
+<tr><th scope="row">wvp</th><td colspan="4">different grids, 5,490 × 5,490 against 10,980 × 10,980, not compared</td></tr>
+</tbody></table></div>
+<p class="note-line"><strong>The copies are the same picture in different units, on this product.</strong> On every compared reflectance file the older copy holds Collection 1's value minus 1,000, the radiometric offset in stored units, with any result at or below the offset clamped to 1. That rule held on every one of 99.8 million pixels checked. Reflectance at or below zero, which occurs over dark water, therefore survives only on Collection 1: 1.7 percent of coastal pixels on this tile. Both catalogs still declare the same offset for both copies, so a reader that trusts the catalog would subtract it twice on the older copy. The scene classification is identical. Aerosol and water vapour sit on a 20 m grid on Collection 1 and on 60 m and 10 m grids on the older copy. One product was checked. Other items and processing versions are stage 5 work.</p>
+<p class="source-note"><b>Measured:</b> on 2026-09-14 from a 10-core arm64 laptop, 17 GB memory over the internet, outside the buckets' region. Times include that path and will differ on an instance beside the data. Evidence: <a href="../benchmarks/results/raw-access.json">raw access result</a>, <a href="../benchmarks/results/raw-access-older-quality-all.json">older-copy rerun</a>, and <a href="../benchmarks/results/copy-difference.json">copy difference</a>. Peak memory is the reading process while it holds every band of the set. No polygon or extraction was involved.</p>
+</section>
 </section>
 <section class="future" id="integration" role="tabpanel" aria-labelledby="tab-integration" hidden>
 <div class="eyebrow">Integration Specs / To come</div>
@@ -846,11 +942,11 @@ footer{display:block}
 <p>Discovery is readable without JavaScript. Enable JavaScript to switch phases or change the map views.</p></noscript>
 </main>
 <footer class="wrap">
-<p>Sentinel-2 assessment · Discovery presentation · Updated 2026-09-11</p>
+<p>Sentinel-2 assessment · Discovery &amp; partial Prototyping · Updated 2026-09-14</p>
 <p><a href="../README.md">Project documentation</a> · <a href="assets/discovery/provenance.json">Imagery attribution &amp; provenance</a>
 </p>
 </footer>
-<!-- Generated from inventory 9cd2c35159169cb0696bdfd41ddf933c9676abcd8e5a25bc8d2f04f8de7fb8c4, survey 1bef1b922583c008e46e03bbfe8f30fa35ce9dfbdd61a4cf322428ccf2f04f27, maps b116403250a1d8f969e8369b3135f8a911c3f72ee53732734592c6a6bbac178d. -->
+<!-- Generated from inventory b59de5975ea216c799397a539511dec1ef9cad08570ccec00ed7eac55c3fce95, survey 1bef1b922583c008e46e03bbfe8f30fa35ce9dfbdd61a4cf322428ccf2f04f27, maps b116403250a1d8f969e8369b3135f8a911c3f72ee53732734592c6a6bbac178d, pilot 9447c4b03ea0e4c04fd335c818993795bf84f82fe92af224e4ffdbebe882c177, raw access 40d50cd958062991fed9a3865e54990b3e486bbb2d8e433ceeb339bbd3cd6094, 36045dee373b5ea711710ea22c6fe8a212e03672b75b9bf47e76fda81bb507d4, copy difference d0091d1d36275c355d786de3d53a33f94f22689260d064f943ca3d8e81ead71e. -->
 <script>
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 function activate(id, focus = false) {
