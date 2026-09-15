@@ -832,9 +832,9 @@ footer{display:block}
 <section id="prototyping" role="tabpanel" aria-labelledby="tab-prototyping" hidden>
 <div class="prototype-intro">
 <div class="eyebrow">Prototyping / Partial results</div>
-<h1>Test cases are ready and raw access is timed.<br>The extraction tests are still ahead.</h1>
-<p>Initial whole-tile access measurements are complete on one laptop and one acquisition. Public lake and pond boundaries are assembled as the test cases.</p>
-<p><strong>No lake extraction has run.</strong> Extraction speed, memory use, cost, AWS performance, and scientific validation remain open.</p>
+<h1>Raw access and one lake at a time are timed.<br>Many lakes per tile and lakes across tiles are still ahead.</h1>
+<p>Whole-tile access and per-lake extraction are measured on one laptop, one acquisition per region, and 32 public water bodies. The three mask methods agreed on every pixel value. The naive clip selects differently.</p>
+<p><strong>No lake has been read from more than one tile, and nothing has run beside the data.</strong> Shared reads, cross-tile lakes, cost at scale, AWS performance, and scientific validation remain open.</p>
 </div>
 <div class="needs pilot-counts" aria-label="Pilot manifest counts">
 <div><b data-pilot-count="features">@@PILOT_TOTAL@@</b><span>Public water-body polygons</span></div>
@@ -867,7 +867,7 @@ footer{display:block}
 
 <section class="chapter" aria-labelledby="pilot-status">
 <div class="chapter-head"><div class="chapter-num">02 / Findings so far</div><div>
-<h2 id="pilot-status">Preparation is complete. Validation is open.</h2>
+<h2 id="pilot-status">Extraction is measured for one lake at a time. Validation is open.</h2>
 <p>The remaining work will test correctness alongside resource use. We will develop those comparisons together and add results as evidence arrives.</p>
 </div></div>
 <div class="table-scroll"><table class="plans datasets">
@@ -876,8 +876,8 @@ footer{display:block}
 <tbody>
 <tr><th scope="row">Can we reproduce the test set?</th><td><span class="tag">Checked locally</span><br>The saved downloads reproduce the committed manifest exactly. All polygons passed a geometry validity check.</td><td>Geometry validity does not establish accurate or current shorelines.</td></tr>
 <tr><th scope="row">Which images cover these bodies?</th><td><span class="tag">Code prepared</span><br>The catalog survey accepts each polygon’s bounding box. Fixture tests cover the new option.</td><td>The survey has not run on this manifest. Exact polygon and buffer coverage still need checking.</td></tr>
-<tr><th scope="row">Do methods preserve the pixel values?</th><td>Not yet measured for this pilot.</td><td>Reflectance offsets, differences across overlapping tiles, quality flags, and pixel selection.</td></tr>
-<tr><th scope="row">What will processing cost?</th><td>Not yet measured for this pilot. No method or platform is selected.</td><td>Runtime, memory, requests, imagery bytes, output size, and scaling across tiles and dates.</td></tr>
+<tr><th scope="row">Do methods preserve the pixel values?</th><td><span class="tag">Measured</span><br>The three mask methods returned identical stored integers on every band of the 30 lakes inside their tiles. The naive clip differs on 29 of 150 comparisons by its selection rule and keeps no near-land pixel.</td><td>Reflectance offsets, differences across overlapping tiles, and quality flags.</td></tr>
+<tr><th scope="row">What will processing cost?</th><td><span class="tag">Partly measured</span><br>Whole-tile reads and one lake at a time are timed below. No method or platform is selected.</td><td>Many lakes per tile, lakes across tiles, dates over a season, and an instance beside the data.</td></tr>
 </tbody></table></div>
 <p class="note-line"><strong>Keep the two samples distinct.</strong> Discovery’s archive findings come from the earlier survey of 20 points. They are not results for these @@PILOT_TOTAL@@ polygons. The Discovery satellite maps are educational examples, separate from the processing comparisons.</p>
 <p class="source-note"><b>Evidence:</b> <a href="reviews/2026-09-11-pilot-manifest.md">initial preparation record</a>, <a href="reviews/2026-09-12-pilot-manifest-review.md">independent review and limitations</a>, and <a href="../examples/README.md">manifest format and selection rules</a>. The review records the local checks. Integration specifications and tradeoffs remain open.</p>
@@ -916,6 +916,40 @@ footer{display:block}
 <p class="note-line"><strong>The copies are the same picture in different units, on this product.</strong> On every compared reflectance file the older copy holds Collection 1's value minus 1,000, the radiometric offset in stored units, with any result at or below the offset clamped to 1. That rule held on every one of 99.8 million pixels checked. Reflectance at or below zero, which occurs over dark water, therefore survives only on Collection 1: 1.7 percent of coastal pixels on this tile. Both catalogs still declare the same offset for both copies, so a reader that trusts the catalog would subtract it twice on the older copy. The scene classification is identical. Aerosol and water vapour sit on a 20 m grid on Collection 1 and on 60 m and 10 m grids on the older copy. One product was checked. Other items and processing versions are stage 5 work.</p>
 <p class="source-note"><b>Measured:</b> on @@RAW_DATE@@ from a @@RAW_MACHINE@@ over the internet, outside the buckets' region. Times include that path and will differ on an instance beside the data. Evidence: <a href="../benchmarks/results/raw-access.json">raw access result</a>, <a href="../benchmarks/results/raw-access-older-quality-all.json">older-copy rerun</a>, and <a href="../benchmarks/results/copy-difference.json">copy difference</a>. Peak memory is the reading process while it holds every band of the set. No polygon or extraction was involved.</p>
 </section>
+
+<section class="chapter" aria-labelledby="stage-2">
+<div class="chapter-head"><div class="chapter-num">04 / Stage 2 · One lake at a time</div><div>
+<h2 id="stage-2">Four ways to pull one lake out of a tile.</h2>
+<p>@@LAKE_LAKES@@ public water bodies, one Collection 1 acquisition per region, @@LAKE_TILES@@ tiles. Each lake was read on its own with four methods, three times each in a fresh process, @@LAKE_RUNS@@ runs. The methods differ in how a lake's pixels are chosen, not in which files are read.</p>
+</div></div>
+<div class="table-scroll"><table class="plans datasets">
+<caption class="small">Median lake in each size class, five files per lake. The files are red and near-infrared at 10 m, one 20 m band, one 60 m band, and the scene classification. Time is the per-file read and decode time for the five files. Blocks are the internal blocks the five windows intersect. Bytes and requests are what the reader asked for, from the raster mask method. Pixels stored are the median lake's interior, shoreline, and near-land pixels together at 10 m.</caption>
+<thead><tr><th scope="col">Size class</th><th scope="col">Lakes</th><th scope="col">Pixels stored at 10 m</th><th scope="col">Blocks, bytes, and requests per lake</th><th scope="col">Naive clip</th><th scope="col">Raster mask</th><th scope="col">Index lists</th><th scope="col">Lazy stack</th><th scope="col">Peak memory, highest method</th></tr></thead>
+<tbody>
+@@LAKE_ROWS@@
+</tbody></table></div>
+<div class="risk-grid">
+<article class="risk"><h3>A small lake usually costs one block per file</h3>
+<p>24 of the 25 small lakes with pixels took 15 requests and 3 to 4 MB for their five files. That held from a 10 m pond to a 1,000 m lake. That is one size probe, one header, and one internal block per file. One 300 m lake sat across a block boundary in every file and took 20 requests and 4.3 MB. The anchors touched 15 to 92 blocks and 19 to 48 requests.</p>
+<p class="response"><b>Why it matters:</b> read cost follows the blocks a lake touches, not its pixel count, as the workload section expected. Every small lake took about 2 seconds for five files on this connection, whichever method ran. Per-request latency is one explanation consistent with that. Position in the block grid, compression, and request merging were not controlled.</p></article>
+<article class="risk"><h3>The mask methods read the same bytes and differ in what they keep</h3>
+<p>The naive clip keeps only the pixels its rasterization marks. That is 4 pixels at 10 m for a typical pond, with no coverage fraction and no near-land ring. The three mask methods keep 361 for the same pond, with class, coverage, and edge distance. Their values and pixel sets were identical on every band of every lake. The lazy stack tripled CPU time and used 70 percent more memory on small lakes. On two large lakes it read faster than the raster mask.</p>
+<p class="response"><b>Why it matters:</b> the raster mask and the index lists were indistinguishable on small lakes. Nothing here ranks the methods. They ran in a fixed order, three times each, over one uncontrolled connection. Stage 3 compares them again with many lakes per tile.</p></article>
+<article class="risk"><h3>Some lakes were not in the tile we chose for their region</h3>
+<p>One tile per region was picked to hold the most lakes. Two ponds fell entirely outside it and yielded nothing. Lake Lanier was 63 percent inside its tile, Lake Okeechobee 90 percent, and an Alaska lake 71 percent. Only the part inside was read.</p>
+<p class="response"><b>Why it matters:</b> tile membership must come from each polygon, not from a region, and a lake can need two to four tiles. Stage 4 reads those lakes from every tile they touch, and the store keeps each tile's pixels apart.</p></article>
+</div>
+<h3 class="plans-title">How many pixels does a lake have?</h3>
+<p>Interior pixels lie entirely inside the mapped shoreline. Shoreline pixels are partly inside. Near-land pixels are dry, with their centre within 100 m of the shoreline. Every count comes from exact polygon areas, computed once per lake, tile, and resolution.</p>
+<div class="table-scroll"><table class="plans datasets">
+<caption class="small">Median lake in each size class. Cells are interior · shoreline · near-land pixels. Preparation is the time to compute all three resolutions for one lake, once.</caption>
+<thead><tr><th scope="col">Size class</th><th scope="col">Lakes</th><th scope="col">10 m</th><th scope="col">20 m</th><th scope="col">60 m</th><th scope="col">Preparation</th></tr></thead>
+<tbody>
+@@LAKE_CLASS_ROWS@@
+</tbody></table></div>
+<p class="note-line"><strong>Ponds in the smallest class have no interior pixel.</strong> All five 10 m ponds have none at any resolution, and at 60 m half of the lakes inside their tiles have none. Every one of them still yields shoreline pixels with a coverage fraction and a ring of near-land pixels. The consumer sees a pond from the counts rather than from a missing record. Preparation took under a tenth of a second for the ponds and under twenty seconds for the largest anchors, once per lake.</p>
+<p class="source-note"><b>Measured:</b> on @@LAKE_DATE@@ from a @@LAKE_MACHINE@@ over the internet, outside the bucket's region. Times include that path and will differ on an instance beside the data. Evidence: <a href="../benchmarks/results/lake-extraction.json">lake extraction result</a>. One acquisition per region. Lakes that cross the chosen tile's edge were read inside that tile only, and their share inside is recorded. Lakes across tiles are stage 4.</p>
+</section>
 </section>
 <section class="future" id="integration" role="tabpanel" aria-labelledby="tab-integration" hidden>
 <div class="eyebrow">Integration Specs / To come</div>
@@ -933,11 +967,11 @@ footer{display:block}
 <p>Discovery is readable without JavaScript. Enable JavaScript to switch phases or change the map views.</p></noscript>
 </main>
 <footer class="wrap">
-<p>Sentinel-2 assessment · Discovery &amp; partial Prototyping · Updated 2026-09-14</p>
+<p>Sentinel-2 assessment · Discovery &amp; partial Prototyping · Updated 2026-09-15</p>
 <p><a href="../README.md">Project documentation</a> · <a href="assets/discovery/provenance.json">Imagery attribution &amp; provenance</a>
 </p>
 </footer>
-<!-- Generated from inventory @@INVENTORY_DIGEST@@, survey @@REPORT_DIGEST@@, maps @@MAP_DIGEST@@, pilot @@PILOT_DIGEST@@, raw access @@RAW_DIGESTS@@, copy difference @@DIFF_DIGEST@@. -->
+<!-- Generated from inventory @@INVENTORY_DIGEST@@, survey @@REPORT_DIGEST@@, maps @@MAP_DIGEST@@, pilot @@PILOT_DIGEST@@, raw access @@RAW_DIGESTS@@, copy difference @@DIFF_DIGEST@@, lake extraction @@LAKE_DIGEST@@. -->
 <script>
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 function activate(id, focus = false) {

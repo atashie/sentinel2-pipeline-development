@@ -7371,7 +7371,24 @@
         "benchmarks/results/raw-access.json",
         "benchmarks/results/raw-access-older-quality-all.json",
         "benchmarks/results/copy-difference.json",
-        "docs/measurements.md#15-the-copies-differ-by-the-offset-consistent-with-the-providers-conversion"
+        "docs/measurements.md#15-the-copies-differ-by-the-offset-applied-and-clamped-measured-on-one-product"
+      ]
+    },
+    {
+      "id": "F-24",
+      "title": "Small-lake reads usually fit in one block per file, the three mask methods return identical values, and small ponds have no interior pixel",
+      "text": "Prototype stage 2 read the 32 pilot water bodies from Collection 1 one lake at a time with four methods on 2026-09-15. Three repetitions each: 384 runs, none failed, 24 without a pixel because two lakes lay outside their region's tile. 24 of the 25 small lakes with pixels touched one internal block per file. That is 15 requests and 2.5 to 4.4 MB for five files, whichever method ran, about 2 seconds on the laptop. One 300 m lake sat across a block boundary in every file and took 20 requests and 4.3 MB. The anchors touched 15 to 92 blocks in 19 to 48 requests. Requests are HTTP requests, which GDAL merges, not blocks. The raster mask, the index lists, and the lazy stack extracted identical stored integers on identical pixel sets. That held on every band of the 30 lakes inside their tile. The naive clip keeps only the pixels GDAL's all-touched rasterization marks, without coverage or near-land. That selection and the coverage threshold of one millionth of a pixel disagree on 204 pixels out of millions. 197 of them are slivers of positive intersection. The lazy stack tripled CPU and used 70 percent more memory on small lakes and read faster on two anchors. Nothing ranks the methods. All five 10 m ponds have no interior pixel at any resolution. Lake Lanier, Lake Okeechobee, and one 1,000 m Alaska lake were partly outside their tile. Measurement findings 16 to 18 hold the numbers. One acquisition per region, five files per lake, one lake at a time.",
+      "claim_ids": [
+        "cl-wf-mask-once-windowed-read_pattern",
+        "cl-wf-mask-once-windowed-read_pattern-3",
+        "cl-wf-lazy-array-stack-read_pattern",
+        "cl-wf-full-tile-then-mask-read_pattern-2"
+      ],
+      "evidence": [
+        "benchmarks/results/lake-extraction.json",
+        "docs/measurements.md#16-one-lake-costs-one-block-per-file-whatever-its-size",
+        "docs/measurements.md#17-the-four-methods-returned-identical-values-and-differ-in-cpu-memory-and-what-they-keep",
+        "docs/measurements.md#18-pixel-classes-per-size-class-and-lakes-outside-the-chosen-tile"
       ]
     }
   ],
@@ -8018,7 +8035,7 @@
       "id": "I-20",
       "title": "Read cost follows blocks touched, not water bodies",
       "text": "A windowed read moves the bytes a window touches. GDAL's partial download default is 16 KB and its COG creation default is 512 pixel tiles. A lazy stack defaults to 1024 pixel chunks. A whole product is about 800 MB. These are tool defaults, not properties of the delivered assets.",
-      "consequence": "Clustered ponds are expected to share reads. The scale driver is expected to be distinct blocks and dates, assumption A17. Request counts, bytes, cache reuse, and decode cost stay unmeasured until the benchmark runs.",
+      "consequence": "Clustered ponds are expected to share reads. The scale driver is expected to be distinct blocks and dates, assumption A17. Stage 2 measured one lake at a time on 2026-09-15, finding F-24. 24 of 25 small lakes fit within one internal block per file. That is 15 requests and 3 to 4 MB for five files, whatever their pixel count. One lake across a block boundary cost 20 requests. Sharing between neighbouring lakes stays unmeasured until stage 3.",
       "status": "measure",
       "decision": "Prototyping benchmark on the workload matrix.",
       "evidence": [

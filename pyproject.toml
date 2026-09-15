@@ -14,8 +14,10 @@ Repository = "https://github.com/atashie/sentinel2-pipeline-development"
 dev = ["pytest>=8.4,<10", "ruff>=0.12,<1"]
 prototype = [
     "numpy>=2,<3",
+    "odc-stac>=0.4,<1",
     "psutil>=6,<8",
     "pyproj>=3.6,<4",
+    "pystac>=1.10,<2",
     "rasterio>=1.4,<2",
     "shapely>=2,<3",
 ]

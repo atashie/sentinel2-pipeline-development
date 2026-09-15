@@ -1,9 +1,10 @@
 # Measurements, 2026-09-10
 
-Three measurement sets exist. The data gap survey required by [decision 0003](decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) ran once on 2026-09-10 and wrote [gap-survey.json](../benchmarks/results/gap-survey.json).
+Four measurement sets exist. The data gap survey required by [decision 0003](decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) ran once on 2026-09-10 and wrote [gap-survey.json](../benchmarks/results/gap-survey.json).
 The fallback survey the owner asked for the same day ran once and wrote [fallback-survey.json](../benchmarks/results/fallback-survey.json). Both are summarized for review in the generated [gap survey report](reviews/2026-09-10-gap-survey-report.json).
 The plan, definitions, and rerun steps are in [gap-survey-plan.md](gap-survey-plan.md). Every number in the survey sections is a count of catalog items, acquisitions, requests, or bytes, as labelled. The surveys read no imagery byte.
 The third set is [prototype stage 1](#prototype-stage-1-raw-access-to-whole-tiles-2026-09-14), which read whole tiles on 2026-09-14.
+The fourth is [prototype stage 2](#prototype-stage-2-one-lake-at-a-time-2026-09-15), which read one lake at a time on 2026-09-15.
 
 An acquisition is one sensing date and platform within one tile. Item counts stand beside acquisition counts because one acquisition can appear as several items.
 
@@ -273,3 +274,88 @@ This is one 05.11 product. It says nothing about the 04.00 items with mixed flag
 - The two outlier runs' cause. Nothing on the laptop was controlled during the runs.
 
 Worker specifications, GDAL logs, and per-run results are under `data/raw-access/`, outside git.
+
+## Prototype stage 2: one lake at a time, 2026-09-15
+
+[benchmarks/lake_extraction.py](../benchmarks/lake_extraction.py) ran on 2026-09-15 and wrote [lake-extraction.json](../benchmarks/results/lake-extraction.json).
+It read the 32 pilot water bodies from Collection 1, one lake at a time, with four methods. Three repetitions each in a fresh process: 384 runs, none failed.
+The machine was a 10-core arm64 laptop with 16 GiB of memory, rasterio 1.5.1 on GDAL 3.12.4, and odc-stac 0.5.3. It read over the internet from outside us-west-2, assumption A25.
+Five files per lake: red and near-infrared at 10 m, swir16 at 20 m, coastal at 60 m, and the scene classification at 20 m.
+The 360 runs that read a pixel started between 13:23:11 and 13:41:53 UTC. Two lakes lay outside the tile chosen for their region, so their 24 runs read nothing.
+The file's summary was regenerated offline from its saved runs after [Codex's review](reviews/2026-09-15-codex-stage-2-review.md). The runs themselves are the original pass. The [record](reviews/2026-09-14-stage-2-one-lake-at-a-time.md) lists every rewrite.
+
+One Collection 1 item per region, chosen by the rule in the result's `catalog` section:
+
+| Region | Tile | Item | Cloud cover | No-data share | Lakes entirely inside |
+|---|---|---|---|---|---|
+| Tahoe | 10SGJ | S2B_T10SGJ_20251020T185627_L2A | 0.001 % | 16.3 % | 6 of 6 |
+| Lanier | 17SKU | S2B_T17SKU_20251015T162249_L2A | 0.001 % | 21.6 % | 3 of 5 |
+| Okeechobee | 17RNK | S2C_T17RNK_20251031T160522_L2A | 0.04 % | 0 % | 4 of 6 |
+| Grand Lake St. Marys | 16TGK | S2C_T16TGK_20250930T163033_L2A | 0.003 % | 0 % | 5 of 5 |
+| Washington | 10TET | S2B_T10TET_20250608T191625_L2A | 0.0003 % | 1.0 % | 6 of 6 |
+| Iliamna | 05VMG | S2B_T05VMG_20250610T213525_L2A | 6.3 % | 1.1 % | 3 of 4 |
+
+Every item is processing baseline 05.11. Choosing them took 24 catalog requests and 26.1 MB of catalog JSON.
+
+### 16. Small-lake reads usually fit within one block per file in this sample
+
+| Size class | Lakes read | Blocks, five files | Requests | Bytes requested | Read time, raster mask | 10 m pixels, all classes |
+|---|---|---|---|---|---|---|
+| 10 m | 5 | 5 | 15 | 3.6 MB | 2.1 s | 361 |
+| 30 m | 5 | 5 | 15 | 3.6 MB | 2.2 s | 444 |
+| 100 m | 5 | 5 | 15 | 3.5 MB | 2.2 s | 895 |
+| 300 m | 6 | 5, one lake 10 | 15 | 3.8 MB | 2.1 s | 2,683 |
+| 1,000 m | 4 | 5 | 15 | 3.6 MB | 2.2 s | 14,000 |
+| Anchor | 5 | 15 to 92 | 36 | 41.5 MB | 6.2 s | 1,672,524 |
+
+Medians of the per-lake medians. Blocks are the internal blocks the five windows intersect, from each window and the file's block shape. Requests are HTTP requests, which GDAL merges when ranges are consecutive.
+Read time is the sum of the per-file open, read, build, and compute timers for the five files. The last column is the median lake's interior, shoreline, and near-land pixels together at 10 m.
+
+- 24 of the 25 small lakes with pixels touched one block per file: 5 blocks, 15 requests, 2.5 to 4.4 MB. Three requests per file: one size probe, one header read, one block. Bytes per file are one block. That is 1.5 MB median for a 10 m band with 1,024 pixel blocks and 0.43 MB for swir16 with 512 pixel blocks. Coastal, with 256 pixel blocks, cost 0.11 MB and the classification 0.05 MB.
+- The Alaska 300 m lake `nhd-72879541` sits across a block boundary in every file. It took 10 blocks, 20 requests, and 4.3 MB with every method. Its red window spans rows 9,181 to 9,239, across the boundary at row 9,216. Position in the block grid, not size, made the difference.
+- Requests are not blocks. Lake Okeechobee's red window intersects 20 blocks and took 13 requests, because GDAL merged consecutive ranges. The anchors touched 15 to 92 blocks over five files, 19 to 48 requests, 11 to 59 MB.
+- A 14 pixel pond and a 35,000 pixel lake cost the same bytes and about 2 seconds. Both fit within one block per file. Time per file was 0.2 to 0.6 s to open and 0.1 to 0.5 s to read for the small lakes. Per-request latency on this connection is one explanation consistent with that. Position, window extent, compression, caching, and request merging were not controlled.
+- Issue I-20 expected cost to follow blocks touched. The sample agrees for one lake at a time. Machine-wide network counters recorded a median of 1.05 times the requested bytes on the raster mask runs.
+
+### 17. The three mask methods returned identical values, and the methods differ in what they keep and in overhead
+
+- The raster mask, the index lists, and the lazy stack extracted identical stored integers on identical pixel sets. That held on every band of the 30 lakes inside their tile, 150 checks. The run saved value digests. Pixel-set identity for this run rests on the three methods reading the same saved mask files, which the review checked offline. Later runs save a pixel-set digest beside the value digest.
+- The naive clip matched the interior and shoreline set on 121 of the 150 checks. On the other 29 it differed exactly where preparation had counted a difference between GDAL's all-touched selection and the coverage threshold. GDAL marked 198 pixels whose coverage lies below one millionth of a pixel. 197 of them have a sliver of positive intersection and one has no intersection at all. The threshold rule kept 6 pixels GDAL did not mark. Two selection rules differ on 204 pixels out of millions. That is not a failure of the all-touched rasterization. The one empty intersection is not investigated.
+- The naive clip keeps no near-land pixel and no coverage fraction. For a typical 10 m pond it kept 4 pixels at 10 m against 361 with the near-land ring. For a typical anchor it stored 2.6 million band values over five files against 4.2 million. Its smaller window touched the same blocks, so its bytes and requests were the same.
+- The lazy stack used 0.39 s of CPU per small lake against 0.12 s for the raster mask. Its peak memory was 0.17 GB against 0.10 GB. Its read time was 0.05 to 0.1 s longer on small lakes. On two anchors it read faster. Lake Lanier took 6.3 s against 10.0 s for the raster mask and 7.7 s for the index lists. Lake Okeechobee took 8.1 s against 10.2 s and 9.2 s. It requested more bytes than the raster mask on three anchors, the same on one, and fewer on one. On Okeechobee it asked for 50.8 MB against 58.8 MB, in more requests. The class medians, 47.2 MB against 41.5 MB, are a ratio of medians. Its output grid matched the requested native window on every run.
+- The raster mask and the index lists were indistinguishable on the small lakes: 2.13 s against 2.15 s for a 10 m pond. Bytes and memory were the same. On the anchors the index lists were faster on two lakes and slower on none, within the run-to-run spread.
+- These observations do not rank the methods. The methods ran in a fixed order per lake, three times each, over one uncontrolled connection. The read timers exclude polygon projection, mask loading, pixel selection, and digests. Whole-run wall times include them. For the median 10 m pond they were 2.19 s, 2.14 s, 2.15 s, and 2.43 s. That order is naive clip, raster mask, index lists, lazy stack. For the median anchor they were 7.3 s, 6.4 s, 6.0 s, and 6.7 s.
+- Twelve of the 360 runs with pixels took more than 1.5 times their lake and method median, up to 12.6 s against 6.7 s. Nothing on the laptop was controlled.
+
+### 18. Pixel classes per size class, and lakes outside the chosen tile
+
+| Size class | Lakes | 10 m | 20 m | 60 m | Preparation, median and longest |
+|---|---|---|---|---|---|
+| 10 m | 5 | 0 · 4 · 356 | 0 · 2 · 90 | 0 · 2 · 9 | 0.006 s, 0.006 s |
+| 30 m | 5 | 3 · 14 · 427 | 0 · 7 · 105 | 0 · 2 · 10 | 0.006 s, 0.009 s |
+| 100 m | 5 | 72 · 60 · 764 | 12 · 30 · 177 | 0 · 9 · 15 | 0.009 s, 0.013 s |
+| 300 m | 6 | 739 · 206 · 1,676 | 148 · 99 · 395 | 7 · 31 · 32 | 0.023 s, 0.030 s |
+| 1,000 m | 4 | 8,656 · 672 · 4,999 | 2,080 · 334 · 1,164 | 198 · 109 · 92 | 0.083 s, 0.094 s |
+| Anchor | 5 | 917,147 · 20,061 · 124,035 | 218,133 · 9,770 · 28,784 | 23,402 · 3,015 · 2,241 | 11.3 s, 19.3 s |
+
+Cells are interior · shoreline · near-land pixels, each the median over the lakes of the class that lie inside their tile. The median lake's total at 10 m is in the table of finding 16. Preparation computes all three resolutions for one lake in its own process and saves the files.
+
+- All five 10 m ponds have no interior pixel at any resolution. At 20 m, 10 of the 30 lakes inside their tile have none. At 60 m, 15 have none. Every one of them has shoreline and near-land pixels.
+- Summed coverage matched the polygon area inside the tile within 2.4e-11 relative on every lake, against a declared tolerance of 1e-6. Preparation peaked at 1.56 GB for Lake Okeechobee, whose 10 m mask holds 12.4 million interior pixels. Lake Tahoe's preparation took 11.3 s and 0.87 GB for the three resolutions and their files. Its 10 m mask alone computed in 8.0 s.
+- Two lakes lay entirely outside the tile chosen for their region: the Lanier 100 m pond `nhd-34972649` and the Okeechobee 30 m pond `nhd-57dbffd9`. Their 24 runs read nothing. Lake Lanier was 62.6 % inside tile 17SKU, Lake Okeechobee 90.0 % inside 17RNK, and the Alaska 1,000 m lake `nhd-60265485` 70.9 % inside 05VMG. Only the part inside was read.
+- The masks this run saved measured edge distances to the polygon cut at the tile edge. A tile edge counted as a shoreline for the three lakes partly outside their tile. Codex's review found it. The code now measures every distance to the real boundary. Recomputing all 30 lakes' masks offline with the corrected code left 27 lakes identical. Lake Lanier's 10 m classes changed on 77 pixels and Lake Okeechobee's on 171, all near-land pixels where the shoreline meets the tile edge. Distances changed on 15,134 Lanier, 31,678 Okeechobee, and 440 Alaska pixels at 10 m, by up to 993 m. The extraction runs read the saved masks, so their pixel counts for those two lakes differ from the corrected masks by those pixels. The run's files are marked affected and are not reused.
+- Tiles 10SGJ and 11SKD each hold all six Tahoe lakes entirely. The smaller id won.
+- Each Alaska tile appears in the window under two grid codes. 87 items carry `MGRS-05VLG` or `MGRS-05VMG` with the leading zero. Five carry `MGRS-5VLG` or `MGRS-5VMG` without it. Grouping by tile must normalise the code.
+
+### What stage 2 does not show
+
+- Anything about an instance beside the bucket. Every time includes the laptop's internet path.
+- Reads shared between lakes. Every lake was read alone, so a block shared by neighbouring ponds was fetched once per pond. Stage 3 measures the sharing.
+- Lakes across tiles. Only the part inside one tile was read. Stage 4 reads the rest.
+- A method ranking. Fixed order, three repetitions, and one uncontrolled connection limit what the timings can say.
+- Other dates, products, or processing versions. One 05.11 item per region, all with cloud cover at or below 6.3 %.
+- Delivered bytes. Requests and bytes are what GDAL asked for. The network counters are machine-wide.
+- Why the all-touched rule and the coverage threshold disagree on 204 pixels. The counts are recorded. The one pixel with no intersection is not investigated.
+- A storage format. Output bytes are row, column, class, and value fields per extracted pixel, without coverage and distance fields.
+
+Saved items, masks, index lists, worker specifications, GDAL logs, and per-run results are under `data/lake-extraction/`, outside git.

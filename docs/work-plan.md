@@ -5,7 +5,7 @@ A checked box means the work exists in this repository with evidence.
 
 ## Next session: Phase 2, Prototyping
 
-The public pilot manifest was [reviewed on 2026-09-12](reviews/2026-09-12-pilot-manifest-review.md). Stage 1 raw access ran on 2026-09-14 on one laptop and one acquisition, [reviewed by Codex](reviews/2026-09-14-codex-stage-1-review.md). Lake extraction, AWS performance, and scientific validation remain open.
+The public pilot manifest was [reviewed on 2026-09-12](reviews/2026-09-12-pilot-manifest-review.md). Stage 1 raw access ran on 2026-09-14 and stage 2, one lake at a time, on 2026-09-15, both on one laptop and [reviewed by Codex](reviews/2026-09-15-codex-stage-2-review.md). Many lakes per tile, lakes across tiles, AWS performance, and scientific validation remain open.
 Read that review, [measurements](measurements.md), and the [draft contract](data-contract.md) before selecting the first bounded comparison together.
 
 - The public pilot polygons exist since 2026-09-11. Identify the input product used by the existing model.
@@ -137,8 +137,8 @@ Stage 1, raw access. One acquisition on both GeoTIFF copies. Whole-tile reads of
 
 Stage 2, one lake at a time. For every pilot size class, extract the pixel classes with four methods. They are naive clip per scene, precomputed raster mask, precomputed index lists, and a lazy array stack.
 
-- [ ] Methods prototyped with fixture tests on synthetic rasters. Tolerances declared before any comparison.
-- [ ] Measured on the pilot lakes. Interior and shoreline pixel counts per resolution recorded.
+- [x] Methods prototyped with fixture tests on synthetic rasters. Tolerances declared before any comparison, 2026-09-14. [Script](../benchmarks/lake_extraction.py), [pixel classes](../src/s2proto/masks.py), [record](reviews/2026-09-14-stage-2-one-lake-at-a-time.md).
+- [x] Measured on the pilot lakes, 2026-09-15. Interior, shoreline, and near-land counts per resolution recorded. [Result](../benchmarks/results/lake-extraction.json), findings 16 to 18 in [measurements.md](measurements.md).
 
 Stage 3, many lakes in one tile. The same methods, reading every pilot lake in a tile. Per-lake reads against one shared whole-tile read, and lake-by-lake order against tile-by-tile order.
 

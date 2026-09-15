@@ -27,6 +27,21 @@ PILOT = ROOT / "examples" / "water-bodies-public-pilot.geojson"
 RESULTS = ROOT / "benchmarks" / "results"
 RAW_ACCESS = [RESULTS / "raw-access.json", RESULTS / "raw-access-older-quality-all.json"]
 COPY_DIFFERENCE = RESULTS / "copy-difference.json"
+LAKE_EXTRACTION = RESULTS / "lake-extraction.json"
+METHOD_LABELS = {
+    "naive-clip": "Naive clip",
+    "raster-mask": "Raster mask",
+    "index-lists": "Index lists",
+    "lazy-stack": "Lazy stack",
+}
+SIZE_LABELS = {
+    "10 m": "10 m class",
+    "30 m": "30 m class",
+    "100 m": "100 m class",
+    "300 m": "300 m class",
+    "1000 m": "1,000 m class",
+    "anchor": "Anchor lakes",
+}
 GROUP_LABELS = {
     "10m": "Four 10 m bands",
     "20m": "Six 20 m bands",
@@ -220,6 +235,69 @@ def copy_difference_rows(result: dict) -> str:
     return "\n".join(parts)
 
 
+def megabytes_label(value: int) -> str:
+    return f"{value / 1e6:.1f} MB" if value < 1e7 else f"{value / 1e6:,.0f} MB"
+
+
+def lake_extraction_rows(result: dict) -> str:
+    """One table row per size class from the stage 2 summary: what is read and how long."""
+    rows = {(r["size_label"], r["method"]): r for r in result["summary"]["by_size_class_method"]}
+    prep = {r["size_label"]: r for r in result["summary"]["preparation_by_size_class"]}
+    parts = []
+    for size, label in SIZE_LABELS.items():
+        reference = rows.get((size, "raster-mask"))
+        if not reference or "read_seconds_median" not in reference:
+            continue
+        classes = prep.get(size, {}).get("classes", {}).get("10", {})
+        stored = classes.get("all_classes_median")
+        blocks = reference.get("blocks_touched_median")
+        blocks_max = reference.get("blocks_touched_max")
+        blocks_label = "" if blocks is None else f"{blocks} blocks"
+        if blocks is not None and blocks_max != blocks:
+            blocks_label = f"{blocks} to {blocks_max} blocks"
+        cells = [
+            f'<th scope="row">{label}</th>',
+            f"<td>{reference['lakes']}</td>",
+            f"<td>{stored:,}</td>" if stored is not None else "<td>not computed</td>",
+            f"<td>{blocks_label} · {megabytes_label(reference['bytes_requested_median'])} · "
+            f"{reference['requests_median']} requests</td>",
+        ]
+        peaks = []
+        for method in METHOD_LABELS:
+            row = rows.get((size, method))
+            if not row or "read_seconds_median" not in row:
+                cells.append("<td>failed</td>")
+                continue
+            cells.append(f"<td>{seconds_label(row['read_seconds_median'])}</td>")
+            peaks.append(row["peak_rss_bytes_max"])
+        cells.append(f"<td>{max(peaks) / 1e9:.1f} GB</td>" if peaks else "<td>failed</td>")
+        parts.append("<tr>" + "".join(cells) + "</tr>")
+    return "\n".join(parts)
+
+
+def pixel_class_rows(result: dict) -> str:
+    """One row per size class: median pixels per class at each resolution, and preparation time."""
+    parts = []
+    prep = {r["size_label"]: r for r in result["summary"]["preparation_by_size_class"]}
+    for size, label in SIZE_LABELS.items():
+        row = prep.get(size)
+        if not row:
+            continue
+        cells = [f'<th scope="row">{label}</th>', f"<td>{row['lakes']}</td>"]
+        for res in ("10", "20", "60"):
+            classes = row["classes"].get(res)
+            if not classes:
+                cells.append("<td>not read</td>")
+                continue
+            cells.append(
+                f"<td>{classes['interior']:,} · {classes['shoreline']:,} · "
+                f"{classes['near_land']:,}</td>"
+            )
+        cells.append(f"<td>{seconds_label(row['prepare_seconds_median'])}</td>")
+        parts.append("<tr>" + "".join(cells) + "</tr>")
+    return "\n".join(parts)
+
+
 def machine_label(machine: dict) -> str:
     memory = machine.get("memory_total_bytes") or 0
     return f"{machine['cpu_count']}-core {machine['machine']} laptop, {memory / 1e9:.0f} GB memory"
@@ -238,6 +316,7 @@ def build_html(inventory: Path = INVENTORY) -> str:
     totals = next(f for f in report["findings"] if f["id"] == "GS-10")["numbers"]["totals"]
     raw_results = [json.loads(path.read_text()) for path in RAW_ACCESS]
     copy_difference = json.loads(COPY_DIFFERENCE.read_text())
+    lake_extraction = json.loads(LAKE_EXTRACTION.read_text())
     for entry in maps["images"].values():
         path = MAPS.parent / entry["file"]
         if hashlib.sha256(path.read_bytes()).hexdigest() != entry["sha256"]:
@@ -277,6 +356,14 @@ def build_html(inventory: Path = INVENTORY) -> str:
         "RAW_DIGESTS": ", ".join(hashlib.sha256(p.read_bytes()).hexdigest() for p in RAW_ACCESS),
         "DIFF_ROWS": copy_difference_rows(copy_difference),
         "DIFF_DIGEST": hashlib.sha256(COPY_DIFFERENCE.read_bytes()).hexdigest(),
+        "LAKE_ROWS": lake_extraction_rows(lake_extraction),
+        "LAKE_CLASS_ROWS": pixel_class_rows(lake_extraction),
+        "LAKE_DATE": html.escape(lake_extraction["measured_at"][:10]),
+        "LAKE_MACHINE": html.escape(machine_label(lake_extraction["machine"])),
+        "LAKE_LAKES": str(lake_extraction["summary"]["lakes"]),
+        "LAKE_TILES": str(lake_extraction["summary"]["distinct_tiles"]),
+        "LAKE_RUNS": f"{len(lake_extraction['runs']):,}",
+        "LAKE_DIGEST": hashlib.sha256(LAKE_EXTRACTION.read_bytes()).hexdigest(),
     }
     rendered = TEMPLATE.read_text()
     for key, value in replacements.items():
