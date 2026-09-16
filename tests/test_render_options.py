@@ -105,6 +105,89 @@ def test_pixel_class_rows_show_interior_shoreline_near_land():
     assert rows[1].endswith("<td>19 s</td></tr>")
 
 
+def tile_row(tile, pattern, method, requests=None, mb=None, seconds=None, baseline=None, **counts):
+    row = {"tile": tile, "region": "lanier", "pattern": pattern, "method": method, **counts}
+    if seconds is not None:
+        row["requests_median"] = requests
+        row["bytes_requested_median"] = int(mb * 1e6)
+        row["read_seconds_median"] = seconds
+    if baseline is not None:
+        row["baseline_stage_2"] = baseline
+    return row
+
+
+def test_tile_extraction_rows_show_three_patterns_beside_stage_2():
+    full = {
+        "comparable": True,
+        "lakes_with_baseline": ["a", "b", "c"],
+        "lakes_without_baseline": [],
+        "requests": 79,
+        "bytes_requested": 26_700_000,
+        "read_seconds": 11.4,
+    }
+    none = {"comparable": True, "lakes_with_baseline": [], "lakes_without_baseline": ["d"]}
+    result = {
+        "summary": {
+            "tiles": [
+                {"tile": "16TGK", "region": "grand-st-marys", "lakes": 3, "lakes_partly_inside": 0},
+                {"tile": "17SKT", "region": "lanier", "lakes": 1, "lakes_partly_inside": 1},
+                {"tile": "05VLG", "region": "iliamna", "lakes": 3, "lakes_partly_inside": 0},
+            ],
+            "by_tile_pattern_method": [
+                # One of three runs was under memory pressure. The medians come from two.
+                tile_row(
+                    "16TGK",
+                    "tile-by-tile",
+                    "raster-mask",
+                    27,
+                    23.0,
+                    4.5,
+                    full,
+                    runs=3,
+                    timings_from_runs=2,
+                    runs_with_memory_pressure=1,
+                ),
+                tile_row("16TGK", "whole-tile", "raster-mask", 54, 394.2, 41.6, runs=3),
+                tile_row("16TGK", "tile-by-tile", "lazy-stack", 71, 92.9, 14.2),
+                tile_row("17SKT", "tile-by-tile", "raster-mask", 30, 28.5, 6.7, none),
+                tile_row("17SKT", "whole-tile", "raster-mask", 54, 409.9, 39.1),
+                # No clean run: the cell says why, and the tile stays in the table.
+                tile_row(
+                    "17SKT",
+                    "tile-by-tile",
+                    "lazy-stack",
+                    runs=3,
+                    timings_from_runs=0,
+                    runs_with_memory_pressure=2,
+                    runs_with_errors=1,
+                ),
+                tile_row(
+                    "05VLG", "tile-by-tile", "raster-mask", runs=3, timings_from_runs=0, failed=3
+                ),
+            ],
+        }
+    }
+    html = render_options.tile_extraction_rows(result)
+    rows = [line for line in html.splitlines() if line.startswith("<tr>")]
+    assert len(rows) == 3
+    assert rows[0].startswith('<tr><th scope="row">16TGK, Grand Lake St. Marys</th><td>3</td>')
+    assert (
+        "<td>79 requests · 27 MB · 11 s</td><td>27 requests · 23 MB · 4.5 s, 2 of 3 runs</td>"
+        in rows[0]
+    )
+    assert rows[0].endswith(
+        "<td>54 requests · 394 MB · 42 s</td><td>71 requests · 93 MB · 14 s</td></tr>"
+    )
+    assert '<th scope="row">17SKT, Lanier</th><td>1, 1 partly inside</td>' in rows[1]
+    assert "<td>not read in stage 2</td>" in rows[1]
+    assert rows[1].endswith(
+        "<td>54 requests · 410 MB · 39 s</td>"
+        "<td>no clean run: 2 under memory pressure, 1 with errors</td></tr>"
+    )
+    assert rows[2].startswith('<tr><th scope="row">05VLG, ')
+    assert "<td>no clean run: 3 failed</td><td>not run</td><td>not run</td></tr>" in rows[2]
+
+
 def test_megabytes_label_switches_at_ten_megabytes():
     assert render_options.megabytes_label(3_735_552) == "3.7 MB"
     assert render_options.megabytes_label(41_500_000) == "42 MB"

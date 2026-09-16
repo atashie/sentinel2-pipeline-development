@@ -1,10 +1,11 @@
 # Measurements, 2026-09-10
 
-Four measurement sets exist. The data gap survey required by [decision 0003](decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) ran once on 2026-09-10 and wrote [gap-survey.json](../benchmarks/results/gap-survey.json).
+Five measurement sets exist. The data gap survey required by [decision 0003](decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) ran once on 2026-09-10 and wrote [gap-survey.json](../benchmarks/results/gap-survey.json).
 The fallback survey the owner asked for the same day ran once and wrote [fallback-survey.json](../benchmarks/results/fallback-survey.json). Both are summarized for review in the generated [gap survey report](reviews/2026-09-10-gap-survey-report.json).
 The plan, definitions, and rerun steps are in [gap-survey-plan.md](gap-survey-plan.md). Every number in the survey sections is a count of catalog items, acquisitions, requests, or bytes, as labelled. The surveys read no imagery byte.
 The third set is [prototype stage 1](#prototype-stage-1-raw-access-to-whole-tiles-2026-09-14), which read whole tiles on 2026-09-14.
 The fourth is [prototype stage 2](#prototype-stage-2-one-lake-at-a-time-2026-09-15), which read one lake at a time on 2026-09-15.
+The fifth is [prototype stage 3](#prototype-stage-3-many-lakes-in-one-tile-2026-09-16), which read every lake of a tile in one process on 2026-09-16.
 
 An acquisition is one sensing date and platform within one tile. Item counts stand beside acquisition counts because one acquisition can appear as several items.
 
@@ -359,3 +360,99 @@ Cells are interior · shoreline · near-land pixels, each the median over the la
 - A storage format. Output bytes are row, column, class, and value fields per extracted pixel, without coverage and distance fields.
 
 Saved items, masks, index lists, worker specifications, GDAL logs, and per-run results are under `data/lake-extraction/`, outside git.
+
+## Prototype stage 3: many lakes in one tile, 2026-09-16
+
+[benchmarks/tile_extraction.py](../benchmarks/tile_extraction.py) ran on 2026-09-16 and wrote [tile-extraction.json](../benchmarks/results/tile-extraction.json).
+It read every pilot lake of a tile in one process, with three read patterns and the four methods of stage 2. Three repetitions each in a fresh process: 324 runs over nine tiles, none failed.
+The machine was a 10-core arm64 laptop with 16 GiB of memory. It ran rasterio 1.5.1 on GDAL 3.12.4 with a 512 MiB block cache, and odc-stac 0.5.3 on four Dask threads. It read over the internet from outside us-west-2, assumption A25.
+A first run on 2026-09-15 held a 512-byte block cache, because the script passed 512 to `rasterio.Env`, which takes bytes. [Codex's review](reviews/2026-09-15-codex-stage-3-review.md) found it. The owner authorized this rerun, and every number below is from it. The [record](reviews/2026-09-15-stage-3-many-lakes-in-one-tile.md) keeps the first run's result outside git and says what the cache changed.
+The five files per tile are stage 2's. Those are red and near-infrared at 10 m, swir16 at 20 m, coastal at 60 m, and the scene classification at 20 m.
+The runs read pixels from 12:32:10 to 14:00:22 UTC, first start to last completion. They requested 45.2 GB in 19,179 requests, 36.3 GB of it in the 108 whole-tile runs. Every worker stayed under the 4 GiB memory budget, with a peak of 1.94 GiB by its own count. Host page-outs during a run reached 6.4 MB at most. That is below the 128 MiB threshold that marks memory pressure, so every run counts in the medians.
+[Codex's pre-run review](reviews/2026-09-15-codex-stage-3-prerun-review.md) was applied before the first run. The record lists the smoke run and the guarded check that preceded it.
+
+Tiles were chosen to place every lake, and a lake belongs to every chosen tile its 100 m buffer touches. The 32 lakes gave 40 lake-tile memberships over nine tiles, the same tiles and acquisitions as the first run:
+
+| Tile | Region | Item | Cloud cover | Members | Stage 2 acquisition |
+|---|---|---|---|---|---|
+| 05VLG | Iliamna | S2C_T05VLG_20250804T213547_L2A | 0.1 % | 3 | no |
+| 05VMG | Iliamna | S2B_T05VMG_20250610T213525_L2A | 6.3 % | 4, the 1,000 m lake 70.9 % inside | yes |
+| 10SGJ | Tahoe | S2B_T10SGJ_20251020T185627_L2A | 0.0007 % | 6 | yes |
+| 10TET | Washington | S2B_T10TET_20250608T191625_L2A | 0.0003 % | 6 | yes |
+| 16SGD | Lanier | S2B_T16SGD_20251015T162249_L2A | 0.0004 % | 4, Lake Lanier 62.5 % inside | no |
+| 16TGK | Grand Lake St. Marys | S2C_T16TGK_20250930T163033_L2A | 0.003 % | 5 | yes |
+| 17RNK | Okeechobee | S2C_T17RNK_20251031T160522_L2A | 0.04 % | 5, Lake Okeechobee 90.0 % inside | yes |
+| 17RNL | Okeechobee | S2C_T17RNL_20251031T160522_L2A | 0.6 % | 4, Lake Okeechobee 22.7 % inside | no |
+| 17SKT | Lanier | S2B_T17SKT_20251022T161651_L2A | 0.002 % | 3, Lake Lanier 70.3 % inside | no |
+
+Every item is processing baseline 05.11. Choosing them took 24 catalog requests and 26.1 MB of catalog JSON over 1,473 items.
+Lake Lanier lies 70.3 % inside 17SKT, more than the 62.6 % inside stage 2's tile 17SKU, so the rule placed it there. The two ponds stage 2 left outside have pixels now, in 17SKT and 17RNL. Eight lakes are members of two chosen tiles. The 05VLG item is 81.9 % no-data and still covers the support of its three members.
+
+### 19. Reading every lake of a tile in one process cuts requests by more than half
+
+| Tile | Lakes | One process per lake, stage 2 | Every lake in one process, files outermost | Requests | Bytes | Read time |
+|---|---|---|---|---|---|---|
+| 05VMG | 4 | 65 requests, 14.0 MB, 8.9 s | 30 requests, 11.5 MB, 4.2 s | 46 % | 82 % | 47 % |
+| 10SGJ | 6 | 112 requests, 60.5 MB, 17.2 s | 51 requests, 52.4 MB, 8.7 s | 46 % | 87 % | 51 % |
+| 10TET | 6 | 100 requests, 30.1 MB, 13.3 s | 34 requests, 18.4 MB, 4.4 s | 34 % | 61 % | 33 % |
+| 16TGK | 5 | 79 requests, 26.7 MB, 11.4 s | 19 requests, 13.1 MB, 2.8 s | 24 % | 49 % | 24 % |
+| 17RNK | 5 | 108 requests, 70.9 MB, 18.7 s | 48 requests, 58.8 MB, 8.8 s | 44 % | 83 % | 47 % |
+
+The five tiles read from the same acquisition as stage 2, raster mask method, medians of three repetitions. The stage 2 column sums the per-lake medians behind finding 16. The last three columns are the ratio.
+
+- Requests fell to 24 to 46 percent, bytes to 49 to 87 percent, and read time to 24 to 51 percent. A lake read alone in its own process paid a size probe and a header read per file, 10 of its 15 requests. In one process per tile the headers are read once, and a block one lake loaded serves the next. Stage 2 ran with GDAL's default cache, 5 percent of memory, so both runs held their blocks.
+- A small lake whose blocks were new cost 4 to 6 requests and 1.5 to 3.8 MB. The Alaska 300 m lake sits across a block boundary in every file, 10 blocks, and cost 6 requests in 05VLG and 5 in 05VMG.
+- In the seven tiles with an anchor, 21 of the 26 smaller lakes cost no request at all. A neighbour's read, usually the anchor's, had already loaded their blocks into the block cache. The five that paid were Tahoe's 30 m, 100 m, and 1,000 m lakes and Washington's 10 m and 1,000 m lakes. The seven memberships in the two Alaska tiles, which have no anchor, all paid.
+- Sharing is modest at this density. The lakes' windows touch 20 to 112 blocks summed over lakes and 16 to 92 distinct blocks, out of 548 in the five files. The nine tiles' lakes need 2.9 to 16.8 percent of their files' blocks.
+- Loop order matters within one process. Reading lake by lake reopens every file per lake, and an open file's cached blocks go with it. Against reading file by file it cost 4 to 17 more requests, 1.7 to 9.1 MB more, and 0.7 to 2.8 s more read time. Raster mask medians. Reopening re-read headers, 15 to 30 opens against 5. GDAL's smaller cache of downloaded ranges still served 6 of the 33 smaller lakes for free. Across processes, as in stage 2, every lake pays the headers again.
+
+### 20. One whole-tile read costs 6 to 32 times the bytes of the windowed reads at this lake density
+
+| Tile | Lakes | Windowed reads, files outermost | One whole-tile read | Bytes ratio | Break-even lakes, estimate |
+|---|---|---|---|---|---|
+| 05VLG | 3 | 6.7 MB, 26 requests, 3.3 s | 57 MB, 19 requests, 7.2 s | 8.4 | 25 |
+| 05VMG | 4 | 11.5 MB, 30 requests, 4.2 s | 362 MB, 50 requests, 35 s | 32 | 126 |
+| 10SGJ | 6 | 52.4 MB, 51 requests, 8.7 s | 327 MB, 45 requests, 33 s | 6.2 | 37 |
+| 10TET | 6 | 18.4 MB, 34 requests, 4.4 s | 393 MB, 54 requests, 37 s | 21 | 128 |
+| 16SGD | 4 | 48.3 MB, 36 requests, 7.4 s | 396 MB, 54 requests, 37 s | 8.2 | 33 |
+| 16TGK | 5 | 13.1 MB, 19 requests, 2.8 s | 394 MB, 54 requests, 38 s | 30 | 150 |
+| 17RNK | 5 | 58.8 MB, 48 requests, 8.8 s | 352 MB, 49 requests, 34 s | 6.0 | 30 |
+| 17RNL | 4 | 43.8 MB, 33 requests, 6.4 s | 330 MB, 48 requests, 32 s | 7.5 | 30 |
+| 17SKT | 3 | 21.5 MB, 20 requests, 3.4 s | 410 MB, 54 requests, 38 s | 19 | 57 |
+
+Raster mask method, medians of three repetitions. The break-even column divides the whole-tile bytes by the tile's windowed bytes per lake. It is byte arithmetic from these medians, not a measurement.
+
+- Eight tiles have data across the tile. There a whole-tile read of the five files requested 327 to 410 MB in 32 to 38 s, in 45 to 54 requests. The 05VLG item is 82 percent no-data and compressed to 57 MB, read in 7.2 s and 19 requests. The windowed reads of the same lakes requested 6.7 to 58.8 MB in 2.8 to 8.8 s.
+- The whole-tile read makes fewer requests than the windowed reads on two tiles, because GDAL merges consecutive block ranges. It moves 6 to 32 times the bytes.
+- Seven of the nine tiles hold one anchor and two to five smaller lakes. The two Alaska tiles hold three and four lakes of 30 to 1,000 m and no anchor. At this mix, dividing whole-tile bytes by windowed bytes per lake gives 25 to 150 lakes per tile. A small lake that pays for its own blocks costs 1.5 to 3.8 MB. At that price the eight full tiles would break even at roughly 90 to 270 such lakes. Both are byte arithmetic from these medians. They say nothing about time or cost, and they hold for this lake mix only. Where lakes share blocks, as 21 of 26 did here, the crossover in bytes is higher. Stage 1's whole-tile numbers, finding 13, agree with these whole-tile reads.
+- The largest median of extracting every lake from the array in memory was 0.18 s for five files, Lake Okeechobee's tile with the index lists. The largest single run took 0.21 s. Once a tile is in memory, the method of picking pixels does not matter for time.
+- Peak resident memory is the highest of each combination's three runs. Whole-tile combinations peaked at 0.78 to 1.77 GB with rasterio and 0.87 to 2.08 GB with the lazy stack. A whole-tile run holds up to 512 MiB of decoded blocks in GDAL's cache. The windowed combinations peaked at 0.11 to 1.80 GB, the highest holding Lake Okeechobee's mask of 12.4 million interior pixels.
+
+### 21. The lazy stack on a shared tile graph reads 1.6 to 7 times the bytes and opens a file once per chunk
+
+- On the shared whole-tile graph, computing each lake's window separately requested 1.6 to 7.1 times the bytes of the rasterio windowed reads, medians. It took 1.4 to 4.6 times as long. Grand Lake St. Marys: 92.9 MB against 13.1 MB. Washington: 130 MB against 18.4 MB. Tahoe: 167 MB against 52.4 MB. Each compute reads whole chunks of 2,048 pixels, four blocks at 10 m, and no decoded chunk is retained between computes. GDAL may keep downloaded ranges apart from that. On Grand Lake's tile all five lakes lie in one red chunk. It was opened and read five times, 27 MB where one read of 5.4 MB would do. This is the tested recipe: 2,048-pixel chunks, four threads, one compute per lake. Other odc-stac settings are not measured.
+- A graph per lake is built on the lake's own window, as in stage 2. There the lazy stack requested 0.88 to 1.22 times the bytes of the rasterio reads in the same order.
+- Computing the whole tile through the lazy stack requested the same bytes as rasterio within 0.2 MB. It made 219 to 221 requests against 19 to 54. GDAL's log shows it opened each 10 m file 36 times, once per chunk, and each 20 m file 9 times. On the eight full tiles it was faster, 19 to 31 s against 32 to 38 s. On 05VLG it took 7.5 s against 7.2 s. Four threads fetching chunks at once is one explanation, not isolated here. Its peak memory, combination maxima, was within 0.1 GB of rasterio's on six tiles. It was 0.2 GB higher on two and 0.5 GB higher on Lake Okeechobee's.
+- Median CPU time per combination was 0.6 to 6.4 s for the lazy stack against 0.2 to 5.7 s for the raster mask.
+
+### 22. Every pattern and method agreed, and per-scene rasterization costs under half a second per large lake
+
+- The three patterns and the three mask methods extracted identical stored integers on identical pixel sets on all 200 lake-bands. That is 40 memberships and five files, twelve combinations each, three repetitions. The naive clip was identical across the three patterns on values and pixel sets.
+- The naive clip differs from the interior-plus-shoreline set on 44 of the 200 lake-bands. That is exactly where preparation counted a difference between GDAL's all-touched rule and the coverage threshold, as in finding 17.
+- Stage 2 read 26 of the memberships from the same acquisitions. On all 130 of their lake-bands the mask methods matched stage 2's mask methods and the naive clip matched stage 2's naive clip. The other 70 lake-bands were read from acquisitions stage 2 did not use and have no comparison.
+- The naive clip projects and rasterizes each polygon per scene, at three resolutions. That setup took 0.16 s for Lake Tahoe and 0.45 s and 0.36 s for Lake Lanier in its two tiles. It took 0.44 s and 0.19 s for Lake Okeechobee, and under 0.1 s for every other lake. Those are medians of each lake's three runs, wall time. Loading the precomputed masks or index lists took 0.001 to 0.17 s per lake, medians, and 0.37 s at most. At one scene per lake the two setups cost the same order. What the precomputed masks buy is the coverage fraction and the near-land class, which the naive clip does not keep. With the 512-byte cache the same rasterization took 14 to 20 s per large lake, one row per pass, see the [record](reviews/2026-09-15-stage-3-many-lakes-in-one-tile.md).
+- Nine of the 324 runs took more than 1.5 times their combination's median wall time, up to 107 s against 15 s. Their requests and bytes were the same as their siblings'. Two of the three whole-tile index-list runs on Lake Okeechobee's tile were slow, 101 s and 63 s against 36 s. That combination's median is slow too. Nothing on the laptop or the connection was controlled.
+
+### What stage 3 does not show
+
+- Anything about an instance beside the bucket. Every time includes the laptop's internet path.
+- More than six lakes in a tile. The whole-tile break-even is byte arithmetic from these medians.
+- Dates over a season. One item per tile, all 05.11, with cloud cover at or below 6.3 percent.
+- A lazy stack tuned for this use: smaller chunks, retained chunks, or one compute for every lake. The defaults of odc-stac were measured with a fixed chunk of 2,048 pixels and four threads.
+- A single labelled mask per tile. Each lake was extracted with its own mask from the shared array.
+- Lakes across tiles combined. Eight lakes were read in two tiles, apart. Stage 4 concatenates such records without blending.
+- Any block cache other than 512 MiB. The record compares this run with the first run's 512-byte cache, two points only.
+- Why nine runs were slow.
+- Delivered bytes. Requests and bytes are what GDAL asked for.
+
+Saved items, masks, index lists, worker specifications, GDAL logs, and per-run results are under `data/tile-extraction/`, outside git. The first run's result is kept there too.

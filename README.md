@@ -1,11 +1,11 @@
 # Sentinel-2 ingestion options for water-quality modeling
 
-**Prototyping is underway. Whole-tile access and one lake at a time are measured on one laptop, one acquisition per region, and 32 public water bodies. Many lakes per tile, lakes across tiles, AWS performance, and scientific validation remain open. Workflow, platform, and layout remain open.**
-Read the [stage 2 record](docs/reviews/2026-09-14-stage-2-one-lake-at-a-time.md), the [stage 1 record](docs/reviews/2026-09-14-prototype-structure-and-stage-1.md), and [Codex's review](docs/reviews/2026-09-14-codex-stage-1-review.md), then the [work plan](docs/work-plan.md).
+**Prototyping is underway. Whole-tile access and one lake at a time are measured on one laptop, one acquisition per region, and 32 public water bodies. Many lakes per tile is measured on one laptop. Lakes across tiles, AWS performance, and scientific validation remain open. Workflow, platform, and layout remain open.**
+Read the [stage 3 record](docs/reviews/2026-09-15-stage-3-many-lakes-in-one-tile.md), [Codex's stage 3 review](docs/reviews/2026-09-15-codex-stage-3-review.md), and the [stage 2 record](docs/reviews/2026-09-14-stage-2-one-lake-at-a-time.md), then the [work plan](docs/work-plan.md).
 [Decision 0002](docs/decisions/0002-aws-source-pixel-classes-tile-provenance.md) fixes three pixel classes per water body and a tile provenance marker. [Decision 0003](docs/decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) selects Earth Search as the route and the 2021 scenario first. Workflow, platform, and layout remain open. **Cross-tile mosaicking is a MAJOR CONCERN under investigation, issue I-30.**
 
 **Start here:** [Discovery presentation](docs/s2-options.html) explains the data, AWS archives, quality risks, processing work, and real map examples.
-It is written for engineering and business colleagues. Prototyping shows the test cases, the stage 1 access measurements, and the stage 2 extraction measurements. Integration Specs and Tradeoffs & Issues remain placeholders.
+It is written for engineering and business colleagues. Prototyping shows the test cases, the stage 1 access measurements, the stage 2 extraction measurements, and the stage 3 many-lakes measurements. Integration Specs and Tradeoffs & Issues remain placeholders.
 Vercel hosting is prepared but no deployment is recorded, see [docs/vercel-hosting.md](docs/vercel-hosting.md). Locally, open the HTML from disk with its `assets/discovery/` directory beside it.
 The gap surveys are in [docs/measurements.md](docs/measurements.md) and the generated [report](docs/reviews/2026-09-10-gap-survey-report.json).
 
@@ -25,7 +25,7 @@ Non-AWS options are documented for context only. It prototypes the leading optio
 measures cost at 1,000 and 10,000 water bodies for 2017-onward and 2021-onward histories. It ends in technical
 specifications for the engineering team, who build the system.
 
-**Status:** the [data gap and fallback surveys and the stage 1 and 2 measurements](docs/measurements.md), plus the [public pilot manifest](examples/README.md). Every pilot lake has been read one lake at a time with four methods. No workflow, platform, or layout is selected. [docs/work-plan.md](docs/work-plan.md) lists the
+**Status:** the [data gap and fallback surveys and the stage 1 to 3 measurements](docs/measurements.md), plus the [public pilot manifest](examples/README.md). Thirty of the 32 pilot lakes yielded pixels one lake at a time with four methods, and two lay outside their region's tile. Every lake of each tile has been read in one process with three read patterns, stage 3. It was rerun on 2026-09-16 after a reader-cache error found in review. No workflow, platform, or layout is selected. [docs/work-plan.md](docs/work-plan.md) lists the
 steps. [docs/assumptions.md](docs/assumptions.md) lists what is assumed and where each assumption came from.
 
 ## Quick start

@@ -5,7 +5,7 @@ A checked box means the work exists in this repository with evidence.
 
 ## Next session: Phase 2, Prototyping
 
-The public pilot manifest was [reviewed on 2026-09-12](reviews/2026-09-12-pilot-manifest-review.md). Stage 1 raw access ran on 2026-09-14 and stage 2, one lake at a time, on 2026-09-15, both on one laptop and [reviewed by Codex](reviews/2026-09-15-codex-stage-2-review.md). Many lakes per tile, lakes across tiles, AWS performance, and scientific validation remain open.
+The public pilot manifest was [reviewed on 2026-09-12](reviews/2026-09-12-pilot-manifest-review.md). Stage 1 raw access ran on 2026-09-14 and stage 2, one lake at a time, on 2026-09-15, both on one laptop and [reviewed by Codex](reviews/2026-09-15-codex-stage-2-review.md). Stage 3, many lakes per tile, ran on 2026-09-15. [Codex's review](reviews/2026-09-15-codex-stage-3-review.md) found a 512-byte reader cache, and it ran again on 2026-09-16 with the intended cache. Lakes across tiles, AWS performance, and scientific validation remain open.
 Read that review, [measurements](measurements.md), and the [draft contract](data-contract.md) before selecting the first bounded comparison together.
 
 - The public pilot polygons exist since 2026-09-11. Identify the input product used by the existing model.
@@ -142,7 +142,9 @@ Stage 2, one lake at a time. For every pilot size class, extract the pixel class
 
 Stage 3, many lakes in one tile. The same methods, reading every pilot lake in a tile. Per-lake reads against one shared whole-tile read, and lake-by-lake order against tile-by-tile order.
 
-- [ ] Prototyped and measured.
+- [x] Three read patterns, tile and membership rules that place every lake, fixture tests, and declared tolerances, 2026-09-15. [Script](../benchmarks/tile_extraction.py), [record](reviews/2026-09-15-stage-3-many-lakes-in-one-tile.md). [Codex's pre-run review](reviews/2026-09-15-codex-stage-3-prerun-review.md) applied the same day.
+- [x] Measured on the pilot tiles on 2026-09-15, with stage 2 as the baseline: nine tiles, 324 runs. [Result](../benchmarks/results/tile-extraction.json), findings 19 to 22 in [measurements.md](measurements.md).
+- [x] Rerun under the corrected 512 MiB block cache on 2026-09-16, authorized by the owner. [Codex's review](reviews/2026-09-15-codex-stage-3-review.md) had found the run of 2026-09-15 held 512 bytes. Its findings are applied in the [record](reviews/2026-09-15-stage-3-many-lakes-in-one-tile.md), and findings 19 to 22 come from the rerun.
 
 Stage 4, lakes across tiles. Lakes the survey found in two or more tiles. Per-lake reads from every tile against per-tile extraction followed by concatenation. Records keep their tile id and role. Nothing is blended across tiles.
 

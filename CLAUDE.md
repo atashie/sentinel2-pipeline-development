@@ -9,11 +9,12 @@ build the production system. `README.md` is the human overview and the document 
 ## Current phase
 
 Discovery and the gap surveys are complete. The presentation was revised and reviewed on 2026-09-11.
-The [latest review](docs/reviews/2026-09-15-codex-stage-2-review.md) audits stage 2. Its seven findings are applied, dispositions in the [stage 2 record](docs/reviews/2026-09-14-stage-2-one-lake-at-a-time.md).
+The [latest review](docs/reviews/2026-09-15-codex-stage-3-review.md) audits the stage 3 run of 2026-09-15. Its six findings are applied, dispositions in the [stage 3 record](docs/reviews/2026-09-15-stage-3-many-lakes-in-one-tile.md). That run held a 512-byte GDAL block cache by a unit error. The owner authorized a rerun on 2026-09-16 with the intended cache, and its result replaced the first. Codex's [pre-run review](docs/reviews/2026-09-15-codex-stage-3-prerun-review.md) is applied in the same record, and its stage 2 review in the [stage 2 record](docs/reviews/2026-09-14-stage-2-one-lake-at-a-time.md).
 Phase 2, Prototyping, began on 2026-09-11 with the public pilot manifest, [record](docs/reviews/2026-09-11-pilot-manifest.md).
 The owner set the Phase 2 structure on 2026-09-14: four workload stages, then scientific checks, one authorized step per stage. [Record](docs/reviews/2026-09-14-prototype-structure-and-stage-1.md).
-Stage 1 ran on 2026-09-14 and stage 2 on 2026-09-15, findings 13 to 18 in [docs/measurements.md](docs/measurements.md), [stage 2 record](docs/reviews/2026-09-14-stage-2-one-lake-at-a-time.md). Stage 3 is next. Start with [docs/work-plan.md](docs/work-plan.md).
-No processing workflow, compute platform, or storage layout is selected. Prototypes have read whole tiles and one lake at a time, never many lakes or a lake across tiles. Measurements run on the owner's laptop until AWS access exists (assumption A25).
+Stage 1 ran on 2026-09-14 and stage 2 on 2026-09-15, findings 13 to 18 in [docs/measurements.md](docs/measurements.md), [stage 2 record](docs/reviews/2026-09-14-stage-2-one-lake-at-a-time.md).
+Stage 3, many lakes in one tile, ran on 2026-09-15 after Codex's pre-run review and again on 2026-09-16 with the corrected cache. Findings 19 to 22, [stage 3 record](docs/reviews/2026-09-15-stage-3-many-lakes-in-one-tile.md). Codex reviews the rerun next, then stage 4. Start with [docs/work-plan.md](docs/work-plan.md).
+No processing workflow, compute platform, or storage layout is selected. Prototypes have read whole tiles, one lake at a time, and every lake of a tile in one process, never a lake across tiles combined. Measurements run on the owner's laptop until AWS access exists (assumption A25).
 [Decision 0004](docs/decisions/0004-cog-fallback-and-presentation-clarifications.md) consolidates the agreed COG fallback and presentation direction.
 Earlier scope decisions remain active except where explicitly revised.
 
@@ -45,6 +46,7 @@ uv run python tools/gap_report.py              # regenerate the gap survey repor
 uv run python tools/build_pilot_manifest.py    # rebuild the pilot manifest from the saved run, no network
 uv run python benchmarks/raw_access.py --dry-run   # print the stage 1 plan, no network
 uv run python benchmarks/lake_extraction.py --dry-run   # print the stage 2 plan, no network
+uv run python benchmarks/tile_extraction.py --dry-run   # print the stage 3 plan, no network
 uv run python tools/collate_checks.py --check && uv run python tools/render_options.py --check && uv run python tools/gap_report.py --check
 ```
 
@@ -55,7 +57,7 @@ and the Copernicus catalogs, and `benchmarks/fallback_survey.py` adds header-onl
 Neither reads a pixel. Such scripts run only to produce a measurement that a document cites, and only when the user
 invokes them. Requester-pays buckets charge the reader. Record bucket or endpoint, region, and payer in every result.
 `tools/build_pilot_manifest.py --fetch` contacts the USGS hydrography service for polygons only, and runs only when the owner asks.
-`benchmarks/raw_access.py` and `benchmarks/copy_difference.py` read pixels from both public GeoTIFF buckets. `benchmarks/lake_extraction.py` reads lake windows from the Collection 1 bucket. They run only when the user invokes them. `--dry-run` contacts nothing. `--reuse DIR` still queries the catalog, then repeats only what a saved pass did not measure. `--resummarize RESULT` recomputes a summary offline.
+`benchmarks/raw_access.py` and `benchmarks/copy_difference.py` read pixels from both public GeoTIFF buckets. `benchmarks/lake_extraction.py` reads lake windows from the Collection 1 bucket. `benchmarks/tile_extraction.py` reads every lake of a tile, windowed or whole. They run only when the user invokes them. `--dry-run` contacts nothing. `--reuse DIR` still queries the catalog, then repeats only what a saved pass did not measure. `--resummarize RESULT` recomputes a summary offline.
 
 The separate educational map builder, [tools/build_discovery_maps.py](tools/build_discovery_maps.py), reads pixels only with `--download` and explicit authorization.
 The owner authorized one public image crop for the presentation on 2026-09-11. This does not authorize workflow prototypes or additional surveys.
@@ -132,5 +134,6 @@ inventory, or its finding in [docs/measurements.md](docs/measurements.md). Numbe
   `operator` and `source_dataset`, findings F-21 and F-22, probe PR-08.
 - On one product and three bands, the older copy's integer is Collection 1's minus 1,000, clamped to 1, on every pixel checked. The offset is already applied and reflectance at or below zero is lost. Its catalog still declares the offset. Its cloud and snow assets are JPEG 2000 links outside the GeoTIFF benchmark, and its aerosol and water-vapour grids differ. Measurement findings 14 and 15.
 - Small-lake reads usually fit in one internal block per file. 24 of 25 in the pilot took 15 requests and 3 to 4 MB for five files, whatever the pixel count. One lake across a block boundary cost 20 requests. Requests are HTTP requests, not blocks. GDAL's all-touched rasterization and the coverage threshold select differently on a few hundred pixels out of millions. Pixel classes come from exact areas, `src/s2proto/masks.py`, and every distance is measured to the real boundary, never to a tile edge. Measurement findings 16 and 17.
-- Catalog grid codes are not normalised. The same Alaska tile appears as `MGRS-05VMG` and `MGRS-5VMG`. Measurement finding 18.
+- Catalog grid codes are not normalised. The same Alaska tile appears as `MGRS-05VMG` and `MGRS-5VMG`. Measurement finding 18. `benchmarks/tile_extraction.py` normalises them.
+- Reading every lake of a tile in one process cuts the requests by more than half against one process per lake. A block one lake loaded serves the next, and reopening a file per lake forfeits the block cache. A whole-tile read costs many times the windowed bytes at the pilot's density. The lazy stack's per-lake computes on a shared graph re-read whole chunks. `rasterio.Env` takes `GDAL_CACHEMAX` in bytes, and the environment variable takes megabytes. The stage 3 run of 2026-09-15 held a 512-byte cache and was rerun. Measurement findings 19 to 22.
 - The supplied PDF's summary table is truncated in its render. Do not cite the table. Cite the pages it cites.

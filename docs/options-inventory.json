@@ -7386,9 +7386,27 @@
       ],
       "evidence": [
         "benchmarks/results/lake-extraction.json",
-        "docs/measurements.md#16-one-lake-costs-one-block-per-file-whatever-its-size",
-        "docs/measurements.md#17-the-four-methods-returned-identical-values-and-differ-in-cpu-memory-and-what-they-keep",
+        "docs/measurements.md#16-small-lake-reads-usually-fit-within-one-block-per-file-in-this-sample",
+        "docs/measurements.md#17-the-three-mask-methods-returned-identical-values-and-the-methods-differ-in-what-they-keep-and-in-overhead",
         "docs/measurements.md#18-pixel-classes-per-size-class-and-lakes-outside-the-chosen-tile"
+      ]
+    },
+    {
+      "id": "F-25",
+      "title": "Reading every lake of a tile in one process cuts requests by more than half, a whole-tile read costs 6 to 32 times the windowed bytes at the pilot's density, and chunked lazy reads cost 1.6 to 7 times",
+      "text": "Prototype stage 3 read every pilot lake of a tile in one process on 2026-09-16. It used three read patterns and the four methods of stage 2. Nine tiles placed all 32 lakes, 40 lake-tile memberships, 324 runs, none failed. Five tiles were read from the same acquisition as stage 2. There, reading the lakes together cut requests to 24 to 46 percent of one process per lake. Bytes fell to 49 to 87 percent and read time to 24 to 51 percent. Headers are read once per file, and a block one lake loaded served the next. In the seven tiles with a large lake, 21 of the 26 smaller lakes cost no request. Reopening a file per lake forfeits that. One whole-tile read cost 6 to 32 times the windowed bytes at the pilot's three to six lakes per tile. Byte arithmetic puts the crossover at 25 to 150 lakes per tile for this mix, neither a time nor a cost crossover. The lazy stack computing lakes from a shared tile graph, in the tested recipe, read 1.6 to 7 times the windowed bytes. It opened each 10 m file once per chunk. The naive clip's per-scene rasterization took under half a second per large lake, the same order as loading a precomputed mask. All patterns and mask methods returned identical values and pixel sets on 200 lake-bands and matched stage 2 on the 130 comparable ones. A first run on 2026-09-15 held a 512-byte GDAL block cache by a unit error, and this rerun replaced it. Measurement findings 19 to 22 hold the numbers and the exceptions. One acquisition per tile, five files, three repetitions, on the laptop.",
+      "claim_ids": [
+        "cl-wf-mask-once-windowed-read_pattern",
+        "cl-wf-mask-once-windowed-read_pattern-3",
+        "cl-wf-lazy-array-stack-read_pattern",
+        "cl-wf-full-tile-then-mask-read_pattern-2"
+      ],
+      "evidence": [
+        "benchmarks/results/tile-extraction.json",
+        "docs/measurements.md#19-reading-every-lake-of-a-tile-in-one-process-cuts-requests-by-more-than-half",
+        "docs/measurements.md#20-one-whole-tile-read-costs-6-to-32-times-the-bytes-of-the-windowed-reads-at-this-lake-density",
+        "docs/measurements.md#21-the-lazy-stack-on-a-shared-tile-graph-reads-16-to-7-times-the-bytes-and-opens-a-file-once-per-chunk",
+        "docs/measurements.md#22-every-pattern-and-method-agreed-and-per-scene-rasterization-costs-under-half-a-second-per-large-lake"
       ]
     }
   ],
@@ -8035,7 +8053,7 @@
       "id": "I-20",
       "title": "Read cost follows blocks touched, not water bodies",
       "text": "A windowed read moves the bytes a window touches. GDAL's partial download default is 16 KB and its COG creation default is 512 pixel tiles. A lazy stack defaults to 1024 pixel chunks. A whole product is about 800 MB. These are tool defaults, not properties of the delivered assets.",
-      "consequence": "Clustered ponds are expected to share reads. The scale driver is expected to be distinct blocks and dates, assumption A17. Stage 2 measured one lake at a time on 2026-09-15, finding F-24. 24 of 25 small lakes fit within one internal block per file. That is 15 requests and 3 to 4 MB for five files, whatever their pixel count. One lake across a block boundary cost 20 requests. Sharing between neighbouring lakes stays unmeasured until stage 3.",
+      "consequence": "Clustered ponds are expected to share reads. The scale driver is expected to be distinct blocks and dates, assumption A17. Stage 2 measured one lake at a time on 2026-09-15, finding F-24. 24 of 25 small lakes fit within one internal block per file. That is 15 requests and 3 to 4 MB for five files, whatever their pixel count. One lake across a block boundary cost 20 requests. Stage 3 measured many lakes per tile on 2026-09-16, finding F-25. Read together in one process, a tile's lakes cost 24 to 46 percent of the requests of one process per lake. A block one lake loaded served the next, and 21 of 26 smaller lakes in tiles with a large lake cost no request. The pilot's lakes touched 3 to 17 percent of their files' blocks. A whole-tile read cost 6 to 32 times the windowed bytes. Byte arithmetic puts the crossover at 25 to 150 lakes per tile for that mix.",
       "status": "measure",
       "decision": "Prototyping benchmark on the workload matrix.",
       "evidence": [

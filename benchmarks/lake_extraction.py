@@ -622,6 +622,8 @@ def digest_values(values) -> str:
     import numpy as np
 
     contiguous = np.ascontiguousarray(values, dtype="<i8")
+    if contiguous.size == 0:
+        return harness.sha256_bytes(b"")
     return harness.sha256_bytes(memoryview(contiguous).cast("B"))
 
 
@@ -653,6 +655,8 @@ def digest_pixels(rows, cols, classes=None) -> str:
     cols = np.asarray(cols, dtype="<i8")
     classes = np.zeros_like(rows) if classes is None else np.asarray(classes, dtype="<i8")
     stacked = np.ascontiguousarray(np.stack([rows, cols, classes], axis=1))
+    if stacked.size == 0:
+        return harness.sha256_bytes(b"")
     return harness.sha256_bytes(memoryview(stacked).cast("B"))
 
 

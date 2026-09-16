@@ -28,6 +28,15 @@ RESULTS = ROOT / "benchmarks" / "results"
 RAW_ACCESS = [RESULTS / "raw-access.json", RESULTS / "raw-access-older-quality-all.json"]
 COPY_DIFFERENCE = RESULTS / "copy-difference.json"
 LAKE_EXTRACTION = RESULTS / "lake-extraction.json"
+TILE_EXTRACTION = RESULTS / "tile-extraction.json"
+REGION_LABELS = {
+    "tahoe": "Tahoe",
+    "lanier": "Lanier",
+    "okeechobee": "Okeechobee",
+    "grand-st-marys": "Grand Lake St. Marys",
+    "washington": "Washington",
+    "iliamna": "Iliamna",
+}
 METHOD_LABELS = {
     "naive-clip": "Naive clip",
     "raster-mask": "Raster mask",
@@ -298,6 +307,68 @@ def pixel_class_rows(result: dict) -> str:
     return "\n".join(parts)
 
 
+def io_label(requests: int, bytes_requested: int, seconds: float) -> str:
+    return f"{requests} requests · {megabytes_label(bytes_requested)} · {seconds_label(seconds)}"
+
+
+EXCLUDED_RUNS = (
+    ("runs_with_memory_pressure", "under memory pressure"),
+    ("runs_with_errors", "with errors"),
+    ("failed", "failed"),
+    ("stopped_for_memory", "stopped for memory"),
+)
+
+
+def _pattern_cell(row: dict | None) -> str:
+    """Medians of the clean runs. A cell says when runs were left out, or none was clean."""
+    if not row:
+        return "<td>not run</td>"
+    if "read_seconds_median" not in row:
+        left_out = ", ".join(f"{row[k]} {text}" for k, text in EXCLUDED_RUNS if row.get(k))
+        return f"<td>no clean run: {left_out or 'nothing measured'}</td>"
+    label = io_label(
+        row["requests_median"], row["bytes_requested_median"], row["read_seconds_median"]
+    )
+    used, runs = row.get("timings_from_runs"), row.get("runs")
+    if used is not None and runs and used < runs:
+        label += f", {used} of {runs} runs"
+    return f"<td>{label}</td>"
+
+
+def tile_extraction_rows(result: dict) -> str:
+    """One table row per tile from the stage 3 summary: three read patterns beside stage 2."""
+    rows = {
+        (r["tile"], r["pattern"], r["method"]): r
+        for r in result["summary"]["by_tile_pattern_method"]
+    }
+    parts = []
+    for tile in result["summary"]["tiles"]:
+        windowed = rows.get((tile["tile"], "tile-by-tile", "raster-mask"))
+        if not windowed:
+            continue
+        base = windowed.get("baseline_stage_2") or {}
+        with_baseline = base.get("lakes_with_baseline", [])
+        if not base.get("comparable") or not with_baseline:
+            stage_2 = "not read in stage 2"
+        else:
+            stage_2 = io_label(base["requests"], base["bytes_requested"], base["read_seconds"])
+            if len(with_baseline) != tile["lakes"]:
+                stage_2 = f"{len(with_baseline)} of {tile['lakes']} lakes: {stage_2}"
+        partly = tile.get("lakes_partly_inside") or 0
+        lakes = f"{tile['lakes']}" + (f", {partly} partly inside" if partly else "")
+        region = html.escape(REGION_LABELS.get(tile["region"], tile["region"]))
+        cells = [
+            f'<th scope="row">{html.escape(tile["tile"])}, {region}</th>',
+            f"<td>{lakes}</td>",
+            f"<td>{stage_2}</td>",
+            _pattern_cell(windowed),
+            _pattern_cell(rows.get((tile["tile"], "whole-tile", "raster-mask"))),
+            _pattern_cell(rows.get((tile["tile"], "tile-by-tile", "lazy-stack"))),
+        ]
+        parts.append("<tr>" + "".join(cells) + "</tr>")
+    return "\n".join(parts)
+
+
 def machine_label(machine: dict) -> str:
     memory = machine.get("memory_total_bytes") or 0
     return f"{machine['cpu_count']}-core {machine['machine']} laptop, {memory / 1e9:.0f} GB memory"
@@ -317,6 +388,7 @@ def build_html(inventory: Path = INVENTORY) -> str:
     raw_results = [json.loads(path.read_text()) for path in RAW_ACCESS]
     copy_difference = json.loads(COPY_DIFFERENCE.read_text())
     lake_extraction = json.loads(LAKE_EXTRACTION.read_text())
+    tile_extraction = json.loads(TILE_EXTRACTION.read_text())
     for entry in maps["images"].values():
         path = MAPS.parent / entry["file"]
         if hashlib.sha256(path.read_bytes()).hexdigest() != entry["sha256"]:
@@ -364,6 +436,13 @@ def build_html(inventory: Path = INVENTORY) -> str:
         "LAKE_TILES": str(lake_extraction["summary"]["distinct_tiles"]),
         "LAKE_RUNS": f"{len(lake_extraction['runs']):,}",
         "LAKE_DIGEST": hashlib.sha256(LAKE_EXTRACTION.read_bytes()).hexdigest(),
+        "TILE_ROWS": tile_extraction_rows(tile_extraction),
+        "TILE_DATE": html.escape(tile_extraction["measured_at"][:10]),
+        "TILE_MACHINE": html.escape(machine_label(tile_extraction["machine"])),
+        "TILE_LAKES": str(tile_extraction["summary"]["lakes"]),
+        "TILE_TILES": str(tile_extraction["summary"]["distinct_tiles"]),
+        "TILE_RUNS": f"{len(tile_extraction['runs']):,}",
+        "TILE_DIGEST": hashlib.sha256(TILE_EXTRACTION.read_bytes()).hexdigest(),
     }
     rendered = TEMPLATE.read_text()
     for key, value in replacements.items():

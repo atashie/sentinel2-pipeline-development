@@ -832,9 +832,9 @@ footer{display:block}
 <section id="prototyping" role="tabpanel" aria-labelledby="tab-prototyping" hidden>
 <div class="prototype-intro">
 <div class="eyebrow">Prototyping / Partial results</div>
-<h1>Raw access and one lake at a time are timed.<br>Many lakes per tile and lakes across tiles are still ahead.</h1>
-<p>Whole-tile access and per-lake extraction are measured on one laptop, one acquisition per region, and 32 public water bodies. The three mask methods agreed on every pixel value. The naive clip selects differently.</p>
-<p><strong>No lake has been read from more than one tile, and nothing has run beside the data.</strong> Shared reads, cross-tile lakes, cost at scale, AWS performance, and scientific validation remain open.</p>
+<h1>Raw access, one lake at a time, and many lakes per tile are timed.<br>Lakes across tiles are still ahead.</h1>
+<p>Whole-tile access, per-lake extraction, and every lake of a tile in one process are measured on one laptop. One acquisition per tile, 32 public water bodies. The three mask methods agreed on every pixel value in both extraction stages. The naive clip selects differently.</p>
+<p><strong>No lake's records from two tiles have been combined, and nothing has run beside the data.</strong> Cross-tile lakes, dates over a season, cost at scale, AWS performance, and scientific validation remain open.</p>
 </div>
 <div class="needs pilot-counts" aria-label="Pilot manifest counts">
 <div><b data-pilot-count="features">32</b><span>Public water-body polygons</span></div>
@@ -851,11 +851,11 @@ footer{display:block}
 </div></div>
 <div class="risk-grid">
 <article class="risk"><h3>Small ponds</h3>
-<p>The pilot spans 10, 30, 100, 300, 1,000 m size classes, including 5 bodies in the smallest class. We still need to count interior and shoreline pixels.</p>
+<p>The pilot spans 10, 30, 100, 300, 1,000 m size classes, including 5 bodies in the smallest class. Stage 2 counted their pixels. The smallest ponds have no interior pixel at any resolution and still yield shoreline and near-land pixels.</p>
 <p class="response"><b>Why it matters:</b> a mapped pond may have no fully contained satellite pixel. Area alone cannot tell us.</p></article>
 <article class="risk"><h3>Complex shorelines</h3>
 <p>Tahoe, Lanier, Okeechobee, Grand Lake St. Marys, and Washington contribute larger polygons. Lanier adds a particularly detailed boundary.</p>
-<p class="response"><b>Why it matters:</b> shoreline complexity and area can change extraction work. Their effects on runtime have not been measured.</p></article>
+<p class="response"><b>Why it matters:</b> shoreline complexity and area can change extraction work. Stages 2 and 3 timed these polygons. The anchors dominate the bytes and the mask preparation, and complexity is not separated from area.</p></article>
 <article class="risk"><h3>Contrasting settings</h3>
 <p>The six regions include mountain, hill, flat, and lowland settings. Alaska contributes smaller lakes near Iliamna, without the large lake itself.</p>
 <p class="response"><b>Why it matters:</b> these cases support later checks across different conditions. The terrain labels are descriptive, and seasonal imagery has not been tested.</p></article>
@@ -867,7 +867,7 @@ footer{display:block}
 
 <section class="chapter" aria-labelledby="pilot-status">
 <div class="chapter-head"><div class="chapter-num">02 / Findings so far</div><div>
-<h2 id="pilot-status">Extraction is measured for one lake at a time. Validation is open.</h2>
+<h2 id="pilot-status">Extraction is measured for one lake and for many lakes per tile. Validation is open.</h2>
 <p>The remaining work will test correctness alongside resource use. We will develop those comparisons together and add results as evidence arrives.</p>
 </div></div>
 <div class="table-scroll"><table class="plans datasets">
@@ -875,9 +875,9 @@ footer{display:block}
 <thead><tr><th scope="col">Question</th><th scope="col">What we have established</th><th scope="col">Still to test</th></tr></thead>
 <tbody>
 <tr><th scope="row">Can we reproduce the test set?</th><td><span class="tag">Checked locally</span><br>The saved downloads reproduce the committed manifest exactly. All polygons passed a geometry validity check.</td><td>Geometry validity does not establish accurate or current shorelines.</td></tr>
-<tr><th scope="row">Which images cover these bodies?</th><td><span class="tag">Code prepared</span><br>The catalog survey accepts each polygon’s bounding box. Fixture tests cover the new option.</td><td>The survey has not run on this manifest. Exact polygon and buffer coverage still need checking.</td></tr>
-<tr><th scope="row">Do methods preserve the pixel values?</th><td><span class="tag">Measured</span><br>The three mask methods returned identical stored integers on every band of the 30 lakes inside their tiles. The naive clip differs on 29 of 150 comparisons by its selection rule and keeps no near-land pixel.</td><td>Reflectance offsets, differences across overlapping tiles, and quality flags.</td></tr>
-<tr><th scope="row">What will processing cost?</th><td><span class="tag">Partly measured</span><br>Whole-tile reads and one lake at a time are timed below. No method or platform is selected.</td><td>Many lakes per tile, lakes across tiles, dates over a season, and an instance beside the data.</td></tr>
+<tr><th scope="row">Which images cover these bodies?</th><td><span class="tag">Partly measured</span><br>Stage 3 placed every polygon and its 100 m buffer in a tile and read one acquisition per tile. The catalog survey accepts each polygon’s bounding box, with fixture tests.</td><td>The archive survey over all dates has not run on this manifest. Seasonal coverage and cloud-free dates per lake are unchecked.</td></tr>
+<tr><th scope="row">Do methods preserve the pixel values?</th><td><span class="tag">Measured</span><br>Stage 2: the three mask methods returned identical stored integers on every band of the 30 lakes inside their tiles. The naive clip differed on 29 of 150 comparisons by its selection rule. Stage 3: identical on all 200 lake-bands of 40 lake-tile memberships across three read patterns, matching stage 2 on the 130 comparable ones.</td><td>Reflectance offsets, differences across overlapping tiles, and quality flags.</td></tr>
+<tr><th scope="row">What will processing cost?</th><td><span class="tag">Partly measured</span><br>Whole-tile reads, one lake at a time, and many lakes per tile are timed below. No method or platform is selected.</td><td>Lakes across tiles, dates over a season, and an instance beside the data.</td></tr>
 </tbody></table></div>
 <p class="note-line"><strong>Keep the two samples distinct.</strong> Discovery’s archive findings come from the earlier survey of 20 points. They are not results for these 32 polygons. The Discovery satellite maps are educational examples, separate from the processing comparisons.</p>
 <p class="source-note"><b>Evidence:</b> <a href="reviews/2026-09-11-pilot-manifest.md">initial preparation record</a>, <a href="reviews/2026-09-12-pilot-manifest-review.md">independent review and limitations</a>, and <a href="../examples/README.md">manifest format and selection rules</a>. The review records the local checks. Integration specifications and tradeoffs remain open.</p>
@@ -900,7 +900,7 @@ footer{display:block}
 </tbody></table></div>
 <div class="risk-grid">
 <article class="risk"><h3>Fewer, larger requests were faster on this connection</h3>
-<p>For the 10 m, 20 m, and all-band sets, fetching each whole file beat range reads, even though it moved a third more bytes for the overview pyramids. Four requests against sixty-one for the 10 m set. The 60 m sets and the Collection 1 quality layers went the other way by a small margin.</p>
+<p>For the 10 m, 20 m, and all-band sets, fetching each whole file beat range reads. It moved a third more bytes for the overview pyramids. Four requests against sixty-one for the 10 m set. The 60 m sets and the Collection 1 quality layers went the other way by a small margin.</p>
 <p class="response"><b>Why it matters:</b> per-request latency on this connection is one explanation consistent with the timings. The run order and the connection were not controlled, so the cause is not isolated. For small windows, range reads are the only option that avoids the whole file.</p></article>
 <article class="risk"><h3>The two copies are laid out differently</h3>
 <p>Similar volume, same block size, but the older copy's 10 m bands needed about three times as many range requests and took a quarter longer. One of its 20 m bands uses a different block size and overview count from its siblings.</p>
@@ -922,7 +922,7 @@ footer{display:block}
 <tr><th scope="row">aot</th><td colspan="4">different grids, 5,490 × 5,490 against 1,830 × 1,830, not compared</td></tr>
 <tr><th scope="row">wvp</th><td colspan="4">different grids, 5,490 × 5,490 against 10,980 × 10,980, not compared</td></tr>
 </tbody></table></div>
-<p class="note-line"><strong>The copies are the same picture in different units, on this product.</strong> On every compared reflectance file the older copy holds Collection 1's value minus 1,000, the radiometric offset in stored units, with any result at or below the offset clamped to 1. That rule held on every one of 99.8 million pixels checked. Reflectance at or below zero, which occurs over dark water, therefore survives only on Collection 1: 1.7 percent of coastal pixels on this tile. Both catalogs still declare the same offset for both copies, so a reader that trusts the catalog would subtract it twice on the older copy. The scene classification is identical. Aerosol and water vapour sit on a 20 m grid on Collection 1 and on 60 m and 10 m grids on the older copy. One product was checked. Other items and processing versions are stage 5 work.</p>
+<p class="note-line"><strong>The copies are the same picture in different units, on this product.</strong> On every compared reflectance file the older copy holds Collection 1's value minus 1,000, the radiometric offset in stored units. Any result at or below the offset is clamped to 1. That rule held on every one of 99.8 million pixels checked. Reflectance at or below zero, which occurs over dark water, therefore survives only on Collection 1: 1.7 percent of coastal pixels on this tile. Both catalogs still declare the same offset for both copies, so a reader that trusts the catalog would subtract it twice on the older copy. The scene classification is identical. Aerosol and water vapour sit on a 20 m grid on Collection 1 and on 60 m and 10 m grids on the older copy. One product was checked. Other items and processing versions are stage 5 work.</p>
 <p class="source-note"><b>Measured:</b> on 2026-09-14 from a 10-core arm64 laptop, 17 GB memory over the internet, outside the buckets' region. Times include that path and will differ on an instance beside the data. Evidence: <a href="../benchmarks/results/raw-access.json">raw access result</a>, <a href="../benchmarks/results/raw-access-older-quality-all.json">older-copy rerun</a>, and <a href="../benchmarks/results/copy-difference.json">copy difference</a>. Peak memory is the reading process while it holds every band of the set. No polygon or extraction was involved.</p>
 </section>
 
@@ -969,6 +969,39 @@ footer{display:block}
 <p class="note-line"><strong>Ponds in the smallest class have no interior pixel.</strong> All five 10 m ponds have none at any resolution, and at 60 m half of the lakes inside their tiles have none. Every one of them still yields shoreline pixels with a coverage fraction and a ring of near-land pixels. The consumer sees a pond from the counts rather than from a missing record. Preparation took under a tenth of a second for the ponds and under twenty seconds for the largest anchors, once per lake.</p>
 <p class="source-note"><b>Measured:</b> on 2026-09-15 from a 10-core arm64 laptop, 17 GB memory over the internet, outside the bucket's region. Times include that path and will differ on an instance beside the data. Evidence: <a href="../benchmarks/results/lake-extraction.json">lake extraction result</a>. One acquisition per region. Lakes that cross the chosen tile's edge were read inside that tile only, and their share inside is recorded. Lakes across tiles are stage 4.</p>
 </section>
+
+<section class="chapter" aria-labelledby="stage-3">
+<div class="chapter-head"><div class="chapter-num">05 / Stage 3 · Many lakes in one tile</div><div>
+<h2 id="stage-3">Reading every lake of a tile in one pass.</h2>
+<p>32 public water bodies placed in 9 tiles, one Collection 1 acquisition per tile. Every lake of a tile was read in one process, three ways. Lake by lake reopens each file per lake. File by file reads every lake's window from the open file. A whole-tile read pulls each file entirely and extracts every lake from memory. Each way ran with the four methods of stage 2, three times, 324 runs. A first run held a 512-byte reader cache by a unit error, found in review. These numbers are from the rerun with the intended 512 MB cache.</p>
+</div></div>
+<div class="table-scroll"><table class="plans datasets">
+<caption class="small">Per tile, five files, raster mask method, medians of the repetitions without errors or memory pressure, three unless a cell says otherwise. Requests and bytes are what the reader asked for. Time is the per-file read time. The stage 2 column sums the per-lake medians of the same lakes read alone, one process each, from the same acquisition. The lazy stack column computes each lake's window from one graph on the whole tile.</caption>
+<thead><tr><th scope="col">Tile</th><th scope="col">Lakes</th><th scope="col">One process per lake, stage 2</th><th scope="col">Every lake, one process</th><th scope="col">One whole-tile read</th><th scope="col">Lazy stack on a shared tile graph</th></tr></thead>
+<tbody>
+<tr><th scope="row">05VLG, Iliamna</th><td>3</td><td>not read in stage 2</td><td>26 requests · 6.7 MB · 3.3 s</td><td>19 requests · 57 MB · 7.2 s</td><td>43 requests · 19 MB · 5.1 s</td></tr>
+<tr><th scope="row">05VMG, Iliamna</th><td>4, 1 partly inside</td><td>65 requests · 14 MB · 8.9 s</td><td>30 requests · 11 MB · 4.2 s</td><td>50 requests · 362 MB · 35 s</td><td>55 requests · 63 MB · 9.1 s</td></tr>
+<tr><th scope="row">10SGJ, Tahoe</th><td>6</td><td>112 requests · 61 MB · 17 s</td><td>51 requests · 52 MB · 8.7 s</td><td>45 requests · 327 MB · 33 s</td><td>109 requests · 167 MB · 30 s</td></tr>
+<tr><th scope="row">10TET, Washington</th><td>6</td><td>100 requests · 30 MB · 13 s</td><td>34 requests · 18 MB · 4.4 s</td><td>54 requests · 393 MB · 37 s</td><td>89 requests · 130 MB · 21 s</td></tr>
+<tr><th scope="row">16SGD, Lanier</th><td>4, 1 partly inside</td><td>not read in stage 2</td><td>36 requests · 48 MB · 7.4 s</td><td>54 requests · 396 MB · 37 s</td><td>79 requests · 101 MB · 11 s</td></tr>
+<tr><th scope="row">16TGK, Grand Lake St. Marys</th><td>5</td><td>79 requests · 27 MB · 11 s</td><td>19 requests · 13 MB · 2.8 s</td><td>54 requests · 394 MB · 38 s</td><td>71 requests · 93 MB · 13 s</td></tr>
+<tr><th scope="row">17RNK, Okeechobee</th><td>5, 1 partly inside</td><td>108 requests · 71 MB · 19 s</td><td>48 requests · 59 MB · 8.8 s</td><td>49 requests · 352 MB · 34 s</td><td>107 requests · 119 MB · 14 s</td></tr>
+<tr><th scope="row">17RNL, Okeechobee</th><td>4, 1 partly inside</td><td>not read in stage 2</td><td>33 requests · 44 MB · 6.4 s</td><td>48 requests · 330 MB · 32 s</td><td>61 requests · 69 MB · 8.9 s</td></tr>
+<tr><th scope="row">17SKT, Lanier</th><td>3, 1 partly inside</td><td>not read in stage 2</td><td>20 requests · 22 MB · 3.4 s</td><td>54 requests · 410 MB · 38 s</td><td>53 requests · 74 MB · 8.9 s</td></tr>
+</tbody></table></div>
+<div class="risk-grid">
+<article class="risk"><h3>Reading a tile's lakes together cuts requests by more than half</h3>
+<p>Five tiles were read from the same acquisition as stage 2. There, requests fell to 24 to 46 percent, bytes to 49 to 87 percent, and read time to 24 to 51 percent. A lake read alone pays a size probe and a header read per file. Read together, the headers are read once, and a block one lake loaded serves the next. In the seven tiles with a large lake, 21 of the 26 smaller lakes cost no request at all. Reading lake by lake instead of file by file reopens each file and drops its cached blocks. That cost 2 to 9 MB and up to 3 seconds more per tile.</p>
+<p class="response"><b>Why it matters:</b> the cost of many lakes in one tile is the distinct blocks they touch plus one set of headers. It is not a per-lake constant. The pilot's lakes touched 3 to 17 percent of their files' blocks.</p></article>
+<article class="risk"><h3>A whole-tile read moves 6 to 32 times the bytes at this density</h3>
+<p>On eight tiles, reading the five files whole cost 327 to 410 MB and 32 to 38 seconds. The same lakes' windows cost 12 to 59 MB and 3 to 9 seconds. The ninth tile is 82 percent no-data and cost 57 MB whole against 6.7 MB windowed. Once the tile is in memory, picking every lake out of it takes under a quarter of a second. Dividing the whole-tile bytes by a tile's windowed bytes per lake gives 25 to 150 lakes per tile. That is byte arithmetic from these medians for this lake mix. It is neither a time nor a cost crossover.</p>
+<p class="response"><b>Why it matters:</b> by bytes, a whole-tile read pays off only where a tile holds far more water bodies than the pilot's three to six. Tiles with a few lakes are cheaper by windows. The crossover rises further where lakes share blocks, as most did here.</p></article>
+<article class="risk"><h3>Chunked lazy reads cost more in the tested recipe, and clipping per scene is cheap</h3>
+<p>The lazy stack computing each lake from a shared whole-tile graph read whole 2,048-pixel chunks per lake and kept no decoded chunk between lakes. In that recipe, four threads and one compute per lake, it read 1.6 to 7 times the bytes of the windowed reads. Computing the whole tile through it opened each 10 m file 36 times, once per chunk. It still finished faster than the plain whole read on eight of nine tiles. Four threads fetching at once is the likely reason, not isolated here. The naive clip rasterizes each polygon per scene. With the intended cache that took under half a second per large lake, the same order as loading a precomputed mask. The first run's mis-set cache had made it look far slower, and that figure was withdrawn.</p>
+<p class="response"><b>Why it matters:</b> a lazy stack needs tuning before it is a fair option: chunk size, retained chunks, or one compute per tile. Precomputed masks buy the coverage fraction and the near-land pixels, not time, at one scene per lake. All three mask methods and all three read patterns returned identical values on every lake and band. They matched stage 2 wherever the acquisition was the same.</p></article>
+</div>
+<p class="source-note"><b>Measured:</b> on 2026-09-16 from a 10-core arm64 laptop, 17 GB memory over the internet, outside the bucket's region. Times include that path and will differ on an instance beside the data. Evidence: <a href="../benchmarks/results/tile-extraction.json">tile extraction result</a>, the rerun of 2026-09-16 with a 512 MB block cache. The first run of 2026-09-15 held 512 bytes by a unit error found in review, and its result is kept outside the repository. One acquisition per tile. Lakes that cross a tile's edge were read inside each tile they touch, apart. Combining such records is stage 4.</p>
+</section>
 </section>
 <section class="future" id="integration" role="tabpanel" aria-labelledby="tab-integration" hidden>
 <div class="eyebrow">Integration Specs / To come</div>
@@ -986,11 +1019,11 @@ footer{display:block}
 <p>Discovery is readable without JavaScript. Enable JavaScript to switch phases or change the map views.</p></noscript>
 </main>
 <footer class="wrap">
-<p>Sentinel-2 assessment · Discovery &amp; partial Prototyping · Updated 2026-09-15</p>
+<p>Sentinel-2 assessment · Discovery &amp; partial Prototyping · Updated 2026-09-16</p>
 <p><a href="../README.md">Project documentation</a> · <a href="assets/discovery/provenance.json">Imagery attribution &amp; provenance</a>
 </p>
 </footer>
-<!-- Generated from inventory dd143d979043e0cd81dd6db614eca70a150f5aba2565d625593fc8cd5244fc73, survey 1bef1b922583c008e46e03bbfe8f30fa35ce9dfbdd61a4cf322428ccf2f04f27, maps b116403250a1d8f969e8369b3135f8a911c3f72ee53732734592c6a6bbac178d, pilot 9447c4b03ea0e4c04fd335c818993795bf84f82fe92af224e4ffdbebe882c177, raw access 40d50cd958062991fed9a3865e54990b3e486bbb2d8e433ceeb339bbd3cd6094, 36045dee373b5ea711710ea22c6fe8a212e03672b75b9bf47e76fda81bb507d4, copy difference d0091d1d36275c355d786de3d53a33f94f22689260d064f943ca3d8e81ead71e, lake extraction 186ef5505154cce0735216579cafd9d683ab0d75f9f5d2fe934da5ad56fc2d0a. -->
+<!-- Generated from inventory 4dca941543c0ad21bfa59a821325064e9e1abfc8d9e02ccaf6b1b48c73643cca, survey 1bef1b922583c008e46e03bbfe8f30fa35ce9dfbdd61a4cf322428ccf2f04f27, maps b116403250a1d8f969e8369b3135f8a911c3f72ee53732734592c6a6bbac178d, pilot 9447c4b03ea0e4c04fd335c818993795bf84f82fe92af224e4ffdbebe882c177, raw access 40d50cd958062991fed9a3865e54990b3e486bbb2d8e433ceeb339bbd3cd6094, 36045dee373b5ea711710ea22c6fe8a212e03672b75b9bf47e76fda81bb507d4, copy difference d0091d1d36275c355d786de3d53a33f94f22689260d064f943ca3d8e81ead71e, lake extraction 186ef5505154cce0735216579cafd9d683ab0d75f9f5d2fe934da5ad56fc2d0a, tile extraction e951d1662156d978016cb0cd649493c6e645c22e6b99d150b7468e6b99f11aa2. -->
 <script>
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 function activate(id, focus = false) {

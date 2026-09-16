@@ -8,6 +8,9 @@ The latest handoff records subsequent corrections and resolved wording.
 
 | Date | Review | Reviewer |
 |---|---|---|
+| 2026-09-15 | [Stage 3 run audit: verified coverage and comparisons, cache units, partial safeguards, and presentation corrections](2026-09-15-codex-stage-3-review.md) | Codex, with separate primary-source research and checking |
+| 2026-09-15 | [Stage 3 pre-run audit: baseline comparison, completeness, lazy-reader accounting, membership, and execution order](2026-09-15-codex-stage-3-prerun-review.md) | Codex, with separate source research and checking |
+| 2026-09-15 | [Stage 3, many lakes in one tile: rules, three read patterns, stage 2 as the baseline, the run of 2026-09-15, Codex's review, and the rerun of 2026-09-16 with the corrected cache, findings 19 to 22](2026-09-15-stage-3-many-lakes-in-one-tile.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-09-15 | [Stage 2 audit: shoreline distances, pixel-selection interpretation, block costs, reuse, and presentation limits](2026-09-15-codex-stage-2-review.md) | Codex, with separate primary-source research and checking |
 | 2026-09-14 | [Stage 2, one lake at a time: exact pixel classes, four extraction methods, declared tolerances, the run of 2026-09-15, findings 16 to 18](2026-09-14-stage-2-one-lake-at-a-time.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-09-14 | [Stage 1 evidence audit, interpretation corrections, and safeguards for later runs](2026-09-14-codex-stage-1-review.md) | Codex, with separate primary-source research and checking |
