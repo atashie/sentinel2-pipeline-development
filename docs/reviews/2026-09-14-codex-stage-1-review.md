@@ -161,7 +161,7 @@ Additional corrections:
 Both raw-access summaries recompute exactly from their saved runs.
 The original pass contains 48 successful and 12 failed runs. The rerun supplies twelve successful replacement runs.
 Each successful copy and asset has one decoded digest across its groups, modes, and repetitions.
-All twelve reflectance bands differ between copies. Scene classification agrees. Aerosol and water vapour use different grids in the sampled copies.
+All twelve reflectance bands differ between copies. Scene classification agrees. Aerosol and water vapor use different grids in the sampled copies.
 
 For Collection 1's 10 m bands, the medians are 56.123 seconds with range reads and 44.153 seconds with whole-object reads.
 The request counts are 61 and 4. These numbers accurately describe this laptop sample.

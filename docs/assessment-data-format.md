@@ -9,7 +9,7 @@ Schema version 2 replaces version 1 on 2026-09-09. It adds the `offset_delivery`
 | Key | Meaning |
 |---|---|
 | `schema_version` | Integer. Consumers must inspect it before reading |
-| `assessed_on` | ISO date of the latest assessment pass. Null before discovery |
+| `assessed_on` | ISO date of the baseline specification assessment. Later source checks and measurements carry their own dates. Null before discovery |
 | `selection` | Open selection status and the governing decision |
 | `scope` | Pointer to the canonical assumptions document |
 | `missing_value_policy` | What null means and what it does not mean |
@@ -128,16 +128,17 @@ To change a bound claim, change its check record and rerun collation. Hand edits
 5. Review the rendered HTML and the source records supporting changed narrative claims.
 
 The renderer uses the standard library and performs no network access.
-An HTML comment records SHA-256 digests for the inventory, survey report, and map provenance. The internal dataset is not embedded.
+An HTML comment records input digests for the inventory, survey, map provenance, pilot manifest, and prototype results. The internal dataset is not embedded.
 
 ## Rendered page
 
 Edit the narrative, diagrams, styles, and interactions in [s2-options.template.html](../tools/s2-options.template.html).
-The four tabs are Discovery, Prototyping, Integration Specs, and Tradeoffs & Issues. Only Discovery is populated.
+The four tabs are Discovery, Prototyping, Integration Specs, and Tradeoffs & Issues. Discovery and partial Prototyping are populated. Integration Specs and Tradeoffs & Issues remain placeholders.
 Discovery covers the sensors, AWS archives, quality risks, processing workload, and real satellite examples.
 Internal issue IDs, decision catalogs, and exhaustive specifications remain in repository documents.
 
 The renderer fills markers in the template. Survey counts and the monthly coverage strip come from the generated gap report. The risk and cost bullets are the `plain` line of every issue, placed by a mapping in the renderer, which fails if an issue is unplaced. Map facts come from the provenance record, and image digests are validated against it.
+Prototype tables read the saved Stage 1 to 4 results. Stage 4 headline ratios use complete-workload medians.
 The page uses local JavaScript for accessible tabs and paired map selectors. It opens from disk and makes no external request.
 Keep [assets/discovery/](assets/discovery/) beside the HTML when sharing it.
 

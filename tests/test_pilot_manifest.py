@@ -22,7 +22,7 @@ README = ROOT / "examples" / "README.md"
 
 
 def square(lon, lat, side_m):
-    """Closed ring of a square with the given side, centred on lon and lat."""
+    """Closed ring of a square with the given side, centered on lon and lat."""
     dlat = side_m / 2 / (bpm.EARTH_RADIUS_M * math.pi / 180)
     dlon = dlat / math.cos(math.radians(lat))
     return [
@@ -335,7 +335,7 @@ def test_pilot_carries_a_body_the_survey_measured_in_two_tiles():
     assert two_tile, "no large pilot body sits at a survey site with two or more tiles"
 
 
-def test_ten_metre_class_is_present_for_the_no_interior_pixel_case():
+def test_ten_meter_class_is_present_for_the_no_interior_pixel_case():
     manifest = json.loads(MANIFEST.read_text())
     tiny = [f for f in manifest["features"] if f["properties"]["size_class_m"] == 10]
     assert tiny

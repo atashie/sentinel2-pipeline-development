@@ -25,7 +25,7 @@ Alternatives include one row per pixel per band and arrays per water body. The f
 | Location | `row`, `col` | Pixel indices within the tile at that resolution |
 | Location | `pixel_class` | `interior`, `shoreline`, or `near_land`, assumption A20. Computed once per tile and resolution from the polygon |
 | Location | `coverage_fraction` | Fraction of the pixel area inside the polygon, 0 to 1 |
-| Location | `edge_distance_m` | Distance from the pixel centre to the polygon edge, negative inside the polygon. Context for the modeling team, issue I-02 |
+| Location | `edge_distance_m` | Distance from the pixel center to the polygon edge, negative inside the polygon. Context for the modeling team, issue I-02 |
 | Value | `band` | Band name at native resolution. Practice P3 |
 | Value | `dn` | Stored integer as delivered by the route |
 | Value | `scale`, `offset` | Conversion to reflectance in one convention: reflectance = `dn` × `scale` + `offset`. From ESA product metadata, `scale` = 1 / `QUANTIFICATION_VALUE` and `offset` = `BOA_ADD_OFFSET` / `QUANTIFICATION_VALUE`. From catalog metadata, the published `raster:bands` scale and offset. Practice P8 |
@@ -56,6 +56,14 @@ Quality layers have their own grids. Their association with band pixels needs an
 
 The query interface accepts a water-body subset, a period, a band subset, a resolution, and an as-of cutoff. It returns records with provenance, quality, accounting, and freshness.
 No query path contacts a provider. Serving reads local storage only.
+
+## Questions for the next contract revision
+
+Discussion added 2026-09-16, pending a versioned contract revision. No fields or query semantics are adopted here.
+[Stage 4 finding 23](measurements.md#23-tile-geometry-product-identity-and-band-validity-need-separate-accounting) exposes per-band no-data and distinct datastrips within one tile and datatake.
+Which asset no-data definitions and validity masks accompany stored band values?
+How will native quality grids be associated with band pixels without replacing each band's own validity state?
+How will revision identity preserve separate datastrips, while primary-tile choices remain tied to polygon versions?
 
 ## Not in the contract
 

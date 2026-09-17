@@ -3,7 +3,7 @@
 Edit s2-options.template.html for the narrative and layout. The renderer fills the markers:
 survey counts and the monthly coverage strip from the gap survey report, the risk and cost
 bullets from the inventory's plain-language lines, map facts from the provenance record,
-pilot counts from the manifest, and the input digests.
+pilot counts from the manifest, prototype tables from saved results, and the input digests.
 """
 
 from __future__ import annotations
@@ -29,6 +29,7 @@ RAW_ACCESS = [RESULTS / "raw-access.json", RESULTS / "raw-access-older-quality-a
 COPY_DIFFERENCE = RESULTS / "copy-difference.json"
 LAKE_EXTRACTION = RESULTS / "lake-extraction.json"
 TILE_EXTRACTION = RESULTS / "tile-extraction.json"
+CROSS_TILE_EXTRACTION = RESULTS / "cross-tile-extraction.json"
 REGION_LABELS = {
     "tahoe": "Tahoe",
     "lanier": "Lanier",
@@ -99,7 +100,7 @@ def risk_block(issues: dict[str, dict], ids: list[str]) -> str:
 
 
 def shade(fraction: float) -> str:
-    """Grey at nothing present, teal at everything present."""
+    """Gray at nothing present, teal at everything present."""
     low, high = (228, 232, 227), (22, 104, 100)
     f = max(0.0, min(1.0, fraction))
     r, g, b = (round(a + (b - a) * f) for a, b in zip(low, high, strict=True))
@@ -107,7 +108,7 @@ def shade(fraction: float) -> str:
 
 
 def coverage_strip(rows: list[dict]) -> str:
-    """Two rows of monthly cells: Collection 1 alone, then with the older collection added."""
+    """Two rows of monthly cells: the Collection 1 copy alone, then with the older copy added."""
     cell, left, top, height, gap = 10, 150, 16, 22, 6
     width = left + len(rows) * cell + 8
     total = top + 2 * (height + gap) + 20
@@ -118,7 +119,8 @@ def coverage_strip(rows: list[dict]) -> str:
     parts = [
         f'<svg viewBox="0 0 {width} {total}" role="img" aria-labelledby="coverage-title">',
         '<title id="coverage-title">Monthly share of expected observations present across '
-        "the surveyed tiles, from Collection 1 alone and with the older collection added.</title>",
+        "the surveyed tiles, from the Collection 1 copy alone and with the older copy added."
+        "</title>",
     ]
     for j, (label, count) in enumerate(series):
         y = top + j * (height + gap)
@@ -349,7 +351,7 @@ def tile_extraction_rows(result: dict) -> str:
         base = windowed.get("baseline_stage_2") or {}
         with_baseline = base.get("lakes_with_baseline", [])
         if not base.get("comparable") or not with_baseline:
-            stage_2 = "not read in stage 2"
+            stage_2 = "not read in Stage 2"
         else:
             stage_2 = io_label(base["requests"], base["bytes_requested"], base["read_seconds"])
             if len(with_baseline) != tile["lakes"]:
@@ -371,7 +373,77 @@ def tile_extraction_rows(result: dict) -> str:
 
 def machine_label(machine: dict) -> str:
     memory = machine.get("memory_total_bytes") or 0
-    return f"{machine['cpu_count']}-core {machine['machine']} laptop, {memory / 1e9:.0f} GB memory"
+    return (
+        f"{machine['cpu_count']}-core {machine['machine']} laptop, {memory / 2**30:.1f} GiB memory"
+    )
+
+
+def cross_tile_rows(result: dict) -> str:
+    """Whole-workload medians and ranges from clean repetitions, never per-worker averages."""
+    rows = {(r["path"], r["method"]): r for r in result["summary"]["medians"]}
+    parts = []
+    for method in ("raster-mask", "lazy-stack"):
+        for path, label in (("lake-first", "Lake first"), ("tile-first", "Tile first")):
+            row = rows.get((path, method))
+            times = [
+                w["end_to_end_seconds"]
+                for w in result["summary"]["workloads"]
+                if (w["path"], w["method"]) == (path, method) and w["clean"]
+            ]
+            cells = f'<th scope="row">{label}</th><td>{METHOD_LABELS[method]}</td>'
+            if not row or not times or not row.get("clean_repetitions"):
+                cells += '<td colspan="4">No clean complete repetition</td>'
+            else:
+                cells += (
+                    f"<td>{row['wall_seconds']:.2f} s"
+                    f'<br><span class="small">{min(times):.2f}–{max(times):.2f} s</span></td>'
+                    f"<td>{row['requests']:,}</td><td>{row['bytes_requested'] / 1e6:.2f} MB</td>"
+                    f"<td>{row['clean_repetitions']} included"
+                    f", {row['excluded_repetitions']} excluded</td>"
+                )
+            parts.append("<tr>" + cells + "</tr>")
+    return "\n".join(parts)
+
+
+def cross_tile_markers(result: dict) -> dict[str, str]:
+    """Headline numbers refer to this frozen experiment and its complete reference workload."""
+    summary = result["summary"]
+    if not summary["complete"] or not summary["equal"]:
+        raise ValueError("Cross-tile narrative requires complete, equal contributions")
+    rows = {(r["path"], r["method"]): r for r in summary["medians"]}
+    lake = rows[("lake-first", "raster-mask")]
+    tile = rows[("tile-first", "raster-mask")]
+    lazy_ratio = (
+        rows[("tile-first", "lazy-stack")]["bytes_requested"]
+        / rows[("lake-first", "lazy-stack")]["bytes_requested"]
+    )
+    reference = [
+        c
+        for run in result["runs"]
+        if (run["path"], run["method"], run["repetition"]) == ("lake-first", "raster-mask", 1)
+        for c in run["contributions"]
+    ]
+    markers = {
+        "CROSS_ROWS": cross_tile_rows(result),
+        "CROSS_DATE": html.escape(result["measured_at"][:10]),
+        "CROSS_MACHINE": html.escape(machine_label(result["machine"])),
+        "CROSS_RUNS": str(len(result["runs"])),
+        "CROSS_EXPECTED": str(summary["expected_contributions_per_workload"]),
+        "CROSS_NODATA": f"{sum(c['nodata_extracted'] for c in reference):,}",
+        "CROSS_PIXELS": f"{sum(c['pixels_extracted'] for c in reference):,}",
+        "CROSS_LAZY_BYTES": f"{lazy_ratio:.2f}",
+    }
+    for key in ("lakes", "tiles", "acquisitions", "memberships"):
+        markers[f"CROSS_{key.upper()}"] = str(summary[key])
+    metrics = (("REQUESTS", "requests"), ("BYTES", "bytes_requested"), ("TIME", "wall_seconds"))
+    for key, metric in metrics:
+        markers[f"CROSS_SAVED_{key}"] = f"{100 * (1 - tile[metric] / lake[metric]):.1f}"
+    for region, anchor in (("lanier", "nhd-34974901"), ("okeechobee", "nhd-120024129")):
+        coverage = result["plan"]["selection"][region]["coverage"][anchor]
+        markers[f"CROSS_{region.upper()}_OVERLAP"] = (
+            f"{100 * coverage['support_overlap_m2'] / coverage['support_area_m2']:.2f}"
+        )
+    return markers
 
 
 def build_html(inventory: Path = INVENTORY) -> str:
@@ -389,6 +461,7 @@ def build_html(inventory: Path = INVENTORY) -> str:
     copy_difference = json.loads(COPY_DIFFERENCE.read_text())
     lake_extraction = json.loads(LAKE_EXTRACTION.read_text())
     tile_extraction = json.loads(TILE_EXTRACTION.read_text())
+    cross_tile_extraction = json.loads(CROSS_TILE_EXTRACTION.read_text())
     for entry in maps["images"].values():
         path = MAPS.parent / entry["file"]
         if hashlib.sha256(path.read_bytes()).hexdigest() != entry["sha256"]:
@@ -443,6 +516,8 @@ def build_html(inventory: Path = INVENTORY) -> str:
         "TILE_TILES": str(tile_extraction["summary"]["distinct_tiles"]),
         "TILE_RUNS": f"{len(tile_extraction['runs']):,}",
         "TILE_DIGEST": hashlib.sha256(TILE_EXTRACTION.read_bytes()).hexdigest(),
+        "CROSS_DIGEST": hashlib.sha256(CROSS_TILE_EXTRACTION.read_bytes()).hexdigest(),
+        **cross_tile_markers(cross_tile_extraction),
     }
     rendered = TEMPLATE.read_text()
     for key, value in replacements.items():

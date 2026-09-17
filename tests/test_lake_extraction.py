@@ -291,7 +291,7 @@ def test_four_methods_extract_identical_values(fixture_scene, tmp_path, lake_id)
         assert (band["digest_all"] != reference[band["key"]]["digest_wet"]) == differs
         assert band["counts"]["naive"] == counts["naive"]
         assert band["output_bytes"] == counts["naive"] * lake_extraction.NAIVE_RECORD_BYTES
-    # GDAL's all-touched rasterization marks a neighbour of the tiny pond it does not touch.
+    # GDAL's all-touched rasterization marks a neighbor of the tiny pond it does not touch.
     assert (differences > 0) == (lake_id == "lake-b")
     # The reference values are the fixture pixels at the mask's classified positions.
     mask = masks.load_mask(Path(spec["mask_paths"]["10"]))

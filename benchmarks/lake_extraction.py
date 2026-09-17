@@ -108,7 +108,7 @@ METHOD_NOTES = {
     ),
 }
 IMPLEMENTATION = {"script": 2, "masks": masks.MASK_VERSION}
-"""Bumped when a worker's behaviour changes. Saved results from another version are not reused."""
+"""Bumped when a worker's behavior changes. Saved results from another version are not reused."""
 MASK_PARAMETERS = {
     "near_land_m": masks.NEAR_LAND_M,
     "tolerance": masks.FRACTION_TOLERANCE,

@@ -11,6 +11,12 @@ Scripts that produce evidence. Each writes one JSON file to `results/`. The file
 | [lake_extraction.py](lake_extraction.py) | Earth Search STAC API for one Collection 1 item per pilot region. Then range reads of lake windows from the public bucket, one lake at a time, with four methods. Unsigned, no credentials | `results/lake-extraction.json`, saved items, masks, index lists, worker specs, GDAL logs, and per-run results under `data/lake-extraction/` | The user invokes it. Stage 2 of [../docs/work-plan.md](../docs/work-plan.md), run on 2026-09-15. `--dry-run` prints the plan and contacts nothing. `--reuse DIR` queries the catalog, then keeps the masks and runs a saved pass measured, bound to their inputs. `--resummarize RESULT` recomputes the summary from the saved runs and contacts nothing |
 | [tile_extraction.py](tile_extraction.py) | Earth Search STAC API for the Collection 1 tiles and items that place every pilot lake. Then range reads of every lake of a tile, windowed or whole, with three read patterns and the stage 2 methods. Unsigned, no credentials | `results/tile-extraction.json`, saved items, masks, index lists, worker specs, GDAL logs, and per-run results under `data/tile-extraction/` | The user invokes it. Stage 3 of [../docs/work-plan.md](../docs/work-plan.md), run on 2026-09-15 with a 512-byte block cache by a unit error and rerun on 2026-09-16 with 512 MiB. The result is the rerun's. `--dry-run` prints the plan and contacts nothing. `--reuse DIR` and `--resummarize RESULT` work as for stage 2. The stage 2 result is its baseline |
 
+Stage 4 is implemented in [cross_tile_extraction.py](cross_tile_extraction.py).
+The [full run](../docs/reviews/2026-09-16-stage-4-full-run.md) completed and was reviewed.
+The [response](../docs/reviews/2026-09-16-codex-stage-4-review-response.md) updates future selection and qualifies the interpretation. The recorded run stays frozen.
+It compares lake-first and tile-first extraction with separate native tile records.
+The [implementation record](../docs/reviews/2026-09-16-stage-4-implementation.md) owns its commands, input rules, resource limits, and verification.
+
 `gap-survey-sites.json` lists the public water bodies the gap survey used as points on 2026-09-10, with the reason for each. The [pilot manifest](../examples/water-bodies-public-pilot.geojson) anchors its regions on these sites, and the survey takes either file.
 
 Prototype scripts share the measurement harness in [../src/s2proto/harness.py](../src/s2proto/harness.py). Until AWS access exists they run on the owner's laptop over the internet, assumption A25 in [../docs/assumptions.md](../docs/assumptions.md).
@@ -18,7 +24,7 @@ Pixel classes come from [../src/s2proto/masks.py](../src/s2proto/masks.py): exac
 
 `workloads.json` declares the workload matrix for the [work plan](../docs/work-plan.md). Its water-body counts are assumption A6 and its history starts are assumption A10 in [../docs/assumptions.md](../docs/assumptions.md).
 
-The scale driver is expected to be distinct tile-dates read, not water-body count (assumption A17, unmeasured). Every result reports both.
+Every result reports water-body counts and distinct tile-dates. [Assumption A17](../docs/assumptions.md) records the scaling hypothesis and its partial evidence.
 
 ## Rules
 

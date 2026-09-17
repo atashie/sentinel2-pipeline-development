@@ -420,7 +420,7 @@ def main(argv=None) -> int:
             "partial_cog": "Some GeoTIFF assets in that bucket, but not the full set.",
             "jp2_only": "Only JPEG 2000 assets, which point into the Sinergise bucket.",
             "uncovered": "No older-collection item for the acquisition.",
-            "fallback_full_cog": "Best item also has aerosol and water vapour as GeoTIFFs.",
+            "fallback_full_cog": "Best item also has aerosol and water vapor as GeoTIFFs.",
             "reflectance_bands": REFLECTANCE_BANDS,
             "head_sample": "Per tile and month, the first complete_cog item's scene classification "
             "and red band objects, HEAD without credentials.",

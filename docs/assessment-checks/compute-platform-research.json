@@ -470,7 +470,7 @@
       "id": "cl-cp-batch-containers-idempotency-2",
       "candidate": "cp-batch-containers",
       "field": "idempotency",
-      "value": "Cancelled, terminated, and invalid-definition jobs are not retried",
+      "value": "Canceled, terminated, and invalid-definition jobs are not retried",
       "unit": null,
       "note": "Named failure scenarios that a retry strategy does cover are any non-zero exit code from a container job, Amazon EC2 instance failure or termination, and an internal AWS service error or outage.",
       "source_ids": [
@@ -898,7 +898,7 @@
       "field": "orchestrator_dependency",
       "value": "Sentinel Hub BatchV2 is an asynchronous service writing to your bucket",
       "unit": null,
-      "note": "The page documents task statuses CREATED, ANALYSING, ANALYSIS_DONE, PROCESSING, DONE, FAILED, and STOPPED, and user actions ANALYSE, START, and STOP. The service divides the area of interest into tiles from a predefined tiling grid and processes each tile separately. No external scheduler is named.",
+      "note": "The page documents task statuses CREATED, ANALYZING, ANALYSIS_DONE, PROCESSING, DONE, FAILED, and STOPPED, and user actions ANALYZE, START, and STOP. The service divides the area of interest into tiles from a predefined tiling grid and processes each tile separately. No external scheduler is named.",
       "source_ids": [
         "src-sentinel-hub-batchv2"
       ],
@@ -996,7 +996,7 @@
       "field": "unit_price",
       "value": "2 credits fixed startup and storage cost per openEO batch job",
       "unit": "credits per batch job",
-      "note": "Credits, not currency. The worked example on the page charges a 10-hectare Sentinel-2 job 3.9 credits for 3.64 GB-hours, 2.3 credits for 1.4 CPU-hours, and 2 credits fixed, totalling 8.2 credits, with conversion factors dated March 2026.",
+      "note": "Credits, not currency. The worked example on the page charges a 10-hectare Sentinel-2 job 3.9 credits for 3.64 GB-hours, 2.3 credits for 1.4 CPU-hours, and 2 credits fixed, totaling 8.2 credits, with conversion factors dated March 2026.",
       "source_ids": [
         "src-cdse-openeo-credits"
       ],
@@ -1040,7 +1040,7 @@
     },
     "cp-batch-containers": {
       "questions_answered": [
-        "How a unit of work is retried: a retry strategy of 1 to 10 attempts, with up to 6 evaluateOnExit conditions. Cancelled, terminated, and invalid-definition jobs are not retried. See the two idempotency claims.",
+        "How a unit of work is retried: a retry strategy of 1 to 10 attempts, with up to 6 evaluateOnExit conditions. Canceled, terminated, and invalid-definition jobs are not retried. See the two idempotency claims.",
         "Cost per compute hour: AWS Batch adds no charge. Fargate is billed per vCPU second and per GB second. See the unit_price claims."
       ],
       "questions_open": [
@@ -1078,7 +1078,7 @@
       ],
       "questions_open": [
         "The Amazon EMR Serverless worked example does not name a Region, unlike the EMR on EC2 and EMR on EKS examples on the same page. The Region behind the $0.052624 per vCPU-hour and $0.0057785 per GB-hour rates is unsettled.",
-        "The RasterFrames documentation site is labelled version 0.9.1 and its release date was not stated on the page read. Whether the project is currently maintained was not established from a primary page.",
+        "The RasterFrames documentation site is labeled version 0.9.1 and its release date was not stated on the page read. Whether the project is currently maintained was not established from a primary page.",
         "Whether Apache Sedona reads only the byte ranges needed for a polygon window from a Cloud Optimized GeoTIFF was not settled by the raster tutorial page read."
       ],
       "observations": [

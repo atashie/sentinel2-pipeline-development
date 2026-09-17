@@ -442,7 +442,7 @@
       "verdict": "confirmed",
       "approved_value": "Free, full and open Copernicus Sentinel data terms",
       "approved_unit": null,
-      "approved_note": "The registry and the Sinergise readme both link the Copernicus Sentinel data terms. The Legal Notice requires the notice 'Copernicus Sentinel data [Year]' when data are distributed, and 'Contains modified Copernicus Sentinel data [Year]' when modified. AWS Requester Pays terms are a separate access condition, not a data licence.",
+      "approved_note": "The registry and the Sinergise readme both link the Copernicus Sentinel data terms. The Legal Notice requires the notice 'Copernicus Sentinel data [Year]' when data are distributed, and 'Contains modified Copernicus Sentinel data [Year]' when modified. AWS Requester Pays terms are a separate access condition, not a data license.",
       "source_ids": [
         "src-sentinel-legal-notice",
         "src-aws-registry-s2"
@@ -463,7 +463,7 @@
         "src-cdse-stac-doc"
       ],
       "quote": "Sentinel-2 Level 2A Surface Reflectance Overview Sentinel-2 Level 1C Top of Atmosphere (TOA) Overview Sentinel-2 Level 1B Overview Sentinel-2 Level 3 Quarterly Mosaics",
-      "reason": "The Sentinel-2 documentation page's 'On this page' navigation gives the quote verbatim (Level 1B, 1C, 2A, Level 3 Quarterly Mosaics). The STAC catalogue documentation page separately lists Sentinel-2 GRI L1C, Global Mosaics, Level-1C and Level-2A collections, matching the note.",
+      "reason": "The Sentinel-2 documentation page's 'On this page' navigation gives the quote verbatim (Level 1B, 1C, 2A, Level 3 Quarterly Mosaics). The STAC catalog documentation page separately lists Sentinel-2 GRI L1C, Global Mosaics, Level-1C and Level-2A collections, matching the note.",
       "checked_on": "2026-09-09"
     },
     {
@@ -526,14 +526,14 @@
       "id": "chk-cl-ar-cdse-discovery_mechanism",
       "claim_id": "cl-ar-cdse-discovery_mechanism",
       "verdict": "confirmed",
-      "approved_value": "STAC API and OData catalogue, plus catalog subscriptions",
+      "approved_value": "STAC API and OData catalog, plus catalog subscriptions",
       "approved_unit": null,
       "approved_note": "STAC endpoint https://stac.dataspace.copernicus.eu/v1/. The legacy endpoint under catalogue.dataspace.copernicus.eu/stac is deprecated from 17 November 2025. The documentation menu also lists Catalog subscriptions and a Traceability API.",
       "source_ids": [
         "src-cdse-stac-doc"
       ],
       "quote": "It is important to note that the STAC catalogue does not replace the existing CDSE Open Data Protocol (Odata) catalogue but serves as a complementary resource, expanding data discovery and accessibility options.",
-      "reason": "The STAC product catalogue documentation page gives the quote verbatim in its first paragraph.",
+      "reason": "The STAC product catalog documentation page gives the quote verbatim in its first paragraph.",
       "checked_on": "2026-09-09"
     },
     {
@@ -596,9 +596,9 @@
       "id": "chk-cl-ar-cdse-offset_delivery",
       "claim_id": "cl-ar-cdse-offset_delivery",
       "verdict": "confirmed",
-      "approved_value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalogue",
+      "approved_value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalog",
       "approved_unit": null,
-      "approved_note": "The catalogue publishes scale 0.0001 and offset -0.1 per band asset. The asset files are the original SAFE JPEG 2000 files, so the reader applies both.",
+      "approved_note": "The catalog publishes scale 0.0001 and offset -0.1 per band asset. The asset files are the original SAFE JPEG 2000 files, so the reader applies both.",
       "source_ids": [
         "src-cdse-stac-collection"
       ],
@@ -610,7 +610,7 @@
       "id": "chk-cl-ar-cdse-offset_delivery-2",
       "claim_id": "cl-ar-cdse-offset_delivery-2",
       "verdict": "confirmed",
-      "approved_value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalogue",
+      "approved_value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalog",
       "approved_unit": null,
       "approved_note": "Second half of the same asset record.",
       "source_ids": [
@@ -668,7 +668,7 @@
       "verdict": "confirmed",
       "approved_value": "Copernicus Sentinel data free, full and open. Portal content non-commercial",
       "approved_unit": null,
-      "approved_note": "Data licence and platform terms are separate. The data licence is the Legal Notice on the use of Copernicus Sentinel Data. The portal terms restrict other portal content to non-commercial use and withhold the right to resell or redistribute portal material.",
+      "approved_note": "Data license and platform terms are separate. The data license is the Legal Notice on the use of Copernicus Sentinel Data. The portal terms restrict other portal content to non-commercial use and withhold the right to resell or redistribute portal material.",
       "source_ids": [
         "src-cdse-terms",
         "src-sentinel-legal-notice"
@@ -1033,7 +1033,7 @@
       "verdict": "confirmed",
       "approved_value": "Copernicus Sentinel Data Terms and Conditions, plus Earth Engine terms",
       "approved_unit": null,
-      "approved_note": "Data licence and platform terms are separate. The dataset page names the Copernicus Sentinel data terms as the data licence. The Earth Engine Terms of Service govern platform use and separate non-commercial from commercial use.",
+      "approved_note": "Data license and platform terms are separate. The dataset page names the Copernicus Sentinel data terms as the data license. The Earth Engine Terms of Service govern platform use and separate non-commercial from commercial use.",
       "source_ids": [
         "src-gee-s2-sr-harmonized",
         "src-gee-terms"
@@ -1203,7 +1203,7 @@
       "verdict": "confirmed",
       "approved_value": "Free access under EU law. Attribution to Sentinel Hub required",
       "approved_unit": null,
-      "approved_note": "Data licence and platform terms are separate. The data licence is the Copernicus Sentinel data licence. The page also states the acknowledgment string and that tracing based on Sentinel imagery is allowed for commercial purposes. Subscription terms are a separate condition.",
+      "approved_note": "Data license and platform terms are separate. The data license is the Copernicus Sentinel data license. The page also states the acknowledgment string and that tracing based on Sentinel imagery is allowed for commercial purposes. Subscription terms are a separate condition.",
       "source_ids": [
         "src-sh-s2-l2a"
       ],
@@ -1373,7 +1373,7 @@
       "verdict": "confirmed",
       "approved_value": "CC0-1.0 in the CMR-STAC collection record",
       "approved_unit": null,
-      "approved_note": "Data licence and platform terms are separate. The catalog page adds that the dataset is openly shared without restriction under the EOSDIS Data Use and Citation Guidance. Access to the protected bucket needs an Earthdata Login account.",
+      "approved_note": "Data license and platform terms are separate. The catalog page adds that the dataset is openly shared without restriction under the EOSDIS Data Use and Citation Guidance. Access to the protected bucket needs an Earthdata Login account.",
       "source_ids": [
         "src-cmr-stac-hlss30"
       ],
@@ -1515,13 +1515,13 @@
       "verdict": "confirmed",
       "approved_value": "Copernicus Sentinel-2 data, stored per tile as in the original product specification",
       "approved_unit": null,
-      "approved_note": "The bucket holds per-tile files, not SAFE packages. The registry says new data arrive within hours of availability on Copernicus OpenHub. No page read names the producing organisation or calls the bucket a mirror.",
+      "approved_note": "The bucket holds per-tile files, not SAFE packages. The registry says new data arrive within hours of availability on Copernicus OpenHub. No page read names the producing organization or calls the bucket a mirror.",
       "source_ids": [
         "src-roda-s2-l2a",
         "src-aws-registry-s2"
       ],
       "quote": "DATA - data for each tile are organised as in original product S2 MSI Product Specification.",
-      "reason": "Fetched https://roda.sentinel-hub.com/sentinel-s2-l2a/readme.html fresh with curl (4817 bytes, matching the researcher's recorded size). The 'Data structure' section gives the quote verbatim, describing per-tile file layout rather than SAFE packages. The readme names no operator or owner of the bucket anywhere: its 'Contact' section only points to the Sentinel Hub forum, and its 'License' section only links the Copernicus terms and an 'AWS Public Datasets' tag; neither names an operating organisation. The registry page's Update Frequency section gives 'usually within few hours after they are available on Copernicus OpenHub', matching the note.",
+      "reason": "Fetched https://roda.sentinel-hub.com/sentinel-s2-l2a/readme.html fresh with curl (4817 bytes, matching the researcher's recorded size). The 'Data structure' section gives the quote verbatim, describing per-tile file layout rather than SAFE packages. The readme names no operator or owner of the bucket anywhere: its 'Contact' section only points to the Sentinel Hub forum, and its 'License' section only links the Copernicus terms and an 'AWS Public Datasets' tag; neither names an operating organization. The registry page's Update Frequency section gives 'usually within few hours after they are available on Copernicus OpenHub', matching the note.",
       "checked_on": "2026-09-11"
     }
   ],
@@ -1538,6 +1538,6 @@
     "Two claim pairs describe genuinely conflicting sources rather than checker uncertainty: the AWS registry (no-sign-request) versus the Sinergise readme (Requester Pays) for the sentinel-s2-l2a bucket, and the Sentinel Hub L2A page's own Basic Facts table (October 2016) versus its Endpoint Locations table (November 2016) for the European coverage start. Both sides of each conflict were independently fetched and read; see the corresponding check records' reasons for which source states which fact.",
     "No claim in this dimension required a corrected or not_verifiable verdict: every cited quote was found verbatim (whitespace and, in one case, HTML-entity decoding aside) on its cited page or in its cited JSON/PDF, and every value, unit and note follows from the quoted text.",
     "Two of the seven newly checked draft claims (both operator claims) rest on a registry page's 'Managed By' section, which names who manages the registry entry, not who owns or operates the underlying S3 bucket; a case-insensitive search of both registry.opendata.aws/sentinel-2-l2a-cogs/ and registry.opendata.aws/sentinel-2/ for the word 'owner' found no match on either page, so bucket ownership stays unstated by these sources for both routes.",
-    "The Sinergise readme at roda.sentinel-hub.com/sentinel-s2-l2a/readme.html names no operator for the sentinel-s2-l2a bucket; it gives only a Sentinel Hub forum contact and a Copernicus/AWS Public Datasets license line, so the source_dataset claim's producing organisation rests on the registry page's Copernicus OpenHub reference, not on an explicit operator statement."
+    "The Sinergise readme at roda.sentinel-hub.com/sentinel-s2-l2a/readme.html names no operator for the sentinel-s2-l2a bucket; it gives only a Sentinel Hub forum contact and a Copernicus/AWS Public Datasets license line, so the source_dataset claim's producing organization rests on the registry page's Copernicus OpenHub reference, not on an explicit operator statement."
   ]
 }

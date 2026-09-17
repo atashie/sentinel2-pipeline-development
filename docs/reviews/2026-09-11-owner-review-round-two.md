@@ -11,14 +11,14 @@ Implementer: Claude Code (AI coding agent), directed by the repository owner. Sc
 | "Fill for 2022, if we fill it" | "Use for backfill only" |
 | Explain the history table's columns and use consistent names | Columns are now "Version ESA used at the time" and "Version ESA reprocessed to later". A names line under the archive table defines Collection 1 copy, older copy, JPEG 2000 original, and processing version. "Newer copy", "older collection", "older archive", "baselines", and "current archive" are gone from the page. The coverage strip's row labels changed in the renderer |
 | Larger text in the section 03 figures | Font sizes in the three drawings rose from 10.5 to 12 points to 14 to 16 points. The cards now sit two per row and each drawing fills its card, so the drawings render about 60 percent larger. Legend and caption text grew one point. Two labels moved to avoid a collision |
-| Prominent, colour-coded effort bars with technical dropdowns | Bars are three times wider, labelled in 14-point bold, green for low, orange for medium, red for high, dashed grey for depends. Each of the five steps has a "Technical detail" dropdown with three or four bullets: reprojection, buffering, rasterization with coverage fractions, catalog queries, windowed range reads at native resolution, one conversion convention, append-only keyed writes, and the storage candidates to compare |
+| Prominent, color-coded effort bars with technical dropdowns | Bars are three times wider, labeled in 14-point bold, green for low, orange for medium, red for high, dashed gray for depends. Each of the five steps has a "Technical detail" dropdown with three or four bullets: reprojection, buffering, rasterization with coverage fractions, catalog queries, windowed range reads at native resolution, one conversion convention, append-only keyed writes, and the storage candidates to compare |
 | Make the stored record clear | The record is now one row per pixel per observation, on the grid the pixel belongs to. The caption explains why a row belongs to one grid and gives a worked count. The card shows one 10 m shoreline pixel with position, class, coverage, the four bands, scale and offset with their source, quality codes, and provenance. Level-2A has 12 bands, corrected from 13 |
 
 ## Follow-up the same day
 
 The owner asked to drop the third drawing in section 03, "Keep every processing version." It is removed. The two remaining drawings, shoreline classes and tile overlap, keep the larger layout. The versioning rule itself stays on the page in the risk card on processing changes and in the workload section.
 
-The owner also found the shoreline drawing wrong: a cell the edge crossed was coloured as land. The drawing's cells are now classed from the edge path itself, by rasterizing it and taking each cell's water fraction. Interior is a full cell, shoreline is any crossed cell, nearby land is the rest. The result is 7 interior, 15 shoreline, and 38 land cells, with the edge drawn on top.
+The owner also found the shoreline drawing wrong: a cell the edge crossed was colored as land. The drawing's cells are now classed from the edge path itself, by rasterizing it and taking each cell's water fraction. Interior is a full cell, shoreline is any crossed cell, nearby land is the rest. The result is 7 interior, 15 shoreline, and 38 land cells, with the edge drawn on top.
 
 ## The two column names, answered
 
@@ -39,7 +39,7 @@ The technical dropdowns describe analyses, not a chosen workflow. They name no o
 | The three `--check` tools | Inventory, page, and report match their inputs |
 | Name scan | No "newer copy", "older collection", "older archive", "baselines", or "current archive" left on the page |
 | Sentence audit | No sentence over 25 words, no semicolon, no "should" |
-| Headless Chromium, 1440 px, dropdowns forced open | The archive table with links, the enlarged drawings, the colour-coded effort bars with their technical detail, and the record card render |
+| Headless Chromium, 1440 px, dropdowns forced open | The archive table with links, the enlarged drawings, the color-coded effort bars with their technical detail, and the record card render |
 
 ## Limits
 

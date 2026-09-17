@@ -4362,7 +4362,7 @@
       ]
      }
     ],
-    "agent_proposal": "A1 as a labelled provisional fill keyed by baseline after the pixel check, with A2 as the standing rule."
+    "agent_proposal": "A1 as a labeled provisional fill keyed by baseline after the pixel check, with A2 as the standing rule."
    },
    {
     "id": "B",
@@ -4444,7 +4444,7 @@
   ]
  },
  "open_questions": [
-  "Why tile 05VLG and possibly its neighbours are absent from every Earth Search collection before June 2025.",
+  "Why tile 05VLG and possibly its neighbors are absent from every Earth Search collection before June 2025.",
   "Why 15 single acquisitions in 2022 have no Level-2A item on the route while ESA lists them.",
   "Why Collection 1 lists 30 acquisitions that the Copernicus catalog no longer lists.",
   "Whether the offset flag or the raster:bands offset describes the pixels of 04.00 items in the older collection.",

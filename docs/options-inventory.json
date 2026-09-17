@@ -6,9 +6,9 @@
     "decision": "decisions/0004-cog-fallback-and-presentation-clarifications.md",
     "note": "Earth Search is the access route: Collection 1 GeoTIFF assets first, the older collection's GeoTIFF assets as fallback. The 2021 scenario is prototyped first. The data gap survey ran on 2026-09-10. Workflow, compute platform, and storage layout remain open. Cross-tile mosaicking is a MAJOR CONCERN under investigation. Options marked context are not compared for selection.",
     "next": [
-      "Agree the first bounded prototype comparison and public pilot together.",
-      "Use early experiments to test offset handling, cross-tile differences, processing effort, and candidate record layouts.",
-      "Resolve fill policy, processing-version comparability, missing quality layers, and Alaska scope using prototype evidence and model requirements."
+      "Review the presentation of Stages 1 to 4, then agree the next bounded scientific comparison.",
+      "Resolve primary-tile roles, per-band validity, and quality-grid association using model requirements and matched-location evidence.",
+      "Test fallback offsets, seasonal reliability, AWS performance, and storage layouts in separately authorized steps."
     ]
   },
   "scope": {
@@ -57,7 +57,7 @@
       "id": "operator",
       "label": "Operator",
       "group": "access",
-      "definition": "Who runs the route: the organisation the registry or documentation names as managing it",
+      "definition": "Who runs the route: the organization the registry or documentation names as managing it",
       "unit": null,
       "applies_to": [
         "access_route"
@@ -199,7 +199,7 @@
       "id": "scaling_water_bodies",
       "label": "Scaling with water bodies",
       "group": "scale",
-      "definition": "Documented or reasoned cost behaviour as water-body count grows",
+      "definition": "Documented or reasoned cost behavior as water-body count grows",
       "unit": null,
       "applies_to": [
         "processing_workflow",
@@ -211,7 +211,7 @@
       "id": "scaling_history",
       "label": "Scaling with history",
       "group": "scale",
-      "definition": "Cost behaviour as history length grows",
+      "definition": "Cost behavior as history length grows",
       "unit": null,
       "applies_to": [
         "processing_workflow",
@@ -1382,7 +1382,7 @@
       "field": "license",
       "value": "Free, full and open Copernicus Sentinel data terms",
       "unit": null,
-      "note": "The registry and the Sinergise readme both link the Copernicus Sentinel data terms. The Legal Notice requires the notice 'Copernicus Sentinel data [Year]' when data are distributed, and 'Contains modified Copernicus Sentinel data [Year]' when modified. AWS Requester Pays terms are a separate access condition, not a data licence.",
+      "note": "The registry and the Sinergise readme both link the Copernicus Sentinel data terms. The Legal Notice requires the notice 'Copernicus Sentinel data [Year]' when data are distributed, and 'Contains modified Copernicus Sentinel data [Year]' when modified. AWS Requester Pays terms are a separate access condition, not a data license.",
       "status": "documented",
       "source_ids": [
         "src-sentinel-legal-notice",
@@ -1543,7 +1543,7 @@
       "field": "source_dataset",
       "value": "Copernicus Sentinel-2 data, stored per tile as in the original product specification",
       "unit": null,
-      "note": "The bucket holds per-tile files, not SAFE packages. The registry says new data arrive within hours of availability on Copernicus OpenHub. No page read names the producing organisation or calls the bucket a mirror.",
+      "note": "The bucket holds per-tile files, not SAFE packages. The registry says new data arrive within hours of availability on Copernicus OpenHub. No page read names the producing organization or calls the bucket a mirror.",
       "status": "documented",
       "source_ids": [
         "src-roda-s2-l2a",
@@ -1623,7 +1623,7 @@
       "id": "cl-ar-cdse-discovery_mechanism",
       "candidate": "ar-cdse",
       "field": "discovery_mechanism",
-      "value": "STAC API and OData catalogue, plus catalog subscriptions",
+      "value": "STAC API and OData catalog, plus catalog subscriptions",
       "unit": null,
       "note": "STAC endpoint https://stac.dataspace.copernicus.eu/v1/. The legacy endpoint under catalogue.dataspace.copernicus.eu/stac is deprecated from 17 November 2025. The documentation menu also lists Catalog subscriptions and a Traceability API.",
       "status": "documented",
@@ -1673,7 +1673,7 @@
       "field": "license",
       "value": "Copernicus Sentinel data free, full and open. Portal content non-commercial",
       "unit": null,
-      "note": "Data licence and platform terms are separate. The data licence is the Legal Notice on the use of Copernicus Sentinel Data. The portal terms restrict other portal content to non-commercial use and withhold the right to resell or redistribute portal material.",
+      "note": "Data license and platform terms are separate. The data license is the Legal Notice on the use of Copernicus Sentinel Data. The portal terms restrict other portal content to non-commercial use and withhold the right to resell or redistribute portal material.",
       "status": "documented",
       "source_ids": [
         "src-cdse-terms",
@@ -1704,9 +1704,9 @@
       "id": "cl-ar-cdse-offset_delivery",
       "candidate": "ar-cdse",
       "field": "offset_delivery",
-      "value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalogue",
+      "value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalog",
       "unit": null,
-      "note": "The catalogue publishes scale 0.0001 and offset -0.1 per band asset. The asset files are the original SAFE JPEG 2000 files, so the reader applies both.",
+      "note": "The catalog publishes scale 0.0001 and offset -0.1 per band asset. The asset files are the original SAFE JPEG 2000 files, so the reader applies both.",
       "status": "documented",
       "source_ids": [
         "src-cdse-stac-collection"
@@ -1720,7 +1720,7 @@
       "id": "cl-ar-cdse-offset_delivery-2",
       "candidate": "ar-cdse",
       "field": "offset_delivery",
-      "value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalogue",
+      "value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalog",
       "unit": null,
       "note": "Second half of the same asset record.",
       "status": "documented",
@@ -2275,7 +2275,7 @@
       "field": "license",
       "value": "Copernicus Sentinel Data Terms and Conditions, plus Earth Engine terms",
       "unit": null,
-      "note": "Data licence and platform terms are separate. The dataset page names the Copernicus Sentinel data terms as the data licence. The Earth Engine Terms of Service govern platform use and separate non-commercial from commercial use.",
+      "note": "Data license and platform terms are separate. The dataset page names the Copernicus Sentinel data terms as the data license. The Earth Engine Terms of Service govern platform use and separate non-commercial from commercial use.",
       "status": "documented",
       "source_ids": [
         "src-gee-s2-sr-harmonized",
@@ -2486,7 +2486,7 @@
       "field": "license",
       "value": "CC0-1.0 in the CMR-STAC collection record",
       "unit": null,
-      "note": "Data licence and platform terms are separate. The catalog page adds that the dataset is openly shared without restriction under the EOSDIS Data Use and Citation Guidance. Access to the protected bucket needs an Earthdata Login account.",
+      "note": "Data license and platform terms are separate. The catalog page adds that the dataset is openly shared without restriction under the EOSDIS Data Use and Citation Guidance. Access to the protected bucket needs an Earthdata Login account.",
       "status": "documented",
       "source_ids": [
         "src-cmr-stac-hlss30"
@@ -2903,7 +2903,7 @@
       "field": "license",
       "value": "Free access under EU law. Attribution to Sentinel Hub required",
       "unit": null,
-      "note": "Data licence and platform terms are separate. The data licence is the Copernicus Sentinel data licence. The page also states the acknowledgment string and that tracing based on Sentinel imagery is allowed for commercial purposes. Subscription terms are a separate condition.",
+      "note": "Data license and platform terms are separate. The data license is the Copernicus Sentinel data license. The page also states the acknowledgment string and that tracing based on Sentinel imagery is allowed for commercial purposes. Subscription terms are a separate condition.",
       "status": "documented",
       "source_ids": [
         "src-sh-s2-l2a"
@@ -3060,7 +3060,7 @@
       "id": "cl-cp-batch-containers-idempotency-2",
       "candidate": "cp-batch-containers",
       "field": "idempotency",
-      "value": "Cancelled, terminated, and invalid-definition jobs are not retried",
+      "value": "Canceled, terminated, and invalid-definition jobs are not retried",
       "unit": null,
       "note": "Named failure scenarios that a retry strategy does cover are any non-zero exit code from a container job, Amazon EC2 instance failure or termination, and an internal AWS service error or outage.",
       "status": "documented",
@@ -3428,7 +3428,7 @@
       "field": "orchestrator_dependency",
       "value": "Sentinel Hub BatchV2 is an asynchronous service writing to your bucket",
       "unit": null,
-      "note": "The page documents task statuses CREATED, ANALYSING, ANALYSIS_DONE, PROCESSING, DONE, FAILED, and STOPPED, and user actions ANALYSE, START, and STOP. The service divides the area of interest into tiles from a predefined tiling grid and processes each tile separately. No external scheduler is named.",
+      "note": "The page documents task statuses CREATED, ANALYZING, ANALYSIS_DONE, PROCESSING, DONE, FAILED, and STOPPED, and user actions ANALYZE, START, and STOP. The service divides the area of interest into tiles from a predefined tiling grid and processes each tile separately. No external scheduler is named.",
       "status": "documented",
       "source_ids": [
         "src-sentinel-hub-batchv2"
@@ -3556,7 +3556,7 @@
       "field": "unit_price",
       "value": "2 credits fixed startup and storage cost per openEO batch job",
       "unit": "credits per batch job",
-      "note": "Credits, not currency. The worked example on the page charges a 10-hectare Sentinel-2 job 3.9 credits for 3.64 GB-hours, 2.3 credits for 1.4 CPU-hours, and 2 credits fixed, totalling 8.2 credits, with conversion factors dated March 2026.",
+      "note": "Credits, not currency. The worked example on the page charges a 10-hectare Sentinel-2 job 3.9 credits for 3.64 GB-hours, 2.3 credits for 1.4 CPU-hours, and 2 credits fixed, totaling 8.2 credits, with conversion factors dated March 2026.",
       "status": "documented",
       "source_ids": [
         "src-cdse-openeo-credits"
@@ -4226,7 +4226,7 @@
       "field": "idempotency",
       "value": "Each metadata change is committed by an atomic operation",
       "unit": null,
-      "note": "The spec does not standardise which atomic operation. On AWS the swap is the catalog check-and-put.",
+      "note": "The spec does not standardize which atomic operation. On AWS the swap is the catalog check-and-put.",
       "status": "documented",
       "source_ids": [
         "src-iceberg-spec"
@@ -4516,7 +4516,7 @@
       "field": "idempotency",
       "value": "Concurrent PUTs to one key: latest timestamp wins",
       "unit": null,
-      "note": "Two writers of the same object key are not serialised. A rerun that writes the same key twice is safe only if the bytes are identical.",
+      "note": "Two writers of the same object key are not serialized. A rerun that writes the same key twice is safe only if the bytes are identical.",
       "status": "documented",
       "source_ids": [
         "src-aws-s3-welcome"
@@ -4662,7 +4662,7 @@
       "field": "unit_price",
       "value": "5.00",
       "unit": "USD per TB scanned",
-      "note": "Amazon Athena SQL queries, US East (N. Virginia). Bytes scanned are rounded up to the nearest megabyte with a 10 MB minimum per query. DDL statements and failed queries are not charged. Cancelled queries are charged for bytes scanned. Query results are billed at standard S3 rates. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "note": "Amazon Athena SQL queries, US East (N. Virginia). Bytes scanned are rounded up to the nearest megabyte with a 10 MB minimum per query. DDL statements and failed queries are not charged. Canceled queries are charged for bytes scanned. Query results are billed at standard S3 rates. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
       "status": "documented",
       "source_ids": [
         "src-aws-pricemap-athena",
@@ -4741,7 +4741,7 @@
       "id": "cl-sl-zarr-icechunk-format-3",
       "candidate": "sl-zarr-icechunk",
       "field": "format",
-      "value": "Uninitialised array regions need no stored chunk",
+      "value": "Uninitialized array regions need no stored chunk",
       "unit": null,
       "note": "This is the closest documented statement about sparse coverage. It sits in the non-normative Implementation Notes and describes resizing, not general sparse writes.",
       "status": "documented",
@@ -5029,7 +5029,7 @@
       "id": "cl-wf-chip-archive-orchestrator_dependency",
       "candidate": "wf-chip-archive",
       "field": "orchestrator_dependency",
-      "value": "No scheduler named; work parallelises per window in one process",
+      "value": "No scheduler named; work parallelizes per window in one process",
       "unit": null,
       "note": "Tool: rasterio. Cutting one chip is an independent unit with a declared input and output.",
       "status": "documented",
@@ -5383,7 +5383,7 @@
         "cl-wf-full-tile-then-mask-idempotency",
         "cl-wf-full-tile-then-mask-resampling_policy"
       ],
-      "reasoning": "Reader behaviour matches the windowed design while the tile copies add storage lifecycle, partial-download detection, and retry handling."
+      "reasoning": "Reader behavior matches the windowed design while the tile copies add storage lifecycle, partial-download detection, and retry handling."
     },
     {
       "id": "cl-wf-full-tile-then-mask-geolocation_handling",
@@ -5437,7 +5437,7 @@
       "id": "cl-wf-full-tile-then-mask-orchestrator_dependency",
       "candidate": "wf-full-tile-then-mask",
       "field": "orchestrator_dependency",
-      "value": "No scheduler named; work parallelises per window in one process",
+      "value": "No scheduler named; work parallelizes per window in one process",
       "unit": null,
       "note": "Tool: rasterio. Fetching a tile is an independent unit with a declared input and output.",
       "status": "documented",
@@ -5487,7 +5487,7 @@
       "field": "read_pattern",
       "value": "Transfer unit is a tile of about 110 km by 110 km",
       "unit": null,
-      "note": "Tool: none. Provider page. Tiles overlap by design, so neighbouring tiles repeat ground area and repeat transfer.",
+      "note": "Tool: none. Provider page. Tiles overlap by design, so neighboring tiles repeat ground area and repeat transfer.",
       "status": "documented",
       "source_ids": [
         "src-cdse-sentinel2"
@@ -5503,7 +5503,7 @@
       "field": "resampling_policy",
       "value": "Native resolution unless the caller asks for a different array size",
       "unit": null,
-      "note": "Tool: rasterio. Same reader behaviour as the windowed design.",
+      "note": "Tool: rasterio. Same reader behavior as the windowed design.",
       "status": "documented",
       "source_ids": [
         "src-rasterio-resampling"
@@ -5658,7 +5658,7 @@
       "field": "offset_handling",
       "value": "odc-stac currently ignores raster:bands scale and offset",
       "unit": null,
-      "note": "Tool: odc-stac. The two libraries disagree on this default, so the same catalogue yields different numbers.",
+      "note": "Tool: odc-stac. The two libraries disagree on this default, so the same catalog yields different numbers.",
       "status": "documented",
       "source_ids": [
         "src-odc-stac-best-practice"
@@ -5800,9 +5800,9 @@
       "id": "cl-wf-lazy-array-stack-resampling_policy-2",
       "candidate": "wf-lazy-array-stack",
       "field": "resampling_policy",
-      "value": "stackstac resampling defaults to nearest neighbour",
+      "value": "stackstac resampling defaults to nearest neighbor",
       "unit": null,
-      "note": "Tool: stackstac. Nearest neighbour keeps categorical layers such as a scene classification usable, but the grid still changes.",
+      "note": "Tool: stackstac. Nearest neighbor keeps categorical layers such as a scene classification usable, but the grid still changes.",
       "status": "documented",
       "source_ids": [
         "src-stackstac-stack"
@@ -5877,7 +5877,7 @@
       "field": "geolocation_handling",
       "value": "Native geotransform kept; window_transform() gives the window affine",
       "unit": null,
-      "note": "Tool: rasterio. Each tile file is opened on its own, so no cross-tile grid is imposed. Tile overlap handling is a design choice, not a tool behaviour.",
+      "note": "Tool: rasterio. Each tile file is opened on its own, so no cross-tile grid is imposed. Tile overlap handling is a design choice, not a tool behavior.",
       "status": "documented",
       "source_ids": [
         "src-rasterio-windowed"
@@ -5891,9 +5891,9 @@
       "id": "cl-wf-mask-once-windowed-geolocation_handling-2",
       "candidate": "wf-mask-once-windowed",
       "field": "geolocation_handling",
-      "value": "Rasterization uses pixel centres unless ALL_TOUCHED is enabled",
+      "value": "Rasterization uses pixel centers unless ALL_TOUCHED is enabled",
       "unit": null,
-      "note": "Tool: GDAL gdal_rasterize. Bears on practice P1 and assumption A7: a pond smaller than a cell may contain no pixel centre and rasterize to nothing.",
+      "note": "Tool: GDAL gdal_rasterize. Bears on practice P1 and assumption A7: a pond smaller than a cell may contain no pixel center and rasterize to nothing.",
       "status": "documented",
       "source_ids": [
         "src-gdal-rasterize"
@@ -5956,7 +5956,7 @@
       "id": "cl-wf-mask-once-windowed-orchestrator_dependency",
       "candidate": "wf-mask-once-windowed",
       "field": "orchestrator_dependency",
-      "value": "No scheduler named; work parallelises per window in one process",
+      "value": "No scheduler named; work parallelizes per window in one process",
       "unit": null,
       "note": "Tool: rasterio. The page shows concurrent.futures pools, not a cluster or a scheduler. It warns that dataset objects cannot be shared across processes.",
       "status": "documented",
@@ -5990,7 +5990,7 @@
       "field": "read_pattern",
       "value": "HTTP range requests read only the bytes a window needs",
       "unit": null,
-      "note": "Tool: GDAL /vsicurl. The design depends on the server honouring byte ranges. GDAL states range support is most effective for static pre-computed files.",
+      "note": "Tool: GDAL /vsicurl. The design depends on the server honoring byte ranges. GDAL states range support is most effective for static pre-computed files.",
       "status": "documented",
       "source_ids": [
         "src-gdal-vfs"
@@ -6144,9 +6144,9 @@
       "id": "cl-wf-server-side-extraction-geolocation_handling-2",
       "candidate": "wf-server-side-extraction",
       "field": "geolocation_handling",
-      "value": "openEO polygon aggregation counts pixels whose centre is inside",
+      "value": "openEO polygon aggregation counts pixels whose center is inside",
       "unit": null,
-      "note": "Tool: openEO on the Copernicus Data Space Ecosystem. A pond smaller than a cell can contain no pixel centre and return no value. Bears on assumption A7 and A20.",
+      "note": "Tool: openEO on the Copernicus Data Space Ecosystem. A pond smaller than a cell can contain no pixel center and return no value. Bears on assumption A7 and A20.",
       "status": "documented",
       "source_ids": [
         "src-openeo-cdse-processes"
@@ -6418,7 +6418,7 @@
       "field": "resampling_policy",
       "value": "Earth Engine picks a pyramid level from the requested scale",
       "unit": null,
-      "note": "Tool: Google Earth Engine. Scale is set by the output request, not by the input band, and resampling is nearest neighbour by default.",
+      "note": "Tool: Google Earth Engine. Scale is set by the output request, not by the input band, and resampling is nearest neighbor by default.",
       "status": "documented",
       "source_ids": [
         "src-gee-scale"
@@ -6740,7 +6740,7 @@
       },
       "questions": [
         "Per-scene request count for one pond is not documented anywhere. It depends on the internal block size of the delivered asset, which is a property of the access route, not of GDAL. Measure it.",
-        "Neither GDAL nor rasterio documents any handling of tile overlap or of refinement status. Both are design work for this project, not tool behaviour.",
+        "Neither GDAL nor rasterio documents any handling of tile overlap or of refinement status. Both are design work for this project, not tool behavior.",
         "The JPEG 2000 driver page does not state a decode cost for a small window of a Sentinel-2 JP2 granule. It documents only that intersecting internal tiles are decoded, with multi-threading. No page gives the internal tile size of an ESA JP2 band.",
         "quality_layers is left null. The GDAL and rasterio pages describe reading any raster; which quality layers exist is set by the access route."
       ],
@@ -6950,7 +6950,7 @@
       },
       "questions": [
         "The Amazon EMR Serverless worked example does not name a Region, unlike the EMR on EC2 and EMR on EKS examples on the same page. The Region behind the $0.052624 per vCPU-hour and $0.0057785 per GB-hour rates is unsettled.",
-        "The RasterFrames documentation site is labelled version 0.9.1 and its release date was not stated on the page read. Whether the project is currently maintained was not established from a primary page.",
+        "The RasterFrames documentation site is labeled version 0.9.1 and its release date was not stated on the page read. Whether the project is currently maintained was not established from a primary page.",
         "Whether Apache Sedona reads only the byte ranges needed for a polygon window from a Cloud Optimized GeoTIFF was not settled by the raster tutorial page read."
       ],
       "role": "primary"
@@ -7014,7 +7014,7 @@
         "engineering_effort": "cl-sl-zarr-icechunk-engineering_effort"
       },
       "questions": [
-        "How sparse per-water-body pixels fit a chunked array is not settled. The Zarr v3 core specification names fill_value for uninitialised portions and states in non-normative Implementation Notes that no chunk needs writing where none existed, but it defines no sparse or ragged layout. The Icechunk documentation pages read here give no guidance on sparse or ragged data.",
+        "How sparse per-water-body pixels fit a chunked array is not settled. The Zarr v3 core specification names fill_value for uninitialized portions and states in non-normative Implementation Notes that no chunk needs writing where none existed, but it defines no sparse or ragged layout. The Icechunk documentation pages read here give no guidance on sparse or ragged data.",
         "Icechunk virtual chunks were not read. The virtual dataset guide at /guides/virtual/ was not fetched, so nothing is claimed about referencing source COGs in place.",
         "Whether Amazon S3 satisfies the Icechunk conditional-update requirement is not claimed here. The Icechunk spec states the requirement. The AWS conditional-write documentation was not read.",
         "Chunk shape for a store keyed by water body, band and time is undetermined. No primary page gives guidance for this shape of data."
@@ -7094,7 +7094,7 @@
     {
       "id": "F-03",
       "title": "One workflow resamples every band by default",
-      "text": "stackstac upscales every band to the finest asset resolution with nearest neighbour unless told otherwise. odc-stac returns one requested resolution. rasterio keeps native resolution unless asked for another array size. Sentinel Hub and Earth Engine resample on the provider side by default. Practice P3 holds only where the default is overridden.",
+      "text": "stackstac upscales every band to the finest asset resolution with nearest neighbor unless told otherwise. odc-stac returns one requested resolution. rasterio keeps native resolution unless asked for another array size. Sentinel Hub and Earth Engine resample on the provider side by default. Practice P3 holds only where the default is overridden.",
       "claim_ids": [
         "cl-wf-lazy-array-stack-resampling_policy",
         "cl-wf-lazy-array-stack-resampling_policy-2",
@@ -7107,7 +7107,7 @@
     {
       "id": "F-04",
       "title": "No library default selects pixels for a 10 m pond",
-      "text": "GDAL rasterization uses pixel centres unless ALL_TOUCHED is set. openEO polygon aggregation counts pixels whose centre is inside. A 10 m pond can select zero pixels under either default. exactextract offers a per-pixel coverage fraction instead. The selection rule is assumption A20.",
+      "text": "GDAL rasterization uses pixel centers unless ALL_TOUCHED is set. openEO polygon aggregation counts pixels whose center is inside. A 10 m pond can select zero pixels under either default. exactextract offers a per-pixel coverage fraction instead. The selection rule is assumption A20.",
       "claim_ids": [
         "cl-wf-mask-once-windowed-geolocation_handling-2",
         "cl-wf-mask-once-windowed-geolocation_handling-3",
@@ -7143,7 +7143,7 @@
     {
       "id": "F-07",
       "title": "Quality layers differ by route",
-      "text": "Sampled catalog items show different quality assets: cloud and snow probability on a Collection 1 COG item, and classification, aerosol, and water vapour on an older-collection item pointing into the Sinergise bucket. Planetary Computer documents classification, aerosol, and water vapour. Earth Engine adds Cloud Score+. Sentinel Hub adds 160 m cloud layers. HLS delivers Fmask. No documented list names the detector footprint mask that practice P11 requires. Bucket contents and availability by collection are unverified.",
+      "text": "Sampled catalog items show different quality assets: cloud and snow probability on a Collection 1 COG item, and classification, aerosol, and water vapor on an older-collection item pointing into the Sinergise bucket. Planetary Computer documents classification, aerosol, and water vapor. Earth Engine adds Cloud Score+. Sentinel Hub adds 160 m cloud layers. HLS delivers Fmask. No documented list names the detector footprint mask that practice P11 requires. Bucket contents and availability by collection are unverified.",
       "claim_ids": [
         "cl-ar-earth-search-cogs-quality_layers",
         "cl-ar-cdse-quality_layers",
@@ -7243,7 +7243,7 @@
     },
     {
       "id": "F-14",
-      "title": "Function limits favour windowed reads over whole tiles",
+      "title": "Function limits favor windowed reads over whole tiles",
       "text": "One Lambda invocation runs at most 15 minutes with 10,240 MB. Those are ceilings, not measured runtimes. A windowed unit of work is a plausible fit. Decoding an 800 MB product, claim R4 in the best-practices document, is a resource concern that points toward containers. Neither is established until measured.",
       "claim_ids": [
         "cl-cp-serverless-functions-scaling_water_bodies-2",
@@ -7327,7 +7327,7 @@
     {
       "id": "F-21",
       "title": "Both Earth Search collections are Element 84 conversions of the same ESA product, and why both persist is undocumented",
-      "text": "The registry names Element 84 as managing the GeoTIFF dataset, which holds two buckets: sentinel-cogs for the older collection and e84-earth-search-sentinel-data for Collection 1. Both are conversions of the JPEG 2000 files of the Sentinel-2 dataset, whose registry entry Element 84 also manages and whose readme Sinergise wrote. No page names the JPEG 2000 bucket's owner. Collection 1 admits baseline 05.00 and later and is documented as intended to replace the older collection, with no date. Probe PR-08 and the saved survey listings show the same product catalogued in both for recent dates. Why Collection 1 lacks most of January to November 2022 while the older collection covers it is not documented. The survey supports an inference of an incomplete back-fill, recorded in the measurements document.",
+      "text": "The registry names Element 84 as managing the GeoTIFF dataset, which holds two buckets: sentinel-cogs for the older collection and e84-earth-search-sentinel-data for Collection 1. Both are conversions of the JPEG 2000 files of the Sentinel-2 dataset, whose registry entry Element 84 also manages and whose readme Sinergise wrote. No page names the JPEG 2000 bucket's owner. Collection 1 admits baseline 05.00 and later and is documented as intended to replace the older collection, with no date. Probe PR-08 and the saved survey listings show the same product cataloged in both for recent dates. Why Collection 1 lacks most of January to November 2022 while the older collection covers it is not documented. The survey supports an inference of an incomplete back-fill, recorded in the measurements document.",
       "claim_ids": [
         "cl-ar-earth-search-cogs-operator",
         "cl-ar-earth-search-cogs-source_dataset",
@@ -7339,8 +7339,8 @@
     },
     {
       "id": "F-22",
-      "title": "Both COG buckets have no source-access charge. Their measured metadata differs, while read performance remains unmeasured",
-      "text": "Both Earth Search collections serve cloud-optimized GeoTIFFs from public buckets in us-west-2 with no authentication and no source-access charge to the reader. Our own compute, storage, and transfer costs are separate and unmeasured. One reader and one windowed read pattern serve both. The older collection needs a version choice where originals sit beside reprocessings, an offset check per item, and most sampled 2022 fallback items lack cloud and snow probability layers. Collection 1 had fewer competing versions in the sample and serves the sampled classification, cloud and snow probability, aerosol, and water-vapour layers as GeoTIFF. The Sinergise JPEG 2000 bucket sits in eu-central-1, its Level-1C bucket is requester pays, its Level-2A pages disagree, and JPEG 2000 reading efficiency depends on file layout and decoder. It stays context. No read time or cost has been measured for any of the three.",
+      "title": "Both COG buckets have public access, but delivery conventions and quality assets differ",
+      "text": "Both Earth Search collections serve public GeoTIFF assets in us-west-2 without source-access charges to the reader. Our compute, storage, and network costs remain separate. The older collection requires checks of processing versions, offsets, and missing quality layers. Collection 1 has more uniform sampled quality assets. The JPEG 2000 archive remains context. Stage 1 measured local read behavior and pixel differences, recorded in F-23. AWS workload cost remains unmeasured.",
       "claim_ids": [
         "cl-ar-earth-search-cogs-payer",
         "cl-ar-earth-search-cogs-region",
@@ -7358,8 +7358,8 @@
     },
     {
       "id": "F-23",
-      "title": "The two GeoTIFF copies hold the same product in different units, measured on one product, and the older copy's quality layers differ",
-      "text": "Prototype stage 1 read one 05.11 product, tile 17SKU on 2025-10-15, from both copies and compared six files pixel by pixel. On the three reflectance bands compared, the older copy holds Collection 1's integer minus 1,000, clamped to a minimum of 1, on every one of 99,802,042 pixels valid in both. That is the radiometric offset already applied and reflectance at or below zero discarded. Both catalogs declare the same offset of -0.1 for both copies, so applying the declaration on the older copy would subtract it twice. The scene classification is identical. Aerosol and water vapour are 20 m grids on Collection 1 and 60 m and 10 m grids on the older copy. The older copy's cloud and snow probability assets are JPEG 2000 links into the sentinel-s2-l2a bucket, outside the GeoTIFF benchmark, and whether they open unsigned is untested. Its 10 m bands needed about three times the range requests of Collection 1 for similar bytes. Measurement findings 13 to 15 hold the numbers. One product and three of twelve reflectance bands were checked. The 04.00 items with mixed offset flags remain issue I-05.",
+      "title": "The tested older copy applies an offset and lossy clamping, with different quality assets",
+      "text": "Stage 1 compared one product across the two archives. Three tested reflectance bands follow the older copy’s offset-and-clamp rule on every mutually valid pixel. That transformation loses values at or below zero reflectance. Identical catalog offsets therefore do not establish identical stored units. Classification agrees, while aerosol and water-vapor grids differ. The older copy’s cloud and snow probability links are JPEG 2000, outside the GeoTIFF benchmark. Findings 13 to 15 own the measured counts and timings. The fallback history and mixed 04.00 offset flags remain unvalidated.",
       "claim_ids": [
         "cl-ar-earth-search-cogs-offset_delivery",
         "cl-ar-earth-search-cogs-offset_delivery-2",
@@ -7377,7 +7377,7 @@
     {
       "id": "F-24",
       "title": "Small-lake reads usually fit in one block per file, the three mask methods return identical values, and small ponds have no interior pixel",
-      "text": "Prototype stage 2 read the 32 pilot water bodies from Collection 1 one lake at a time with four methods on 2026-09-15. Three repetitions each: 384 runs, none failed, 24 without a pixel because two lakes lay outside their region's tile. 24 of the 25 small lakes with pixels touched one internal block per file. That is 15 requests and 2.5 to 4.4 MB for five files, whichever method ran, about 2 seconds on the laptop. One 300 m lake sat across a block boundary in every file and took 20 requests and 4.3 MB. The anchors touched 15 to 92 blocks in 19 to 48 requests. Requests are HTTP requests, which GDAL merges, not blocks. The raster mask, the index lists, and the lazy stack extracted identical stored integers on identical pixel sets. That held on every band of the 30 lakes inside their tile. The naive clip keeps only the pixels GDAL's all-touched rasterization marks, without coverage or near-land. That selection and the coverage threshold of one millionth of a pixel disagree on 204 pixels out of millions. 197 of them are slivers of positive intersection. The lazy stack tripled CPU and used 70 percent more memory on small lakes and read faster on two anchors. Nothing ranks the methods. All five 10 m ponds have no interior pixel at any resolution. Lake Lanier, Lake Okeechobee, and one 1,000 m Alaska lake were partly outside their tile. Measurement findings 16 to 18 hold the numbers. One acquisition per region, five files per lake, one lake at a time.",
+      "text": "Stage 2 tested the pilot one lake at a time. Small-lake reads usually touched one internal block per file. Raster masks, index lists, and lazy reads returned identical values for the same selected pixels. The naive clip uses a different selection rule and omits nearby land. The smallest ponds have no interior pixels but retain shoreline and near-land observations. Some polygons lay partly or entirely outside their region’s selected tile. Findings 16 to 18 own the counts, timings, and limits. This is local evidence from one acquisition per region, rather than a general performance ranking.",
       "claim_ids": [
         "cl-wf-mask-once-windowed-read_pattern",
         "cl-wf-mask-once-windowed-read_pattern-3",
@@ -7393,8 +7393,8 @@
     },
     {
       "id": "F-25",
-      "title": "Reading every lake of a tile in one process cuts requests by more than half, a whole-tile read costs 6 to 32 times the windowed bytes at the pilot's density, and chunked lazy reads cost 1.6 to 7 times",
-      "text": "Prototype stage 3 read every pilot lake of a tile in one process on 2026-09-16. It used three read patterns and the four methods of stage 2. Nine tiles placed all 32 lakes, 40 lake-tile memberships, 324 runs, none failed. Five tiles were read from the same acquisition as stage 2. There, reading the lakes together cut requests to 24 to 46 percent of one process per lake. Bytes fell to 49 to 87 percent and read time to 24 to 51 percent. Headers are read once per file, and a block one lake loaded served the next. In the seven tiles with a large lake, 21 of the 26 smaller lakes cost no request. Reopening a file per lake forfeits that. One whole-tile read cost 6 to 32 times the windowed bytes at the pilot's three to six lakes per tile. Byte arithmetic puts the crossover at 25 to 150 lakes per tile for this mix, neither a time nor a cost crossover. The lazy stack computing lakes from a shared tile graph, in the tested recipe, read 1.6 to 7 times the windowed bytes. It opened each 10 m file once per chunk. The naive clip's per-scene rasterization took under half a second per large lake, the same order as loading a precomputed mask. All patterns and mask methods returned identical values and pixel sets on 200 lake-bands and matched stage 2 on the 130 comparable ones. A first run on 2026-09-15 held a 512-byte GDAL block cache by a unit error, and this rerun replaced it. Measurement findings 19 to 22 hold the numbers and the exceptions. One acquisition per tile, five files, three repetitions, on the laptop.",
+      "title": "Sharing open files reduced requests, while whole tiles and lazy chunks increased bytes in the tested recipe",
+      "text": "Stage 3’s corrected-cache rerun preserves the extraction results. Shared raster reads used fewer requests than separate lake processes on the comparable acquisitions. Whole tiles requested more bytes at the observed density. The byte crossover estimate assumes the tested lake mix and does not establish an operating threshold. Pond counts refer to memberships when tiles overlap. Lazy per-lake computations reread chunks under the tested settings. All mask methods and read patterns agree for corresponding source pixels. Findings 19 to 22 own the measurements, conditional estimates, and transport exception. Stage 3 reads selected tile portions and does not establish complete spatial coverage.",
       "claim_ids": [
         "cl-wf-mask-once-windowed-read_pattern",
         "cl-wf-mask-once-windowed-read_pattern-3",
@@ -7407,6 +7407,24 @@
         "docs/measurements.md#20-one-whole-tile-read-costs-6-to-32-times-the-bytes-of-the-windowed-reads-at-this-lake-density",
         "docs/measurements.md#21-the-lazy-stack-on-a-shared-tile-graph-reads-16-to-7-times-the-bytes-and-opens-a-file-once-per-chunk",
         "docs/measurements.md#22-every-pattern-and-method-agreed-and-per-scene-rasterization-costs-under-half-a-second-per-large-lake"
+      ]
+    },
+    {
+      "id": "F-26",
+      "title": "Cross-tile extraction preserves separate contributions, while work organization and validity need separate checks",
+      "text": "Stage 4 compares lake-first and tile-first extraction with raster masks and a lazy stack. All expected contributions agree across readers, paths, and repetitions. Tile-first raster reading reduces requests, requested bytes, and median workload time in this sample. The lazy recipe requests more bytes when organized tile-first. Native tile unions cover the buffered support, but coarse catalog footprints cannot establish pixel validity. Nonzero classification values do not resolve missing entries in finer bands. Distinct datastrips need separate identities, and ambiguous primary roles remain unresolved. Findings 23 to 25 own the measurements and their limits. The measured version 2 remains frozen. Reviewed version 3 corrects future selection without another public-data run. Scientific agreement, AWS performance, and storage remain unmeasured.",
+      "claim_ids": [
+        "cl-wf-mask-once-windowed-read_pattern",
+        "cl-wf-mask-once-windowed-read_pattern-3",
+        "cl-wf-lazy-array-stack-read_pattern",
+        "cl-wf-full-tile-then-mask-read_pattern-2",
+        "cl-wf-lazy-array-stack-geolocation_handling-2"
+      ],
+      "evidence": [
+        "benchmarks/results/cross-tile-extraction.json",
+        "docs/measurements.md#prototype-stage-4-lakes-across-tiles-2026-09-16",
+        "docs/reviews/2026-09-16-claude-stage-4-full-run-review.md",
+        "docs/reviews/2026-09-16-codex-stage-4-review-response.md"
       ]
     }
   ],
@@ -7585,7 +7603,7 @@
       "compute_platform",
       "storage_layout"
     ],
-    "limits": "The Amazon S3 pricing page at https://aws.amazon.com/s3/pricing/ renders its price tables from client-side placeholders such as {priceOf!s3/s3-standard!GET!...}. No number could be quoted from it. The request and data transfer prices were taken from the AWS Price List offer files for eu-central-1 instead, which are official AWS files with a stated publication date. No currency price for Sentinel Hub could be quoted. https://www.sentinel-hub.com/pricing/ redirects to https://www.planet.com/pricing/, whose plan table is rendered with JavaScript, and the Planet support pricing article is behind a bot check. unit_price and monthly_price stay null for that candidate. Every Microsoft Planetary Computer web page tried, including the dataset page, the docs pages and the terms page, returned only a JavaScript shell. Claims for that candidate cite the STAC API and the provider's own documentation source files in the microsoft/PlanetaryComputerDataCatalog repository. Google Earth Engine developer guide pages under developers.google.com/earth-engine/guides also returned JavaScript shells. Only the data catalog pages, the Google Cloud pricing page and the Earth Engine terms page could be quoted. The raw pixel access claim for that route therefore rests on the pricing page's description of batch output rather than on an export guide. LP DAAC product URLs under lpdaac.usgs.gov redirect to the NASA Earthdata site. The HLSS30 v2.0 claims cite https://www.earthdata.nasa.gov/data/catalog/lpcloud-hlss30-2.0 instead. One STAC item per collection was sampled, all over a bounding box near the Texas coast on the access date. Item-level values such as processing baseline, timeliness and asset scale or offset may differ for other items and other dates. No image asset bytes were read. No requester-pays bucket was contacted. No credentials were used. All values come from documentation pages and from catalog and metadata endpoints that return JSON or HTML. Prices are quoted as published. None was converted between currencies and none was summed with another. Coverage start dates conflict between prose and STAC temporal extents for three routes. Both values are recorded, and the conflict is left open rather than resolved. The offset_delivery field is settled for five routes and open for two: the requester-pays buckets and the Planetary Computer. Neither publishes a statement about the processing-baseline offset on any page read. The operator of the JPEG 2000 buckets was expected to be Sinergise. Both the rendered registry entry at https://registry.opendata.aws/sentinel-2/ and its source YAML name Element 84 under ManagedBy, accessed on 2026-09-11. The pages read do not name the owner of the sentinel-s2-l1c and sentinel-s2-l2a buckets, and registry entry management is not the same as bucket ownership. Sinergise remains the publisher of the linked readmes and the contact forum. No page read states that the sentinel-s2-l2a bucket mirrors the Copernicus archive or holds ESA SAFE packages. The source_dataset value for that route rests on the Sinergise readme's tile layout statement and the registry's Copernicus OpenHub sentence. The zipped product buckets were not examined. All 100 draft claims cite documentation pages, STAC catalog/search JSON endpoints, or AWS Price List offer files; every cited source was refetched fresh with curl (JSON endpoints and AWS pricing files) or curl with a browser user agent (HTML pages), never assumed from the draft's own transcription. No page needed a second retry attempt. Per the researcher's limitations, github.com blob URLs for the Element 84 README and the two Microsoft PlanetaryComputerDataCatalog doc source files were fetched from raw.githubusercontent.com instead, since the rendered github.com page needs JavaScript; content matches the cited blob path. Per the researcher's limitations, Microsoft Planetary Computer's dataset, docs and terms pages, and Google Earth Engine's developer-guide pages, were not independently re-fetched from planetarycomputer.microsoft.com or developers.google.com/earth-engine/guides beyond confirming they are JS-only shells; claims for those two candidates were checked against the STAC API responses and the GitHub-hosted documentation source files instead, matching the researcher's own approach. The Legal Notice on the use of Copernicus Sentinel Data and Service Information is a PDF; it was fetched with curl and converted to text with pdftotext for quote verification. The AWS S3 request price and AWS Data Transfer price were verified directly against the AWS Price List offer files for eu-central-1 (SKU-level price dimensions and offer-file version numbers), not against the JavaScript-rendered aws.amazon.com/s3/pricing/ page, matching the researcher's own approach. Page titles were checked against each source's recorded title for substance rather than exact string match; several Copernicus Data Space Ecosystem documentation pages render a generic '<Page> – Documentation' <title> tag and the Google/AWS/GitHub pages append a site-name suffix, but every title matches its source's declared subject with no material mismatch found. No image asset bytes were read, no requester-pays bucket was contacted, no credentials were used, and no package was installed, consistent with the bounds of this check. One item per STAC collection was checked against the same single sampled item the researcher recorded (Texas-coast bounding box, accessed 2026-09-09); this check re-fetched each search query fresh rather than trusting the researcher's transcription, and the returned item ids, properties and asset structures match what the research file reports. Two claim pairs describe genuinely conflicting sources rather than checker uncertainty: the AWS registry (no-sign-request) versus the Sinergise readme (Requester Pays) for the sentinel-s2-l2a bucket, and the Sentinel Hub L2A page's own Basic Facts table (October 2016) versus its Endpoint Locations table (November 2016) for the European coverage start. Both sides of each conflict were independently fetched and read; see the corresponding check records' reasons for which source states which fact. No claim in this dimension required a corrected or not_verifiable verdict: every cited quote was found verbatim (whitespace and, in one case, HTML-entity decoding aside) on its cited page or in its cited JSON/PDF, and every value, unit and note follows from the quoted text. Two of the seven newly checked draft claims (both operator claims) rest on a registry page's 'Managed By' section, which names who manages the registry entry, not who owns or operates the underlying S3 bucket; a case-insensitive search of both registry.opendata.aws/sentinel-2-l2a-cogs/ and registry.opendata.aws/sentinel-2/ for the word 'owner' found no match on either page, so bucket ownership stays unstated by these sources for both routes. The Sinergise readme at roda.sentinel-hub.com/sentinel-s2-l2a/readme.html names no operator for the sentinel-s2-l2a bucket; it gives only a Sentinel Hub forum contact and a Copernicus/AWS Public Datasets license line, so the source_dataset claim's producing organisation rests on the registry page's Copernicus OpenHub reference, not on an explicit operator statement. Workflows are designs, not products. Every documented claim here is a claim about a documented default or behaviour of a named tool. It is not a claim that the design as a whole behaves that way, and it is not a measurement. No image asset was opened. No GeoTIFF, JPEG 2000 or Zarr chunk bytes were read. No package was installed. Every claim comes from a documentation page or, in one case, a process-listing API response. Library documentation states the default of the version the page describes. Version numbers appear in several page titles: rasterio 1.4.4, rioxarray 0.22.0, odc-stac 0.5.3, rasterstats 0.10.3, GDAL stable. A pinned environment may differ and must be checked at prototyping time. The Sentinel Hub pages carry a notice that the documentation is moving to a new home at docs.planet.com and that these pages will stop being accessible. The processing unit page already redirects there and did not return readable content over plain HTTP. The Icechunk expiration page and the Icechunk version-control page did not return readable content over plain HTTP, so snapshot retention and conflict resolution are not covered. No primary page gave a Level-2A product volume in bytes, so the transfer cost of the full-tile workflow is stated only as a tile footprint and left for measurement. Third-party blogs, forums and question-and-answer sites were excluded. Two facts that circulate widely, the Sentinel Hub synchronous 2500 by 2500 pixel output limit and the polygon limits of the Statistical API, were dropped because only forum posts stated them. The field quality_layers is left null for four candidates. For a workflow that reads delivered assets, which quality layers exist is a property of the access route. Only the two candidates whose tool documentation names layers carry a claim. Values here are proposals. None is checked. A different agent must verify each quote against its page before any of this reaches the inventory. All 37 cited HTTPS documentation pages plus the openEO process-listing JSON endpoint were fetched on 2026-09-09 and returned readable content on the first attempt; no page required a second curl-with-browser-user-agent retry and none was unreadable, so there are no not_verifiable records in this pass. Verification combined an automated whitespace-normalized exact-substring match of every draft quote against the fetched page text with manual re-reading of the surrounding context for every claim touching resampling defaults, scale/offset handling, pixel-selection semantics, and overlap handling, and for every claim whose automated match failed. Two claims (cl-wf-server-side-extraction-quality_layers and cl-wf-server-side-extraction-resampling_policy) failed the automated substring match only because the source page's HTML table cells contain no separating whitespace in the underlying markup; manual inspection of the same extracted text confirmed the quoted figures are correct, so both are recorded as confirmed. cl-wf-mask-once-windowed-read_pattern-4 is recorded as confirmed, not corrected: the value is accurate and both halves are documented on the cited page, but the draft's single quote supported only the random-access half, so the recorded quote covers only that half and the reason field cites the page's separate 512-pixel BLOCKSIZE statement for the other half. The fetched title tag for https://zarr.eopf.copernicus.eu/ ('zarr.eopf.copernicus.eu |') does not substantially match its recorded source title ('EOPF Sentinel Zarr Samples Service'); this is noted on cl-wf-datacube-read_pattern-3's check record. All other fetched page titles matched their recorded source titles in substance, and all cited URLs use HTTPS. The Sentinel Hub pages (docs.sentinel-hub.com) all resolved directly to their cited canonical URLs at fetch time and did not redirect to docs.planet.com, contrary to the migration notice recorded in the research file's limitations; a future recheck should confirm the URLs still resolve. This check did not re-derive or challenge the six estimated claims per workflow candidate (scaling_water_bodies, scaling_history, engineering_effort where estimated); those are listed in skipped_estimated for the parent to review. No image, GeoTIFF, JPEG2000, or Zarr chunk asset was downloaded. No package was installed. The only non-HTML fetch was the openEO process-listing JSON endpoint already cited by the research file. Every AWS pricing page reads its rate tables from a JavaScript pricing endpoint. A plain fetch returns placeholder tokens such as {priceOf!lambda/lambda!Lambda!Duration}. Every AWS rate recorded here therefore comes from a worked example on the same official pricing page, and each note says which example and which Region. The Amazon EC2 On-Demand pricing page returned no instance rates at all. The one representative instance rate recorded, c4.2xlarge at 0.398 USD hourly, comes from the Amazon EMR pricing page example headed \"Pricing based on US-East-1 pricing.\" The Sentinel Hub pricing page redirected to a landing page and returned no plan prices, so no Sentinel Hub currency price is recorded. No page read documents a native deduplication feature on any of the five platforms. Retry is documented everywhere. Deduplication is documented nowhere, and two pages state the opposite: Lambda tells the caller to handle duplicate events and Kubernetes states the same program may sometimes be started twice. Global coverage claims rest on the AWS Regional Services List statement about core services in Region launches. That page's per-service Region table renders with JavaScript and was not read. Region counts per service were not claimed. The four AWS endpoints-and-quotas pages for Lambda, Batch, EKS, and EMR each listed 34 commercial Region codes on the access date. That count is a reading of a table, not a page statement, so it is recorded here as a limitation rather than as a claim. No measurement was taken. Nothing here says how long one unit of work runs or what one tile-date costs on any platform. Every price is a rate, not a cost. No cloud API was called and no package was installed. All evidence comes from documentation and pricing pages fetched over HTTPS on 2026-09-09. Every cited page was fetched fresh over HTTPS with curl using a browser user agent on 2026-09-09; none of the 25 pages cited by documented claims required a second retry, and none returned JavaScript placeholder tokens for the specific worked examples the draft quoted. Two sources listed in the research file, src-cdse-quotas and src-rasterframes, are not cited by any documented claim's source_ids (they appear only in candidate_notes observations) and were not fetched for this check, which covers documented claims only. HTML-to-text extraction for this check replaces tags with spaces, which occasionally inserts a stray space around inline <code> or <em> elements at a hyphen or before a comma/period. Three quotes (cl-cp-batch-containers-orchestrator_dependency-2, cl-cp-kubernetes-dask-idempotency, cl-cp-spark-cluster-scaling_water_bodies-2) needed punctuation-aware whitespace normalization to match for this reason; each was manually inspected in context on the source page and confirmed as a rendering artifact, not a wording difference. Verification covered each claim's quote, value, unit, and the specific factual assertions in its note. It did not re-verify every sentence in candidate_notes, not_assessed, or the draft's own limitations section, since those are not claim records under the check schema. No cloud API was called, no package was installed, and no page requiring an authenticated session or a JavaScript-executing browser was used, consistent with the documentation-and-pricing-pages-only bound on this check. Checks were not performed for claims with proposed_status 'estimated'; their IDs are listed in skipped_estimated for the parent to review. The AWS pricing pages render every price in the browser from a data file. The static HTML carries only tokens such as {priceOf!s3/s3-standard!Standard!Storage!First!50!TB!per!GB!Mo}. Numeric prices in this draft are therefore quoted from the pricing data files at https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps, which is the endpoint named in the pricing page's own data-pricing-endpoint attribute. Those files are gzip-encoded JSON and carry hawkFilePublicationDate 2026-08-31. Conditions such as minimum object size and minimum storage duration are quoted from the pricing page itself, where they are static text. The S3 Tables price keys in the data file are opaque hashes, not readable labels. The mapping from the pricing page row to the hash is recorded in each claim note so a checker can follow it. The AWS Glue Data Catalog prices are quoted from static page text that carries no Region label. The page states that pricing can vary by AWS Region. No claim is made about size per water-body-scene, records per file, chip size in bytes or object counts. No primary page carries those numbers. They are measurements, not documentation. No cloud API was called and no package was installed. Every page was read with curl or WebFetch. The Apache Parquet site does not state a numbered format version on the pages reached. Only GeoParquet, Zarr, Icechunk, Iceberg and COG carry a version number in this draft. Icechunk virtual chunks, the Amazon S3 conditional-write documentation, the S3 Tables maintenance configuration page and the GDAL COG driver page were not quoted. Each is named as an open question. All AWS numeric prices were re-fetched fresh from the pricing data files named in each pricing page's own data-pricing-endpoint attribute (https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/...), and matched by rate code or RegionlessRateCode hash under the 'US East (N. Virginia)' region key, not assumed from the draft's own transcription. The pricing data files carry no human-readable labels for most S3 Tables line items (opaque hash keys). Where the cited pricing page's static HTML text supplied a readable label next to the same hash (S3 Tables Standard storage, monitoring, compaction binpack, compaction sort/Z-order, compaction objects processed), that mapping was independently re-derived from the fetched page text rather than trusted from the draft's note. cl-sl-lakehouse-table-format-3 note asserted default quotas (10 table buckets per account per Region, 10,000 tables per table bucket) that do not appear on the cited 'Working with Amazon S3 Tables and table buckets' page; that page only links to a separate quotas page that is not among the cited sources. Verdict corrected; see the check record's reason. GeoParquet's two cited pages (v1.1.0 and Releases) render with an empty <title> tag in the static HTML; substance was confirmed instead against each page's <h1>, which matches the source titles recorded in the research file. No cloud API was called and no package was installed. Every page and data file was fetched fresh with curl using a browser user agent; none required a second retry."
+    "limits": "The Amazon S3 pricing page at https://aws.amazon.com/s3/pricing/ renders its price tables from client-side placeholders such as {priceOf!s3/s3-standard!GET!...}. No number could be quoted from it. The request and data transfer prices were taken from the AWS Price List offer files for eu-central-1 instead, which are official AWS files with a stated publication date. No currency price for Sentinel Hub could be quoted. https://www.sentinel-hub.com/pricing/ redirects to https://www.planet.com/pricing/, whose plan table is rendered with JavaScript, and the Planet support pricing article is behind a bot check. unit_price and monthly_price stay null for that candidate. Every Microsoft Planetary Computer web page tried, including the dataset page, the docs pages and the terms page, returned only a JavaScript shell. Claims for that candidate cite the STAC API and the provider's own documentation source files in the microsoft/PlanetaryComputerDataCatalog repository. Google Earth Engine developer guide pages under developers.google.com/earth-engine/guides also returned JavaScript shells. Only the data catalog pages, the Google Cloud pricing page and the Earth Engine terms page could be quoted. The raw pixel access claim for that route therefore rests on the pricing page's description of batch output rather than on an export guide. LP DAAC product URLs under lpdaac.usgs.gov redirect to the NASA Earthdata site. The HLSS30 v2.0 claims cite https://www.earthdata.nasa.gov/data/catalog/lpcloud-hlss30-2.0 instead. One STAC item per collection was sampled, all over a bounding box near the Texas coast on the access date. Item-level values such as processing baseline, timeliness and asset scale or offset may differ for other items and other dates. No image asset bytes were read. No requester-pays bucket was contacted. No credentials were used. All values come from documentation pages and from catalog and metadata endpoints that return JSON or HTML. Prices are quoted as published. None was converted between currencies and none was summed with another. Coverage start dates conflict between prose and STAC temporal extents for three routes. Both values are recorded, and the conflict is left open rather than resolved. The offset_delivery field is settled for five routes and open for two: the requester-pays buckets and the Planetary Computer. Neither publishes a statement about the processing-baseline offset on any page read. The operator of the JPEG 2000 buckets was expected to be Sinergise. Both the rendered registry entry at https://registry.opendata.aws/sentinel-2/ and its source YAML name Element 84 under ManagedBy, accessed on 2026-09-11. The pages read do not name the owner of the sentinel-s2-l1c and sentinel-s2-l2a buckets, and registry entry management is not the same as bucket ownership. Sinergise remains the publisher of the linked readmes and the contact forum. No page read states that the sentinel-s2-l2a bucket mirrors the Copernicus archive or holds ESA SAFE packages. The source_dataset value for that route rests on the Sinergise readme's tile layout statement and the registry's Copernicus OpenHub sentence. The zipped product buckets were not examined. All 100 draft claims cite documentation pages, STAC catalog/search JSON endpoints, or AWS Price List offer files; every cited source was refetched fresh with curl (JSON endpoints and AWS pricing files) or curl with a browser user agent (HTML pages), never assumed from the draft's own transcription. No page needed a second retry attempt. Per the researcher's limitations, github.com blob URLs for the Element 84 README and the two Microsoft PlanetaryComputerDataCatalog doc source files were fetched from raw.githubusercontent.com instead, since the rendered github.com page needs JavaScript; content matches the cited blob path. Per the researcher's limitations, Microsoft Planetary Computer's dataset, docs and terms pages, and Google Earth Engine's developer-guide pages, were not independently re-fetched from planetarycomputer.microsoft.com or developers.google.com/earth-engine/guides beyond confirming they are JS-only shells; claims for those two candidates were checked against the STAC API responses and the GitHub-hosted documentation source files instead, matching the researcher's own approach. The Legal Notice on the use of Copernicus Sentinel Data and Service Information is a PDF; it was fetched with curl and converted to text with pdftotext for quote verification. The AWS S3 request price and AWS Data Transfer price were verified directly against the AWS Price List offer files for eu-central-1 (SKU-level price dimensions and offer-file version numbers), not against the JavaScript-rendered aws.amazon.com/s3/pricing/ page, matching the researcher's own approach. Page titles were checked against each source's recorded title for substance rather than exact string match; several Copernicus Data Space Ecosystem documentation pages render a generic '<Page> – Documentation' <title> tag and the Google/AWS/GitHub pages append a site-name suffix, but every title matches its source's declared subject with no material mismatch found. No image asset bytes were read, no requester-pays bucket was contacted, no credentials were used, and no package was installed, consistent with the bounds of this check. One item per STAC collection was checked against the same single sampled item the researcher recorded (Texas-coast bounding box, accessed 2026-09-09); this check re-fetched each search query fresh rather than trusting the researcher's transcription, and the returned item ids, properties and asset structures match what the research file reports. Two claim pairs describe genuinely conflicting sources rather than checker uncertainty: the AWS registry (no-sign-request) versus the Sinergise readme (Requester Pays) for the sentinel-s2-l2a bucket, and the Sentinel Hub L2A page's own Basic Facts table (October 2016) versus its Endpoint Locations table (November 2016) for the European coverage start. Both sides of each conflict were independently fetched and read; see the corresponding check records' reasons for which source states which fact. No claim in this dimension required a corrected or not_verifiable verdict: every cited quote was found verbatim (whitespace and, in one case, HTML-entity decoding aside) on its cited page or in its cited JSON/PDF, and every value, unit and note follows from the quoted text. Two of the seven newly checked draft claims (both operator claims) rest on a registry page's 'Managed By' section, which names who manages the registry entry, not who owns or operates the underlying S3 bucket; a case-insensitive search of both registry.opendata.aws/sentinel-2-l2a-cogs/ and registry.opendata.aws/sentinel-2/ for the word 'owner' found no match on either page, so bucket ownership stays unstated by these sources for both routes. The Sinergise readme at roda.sentinel-hub.com/sentinel-s2-l2a/readme.html names no operator for the sentinel-s2-l2a bucket; it gives only a Sentinel Hub forum contact and a Copernicus/AWS Public Datasets license line, so the source_dataset claim's producing organization rests on the registry page's Copernicus OpenHub reference, not on an explicit operator statement. Workflows are designs, not products. Every documented claim here is a claim about a documented default or behavior of a named tool. It is not a claim that the design as a whole behaves that way, and it is not a measurement. No image asset was opened. No GeoTIFF, JPEG 2000 or Zarr chunk bytes were read. No package was installed. Every claim comes from a documentation page or, in one case, a process-listing API response. Library documentation states the default of the version the page describes. Version numbers appear in several page titles: rasterio 1.4.4, rioxarray 0.22.0, odc-stac 0.5.3, rasterstats 0.10.3, GDAL stable. A pinned environment may differ and must be checked at prototyping time. The Sentinel Hub pages carry a notice that the documentation is moving to a new home at docs.planet.com and that these pages will stop being accessible. The processing unit page already redirects there and did not return readable content over plain HTTP. The Icechunk expiration page and the Icechunk version-control page did not return readable content over plain HTTP, so snapshot retention and conflict resolution are not covered. No primary page gave a Level-2A product volume in bytes, so the transfer cost of the full-tile workflow is stated only as a tile footprint and left for measurement. Third-party blogs, forums and question-and-answer sites were excluded. Two facts that circulate widely, the Sentinel Hub synchronous 2500 by 2500 pixel output limit and the polygon limits of the Statistical API, were dropped because only forum posts stated them. The field quality_layers is left null for four candidates. For a workflow that reads delivered assets, which quality layers exist is a property of the access route. Only the two candidates whose tool documentation names layers carry a claim. Values here are proposals. None is checked. A different agent must verify each quote against its page before any of this reaches the inventory. All 37 cited HTTPS documentation pages plus the openEO process-listing JSON endpoint were fetched on 2026-09-09 and returned readable content on the first attempt; no page required a second curl-with-browser-user-agent retry and none was unreadable, so there are no not_verifiable records in this pass. Verification combined an automated whitespace-normalized exact-substring match of every draft quote against the fetched page text with manual re-reading of the surrounding context for every claim touching resampling defaults, scale/offset handling, pixel-selection semantics, and overlap handling, and for every claim whose automated match failed. Two claims (cl-wf-server-side-extraction-quality_layers and cl-wf-server-side-extraction-resampling_policy) failed the automated substring match only because the source page's HTML table cells contain no separating whitespace in the underlying markup; manual inspection of the same extracted text confirmed the quoted figures are correct, so both are recorded as confirmed. cl-wf-mask-once-windowed-read_pattern-4 is recorded as confirmed, not corrected: the value is accurate and both halves are documented on the cited page, but the draft's single quote supported only the random-access half, so the recorded quote covers only that half and the reason field cites the page's separate 512-pixel BLOCKSIZE statement for the other half. The fetched title tag for https://zarr.eopf.copernicus.eu/ ('zarr.eopf.copernicus.eu |') does not substantially match its recorded source title ('EOPF Sentinel Zarr Samples Service'); this is noted on cl-wf-datacube-read_pattern-3's check record. All other fetched page titles matched their recorded source titles in substance, and all cited URLs use HTTPS. The Sentinel Hub pages (docs.sentinel-hub.com) all resolved directly to their cited canonical URLs at fetch time and did not redirect to docs.planet.com, contrary to the migration notice recorded in the research file's limitations; a future recheck should confirm the URLs still resolve. This check did not re-derive or challenge the six estimated claims per workflow candidate (scaling_water_bodies, scaling_history, engineering_effort where estimated); those are listed in skipped_estimated for the parent to review. No image, GeoTIFF, JPEG2000, or Zarr chunk asset was downloaded. No package was installed. The only non-HTML fetch was the openEO process-listing JSON endpoint already cited by the research file. Every AWS pricing page reads its rate tables from a JavaScript pricing endpoint. A plain fetch returns placeholder tokens such as {priceOf!lambda/lambda!Lambda!Duration}. Every AWS rate recorded here therefore comes from a worked example on the same official pricing page, and each note says which example and which Region. The Amazon EC2 On-Demand pricing page returned no instance rates at all. The one representative instance rate recorded, c4.2xlarge at 0.398 USD hourly, comes from the Amazon EMR pricing page example headed \"Pricing based on US-East-1 pricing.\" The Sentinel Hub pricing page redirected to a landing page and returned no plan prices, so no Sentinel Hub currency price is recorded. No page read documents a native deduplication feature on any of the five platforms. Retry is documented everywhere. Deduplication is documented nowhere, and two pages state the opposite: Lambda tells the caller to handle duplicate events and Kubernetes states the same program may sometimes be started twice. Global coverage claims rest on the AWS Regional Services List statement about core services in Region launches. That page's per-service Region table renders with JavaScript and was not read. Region counts per service were not claimed. The four AWS endpoints-and-quotas pages for Lambda, Batch, EKS, and EMR each listed 34 commercial Region codes on the access date. That count is a reading of a table, not a page statement, so it is recorded here as a limitation rather than as a claim. No measurement was taken. Nothing here says how long one unit of work runs or what one tile-date costs on any platform. Every price is a rate, not a cost. No cloud API was called and no package was installed. All evidence comes from documentation and pricing pages fetched over HTTPS on 2026-09-09. Every cited page was fetched fresh over HTTPS with curl using a browser user agent on 2026-09-09; none of the 25 pages cited by documented claims required a second retry, and none returned JavaScript placeholder tokens for the specific worked examples the draft quoted. Two sources listed in the research file, src-cdse-quotas and src-rasterframes, are not cited by any documented claim's source_ids (they appear only in candidate_notes observations) and were not fetched for this check, which covers documented claims only. HTML-to-text extraction for this check replaces tags with spaces, which occasionally inserts a stray space around inline <code> or <em> elements at a hyphen or before a comma/period. Three quotes (cl-cp-batch-containers-orchestrator_dependency-2, cl-cp-kubernetes-dask-idempotency, cl-cp-spark-cluster-scaling_water_bodies-2) needed punctuation-aware whitespace normalization to match for this reason; each was manually inspected in context on the source page and confirmed as a rendering artifact, not a wording difference. Verification covered each claim's quote, value, unit, and the specific factual assertions in its note. It did not re-verify every sentence in candidate_notes, not_assessed, or the draft's own limitations section, since those are not claim records under the check schema. No cloud API was called, no package was installed, and no page requiring an authenticated session or a JavaScript-executing browser was used, consistent with the documentation-and-pricing-pages-only bound on this check. Checks were not performed for claims with proposed_status 'estimated'; their IDs are listed in skipped_estimated for the parent to review. The AWS pricing pages render every price in the browser from a data file. The static HTML carries only tokens such as {priceOf!s3/s3-standard!Standard!Storage!First!50!TB!per!GB!Mo}. Numeric prices in this draft are therefore quoted from the pricing data files at https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps, which is the endpoint named in the pricing page's own data-pricing-endpoint attribute. Those files are gzip-encoded JSON and carry hawkFilePublicationDate 2026-08-31. Conditions such as minimum object size and minimum storage duration are quoted from the pricing page itself, where they are static text. The S3 Tables price keys in the data file are opaque hashes, not readable labels. The mapping from the pricing page row to the hash is recorded in each claim note so a checker can follow it. The AWS Glue Data Catalog prices are quoted from static page text that carries no Region label. The page states that pricing can vary by AWS Region. No claim is made about size per water-body-scene, records per file, chip size in bytes or object counts. No primary page carries those numbers. They are measurements, not documentation. No cloud API was called and no package was installed. Every page was read with curl or WebFetch. The Apache Parquet site does not state a numbered format version on the pages reached. Only GeoParquet, Zarr, Icechunk, Iceberg and COG carry a version number in this draft. Icechunk virtual chunks, the Amazon S3 conditional-write documentation, the S3 Tables maintenance configuration page and the GDAL COG driver page were not quoted. Each is named as an open question. All AWS numeric prices were re-fetched fresh from the pricing data files named in each pricing page's own data-pricing-endpoint attribute (https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/...), and matched by rate code or RegionlessRateCode hash under the 'US East (N. Virginia)' region key, not assumed from the draft's own transcription. The pricing data files carry no human-readable labels for most S3 Tables line items (opaque hash keys). Where the cited pricing page's static HTML text supplied a readable label next to the same hash (S3 Tables Standard storage, monitoring, compaction binpack, compaction sort/Z-order, compaction objects processed), that mapping was independently re-derived from the fetched page text rather than trusted from the draft's note. cl-sl-lakehouse-table-format-3 note asserted default quotas (10 table buckets per account per Region, 10,000 tables per table bucket) that do not appear on the cited 'Working with Amazon S3 Tables and table buckets' page; that page only links to a separate quotas page that is not among the cited sources. Verdict corrected; see the check record's reason. GeoParquet's two cited pages (v1.1.0 and Releases) render with an empty <title> tag in the static HTML; substance was confirmed instead against each page's <h1>, which matches the source titles recorded in the research file. No cloud API was called and no package was installed. Every page and data file was fetched fresh with curl using a browser user agent; none required a second retry."
   },
   "not_assessed": [
     {
@@ -7656,7 +7674,7 @@
     },
     {
       "name": "Google Earth Engine Export.image.toCloudStorage and toAsset",
-      "why": "Documented alternatives to a Drive export within the same server-side workflow. Only the task-queue behaviour common to all three was cited.",
+      "why": "Documented alternatives to a Drive export within the same server-side workflow. Only the task-queue behavior common to all three was cited.",
       "seen_on": null,
       "dimension": "processing_workflow"
     },
@@ -7779,7 +7797,7 @@
     {
       "id": "I-03",
       "title": "No library default selects pixels for a 10 m pond",
-      "text": "GDAL rasterization and openEO aggregation select a pixel only when its centre falls inside the polygon. A 10 m pond can select nothing. Coverage-fraction tools report the fraction of each pixel the polygon covers.",
+      "text": "GDAL rasterization and openEO aggregation select a pixel only when its center falls inside the polygon. A 10 m pond can select nothing. Coverage-fraction tools report the fraction of each pixel the polygon covers.",
       "consequence": "Every water body is stored as three pixel classes computed once per tile and resolution: interior, shoreline, and near-land. A 10 m pond has no interior pixel at any resolution. Consumers see the class and the coverage fraction.",
       "status": "decided",
       "decision": "Decision 0002.",
@@ -7789,13 +7807,13 @@
         "cl-wf-server-side-extraction-geolocation_handling-2",
         "G3"
       ],
-      "plain": "Common tools keep a pixel only when its centre falls inside the polygon. A 10 m pond can select no pixel at all.",
+      "plain": "Common tools keep a pixel only when its center falls inside the polygon. A 10 m pond can select no pixel at all.",
       "why": "The smallest water bodies in scope would return nothing. Three pixel classes per resolution, with coverage fractions, keep every pond observable and let the model choose its own strictness."
     },
     {
       "id": "I-04",
       "title": "Adjacent tiles disagree in their overlap",
-      "text": "Level-2A is processed per tile. In the overlap between neighbours the classification can differ and the aerosol and surface reflectance are generally different. Some tools fuse overlapping items by first valid pixel or stitch tiles and hide the grid.",
+      "text": "Level-2A is processed per tile. In the overlap between neighbors the classification can differ and the aerosol and surface reflectance are generally different. Some tools fuse overlapping items by first valid pixel or stitch tiles and hide the grid.",
       "consequence": "Every record carries the tile it came from and a marker saying whether that tile is the water body's primary tile. Values from two tiles are never averaged. See I-30 for the cross-tile mosaicking investigation the owner requires.",
       "status": "decided",
       "decision": "Decision 0002.",
@@ -7805,7 +7823,7 @@
         "cl-wf-lazy-array-stack-geolocation_handling-2",
         "cl-wf-server-side-extraction-geolocation_handling"
       ],
-      "plain": "Neighbouring tiles are processed separately. Where they overlap, the same ground can get different reflectance and a different class.",
+      "plain": "Neighboring tiles are processed separately. Where they overlap, the same ground can get different reflectance and a different class.",
       "why": "A pond in an overlap has two values per date. Averaging or silently picking one would hide a real difference. Every record carries its tile, so the model can see and handle both."
     },
     {
@@ -7823,7 +7841,7 @@
         "PR-05",
         "PR-07"
       ],
-      "plain": "Products processed with version 04.00 or later carry an offset. Providers may apply it during conversion, and sampled metadata disagrees about its state.",
+      "plain": "Products processed with version 04.00 or later carry an offset. A provider can apply it during conversion, and sampled metadata disagrees about its state.",
       "why": "Get it wrong and every reflectance shifts by 0.1, more than most water signals. For 2022 fallback items the metadata contradicts itself, so a pixel check must settle it before any fill."
     },
     {
@@ -7845,7 +7863,7 @@
     {
       "id": "I-07",
       "title": "One stacking library resamples every band to 10 m by default",
-      "text": "stackstac upscales all bands to the finest asset resolution with nearest neighbour unless told otherwise. odc-stac returns one requested resolution. rasterio keeps native resolution.",
+      "text": "stackstac upscales all bands to the finest asset resolution with nearest neighbor unless told otherwise. odc-stac returns one requested resolution. rasterio keeps native resolution.",
       "consequence": "Bands are stored at native resolution with pixel classes computed per resolution. A lazy-stack workflow needs one stack per resolution.",
       "status": "decided",
       "decision": "Practice P3.",
@@ -7877,7 +7895,7 @@
         "PR-06",
         "PR-07"
       ],
-      "plain": "The archive is not one uniform series. Products were reprocessed in 2023 and 2024, the route holds them in two collections, and 2022 is nearly missing from the preferred one.",
+      "plain": "The archive is not one uniform series. ESA reprocessed products in 2023 and 2024, the route holds them in two collections, and 2022 is nearly missing from the preferred one.",
       "why": "A five-year history mixes processing versions and has a hole unless it is filled deliberately. The fill choice decides whether 2022 data carry a different offset state and fewer quality layers than the rest."
     },
     {
@@ -7891,7 +7909,7 @@
         "G12",
         "G9"
       ],
-      "plain": "The flag that says whether a product's geolocation was refined sits in a metadata file the route may not deliver.",
+      "plain": "The flag that says whether a product's geolocation was refined sits in a metadata file that the route does not always deliver.",
       "why": "Without it the store cannot say which dates have the better geolocation. Ponds move by a pixel or more between refined and unrefined dates."
     },
     {
@@ -7979,7 +7997,7 @@
         "G6",
         "G1"
       ],
-      "plain": "Pixels are classed interior or shoreline once, from the polygon. Between dates the image shifts by several metres, so an interior pixel can straddle the shore on some dates.",
+      "plain": "Pixels are classed interior or shoreline once, from the polygon. Between dates the image shifts by several meters, so an interior pixel can straddle the shore on some dates.",
       "why": "A strict interior rule is not strict on every date. Coverage fractions and the near-land buffer keep the pond in view when it shifts. Prototyping measures the effect."
     },
     {
@@ -7995,7 +8013,7 @@
         "cl-ar-earth-search-cogs-reprocessed_products",
         "PR-05"
       ],
-      "plain": "ESA has removed superseded products. Both AWS copies can hold multiple products per acquisition, with more competing versions in the older copy.",
+      "plain": "ESA removed superseded products. Both AWS copies can hold multiple products per acquisition, with more competing versions in the older copy.",
       "why": "A value the model was trained on can disappear at the source. The store keeps every revision it has ingested and never overwrites, so results stay reproducible."
     },
     {
@@ -8053,7 +8071,7 @@
       "id": "I-20",
       "title": "Read cost follows blocks touched, not water bodies",
       "text": "A windowed read moves the bytes a window touches. GDAL's partial download default is 16 KB and its COG creation default is 512 pixel tiles. A lazy stack defaults to 1024 pixel chunks. A whole product is about 800 MB. These are tool defaults, not properties of the delivered assets.",
-      "consequence": "Clustered ponds are expected to share reads. The scale driver is expected to be distinct blocks and dates, assumption A17. Stage 2 measured one lake at a time on 2026-09-15, finding F-24. 24 of 25 small lakes fit within one internal block per file. That is 15 requests and 3 to 4 MB for five files, whatever their pixel count. One lake across a block boundary cost 20 requests. Stage 3 measured many lakes per tile on 2026-09-16, finding F-25. Read together in one process, a tile's lakes cost 24 to 46 percent of the requests of one process per lake. A block one lake loaded served the next, and 21 of 26 smaller lakes in tiles with a large lake cost no request. The pilot's lakes touched 3 to 17 percent of their files' blocks. A whole-tile read cost 6 to 32 times the windowed bytes. Byte arithmetic puts the crossover at 25 to 150 lakes per tile for that mix.",
+      "consequence": "Stages 2 to 4 support sharing open files and image blocks for the tested lakes. Findings F-24 to F-26 summarize the evidence. Costs depend on window shape, block alignment, compression, overlap, and reader settings. Tile counts and lake counts alone cannot predict transfer. Whole-tile crossover estimates remain conditional. AWS cost and production-density behavior remain unmeasured.",
       "status": "measure",
       "decision": "Prototyping benchmark on the workload matrix.",
       "evidence": [
@@ -8144,7 +8162,7 @@
     {
       "id": "I-26",
       "title": "The two AWS routes may deliver different quality layers",
-      "text": "Measured on 2026-09-10 (PR-05) from one full item per collection, ingestion software version, and baseline. Collection 1 delivers scene classification, cloud probability, snow probability, aerosol, and water vapour as cloud-optimized GeoTIFFs in a public us-west-2 bucket at every sampled version. The older collection delivers scene classification, aerosol, and water vapour as GeoTIFFs with JPEG 2000 alternates for items ingested by software 0.1.0 and 0.1.1, and adds cloud and snow probability as JPEG 2000 only for items ingested by software 2025.03.06 and later. All but 6 of the 3,717 fallback items at 04.00 for 2022 were ingested by software 0.1.0.",
+      "text": "Measured on 2026-09-10 (PR-05) from one full item per collection, ingestion software version, and baseline. Collection 1 delivers scene classification, cloud probability, snow probability, aerosol, and water vapor as cloud-optimized GeoTIFFs in a public us-west-2 bucket at every sampled version. The older collection delivers scene classification, aerosol, and water vapor as GeoTIFFs with JPEG 2000 alternates for items ingested by software 0.1.0 and 0.1.1, and adds cloud and snow probability as JPEG 2000 only for items ingested by software 2025.03.06 and later. All but 6 of the 3,717 fallback items at 04.00 for 2022 were ingested by software 0.1.0.",
       "consequence": "Quality availability depends on the collection and ingestion version. Most sampled 2022 fallback items lack cloud and snow probability. Fill policy must account for missing layers.",
       "status": "open",
       "decision": "Listing probe done. Whether the store tolerates absent cloud and snow probability for fallback items is part of the fill policy decision.",
@@ -8155,7 +8173,7 @@
         "PR-05",
         "PR-07"
       ],
-      "plain": "Sampled Collection 1 items carry cloud and snow probability layers. Most 2022 fallback items lack them, while retaining classification and other layers.",
+      "plain": "Sampled Collection 1 items carry cloud and snow probability layers. Most 2022 fallback items lack them but keep classification and other layers.",
       "why": "Fallback screening may need to rely on classification without probability layers. Conditional cloud dilation and missing layers need testing on the public pilot."
     },
     {
@@ -8212,8 +8230,8 @@
       "id": "I-30",
       "title": "Cross-tile mosaicking is a MAJOR CONCERN",
       "flag": "major concern",
-      "text": "Adjacent tiles are processed separately and differ in classification and reflectance in their overlap. Tiles in different UTM zones have different pixel grids. A water body in an overlap or on a zone boundary can have multiple products per date. One near-land buffer can span tiles. Tools that stitch or fuse tiles hide all of this. Measured on 2026-09-10 (PR-05): 7 of 20 survey sites lie in two to four tiles by footprint, so multiple tile products may cover them. Actual usable coverage remains untested.",
-      "consequence": "MAJOR CONCERN. The owner requires a thorough investigation of cross-tile mosaicking before any stitched value is trusted. The store never mosaics. It keeps every tile's values with a primary marker under the provisional rule of assumption A22. The prototype measures differences between tiles over the same pixels on the same dates, per band and per quality layer. No consumer-facing mosaic is specified before that measurement.",
+      "text": "Adjacent tiles can differ in classification, reflectance, and pixel grids. Multiple products can cover one lake during a satellite pass. Tools that stitch tiles can hide these differences. The catalog survey records candidate overlap. Stage 4 establishes complete native-extent coverage for its selected lakes, with separate contributions. It does not establish valid measurements at every location or scientific agreement between observations.",
+      "consequence": "The store never mosaics. Stage 4 retains separate item and native-grid contributions, summarized in F-26. Ambiguous primary roles remain null until the owner selects a rule. Scientific comparison requires matched ground locations, per-band validity, and explicit quality-grid association. Equal extraction across methods does not establish equal values between tiles.",
       "status": "open",
       "decision": "Decision 0003. Owner direction on 2026-09-10: proceed with the provisional primary-tile rule and investigate thoroughly.",
       "evidence": [
@@ -8224,7 +8242,7 @@
         "cl-wf-server-side-extraction-geolocation_handling",
         "PR-05"
       ],
-      "plain": "A pond near a tile edge may have multiple products per date. Grids or values can differ. Stitching tiles can hide those differences.",
+      "plain": "A pond near a tile edge can have multiple products per date. Grids or values can differ. Stitching tiles can hide those differences.",
       "why": "Seven of twenty survey sites lie in two to four tiles. Which value the model sees, and whether the two agree, is unknown until measured. The store never mosaics, and the difference is measured before any stitched value is trusted."
     }
   ],
@@ -8292,7 +8310,7 @@
       "id": "PR-06",
       "date": "2026-09-10",
       "question": "Is the empty Alaska tile typical of Alaska, and does Hawaii show the same 2022 gap as the contiguous states?",
-      "result": "Monthly item counts over Alaska, Hawaii, and a northern plains box. Collection 1 falls below 5 percent of its median month in January to November 2022 in all three boxes, except March over Alaska and the plains box. The older collection and Level-1C show no such months. Alaska as a whole holds about 10,000 Collection 1 items per month outside 2022, so the empty tile is specific to its neighbourhood.",
+      "result": "Monthly item counts over Alaska, Hawaii, and a northern plains box. Collection 1 falls below 5 percent of its median month in January to November 2022 in all three boxes, except March over Alaska and the plains box. The older collection and Level-1C show no such months. Alaska as a whole holds about 10,000 Collection 1 items per month outside 2022, so the empty tile is specific to its neighborhood.",
       "bears_on": [
         "I-08"
       ],
@@ -8302,7 +8320,7 @@
       "id": "PR-07",
       "date": "2026-09-10",
       "question": "For every acquisition Collection 1 lacks, does the older collection hold a complete set of cloud-optimized GeoTIFFs in the public bucket, and do those objects exist?",
-      "result": "Scripted survey over the 405 tile-months the gap survey marked incomplete, 870 requests, headers only on the bucket. Of 5,022 missing acquisitions, 3,840 have an older-collection item with all twelve reflectance bands, the scene classification, aerosol, and water vapour as GeoTIFFs. Five have JPEG 2000 only, all in January 2022. 1,177 have nothing, 1,162 of them in the Alaska tile. The items a fill would use are 03.01 and 04.00 originals with a mixed offset flag and no cloud or snow probability. 702 HEAD requests on 351 sampled items all returned 200 with no request-charged header. Both surveys agree in every tile-month. Numbers are in docs/measurements.md and the generated report.",
+      "result": "Scripted survey over the 405 tile-months the gap survey marked incomplete, 870 requests, headers only on the bucket. Of 5,022 missing acquisitions, 3,840 have an older-collection item with all twelve reflectance bands, the scene classification, aerosol, and water vapor as GeoTIFFs. Five have JPEG 2000 only, all in January 2022. 1,177 have nothing, 1,162 of them in the Alaska tile. The items a fill would use are 03.01 and 04.00 originals with a mixed offset flag and no cloud or snow probability. 702 HEAD requests on 351 sampled items all returned 200 with no request-charged header. Both surveys agree in every tile-month. Numbers are in docs/measurements.md and the generated report.",
       "bears_on": [
         "I-05",
         "I-08",

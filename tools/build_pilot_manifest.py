@@ -91,7 +91,7 @@ def ring_area_m2(ring: list) -> float:
 
 
 def polygon_area_m2(geometry: dict) -> float:
-    """Area of a Polygon or MultiPolygon in square metres, holes removed."""
+    """Area of a Polygon or MultiPolygon in square meters, holes removed."""
     if geometry["type"] == "Polygon":
         polygons = [geometry["coordinates"]]
     elif geometry["type"] == "MultiPolygon":

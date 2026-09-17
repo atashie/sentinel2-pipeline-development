@@ -44,7 +44,7 @@ Numbers live in [measurements.md](../measurements.md). This list says what each 
 
 The owner read the correction below and asked for a second survey. It treats the older collection's GeoTIFFs as the fallback. The owner also asked for a machine-readable report for Codex. Numbers are in findings 10 to 12 of [measurements.md](../measurements.md).
 
-- **GS-10. The older collection's GeoTIFFs cover the missing 2022 acquisitions.** Outside the absent Alaska tile, all but 20 missing acquisitions have a complete GeoTIFF set. Aerosol and water vapour are included. Five have JPEG 2000 only and 15 have nothing. The items are 03.01 and 04.00 originals with a mixed offset flag and no cloud or snow probability.
+- **GS-10. The older collection's GeoTIFFs cover the missing 2022 acquisitions.** Outside the absent Alaska tile, all but 20 missing acquisitions have a complete GeoTIFF set. Aerosol and water vapor are included. Five have JPEG 2000 only and 15 have nothing. The items are 03.01 and 04.00 originals with a mixed offset flag and no cloud or snow probability.
 - **GS-11. Sampled objects exist and answer unsigned requests.** 702 HEAD requests on 351 items all returned 200 with sizes, and no request-charged header. Existence and size only.
 - **GS-12. The two surveys agree.** Missing and covered counts match in all 405 tile-months.
 
@@ -69,7 +69,7 @@ Each gap gets its own decision. The options are the agent's proposal. The owner 
 | A3. Fetch ESA's 05.10 products for 2022 from the Copernicus catalog once | A bounded, one-year exception to the route | Contradicts decision 0003 unless the owner records the exception. Needs credentials and egress from a non-AWS store. Context only under A13 |
 | A4. Start the 2021 scenario at 2023 and treat 2021 as an isolated year | No fill | Loses a year of the five |
 
-Proposal: A1 as a labelled provisional fill, keyed by baseline, after the pixel check in Gap E passes. A2 as the standing rule, so the 05.10 backfill replaces the provisional rows as a revision. The store's `refinement_status` and baseline fields already distinguish them.
+Proposal: A1 as a labeled provisional fill, keyed by baseline, after the pixel check in Gap E passes. A2 as the standing rule, so the 05.10 backfill replaces the provisional rows as a revision. The store's `refinement_status` and baseline fields already distinguish them.
 
 ### Gap B: December 2022 to December 2023 at 05.09 instead of 05.10
 
@@ -106,7 +106,7 @@ A few megabytes per item. It settles whether the flag or the `raster:bands` offs
 | GR01 conclusions contradicted their numbers | fixed. Titles and review prompts in `tools/gap_report.py`, findings 1, 3, and 7 in measurements, GS-01, GS-03, and GS-07 above, and issues I-08 and I-16. Report regenerated. Collection 1's 2022 items stay in scope, and fallback eligibility is per missing acquisition |
 | GR02 quality summary overwrote samples | fixed. The report now lists distinct quality-asset layouts with their sample ids and baselines. Software 2026.08.16 shows two layouts. Regression test added |
 | GR03 no input compatibility check | fixed. The generator refuses a fallback result whose recorded digest or measured time differs from the gap result. It also refuses one whose tile-months differ from the months the gap survey marked incomplete. Regression tests added |
-| GR04 hidden selection preference | corrected with documentation. The helper's docstring now states the asset-count preference and calls it a survey heuristic. Behaviour unchanged, so the result stays reproducible |
+| GR04 hidden selection preference | corrected with documentation. The helper's docstring now states the asset-count preference and calls it a survey heuristic. Behavior unchanged, so the result stays reproducible |
 | GR05 retries missing from the log | fixed for future runs. Both scripts now log every attempt with its number. The two committed results predate the change, as their measurement rows say |
 
 ## Documentation consolidation, 2026-09-10

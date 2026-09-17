@@ -711,7 +711,7 @@ def build(gap: dict, fallback: dict, probes: dict, paths: dict[str, Path]) -> di
                     },
                 ],
                 "agent_proposal": (
-                    "A1 as a labelled provisional fill keyed by baseline after the pixel check, "
+                    "A1 as a labeled provisional fill keyed by baseline after the pixel check, "
                     "with A2 as the standing rule."
                 ),
             },
@@ -869,7 +869,7 @@ def build(gap: dict, fallback: dict, probes: dict, paths: dict[str, Path]) -> di
         "decision_inputs": decision_inputs,
         "open_questions": [
             (
-                "Why tile 05VLG and possibly its neighbours are absent from every Earth Search "
+                "Why tile 05VLG and possibly its neighbors are absent from every Earth Search "
                 "collection before June 2025."
             ),
             (

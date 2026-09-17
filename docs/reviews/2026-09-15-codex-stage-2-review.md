@@ -63,7 +63,7 @@ I reconstructed all 198 saved naive-only cells and intersected each pixel square
 - One has an empty intersection. Its cause remains uninvestigated.
 - None of these 198 has only a zero-area boundary contact.
 
-The area thresholds are 0.0001, 0.0004, and 0.0036 square metres at 10, 20, and 60 m.
+The area thresholds are 0.0001, 0.0004, and 0.0036 square meters at 10, 20, and 60 m.
 The six cells selected only by the area-based rule remain a separate observation.
 This audit does not explain those six or the single empty intersection.
 

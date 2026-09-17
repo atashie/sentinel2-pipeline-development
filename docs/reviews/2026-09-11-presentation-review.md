@@ -40,7 +40,7 @@ Severity: **must change** blocks colleague use, **improve** is required by the o
 
 ### 1. The sensor rationale is incomplete and Landsat is framed as complementary. Must change
 
-The page gives one reason for Sentinel-2, pixel size, labelled provisional. Landsat is "a complementary option". The owner's direction supplies the full rationale.
+The page gives one reason for Sentinel-2, pixel size, labeled provisional. Landsat is "a complementary option". The owner's direction supplies the full rationale.
 Five facts were fetched from primary pages on 2026-09-11 and sent to an independent checking agent. Four were confirmed and one corrected in wording. The verdicts are in the [sources record](../assessment-checks/discovery-presentation-sources.json).
 
 - Sentinel-2A launched in 2015, 2B in 2017, 2C in 2024. Each carries the same single instrument, with four bands at 10 m, six at 20 m, three at 60 m. [SentiWiki mission page](https://sentiwiki.copernicus.eu/web/s2-mission).
@@ -94,7 +94,7 @@ The owner asked why the NDWI and NDVI views show long streaks of missing water. 
 
 - Near-infrared reflectance over clear water is close to zero. The stored value is scaled by 0.0001 and offset by −0.1, per the asset metadata in the provenance record. The median stored near-infrared value over water pixels is 1,012, against an offset of 1,000.
 - After the offset, 19.6 percent of the pixels the scene classification calls water have a near-infrared reflectance below zero. Red and green never go below zero.
-- The builder excludes any negative input from an index. Those pixels turn grey. The exclusion follows small along-track variations in the noise floor, so it appears as vertical streaks over open water.
+- The builder excludes any negative input from an index. Those pixels turn gray. The exclusion follows small along-track variations in the noise floor, so it appears as vertical streaks over open water.
 - The provenance record shows the effect: valid fraction 0.978 for the band views and 0.908 for the two index views.
 
 Required change in [build_discovery_maps.py](../../tools/build_discovery_maps.py): keep the scene-classification and no-data screening, and drop the non-negative input rule. Keep the denominator rule and clip each index to the legend range. With that rule 99.9 percent of water pixels receive an index value. Rebuild from the cached arrays, no download needed.

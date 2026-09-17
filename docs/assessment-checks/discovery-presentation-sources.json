@@ -207,6 +207,27 @@
       "researcher": "Codex research agent /root/independent_archives, inherited parent model",
       "checker": "Independent Codex checking agent /root/check_archive_claims, gpt-5.6-sol",
       "review": "../reviews/2026-09-11-prototyping-handoff.md"
+    },
+    {
+      "topic": "Sensor comparison and HLS clarification, 2026-09-17",
+      "status": "documented",
+      "verdict": "corrected",
+      "approved_wording": "Sentinel-2 Level-2A retains twelve reflectance bands with native 10, 20, and 60 m sampling. Nominal two-satellite revisit is five days at the equator. Landsat 8 and 9 together repeat every eight days. Their multispectral bands have 30 m sampling. Their native 100 m thermal bands are delivered resampled to 30 m. NASA HLS places both sensors on a shared 30 m UTM/MGRS grid with additional processing.",
+      "source_urls": [
+        "https://sentiwiki.copernicus.eu/web/s2-mission",
+        "https://sentiwiki.copernicus.eu/web/s2-products",
+        "https://www.usgs.gov/faqs/what-are-band-designations-landsat-satellites",
+        "https://www.usgs.gov/faqs/what-are-acquisition-schedules-landsat-satellites",
+        "https://hls.gsfc.nasa.gov/algorithms/",
+        "https://hls.gsfc.nasa.gov/data-products/",
+        "https://sentiwiki.copernicus.eu/web/s2-processing"
+      ],
+      "locator": "Copernicus band groups, Level-2A band list, and revisit. USGS sampling tables and acquisition intervals. NASA common-grid and processing descriptions.",
+      "qualification": "Level-2A omits B10. NASA labels B5/B6/B7 as red edge and B8A as narrow NIR. Sensor revisit is an observation opportunity, not a guarantee of cloud-free imagery. HLS uses LaSRC and additional normalization. ESA Level-2A uses Sen2Cor. The model input product remains unconfirmed.",
+      "researcher": "Codex research agent /root/sensor_check, separate context",
+      "checker": "Independent Codex checking agent /root/sensor_independent, separate context",
+      "accessed_on": "2026-09-17",
+      "review": "../reviews/2026-09-17-documentation-and-presentation.md"
     }
   ],
   "limitations": [

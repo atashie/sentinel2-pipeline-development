@@ -19,7 +19,7 @@ A manifest is a GeoJSON `FeatureCollection` in EPSG:4326. Each feature carries t
 | `setting` | Terrain description of the region: `mountain`, `hills`, `flat`, or `lowland`. A description, not a measurement |
 | `tier` | `large` for an anchor lake, `pilot` for a size-class pick |
 | `size_class_m` | The workload size class the width falls in, from [../benchmarks/workloads.json](../benchmarks/workloads.json) |
-| `width_m` | Area-equivalent width: square root of area in metres, not a measured distance across the water body |
+| `width_m` | Area-equivalent width: square root of area in meters, not a measured distance across the water body |
 | `area_m2` | Polygon area from the stored coordinates, holes removed |
 | `fcode` | The dataset's feature code |
 | `gnis_id` | Geographic Names Information System id, when the dataset has one |

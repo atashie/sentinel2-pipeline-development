@@ -38,12 +38,12 @@ def brute_force_classes(polygon, resolution, near_land_m=100.0):
             top = Y0 - row * resolution
             pixel = box(left, top - resolution, left + resolution, top)
             area = pixel.intersection(polygon).area / (resolution * resolution)
-            centre = shapely.Point(left + resolution / 2, top - resolution / 2)
+            center = shapely.Point(left + resolution / 2, top - resolution / 2)
             if area >= 1 - 1e-9:
                 classes[row, col] = 1
             elif area > 1e-9:
                 classes[row, col] = 2
-            elif polygon.boundary.distance(centre) <= near_land_m:
+            elif polygon.boundary.distance(center) <= near_land_m:
                 classes[row, col] = 3
     return classes
 

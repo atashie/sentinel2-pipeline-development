@@ -110,9 +110,9 @@ State that distinction in the record instead of promising three internal-block c
 
 Locations: [lake_membership](../../benchmarks/tile_extraction.py), lines 118 to 133, and `choose_item`, lines 214 to 224.
 
-A buffered polygon intersecting a tile is a candidate test. It does not guarantee that any pixel centre satisfies the near-land rule.
+A buffered polygon intersecting a tile is a candidate test. It does not guarantee that any pixel center satisfies the near-land rule.
 In a synthetic example, a lake 98 m outside the tile has an intersecting 100 m buffer.
-The nearest pixel centre lies beyond 100 m. The current masks correctly select zero pixels at all three resolutions.
+The nearest pixel center lies beyond 100 m. The current masks correctly select zero pixels at all three resolutions.
 The statement incorrectly treats this valid geometric possibility as a membership defect.
 
 Footprint scoring ignores near-land support. Every near-land-only member has `in_tile == 0`.
@@ -198,7 +198,7 @@ Choose concurrency and batch limits from those observations. Neither provider ch
   Add that check for naive-only plans, and keep the declared pixel-set tolerance separate from value equality.
 - `resummarize` reconstructs selected lakes from preparation keys, losing unplaced lakes, and tolerates a missing baseline file.
   Preserve the original requested lake IDs and refuse a missing recorded baseline, as with a changed baseline digest.
-- A single labelled lake-ID raster has not been implemented or timed. Calling current extraction time an upper bound for that design is unsupported.
+- A single labeled lake-ID raster has not been implemented or timed. Calling current extraction time an upper bound for that design is unsupported.
 - The root README still claims every pilot lake was read in stage 2. Thirty yielded pixels and two were outside the chosen tiles.
 
 ## Source checks

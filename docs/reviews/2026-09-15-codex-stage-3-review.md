@@ -94,7 +94,7 @@ That fallback is flagged. Per-lake medians ignore the parent run's pressure flag
 The renderer consumes medians without checking the pressure flag.
 
 A JSON-only diagnostic marked one saved run as pressured.
-Its combination still received a median, labelled pressured. Its six lake rows each reported one clean run and retained their medians.
+Its combination still received a median, labeled pressured. Its six lake rows each reported one clean run and retained their medians.
 This contradicts the categorical promise that pressured runs stay outside timing medians.
 
 No extraction or preparation record in the full run crossed the configured threshold. This defect does not change its medians.
@@ -137,7 +137,7 @@ The comparison tables reproduce the result. Several surrounding statements need 
 | CPU and memory ranges describe runs | The reported CPU ranges describe medians. The memory ranges describe maxima within combinations. Label those aggregations |
 | Every tile has one anchor and three to five ponds | The Alaska tiles have no anchor. 17SKT has one anchor and two ponds |
 
-Break-even arithmetic is correct and explicitly labelled an estimate in the table, measurement explanation, F-25, I-20, and chapter paragraph.
+Break-even arithmetic is correct and explicitly labeled an estimate in the table, measurement explanation, F-25, I-20, and chapter paragraph.
 However, the page then says whole-tile reading only pays off at roughly a hundred water bodies.
 The estimate ranges from 25 to 106 and addresses requested bytes only. It measures neither monetary cost nor a runtime crossover.
 The roughly 120-pond figure assumes approximately 400 MB divided by 3.3 MB, without additional sharing.
@@ -187,7 +187,7 @@ These assessments concern the [seven pre-run findings](2026-09-15-codex-stage-3-
 | Duplicate tiles merged after choosing an item | Fixed. Regions merge before item selection |
 | Naive coordinate comparison absent | Fixed. Coordinate digests agree across all patterns |
 | Resummary loses requested lakes or tolerates a missing baseline | Fixed. Requested identifiers and selection survive. Missing or changed recorded baselines stop regeneration |
-| Unsupported labelled-mask upper bound | Corrected. The assertion is removed and that design remains unmeasured |
+| Unsupported labeled-mask upper bound | Corrected. The assertion is removed and that design remains unmeasured |
 | README claims all lakes yielded stage 2 pixels | Corrected in its status paragraph. It distinguishes 30 successful lakes from two outside their tiles |
 
 ## Numeric and selection audit

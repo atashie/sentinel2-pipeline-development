@@ -6,7 +6,7 @@ Implementer: Claude Code (AI coding agent), directed by the repository owner. Sc
 
 Codex's two records are sound and change the page for the better. What they established:
 
-- The two GeoTIFF copies overlap. Shared product identifiers occur in the saved listings, including a 2026-09-07 product catalogued in both within a minute. That is stronger evidence of parallel cataloguing than probe PR-08's single 2025 item.
+- The two GeoTIFF copies overlap. Shared product identifiers occur in the saved listings, including a 2026-09-07 product cataloged in both within a minute. That is stronger evidence of parallel cataloging than probe PR-08's single 2025 item.
 - The newer collection mixes processing histories too. It keeps 05.09 originals for 2023 where ESA now serves 05.10. "Longer, more consistent record" was the wrong phrase for Plan B. Longer, yes. Comparability is unmeasured.
 - Quality layers differ. Older items for 2022 carry no cloud or snow probability. Some later older items link those layers as JPEG 2000. The newer collection serves every layer as GeoTIFF. Measurement finding 6.
 - The explanation of why the newer copy lacks 2022 is an inference from the survey, and the page must say so. Codex's expandable history table, authorized by the owner, is kept verbatim.
@@ -28,7 +28,7 @@ One point where I read Codex's wording more narrowly. "Managed by Element 84" on
 
 Section 02 is about half its previous visible length. It keeps the five-step lineage figure with shorter text and one table comparing the three copies. It keeps Codex's inference paragraph and expandable history, the measured coverage strip, and the two-plan table. Removed: the two comparison cards, the three effort cards, and one of two "why this matters" lines. Their content survives as one table row, one small paragraph, and the plans table.
 
-The tone changed with the owner's direction. "First choice", "never touch the original", and "not used" became "likely the main source", "would read", and "context only". The heading now says why both copies exist is not clear. The new paragraph states what we infer and that the cause could sit in copying, conversion, or cataloguing.
+The tone changed with the owner's direction. "First choice", "never touch the original", and "not used" became "likely the main source", "would read", and "context only". The heading now says why both copies exist is not clear. The new paragraph states what we infer and that the cause could sit in copying, conversion, or cataloging.
 
 ## Evidence
 

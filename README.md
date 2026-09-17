@@ -1,13 +1,13 @@
 # Sentinel-2 ingestion options for water-quality modeling
 
-**Prototyping is underway. Whole-tile access and one lake at a time are measured on one laptop, one acquisition per region, and 32 public water bodies. Many lakes per tile is measured on one laptop. Lakes across tiles, AWS performance, and scientific validation remain open. Workflow, platform, and layout remain open.**
-Read the [stage 3 record](docs/reviews/2026-09-15-stage-3-many-lakes-in-one-tile.md), [Codex's stage 3 review](docs/reviews/2026-09-15-codex-stage-3-review.md), and the [stage 2 record](docs/reviews/2026-09-14-stage-2-one-lake-at-a-time.md), then the [work plan](docs/work-plan.md).
-[Decision 0002](docs/decisions/0002-aws-source-pixel-classes-tile-provenance.md) fixes three pixel classes per water body and a tile provenance marker. [Decision 0003](docs/decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) selects Earth Search as the route and the 2021 scenario first. Workflow, platform, and layout remain open. **Cross-tile mosaicking is a MAJOR CONCERN under investigation, issue I-30.**
+**Prototyping is underway. Stages 1 to 4 have reviewed laptop measurements. AWS performance and scientific validation remain open. Workflow, platform, and layout remain open.**
+The owner accepted the Stage 4 response on 2026-09-17. The [presentation](docs/s2-options.html) and inventory include the corrected findings.
+Next: review the [documentation and presentation update](docs/reviews/2026-09-17-documentation-and-presentation.md) and the [wording pass over the page](docs/reviews/2026-09-17-presentation-wording-pass.md) with its [spelling follow-up](docs/reviews/2026-09-17-american-spelling.md). Stage 5 requires separate authorization.
+The [work plan](docs/work-plan.md) tracks the broader assessment and remaining review gates.
 
-**Start here:** [Discovery presentation](docs/s2-options.html) explains the data, AWS archives, quality risks, processing work, and real map examples.
-It is written for engineering and business colleagues. Prototyping shows the test cases, the stage 1 access measurements, the stage 2 extraction measurements, and the stage 3 many-lakes measurements. Integration Specs and Tradeoffs & Issues remain placeholders.
-Vercel hosting is prepared but no deployment is recorded, see [docs/vercel-hosting.md](docs/vercel-hosting.md). Locally, open the HTML from disk with its `assets/discovery/` directory beside it.
-The gap surveys are in [docs/measurements.md](docs/measurements.md) and the generated [report](docs/reviews/2026-09-10-gap-survey-report.json).
+**Start here:** the [assessment presentation](docs/s2-options.html) explains Discovery and the partial results from Stages 1 to 4.
+It is written for engineering and business colleagues. Integration Specs and Tradeoffs & Issues remain placeholders.
+Open the HTML locally with its `assets/discovery/` directory beside it. [Hosting](docs/vercel-hosting.md) is prepared, with no deployment recorded.
 
 This repository assesses how to ingest Sentinel-2 surface reflectance from public AWS repositories into an
 internal store that serves per-water-body pixel values to a water-quality modeling project. The company runs
@@ -25,8 +25,8 @@ Non-AWS options are documented for context only. It prototypes the leading optio
 measures cost at 1,000 and 10,000 water bodies for 2017-onward and 2021-onward histories. It ends in technical
 specifications for the engineering team, who build the system.
 
-**Status:** the [data gap and fallback surveys and the stage 1 to 3 measurements](docs/measurements.md), plus the [public pilot manifest](examples/README.md). Thirty of the 32 pilot lakes yielded pixels one lake at a time with four methods, and two lay outside their region's tile. Every lake of each tile has been read in one process with three read patterns, stage 3. It was rerun on 2026-09-16 after a reader-cache error found in review. No workflow, platform, or layout is selected. [docs/work-plan.md](docs/work-plan.md) lists the
-steps. [docs/assumptions.md](docs/assumptions.md) lists what is assumed and where each assumption came from.
+The [measurements](docs/measurements.md) hold survey and prototype evidence. The [public pilot](examples/README.md) defines the test polygons.
+The [assumptions](docs/assumptions.md) and [decisions](docs/decisions/README.md) record scope and accepted choices.
 
 ## Quick start
 

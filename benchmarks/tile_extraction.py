@@ -86,11 +86,11 @@ LAZY_WORKERS = 4
 MANIFEST = stage2.MANIFEST
 DEFAULT_BASELINE = ROOT / "benchmarks" / "results" / "lake-extraction.json"
 IMPLEMENTATION = {
-    "script": 4,
+    "script": 5,
     "stage_2_script": stage2.IMPLEMENTATION["script"],
     "masks": masks.MASK_VERSION,
 }
-"""Bumped when a worker's behaviour changes. Saved results from another version are not reused."""
+"""Bumped when a worker's behavior changes. Saved results from another version are not reused."""
 GIB = 1024**3
 MEMORY_DEFAULTS = {
     "budget_bytes": 4 * GIB,
@@ -149,7 +149,7 @@ READ_TIMERS = ("open_seconds", "read_seconds", "build_seconds", "compute_seconds
 # ---------------------------------------------------------------- pure helpers
 
 
-def normalise_grid_code(code: str | None) -> str | None:
+def normalize_grid_code(code: str | None) -> str | None:
     """Tile id from a catalog grid code, with a two-digit zone. Codes vary, finding 18."""
     found = GRID_CODE.match(code or "")
     if not found:
@@ -215,7 +215,7 @@ def choose_tiles(items: list[dict], lakes: list[dict]) -> dict:
     """
     by_tile: dict[str, list[dict]] = defaultdict(list)
     for item in items:
-        code = normalise_grid_code(item.get("properties", {}).get("grid:code"))
+        code = normalize_grid_code(item.get("properties", {}).get("grid:code"))
         if code:
             by_tile[code].append(item)
     lake_ids = [lake["properties"]["water_body_id"] for lake in lakes]
@@ -1264,8 +1264,49 @@ def run_lazy(spec: dict, capture: harness.GdalLogCapture) -> tuple[dict, list, l
         return _run_lazy(spec, capture, int(spec.get("chunk", LAZY_CHUNK)), workers)
 
 
-def _run_lazy(spec: dict, capture, chunk: int, workers: int) -> tuple[dict, list, list]:
+def load_native_item(items, keys, geobox, grid, chunk):
+    """Refuse mosaics and resampling before odc-stac builds a graph."""
     import odc.stac
+
+    if len(items) != 1:
+        raise ValueError("a native graph requires exactly one item")
+    item = items[0].to_dict()
+    if masks.TileGrid.from_item(item) != grid:
+        raise ValueError("item and requested native grid differ")
+    resolution = geobox.affine.a
+    if resolution not in masks.RESOLUTIONS or geobox.crs.epsg != grid.epsg:
+        raise ValueError("native CRS and resolution are required")
+    expected = grid.transform(int(resolution))
+    actual = geobox.affine
+    if (actual.a, actual.b, actual.d, actual.e) != (expected.a, expected.b, expected.d, expected.e):
+        raise ValueError("native pixel orientation is required")
+    col = (actual.c - expected.c) / resolution
+    row = (expected.f - actual.f) / resolution
+    height, width = grid.shape(int(resolution))
+    if (
+        col != round(col)
+        or row != round(row)
+        or col < 0
+        or row < 0
+        or col + geobox.width > width
+        or row + geobox.height > height
+    ):
+        raise ValueError("window must align with and lie inside the native grid")
+    for key in keys:
+        asset = item["assets"][key]
+        if (
+            asset.get("proj:transform", [])[:6] != list(expected)[:6]
+            or asset.get("proj:shape") != [height, width]
+            or asset.get("proj:epsg", grid.epsg) != grid.epsg
+            or asset.get("proj:code", f"EPSG:{grid.epsg}") != f"EPSG:{grid.epsg}"
+        ):
+            raise ValueError(f"{key} does not declare the requested native grid")
+    return odc.stac.load(
+        items, bands=keys, geobox=geobox, chunks={"x": chunk, "y": chunk}, groupby="id"
+    )
+
+
+def _run_lazy(spec: dict, capture, chunk: int, workers: int) -> tuple[dict, list, list]:
     import pystac
     from odc.geo.geobox import GeoBox
 
@@ -1284,9 +1325,7 @@ def _run_lazy(spec: dict, capture, chunk: int, workers: int) -> tuple[dict, list
     lazy = {"chunk": chunk, "dask_workers": workers, "graph": "shared" if shared else "per-lake"}
 
     def load(geobox, keys):
-        return odc.stac.load(
-            [item], bands=keys, geobox=geobox, chunks={"x": chunk, "y": chunk}, groupby="id"
-        )
+        return load_native_item([item], keys, geobox, grid, chunk)
 
     def stack_record(resolution: int, build: float, matches: bool, stack) -> dict:
         return {
@@ -1512,7 +1551,14 @@ def host_memory() -> dict:
     return {"total": int(virtual.total), "available": int(virtual.available)}
 
 
-def run_in_subprocess(task: str, spec: dict, spec_path: Path, memory: dict | None = None) -> dict:
+def run_in_subprocess(
+    task: str,
+    spec: dict,
+    spec_path: Path,
+    memory: dict | None = None,
+    *,
+    script: Path | None = None,
+) -> dict:
     """Run one worker in a fresh process under a memory budget.
 
     The worker waits to start until the host has the reserve available. While it runs, its
@@ -1547,7 +1593,12 @@ def run_in_subprocess(task: str, spec: dict, spec_path: Path, memory: dict | Non
         }
     swap_before = psutil.swap_memory()
     process = psutil.Popen(
-        [sys.executable, str(Path(__file__).resolve()), f"--{task}-worker", str(spec_path)],
+        [
+            sys.executable,
+            str(script or Path(__file__).resolve()),
+            f"--{task}-worker",
+            str(spec_path),
+        ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,

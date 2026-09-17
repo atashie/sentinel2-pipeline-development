@@ -70,7 +70,7 @@
       "verdict": "confirmed",
       "approved_value": "Concurrent PUTs to one key: latest timestamp wins",
       "approved_unit": null,
-      "approved_note": "Two writers of the same object key are not serialised. A rerun that writes the same key twice is safe only if the bytes are identical.",
+      "approved_note": "Two writers of the same object key are not serialized. A rerun that writes the same key twice is safe only if the bytes are identical.",
       "source_ids": [
         "src-aws-s3-welcome"
       ],
@@ -185,7 +185,7 @@
       "verdict": "confirmed",
       "approved_value": "5.00",
       "approved_unit": "USD per TB scanned",
-      "approved_note": "Amazon Athena SQL queries, US East (N. Virginia). Bytes scanned are rounded up to the nearest megabyte with a 10 MB minimum per query. DDL statements and failed queries are not charged. Cancelled queries are charged for bytes scanned. Query results are billed at standard S3 rates. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "approved_note": "Amazon Athena SQL queries, US East (N. Virginia). Bytes scanned are rounded up to the nearest megabyte with a 10 MB minimum per query. DDL statements and failed queries are not charged. Canceled queries are charged for bytes scanned. Query results are billed at standard S3 rates. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
       "source_ids": [
         "src-aws-pricemap-athena",
         "src-aws-athena-pricing"
@@ -241,7 +241,7 @@
       "id": "chk-cl-sl-zarr-icechunk-format-3",
       "claim_id": "cl-sl-zarr-icechunk-format-3",
       "verdict": "confirmed",
-      "approved_value": "Uninitialised array regions need no stored chunk",
+      "approved_value": "Uninitialized array regions need no stored chunk",
       "approved_unit": null,
       "approved_note": "This is the closest documented statement about sparse coverage. It sits in the non-normative Implementation Notes and describes resizing, not general sparse writes.",
       "source_ids": [
@@ -456,7 +456,7 @@
       "verdict": "confirmed",
       "approved_value": "Each metadata change is committed by an atomic operation",
       "approved_unit": null,
-      "approved_note": "The spec does not standardise which atomic operation. On AWS the swap is the catalog check-and-put.",
+      "approved_note": "The spec does not standardize which atomic operation. On AWS the swap is the catalog check-and-put.",
       "source_ids": [
         "src-iceberg-spec"
       ],

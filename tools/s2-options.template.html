@@ -53,8 +53,8 @@ small,.small{font-size:13px;line-height:1.6}
 .section-nav a{text-decoration:none}
 .section-nav a:hover{text-decoration:underline}
 .chapter{padding-block:62px;border-bottom:1px solid var(--line);scroll-margin-top:10px}
-.chapter-head{display:grid;grid-template-columns:80px 1fr;gap:8px;margin-bottom:30px}
-.chapter-num{font-size:12px;color:var(--teal);padding-top:9px}
+.chapter-head{display:block;margin-bottom:30px}
+.chapter-num{font-size:12px;color:var(--teal);margin-bottom:12px;letter-spacing:.04em}
 .chapter-head p{max-width:700px;color:var(--muted);margin-top:15px;font-size:17px}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:34px}
 .sensor{border-top:3px solid var(--teal);padding-top:18px}
@@ -71,14 +71,14 @@ small,.small{font-size:13px;line-height:1.6}
 .resolution-figure p{font-size:14px;color:var(--muted)}
 svg{display:block;width:100%;font-family:inherit}
 svg text{fill:var(--ink)}
-.source-note{color:var(--muted);font-size:11px;margin-top:18px;line-height:1.7}
+.source-note{color:var(--muted);font-size:12px;margin-top:18px;line-height:1.7}
 .source-note a{color:inherit}
 .source-note b{font-weight:600}
 .risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0 26px}
 .risk{padding:22px 0;border-top:1px solid var(--line)}
 .risk h3{font-size:19px;margin-bottom:9px;letter-spacing:-.02em}
-.risk p{font-size:14px;color:var(--muted)}
-.risk .response{font-size:13px;color:var(--ink);margin-top:13px}
+.risk p{font-size:15px;color:var(--muted)}
+.risk .response{font-size:14px;color:var(--ink);margin-top:13px}
 .risk .response b{color:var(--teal)}
 .diagrams{display:grid;grid-template-columns:repeat(auto-fit,minmax(440px,1fr));gap:30px;margin-top:22px}
 .diagram{background:var(--mint);padding:24px}
@@ -167,6 +167,13 @@ noscript p{padding:16px;background:var(--sand)}
 .chip{display:inline-block;font:10px ui-monospace,SFMono-Regular,monospace;background:var(--mint);color:var(--ink);padding:3px 7px;border-radius:3px;margin:4px 4px 0 0;overflow-wrap:anywhere}
 .table-scroll{overflow-x:auto}
 .datasets{min-width:640px}
+.benchmark-detail{margin-top:24px;border-top:1px solid var(--line);padding-top:16px}
+.benchmark-detail>summary{font-weight:600}
+.benchmark-detail .table-scroll{margin-top:12px}
+.takeaway{max-width:850px;margin-top:20px;font-size:18px}
+.comparison-bars{margin-top:22px;display:grid;gap:18px}
+.comparison-bars label{display:block;font-size:14px;margin-bottom:4px}
+.comparison-bars meter{display:block;width:100%;height:24px;accent-color:var(--teal)}
 .archive-history .datasets{min-width:900px}
 .datasets tbody th{width:140px}
 .datasets code{font:12px ui-monospace,SFMono-Regular,monospace;overflow-wrap:anywhere}
@@ -306,10 +313,10 @@ footer{display:block}
 <div class="needs">
 <div><b>Chlorophyll and cyanobacteria</b><span>Pigments shape the red and red-edge bands.</span></div>
 <div><b>Turbidity and sediment</b><span>Suspended particles brighten red and near-infrared.</span></div>
-<div><b>Dissolved organic matter</b><span>Tea-coloured water darkens blue and green.</span></div>
+<div><b>Dissolved organic matter</b><span>Tea-colored water darkens blue and green.</span></div>
 <div><b>Surface temperature</b><span>Needs a thermal band. Sentinel-2 has none.</span></div>
 </div>
-<p class="small muted">The modeling team decides which bands to use. The store keeps every band, so that decision can change later without re-ingesting.</p>
+<p class="small muted">The modeling team decides which bands to use. The store keeps every band, so that decision can change later without a new ingestion.</p>
 <div class="split" style="margin-top:28px">
 <article class="sensor">
 <header>
@@ -317,42 +324,42 @@ footer{display:block}
 </header>
 <dl>
 <dt>Pixel size</dt>
-<dd>10 m in blue, green, red, and near-infrared. Nine samples where Landsat has one.</dd>
+<dd>10 m in blue, green, red, and near-infrared. Other bands have 20 or 60 m sampling.</dd>
 <dt>Revisit</dt>
-<dd>Every five days at the equator with two satellites. Clouds decide how many are usable.</dd>
+<dd>Nominally five days at the equator with two satellites. Clouds reduce the usable observations.</dd>
 <dt>Red edge</dt>
-<dd>Three bands between red and near-infrared, at 20 m. Chlorophyll estimates depend on them.</dd>
+<dd>Three red-edge bands at 20 m, plus narrow near-infrared. These add inputs for pigment models.</dd>
 <dt>Consistency</dt>
-<dd>One instrument design on all three satellites since 2015. Ground processing versions still change, and we track them.</dd>
-<dt>Currency</dt>
-<dd>New scenes appear in the AWS catalog within hours. No guarantee is stated.</dd>
+<dd>The MSI instrument family across missions. Instrument calibration and ground processing still vary.</dd>
+<dt>Product</dt>
+<dd>Atmospherically corrected surface reflectance. That correction does not remove every effect on water measurements.</dd>
 <dt>Missing</dt>
 <dd>No thermal band. No record before 2015.</dd>
 </dl>
 </article>
 <article class="sensor secondary">
 <header>
-<h3>Landsat</h3><span class="tag">THE OTHER PUBLIC OPTION · NOT USED FOR NOW</span>
+<h3>Landsat</h3><span class="tag">ALTERNATIVE FOR LATER</span>
 </header>
 <dl>
 <dt>Pixel size</dt>
 <dd>30 m for the multispectral bands on Landsat 8 and 9. Fewer samples on a small lake.</dd>
 <dt>Revisit</dt>
-<dd>Every eight days with the two current satellites.</dd>
+<dd>Landsat 8 and 9 together repeat every eight days. Clouds reduce the usable observations.</dd>
 <dt>Red edge</dt>
 <dd>None.</dd>
 <dt>Consistency</dt>
-<dd>A chain of different sensors since 1972. Landsat 6 never reached orbit. Landsat 7 lost a fifth of every scene to gaps after 2003. Landsat 8 and 9 are a matched pair.</dd>
-<dt>Currency</dt>
-<dd>Current, with two satellites in operation.</dd>
+<dd>A longer record across several sensor generations. Cross-sensor comparisons need calibration checks.</dd>
+<dt>Product</dt>
+<dd>Surface-reflectance products are available. We did not benchmark them here.</dd>
 <dt>Strengths</dt>
-<dd>Thermal bands at 100 m for surface temperature. A record back to 1972.</dd>
+<dd>Native 100 m thermal bands on Landsat 8/9, delivered at 30 m. The broader Landsat record begins in 1972.</dd>
 </dl>
 </article>
 </div>
 <figure class="resolution-figure">
 <svg viewBox="0 0 450 180" role="img" aria-labelledby="resolution-title">
-<title id="resolution-title">The same 30 metre square as nine 10 metre samples or one 30 metre sample. Each square carries one value. The line is the true shoreline, drawn for reference. This is a schematic.</title>
+<title id="resolution-title">The same 30 meter square as nine 10 meter samples or one 30 meter sample. Each square carries one value. The line is the true shoreline, drawn for reference. This is a schematic.</title>
 <g stroke="#fafaf6" stroke-width="3">
 <rect x="24" y="9" width="45" height="45" fill="#b3c69d"/>
 <rect x="69" y="9" width="45" height="45" fill="#a3bd9e"/>
@@ -377,114 +384,76 @@ footer{display:block}
 </svg>
 <figcaption>
 <h3>Small water bodies make pixel size matter.</h3>
-<p>Finer pixels give more chances to separate water from land at a shoreline. A pond only 10 m across may have no pixel entirely inside it.</p>
+<p>Finer pixels give more chances to separate water from land at a shoreline. A pond only 10 m across can have no pixel entirely inside it.</p>
 <p>Even a 10 m pixel can contain both. More detail helps, but it does not guarantee a clean water measurement.</p>
 <p class="small">Illustration: the same 30 × 30 m area at two sampling sizes. Each square shows the one value a sensor reports for it, a mix where the shoreline crosses. The dark line is the true shoreline. Schematic only.</p>
 </figcaption>
 </figure>
-<p class="note-line"><strong>About 30 m Sentinel-2.</strong> Some colleagues know Sentinel-2 at 30 m through NASA’s Harmonized Landsat Sentinel-2 product. That product is derived from Sentinel-2 at 30 m on a Landsat-compatible grid, so the two share one time series. It is a different product from the 10 m archive we would read. It has nine times fewer pixels, a different atmospheric correction, and adjustments to match Landsat. Prototyping will confirm which product the model was built on.</p>
-<p class="choice"><strong>The choice.</strong> Sentinel-2, for its finer pixels, more frequent revisit, red-edge bands, and one consistent instrument. Landsat waits until surface temperature or pre-2015 history is needed.</p>
-<p class="source-note"><b>Documented:</b> <a href="https://sentiwiki.copernicus.eu/web/s2-mission">Copernicus sensor bands and satellites</a> · <a href="https://www.usgs.gov/faqs/what-are-band-designations-landsat-satellites">USGS Landsat sensors</a> · <a href="https://www.usgs.gov/landsat-missions/landsat-6">Landsat 6</a> · <a href="https://www.usgs.gov/landsat-missions/landsat-7">Landsat 7</a> · <a href="https://www.usgs.gov/landsat-missions/landsat-9">Landsat 9</a> · <a href="https://www.earthdata.nasa.gov/data/catalog/lpcloud-hlss30-2.0">NASA HLS S30</a>. Sources checked 2026-09-11. <b>Project rationale:</b> which bands carry which water-quality signal, and the preference itself.</p>
+<p class="note-line"><strong>A different product: 30 m HLS.</strong> NASA’s Harmonized Landsat Sentinel-2 places both sensors on a common 30 m grid. It applies its own atmospheric correction and additional cross-sensor adjustments. Our source keeps Sentinel-2’s native 10, 20, and 60 m band grids. Which product the existing model expects is still an open question.</p>
+<p class="choice"><strong>The choice.</strong> We prefer Sentinel-2 for its finer visible pixels, frequent revisits, red-edge bands, and consistent instrument family. Landsat remains useful for thermal observations and longer history.</p>
+<p class="source-note"><b>Documented:</b> <a href="https://sentiwiki.copernicus.eu/web/s2-mission">Copernicus sensor specifications</a>, <a href="https://www.usgs.gov/faqs/what-are-band-designations-landsat-satellites">USGS band specifications</a>, <a href="https://www.usgs.gov/faqs/what-are-acquisition-schedules-landsat-satellites">Landsat revisit</a>, and <a href="https://hls.gsfc.nasa.gov/algorithms/">NASA HLS processing</a>. Independently checked 2026-09-17. Band selection depends on the model. The preference comes from project direction. These benchmarks did not test it.</p>
 </section>
 
 <section class="chapter" id="aws">
 <div class="chapter-head">
 <div class="chapter-num">02 / ACCESS</div>
 <div>
-<h2>One ESA product, two GeoTIFF copies on AWS. Why both exist is unclear.</h2>
-<p>Our source is ESA’s Sentinel-2 surface-reflectance product. We assess three AWS copies: its JPEG 2000 files and two cloud-optimized GeoTIFF conversions. Element 84 runs both GeoTIFF copies and lists them in its free Earth Search catalog. Our initial preference is Collection 1 with the older copy for backfill. The fill policy remains open.</p>
+<h2>Use Collection 1 first. Keep the older copy for gaps.</h2>
+<p>Both archives contain Element 84’s cloud-optimized GeoTIFF conversions of ESA’s surface-reflectance product. Earth Search catalogs both. Their history and delivery conventions differ. The same name or date does not guarantee the same values.</p>
 </div>
 </div>
-<figure class="route lineage">
-<div class="route-step"><span class="eyebrow">1 · Made</span>
-<h4>ESA</h4>
-<p>Processes each pass. Reprocesses the archive when its software changes.</p>
-</div>
+<figure class="route">
+<div class="route-step"><span class="eyebrow">Find</span><h4>Earth Search</h4><p>Locate products, their processing versions, and their band files in one catalog.</p></div>
 <div class="route-arrow" aria-hidden="true">→</div>
-<div class="route-step"><span class="eyebrow">2 · Copied</span>
-<h4>JPEG 2000 in AWS</h4>
-<p>Arrives in AWS Frankfurt within hours, in ESA’s layout. Sinergise wrote the readme.</p>
-<div class="buckets"><span class="chip">sentinel-s2-l2a</span></div>
-</div>
+<div class="route-step"><span class="eyebrow">Read</span><h4>Two public AWS buckets</h4><p>Prefer Collection 1. If Collection 1 lacks the product, use the older copy.</p></div>
 <div class="route-arrow" aria-hidden="true">→</div>
-<div class="route-step"><span class="eyebrow">3 · Converted</span>
-<h4>Element 84</h4>
-<p>Converts to cloud-optimized GeoTIFF in AWS Oregon. Twice, into two buckets.</p>
-<div class="buckets"><span class="chip">sentinel-cogs · older</span><span class="chip">e84-earth-search-sentinel-data · Collection 1</span></div>
-</div>
-<div class="route-arrow" aria-hidden="true">→</div>
-<div class="route-step"><span class="eyebrow">4 · Listed</span>
-<h4>Earth Search</h4>
-<p>Catalogs both GeoTIFF buckets, with processing version and file locations.</p>
-</div>
-<div class="route-arrow" aria-hidden="true">→</div>
-<div class="route-step"><span class="eyebrow">5 · Stored</span>
-<h4>Our records</h4>
-<p>Read the blocks around each water body. Keep values, quality codes, tile, and version.</p>
-</div>
-<figcaption>Where the files come from and how we would reach them. Steps 1 to 4 are documented, except who owns the JPEG 2000 bucket. Step 5 is our plan.</figcaption>
+<div class="route-step"><span class="eyebrow">Keep</span><h4>Values with provenance</h4><p>Keep native pixels, quality information, and the source product. Validate the conversion before you combine the two histories.</p></div>
+<figcaption>Our intended access path. A reader can fetch selected blocks of a cloud-optimized GeoTIFF and leave the rest of the file.</figcaption>
 </figure>
-<h3 class="plans-title">Three versions in AWS.</h3>
-<div class="table-scroll">
+<div class="table-scroll" role="region" aria-label="AWS archive comparison" tabindex="0">
 <table class="plans datasets">
-<thead>
-<tr><th scope="col"></th><th scope="col">Older copy</th><th scope="col">Collection 1 copy</th><th scope="col">JPEG 2000 original</th></tr>
-</thead>
+<thead><tr><th scope="col">Question</th><th scope="col">Collection 1 copy · preferred</th><th scope="col">Older copy · fallback</th></tr></thead>
 <tbody>
-<tr><th scope="row">Who runs it</th><td>Element 84</td><td>Element 84</td><td>Registry entry by Element 84, readme by Sinergise. Neither names the bucket’s owner.</td></tr>
-<tr><th scope="row">Where</th><td><a href="https://radiantearth.github.io/stac-browser/#/external/earth-search.aws.element84.com/v1/collections/sentinel-2-l2a"><code>sentinel-cogs</code></a>, AWS Oregon</td><td><a href="https://radiantearth.github.io/stac-browser/#/external/earth-search.aws.element84.com/v1/collections/sentinel-2-c1-l2a"><code>e84-earth-search-sentinel-data</code></a>, AWS Oregon</td><td><a href="https://registry.opendata.aws/sentinel-2/"><code>sentinel-s2-l2a</code></a>, AWS Frankfurt</td></tr>
-<tr><th scope="row">Source access charge</th><td>None. Public, no account, not requester pays.</td><td>None. Public, no account, not requester pays.</td><td>Level-1C is requester pays. For Level-2A the registry and the readme disagree.</td></tr>
-<tr><th scope="row">Files</th><td>Cloud-optimized GeoTIFF. Most sampled 2022 fallback items lack cloud and snow probability layers. Some items link those layers as JPEG 2000.</td><td>Cloud-optimized GeoTIFF. Sampled classification, cloud and snow probability, aerosol, and water-vapour layers are GeoTIFFs, with file checksums and sizes.</td><td>JPEG 2000 in ESA’s layout. Small-window reading efficiency depends on the file and decoder.</td></tr>
-<tr><th scope="row">Versions held</th><td>Originals beside reprocessed versions.</td><td>Processing version 05.00 and later, whether first-run or reprocessed. Fewer competing versions in our sample.</td><td>ESA’s processing versions as released. Unknown how long they are kept.</td></tr>
-<tr><th scope="row">What it holds</th><td>Global from December 2018 by the registry’s account. Most of 2022. Recent products present.</td><td>Reprocessed history and recent products. Nearly empty from January to November 2022 in every tile we sampled.</td><td>Global from January 2017 by the registry’s account.</td></tr>
-<tr><th scope="row">Initial preference</th><td>Use for backfill only.</td><td>Main source. Element 84 says it will replace the older copy, with no date given.</td><td>Context only.</td></tr>
-</tbody>
-</table>
-</div>
-<p class="small muted" style="margin-top:10px">Our own compute, storage, and network costs are separate from source access charges.</p>
-<p class="small muted" style="margin-top:10px"><strong>Names on this page.</strong> Collection 1 copy: the bucket <code>e84-earth-search-sentinel-data</code>. Older copy: the bucket <code>sentinel-cogs</code>. JPEG 2000 original: the bucket <code>sentinel-s2-l2a</code>. Processing version: ESA’s processing baseline number, for example 05.11. It identifies the software used to produce a product. Later reprocessing may use a newer version.</p>
-<p class="small muted" style="margin-top:10px">We compared one date over Lake Lanier in both GeoTIFF copies. Both identify the same ESA product and share 22 catalog asset labels. The red-band grid, scale, and offset match in the catalog. We did not compare pixels or time any reads.</p>
+<tr><th scope="row">Where is it?</th><td><code>e84-earth-search-sentinel-data</code></td><td><code>sentinel-cogs</code></td></tr>
+<tr><th scope="row">What is shared?</th><td colspan="2">Element 84 conversions in AWS Oregon. Public access without credentials or requester pays. Our compute, storage, and network costs are separate.</td></tr>
+<tr><th scope="row">Why use it?</th><td>The preferred copy. Its sampled quality assets are more uniform, and it has fewer competing product versions.</td><td>Fills most gaps the survey found, especially in 2022.</td></tr>
+<tr><th scope="row">What complicates it?</th><td>Nearly empty from 2022-01 through 2022-11 in the sampled tiles. It holds only part of ESA’s later reprocessing.</td><td>More competing versions, different value conventions, and missing quality assets across much of the sampled history.</td></tr>
+</tbody></table></div>
+<p class="note-line"><strong>The fallback needs validation.</strong> Stage 1 found a value offset and irreversible clamping in one older-copy product. Matching catalog labels did not mean matching stored values. <a href="#stage-1">See the measured comparison.</a></p>
+<details class="map-details"><summary>The third AWS archive and the naming</summary>
+<p>The ESA-format JPEG 2000 archive, <code>sentinel-s2-l2a</code>, is in AWS Frankfurt. It is context and a possible reference source.</p>
+<p>Element 84 maintains its registry entry, and Sinergise wrote its readme. Neither document names the bucket’s owner. Provider pages disagree on whether Level-2A reads from it cost the reader money.</p>
+<p>“Processing version” means ESA’s processing baseline, such as 05.11. It describes the processing, not the observation date.</p>
+</details>
 <h3 class="plans-title">What we think is happening.</h3>
-<p>We do not know why Element 84 still runs both copies, or why Collection 1 lacks most of January–November 2022. In April 2024 Element 84 said ESA’s reprocessing was incomplete. ESA has since finished it, but most of that period remains missing here.</p>
-<p><strong>Inference from the survey:</strong> Collection 1 appears to combine arriving products with a backfill of ESA’s reprocessed history. The sampled 2021 archive is reprocessed, while 2022 and 2023 suggest an incomplete historical update. The cause could be in copying, conversion, or cataloguing. We cannot tell from outside.</p>
+<p>We do not know why Element 84 still runs both copies, or why Collection 1 lacks most of 2022-01 to 2022-11. In 2024-04, Element 84 cited incomplete ESA reprocessing. The surveyed Copernicus catalog now contains the reprocessed 2022 products, but most are still absent here.</p>
+<p><strong>Inference from the survey:</strong> Collection 1 appears to combine arriving products with a backfill of ESA’s reprocessed history. Every sampled 2021 item is reprocessed. The 2022 and 2023 holdings look like an incomplete update. The cause can lie in the copying, the conversion, or the cataloging. We cannot tell from outside.</p>
 <details class="map-details archive-history" id="archive-history">
 <summary>Archive history by acquisition period · measured holdings and processing versions</summary>
-<p><strong>Measured holdings:</strong> 30 sampled tiles, 2021-01-01 to 2026-09-10. Counts below are catalog items. They are not distinct acquisitions or usable lake observations. ESA’s reprocessing reaches back to 2015. This survey does not establish either archive’s 2015–2020 holdings.</p>
+<p><strong>Measured holdings:</strong> 30 sampled tiles, 2021-01-01 to 2026-09-10. Counts below are catalog items. They are not distinct acquisitions or usable lake observations. ESA’s reprocessing reaches back to 2015. This survey did not measure either copy’s 2015–2020 holdings.</p>
 <div class="table-scroll" role="region" aria-label="Archive history table" tabindex="0">
 <table class="plans datasets">
 <thead><tr><th scope="col">Acquisition period</th><th scope="col">Version ESA used at the time</th><th scope="col">Version ESA reprocessed to later</th><th scope="col">Older copy holds</th><th scope="col">Collection 1 copy holds</th></tr></thead>
 <tbody>
 <tr><th scope="row">2021</th><td>02.x to 03.x</td><td>05.00. A few historical products use 05.11.</td><td>Originals beside 05.00 versions.</td><td>All sampled 2021 items are 05.00.</td></tr>
-<tr><th scope="row">January–November 2022</th><td>03.01, then 04.00 from 2022-01-25.</td><td>Mainly 05.10, with a few 05.11 products.</td><td>Mainly 03.01 and 04.00. Also 37 at 05.10, 5 at 05.11, and 6 at 05.09.</td><td>45 items: 37 at 05.10, 5 at 05.11, and 3 at 05.09.</td></tr>
-<tr><th scope="row">December 2022–December 2023</th><td>04.00 initially. 05.09 from 2022-12-06. 05.10 from 2023-12-13.</td><td>Mainly 05.10 for history through 2023-12-13, with a few 05.11 products.</td><td>Mainly 05.09, plus early December 2022 at 04.00 and some 05.10 and 05.11.</td><td>Mainly 05.09. In 2023: 4,036 at 05.09, 221 at 05.10, and 20 at 05.11.</td></tr>
-<tr><th scope="row">2024–2026, through the survey date</th><td>05.10 and later. Some Sentinel-2C commissioning products used 99.xx.</td><td>Some late-2024 Sentinel-2C tandem acquisitions were reprocessed to 05.11.</td><td>Recent products present, with several processing versions.</td><td>Recent products present, with several processing versions.</td></tr>
+<tr><th scope="row">2022-01 to 2022-11</th><td>03.01, then 04.00 from 2022-01-25.</td><td>Mainly 05.10, with a few 05.11 products.</td><td>Mainly 03.01 and 04.00. Also 37 at 05.10, 5 at 05.11, and 6 at 05.09.</td><td>45 items: 37 at 05.10, 5 at 05.11, and 3 at 05.09.</td></tr>
+<tr><th scope="row">2022-12 to 2023-12</th><td>04.00 initially. 05.09 from 2022-12-06. 05.10 from 2023-12-13.</td><td>Mainly 05.10 for history through 2023-12-13, with a few 05.11 products.</td><td>Mainly 05.09, plus early 2022-12 at 04.00 and some 05.10 and 05.11.</td><td>Mainly 05.09. In 2023: 4,036 at 05.09, 221 at 05.10, and 20 at 05.11.</td></tr>
+<tr><th scope="row">2024–2026, through the survey date</th><td>05.10 and later. Some Sentinel-2C commissioning products used 99.xx.</td><td>ESA reprocessed some late-2024 Sentinel-2C tandem acquisitions to 05.11.</td><td>Recent products present, with several processing versions.</td><td>Recent products present, with several processing versions.</td></tr>
 </tbody>
 </table>
 </div>
-<p>For all of 2022, the Collection 1 copy holds 348 items representing 340 acquisition keys. December accounts for 303 items. The 2022 reference contains 4,558 items, including 4,550 at 05.10. The Collection 1 copy’s total includes 305 at 05.09, so these are not all copies of the reprocessed reference products.</p>
-<p>Element 84’s small bridge collection for late 2022 covers no surveyed US tile. That is consistent with an incomplete update, but does not establish its cause.</p>
+<p>For all of 2022, the Collection 1 copy holds 348 items for 340 acquisition keys. 2022-12 accounts for 303 items. The 2022 reference contains 4,558 items, 4,550 of them at 05.10. The Collection 1 total includes 305 at 05.09, so not all of them are copies of the reprocessed reference products.</p>
+<p>Element 84’s small bridge collection for late 2022 covers no surveyed US tile. That fits an incomplete update, but does not show its cause.</p>
 <p><b>Measured:</b> <a href="measurements.md#archive-history-measurements-and-inferred-explanation">survey evidence and count definitions</a>. <b>Documented:</b> <a href="https://sentiwiki.copernicus.eu/web/s2-processing">ESA processing history</a>, <a href="https://sentinels.copernicus.eu/documents/d/sentinel/ompc-cs-dqr-002-03-2023-i60r0-msi-l2a-dqr-april-2023">05.09 deployment</a>, and <a href="https://dataspace.copernicus.eu/news/2026-9-2-copernicus-sentinel-2c-tandem-data-reprocessing-campaign-completed">Sentinel-2C tandem reprocessing</a>. Sources checked 2026-09-11. The last one shows availability at Copernicus only, and says nothing about AWS.</p>
 </details>
 <figure class="coverage">
 <h3>What our survey found, month by month.</h3>
-<p>Share of expected observations present across 30 sampled tiles, January 2021 to September 2026. Dark means complete.</p>
+<p>Share of expected observations present across 30 sampled tiles, 2021-01 through 2026-09-10. Dark means complete.</p>
 @@COVERAGE_STRIP@@
-<figcaption class="small muted" style="margin-top:12px">Expected observations come from the Copernicus catalog. Of @@MISSING@@ missing from the Collection 1 copy in the incomplete months, @@FALLBACK@@ have complete files in the older copy and @@UNCOVERED@@ have none. Most of those are one Alaska tile. Another @@OTHER_FORMAT@@ exist only as JPEG 2000 links.</figcaption>
+<figcaption class="small muted" style="margin-top:12px">Expected observations come from the Copernicus catalog. Of @@MISSING@@ missing from the Collection 1 copy in the incomplete months, @@FALLBACK@@ list the required GeoTIFF assets in the older copy. @@UNCOVERED@@ lack a matching fallback item. Most of those are one Alaska tile. Another @@OTHER_FORMAT@@ have only JPEG 2000 links. A catalog entry does not prove a usable water observation.</figcaption>
 </figure>
-<h3 class="plans-title">Two ways to use the copies. The choice is open.</h3>
-<table class="plans">
-<thead>
-<tr><th scope="col"></th><th scope="col">Plan A · Collection 1 copy alone</th><th scope="col">Plan B · Both copies</th></tr>
-</thead>
-<tbody>
-<tr><th scope="row">What you get</th><td>One archive, one set of conventions.</td><td>Most of 2022 back. In the surveyed months, @@FALLBACK_PERCENT@@ percent of the missing observations have complete files.</td></tr>
-<tr><th scope="row">What you give up</th><td>Nearly all of January to November 2022 across the sampled tiles.</td><td>Simplicity. Two buckets, different naming and value-conversion conventions, and fewer quality layers for most 2022 fallback items.</td></tr>
-<tr><th scope="row">What must be checked</th><td>Whether the model tolerates the hole.</td><td>Read pixels to confirm the offset state before any fill. Keep the product id on every record.</td></tr>
-<tr><th scope="row">Open either way</th><td colspan="2">One sampled Alaska tile is empty in both copies for more than four years. Both copies mix processing versions, so a longer record still needs a comparability check. Both were still growing when we checked.</td></tr>
-</tbody>
-</table>
-<p class="note-line"><strong>Why this matters:</strong> the Collection 1 copy looks like the one to build on, but its history is not uniformly updated. Plan B adds most of 2022 at the cost of a second set of conventions. Prototyping will measure what this section can only judge.</p>
-<p class="source-note"><b>Documented:</b> <a href="https://registry.opendata.aws/sentinel-2-l2a-cogs/">AWS registry, GeoTIFF dataset</a> · <a href="https://registry.opendata.aws/sentinel-2/">AWS registry, JPEG 2000 dataset</a> · <a href="https://github.com/Element84/earth-search/blob/main/README.md">Earth Search README</a>. <b>Measured:</b> <a href="reviews/2026-09-10-gap-survey-report.json">2026-09-10 catalog survey</a>, 30 sampled tiles, 2021 to 2026, and a one-item catalog comparison on 2026-09-11. This is a sample. It does not show global completeness or validate pixels.</p>
+<p class="choice"><strong>Why both matter.</strong> Collection 1 alone leaves most of the surveyed 2022 gap. The older copy supplies candidate GeoTIFF assets for @@FALLBACK_PERCENT@@ percent of the missing observations in the incomplete months. The fallback order is settled. Version choice, value conversion, and missing quality layers still need a fill policy.</p>
+<p class="source-note"><b>Documented:</b> <a href="https://registry.opendata.aws/sentinel-2-l2a-cogs/">AWS GeoTIFF registry</a>, <a href="https://registry.opendata.aws/sentinel-2/">JPEG 2000 registry</a>, and <a href="https://github.com/Element84/earth-search/blob/main/README.md">Earth Search README</a>. <b>Measured:</b> <a href="reviews/2026-09-10-gap-survey-report.json">the catalog survey</a> and <a href="#stage-1">one-product pixel comparison</a>. The survey covers 30 sampled tiles. It does not show global completeness. The ingestion history above is an inference.</p>
 </section>
 
 <section class="chapter" id="risks">
@@ -499,37 +468,37 @@ footer{display:block}
 <article class="risk">
 <h3>Land leaks into a water pixel.</h3>
 <p>Small ponds and shorelines produce mixed pixels. A small location error can change how much land enters a measurement.</p>
-<p class="response"><b>Our approach:</b> distinguish interior, shoreline, and nearby land. Keep the amount of water coverage.</p>
+<p class="response"><b>Our approach:</b> distinguish interior, shoreline, and nearby land. Keep each pixel’s water fraction.</p>
 @@RISK_LAND@@
 </article>
 <article class="risk">
 <h3>Clear-looking water can be misleading.</h3>
 <p>Clouds, shadows, haze, sun glint, and nearby bright land can affect the signal. Quality flags help, but they are imperfect.</p>
-<p class="response"><b>Our approach:</b> preserve available quality flags and shoreline context. Test the screening rules.</p>
+<p class="response"><b>Our approach:</b> keep the available quality flags and the shoreline context. Test the screening rules.</p>
 @@RISK_FLAGS@@
 </article>
 <article class="risk">
 <h3>The same lake can arrive twice.</h3>
 <p>Satellite tiles overlap. Processing can give the same location different values or quality labels in neighboring tiles.</p>
-<p class="response"><b>Our approach:</b> keep each tile’s values and identify a primary source. Measure differences before trusting a stitched view.</p>
+<p class="response"><b>Our approach:</b> keep every tile’s values separately. Measure the differences in the overlap first. Then choose how the model uses competing observations.</p>
 @@RISK_TILES@@
 </article>
 <article class="risk">
 <h3>A processing change can look like a trend.</h3>
-<p>Archives mix processing versions and conventions for converting stored numbers into reflectance. Handling them wrongly creates false changes.</p>
-<p class="response"><b>Our approach:</b> retain product history and test value conversion across archive versions.</p>
+<p>Archives mix processing versions and rules that convert stored integers to reflectance. A wrong conversion creates a false change.</p>
+<p class="response"><b>Our approach:</b> keep the product history and test the value conversion across versions.</p>
 @@RISK_VERSIONS@@
 </article>
 <article class="risk">
 <h3>A sharper grid can imply false detail.</h3>
 <p>Sentinel-2 bands have 10, 20, or 60 m pixels. Enlarging a coarse band does not create finer observations.</p>
-<p class="response"><b>Our approach:</b> preserve native band resolution. Make resampling explicit when an analysis combines grids.</p>
+<p class="response"><b>Our approach:</b> keep the native band resolution. When an analysis combines grids, make the resampling explicit.</p>
 @@RISK_GRID@@
 </article>
 <article class="risk">
 <h3>A missing date can be misread.</h3>
-<p>A gap may mean missing coverage, a catalog omission, or an unusable observation. Those have different implications for a model.</p>
-<p class="response"><b>Our approach:</b> track coverage and quality separately. Preserve reasons for missing data.</p>
+<p>A gap can mean no coverage, a catalog omission, or invalid band values. A catalog footprint or a clear classification does not certify every band.</p>
+<p class="response"><b>Our approach:</b> track coverage and quality separately. Keep the reason for each missing value.</p>
 @@RISK_MISSING@@
 </article>
 </div>
@@ -612,22 +581,22 @@ footer{display:block}
 <figure class="diagram">
 <h3>Keep overlapping tiles traceable.</h3>
 <svg viewBox="0 0 440 210" role="img" aria-labelledby="overlap-title">
-<title id="overlap-title">Two overlapping satellite tiles retain separate values and source identities for the same lake.</title>
+<title id="overlap-title">Two overlapping satellite tiles keep separate values and source identities for the same lake.</title>
 <rect x="46" y="25" width="205" height="155" fill="#a6c2b3" fill-opacity=".6" stroke="#327c79" stroke-width="1.5"/>
 <rect x="178" y="45" width="205" height="155" fill="#b9cbd7" fill-opacity=".65" stroke="#527b92" stroke-width="1.5"/>
 <path d="M151 103Q177 62 215 95T269 104Q303 136 258 150T195 137Q160 146 151 103Z" fill="#367c87"/>
 <text x="59" y="49" font-size="16">Tile A</text>
 <text x="327" y="69" font-size="16">Tile B</text>
-<text x="120" y="167" text-anchor="middle" font-size="15">Primary</text>
-<text x="319" y="183" text-anchor="middle" font-size="15">Overlap</text>
+<text x="120" y="167" text-anchor="middle" font-size="15">Separate values</text>
+<text x="319" y="183" text-anchor="middle" font-size="15">Separate values</text>
 <path d="M217 110V16" stroke="#244e55" stroke-dasharray="3 4"/>
 <text x="222" y="14" font-size="14">Same water, two sources</text>
 </svg>
-<p>A primary marker gives consumers a preferred tile. Every stored observation keeps its own values and its tile.</p>
-<p>We never stitch tiles during ingestion. Measuring cross-tile differences is an early prototype priority.</p>
+<p>Every observation keeps its tile identity. The rule for the preferred observation is not decided yet.</p>
+<p>We never stitch tiles during ingestion. Stage 4 kept the contributions separate. Their scientific agreement is unmeasured.</p>
 </figure>
 </div>
-<p class="source-note"><b>Documented:</b> <a href="s2-best-practices.md">Reviewed geospatial evidence and processing practices</a>. <b>Project direction:</b> <a href="data-contract.md">Data content and provenance</a>. The drawings are explanatory schematics. Screening effectiveness and cross-tile differences remain unmeasured.</p>
+<p class="source-note"><b>Documented:</b> <a href="s2-best-practices.md">Reviewed geospatial evidence and processing practices</a>. <b>Project direction:</b> <a href="data-contract.md">Data content and provenance</a>. The drawings are schematics. Screening effectiveness and cross-tile differences are unmeasured.</p>
 </section>
 
 <section class="chapter" id="processing">
@@ -635,21 +604,21 @@ footer{display:block}
 <div class="chapter-num">04 / WORKLOAD</div>
 <div>
 <h2>Read only what we need, and reuse the work.</h2>
-<p>We only need the pixels around water bodies. Five steps get us there. Prototyping will time them and compare methods.</p>
+<p>We only need the pixels around water bodies. Five steps get us there. Local prototypes timed preparation and extraction. Quality screening and storage still need measurement.</p>
 </div>
 </div>
 <div class="processing">
 <article class="work-group"><span class="tag">ONCE PER WATER BODY · REDONE WHEN GEOMETRY CHANGES</span>
 <h3 style="margin-top:14px">Prepare the places.</h3>
-<p class="small">Repeat when boundaries, grids, or classification rules change.</p>
+<p class="small">This work repeats when a boundary, grid, or classification rule changes.</p>
 <div class="step"><span class="step-number">1</span>
 <div>
 <h4>Locate water bodies on satellite grids.</h4>
 <p>Find the tiles and image windows that cover each lake and its surroundings.</p>
-<div class="effort low"><i></i>Effort: low</div>
+<div class="effort depends"><i></i>Effort: varies with geometry</div>
 <details class="tech"><summary>Technical detail</summary><ul>
-<li>Reproject each polygon into the UTM zone of every tile it touches. Buffer it by the near-land distance.</li>
-<li>Intersect with tile footprints from the catalog. Pick the primary tile by the provisional rule.</li>
+<li>Reproject each polygon into the UTM zone of every tile it touches. Buffer it by the nearby-land distance.</li>
+<li>Use native tile extents for candidates. Treat catalog footprints as coarse hints. The primary-tile rule is not decided yet.</li>
 <li>Compute the pixel window on the 10, 20, and 60 m grids of each tile. Store it per polygon version.</li>
 </ul></details>
 </div>
@@ -657,28 +626,28 @@ footer{display:block}
 <div class="step"><span class="step-number">2</span>
 <div>
 <h4>Describe the pixels we want.</h4>
-<p>Classify interior, shoreline, and nearby land pixels at each native resolution. Save coverage and edge distance.</p>
+<p>Classify interior, shoreline, and nearby-land pixels at each native resolution. Save the water fraction and the edge distance.</p>
 <div class="effort medium"><i></i>Effort: medium</div>
 <details class="tech"><summary>Technical detail</summary><ul>
-<li>Rasterize the polygon onto each grid at native resolution, keeping the area fraction inside the polygon per pixel.</li>
-<li>Classify interior at fraction 1 and shoreline between 0 and 1. Select near-land at fraction 0 with its centre inside the buffer.</li>
-<li>Save a mask table per tile and resolution, keyed by polygon version. Recompute only when polygon, grid, or rule changes.</li>
+<li>Rasterize the polygon onto each grid at native resolution. Keep each pixel’s water fraction.</li>
+<li>Classify a pixel as interior at fraction 1 and as shoreline between 0 and 1. Select nearby land at fraction 0 with its center inside the buffer.</li>
+<li>Save a mask table per tile and resolution, keyed by polygon version. Recompute it only after the polygon, grid, or rule changes.</li>
 </ul></details>
 </div>
 </div>
 </article>
 <article class="work-group"><span class="tag">ONCE PER OBSERVATION · MANY TIMES A DAY</span>
 <h3 style="margin-top:14px">Bring in the measurements.</h3>
-<p class="small">Historical backfill repeats this work across every past date.</p>
+<p class="small">A historical backfill repeats this work for every past date.</p>
 <div class="step"><span class="step-number">3</span>
 <div>
 <h4>Find products and read image windows.</h4>
-<p>Search the catalog, resolve versions, and read the image blocks covering the water bodies.</p>
+<p>Search the catalog, resolve versions, and read the image blocks that cover the water bodies.</p>
 <div class="effort high"><i></i>Effort: high</div>
 <details class="tech"><summary>Technical detail</summary><ul>
 <li>Query the catalog by tile and time range. Keep product id, processing version, file locations, scale, and offset.</li>
-<li>Treat same-pass splits and reprocessings as separate products. Never merge them.</li>
-<li>Windowed approach: read internal blocks covering each window through HTTP range requests. Preserve native band grids.</li>
+<li>Tell datastrips of one acquisition apart from reprocessed versions. Keep the product identity, and keep each contribution separate.</li>
+<li>Windowed approach: read the internal blocks that cover each window with HTTP range requests. Keep the native band grids.</li>
 <li>Alternatives to compare: one whole-tile read shared by every lake in the tile, and a lazy array stack.</li>
 </ul></details>
 </div>
@@ -689,9 +658,9 @@ footer{display:block}
 <p>Convert stored values one tested way. Attach quality codes, pixel classes, tile identity, and processing version.</p>
 <div class="effort medium"><i></i>Effort: medium</div>
 <details class="tech"><summary>Technical detail</summary><ul>
-<li>Validate conversion against source values. Keep delivered integers and conversion metadata. Whether to store converted reflectance remains open.</li>
-<li>Join the mask table: pixel class, coverage fraction, edge distance.</li>
-<li>Attach the scene class code at 20 m, cloud and snow probability where delivered, product id, version, tile, role, and sensing time.</li>
+<li>Validate the conversion against source values. Keep the delivered integers and the conversion metadata. Whether to store converted reflectance is an open question.</li>
+<li>Join the mask table: pixel class, water fraction, edge distance.</li>
+<li>Keep the native quality grids and the per-band no-data. Test how they map onto finer pixels before you define a quality join.</li>
 </ul></details>
 </div>
 </div>
@@ -701,7 +670,7 @@ footer{display:block}
 <p>Keep individual band values and quality context. The layout must allow safe re-runs and later queries.</p>
 <div class="effort depends"><i></i>Effort: depends on the layout</div>
 <details class="tech"><summary>Technical detail</summary><ul>
-<li>Make retries duplicate-safe. Preserve published records and their availability times. Store changed polygons or processing results as new revisions.</li>
+<li>Make retries duplicate-safe. Keep published records and their availability times. Store changed polygons or processing results as new revisions.</li>
 <li>Candidates to compare: Parquet files on object storage partitioned by water body and year. A lakehouse table with atomic commits. A chunked array store. Per-lake raster chips.</li>
 <li>Set the local publication time on each record, so a query can ask what was known as of a date.</li>
 </ul></details>
@@ -711,26 +680,26 @@ footer{display:block}
 </div>
 <figure class="record">
 <figcaption>
-<h3>What one stored record holds.</h3>
-<p>One row per pixel, per observation. Bands come on three grids, so a row belongs to one grid. A 10 m row carries the four 10 m bands. A 20 m row carries the six 20 m bands, and a 60 m row the two 60 m bands. Level-2A has 12 bands in all.</p>
+<h3>What the model needs in a record.</h3>
+<p>Candidate: one row per pixel, per observation. Bands come on three grids, so a row belongs to one grid. A 10 m row carries the four 10 m bands. A 20 m row carries the six 20 m bands, and a 60 m row the two 60 m bands. Level-2A has 12 bands in all.</p>
 <p>A 100 × 100 m square aligned with both grids contains 100 whole pixels at 10 m and 25 at 20 m. Actual pond counts depend on shape, grid alignment, and pixel selection. Each row also carries its position, pixel class, quality codes, and provenance.</p>
 <p class="small" style="margin-top:8px">Working picture, not a selected layout. Parquet with these columns is one candidate. One row per pixel per band, or arrays per water body, are the alternatives to compare. The <a href="data-contract.md">draft data contract</a> lists every field.</p>
-<p class="small">Position, coverage, and quality codes below are illustrative. Product identity and sensing time come from the map example.</p>
+<p class="small">The illustration groups information. It does not specify a quality join. Primary-tile roles and the physical layout are open.</p>
 </figcaption>
 <div class="record-card">
 <div><span>Water body and polygon version</span><b>polygon id · v3</b></div>
-<div><span>Tile and role</span><b>17SKU · primary</b></div>
+<div><span>Tile and role</span><b>17SKU · role unresolved</b></div>
 <div><span>Sensing time and satellite</span><b>@@MAP_SENSING_TIME@@ · Sentinel-2B</b></div>
 <div><span>Product id and processing version</span><b>S2B_MSIL2A_…_T17SKU_… · 05.11</b></div>
 <div><span>Grid, row, column</span><b>10 m · 4,812 · 6,105</b></div>
-<div><span>Pixel class and coverage</span><b>shoreline · 0.62 inside the polygon</b></div>
+<div><span>Pixel class and water fraction</span><b>shoreline · 0.62 inside the polygon</b></div>
 <div><span>Band values on this grid</span><b>blue, green, red, near-infrared, as stored integers</b></div>
-<div><span>Scale and offset, and their source</span><b>0.0001 · −0.1 · catalog</b></div>
-<div><span>Quality codes</span><b>scene class 6 · cloud 2 % · snow 0 %</b></div>
+<div><span>Scale and offset, and their source</span><b>Delivered integers + validated conversion metadata</b></div>
+<div><span>Quality codes</span><b>Native quality codes + per-band no-data</b></div>
 <div><span>Visible to us since</span><b>the time we published it locally</b></div>
 </div>
 </figure>
-<p class="note-line"><strong>A useful hypothesis:</strong> nearby lakes share image blocks. Grouping them may save more than adding compute.</p>
+<p class="note-line"><strong>Measured locally:</strong> shared open files and cached blocks reduced requests in Stages 3 and 4. The AWS cost saving is unmeasured.</p>
 <div class="drivers">
 <h3>What drives cost and reliability.</h3>
 @@COST_BULLETS@@
@@ -747,7 +716,7 @@ footer{display:block}
 <li><span>→</span> What changes as lakes, tiles, and history grow?</li>
 </ul>
 </div>
-<p class="source-note"><b>Unverified:</b> effort labels are judgments. Nothing has been timed, priced, or selected. Basis: <a href="assumptions.md">workload assumptions</a> and <a href="work-plan.md">prototype comparison criteria</a>. Quality screening and extra corrections can add work.</p>
+<p class="source-note"><b>Unverified:</b> effort labels are planning judgments, not complexity bounds or prices. Prototype timings appear in the next tab. No production workflow is selected. Basis: <a href="assumptions.md">workload assumptions</a> and <a href="work-plan.md">prototype comparison criteria</a>. Quality screening and extra corrections can add work.</p>
 </section>
 
 <section class="chapter" id="maps">
@@ -804,7 +773,7 @@ footer{display:block}
 </div>
 <figcaption aria-live="polite">
 <h4>Water contrast · NDWI</h4>
-<p>Green and near-infrared contrast helps water stand apart from land. Blue means a higher index. It says nothing about water quality. Small band sums can exaggerate minor differences. Display clipping also flattens extremes. The cause of visible texture is unverified.</p>
+<p>Green and near-infrared contrast helps separate water from land. Blue means a higher index, not better water quality. Dark pixels can produce unstable ratios.</p>
 <div class="map-legend">
 <div class="gradient" style="background:linear-gradient(to right,#9c6d40,#d7bc8c,#eee9dc,#68b8c4,#15556f)">
 </div>
@@ -814,28 +783,29 @@ footer{display:block}
 </figcaption>
 </figure>
 </div>
-<p class="small muted" style="margin-top:15px">Gray marks missing or screened pixels. Classification screening keeps @@VALID_PERCENT@@ percent of this crop. Index views also screen invalid denominators. Display colors are stretched for visibility.</p>
+<p class="small muted" style="margin-top:15px">Gray marks missing or screened pixels. Classification screening keeps @@VALID_PERCENT@@ percent of this crop. Index views also screen invalid denominators. The display stretches colors for visibility.</p>
 <p class="note-line">These indices show contrast between bands. They do not measure pollution, drinking-water safety, or any water-quality concentration.</p>
 <details class="map-details"><summary>How to read these maps · image source and display choices</summary>
 <p>Contains modified Copernicus Sentinel data (2025), served by Element 84. <a href="@@MAP_ITEM_URL@@">Source observation</a> · <a href="assets/discovery/provenance.json">Image provenance and recipes</a>.</p>
-<p>All reflectance inputs use the same native 10 m grid. Stored values are converted using the source asset’s scale and offset before calculation.</p>
-<p>Colors are stretched for visibility. Red, green, and blue use 0–0.3 reflectance. Near-infrared uses 0–0.5. Both use gamma 2.2.</p>
+<p>All reflectance inputs use the same native 10 m grid. The recipe converts stored values with the source asset’s scale and offset before any calculation.</p>
+<p>The display stretches colors for visibility. Red, green, and blue use 0–0.3 reflectance. Near-infrared uses 0–0.5. Both use gamma 2.2.</p>
 <p>NDVI = (near-infrared − red) / (near-infrared + red). NDWI here = (green − near-infrared) / (green + near-infrared). Both legends span −1 to +1.</p>
-<p>Classification screening retains vegetation, bare land, water, and unclassified pixels, codes 4–7. All other classes are gray.</p>
+<p>Classification screening keeps vegetation, bare land, water, and unclassified pixels, codes 4–7. All other classes are gray.</p>
 <p>Index views keep negative inputs, exclude denominators at or below 0.000001, and clip to the legend range.</p>
-<p>Screening is illustrative and can miss artifacts. Classification is expanded from 20 m using nearest neighbors. The arrow indicates grid north.</p>
+<p>The screening is an illustration and can miss artifacts. The recipe enlarges the 20 m classification to 10 m by nearest neighbor. The arrow points to grid north.</p>
 <p><b>Documented recipes:</b> <a href="https://sentiwiki.copernicus.eu/web/copernicus-applications">Copernicus band combinations</a> and <a href="https://science.nasa.gov/earth/earth-observatory/global-vegetation-8622/">NASA vegetation index explanation</a>, checked 2026-09-11. These display examples do not change the planned store of band values and quality flags.</p>
 </details>
-<p class="closing">Discovery gives us the questions to test. Prototyping will tell us which approach preserves useful information, performs consistently, and scales at an acceptable cost.</p>
+<p class="closing">Discovery gives us the questions to test. Prototyping will tell us which approach keeps useful information, performs consistently, and scales at an acceptable cost.</p>
 </section>
 </section>
 <section id="prototyping" role="tabpanel" aria-labelledby="tab-prototyping" hidden>
 <div class="prototype-intro">
 <div class="eyebrow">Prototyping / Partial results</div>
-<h1>Raw access, one lake at a time, and many lakes per tile are timed.<br>Lakes across tiles are still ahead.</h1>
-<p>Whole-tile access, per-lake extraction, and every lake of a tile in one process are measured on one laptop. One acquisition per tile, 32 public water bodies. The three mask methods agreed on every pixel value in both extraction stages. The naive clip selects differently.</p>
-<p><strong>No lake's records from two tiles have been combined, and nothing has run beside the data.</strong> Cross-tile lakes, dates over a season, cost at scale, AWS performance, and scientific validation remain open.</p>
+<h1>Sharing reads helps.<br>Reliable water observations need more checks.</h1>
+<p>Stages 1 to 4 measured access and extraction on one laptop. Grouping lakes reduced requests. The extracted pixel values did not change.</p>
+<p>Stage 4 extended that comparison across tile boundaries. Scientific agreement across observations, seasonal reliability, AWS performance, and storage remain open.</p>
 </div>
+<nav class="section-nav" aria-label="Prototype sections"><a href="#pilot-status">Status</a><a href="#stage-1">Archive values</a><a href="#stage-2">One lake</a><a href="#stage-3">Many lakes</a><a href="#stage-4">Across tiles</a></nav>
 <div class="needs pilot-counts" aria-label="Pilot manifest counts">
 <div><b data-pilot-count="features">@@PILOT_TOTAL@@</b><span>Public water-body polygons</span></div>
 <div><b data-pilot-count="regions">@@PILOT_REGIONS@@</b><span>U.S. regions</span></div>
@@ -851,152 +821,214 @@ footer{display:block}
 </div></div>
 <div class="risk-grid">
 <article class="risk"><h3>Small ponds</h3>
-<p>The pilot spans @@PILOT_CLASSES@@ m size classes, including @@PILOT_TINY@@ bodies in the smallest class. Stage 2 counted their pixels. The smallest ponds have no interior pixel at any resolution and still yield shoreline and near-land pixels.</p>
-<p class="response"><b>Why it matters:</b> a mapped pond may have no fully contained satellite pixel. Area alone cannot tell us.</p></article>
+<p>The pilot spans the @@PILOT_CLASSES@@ m size classes. The smallest class holds @@PILOT_TINY@@ bodies. Stage 2 counted their pixels. The smallest ponds have no interior pixel at any resolution. They still yield shoreline and nearby-land pixels.</p>
+<p class="response"><b>Why it matters:</b> a mapped pond can have no satellite pixel wholly inside it. Area alone does not tell us.</p></article>
 <article class="risk"><h3>Complex shorelines</h3>
-<p>Tahoe, Lanier, Okeechobee, Grand Lake St. Marys, and Washington contribute larger polygons. Lanier adds a particularly detailed boundary.</p>
-<p class="response"><b>Why it matters:</b> shoreline complexity and area can change extraction work. Stages 2 and 3 timed these polygons. The anchors dominate the bytes and the mask preparation, and complexity is not separated from area.</p></article>
+<p>Tahoe, Lanier, Okeechobee, Grand Lake St. Marys, and Washington contribute larger polygons. Lanier has a very detailed boundary.</p>
+<p class="response"><b>Why it matters:</b> shoreline complexity and area can change extraction work. Stages 2 and 3 timed these polygons. The anchors dominate the bytes and the mask preparation. The results do not separate complexity from area.</p></article>
 <article class="risk"><h3>Contrasting settings</h3>
 <p>The six regions include mountain, hill, flat, and lowland settings. Alaska contributes smaller lakes near Iliamna, without the large lake itself.</p>
-<p class="response"><b>Why it matters:</b> these cases support later checks across different conditions. The terrain labels are descriptive, and seasonal imagery has not been tested.</p></article>
+<p class="response"><b>Why it matters:</b> these cases support later checks across different conditions. The terrain labels are descriptive. Seasonal imagery is untested.</p></article>
 </div>
-<p class="note-line"><strong>What “10 m” means here.</strong> Size labels use the square root of polygon area, not the actual distance across a pond. These mapped boundaries are test inputs. Their shoreline accuracy and water presence on any image date remain unverified.</p>
-<p class="source-note"><b>Documented:</b> USGS no longer maintains NHD. A service refresh does not date the shoreline observations. Some reservoir codes leave their purpose unspecified. Confirm water-body type and boundaries before interpreting extracted pixels. <a href="reviews/2026-09-12-pilot-manifest-review.md#source-checks">Independent USGS source checks</a>.</p>
-<p class="source-note"><b>Measured:</b> selection and geometry metadata in the <a href="../examples/water-bodies-public-pilot.geojson">manifest</a>. <b>Unverified:</b> current water extent and suitability for the model. This small, deliberately selected set is not a representative workload sample.</p>
+<p class="note-line"><strong>What “10 m” means here.</strong> Size labels use the square root of polygon area, not the actual distance across a pond. These mapped boundaries are test inputs. Their shoreline accuracy and water presence on any image date are unverified.</p>
+<p class="source-note"><b>Documented:</b> USGS no longer maintains NHD. A service refresh does not date the shoreline observations. Some reservoir codes do not state the purpose. Before you interpret extracted pixels, confirm the water-body type and boundary. <a href="reviews/2026-09-12-pilot-manifest-review.md#source-checks">Independent USGS source checks</a>.</p>
+<p class="source-note"><b>Measured:</b> selection and geometry metadata in the <a href="../examples/water-bodies-public-pilot.geojson">manifest</a>. <b>Unverified:</b> current water extent and suitability for the model. This small set follows size-class rules. It is not a representative workload sample.</p>
 </section>
 
 <section class="chapter" aria-labelledby="pilot-status">
 <div class="chapter-head"><div class="chapter-num">02 / Findings so far</div><div>
-<h2 id="pilot-status">Extraction is measured for one lake and for many lakes per tile. Validation is open.</h2>
+<h2 id="pilot-status">Extraction works on the tested cases. Scientific validation is still open.</h2>
 <p>The remaining work will test correctness alongside resource use. We will develop those comparisons together and add results as evidence arrives.</p>
 </div></div>
-<div class="table-scroll"><table class="plans datasets">
-<caption class="small">Status of the first Prototyping pass</caption>
-<thead><tr><th scope="col">Question</th><th scope="col">What we have established</th><th scope="col">Still to test</th></tr></thead>
+<div class="table-scroll" role="region" aria-label="Benchmark evidence table" tabindex="0"><table class="plans datasets">
+<caption class="small">Status of Prototyping so far</caption>
+<thead><tr><th scope="col">Question</th><th scope="col">Established so far</th><th scope="col">Still to test</th></tr></thead>
 <tbody>
-<tr><th scope="row">Can we reproduce the test set?</th><td><span class="tag">Checked locally</span><br>The saved downloads reproduce the committed manifest exactly. All polygons passed a geometry validity check.</td><td>Geometry validity does not establish accurate or current shorelines.</td></tr>
-<tr><th scope="row">Which images cover these bodies?</th><td><span class="tag">Partly measured</span><br>Stage 3 placed every polygon and its 100 m buffer in a tile and read one acquisition per tile. The catalog survey accepts each polygon’s bounding box, with fixture tests.</td><td>The archive survey over all dates has not run on this manifest. Seasonal coverage and cloud-free dates per lake are unchecked.</td></tr>
-<tr><th scope="row">Do methods preserve the pixel values?</th><td><span class="tag">Measured</span><br>Stage 2: the three mask methods returned identical stored integers on every band of the 30 lakes inside their tiles. The naive clip differed on 29 of 150 comparisons by its selection rule. Stage 3: identical on all 200 lake-bands of 40 lake-tile memberships across three read patterns, matching stage 2 on the 130 comparable ones.</td><td>Reflectance offsets, differences across overlapping tiles, and quality flags.</td></tr>
-<tr><th scope="row">What will processing cost?</th><td><span class="tag">Partly measured</span><br>Whole-tile reads, one lake at a time, and many lakes per tile are timed below. No method or platform is selected.</td><td>Lakes across tiles, dates over a season, and an instance beside the data.</td></tr>
+<tr><th scope="row">Can we reproduce the test set?</th><td><span class="tag">Checked locally</span><br>The saved downloads reproduce the committed manifest exactly. All polygons passed a geometry validity check.</td><td>A valid geometry does not prove an accurate or current shoreline.</td></tr>
+<tr><th scope="row">Which images cover these bodies?</th><td><span class="tag">Partly measured</span><br>Stage 3 extracted every lake from its selected tile memberships, partial polygons included. Stage 4’s tile unions cover the whole buffered area of its eleven lakes.</td><td>Grid coverage does not prove valid measurements. Seasonal coverage and cloud-free dates are unchecked.</td></tr>
+<tr><th scope="row">Do methods agree on values?</th><td><span class="tag">Measured within each stage</span><br>Mask methods agree for corresponding source pixels. Stage 4’s two readers and two work organizations agree on every expected contribution.</td><td>Agreement between methods says nothing about agreement between overlapping tiles. Quality screening and wider offset checks are open.</td></tr>
+<tr><th scope="row">What will processing cost?</th><td><span class="tag">Partly measured</span><br>Access and extraction timings cover single lakes, shared tiles, and cross-tile lakes. Shared raster reads reduced requests in these cases.</td><td>AWS performance, seasonal and production workloads, reader tuning, storage, and monetary cost.</td></tr>
 </tbody></table></div>
-<p class="note-line"><strong>Keep the two samples distinct.</strong> Discovery’s archive findings come from the earlier survey of 20 points. They are not results for these @@PILOT_TOTAL@@ polygons. The Discovery satellite maps are educational examples, separate from the processing comparisons.</p>
+<p class="note-line"><strong>Keep the two samples distinct.</strong> Discovery’s archive findings come from the earlier survey of 20 points. They are not results for these @@PILOT_TOTAL@@ polygons. The Discovery satellite maps are teaching examples. They are separate from the processing comparisons.</p>
 <p class="source-note"><b>Evidence:</b> <a href="reviews/2026-09-11-pilot-manifest.md">initial preparation record</a>, <a href="reviews/2026-09-12-pilot-manifest-review.md">independent review and limitations</a>, and <a href="../examples/README.md">manifest format and selection rules</a>. The review records the local checks. Integration specifications and tradeoffs remain open.</p>
 </section>
 
 <section class="chapter" aria-labelledby="stage-1">
-<div class="chapter-head"><div class="chapter-num">03 / Stage 1 · Raw access</div><div>
-<h2 id="stage-1">Reading whole tiles from both copies.</h2>
-<p>Before comparing extraction methods, we timed the simplest thing: read every band of one tile from each copy. One acquisition, tile @@RAW_TILE@@ on @@RAW_SCENE_DATE@@, the same ESA product on both copies. Every combination ran three times in a fresh process.</p>
+<div class="chapter-head"><div class="chapter-num">03 / Stage 1 · Archive access and values</div><div>
+<h2 id="stage-1">The same product does not guarantee the same numbers.</h2>
+<p>We read one acquisition from both GeoTIFF copies: tile @@RAW_TILE@@ on @@RAW_SCENE_DATE@@. Access timings and pixel comparisons exposed differences that a catalog check cannot settle.</p>
 </div></div>
-<div class="table-scroll"><table class="plans datasets">
-<caption class="small">Median of three runs per band set. Time is read and decode time from the per-file timers, without the digest and statistics the runs also computed. Range reads ask for only the blocks needed. Whole-object reads fetch each file in one request. The quality and all-band sets hold different files on the two copies.</caption>
-<thead><tr><th scope="col">Band set</th><th scope="col">Collection 1 copy · range reads</th><th scope="col">Collection 1 copy · whole object</th><th scope="col">Older copy · range reads</th><th scope="col">Older copy · whole object</th><th scope="col">Peak memory, highest of both copies and modes</th></tr></thead>
-<tbody>
-@@RAW_ROWS@@
-</tbody></table></div>
 <div class="risk-grid">
-<article class="risk"><h3>Fewer, larger requests were faster on this connection</h3>
-<p>For the 10 m, 20 m, and all-band sets, fetching each whole file beat range reads. It moved a third more bytes for the overview pyramids. Four requests against sixty-one for the 10 m set. The 60 m sets and the Collection 1 quality layers went the other way by a small margin.</p>
-<p class="response"><b>Why it matters:</b> per-request latency on this connection is one explanation consistent with the timings. The run order and the connection were not controlled, so the cause is not isolated. For small windows, range reads are the only option that avoids the whole file.</p></article>
-<article class="risk"><h3>The two copies are laid out differently</h3>
-<p>Similar volume, same block size, but the older copy's 10 m bands needed about three times as many range requests and took a quarter longer. One of its 20 m bands uses a different block size and overview count from its siblings.</p>
-<p class="response"><b>Why it matters:</b> read cost depends on how each file is arranged internally, and the older copy is less uniform.</p></article>
-<article class="risk"><h3>Two quality layers are not GeoTIFFs on the older copy</h3>
-<p>Its catalog entries for cloud and snow probability point at JPEG 2000 files in the ESA-format bucket, outside this GeoTIFF benchmark. The first pass tried them through an unconfigured S3 path and lost twelve runs. Collection 1 serves both as small GeoTIFFs.</p>
-<p class="response"><b>Why it matters:</b> Plan B, using the older copy for backfill, has no cloud or snow probability as GeoTIFF. Whether those JPEG 2000 files open without credentials is untested, and most 2022 fallback items lack the assets in the catalog altogether.</p></article>
+<article class="risk"><h3>The older copy changed dark values</h3>
+<p>On three tested reflectance bands, its integers equal Collection 1’s minus 1,000, clamped to a minimum of 1. That rule held on every pixel valid in both copies.</p>
+<p class="response"><b>Why it matters:</b> this conversion loses values at or below zero reflectance. If a reader applies the catalog’s offset again, it subtracts the offset twice. One product does not validate the fallback history.</p></article>
+<article class="risk"><h3>Quality assets differ</h3>
+<p>The tested scene classification was identical. Aerosol and water-vapor grids differed. The older copy linked cloud and snow probabilities as JPEG 2000, outside this GeoTIFF benchmark.</p>
+<p class="response"><b>Why it matters:</b> the fallback needs explicit rules for missing or differently sampled quality layers.</p></article>
+<article class="risk"><h3>File layout affects access</h3>
+<p>The older copy’s 10 m bands needed about three times the range requests for similar bytes. Whole-object reads were faster for several complete band sets on this connection.</p>
+<p class="response"><b>Why it matters:</b> request count matters as well as bytes. A whole-tile timing does not predict the cost of a small lake window.</p></article>
 </div>
-<h3 class="plans-title">Do the two copies hold the same numbers?</h3>
-<p>The decoded values were compared pixel by pixel for a sample of files from the same product.</p>
-<div class="table-scroll"><table class="plans datasets">
-<caption class="small">Stored integers, older copy minus Collection 1 copy, where both copies have data. The rule is older = max(Collection 1 − 1,000, 1), checked on every pixel valid in both.</caption>
-<thead><tr><th scope="col">File</th><th scope="col">Pixels that differ</th><th scope="col">Most common difference</th><th scope="col">Offset-and-clamp rule</th><th scope="col">No-data agrees</th></tr></thead>
-<tbody>
-@@DIFF_ROWS@@
-</tbody></table></div>
-<p class="note-line"><strong>The copies are the same picture in different units, on this product.</strong> On every compared reflectance file the older copy holds Collection 1's value minus 1,000, the radiometric offset in stored units. Any result at or below the offset is clamped to 1. That rule held on every one of 99.8 million pixels checked. Reflectance at or below zero, which occurs over dark water, therefore survives only on Collection 1: 1.7 percent of coastal pixels on this tile. Both catalogs still declare the same offset for both copies, so a reader that trusts the catalog would subtract it twice on the older copy. The scene classification is identical. Aerosol and water vapour sit on a 20 m grid on Collection 1 and on 60 m and 10 m grids on the older copy. One product was checked. Other items and processing versions are stage 5 work.</p>
-<p class="source-note"><b>Measured:</b> on @@RAW_DATE@@ from a @@RAW_MACHINE@@ over the internet, outside the buckets' region. Times include that path and will differ on an instance beside the data. Evidence: <a href="../benchmarks/results/raw-access.json">raw access result</a>, <a href="../benchmarks/results/raw-access-older-quality-all.json">older-copy rerun</a>, and <a href="../benchmarks/results/copy-difference.json">copy difference</a>. Peak memory is the reading process while it holds every band of the set. No polygon or extraction was involved.</p>
+<details class="benchmark-detail"><summary>Pixel comparison · one product, six files</summary>
+<p class="small muted">Three reflectance bands, classification, aerosol, and water vapor. The comparison skipped grids of different shapes.</p>
+<div class="table-scroll" role="region" aria-label="Archive pixel comparison" tabindex="0"><table class="plans datasets">
+<thead><tr><th scope="col">Asset</th><th scope="col">Different valid pixels</th><th scope="col">Older minus Collection 1</th><th scope="col">Offset and clamp rule</th><th scope="col">No-data agrees?</th></tr></thead>
+<tbody>@@DIFF_ROWS@@</tbody></table></div>
+</details>
+<details class="benchmark-detail"><summary>Full-file access timings and memory</summary>
+<div class="table-scroll" role="region" aria-label="Full-file access timings" tabindex="0"><table class="plans datasets">
+<caption class="small">Medians of three successful runs per combination. Time covers per-file access and decoding. It excludes digest and statistics work. Range reads fetch full-resolution image blocks here. Whole-object reads also fetch embedded overviews. Quality and all-band sets differ between copies.</caption>
+<thead><tr><th scope="col">Band set</th><th scope="col">Collection 1 · ranges</th><th scope="col">Collection 1 · whole object</th><th scope="col">Older · ranges</th><th scope="col">Older · whole object</th><th scope="col">Highest process memory</th></tr></thead>
+<tbody>@@RAW_ROWS@@</tbody></table></div>
+</details>
+<p class="source-note"><b>Measured:</b> @@RAW_DATE@@, @@RAW_MACHINE@@, outside the bucket’s region. <a href="measurements.md#prototype-stage-1-raw-access-to-whole-tiles-2026-09-14">Access findings and limits</a>, <a href="../benchmarks/results/raw-access.json">initial result</a>, <a href="../benchmarks/results/raw-access-older-quality-all.json">quality rerun</a>, and <a href="../benchmarks/results/copy-difference.json">pixel comparison</a>. Run order and network conditions were uncontrolled. The evidence keeps the earlier failed JPEG 2000 attempts.</p>
 </section>
 
 <section class="chapter" aria-labelledby="stage-2">
 <div class="chapter-head"><div class="chapter-num">04 / Stage 2 · One lake at a time</div><div>
-<h2 id="stage-2">Four ways to pull one lake out of a tile.</h2>
-<p>@@LAKE_LAKES@@ public water bodies, one Collection 1 acquisition per region, @@LAKE_TILES@@ tiles. Each lake was read on its own with four methods, three times each in a fresh process, @@LAKE_RUNS@@ runs. The methods differ in how a lake's pixels are chosen, not in which files are read.</p>
+<h2 id="stage-2">Reading a tiny pond still costs an image block.</h2>
+<p>We tested @@LAKE_LAKES@@ public water bodies across @@LAKE_TILES@@ tiles with four extraction methods. Each lake ran in its own process, three times: @@LAKE_RUNS@@ workers in all.</p>
 </div></div>
-<div class="table-scroll"><table class="plans datasets">
-<caption class="small">Median lake in each size class, five files per lake. The files are red and near-infrared at 10 m, one 20 m band, one 60 m band, and the scene classification. Time is the per-file read and decode time for the five files. Blocks are the internal blocks the five windows intersect. Bytes and requests are what the reader asked for, from the raster mask method. Pixels stored are the median lake's interior, shoreline, and near-land pixels together at 10 m.</caption>
-<thead><tr><th scope="col">Size class</th><th scope="col">Lakes</th><th scope="col">Pixels stored at 10 m</th><th scope="col">Blocks, bytes, and requests per lake</th><th scope="col">Naive clip</th><th scope="col">Raster mask</th><th scope="col">Index lists</th><th scope="col">Lazy stack</th><th scope="col">Peak memory, highest method</th></tr></thead>
-<tbody>
-@@LAKE_ROWS@@
-</tbody></table></div>
 <div class="risk-grid">
-<article class="risk"><h3>A small lake usually costs one block per file</h3>
-<p>24 of the 25 small lakes with pixels took 15 requests and 3 to 4 MB for their five files. That held from a 10 m pond to a 1,000 m lake. That is one size probe, one header, and one internal block per file. One 300 m lake sat across a block boundary in every file and took 20 requests and 4.3 MB. The anchors touched 15 to 92 blocks and 19 to 48 requests.</p>
-<p class="response"><b>Why it matters:</b> read cost follows the blocks a lake touches, not its pixel count, as the workload section expected. Every small lake took about 2 seconds for five files on this connection, whichever method ran. Per-request latency is one explanation consistent with that. Position in the block grid, compression, and request merging were not controlled.</p></article>
-<article class="risk"><h3>The mask methods read the same bytes and differ in what they keep</h3>
-<p>The naive clip keeps only the pixels its rasterization marks. That is 4 pixels at 10 m for a typical pond, with no coverage fraction and no near-land ring. The three mask methods keep 361 for the same pond, with class, coverage, and edge distance. Their values and pixel sets were identical on every band of every lake. The lazy stack tripled CPU time and used 70 percent more memory on small lakes. On two large lakes it read faster than the raster mask.</p>
-<p class="response"><b>Why it matters:</b> the raster mask and the index lists were indistinguishable on small lakes. Nothing here ranks the methods. They ran in a fixed order, three times each, over one uncontrolled connection. Stage 3 compares them again with many lakes per tile.</p></article>
-<article class="risk"><h3>Some lakes were not in the tile we chose for their region</h3>
-<p>One tile per region was picked to hold the most lakes. Two ponds fell entirely outside it and yielded nothing. Lake Lanier was 63 percent inside its tile, Lake Okeechobee 90 percent, and an Alaska lake 71 percent. Only the part inside was read.</p>
-<p class="response"><b>Why it matters:</b> tile membership must come from each polygon, not from a region, and a lake can need two to four tiles. Stage 4 reads those lakes from every tile they touch, and the store keeps each tile's pixels apart.</p></article>
+<article class="risk"><h3>Bytes do not follow pixel count</h3>
+<p>Most small lakes with pixels touched one internal block per file. Those reads took 15 requests for five files, whatever the selected pixel count.</p>
+<p class="response"><b>Why it matters:</b> block position, compression, and request overhead set the cost of a small-lake read.</p></article>
+<article class="risk"><h3>Masks keep shoreline context</h3>
+<p>Raster masks, index lists, and the lazy stack returned identical values for identical selected pixels. They keep the water fraction, the shoreline pixels, and the nearby land. The naive clip selects differently and omits nearby land.</p>
+<p class="response"><b>Why it matters:</b> method comparisons need the same output requirements. A faster clip that omits required context does different work.</p></article>
+<article class="risk"><h3>One tile per region is not enough</h3>
+<p>Two ponds fell outside their region’s chosen tile. Three larger polygons were only partly inside. Their extracted records cover only the parts inside the selected tile.</p>
+<p class="response"><b>Why it matters:</b> tile membership must come from each polygon. Stages 3 and 4 extend this limited first comparison.</p></article>
 </div>
-<h3 class="plans-title">How many pixels does a lake have?</h3>
-<p>Interior pixels lie entirely inside the mapped shoreline. Shoreline pixels are partly inside. Near-land pixels are dry, with their centre within 100 m of the shoreline. Every count comes from exact polygon areas, computed once per lake, tile, and resolution.</p>
-<div class="table-scroll"><table class="plans datasets">
-<caption class="small">Median lake in each size class. Cells are interior · shoreline · near-land pixels. Preparation is the time to compute all three resolutions for one lake, once.</caption>
+<p class="note-line"><strong>Smallest ponds have no interior pixel.</strong> All five 10 m size-class ponds still yield shoreline and nearby-land pixels. The size class is the square root of mapped area, not a measured pond diameter.</p>
+<details class="benchmark-detail"><summary>Methods, read timings, and selected pixels by size class</summary>
+<p class="small muted">Raster masks select classified pixels in an array. Index lists select the same pixels by stored positions. The lazy stack schedules array reads in chunks.</p>
+<div class="table-scroll" role="region" aria-label="Single lake timings" tabindex="0"><table class="plans datasets">
+<caption class="small">Class summaries use medians. Block counts show the maximum where it differs. Five files: red, near-infrared, shortwave infrared, coastal aerosol, and scene classification. Times sum per-file read or compute timers. Bytes and requests use the raster mask. Selected 10 m pixels include all three classes. We did not measure storage writes.</caption>
+<thead><tr><th scope="col">Size class</th><th scope="col">Lakes</th><th scope="col">Selected 10 m pixels</th><th scope="col">Blocks and requests</th><th scope="col">Naive clip</th><th scope="col">Raster mask</th><th scope="col">Index lists</th><th scope="col">Lazy stack</th><th scope="col">Highest process memory</th></tr></thead>
+<tbody>@@LAKE_ROWS@@</tbody></table></div>
+</details>
+<details class="benchmark-detail"><summary>Pixel classes and preparation time</summary>
+<p class="small muted">Interior pixels lie inside the mapped boundary. Shoreline pixels intersect it. Nearby-land pixels have centers within 100 m of that boundary. The measurement record lists the numerical tolerances.</p>
+<div class="table-scroll" role="region" aria-label="Pixel classes by size" tabindex="0"><table class="plans datasets">
+<caption class="small">Per-class median counts: interior · shoreline · nearby land. Preparation computes all three native resolutions once per lake and tile.</caption>
 <thead><tr><th scope="col">Size class</th><th scope="col">Lakes</th><th scope="col">10 m</th><th scope="col">20 m</th><th scope="col">60 m</th><th scope="col">Preparation</th></tr></thead>
-<tbody>
-@@LAKE_CLASS_ROWS@@
-</tbody></table></div>
-<p class="note-line"><strong>Ponds in the smallest class have no interior pixel.</strong> All five 10 m ponds have none at any resolution, and at 60 m half of the lakes inside their tiles have none. Every one of them still yields shoreline pixels with a coverage fraction and a ring of near-land pixels. The consumer sees a pond from the counts rather than from a missing record. Preparation took under a tenth of a second for the ponds and under twenty seconds for the largest anchors, once per lake.</p>
-<p class="source-note"><b>Measured:</b> on @@LAKE_DATE@@ from a @@LAKE_MACHINE@@ over the internet, outside the bucket's region. Times include that path and will differ on an instance beside the data. Evidence: <a href="../benchmarks/results/lake-extraction.json">lake extraction result</a>. One acquisition per region. Lakes that cross the chosen tile's edge were read inside that tile only, and their share inside is recorded. Lakes across tiles are stage 4.</p>
+<tbody>@@LAKE_CLASS_ROWS@@</tbody></table></div>
+</details>
+<p class="source-note"><b>Measured:</b> @@LAKE_DATE@@, @@LAKE_MACHINE@@, over an uncontrolled internet connection. <a href="../benchmarks/results/lake-extraction.json">Single-lake result</a> and <a href="measurements.md#prototype-stage-2-one-lake-at-a-time-2026-09-15">findings and limits</a>. One acquisition per region. A fixed method order and three repetitions do not give a general performance ranking.</p>
 </section>
 
 <section class="chapter" aria-labelledby="stage-3">
 <div class="chapter-head"><div class="chapter-num">05 / Stage 3 · Many lakes in one tile</div><div>
-<h2 id="stage-3">Reading every lake of a tile in one pass.</h2>
-<p>@@TILE_LAKES@@ public water bodies placed in @@TILE_TILES@@ tiles, one Collection 1 acquisition per tile. Every lake of a tile was read in one process, three ways. Lake by lake reopens each file per lake. File by file reads every lake's window from the open file. A whole-tile read pulls each file entirely and extracts every lake from memory. Each way ran with the four methods of stage 2, three times, @@TILE_RUNS@@ runs. A first run held a 512-byte reader cache by a unit error, found in review. These numbers are from the rerun with the intended 512 MB cache.</p>
+<h2 id="stage-3">Share open files before reading whole tiles.</h2>
+<p>We tested @@TILE_LAKES@@ lakes across @@TILE_TILES@@ selected tiles. Three read patterns and four methods ran three times each: @@TILE_RUNS@@ workers. The runs read partial lakes only inside their selected tiles.</p>
 </div></div>
-<div class="table-scroll"><table class="plans datasets">
-<caption class="small">Per tile, five files, raster mask method, medians of the repetitions without errors or memory pressure, three unless a cell says otherwise. Requests and bytes are what the reader asked for. Time is the per-file read time. The stage 2 column sums the per-lake medians of the same lakes read alone, one process each, from the same acquisition. The lazy stack column computes each lake's window from one graph on the whole tile.</caption>
-<thead><tr><th scope="col">Tile</th><th scope="col">Lakes</th><th scope="col">One process per lake, stage 2</th><th scope="col">Every lake, one process</th><th scope="col">One whole-tile read</th><th scope="col">Lazy stack on a shared tile graph</th></tr></thead>
-<tbody>
-@@TILE_ROWS@@
-</tbody></table></div>
+<figure class="route">
+<div class="route-step"><span class="eyebrow">Lake by lake</span><h4>Reopen each file</h4><p>Each lake starts its own reads. The reader can fetch file headers and decoded blocks again.</p></div>
+<div class="route-arrow" aria-hidden="true">↔</div>
+<div class="route-step"><span class="eyebrow">File by file</span><h4>Share cached blocks</h4><p>Keep a file open across every lake’s window. Earlier reads can serve later lakes.</p></div>
+<div class="route-arrow" aria-hidden="true">↔</div>
+<div class="route-step"><span class="eyebrow">Whole tile</span><h4>Read everything first</h4><p>Fetch the complete grid, then extract lakes from memory. This also reads pixels outside the requested windows.</p></div>
+<figcaption>Three read patterns for the same tile workload. Their value depends on lake distribution and reader behavior.</figcaption>
+</figure>
 <div class="risk-grid">
-<article class="risk"><h3>Reading a tile's lakes together cuts requests by more than half</h3>
-<p>Five tiles were read from the same acquisition as stage 2. There, requests fell to 24 to 46 percent, bytes to 49 to 87 percent, and read time to 24 to 51 percent. A lake read alone pays a size probe and a header read per file. Read together, the headers are read once, and a block one lake loaded serves the next. In the seven tiles with a large lake, 21 of the 26 smaller lakes cost no request at all. Reading lake by lake instead of file by file reopens each file and drops its cached blocks. That cost 2 to 9 MB and up to 3 seconds more per tile.</p>
-<p class="response"><b>Why it matters:</b> the cost of many lakes in one tile is the distinct blocks they touch plus one set of headers. It is not a per-lake constant. The pilot's lakes touched 3 to 17 percent of their files' blocks.</p></article>
-<article class="risk"><h3>A whole-tile read moves 6 to 32 times the bytes at this density</h3>
-<p>On eight tiles, reading the five files whole cost 327 to 410 MB and 32 to 38 seconds. The same lakes' windows cost 12 to 59 MB and 3 to 9 seconds. The ninth tile is 82 percent no-data and cost 57 MB whole against 6.7 MB windowed. Once the tile is in memory, picking every lake out of it takes under a quarter of a second. Dividing the whole-tile bytes by a tile's windowed bytes per lake gives 25 to 150 lakes per tile. That is byte arithmetic from these medians for this lake mix. It is neither a time nor a cost crossover.</p>
-<p class="response"><b>Why it matters:</b> by bytes, a whole-tile read pays off only where a tile holds far more water bodies than the pilot's three to six. Tiles with a few lakes are cheaper by windows. The crossover rises further where lakes share blocks, as most did here.</p></article>
-<article class="risk"><h3>Chunked lazy reads cost more in the tested recipe, and clipping per scene is cheap</h3>
-<p>The lazy stack computing each lake from a shared whole-tile graph read whole 2,048-pixel chunks per lake and kept no decoded chunk between lakes. In that recipe, four threads and one compute per lake, it read 1.6 to 7 times the bytes of the windowed reads. Computing the whole tile through it opened each 10 m file 36 times, once per chunk. It still finished faster than the plain whole read on eight of nine tiles. Four threads fetching at once is the likely reason, not isolated here. The naive clip rasterizes each polygon per scene. With the intended cache that took under half a second per large lake, the same order as loading a precomputed mask. The first run's mis-set cache had made it look far slower, and that figure was withdrawn.</p>
-<p class="response"><b>Why it matters:</b> a lazy stack needs tuning before it is a fair option: chunk size, retained chunks, or one compute per tile. Precomputed masks buy the coverage fraction and the near-land pixels, not time, at one scene per lake. All three mask methods and all three read patterns returned identical values on every lake and band. They matched stage 2 wherever the acquisition was the same.</p></article>
+<article class="risk"><h3>Sharing reduced requests</h3>
+<p>On five tiles matching Stage 2’s acquisitions, shared raster reads used 24–46 percent of the requests. Bytes fell to 49–87 percent. Twenty-one of 26 pond memberships beside anchors needed no extra request.</p>
+<p class="response"><b>Why it matters:</b> once a file is shared, a pond beside an anchor often costs no extra request. Neither a pond count nor a pixel count alone predicts transfer.</p></article>
+<article class="risk"><h3>Whole tiles transferred much more</h3>
+<p>Whole-tile reads requested 6–32 times the windowed bytes at this pilot’s lake density. One mostly no-data tile compressed especially well, but still needed more bytes than its windows.</p>
+<p class="response"><b>Why it matters:</b> windows used fewer bytes on every tested tile. Whether a whole-tile read pays off depends on lake size, shape, position, and shared blocks. No lake count alone decides it.</p></article>
+<article class="risk"><h3>Chunk behavior needs tuning</h3>
+<p>The tested lazy recipe requested 1.6–7.1 times the shared raster bytes. A separate compute per lake reread chunks. The mask selections and values still agreed.</p>
+<p class="response"><b>Why it matters:</b> chunk size and kept intermediate results can change transfer. This measures one recipe. It does not set a limit for lazy reading.</p></article>
 </div>
-<p class="source-note"><b>Measured:</b> on @@TILE_DATE@@ from a @@TILE_MACHINE@@ over the internet, outside the bucket's region. Times include that path and will differ on an instance beside the data. Evidence: <a href="../benchmarks/results/tile-extraction.json">tile extraction result</a>, the rerun of 2026-09-16 with a 512 MB block cache. The first run of 2026-09-15 held 512 bytes by a unit error found in review, and its result is kept outside the repository. One acquisition per tile. Lakes that cross a tile's edge were read inside each tile they touch, apart. Combining such records is stage 4.</p>
+<details class="benchmark-detail"><summary>Per-tile medians and the Stage 2 comparison</summary>
+<div class="table-scroll" role="region" aria-label="Shared tile timings" tabindex="0"><table class="plans datasets">
+<caption class="small">Five files per tile. Time sums the per-file read or compute timers. It excludes startup, mask loading, and later work. Raster masks provide the first three comparisons. Stage 2 sums medians for the same lakes and acquisition. A cell names a missing comparison or an excluded repetition.</caption>
+<thead><tr><th scope="col">Tile</th><th scope="col">Memberships</th><th scope="col">Stage 2 · separate processes</th><th scope="col">Shared open files</th><th scope="col">Whole-tile read</th><th scope="col">Shared lazy graph</th></tr></thead>
+<tbody>@@TILE_ROWS@@</tbody></table></div>
+<p class="small muted">If this lake mix and the bytes per lake stay constant, the byte break-even is 25–150 lakes per tile. This is arithmetic on medians. It is not a measured timing, cost, or operating threshold.</p>
+</details>
+<details class="benchmark-detail"><summary>What the corrected rerun shows</summary>
+<p>All 200 lake-band comparisons agreed across the three mask methods and read patterns. The naive clip agreed across patterns within its separate selection rule.</p>
+<p>The 130 comparisons that share a Stage 2 acquisition matched within each method family. The remaining 70 have no Stage 2 comparison.</p>
+<p>The rerun used a 512 MiB GDAL block cache. The review found that the earlier run used 512 bytes by mistake. We withdrew its slow-clipping claim. After the correction, the median clip setup took under half a second per large lake.</p>
+<p>The lazy recipe used 2,048-pixel chunks and four threads. Whole-tile computation opened each 10 m file 36 times. Smaller chunks, kept chunks, and combined lake computations are untested.</p>
+<p>Nine workers were unusually slow. The largest had recorded timeouts and repeated range requests. The other eight have no known cause.</p>
+</details>
+<p class="source-note"><b>Measured:</b> @@TILE_DATE@@, @@TILE_MACHINE@@, outside AWS. <a href="../benchmarks/results/tile-extraction.json">Corrected-cache result</a>, <a href="measurements.md#prototype-stage-3-many-lakes-in-one-tile-2026-09-16">findings and limits</a>, and <a href="reviews/2026-09-16-codex-stage-3-rerun-review.md">independent review</a>. One acquisition per tile, three repetitions, and three to six memberships per tile.</p>
+</section>
+
+<section class="chapter" aria-labelledby="stage-4">
+<div class="chapter-head"><div class="chapter-num">06 / Stage 4 · Lakes across tiles</div><div>
+<h2 id="stage-4">Keep every tile contribution. Change how the reads are shared.</h2>
+<p>@@CROSS_LAKES@@ lakes around Lanier and Okeechobee span @@CROSS_TILES@@ tiles. Each region uses one acquisition. Every item stays on its native grid. We compare two orders: all tiles for each lake, and all lakes for each tile.</p>
+</div></div>
+<p class="takeaway"><strong>Tile-first raster reading used @@CROSS_SAVED_REQUESTS@@ percent fewer requests and @@CROSS_SAVED_BYTES@@ percent fewer bytes.</strong> Its median workload time fell @@CROSS_SAVED_TIME@@ percent. These are laptop results for this sample.</p>
+<div class="table-scroll" role="region" aria-label="Cross-tile workload comparison" tabindex="0"><table class="plans datasets">
+<caption class="small">Whole-workload medians and time ranges across three repetitions. Time sums the worker durations, with startup and assembly. It excludes catalog selection, mask preparation, and final summary work. MB means decimal megabytes. Bytes count requested ranges. No meter recorded the delivered bytes.</caption>
+<thead><tr><th scope="col">Work organization</th><th scope="col">Reader</th><th scope="col">Median time<br>and range</th><th scope="col">Requests</th><th scope="col">Requested bytes</th><th scope="col">Repetitions</th></tr></thead>
+<tbody>@@CROSS_ROWS@@</tbody></table></div>
+<p class="small muted">The lazy tile-first recipe requested @@CROSS_LAZY_BYTES@@ times its lake-first bytes. Its time ranges overlap. These three repetitions do not show a stable timing advantage for the lazy reader.</p>
+<div class="diagrams">
+<figure class="diagram">
+<h3>Overlapping coverage is common in these cases.</h3>
+<p>Share of each anchor’s buffered area inside two or more tile extents, counted once:</p>
+<div class="comparison-bars">
+<div><label for="lanier-overlap">Lanier · @@CROSS_LANIER_OVERLAP@@%</label><meter id="lanier-overlap" min="0" max="100" value="@@CROSS_LANIER_OVERLAP@@">@@CROSS_LANIER_OVERLAP@@%</meter></div>
+<div><label for="okeechobee-overlap">Okeechobee · @@CROSS_OKEECHOBEE_OVERLAP@@%</label><meter id="okeechobee-overlap" min="0" max="100" value="@@CROSS_OKEECHOBEE_OVERLAP@@">@@CROSS_OKEECHOBEE_OVERLAP@@%</meter></div>
+</div>
+<figcaption class="small muted">Both tile unions cover the whole buffered area. Neither anchor fits in one tile. Extent coverage does not prove usable band values.</figcaption>
+</figure>
+<article class="diagram">
+<h3>Equal extraction is a narrower result.</h3>
+<p>@@CROSS_MEMBERSHIPS@@ lake-tile memberships produce @@CROSS_EXPECTED@@ band contributions per workload. Every expected contribution is present. Values, pixel identities, and classes agree across readers, work organizations, and repetitions.</p>
+<p><strong>This compares methods that read the same source pixels.</strong> It does not compare two tiles’ measurements of the same ground. Contributions stay separate, with an ordered list of keys for each lake.</p>
+</article>
+</div>
+<div class="risk-grid">
+<article class="risk"><h3>Catalog outlines are approximate</h3>
+<p>Selected item footprints have coarse edges. If a reader treats them as precise coverage boundaries, it can omit candidate areas. One acquisition can also hold distinct, overlapping datastrips within a tile.</p>
+<p class="response"><b>Implication:</b> keep native tile candidates and complete product identities. Check per-band validity separately.</p></article>
+<article class="risk"><h3>Classification is not band validity</h3>
+<p>Each workload contains @@CROSS_NODATA@@ declared no-data entries among @@CROSS_PIXELS@@ selected band-pixel entries. They occur in 10 m bands, despite nonzero selected 20 m classification values.</p>
+<p class="response"><b>Implication:</b> the summaries do not say which water or classification cells hold those zeros. Their cause is unknown. A stored zero does not mean zero reflectance.</p></article>
+<article class="risk"><h3>Preferred observations are undecided</h3>
+<p>Ambiguous primary-tile roles are unresolved. The run keeps overlapping observations without blending them. It does not choose a storage layout or test whether those observations agree.</p>
+<p class="response"><b>Implication:</b> choose overlap behavior with the model’s requirements and matched-location checks. A complete extraction is only part of that decision.</p></article>
+</div>
+<details class="benchmark-detail"><summary>Resource limits and the boundaries of the reviewed run</summary>
+<p>@@CROSS_RUNS@@ fresh extraction workers completed, across @@CROSS_ACQUISITIONS@@ acquisitions and three repetitions. The medians include every complete repetition.</p>
+<p>The guard used a 4 GiB process budget and 1.5 GiB available-memory reserve. It sampled every 0.25 seconds, with a 128 MiB page-out threshold.</p>
+<p>Extraction peaked near 1.80 GiB. Selection reached 3.40 GiB and recorded host swapping, without a guard stop. A run that fits on a laptop is not proof of a run without memory pressure.</p>
+<p>The settings were fixed: 512 MiB GDAL cache, 2,048-pixel lazy chunks, and four threads. We did not tune the readers.</p>
+<p>The measured implementation is version 2. The review corrected how version 3 selects datastrips and handles coarse footprints. The groups selected here did not change. The revised code has local fixture tests and no new public-data run.</p>
+</details>
+<p class="source-note"><b>Measured:</b> @@CROSS_DATE@@, @@CROSS_MACHINE@@. <a href="../benchmarks/results/cross-tile-extraction.json">Frozen cross-tile result</a>, <a href="measurements.md#prototype-stage-4-lakes-across-tiles-2026-09-16">findings and limits</a>, and <a href="reviews/2026-09-16-codex-stage-4-review-response.md">accepted review response</a>. The run did not isolate window shape, compression, or grid alignment. These findings do not select an AWS platform, production workflow, or storage format.</p>
+<p class="note-line"><strong>Prototyping is partial.</strong> Scientific checks, seasonal coverage, AWS costs, and stored-record retrieval are unfinished. The next step needs separate agreement.</p>
 </section>
 </section>
 <section class="future" id="integration" role="tabpanel" aria-labelledby="tab-integration" hidden>
 <div class="eyebrow">Integration Specs / To come</div>
 <h1>Turn the findings into an engineering handoff.</h1>
-<p>This section will hold the technical guidance and implementation specifications supported by the prototypes.</p>
+<p>This section will hold the technical guidance and specifications that the prototypes support.</p>
 <button class="back-button" data-return>Return to Discovery</button>
 </section>
 <section class="future" id="tradeoffs" role="tabpanel" aria-labelledby="tab-tradeoffs" hidden>
 <div class="eyebrow">Tradeoffs &amp; Issues / To come</div>
 <h1>Make the choices and their consequences clear.</h1>
-<p>This section will bring together costs, benefits, limitations, and unresolved issues once we have the evidence to compare them.</p>
+<p>When the evidence allows a comparison, this section will bring together costs, benefits, limits, and open issues.</p>
 <button class="back-button" data-return>Return to Discovery</button>
 </section>
 <noscript>
-<p>Discovery is readable without JavaScript. Enable JavaScript to switch phases or change the map views.</p></noscript>
+<p>Discovery is readable without JavaScript. To switch phases or change the map views, enable JavaScript.</p></noscript>
 </main>
 <footer class="wrap">
-<p>Sentinel-2 assessment · Discovery &amp; partial Prototyping · Updated 2026-09-16</p>
+<p>Sentinel-2 assessment · Discovery &amp; partial Prototyping · Updated 2026-09-17</p>
 <p><a href="../README.md">Project documentation</a> · <a href="assets/discovery/provenance.json">Imagery attribution &amp; provenance</a>
 </p>
 </footer>
-<!-- Generated from inventory @@INVENTORY_DIGEST@@, survey @@REPORT_DIGEST@@, maps @@MAP_DIGEST@@, pilot @@PILOT_DIGEST@@, raw access @@RAW_DIGESTS@@, copy difference @@DIFF_DIGEST@@, lake extraction @@LAKE_DIGEST@@, tile extraction @@TILE_DIGEST@@. -->
+<!-- Generated from inventory @@INVENTORY_DIGEST@@, survey @@REPORT_DIGEST@@, maps @@MAP_DIGEST@@, pilot @@PILOT_DIGEST@@, raw access @@RAW_DIGESTS@@, copy difference @@DIFF_DIGEST@@, lake extraction @@LAKE_DIGEST@@, tile extraction @@TILE_DIGEST@@, cross-tile extraction @@CROSS_DIGEST@@. -->
 <script>
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 function activate(id, focus = false) {
@@ -1030,15 +1062,21 @@ function followHash() {
   if (!target) return;
   const panel = target.closest('[role="tabpanel"]');
   if (panel) activate(panel.id);
+  let ancestor = target;
+  while (ancestor) {
+    if (ancestor.tagName === 'DETAILS') ancestor.open = true;
+    ancestor = ancestor.parentElement;
+  }
+  requestAnimationFrame(() => target.scrollIntoView({block: 'start'}));
 }
 followHash(); window.addEventListener('hashchange', followHash);
 const views = {
   'true-color': {title:'True color', description:'Red, green, and blue combined into a familiar view. Follow the branching shoreline and surrounding land.', alt:'Lake Lanier in true color, with dark water and green land'},
-  'red': {title:'Red band', description:'One visible wavelength band. Brightness represents reflected red light. This is one measured band, before any color composite.', alt:'Lake Lanier red reflectance band displayed in grayscale'},
+  'red': {title:'Red band', description:'One visible wavelength band. Brightness shows reflected red light. This is one measured band, before any color composite.', alt:'Lake Lanier red reflectance band displayed in grayscale'},
   'nir': {title:'Near-infrared band', description:'Vegetation reflects strongly and appears bright. Water is generally dark. Near-infrared measures reflected light, not temperature.', alt:'Lake Lanier near-infrared reflectance with dark water and bright vegetation'},
-  'false-color': {title:'Infrared false color', description:'Near-infrared, red, and green mapped to display colors. Vegetation appears red, making the land–water boundary easier to follow.', alt:'Lake Lanier false-color composite with red vegetation and dark water'},
-  'ndvi': {title:'Vegetation contrast · NDVI', description:'Near-infrared and red contrast highlights vegetation. Greener pixels have a higher index. It does not diagnose plant health. Water is dark in both bands, so its index is noisy.', alt:'Lake Lanier NDVI showing vegetation in green and water in blue', colors:['#183c58','#a3bbc5','#e9dfbd','#83a560','#245641']},
-  'ndwi': {title:'Water contrast · NDWI', description:'Green and near-infrared contrast helps water stand apart from land. Blue means a higher index. It says nothing about water quality. Small band sums can exaggerate minor differences. Display clipping also flattens extremes. The cause of visible texture is unverified.', alt:'Lake Lanier green and near-infrared water index: water appears blue and surrounding land brown', colors:['#9c6d40','#d7bc8c','#eee9dc','#68b8c4','#15556f']}
+  'false-color': {title:'Infrared false color', description:'Near-infrared, red, and green mapped to display colors. Vegetation appears red, so the land–water boundary is easier to follow.', alt:'Lake Lanier false-color composite with red vegetation and dark water'},
+  'ndvi': {title:'Vegetation contrast · NDVI', description:'Near-infrared and red contrast highlights vegetation. Greener pixels have a higher index. It does not diagnose plant health. Dark water can produce unstable ratios. Texture alone does not identify its cause.', alt:'Lake Lanier NDVI showing vegetation in green and water in blue', colors:['#183c58','#a3bbc5','#e9dfbd','#83a560','#245641']},
+  'ndwi': {title:'Water contrast · NDWI', description:'Green and near-infrared contrast helps separate water from land. Blue means a higher index, not better water quality. Dark pixels can produce unstable ratios.', alt:'Lake Lanier green and near-infrared water index: water appears blue and surrounding land brown', colors:['#9c6d40','#d7bc8c','#eee9dc','#68b8c4','#15556f']}
 };
 document.querySelectorAll('[data-map]').forEach(select => {
   function updateMap() {

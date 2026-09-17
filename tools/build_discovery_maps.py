@@ -187,7 +187,7 @@ def build() -> None:
         ),
         "index_formulas": {"ndvi": "(nir-red)/(nir+red)", "ndwi": "(green-nir)/(green+nir)"},
         "quality": (
-            "Show SCL 4,5,6,7 only. Nearest-neighbour expansion from 20 m. Other pixels are grey."
+            "Show SCL 4,5,6,7 only. Nearest-neighbor expansion from 20 m. Other pixels are gray."
         ),
         "index_validity": (
             "Keep negative inputs. Exclude denominators <= 0.000001. Clip each index to -1..1."

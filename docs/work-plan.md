@@ -5,8 +5,10 @@ A checked box means the work exists in this repository with evidence.
 
 ## Next session: Phase 2, Prototyping
 
-The public pilot manifest was [reviewed on 2026-09-12](reviews/2026-09-12-pilot-manifest-review.md). Stage 1 raw access ran on 2026-09-14 and stage 2, one lake at a time, on 2026-09-15, both on one laptop and [reviewed by Codex](reviews/2026-09-15-codex-stage-2-review.md). Stage 3, many lakes per tile, ran on 2026-09-15. [Codex's review](reviews/2026-09-15-codex-stage-3-review.md) found a 512-byte reader cache, and it ran again on 2026-09-16 with the intended cache. Lakes across tiles, AWS performance, and scientific validation remain open.
-Read that review, [measurements](measurements.md), and the [draft contract](data-contract.md) before selecting the first bounded comparison together.
+Stages 1 to 4 have reviewed laptop measurements. [Measurements](measurements.md) owns the results, dates, and limitations.
+The [Stage 4 response](reviews/2026-09-16-codex-stage-4-review-response.md) records the accepted interpretation and future selection corrections.
+The [Stage 3 rerun review](reviews/2026-09-16-codex-stage-3-rerun-review.md) supports the preceding evidence.
+Its four documentation corrections are closed in the [presentation update](reviews/2026-09-17-documentation-and-presentation.md).
 
 - The public pilot polygons exist since 2026-09-11. Identify the input product used by the existing model.
 - Treat small mapped polygons as geometry cases until their water-body type and shoreline suitability are checked.
@@ -16,7 +18,9 @@ Read that review, [measurements](measurements.md), and the [draft contract](data
 - Carry unresolved fill policy, missing quality layers, Alaska scope, processing-version comparability, and record layout into those experiments.
 
 The detailed prototype workflow will develop jointly. These questions do not require a complete infrastructure design before experiments begin.
-No prototype or new provider read ran during this documentation review. Hosting the presentation is separate from prototype planning.
+The owner accepted the [Stage 4 response](reviews/2026-09-16-codex-stage-4-review-response.md) on 2026-09-17.
+The current step is review of the [documentation and presentation update](reviews/2026-09-17-documentation-and-presentation.md).
+The inventory includes Stage 4. Scientific validation, the primary-tile rule, and AWS measurements remain open. Stage 5 needs separate owner authorization.
 
 ## How options are judged
 
@@ -30,7 +34,7 @@ Two routes feeding one workflow test delivery. Two workflows on one route test p
 | Raw pixel access | Whether raw per-pixel values can be served (assumption A1) |
 | Completeness | Expected, present, and missing scenes per water body, and how the option accounts for them |
 | Latency | Time from product publication to local availability (assumption A11) |
-| Scaling | Behaviour as water bodies, distinct tiles, and history grow (assumption A17) |
+| Scaling | Behavior as water bodies, distinct tiles, and history grow (assumption A17) |
 | Cost | Compute, storage, requests, transfer, service fees, engineering effort (assumption A14) |
 | Operability | Idempotency, retry, backfill, reprocessing, monitoring, orchestrator independence (assumption A12) |
 | Global reach | Anything that limits use outside the United States (assumption A4) |
@@ -102,7 +106,7 @@ An inventory-driven page was rebuilt from scratch on 2026-09-10. The owner found
 The owner requested a narrative for engineering and business colleagues with limited geospatial background.
 [Review record](reviews/2026-09-11-discovery-presentation.md).
 
-- [x] Four tabs: Discovery, Prototyping, Integration Specs, and Tradeoffs & Issues. Only Discovery is populated.
+- [x] Four tabs: Discovery, Prototyping, Integration Specs, and Tradeoffs & Issues. Discovery and partial Prototyping are populated. Integration Specs and Tradeoffs & Issues remain placeholders.
 - [x] Five sections explain the sensors, AWS archives, quality risks, processing effort, and real satellite examples.
 - [x] Illustrations explain pixel size, shoreline classes, archive coverage, tile overlap, and a candidate stored record. Internal decision and issue IDs stay outside the presentation.
 - [x] Paired Lake Lanier maps offer six band and index views, with source attribution and display limitations.
@@ -146,9 +150,16 @@ Stage 3, many lakes in one tile. The same methods, reading every pilot lake in a
 - [x] Measured on the pilot tiles on 2026-09-15, with stage 2 as the baseline: nine tiles, 324 runs. [Result](../benchmarks/results/tile-extraction.json), findings 19 to 22 in [measurements.md](measurements.md).
 - [x] Rerun under the corrected 512 MiB block cache on 2026-09-16, authorized by the owner. [Codex's review](reviews/2026-09-15-codex-stage-3-review.md) had found the run of 2026-09-15 held 512 bytes. Its findings are applied in the [record](reviews/2026-09-15-stage-3-many-lakes-in-one-tile.md), and findings 19 to 22 come from the rerun.
 
-Stage 4, lakes across tiles. Lakes the survey found in two or more tiles. Per-lake reads from every tile against per-tile extraction followed by concatenation. Records keep their tile id and role. Nothing is blended across tiles.
+Stage 4, lakes across tiles. Compare per-lake reads from every relevant tile against per-tile extraction followed by assembly.
+Use the public pilot polygons, with candidate membership checked from each polygon and its near-land support.
+Preserve tile provenance and keep ambiguous primary labels explicit. Nothing is blended across tiles.
 
-- [ ] Prototyped and measured. **Cross-tile mosaicking is a MAJOR CONCERN, issue I-30.**
+- [x] Proposed plan, 2026-09-16, revised after Claude Code's review. [Plan and dispositions](reviews/2026-09-16-stage-4-plan.md), authored by Codex.
+- [x] Plan reviewed and comparison implemented with local fixture tests. [Implementation record](reviews/2026-09-16-stage-4-implementation.md).
+- [x] Implementation, smoke, and full run reviewed by Claude Code. [Review](reviews/2026-09-16-claude-stage-4-full-run-review.md).
+- [x] Smoke passed after owner authorization, 2026-09-16. [Record](reviews/2026-09-16-stage-4-smoke.md).
+- [x] Full workload measured after owner authorization, 2026-09-16. [Record](reviews/2026-09-16-stage-4-full-run.md), findings 23 to 25 in [measurements.md](measurements.md).
+- [x] Review response accepted on 2026-09-17. Inventory and presentation updated in the [record](reviews/2026-09-17-documentation-and-presentation.md). Cross-tile scientific comparison remains open.
 
 Stage 5, scientific and quality checks, after stages 1 to 4:
 

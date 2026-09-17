@@ -13,7 +13,7 @@ Baseline: commit `943bb1b` plus the uncommitted changes of 2026-09-10 and 2026-0
 | 3. Risk bullets | Every inventory issue's `plain` line appears once, as a bullet under one of the six risk categories or in the cost list. The mapping lives in the renderer, which fails if an issue is unplaced. The JPEG 2000 issue is off the page by direction. A test checks the page against the inventory | Renderer `RISK_GROUPS`, `COST_ITEMS`, [test](../../tests/test_presentation.py) |
 | 4. Illustrations | Three added: the route, one stored record, and the processing-version timeline. The coverage strip is drawn from the report, so it stays measured | Template sections `aws`, `risks`, `processing` |
 | 5. Effort labels | Low, medium, high, or depends, one per step. Reuse is stated in the group headings | Template section `processing` |
-| 6. Index maps | The builder keeps negative inputs, excludes only zero denominators, and clips each index to the legend. Maps rebuilt from the cached arrays. Captions explain the noise floor and the grey dark-area class | [Builder](../../tools/build_discovery_maps.py), [provenance](../assets/discovery/provenance.json) |
+| 6. Index maps | The builder keeps negative inputs, excludes only zero denominators, and clips each index to the legend. Maps rebuilt from the cached arrays. Captions explain the noise floor and the gray dark-area class | [Builder](../../tools/build_discovery_maps.py), [provenance](../assets/discovery/provenance.json) |
 | 7. Vercel | Static configuration and a hosting note, following the weather repository. The README points to it. A test checks the rewrite target | [vercel.json](../vercel.json), [vercel-hosting.md](../vercel-hosting.md) |
 | 8. Housekeeping | The 2026-09-10 HTML rebuild review moved to `docs/archive/`. Step 3c in the work plan collapsed to one line. The format document describes the markers. The sources record's limitation updated. The hash handler tolerates a refused `replaceState` | [work-plan.md](../work-plan.md), [assessment-data-format.md](../assessment-data-format.md) |
 
@@ -33,7 +33,7 @@ The report gained a `coverage_by_month` list, computed by [gap_report.py](../../
 
 - Map rebuild: every view now has a valid fraction of 0.978, recorded in the provenance record. Before the fix the two index views had 0.908.
 - The five sensor facts added to section 01 carry independent check verdicts in the [sources record](../assessment-checks/discovery-presentation-sources.json), four confirmed and one corrected in wording.
-- The band-to-signal statements in section 01 are labelled project rationale on the page. They are not checked claims.
+- The band-to-signal statements in section 01 are labeled project rationale on the page. They are not checked claims.
 
 ## Checks
 
@@ -54,9 +54,9 @@ The report gained a `coverage_by_month` list, computed by [gap_report.py](../../
 
 ## Correction after owner review, 2026-09-11
 
-The owner reviewed the page and found the pixel-size figure in section 01 wrong. The nine 10 m cells were drawn as a water square with the land shape painted across them. One cell showed two colours. A sensor reports one value per pixel.
+The owner reviewed the page and found the pixel-size figure in section 01 wrong. The nine 10 m cells were drawn as a water square with the land shape painted across them. One cell showed two colors. A sensor reports one value per pixel.
 
-Each cell now has one flat colour, mixed from the land fraction that the shoreline encloses in that cell. The 30 m sample is one cell at the mean mix. The shoreline is drawn as a line over both grids for reference, and the caption says so. The fractions come from rasterizing the same boundary path, so the colours match the line.
+Each cell now has one flat color, mixed from the land fraction that the shoreline encloses in that cell. The 30 m sample is one cell at the mean mix. The shoreline is drawn as a line over both grids for reference, and the caption says so. The fractions come from rasterizing the same boundary path, so the colors match the line.
 
 | Row | Left cell | Middle cell | Right cell |
 |---|---|---|---|
@@ -64,7 +64,7 @@ Each cell now has one flat colour, mixed from the land fraction that the shoreli
 | Middle | 1.00 land | 0.34 land | 0.00 land |
 | Bottom | 0.41 land | 0.00 land | 0.00 land |
 
-The whole square is 0.40 land. The page was re-rendered. Lint, format, 61 tests, and the three generator checks passed again. A headless Chromium screenshot at 1440 px confirmed the figure. The other shoreline diagram, in section 03, already used flat class colours with the lake edge drawn on top, so it was left alone.
+The whole square is 0.40 land. The page was re-rendered. Lint, format, 61 tests, and the three generator checks passed again. A headless Chromium screenshot at 1440 px confirmed the figure. The other shoreline diagram, in section 03, already used flat class colors with the lake edge drawn on top, so it was left alone.
 
 ## Dispositions
 

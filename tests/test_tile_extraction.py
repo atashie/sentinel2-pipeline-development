@@ -56,7 +56,7 @@ def scene(tmp_path_factory):
         feature("lake-c", box(X0 + 100, Y0 - 2300, X0 + 2300, Y0 - 100), 1000, tier="large"),
         # 30 m east of the first tile's edge: near-land pixels only in that tile.
         feature("lake-near", box(X0 + 2430, Y0 - 1050, X0 + 2450, Y0 - 1030), 30),
-        # 98 m east of the edge: the buffer touches the tile, but no pixel centre is within
+        # 98 m east of the edge: the buffer touches the tile, but no pixel center is within
         # 100 m of the polygon at any resolution. A candidate member with no pixel.
         feature("lake-outer", box(X0 + 2498, Y0 - 1450, X0 + 2518, Y0 - 1430), 30),
     ]
@@ -69,13 +69,13 @@ def lake(scene, lake_id):
     return next(x for x in scene["lakes"] if x["properties"]["water_body_id"] == lake_id)
 
 
-def test_normalise_grid_code():
-    assert tile_extraction.normalise_grid_code("MGRS-5VMG") == "05VMG"
-    assert tile_extraction.normalise_grid_code("MGRS-05VMG") == "05VMG"
-    assert tile_extraction.normalise_grid_code("17SKU") == "17SKU"
-    assert tile_extraction.normalise_grid_code("MGRS-17SKU") == "17SKU"
-    assert tile_extraction.normalise_grid_code("junk") is None
-    assert tile_extraction.normalise_grid_code(None) is None
+def test_normalize_grid_code():
+    assert tile_extraction.normalize_grid_code("MGRS-5VMG") == "05VMG"
+    assert tile_extraction.normalize_grid_code("MGRS-05VMG") == "05VMG"
+    assert tile_extraction.normalize_grid_code("17SKU") == "17SKU"
+    assert tile_extraction.normalize_grid_code("MGRS-17SKU") == "17SKU"
+    assert tile_extraction.normalize_grid_code("junk") is None
+    assert tile_extraction.normalize_grid_code(None) is None
 
 
 def test_membership_is_a_candidate_test_with_near_land_support(scene):

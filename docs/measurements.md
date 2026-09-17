@@ -1,11 +1,12 @@
 # Measurements, 2026-09-10
 
-Five measurement sets exist. The data gap survey required by [decision 0003](decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) ran once on 2026-09-10 and wrote [gap-survey.json](../benchmarks/results/gap-survey.json).
+Six measurement sets exist. The data gap survey required by [decision 0003](decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) ran once on 2026-09-10 and wrote [gap-survey.json](../benchmarks/results/gap-survey.json).
 The fallback survey the owner asked for the same day ran once and wrote [fallback-survey.json](../benchmarks/results/fallback-survey.json). Both are summarized for review in the generated [gap survey report](reviews/2026-09-10-gap-survey-report.json).
-The plan, definitions, and rerun steps are in [gap-survey-plan.md](gap-survey-plan.md). Every number in the survey sections is a count of catalog items, acquisitions, requests, or bytes, as labelled. The surveys read no imagery byte.
+The plan, definitions, and rerun steps are in [gap-survey-plan.md](gap-survey-plan.md). Every number in the survey sections is a count of catalog items, acquisitions, requests, or bytes, as labeled. The surveys read no imagery byte.
 The third set is [prototype stage 1](#prototype-stage-1-raw-access-to-whole-tiles-2026-09-14), which read whole tiles on 2026-09-14.
 The fourth is [prototype stage 2](#prototype-stage-2-one-lake-at-a-time-2026-09-15), which read one lake at a time on 2026-09-15.
 The fifth is [prototype stage 3](#prototype-stage-3-many-lakes-in-one-tile-2026-09-16), which read every lake of a tile in one process on 2026-09-16.
+The sixth is [prototype stage 4](#prototype-stage-4-lakes-across-tiles-2026-09-16), which preserves separate tile contributions while comparing work organization.
 
 An acquisition is one sensing date and platform within one tile. Item counts stand beside acquisition counts because one acquisition can appear as several items.
 
@@ -96,7 +97,7 @@ Measured baseline spans in Collection 1: 05.00 for 2021, 05.09 to 2023-12-12, 05
 ### 3. One Alaska tile is absent from the older and Level-1C collections, and nearly absent from Collection 1 before June 2025
 
 Tile 05VLG, at Lake Iliamna, has 1,507 reference acquisitions. Collection 1 holds 347: one in 2022-12, then nothing until sustained coverage begins in 2025-06. The older collection and the Level-1C collection hold none in the window.
-So 1,162 acquisitions, and 52 whole months, are on no Earth Search collection. Probe PR-06 shows Collection 1 holding about 10,000 items per month over Alaska as a whole outside 2022. So the absence is specific to this tile or its neighbourhood, not to the state.
+So 1,162 acquisitions, and 52 whole months, are on no Earth Search collection. Probe PR-06 shows Collection 1 holding about 10,000 items per month over Alaska as a whole outside 2022. So the absence is specific to this tile or its neighborhood, not to the state.
 
 This meets the first review trigger of decision 0003 for that tile, if Alaska water bodies are in scope. The survey did not establish why the tile is absent.
 
@@ -164,7 +165,7 @@ The per-tile rows are in the `per_tile` list of the [report](reviews/2026-09-10-
 
 ### 10. The older collection's GeoTIFFs cover the missing 2022 acquisitions
 
-Of the 5,022 missing acquisitions in the incomplete months, 3,840 have an older-collection item with a complete GeoTIFF set. Every one of those 3,840 also has aerosol and water vapour as GeoTIFFs. None is partial.
+Of the 5,022 missing acquisitions in the incomplete months, 3,840 have an older-collection item with a complete GeoTIFF set. Every one of those 3,840 also has aerosol and water vapor as GeoTIFFs. None is partial.
 Five acquisitions have JPEG 2000 assets only, all in January 2022, in tiles 15RYP, 16RBU, 17TKE, 17TKF, and 18TXQ. The provider ingested those items with software 2026.08.16. The remaining 1,177 have no older-collection item: 1,162 in the Alaska tile and 15 elsewhere.
 
 | Month | Missing | Complete GeoTIFF | JPEG 2000 only | Uncovered |
@@ -200,7 +201,7 @@ Over the 405 tile-months both surveys covered, their missing and covered counts 
 - Whether any listed asset opens, holds valid pixels, or has the offset in its values. Nothing read a pixel. A HEAD shows existence and size only.
 - Objects the HEAD sample did not touch. One item per tile and month was checked, two objects each. The other bands and items are assumed to match their catalog entries.
 - Whether two products of one tile from one pass are both usable. The acquisition key collapses them.
-- Tiles whose items never cover a site point in the last year. Neighbouring tiles with partial coverage of a lake are not surveyed.
+- Tiles whose items never cover a site point in the last year. Neighboring tiles with partial coverage of a lake are not surveyed.
 - Completeness of the Copernicus catalogs. Two of them agree within 25 products of 27,726, which is agreement, not proof.
 - Any cause. Why tile 05VLG is absent, why 15 acquisitions have no Level-2A on the route, and why 30 route acquisitions vanished from ESA are open.
 - The customer's tiles. Sites are 20 public points. The survey must rerun on the pilot manifest's tiles, and later on the tiles the customer set touches.
@@ -242,7 +243,7 @@ Three runs exceeded 1.5 times their set's median wall time. A Collection 1 20 m 
 - The older copy's 10 m bands have the same 1024-pixel blocks, four overviews, and deflate compression as Collection 1. Yet they needed 47 to 51 range requests per band against 14 to 17. Range reads of its 10 m set took 25 percent longer.
 - The older copy's `swir16` uses 1024-pixel blocks and three overviews. Its five other 20 m bands use 512-pixel blocks and four overviews, like Collection 1.
 - The older copy's `cloud` and `snow` assets are JPEG 2000 files in the `sentinel-s2-l2a` bucket, outside this GeoTIFF benchmark. The first pass opened them through an unconfigured S3 path and failed 12 of 60 runs with the errors saved in the result. Whether they open without credentials is untested. The registry documents unsigned access and the older readme says requester pays, issue I-18. The rerun skips them and records why. Most 2022 fallback items lack these assets in the catalog, finding 10.
-- Aerosol and water vapour are 20 m grids on Collection 1. On the older copy aerosol is a 1,830-pixel 60 m grid and water vapour a 10,980-pixel 10 m grid. Both catalogs declare 20 m for them.
+- Aerosol and water vapor are 20 m grids on Collection 1. On the older copy aerosol is a 1,830-pixel 60 m grid and water vapor a 10,980-pixel 10 m grid. Both catalogs declare 20 m for them.
 - No whole-object response carried a requester-pays charge header on either bucket.
 
 ### 15. The copies differ by the offset applied and clamped, measured on one product
@@ -346,13 +347,13 @@ Cells are interior · shoreline · near-land pixels, each the median over the la
 - Two lakes lay entirely outside the tile chosen for their region: the Lanier 100 m pond `nhd-34972649` and the Okeechobee 30 m pond `nhd-57dbffd9`. Their 24 runs read nothing. Lake Lanier was 62.6 % inside tile 17SKU, Lake Okeechobee 90.0 % inside 17RNK, and the Alaska 1,000 m lake `nhd-60265485` 70.9 % inside 05VMG. Only the part inside was read.
 - The masks this run saved measured edge distances to the polygon cut at the tile edge. A tile edge counted as a shoreline for the three lakes partly outside their tile. Codex's review found it. The code now measures every distance to the real boundary. Recomputing all 30 lakes' masks offline with the corrected code left 27 lakes identical. Lake Lanier's 10 m classes changed on 77 pixels and Lake Okeechobee's on 171, all near-land pixels where the shoreline meets the tile edge. Distances changed on 15,134 Lanier, 31,678 Okeechobee, and 440 Alaska pixels at 10 m, by up to 993 m. The extraction runs read the saved masks, so their pixel counts for those two lakes differ from the corrected masks by those pixels. The run's files are marked affected and are not reused.
 - Tiles 10SGJ and 11SKD each hold all six Tahoe lakes entirely. The smaller id won.
-- Each Alaska tile appears in the window under two grid codes. 87 items carry `MGRS-05VLG` or `MGRS-05VMG` with the leading zero. Five carry `MGRS-5VLG` or `MGRS-5VMG` without it. Grouping by tile must normalise the code.
+- Each Alaska tile appears in the window under two grid codes. 87 items carry `MGRS-05VLG` or `MGRS-05VMG` with the leading zero. Five carry `MGRS-5VLG` or `MGRS-5VMG` without it. Grouping by tile must normalize the code.
 
 ### What stage 2 does not show
 
 - Anything about an instance beside the bucket. Every time includes the laptop's internet path.
-- Reads shared between lakes. Every lake was read alone, so a block shared by neighbouring ponds was fetched once per pond. Stage 3 measures the sharing.
-- Lakes across tiles. Only the part inside one tile was read. Stage 4 reads the rest.
+- Reads shared between lakes. Every lake was read alone, so a block shared by neighboring ponds was fetched once per pond. Stage 3 measures the sharing.
+- Lakes across tiles. Stage 2 reads only one selected tile per lake. [Stage 4](#prototype-stage-4-lakes-across-tiles-2026-09-16) tests two regions across tiles.
 - A method ranking. Fixed order, three repetitions, and one uncontrolled connection limit what the timings can say.
 - Other dates, products, or processing versions. One 05.11 item per region, all with cloud cover at or below 6.3 %.
 - Delivered bytes. Requests and bytes are what GDAL asked for. The network counters are machine-wide.
@@ -402,7 +403,7 @@ The five tiles read from the same acquisition as stage 2, raster mask method, me
 
 - Requests fell to 24 to 46 percent, bytes to 49 to 87 percent, and read time to 24 to 51 percent. A lake read alone in its own process paid a size probe and a header read per file, 10 of its 15 requests. In one process per tile the headers are read once, and a block one lake loaded serves the next. Stage 2 ran with GDAL's default cache, 5 percent of memory, so both runs held their blocks.
 - A small lake whose blocks were new cost 4 to 6 requests and 1.5 to 3.8 MB. The Alaska 300 m lake sits across a block boundary in every file, 10 blocks, and cost 6 requests in 05VLG and 5 in 05VMG.
-- In the seven tiles with an anchor, 21 of the 26 smaller lakes cost no request at all. A neighbour's read, usually the anchor's, had already loaded their blocks into the block cache. The five that paid were Tahoe's 30 m, 100 m, and 1,000 m lakes and Washington's 10 m and 1,000 m lakes. The seven memberships in the two Alaska tiles, which have no anchor, all paid.
+- In the seven tiles with an anchor, 21 of the 26 pond memberships cost no additional request. A neighbor's read, usually the anchor's, had already loaded their blocks into the block cache. The five that paid were Tahoe's 30 m, 100 m, and 1,000 m lakes and Washington's 10 m and 1,000 m lakes. The seven memberships in the two Alaska tiles, which have no anchor, all paid.
 - Sharing is modest at this density. The lakes' windows touch 20 to 112 blocks summed over lakes and 16 to 92 distinct blocks, out of 548 in the five files. The nine tiles' lakes need 2.9 to 16.8 percent of their files' blocks.
 - Loop order matters within one process. Reading lake by lake reopens every file per lake, and an open file's cached blocks go with it. Against reading file by file it cost 4 to 17 more requests, 1.7 to 9.1 MB more, and 0.7 to 2.8 s more read time. Raster mask medians. Reopening re-read headers, 15 to 30 opens against 5. GDAL's smaller cache of downloaded ranges still served 6 of the 33 smaller lakes for free. Across processes, as in stage 2, every lake pays the headers again.
 
@@ -424,8 +425,8 @@ Raster mask method, medians of three repetitions. The break-even column divides 
 
 - Eight tiles have data across the tile. There a whole-tile read of the five files requested 327 to 410 MB in 32 to 38 s, in 45 to 54 requests. The 05VLG item is 82 percent no-data and compressed to 57 MB, read in 7.2 s and 19 requests. The windowed reads of the same lakes requested 6.7 to 58.8 MB in 2.8 to 8.8 s.
 - The whole-tile read makes fewer requests than the windowed reads on two tiles, because GDAL merges consecutive block ranges. It moves 6 to 32 times the bytes.
-- Seven of the nine tiles hold one anchor and two to five smaller lakes. The two Alaska tiles hold three and four lakes of 30 to 1,000 m and no anchor. At this mix, dividing whole-tile bytes by windowed bytes per lake gives 25 to 150 lakes per tile. A small lake that pays for its own blocks costs 1.5 to 3.8 MB. At that price the eight full tiles would break even at roughly 90 to 270 such lakes. Both are byte arithmetic from these medians. They say nothing about time or cost, and they hold for this lake mix only. Where lakes share blocks, as 21 of 26 did here, the crossover in bytes is higher. Stage 1's whole-tile numbers, finding 13, agree with these whole-tile reads.
-- The largest median of extracting every lake from the array in memory was 0.18 s for five files, Lake Okeechobee's tile with the index lists. The largest single run took 0.21 s. Once a tile is in memory, the method of picking pixels does not matter for time.
+- Seven of the nine tiles hold one anchor and two to five smaller lakes. The two Alaska tiles hold three and four lakes of 30 to 1,000 m and no anchor. At this mix, dividing whole-tile bytes by windowed bytes per lake gives 25 to 150 lakes per tile. A small lake that pays for its own blocks costs 1.5 to 3.8 MB. At that price the eight full tiles would break even at roughly 90 to 270 such lakes. Both are byte arithmetic from these medians. They say nothing about time or cost, and they hold for this lake mix only. Shared blocks can raise that estimate. Lake count alone cannot predict the crossover. Stage 1's whole-tile numbers, finding 13, agree with these whole-tile reads.
+- The largest median of extracting every lake from the array in memory was 0.18 s for five files, Lake Okeechobee's tile with the index lists. The largest single-run sum of per-lake extraction timers was 0.1874 s, rounded to 0.19 s. Selection time was small within this experiment.
 - Peak resident memory is the highest of each combination's three runs. Whole-tile combinations peaked at 0.78 to 1.77 GB with rasterio and 0.87 to 2.08 GB with the lazy stack. A whole-tile run holds up to 512 MiB of decoded blocks in GDAL's cache. The windowed combinations peaked at 0.11 to 1.80 GB, the highest holding Lake Okeechobee's mask of 12.4 million interior pixels.
 
 ### 21. The lazy stack on a shared tile graph reads 1.6 to 7 times the bytes and opens a file once per chunk
@@ -441,18 +442,191 @@ Raster mask method, medians of three repetitions. The break-even column divides 
 - The naive clip differs from the interior-plus-shoreline set on 44 of the 200 lake-bands. That is exactly where preparation counted a difference between GDAL's all-touched rule and the coverage threshold, as in finding 17.
 - Stage 2 read 26 of the memberships from the same acquisitions. On all 130 of their lake-bands the mask methods matched stage 2's mask methods and the naive clip matched stage 2's naive clip. The other 70 lake-bands were read from acquisitions stage 2 did not use and have no comparison.
 - The naive clip projects and rasterizes each polygon per scene, at three resolutions. That setup took 0.16 s for Lake Tahoe and 0.45 s and 0.36 s for Lake Lanier in its two tiles. It took 0.44 s and 0.19 s for Lake Okeechobee, and under 0.1 s for every other lake. Those are medians of each lake's three runs, wall time. Loading the precomputed masks or index lists took 0.001 to 0.17 s per lake, medians, and 0.37 s at most. At one scene per lake the two setups cost the same order. What the precomputed masks buy is the coverage fraction and the near-land class, which the naive clip does not keep. With the 512-byte cache the same rasterization took 14 to 20 s per large lake, one row per pass, see the [record](reviews/2026-09-15-stage-3-many-lakes-in-one-tile.md).
-- Nine of the 324 runs took more than 1.5 times their combination's median wall time, up to 107 s against 15 s. Their requests and bytes were the same as their siblings'. Two of the three whole-tile index-list runs on Lake Okeechobee's tile were slow, 101 s and 63 s against 36 s. That combination's median is slow too. Nothing on the laptop or the connection was controlled.
+- Nine of the 324 runs took more than 1.5 times their combination's median wall time, up to 107 s against 15 s. Eight had the same requests and bytes as their siblings. The largest outlier had two recorded timeouts and three repeated ranges. Those added 5,158,494 requested bytes. The extraction succeeded. The [rerun review](reviews/2026-09-16-codex-stage-3-rerun-review.md#1-medium-the-largest-outlier-has-recorded-timeouts-and-extra-requested-bytes) records the evidence. Two of the three whole-tile index-list runs on Lake Okeechobee's tile were slow, 101 s and 63 s against 36 s. That combination's median is slow too. Nothing on the laptop or the connection was controlled.
 
 ### What stage 3 does not show
 
 - Anything about an instance beside the bucket. Every time includes the laptop's internet path.
 - More than six lakes in a tile. The whole-tile break-even is byte arithmetic from these medians.
 - Dates over a season. One item per tile, all 05.11, with cloud cover at or below 6.3 percent.
-- A lazy stack tuned for this use: smaller chunks, retained chunks, or one compute for every lake. The defaults of odc-stac were measured with a fixed chunk of 2,048 pixels and four threads.
-- A single labelled mask per tile. Each lake was extracted with its own mask from the shared array.
-- Lakes across tiles combined. Eight lakes were read in two tiles, apart. Stage 4 concatenates such records without blending.
+- A lazy stack tuned for this use: smaller chunks, retained chunks, or one compute for every lake. The tested recipe used 2,048-pixel chunks and four threads, with other reader defaults retained.
+- A single labeled mask per tile. Each lake was extracted with its own mask from the shared array.
+- Lakes across tiles combined. Stage 3 reads selected tile portions separately. [Stage 4](#prototype-stage-4-lakes-across-tiles-2026-09-16) assembles contribution keys without blending or storing pixel arrays.
 - Any block cache other than 512 MiB. The record compares this run with the first run's 512-byte cache, two points only.
-- Why nine runs were slow.
+- Causes of the other eight slow workers. The largest outlier has recorded transport failures, without a complete accounting of its delay.
 - Delivered bytes. Requests and bytes are what GDAL asked for.
 
 Saved items, masks, index lists, worker specifications, GDAL logs, and per-run results are under `data/tile-extraction/`, outside git. The first run's result is kept there too.
+
+## Prototype stage 4: lakes across tiles, 2026-09-16
+
+Status: measured and [reviewed](reviews/2026-09-16-claude-stage-4-full-run-review.md). The [response](reviews/2026-09-16-codex-stage-4-review-response.md) records corrections and remaining limits.
+Evidence: [cross-tile-extraction.json](../benchmarks/results/cross-tile-extraction.json).
+The [run record](reviews/2026-09-16-stage-4-full-run.md) owns commands, the preflight correction, artifact locations, and verification.
+Every number in this section is measured or calculated from that result, with JSON paths identified below.
+
+The frozen sample has eleven lakes, eight tiles, two datatakes, and eight tile-datatake pairs.
+Its twenty-five lake-tile memberships require 125 band contributions per workload.
+Raster mask and lazy stack each run lake-first and tile-first, with three repetitions and rotated orders.
+All 114 extraction processes completed. Each workload contains every expected contribution, giving 1,500 records across the experiment.
+These counts come from `plan.lakes`, `plan.scenes`, `plan.expected`, and `plan.order`.
+Corresponding contributions match across readers, paths, and repetitions on values, native pixel identities, classes, counts, windows, and polygon digests.
+No contribution is missing, failed, empty, or entirely no-data. Sources: `summary.equality`, `summary.workloads`, and `runs[].contributions`.
+
+### 23. Tile geometry, product identity, and band validity need separate accounting
+
+Each region uses one datatake, with all four spatial candidate tiles available.
+Lanier uses `GS2B_20251015T162149_044968_N05.11`, spanning UTM zones 16 and 17.
+Okeechobee uses `GS2C_20251031T160521_006030_N05.11`.
+The tile extent unions leave zero uncovered buffered support for every sampled lake.
+That establishes grid coverage. It does not establish validity in every band.
+
+| Anchor | Buffered support, km² | Support inside multiple tile extents, km² | Extent overlap, percent |
+|---|---:|---:|---:|
+| Lanier | 246.68 | 246.68 | 100.00 |
+| Okeechobee | 1,409.13 | 402.11 | 28.54 |
+
+Source: `plan.selection.<region>.coverage.<anchor>`.
+Overlap is the union of pairwise intersections, counting each multiply covered area once.
+The percentages divide `support_overlap_m2` by `support_area_m2`. They are not sums of tile shares.
+The diagnostic buffers retain the implementation's polygonal approximation.
+Successive boundary refinements converge within the declared arithmetic criterion. This does not measure error against exact geometry or establish catalog footprint accuracy.
+
+No single tile contains either anchor's entire buffered support.
+For Lanier, several partial tiles collectively cover every part at least twice.
+All tile observations remain separate. Identical row and column indices across UTM grids do not identify the same ground pixel.
+
+**Catalog footprint limits.** The selected footprints contain four to six coordinate pairs, including each ring's closing pair.
+Inside the lakes' buffered supports, their edges fall inward from native tile edges by up to approximately 129 m.
+The per-tile shortfalls are 129 m for 16SGC, 104 m for 17RML, 99 m for 17RNK, and 71–72 m for 17SKT and 17SKU.
+17RMK reaches approximately 1 m. Neither 16SGD nor 17RNL has a sampled shortfall within those supports.
+These distances sample native edges every 50 m against projected catalog polygons. They describe this sample, rather than a general accuracy guarantee.
+Sources: `plan.scenes[].item.geometry`, native grids, manifest polygons, and the saved geometry audit linked in the [response](reviews/2026-09-16-codex-stage-4-review-response.md).
+
+The footprint union also reports zero uncovered support, but its geometry cannot resolve validity at pixel scale.
+The original strict footprint preference failed for all 76 Lanier groups and all 75 Okeechobee groups.
+Consequently, ranking used uncovered footprint fraction, cloud cover, and time. Source: `plan.selection.*.groups[].score`.
+Future selection drops that strict preference. Footprint unions remain coarse ranking hints, with band validity checked from pixels and asset metadata.
+Native tile candidates remain included when catalog footprints omit their support, avoiding exclusions based on these coarse edges.
+
+**Per-band no-data.** Each workload includes 1,034 declared no-data entries among 62,579,464 selected band-pixel entries, spread across eight contributions.
+These counts retain separate bands and overlapping tile observations. They are not counts of unique ground pixels.
+
+| Anchor | Tile | NIR no-data entries | Red no-data entries |
+|---|---|---:|---:|
+| Lanier | 16SGC | 56 | 0 |
+| Lanier | 16SGD | 222 | 0 |
+| Lanier | 17SKT | 11 | 0 |
+| Lanier | 17SKU | 640 | 0 |
+| Okeechobee | 17RNK | 16 | 3 |
+| Okeechobee | 17RNL | 73 | 13 |
+
+Sources: `runs[].contributions[].nodata_extracted`, `value_min`, and `summary.workloads[].totals.pixels_extracted`.
+The zeros occur in 10 m bands. No pond contribution or tested 20 m or 60 m band contains declared no-data.
+All selected 20 m SCL entries are nonzero, with minima from 2 to 4 across contributions.
+This establishes SCL coverage on its selected native pixels. It does not locate the 10 m zeros or classify them as water.
+The saved summaries lack a spatial crosswalk from those zeros to SCL, and extraction includes near-land pixels.
+The asset's declared no-data value identifies these missing band values independently of SCL. Stored zero is not evidence of physical zero reflectance.
+Their cause remains unknown. Different grids' aggregate zero counts motivate Stage 5 checks but do not establish matched-ground pixel differences.
+The [contract discussion](data-contract.md#questions-for-the-next-contract-revision) carries this distinction forward.
+
+**Split datastrips.** A datatake and tile can contain multiple valid products, even without reprocessing.
+The original selection mislabeled six items as superseded revisions in two groups.
+The following discarded products have different datastrip identities from their retained counterparts:
+
+| Discarded item | Retained item's sensing component | Discarded item's sensing component |
+|---|---|---|
+| `S2C_T16SGC_20251010T162737_L2A` | `S20251010T163403` | `S20251010T162737` |
+| `S2C_T16SGD_20251010T162737_L2A` | `S20251010T163403` | `S20251010T162737` |
+| `S2C_T17SKT_20251010T162737_L2A` | `S20251010T163403` | `S20251010T162737` |
+| `S2C_T17SKU_20251010T162737_L2A` | `S20251010T163403` | `S20251010T162737` |
+| `S2B_T17RMK_20250906T160508_L2A` | `S20250906T160548` | `S20250906T160508` |
+| `S2B_T17RNK_20250906T160508_L2A` | `S20250906T160548` | `S20250906T160508` |
+
+Sources: `plan.selection.*.groups[].discarded` and `s2:datastrip_id` in `data/cross-tile-extraction/full-plan.catalog.json`.
+The paired footprints overlap. Treating one as a replacement can discard distinct coverage.
+The measured winning groups contain one product per tile, so this defect does not alter their extraction or timing evidence.
+Future selection retains separate declared datastrips and uses item identity for worker files and contribution keys.
+Unknown datastrip identities remain separate, rather than being silently collapsed.
+
+### 24. Work organization changes the readers' costs differently
+
+| Work organization | Reader | Median wall seconds | Wall range, seconds | Median requests | Median requested MB |
+|---|---|---:|---:|---:|---:|
+| Lake first | Raster mask | 100.13 | 92.67–108.93 | 494 | 325.07 |
+| Tile first | Raster mask | 54.00 | 51.85–68.28 | 294 | 258.44 |
+| Lake first | Lazy stack | 106.49 | 93.23–108.68 | 524 | 350.90 |
+| Tile first | Lazy stack | 102.90 | 91.40–109.34 | 466 | 573.80 |
+
+Sources: `summary.medians` and `summary.workloads`.
+Each row summarizes three complete repetitions. None was excluded for errors or memory pressure.
+Wall time sums parent-observed worker durations, including startup and worker assembly.
+It excludes catalog selection, mask preparation, and final parent summary work. MB means decimal megabytes.
+
+Tile-first raster reading used 40.5 percent fewer requests and 20.5 percent fewer requested bytes than lake-first raster reading.
+Its median complete-workload wall time was 46.1 percent lower. These are ratios of complete-workload medians, rather than averages of per-tile ratios.
+Observed file opens fell from 125 to 40 in each repetition.
+This supports sharing open files and decoded blocks for this sample. Process boundaries and cache behavior change together.
+Eight of seventeen pond memberships requested no additional bytes or requests in every tile-first raster repetition.
+Source: `summary.per_lake_tile_band_costs`, summed across bands per membership. Shared opens and earlier lakes' reads still contribute to workload totals.
+The anchors also benefit. Tile-first marginal reads range from 14.1 to 45.7 MB per Lanier tile and 1.8 to 49.1 MB per Okeechobee tile.
+These are medians across repetitions, with five bands summed per tile. Finding 25 records the corresponding independent lake-first costs.
+
+Tile-first lazy reading requested 1.64 times the bytes of lake-first lazy reading and 2.22 times those of tile-first raster reading.
+Its timing ranges overlap the lake-first lazy ranges. Three repetitions do not establish a stable lazy-reader timing advantage.
+The lazy recipes retain different graph extents and chunk alignment, as described in the [plan](reviews/2026-09-16-stage-4-plan.md).
+Saved logs contain repeated identical ranges in eighteen tile-first lazy tile runs and three lake-first lazy tile runs.
+No raster tile run contains repeated identical ranges. No imagery log reports a timeout or retry warning.
+These counts come from `runs[].tiles[].log_diagnostics`, checked against the saved logs.
+
+Lake-first lazy traffic varied from 350.61 to 357.07 MB and from 524 to 528 requests across repetitions.
+The other three combinations repeated their request and byte totals exactly.
+Ten workers exceeded 1.5 times the median duration for their own path, reader, and lake or tile.
+That diagnostic uses `runs[].elapsed_seconds` and does not exclude those workers.
+Their request and byte totals repeat, while CPU times remain close. Additional wall time occurs in read or compute calls.
+For example, Okeechobee's slower lake-first raster worker took 43.17 seconds against a 26.22-second median, with identical requests and bytes.
+This suggests waiting during I/O, rather than additional extraction work. The logs do not isolate network, remote service, or host scheduling delays.
+The laptop, internet connection, and remote caches were not controlled.
+
+### 25. Additional tile shares carry different read costs
+
+These are medians of each anchor's raster-mask, lake-first bytes, summed across its five bands before taking the median across repetitions.
+
+| Anchor | Tile | Polygon share, percent | Buffered share, percent | Requested MB |
+|---|---|---:|---:|---:|
+| Lanier | 16SGC | 69.02 | 63.07 | 21.10 |
+| Lanier | 16SGD | 62.54 | 67.40 | 48.29 |
+| Lanier | 17SKT | 70.26 | 64.45 | 20.69 |
+| Lanier | 17SKU | 62.57 | 67.79 | 49.68 |
+| Okeechobee | 17RMK | 16.14 | 16.71 | 23.42 |
+| Okeechobee | 17RML | 0.39 | 0.44 | 1.89 |
+| Okeechobee | 17RNK | 90.02 | 89.36 | 58.79 |
+| Okeechobee | 17RNL | 22.70 | 22.90 | 43.77 |
+
+Sources: `plan.selection.<region>.coverage.<anchor>.members` and `runs[].contributions`, filtered by anchor, reader, and path.
+MB means decimal megabytes. Shares overlap, so adding them does not calculate covered area.
+Each row measures reading that tile's observation. It does not measure unique coverage gained by adding tiles in a particular order.
+For example, 17RML intersects water in the polygon, despite its small share. It is not a near-land-only case.
+
+Read costs are not proportional to polygon shares.
+They reflect the requested windows and compressed ranges for these products.
+Tile-first per-lake costs are marginal after shared opens and earlier lakes, so they cannot replace these independent read costs without an ordering caveat.
+No tile is dropped because its contribution is small or overlaps another tile.
+
+Lake-first raster reads requested 8.53 bytes per selected band-pixel entry for Lanier and 2.77 for Okeechobee.
+Selected pixels fill 17–35 percent of Lanier's windows and 35–68 percent of Okeechobee's windows, across bands and tiles.
+Source: `runs[].contributions`, summing requested bytes and selected entries, with window fractions calculated per contribution.
+The ratio differs by approximately threefold in these two cases. Shape, compression, window alignment, and tile overlap are not isolated experimentally.
+Both anchors use four tiles in this run. These results do not establish that the zone boundary caused the bytes-per-entry difference.
+Distinct tiles remain a scale driver, alongside polygon shape and window occupancy.
+
+### What stage 4 does not show
+
+- Scientific agreement between overlapping tile observations, or which observation to prefer.
+- Stored-pixel readback, physical concatenation cost, a storage format, or an orchestrator.
+- A resolved primary-tile policy. Ambiguous roles remain null, with proposed largest-share choices recorded separately.
+- AWS throughput, AWS cost, production density, or performance across a season.
+- Reader tuning. This run fixes the GDAL cache, lazy chunks, thread count, and per-lake compute recipe.
+- Independently metered network bytes. GDAL records requested ranges, including repeated requests.
+
+The owner accepted the response on 2026-09-17. The [inventory](options-inventory.json) and [presentation](s2-options.html#stage-4) include these corrected findings.

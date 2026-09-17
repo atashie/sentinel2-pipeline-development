@@ -1,7 +1,9 @@
-"""Fixture tests for the renderer's stage 2 rows. No network, no result file needed."""
+"""Fixture tests for prototype presentation data. No network or result file needed."""
 
 import importlib.util
 from pathlib import Path
+
+import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
@@ -179,7 +181,7 @@ def test_tile_extraction_rows_show_three_patterns_beside_stage_2():
         "<td>54 requests · 394 MB · 42 s</td><td>71 requests · 93 MB · 14 s</td></tr>"
     )
     assert '<th scope="row">17SKT, Lanier</th><td>1, 1 partly inside</td>' in rows[1]
-    assert "<td>not read in stage 2</td>" in rows[1]
+    assert "<td>not read in Stage 2</td>" in rows[1]
     assert rows[1].endswith(
         "<td>54 requests · 410 MB · 39 s</td>"
         "<td>no clean run: 2 under memory pressure, 1 with errors</td></tr>"
@@ -193,4 +195,60 @@ def test_megabytes_label_switches_at_ten_megabytes():
     assert render_options.megabytes_label(41_500_000) == "42 MB"
     assert render_options.machine_label(
         {"cpu_count": 8, "machine": "arm64", "memory_total_bytes": 16e9}
-    ) == ("8-core arm64 laptop, 16 GB memory")
+    ) == ("8-core arm64 laptop, 14.9 GiB memory")
+
+
+def cross_tile_fixture():
+    medians, workloads = [], []
+    for method in ("raster-mask", "lazy-stack"):
+        for path, factor in (("lake-first", 2), ("tile-first", 1)):
+            medians.append(
+                {
+                    "path": path,
+                    "method": method,
+                    "clean_repetitions": 2,
+                    "excluded_repetitions": 1,
+                    "wall_seconds": 20 * factor,
+                    "requests": 100 * factor,
+                    "bytes_requested": 12_500_000 * factor,
+                }
+            )
+            for clean, seconds in ((True, 18 * factor), (True, 22 * factor), (False, 999)):
+                workloads.append(
+                    {
+                        "path": path,
+                        "method": method,
+                        "clean": clean,
+                        "end_to_end_seconds": seconds,
+                    }
+                )
+    return {"summary": {"medians": medians, "workloads": workloads}}
+
+
+def test_cross_tile_rows_use_workload_medians_and_only_clean_ranges():
+    result = cross_tile_fixture()
+    result["summary"]["medians"].reverse()
+    rendered = render_options.cross_tile_rows(result)
+    assert rendered.count("<tr>") == 4
+    assert "40.00 s" in rendered and "36.00–44.00 s" in rendered
+    assert "20.00 s" in rendered and "18.00–22.00 s" in rendered
+    assert "25.00 MB" in rendered and "12.50 MB" in rendered
+    assert rendered.count("2 included, 1 excluded") == 4
+    assert "999" not in rendered
+
+
+def test_cross_tile_rows_report_missing_clean_combinations():
+    result = cross_tile_fixture()
+    result["summary"]["medians"].pop()
+    for row in result["summary"]["workloads"]:
+        if row["method"] == "raster-mask" and row["path"] == "lake-first":
+            row["clean"] = False
+    rendered = render_options.cross_tile_rows(result)
+    assert rendered.count("No clean complete repetition") == 2
+    assert rendered.count("<tr>") == 4
+
+
+@pytest.mark.parametrize("complete,equal", [(False, True), (True, False)])
+def test_cross_tile_headline_refuses_incomplete_or_unequal_results(complete, equal):
+    with pytest.raises(ValueError, match="requires complete, equal"):
+        render_options.cross_tile_markers({"summary": {"complete": complete, "equal": equal}})

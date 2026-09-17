@@ -884,7 +884,7 @@
       "field": "license",
       "value": "Free, full and open Copernicus Sentinel data terms",
       "unit": null,
-      "note": "The registry and the Sinergise readme both link the Copernicus Sentinel data terms. The Legal Notice requires the notice 'Copernicus Sentinel data [Year]' when data are distributed, and 'Contains modified Copernicus Sentinel data [Year]' when modified. AWS Requester Pays terms are a separate access condition, not a data licence.",
+      "note": "The registry and the Sinergise readme both link the Copernicus Sentinel data terms. The Legal Notice requires the notice 'Copernicus Sentinel data [Year]' when data are distributed, and 'Contains modified Copernicus Sentinel data [Year]' when modified. AWS Requester Pays terms are a separate access condition, not a data license.",
       "source_ids": [
         "src-sentinel-legal-notice",
         "src-aws-registry-s2"
@@ -968,7 +968,7 @@
       "id": "cl-ar-cdse-discovery_mechanism",
       "candidate": "ar-cdse",
       "field": "discovery_mechanism",
-      "value": "STAC API and OData catalogue, plus catalog subscriptions",
+      "value": "STAC API and OData catalog, plus catalog subscriptions",
       "unit": null,
       "note": "STAC endpoint https://stac.dataspace.copernicus.eu/v1/. The legacy endpoint under catalogue.dataspace.copernicus.eu/stac is deprecated from 17 November 2025. The documentation menu also lists Catalog subscriptions and a Traceability API.",
       "source_ids": [
@@ -1038,9 +1038,9 @@
       "id": "cl-ar-cdse-offset_delivery",
       "candidate": "ar-cdse",
       "field": "offset_delivery",
-      "value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalogue",
+      "value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalog",
       "unit": null,
-      "note": "The catalogue publishes scale 0.0001 and offset -0.1 per band asset. The asset files are the original SAFE JPEG 2000 files, so the reader applies both.",
+      "note": "The catalog publishes scale 0.0001 and offset -0.1 per band asset. The asset files are the original SAFE JPEG 2000 files, so the reader applies both.",
       "source_ids": [
         "src-cdse-stac-collection"
       ],
@@ -1052,7 +1052,7 @@
       "id": "cl-ar-cdse-offset_delivery-2",
       "candidate": "ar-cdse",
       "field": "offset_delivery",
-      "value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalogue",
+      "value": "Raw JPEG 2000 with raster:scale and raster:offset in the catalog",
       "unit": null,
       "note": "Second half of the same asset record.",
       "source_ids": [
@@ -1110,7 +1110,7 @@
       "field": "license",
       "value": "Copernicus Sentinel data free, full and open. Portal content non-commercial",
       "unit": null,
-      "note": "Data licence and platform terms are separate. The data licence is the Legal Notice on the use of Copernicus Sentinel Data. The portal terms restrict other portal content to non-commercial use and withhold the right to resell or redistribute portal material.",
+      "note": "Data license and platform terms are separate. The data license is the Legal Notice on the use of Copernicus Sentinel Data. The portal terms restrict other portal content to non-commercial use and withhold the right to resell or redistribute portal material.",
       "source_ids": [
         "src-cdse-terms",
         "src-sentinel-legal-notice"
@@ -1475,7 +1475,7 @@
       "field": "license",
       "value": "Copernicus Sentinel Data Terms and Conditions, plus Earth Engine terms",
       "unit": null,
-      "note": "Data licence and platform terms are separate. The dataset page names the Copernicus Sentinel data terms as the data licence. The Earth Engine Terms of Service govern platform use and separate non-commercial from commercial use.",
+      "note": "Data license and platform terms are separate. The dataset page names the Copernicus Sentinel data terms as the data license. The Earth Engine Terms of Service govern platform use and separate non-commercial from commercial use.",
       "source_ids": [
         "src-gee-s2-sr-harmonized",
         "src-gee-terms"
@@ -1645,7 +1645,7 @@
       "field": "license",
       "value": "Free access under EU law. Attribution to Sentinel Hub required",
       "unit": null,
-      "note": "Data licence and platform terms are separate. The data licence is the Copernicus Sentinel data licence. The page also states the acknowledgment string and that tracing based on Sentinel imagery is allowed for commercial purposes. Subscription terms are a separate condition.",
+      "note": "Data license and platform terms are separate. The data license is the Copernicus Sentinel data license. The page also states the acknowledgment string and that tracing based on Sentinel imagery is allowed for commercial purposes. Subscription terms are a separate condition.",
       "source_ids": [
         "src-sh-s2-l2a"
       ],
@@ -1815,7 +1815,7 @@
       "field": "license",
       "value": "CC0-1.0 in the CMR-STAC collection record",
       "unit": null,
-      "note": "Data licence and platform terms are separate. The catalog page adds that the dataset is openly shared without restriction under the EOSDIS Data Use and Citation Guidance. Access to the protected bucket needs an Earthdata Login account.",
+      "note": "Data license and platform terms are separate. The catalog page adds that the dataset is openly shared without restriction under the EOSDIS Data Use and Citation Guidance. Access to the protected bucket needs an Earthdata Login account.",
       "source_ids": [
         "src-cmr-stac-hlss30"
       ],
@@ -1957,7 +1957,7 @@
       "field": "source_dataset",
       "value": "Copernicus Sentinel-2 data, stored per tile as in the original product specification",
       "unit": null,
-      "note": "The bucket holds per-tile files, not SAFE packages. The registry says new data arrive within hours of availability on Copernicus OpenHub. No page read names the producing organisation or calls the bucket a mirror.",
+      "note": "The bucket holds per-tile files, not SAFE packages. The registry says new data arrive within hours of availability on Copernicus OpenHub. No page read names the producing organization or calls the bucket a mirror.",
       "source_ids": [
         "src-roda-s2-l2a",
         "src-aws-registry-s2"
@@ -2017,7 +2017,7 @@
       "questions_answered": [
         "What is the object store endpoint? https://eodata.dataspace.copernicus.eu, load balanced between CloudFerro Cloud and OpenTelekom Cloud, with https://eodata.ams.dataspace.copernicus.eu for OpenTelekom Cloud.",
         "What are the quotas? Copernicus General Users get 2000 S3 requests per minute, 4 concurrent connections, 20 MB/s per connection, a 12 TB rolling 30 day transfer limit, 100 active sessions and a 10 minute token life.",
-        "Which catalogs exist? STAC at https://stac.dataspace.copernicus.eu/v1/, the OData catalogue, and catalog subscriptions.",
+        "Which catalogs exist? STAC at https://stac.dataspace.copernicus.eu/v1/, the OData catalog, and catalog subscriptions.",
         "How complete is the Collection 1 archive? The documentation says historical L1C and L2A up to 13 December 2023 will soon be at baseline 5.0 or better and that the process is near the end."
       ],
       "questions_open": [
@@ -2075,7 +2075,7 @@
     "ar-sentinel-hub": {
       "questions_answered": [
         "Which API returns raw pixels for a polygon? The Process API, with bands requested in DN units, which contain exactly the pixel values of the source data.",
-        "What are the processing-unit rules for small polygons? One processing unit is 512 by 512 pixels, 3 input bands, one sample per pixel, up to 16 bits per pixel. The area factor has a floor of 0.01, which is 0.25 square kilometres at 10 m. The minimum request cost is 0.005 PU for Process API and 0.01 PU for Statistical API.",
+        "What are the processing-unit rules for small polygons? One processing unit is 512 by 512 pixels, 3 input bands, one sample per pixel, up to 16 bits per pixel. The area factor has a floor of 0.01, which is 0.25 square kilometers at 10 m. The minimum request cost is 0.005 PU for Process API and 0.01 PU for Statistical API.",
         "Which quality layers are available? SCL, SNW, CLD, CLP, CLM, AOT and dataMask."
       ],
       "questions_open": [

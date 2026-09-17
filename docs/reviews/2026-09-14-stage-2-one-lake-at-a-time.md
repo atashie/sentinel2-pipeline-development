@@ -35,8 +35,8 @@ Practice P1 rasterizes each polygon once per tile and resolution. The prototype 
 - The polygon is projected to the tile's UTM zone and cut to the tile extent. The window is its bounds plus the near-land distance and one pixel.
 - The boundary is rasterized with GDAL's all-touched rule and grown by one pixel. Those pixels are the only ones the boundary can pass through.
 - Each of them gets its exact intersection area with the polygon. The polygon is clipped to 2 km blocks first, so a detailed shoreline is not intersected with every pixel.
-- Every other pixel is entirely inside or entirely outside, decided by its centre.
-- Interior is coverage 1, shoreline is coverage between 0 and 1, both within a tolerance of one millionth of a pixel. Near-land is coverage 0 with the centre within 100 m of the boundary, assumption A21, by exact distance to the boundary segments.
+- Every other pixel is entirely inside or entirely outside, decided by its center.
+- Interior is coverage 1, shoreline is coverage between 0 and 1, both within a tolerance of one millionth of a pixel. Near-land is coverage 0 with the center within 100 m of the boundary, assumption A21, by exact distance to the boundary segments.
 - Edge distance is signed, negative inside, as the [draft contract](../data-contract.md) states. It is exact up to 1,000 m. Farther interior pixels carry no distance. That cap is a prototype parameter, recorded in every mask file, not a contract change.
 - The mask window is the bounding box of the classified pixels. The index-list form holds the same pixels as rows and columns in row-major order.
 
@@ -76,7 +76,7 @@ Cloud cover changes compression, so bytes, not the method comparison. Only Colle
 
 ## What the fixtures showed
 
-- GDAL's all-touched rule marked a neighbouring pixel of the 6 m fixture pond that the polygon does not touch. The exact classes do not. The preparation counts such pixels, and the equality check expects the naive digest to differ exactly when the counts do.
+- GDAL's all-touched rule marked a neighboring pixel of the 6 m fixture pond that the polygon does not touch. The exact classes do not. The preparation counts such pixels, and the equality check expects the naive digest to differ exactly when the counts do.
 - odc-stac returned the requested native window exactly, with the same integers as a direct windowed read. Its GDAL debug lines were captured through its worker threads.
 - A multipolygon lost every boundary segment in an early version, because shapely's ring extraction ignores multipolygons. The fixture with a hole and a second part caught it. The module now refuses a polygon without boundary segments.
 

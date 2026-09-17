@@ -1,5 +1,7 @@
 # Stage 3, many lakes in one tile: statement, implementation, runs, corrections, and the rerun, 2026-09-15
 
+Follow-up, 2026-09-17: The remaining documentation corrections are recorded in the [presentation update](2026-09-17-documentation-and-presentation.md).
+
 Author: Claude Code (AI coding agent), directed by the repository owner.
 
 Scope: the stage 3 script, its fixture tests, the declared tolerances, and the documentation that points at them.
@@ -24,8 +26,8 @@ Acceptance checks for this step:
 
 Deferred: the run itself, stage 4 and stage 5, and timings from us-west-2 (assumption A25).
 A lake partly inside a tile is read inside that tile only, with its share recorded. Its other tiles are stage 4 work, as is the primary-tile rule of assumption A22.
-A single labelled mask per tile, one array of lake ids, is not prototyped or timed. The whole-tile pattern extracts each lake with its own mask from the shared array.
-The catalog grid codes are normalised in this script only. Stage 2's script is unchanged.
+A single labeled mask per tile, one array of lake ids, is not prototyped or timed. The whole-tile pattern extracts each lake with its own mask from the shared array.
+The catalog grid codes are normalized in this script only. Stage 2's script is unchanged.
 
 ## What changed
 
@@ -36,11 +38,11 @@ The catalog grid codes are normalised in this script only. Stage 2's script is u
 
 ## How tiles, items, and members are chosen
 
-Per region, the script searches Collection 1 for items intersecting the box around the region's lakes, from 2025-06-01 to 2025-10-31 by default. Grid codes are normalised to a two-digit zone before grouping, finding 18.
+Per region, the script searches Collection 1 for items intersecting the box around the region's lakes, from 2025-06-01 to 2025-10-31 by default. Grid codes are normalized to a two-digit zone before grouping, finding 18.
 
 - A tile places a lake when it holds the lake entirely. A lake no tile holds entirely is placed by the tile with its largest share, ties broken by the smaller tile id.
 - Tiles are chosen greedily. The tile placing the most unplaced lakes comes first. Ties are broken by the summed share of those lakes inside it, then by the smaller tile id. Selection stops when every lake is placed.
-- A lake is a candidate member of a chosen tile when its polygon buffered by 100 m intersects the tile extent. Preparation verifies the candidate: a pixel centre within 100 m of the polygon may still be absent. Members are read whether the tile holds all, part, or none of the polygon.
+- A lake is a candidate member of a chosen tile when its polygon buffered by 100 m intersects the tile extent. Preparation verifies the candidate: a pixel center within 100 m of the polygon may still be absent. Members are read whether the tile holds all, part, or none of the polygon.
 - Per tile, the item whose data footprint covers each member's support, the buffered polygon cut to the tile, for the most members, wins. Ties are broken by the lowest cloud cover, then by the latest creation time.
 - A tile chosen for two regions is merged before its item is chosen, so one item serves the union of members.
 
@@ -86,7 +88,7 @@ Stage 2's tolerances stand. Values and pixel sets are identical across the three
 
 - All twelve combinations agreed on every band of five lakes, including a lake 30 m outside the tile that has near-land pixels only. Whole-tile extraction from memory gave the same digests as the windowed reads. The values equal stage 2's worker on the same fixture, family by family.
 - The per-lake block sum exceeds the file's block count when lakes share blocks. On the fixture red band the lakes' windows touch more blocks summed than the 225 in the file, and fewer are distinct. The anchor's window holds the ponds. That sharing is what the pilot run measures.
-- A lake 98 m outside the tile is a candidate member whose masks hold no pixel at any resolution. The nearest pixel centre is 103 m from it. It is recorded as a member without a pixel, and every method returns an empty record for it.
+- A lake 98 m outside the tile is a candidate member whose masks hold no pixel at any resolution. The nearest pixel center is 103 m from it. It is recorded as a member without a pixel, and every method returns an empty record for it.
 - The naive clip selects nothing for the lake outside the tile, because it has no near-land class. An empty selection crashed the pixel digest until the digests accepted empty arrays.
 - With 128-pixel chunks the fixture tile spans four chunks at 10 m. The anchor touches four chunks in either graph. A window at row 90 and column 118 touches two chunks of the tile graph and one chunk of its own graph. GDAL's log shows the opens the lazy reader made, which the script no longer counts by hand.
 - In the lake-by-lake pattern no earlier lake's selections stay alive when the next lake starts. A weak-reference check in the fixture holds that for both reader families.
@@ -165,7 +167,7 @@ All seven findings and the smaller corrections were accepted. Nothing was pushed
 | The duplicate-tile merge wrote an item before merging | **Fixed.** Tiles are merged across regions before an item is chosen |
 | Naive coordinate digests were not compared across patterns | **Fixed.** The equality rows carry that comparison |
 | Resummarizing lost unplaced lakes and tolerated a missing baseline | **Fixed.** The result records the requested lakes and the selection log. A recorded baseline that is missing or changed stops the summary |
-| The upper-bound claim for a labelled tile mask | **Corrected.** The claim is removed. That design is not timed |
+| The upper-bound claim for a labeled tile mask | **Corrected.** The claim is removed. That design is not timed |
 | The root README claimed every pilot lake was read in stage 2 | **Corrected.** Thirty yielded pixels and two lay outside their tile |
 
 ## Dispositions of Codex's stage 3 review, 2026-09-16
@@ -179,7 +181,7 @@ All seven findings and the smaller corrections were accepted. Nothing was pushed
 | 3. Memory-pressure exclusion was incomplete | **Fixed.** A combination without a clean run keeps its counts and gets no median. Per-lake medians exclude pressured runs and count them. A page cell says how many runs its median used when fewer than planned, and why a cell has none. The threshold stands beside the pressure statements in the measurements and above |
 | 4. The Prototyping opening described the state before stage 3 | **Fixed.** The opening, the test-case cards, and the status table say what stages 2 and 3 established, label stage 2's counts, and keep cross-tile combination, seasons, AWS, and validation open |
 | 5. Performance prose lost exceptions and turned estimates into recommendations | **Corrected.** Findings 19 to 22, F-25, and the chapter carry the 05VLG exception, the Alaska 300 m lake's requests, the lazy 05VLG time, the 0.2 MB bound, the median and maximum labels, and the anchor counts. The crossover is byte arithmetic for this lake mix. The lazy results are the tested recipe, and decoded chunks are what it does not retain |
-| 6. Conventions and historical statements | **Fixed.** Sentences over 25 words are split. F-25 keeps the headline ratios and points at the findings for the rest, and the gotcha keeps no number. The 17SKU expectation is labelled superseded. The index row names the run. The guarded check's peak reads 1.45 GB by the worker's count. The interval is first start to last completion |
+| 6. Conventions and historical statements | **Fixed.** Sentences over 25 words are split. F-25 keeps the headline ratios and points at the findings for the rest, and the gotcha keeps no number. The 17SKU expectation is labeled superseded. The index row names the run. The guarded check's peak reads 1.45 GB by the worker's count. The interval is first start to last completion |
 
 The numeric audit's two requests are met. The Lanier selection is explained in full above, and each chosen tile records the score that chose it.
 
@@ -216,11 +218,11 @@ What the cache changed, from the two result files, raster mask medians of three 
 
 The naive clip setup is the run's setup median for the lake-by-lake pattern, which the anchor dominates.
 
-- The block cache serves neighbours. With 512 bytes no decoded block survived, and GDAL's cache of downloaded ranges served 7 of the 33 smaller lakes. With 512 MiB the file-by-file pattern served 21 of 33 from the block cache. Requests in that pattern fell on every tile but 05VLG. The stage 2 ratios in finding 19 moved from 34 to 54 percent to 24 to 46 percent.
+- The block cache serves neighbors. With 512 bytes no decoded block survived, and GDAL's cache of downloaded ranges served 7 of the 33 smaller lakes. With 512 MiB the file-by-file pattern served 21 of 33 from the block cache. Requests in that pattern fell on every tile but 05VLG. The stage 2 ratios in finding 19 moved from 34 to 54 percent to 24 to 46 percent.
 - The lake-by-lake pattern did not change. Its bytes are identical on all nine tiles, because reopening a file discards its cached blocks. The first run's claim that loop order barely matters was a property of the 512-byte cache. Finding 19 now says the opposite.
 - The naive clip's rasterization fell from 14 to 20 s per large lake to under half a second. GDAL's log shows one pass over the polygon instead of one per row. Finding 22's withdrawn claim is replaced by the measured cost.
 - The lazy stack's bytes are identical on all nine tiles in the shared-graph pattern. Each compute opens the file again, so the block cache does not help it. Its ratios in finding 21 rose only because the windowed reads fell.
-- Whole-tile bytes and requests are identical. Read times moved by minus 14 to plus 1 percent, within the run-to-run variation. Whole-tile peaks rose by 0.15 to 0.4 GB, because the cache now holds up to 512 MiB of decoded blocks.
+- Whole-tile bytes and requests are identical. Read times moved by minus 14 to plus 1 percent, within the run-to-run variation. Raster-mask whole-tile combination maxima rose by 0.112 to 0.393 GB. Across all whole-tile methods, changes ranged from −0.026 to +0.700 GB. The cache can now hold 512 MiB of decoded blocks.
 - The Grand Lake 30 m pond that fetched 6.6 MB from an open file in the first run cost nothing in the rerun. Its blocks were already cached. The mechanism behind the first run's read is not explained. The first run's twelve slow runs were not repeated as such, and the rerun had nine of its own.
 
 ## Dispositions of prior findings
@@ -230,7 +232,7 @@ The naive clip setup is the run's setup median for the lake-by-lake pattern, whi
 | Codex, 2026-09-15, stage 2 finding 3: investigate shared reads without assuming a constant cost per lake | **Accepted.** Every run records each lake's own requests and bytes within the tile. It records the summed and distinct blocks per file, with stage 2's per-lake sums beside them |
 | Codex, 2026-09-15, stage 2 finding 6: fixed ordering limits method ranking | **Fixed** in stage 3. Patterns and methods both rotate between repetitions, and the plan records the order |
 | Finding 18: two lakes lay outside their region's tile | **Fixed** in stage 3. Tiles are chosen to place every lake, and membership comes from the buffered polygon |
-| Finding 18: catalog grid codes vary | **Fixed** in stage 3's script. Codes are normalised before grouping by tile. Stage 2's script is unchanged |
+| Finding 18: catalog grid codes vary | **Fixed** in stage 3's script. Codes are normalized before grouping by tile. Stage 2's script is unchanged |
 | Codex, 2026-09-12: the manifest option finds candidate tiles, not the water bodies' tiles | **Accepted and deferred.** Stage 3 assigns tiles per lake from the polygon for its own runs. The survey rerun remains pending |
 | Codex, 2026-09-12: refetching always writes polygon version 1 | **Accepted and deferred.** Every mask file and run record carries the polygon digest. Version handling waits for refreshed geometry |
 

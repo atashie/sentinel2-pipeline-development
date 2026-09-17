@@ -327,7 +327,7 @@
    "field": "read_pattern",
    "value": "HTTP range requests read only the bytes a window needs",
    "unit": null,
-   "note": "Tool: GDAL /vsicurl. The design depends on the server honouring byte ranges. GDAL states range support is most effective for static pre-computed files.",
+   "note": "Tool: GDAL /vsicurl. The design depends on the server honoring byte ranges. GDAL states range support is most effective for static pre-computed files.",
    "source_ids": [
     "src-gdal-vfs"
    ],
@@ -397,7 +397,7 @@
    "field": "geolocation_handling",
    "value": "Native geotransform kept; window_transform() gives the window affine",
    "unit": null,
-   "note": "Tool: rasterio. Each tile file is opened on its own, so no cross-tile grid is imposed. Tile overlap handling is a design choice, not a tool behaviour.",
+   "note": "Tool: rasterio. Each tile file is opened on its own, so no cross-tile grid is imposed. Tile overlap handling is a design choice, not a tool behavior.",
    "source_ids": [
     "src-rasterio-windowed"
    ],
@@ -409,9 +409,9 @@
    "id": "cl-wf-mask-once-windowed-geolocation_handling-2",
    "candidate": "wf-mask-once-windowed",
    "field": "geolocation_handling",
-   "value": "Rasterization uses pixel centres unless ALL_TOUCHED is enabled",
+   "value": "Rasterization uses pixel centers unless ALL_TOUCHED is enabled",
    "unit": null,
-   "note": "Tool: GDAL gdal_rasterize. Bears on practice P1 and assumption A7: a pond smaller than a cell may contain no pixel centre and rasterize to nothing.",
+   "note": "Tool: GDAL gdal_rasterize. Bears on practice P1 and assumption A7: a pond smaller than a cell may contain no pixel center and rasterize to nothing.",
    "source_ids": [
     "src-gdal-rasterize"
    ],
@@ -513,7 +513,7 @@
    "id": "cl-wf-mask-once-windowed-orchestrator_dependency",
    "candidate": "wf-mask-once-windowed",
    "field": "orchestrator_dependency",
-   "value": "No scheduler named; work parallelises per window in one process",
+   "value": "No scheduler named; work parallelizes per window in one process",
    "unit": null,
    "note": "Tool: rasterio. The page shows concurrent.futures pools, not a cluster or a scheduler. It warns that dataset objects cannot be shared across processes.",
    "source_ids": [
@@ -574,7 +574,7 @@
    "field": "read_pattern",
    "value": "Transfer unit is a tile of about 110 km by 110 km",
    "unit": null,
-   "note": "Tool: none. Provider page. Tiles overlap by design, so neighbouring tiles repeat ground area and repeat transfer.",
+   "note": "Tool: none. Provider page. Tiles overlap by design, so neighboring tiles repeat ground area and repeat transfer.",
    "source_ids": [
     "src-cdse-sentinel2"
    ],
@@ -616,7 +616,7 @@
    "field": "resampling_policy",
    "value": "Native resolution unless the caller asks for a different array size",
    "unit": null,
-   "note": "Tool: rasterio. Same reader behaviour as the windowed design.",
+   "note": "Tool: rasterio. Same reader behavior as the windowed design.",
    "source_ids": [
     "src-rasterio-resampling"
    ],
@@ -674,7 +674,7 @@
    "id": "cl-wf-full-tile-then-mask-orchestrator_dependency",
    "candidate": "wf-full-tile-then-mask",
    "field": "orchestrator_dependency",
-   "value": "No scheduler named; work parallelises per window in one process",
+   "value": "No scheduler named; work parallelizes per window in one process",
    "unit": null,
    "note": "Tool: rasterio. Fetching a tile is an independent unit with a declared input and output.",
    "source_ids": [
@@ -711,7 +711,7 @@
     "cl-wf-full-tile-then-mask-idempotency",
     "cl-wf-full-tile-then-mask-resampling_policy"
    ],
-   "reasoning": "Reader behaviour matches the windowed design while the tile copies add storage lifecycle, partial-download detection, and retry handling.",
+   "reasoning": "Reader behavior matches the windowed design while the tile copies add storage lifecycle, partial-download detection, and retry handling.",
    "locator": null,
    "proposed_status": "estimated"
   },
@@ -1038,7 +1038,7 @@
    "field": "offset_handling",
    "value": "odc-stac currently ignores raster:bands scale and offset",
    "unit": null,
-   "note": "Tool: odc-stac. The two libraries disagree on this default, so the same catalogue yields different numbers.",
+   "note": "Tool: odc-stac. The two libraries disagree on this default, so the same catalog yields different numbers.",
    "source_ids": [
     "src-odc-stac-best-practice"
    ],
@@ -1064,9 +1064,9 @@
    "id": "cl-wf-lazy-array-stack-resampling_policy-2",
    "candidate": "wf-lazy-array-stack",
    "field": "resampling_policy",
-   "value": "stackstac resampling defaults to nearest neighbour",
+   "value": "stackstac resampling defaults to nearest neighbor",
    "unit": null,
-   "note": "Tool: stackstac. Nearest neighbour keeps categorical layers such as a scene classification usable, but the grid still changes.",
+   "note": "Tool: stackstac. Nearest neighbor keeps categorical layers such as a scene classification usable, but the grid still changes.",
    "source_ids": [
     "src-stackstac-stack"
    ],
@@ -1295,9 +1295,9 @@
    "id": "cl-wf-server-side-extraction-geolocation_handling-2",
    "candidate": "wf-server-side-extraction",
    "field": "geolocation_handling",
-   "value": "openEO polygon aggregation counts pixels whose centre is inside",
+   "value": "openEO polygon aggregation counts pixels whose center is inside",
    "unit": null,
-   "note": "Tool: openEO on the Copernicus Data Space Ecosystem. A pond smaller than a cell can contain no pixel centre and return no value. Bears on assumption A7 and A20.",
+   "note": "Tool: openEO on the Copernicus Data Space Ecosystem. A pond smaller than a cell can contain no pixel center and return no value. Bears on assumption A7 and A20.",
    "source_ids": [
     "src-openeo-cdse-processes"
    ],
@@ -1381,7 +1381,7 @@
    "field": "resampling_policy",
    "value": "Earth Engine picks a pyramid level from the requested scale",
    "unit": null,
-   "note": "Tool: Google Earth Engine. Scale is set by the output request, not by the input band, and resampling is nearest neighbour by default.",
+   "note": "Tool: Google Earth Engine. Scale is set by the output request, not by the input band, and resampling is nearest neighbor by default.",
    "source_ids": [
     "src-gee-scale"
    ],
@@ -1680,7 +1680,7 @@
    "id": "cl-wf-chip-archive-orchestrator_dependency",
    "candidate": "wf-chip-archive",
    "field": "orchestrator_dependency",
-   "value": "No scheduler named; work parallelises per window in one process",
+   "value": "No scheduler named; work parallelizes per window in one process",
    "unit": null,
    "note": "Tool: rasterio. Cutting one chip is an independent unit with a declared input and output.",
    "source_ids": [
@@ -1740,11 +1740,11 @@
   "wf-mask-once-windowed": {
    "questions_answered": [
     "What library reads windows from COG and JPEG 2000 efficiently? GDAL through /vsicurl with rasterio windows reads byte ranges; the JPEG 2000 driver decodes only the internal tiles a request intersects.",
-    "Which pixels does a rasterized polygon select? GDAL uses the pixel centre unless ALL_TOUCHED is enabled; exactextract offers a coverage fraction instead."
+    "Which pixels does a rasterized polygon select? GDAL uses the pixel center unless ALL_TOUCHED is enabled; exactextract offers a coverage fraction instead."
    ],
    "questions_open": [
     "Per-scene request count for one pond is not documented anywhere. It depends on the internal block size of the delivered asset, which is a property of the access route, not of GDAL. Measure it.",
-    "Neither GDAL nor rasterio documents any handling of tile overlap or of refinement status. Both are design work for this project, not tool behaviour.",
+    "Neither GDAL nor rasterio documents any handling of tile overlap or of refinement status. Both are design work for this project, not tool behavior.",
     "The JPEG 2000 driver page does not state a decode cost for a small window of a Sentinel-2 JP2 granule. It documents only that intersecting internal tiles are decoded, with multi-threading. No page gives the internal tile size of an ESA JP2 band.",
     "quality_layers is left null. The GDAL and rasterio pages describe reading any raster; which quality layers exist is set by the access route."
    ],
@@ -1814,8 +1814,8 @@
    ],
    "observations": [
     "The Sentinel Hub default harmonizeValues clamps negative reflectance to zero. Dark water often produces negative surface reflectance after atmospheric correction, so the default removes information that cannot be recovered downstream.",
-    "Earth Engine decides scale from the output request and reads the matching image pyramid level, resampling with nearest neighbour. A request that does not pin scale and crs can silently read an aggregated pyramid level rather than native pixels.",
-    "The openEO aggregate_spatial pixel-centre rule means a polygon smaller than one cell can return no value at all. This bears directly on assumption A7 and the open selection rule in assumption A20.",
+    "Earth Engine decides scale from the output request and reads the matching image pyramid level, resampling with nearest neighbor. A request that does not pin scale and crs can silently read an aggregated pyramid level rather than native pixels.",
+    "The openEO aggregate_spatial pixel-center rule means a polygon smaller than one cell can return no value at all. This bears directly on assumption A7 and the open selection rule in assumption A20.",
     "The Sentinel Hub documentation carries a banner saying it is moving to a new home at docs.planet.com and that these pages will no longer be accessible. Every Sentinel Hub citation here may need a new URL later."
    ]
   },
@@ -1846,7 +1846,7 @@
   },
   {
    "option": "Google Earth Engine Export.image.toCloudStorage and toAsset",
-   "reason": "Documented alternatives to a Drive export within the same server-side workflow. Only the task-queue behaviour common to all three was cited."
+   "reason": "Documented alternatives to a Drive export within the same server-side workflow. Only the task-queue behavior common to all three was cited."
   },
   {
    "option": "openEO reduce_spatial and resample_cube_spatial",
@@ -1858,7 +1858,7 @@
   }
  ],
  "limitations": [
-  "Workflows are designs, not products. Every documented claim here is a claim about a documented default or behaviour of a named tool. It is not a claim that the design as a whole behaves that way, and it is not a measurement.",
+  "Workflows are designs, not products. Every documented claim here is a claim about a documented default or behavior of a named tool. It is not a claim that the design as a whole behaves that way, and it is not a measurement.",
   "No image asset was opened. No GeoTIFF, JPEG 2000 or Zarr chunk bytes were read. No package was installed. Every claim comes from a documentation page or, in one case, a process-listing API response.",
   "Library documentation states the default of the version the page describes. Version numbers appear in several page titles: rasterio 1.4.4, rioxarray 0.22.0, odc-stac 0.5.3, rasterstats 0.10.3, GDAL stable. A pinned environment may differ and must be checked at prototyping time.",
   "The Sentinel Hub pages carry a notice that the documentation is moving to a new home at docs.planet.com and that these pages will stop being accessible. The processing unit page already redirects there and did not return readable content over plain HTTP.",

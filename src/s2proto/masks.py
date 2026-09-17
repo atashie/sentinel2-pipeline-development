@@ -2,7 +2,7 @@
 
 Every water body is stored as three pixel classes per resolution, assumption A20: interior
 pixels lie entirely inside the polygon, shoreline pixels intersect it partially, and near-land
-pixels do not intersect it but have their centre within the near-land distance of the polygon
+pixels do not intersect it but have their center within the near-land distance of the polygon
 edge, assumption A21. Practice P1 computes them once per tile and resolution and reuses them for
 every date. This module is that computation, plus the naive per-scene mask it is compared with.
 
@@ -10,7 +10,7 @@ Coverage fractions are exact polygon areas, not sampled. Pixels the polygon boun
 are found by rasterizing the boundary and growing the result by one pixel. Their intersection
 area with the polygon is computed with the polygon clipped to blocks, so a detailed shoreline
 is not intersected with every pixel. Every other pixel is entirely inside or entirely outside,
-decided by its centre. Edge distances are exact distances from pixel centres to the boundary
+decided by its center. Edge distances are exact distances from pixel centers to the boundary
 segments, negative inside the polygon as the draft contract states.
 """
 
@@ -40,7 +40,7 @@ DEFAULT_TILE_PIXELS = 10980
 EDGE_DISTANCE_CAP_M = 1000.0
 """Edge distance is exact up to this distance. Farther pixels are stored as not a number."""
 BLOCK_M = 2000.0
-"""Coverage is computed with the polygon clipped to blocks this wide, in metres."""
+"""Coverage is computed with the polygon clipped to blocks this wide, in meters."""
 MASK_VERSION = 2
 """Bumped when the classification or distance algorithm changes. Saved with every mask."""
 
@@ -116,7 +116,7 @@ def asset_resolution(asset: dict) -> int:
 
 
 def project(geometry: dict | BaseGeometry, epsg: int) -> BaseGeometry:
-    """A GeoJSON geometry in EPSG:4326 as a shapely geometry in the tile CRS, in metres."""
+    """A GeoJSON geometry in EPSG:4326 as a shapely geometry in the tile CRS, in meters."""
     transformer = pyproj.Transformer.from_crs(4326, epsg, always_xy=True)
     geom = shape(geometry) if isinstance(geometry, dict) else geometry
 
@@ -188,7 +188,7 @@ def _rasterize(geometry: BaseGeometry, window: Window, transform: Affine, all_to
 
 
 def _grow(mask: np.ndarray) -> np.ndarray:
-    """The mask plus its eight-connected neighbours."""
+    """The mask plus its eight-connected neighbors."""
     grown = mask.copy()
     grown[1:, :] |= mask[:-1, :]
     grown[:-1, :] |= mask[1:, :]
@@ -371,13 +371,13 @@ def compute_mask(
 
     touched = _rasterize(polygon.boundary, window, transform, all_touched=True)
     candidates = _grow(touched)
-    centre_in = _rasterize(polygon, window, transform, all_touched=False)
+    center_in = _rasterize(polygon, window, transform, all_touched=False)
     naive = _rasterize(polygon, window, transform, all_touched=True)
     timings["rasterize_seconds"] = round(time.perf_counter() - clock, 4)
 
     clock = time.perf_counter()
     coverage = exact_coverage(polygon, window, transform, resolution, candidates, block_m)
-    coverage[~candidates & centre_in] = 1.0
+    coverage[~candidates & center_in] = 1.0
     timings["coverage_seconds"] = round(time.perf_counter() - clock, 4)
 
     clock = time.perf_counter()
@@ -405,7 +405,7 @@ def compute_mask(
     xs = transform.c + (wet_cols + 0.5) * resolution
     ys = transform.f - (wet_rows + 0.5) * resolution
     edge_distance[wet_rows, wet_cols] = signed_distances(
-        tree, xs, ys, centre_in[wet_rows, wet_cols], cap_m=edge_distance_cap_m
+        tree, xs, ys, center_in[wet_rows, wet_cols], cap_m=edge_distance_cap_m
     )
     timings["edge_distance_seconds"] = round(time.perf_counter() - clock, 4)
 

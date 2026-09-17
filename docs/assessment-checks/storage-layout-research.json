@@ -281,7 +281,7 @@
       "field": "idempotency",
       "value": "Concurrent PUTs to one key: latest timestamp wins",
       "unit": null,
-      "note": "Two writers of the same object key are not serialised. A rerun that writes the same key twice is safe only if the bytes are identical.",
+      "note": "Two writers of the same object key are not serialized. A rerun that writes the same key twice is safe only if the bytes are identical.",
       "source_ids": [
         "src-aws-s3-welcome"
       ],
@@ -416,7 +416,7 @@
       "field": "unit_price",
       "value": "5.00",
       "unit": "USD per TB scanned",
-      "note": "Amazon Athena SQL queries, US East (N. Virginia). Bytes scanned are rounded up to the nearest megabyte with a 10 MB minimum per query. DDL statements and failed queries are not charged. Cancelled queries are charged for bytes scanned. Query results are billed at standard S3 rates. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
+      "note": "Amazon Athena SQL queries, US East (N. Virginia). Bytes scanned are rounded up to the nearest megabyte with a 10 MB minimum per query. DDL statements and failed queries are not charged. Canceled queries are charged for bytes scanned. Query results are billed at standard S3 rates. Numeric AWS prices are read from the pricing data file that the AWS pricing page loads at run time (data-pricing-endpoint https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps). The pricing page renders the row but ships no number in its HTML.",
       "source_ids": [
         "src-aws-pricemap-athena",
         "src-aws-athena-pricing"
@@ -491,7 +491,7 @@
       "id": "cl-sl-zarr-icechunk-format-3",
       "candidate": "sl-zarr-icechunk",
       "field": "format",
-      "value": "Uninitialised array regions need no stored chunk",
+      "value": "Uninitialized array regions need no stored chunk",
       "unit": null,
       "note": "This is the closest documented statement about sparse coverage. It sits in the non-normative Implementation Notes and describes resizing, not general sparse writes.",
       "source_ids": [
@@ -762,7 +762,7 @@
       "field": "idempotency",
       "value": "Each metadata change is committed by an atomic operation",
       "unit": null,
-      "note": "The spec does not standardise which atomic operation. On AWS the swap is the catalog check-and-put.",
+      "note": "The spec does not standardize which atomic operation. On AWS the swap is the catalog check-and-put.",
       "source_ids": [
         "src-iceberg-spec"
       ],
@@ -1219,7 +1219,7 @@
         "Icechunk needs no external database or catalog and requires only object storage with strong read-after-write consistency and conditional update."
       ],
       "questions_open": [
-        "How sparse per-water-body pixels fit a chunked array is not settled. The Zarr v3 core specification names fill_value for uninitialised portions and states in non-normative Implementation Notes that no chunk needs writing where none existed, but it defines no sparse or ragged layout. The Icechunk documentation pages read here give no guidance on sparse or ragged data.",
+        "How sparse per-water-body pixels fit a chunked array is not settled. The Zarr v3 core specification names fill_value for uninitialized portions and states in non-normative Implementation Notes that no chunk needs writing where none existed, but it defines no sparse or ragged layout. The Icechunk documentation pages read here give no guidance on sparse or ragged data.",
         "Icechunk virtual chunks were not read. The virtual dataset guide at /guides/virtual/ was not fetched, so nothing is claimed about referencing source COGs in place.",
         "Whether Amazon S3 satisfies the Icechunk conditional-update requirement is not claimed here. The Icechunk spec states the requirement. The AWS conditional-write documentation was not read.",
         "Chunk shape for a store keyed by water body, band and time is undetermined. No primary page gives guidance for this shape of data."

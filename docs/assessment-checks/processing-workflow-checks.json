@@ -13,7 +13,7 @@
    "verdict": "confirmed",
    "approved_value": "HTTP range requests read only the bytes a window needs",
    "approved_unit": null,
-   "approved_note": "Tool: GDAL /vsicurl. The design depends on the server honouring byte ranges. GDAL states range support is most effective for static pre-computed files.",
+   "approved_note": "Tool: GDAL /vsicurl. The design depends on the server honoring byte ranges. GDAL states range support is most effective for static pre-computed files.",
    "source_ids": [
     "src-gdal-vfs"
    ],
@@ -83,7 +83,7 @@
    "verdict": "confirmed",
    "approved_value": "Native geotransform kept; window_transform() gives the window affine",
    "approved_unit": null,
-   "approved_note": "Tool: rasterio. Each tile file is opened on its own, so no cross-tile grid is imposed. Tile overlap handling is a design choice, not a tool behaviour.",
+   "approved_note": "Tool: rasterio. Each tile file is opened on its own, so no cross-tile grid is imposed. Tile overlap handling is a design choice, not a tool behavior.",
    "source_ids": [
     "src-rasterio-windowed"
    ],
@@ -95,9 +95,9 @@
    "id": "chk-cl-wf-mask-once-windowed-geolocation_handling-2",
    "claim_id": "cl-wf-mask-once-windowed-geolocation_handling-2",
    "verdict": "confirmed",
-   "approved_value": "Rasterization uses pixel centres unless ALL_TOUCHED is enabled",
+   "approved_value": "Rasterization uses pixel centers unless ALL_TOUCHED is enabled",
    "approved_unit": null,
-   "approved_note": "Tool: GDAL gdal_rasterize. Bears on practice P1 and assumption A7: a pond smaller than a cell may contain no pixel centre and rasterize to nothing.",
+   "approved_note": "Tool: GDAL gdal_rasterize. Bears on practice P1 and assumption A7: a pond smaller than a cell may contain no pixel center and rasterize to nothing.",
    "source_ids": [
     "src-gdal-rasterize"
    ],
@@ -166,7 +166,7 @@
    "id": "chk-cl-wf-mask-once-windowed-orchestrator_dependency",
    "claim_id": "cl-wf-mask-once-windowed-orchestrator_dependency",
    "verdict": "confirmed",
-   "approved_value": "No scheduler named; work parallelises per window in one process",
+   "approved_value": "No scheduler named; work parallelizes per window in one process",
    "approved_unit": null,
    "approved_note": "Tool: rasterio. The page shows concurrent.futures pools, not a cluster or a scheduler. It warns that dataset objects cannot be shared across processes.",
    "source_ids": [
@@ -210,7 +210,7 @@
    "verdict": "confirmed",
    "approved_value": "Transfer unit is a tile of about 110 km by 110 km",
    "approved_unit": null,
-   "approved_note": "Tool: none. Provider page. Tiles overlap by design, so neighbouring tiles repeat ground area and repeat transfer.",
+   "approved_note": "Tool: none. Provider page. Tiles overlap by design, so neighboring tiles repeat ground area and repeat transfer.",
    "source_ids": [
     "src-cdse-sentinel2"
    ],
@@ -252,7 +252,7 @@
    "verdict": "confirmed",
    "approved_value": "Native resolution unless the caller asks for a different array size",
    "approved_unit": null,
-   "approved_note": "Tool: rasterio. Same reader behaviour as the windowed design.",
+   "approved_note": "Tool: rasterio. Same reader behavior as the windowed design.",
    "source_ids": [
     "src-rasterio-resampling"
    ],
@@ -278,7 +278,7 @@
    "id": "chk-cl-wf-full-tile-then-mask-orchestrator_dependency",
    "claim_id": "cl-wf-full-tile-then-mask-orchestrator_dependency",
    "verdict": "confirmed",
-   "approved_value": "No scheduler named; work parallelises per window in one process",
+   "approved_value": "No scheduler named; work parallelizes per window in one process",
    "approved_unit": null,
    "approved_note": "Tool: rasterio. Fetching a tile is an independent unit with a declared input and output.",
    "source_ids": [
@@ -575,7 +575,7 @@
    "verdict": "confirmed",
    "approved_value": "odc-stac currently ignores raster:bands scale and offset",
    "approved_unit": null,
-   "approved_note": "Tool: odc-stac. The two libraries disagree on this default, so the same catalogue yields different numbers.",
+   "approved_note": "Tool: odc-stac. The two libraries disagree on this default, so the same catalog yields different numbers.",
    "source_ids": [
     "src-odc-stac-best-practice"
    ],
@@ -601,9 +601,9 @@
    "id": "chk-cl-wf-lazy-array-stack-resampling_policy-2",
    "claim_id": "cl-wf-lazy-array-stack-resampling_policy-2",
    "verdict": "confirmed",
-   "approved_value": "stackstac resampling defaults to nearest neighbour",
+   "approved_value": "stackstac resampling defaults to nearest neighbor",
    "approved_unit": null,
-   "approved_note": "Tool: stackstac. Nearest neighbour keeps categorical layers such as a scene classification usable, but the grid still changes.",
+   "approved_note": "Tool: stackstac. Nearest neighbor keeps categorical layers such as a scene classification usable, but the grid still changes.",
    "source_ids": [
     "src-stackstac-stack"
    ],
@@ -783,9 +783,9 @@
    "id": "chk-cl-wf-server-side-extraction-geolocation_handling-2",
    "claim_id": "cl-wf-server-side-extraction-geolocation_handling-2",
    "verdict": "confirmed",
-   "approved_value": "openEO polygon aggregation counts pixels whose centre is inside",
+   "approved_value": "openEO polygon aggregation counts pixels whose center is inside",
    "approved_unit": null,
-   "approved_note": "Tool: openEO on the Copernicus Data Space Ecosystem. A pond smaller than a cell can contain no pixel centre and return no value. Bears on assumption A7 and A20.",
+   "approved_note": "Tool: openEO on the Copernicus Data Space Ecosystem. A pond smaller than a cell can contain no pixel center and return no value. Bears on assumption A7 and A20.",
    "source_ids": [
     "src-openeo-cdse-processes"
    ],
@@ -860,7 +860,7 @@
     "src-sh-s2l2a"
    ],
    "quote": "upsampling Defines the interpolation used for processing when the pixel resolution is greater than the source resolution (e.g. 5m/px with a 10m/px source) NEAREST - nearest neighbour interpolation BILINEAR - bilinear interpolation BICUBIC - bicubic interpolation NEAREST",
-   "reason": "Confirmed on https://docs.sentinel-hub.com/api/latest/data/sentinel-2-l2a/: both the 'upsampling' and 'downsampling' processing-option rows default to NEAREST ('upsampling ... NEAREST - nearest neighbour interpolation ... NEAREST' and 'downsampling As above except when the resolution is lower. ... NEAREST'). As with quality_layers, the first automated pass missed this because adjacent table cells in the page markup have no separating whitespace; manual inspection of the extracted table text confirms both defaults are NEAREST.",
+   "reason": "Confirmed on https://docs.sentinel-hub.com/api/latest/data/sentinel-2-l2a/: both the 'upsampling' and 'downsampling' processing-option rows default to NEAREST ('upsampling ... NEAREST - nearest neighbor interpolation ... NEAREST' and 'downsampling As above except when the resolution is lower. ... NEAREST'). As with quality_layers, the first automated pass missed this because adjacent table cells in the page markup have no separating whitespace; manual inspection of the extracted table text confirms both defaults are NEAREST.",
    "checked_on": "2026-09-09"
   },
   {
@@ -869,7 +869,7 @@
    "verdict": "confirmed",
    "approved_value": "Earth Engine picks a pyramid level from the requested scale",
    "approved_unit": null,
-   "approved_note": "Tool: Google Earth Engine. Scale is set by the output request, not by the input band, and resampling is nearest neighbour by default.",
+   "approved_note": "Tool: Google Earth Engine. Scale is set by the output request, not by the input band, and resampling is nearest neighbor by default.",
    "source_ids": [
     "src-gee-scale"
    ],
@@ -1119,7 +1119,7 @@
    "id": "chk-cl-wf-chip-archive-orchestrator_dependency",
    "claim_id": "cl-wf-chip-archive-orchestrator_dependency",
    "verdict": "confirmed",
-   "approved_value": "No scheduler named; work parallelises per window in one process",
+   "approved_value": "No scheduler named; work parallelizes per window in one process",
    "approved_unit": null,
    "approved_note": "Tool: rasterio. Cutting one chip is an independent unit with a declared input and output.",
    "source_ids": [

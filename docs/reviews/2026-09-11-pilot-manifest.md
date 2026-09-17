@@ -30,13 +30,13 @@ Probes before the choice, not evidence files:
 
 - The layer's area attribute is rounded to three decimals for small ponds, so the script computes area from the returned geometry.
 - The Okeechobee and Iliamna survey points lie inside their lakes, so those regions search a box on the shore.
-- Iliamna Lake is 2,649 square kilometres with an estimated 120,000 vertices, so the Alaska region carries small lakes only.
+- Iliamna Lake is 2,649 square kilometers with an estimated 120,000 vertices, so the Alaska region carries small lakes only.
 - Lake Erie, Lake Mead, Lake Champlain, and the other very large survey lakes were not fetched.
 
 ## Selection
 
 Per region and size class, the candidate whose width is nearest the class width, by absolute log ratio, ties to the smaller source id. Width is the square root of the area.
-Candidates are lakes, ponds, and water-storage reservoirs under 5 square kilometres with a perennial or unspecified code. Intermittent ponds and treatment, disposal, cooling, evaporation, and pool codes are excluded.
+Candidates are lakes, ponds, and water-storage reservoirs under 5 square kilometers with a perennial or unspecified code. Intermittent ponds and treatment, disposal, cooling, evaporation, and pool codes are excluded.
 Class bounds are the geometric midpoints between classes: 17.3 m, 54.8 m, 173.2 m, and 547.7 m. The 1,000 m class is open-ended.
 Coordinates are rounded to six decimals before area and width are computed, so the tests recompute both from the stored geometry.
 

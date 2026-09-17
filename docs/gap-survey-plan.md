@@ -98,7 +98,7 @@ For each such span it lists Collection 1 items, the older collection's items wit
 | `jp2_only` | Only JPEG 2000 assets, which point into the Sinergise bucket |
 | `uncovered` | No older-collection item |
 
-It also records whether aerosol and water vapour are GeoTIFFs, and whether cloud and snow probability exist at all. For each tile and month it sends a HEAD request, without credentials, for the scene classification and red band objects of the first `complete_cog` item.
+It also records whether aerosol and water vapor are GeoTIFFs, and whether cloud and snow probability exist at all. For each tile and month it sends a HEAD request, without credentials, for the scene classification and red band objects of the first `complete_cog` item.
 A HEAD returns headers only: status, size, entity tag, storage class, and whether the requester was charged. No pixel is read.
 
 ## Report

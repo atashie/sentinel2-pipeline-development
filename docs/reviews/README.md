@@ -8,6 +8,17 @@ The latest handoff records subsequent corrections and resolved wording.
 
 | Date | Review | Reviewer |
 |---|---|---|
+| 2026-09-17 | [American spelling across the repository: 53 files, quotes and hostnames verbatim, frozen results untouched](2026-09-17-american-spelling.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-09-17 | [Wording pass over the presentation: modals, tenses, conditions first, one name per thing, no fact or layout changed](2026-09-17-presentation-wording-pass.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-09-17 | [Documentation and presentation update: accepted Stage 4 findings, Stage 3 corrections, partial results, and sensor wording](2026-09-17-documentation-and-presentation.md) | Codex, with independent sensor research and checking |
+| 2026-09-16 | [Stage 4 full run review: evidence verified, split datastrips mislabeled, coarse catalog footprints, no-data attribution, and unresolved roles](2026-09-16-claude-stage-4-full-run-review.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-09-16 | [Stage 4 review response: separate datastrips, qualify footprints and no-data, and update future preflight](2026-09-16-codex-stage-4-review-response.md) | Codex |
+| 2026-09-16 | [Stage 4 full run: geometry correction, frozen inputs, extraction evidence, and verification](2026-09-16-stage-4-full-run.md) | Codex |
+| 2026-09-16 | [Stage 4 smoke: one pond across four tiles, complete matching contributions, memory and request accounting](2026-09-16-stage-4-smoke.md) | Codex |
+| 2026-09-16 | [Stage 4 implementation: frozen datatakes, native readers, logical assembly, and guarded local fixtures](2026-09-16-stage-4-implementation.md) | Codex |
+| 2026-09-16 | [Stage 4 plan review: forbid lazy mosaics, drop the fragment store, label primary tiles, state the hypothesis, two methods](2026-09-16-claude-stage-4-plan-review.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-09-16 | [Stage 4 plan revised after Claude's review: two readers, logical assembly, and the primary-label proposal](2026-09-16-stage-4-plan.md) | Codex, with dispositions of Claude Code's findings |
+| 2026-09-16 | [Stage 3 rerun audit: corrected cache verified, unchanged outputs, timeout evidence, and remaining presentation corrections](2026-09-16-codex-stage-3-rerun-review.md) | Codex |
 | 2026-09-15 | [Stage 3 run audit: verified coverage and comparisons, cache units, partial safeguards, and presentation corrections](2026-09-15-codex-stage-3-review.md) | Codex, with separate primary-source research and checking |
 | 2026-09-15 | [Stage 3 pre-run audit: baseline comparison, completeness, lazy-reader accounting, membership, and execution order](2026-09-15-codex-stage-3-prerun-review.md) | Codex, with separate source research and checking |
 | 2026-09-15 | [Stage 3, many lakes in one tile: rules, three read patterns, stage 2 as the baseline, the run of 2026-09-15, Codex's review, and the rerun of 2026-09-16 with the corrected cache, findings 19 to 22](2026-09-15-stage-3-many-lakes-in-one-tile.md) | Claude Code (AI coding agent), directed by the repository owner |
@@ -18,7 +29,7 @@ The latest handoff records subsequent corrections and resolved wording.
 | 2026-09-12 | [Pilot manifest audit and partial Prototyping presentation](2026-09-12-pilot-manifest-review.md) | Codex, with separate USGS source research and checking |
 | 2026-09-11 | [Phase 2, step 1: public pilot manifest from the USGS National Hydrography Dataset, and the survey's manifest option](2026-09-11-pilot-manifest.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-09-11 | [Discovery review, documentation reconciliation, and Phase 2 handoff](2026-09-11-prototyping-handoff.md) | Codex, with separate scientific source research and checking |
-| 2026-09-11 | [Owner review, round two: archive names and links, larger figures, colour-coded effort with technical dropdowns, one row per pixel](2026-09-11-owner-review-round-two.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-09-11 | [Owner review, round two: archive names and links, larger figures, color-coded effort with technical dropdowns, one row per pixel](2026-09-11-owner-review-round-two.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-09-11 | [Plain-language pass over the Discovery page: about forty sentences reworded, no fact or layout changed](2026-09-11-plain-language-pass.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-09-11 | [Codex's archive review applied and section 02 condensed: dispositions of four findings, findings F-21 and F-22, a shorter and less prescriptive archive section](2026-09-11-archive-section-condensed.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-09-11 | [Archive history corrected: measured counts, processing versions, and an explicitly inferred ingestion history](2026-09-11-archive-history-correction.md) | Codex, with independent source research and checking |
