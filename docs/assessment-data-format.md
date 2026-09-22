@@ -92,6 +92,18 @@ Only `confirmed` and `corrected` records bind an inventory claim. The inventory 
 One agent writes `assessment-checks/best-practices-recheck.json` with a `verdicts` list. Each verdict carries `claim_id` from [s2-best-practices.md](s2-best-practices.md), `verdict` as `CONFIRMED`, `PARTIAL`, `NOT_ON_PAGE`, or `CONTRADICTED`, `source_url`, `title`, `accessed_on`, `quote`, `corrected_wording` or null, and `reason`.
 `CONFIRMED` and supported `PARTIAL` or `CONTRADICTED` verdicts change the document's status to `documented` with the corrected wording and citation. `NOT_ON_PAGE` leaves `unverified` and records the attempt.
 
+## Sensor band records
+
+[sensor-bands.json](sensor-bands.json) is the bound dataset behind the presentation's sensor band comparison. It is context. It adds no candidate specification.
+A research agent writes [sensor-bands-research.json](assessment-checks/sensor-bands-research.json): sources, six water-quality uses with definitions, and six sensors with their bands.
+Every band carries a name, a wavelength as the source gives it, a spatial resolution in meters, and an optional note. It also carries per-satellite variants and the uses a cited source supports.
+A use entry carries `basis`. `named` means the source names the band. `wavelength` means the source names a wavelength inside the band.
+Every draft value carries a verbatim quote and a locator. A draft without a quote is not checkable.
+A checking agent on a different model writes [sensor-bands-checks.json](assessment-checks/sensor-bands-checks.json). It records one check per use, per sensor, and per band, with the approved values.
+Verdicts are `confirmed`, `corrected`, and `not_verifiable`, as for inventory claims.
+[collate_sensor_bands.py](../tools/collate_sensor_bands.py) binds only confirmed and corrected records. A band the checker could not verify leaves the table and is listed in `gaps`.
+[tests/test_sensor_bands.py](../tests/test_sensor_bands.py) enforces the six sensors and six uses, one wavelength form per band, and a bound check on every record. It also checks that the rendered page lists every bound band once.
+
 ## What the tests enforce
 
 [tests/test_inventory.py](../tests/test_inventory.py) enforces these rules and no others:
@@ -123,12 +135,13 @@ To change a bound claim, change its check record and rerun collation. Hand edits
 
 1. Update the research and check records, then the hand-maintained findings and combinations.
 2. Run `uv run python tools/collate_checks.py`.
-3. Run `uv run python tools/render_options.py`.
-4. Run the [check workflow](../.claude/skills/check/SKILL.md). It runs both scripts with `--check`.
-5. Review the rendered HTML and the source records supporting changed narrative claims.
+3. Run `uv run python tools/collate_sensor_bands.py` when a sensor band record changed.
+4. Run `uv run python tools/render_options.py`.
+5. Run the [check workflow](../.claude/skills/check/SKILL.md). Its tests run every script with `--check`.
+6. Review the rendered HTML and the source records supporting changed narrative claims.
 
 The renderer uses the standard library and performs no network access.
-An HTML comment records input digests for the inventory, survey, map provenance, pilot manifest, and prototype results. The internal dataset is not embedded.
+An HTML comment records input digests for the inventory, survey, map provenance, pilot manifest, prototype results, and sensor bands. The internal dataset is not embedded.
 
 ## Rendered page
 
@@ -139,6 +152,8 @@ Internal issue IDs, decision catalogs, and exhaustive specifications remain in r
 
 The renderer fills markers in the template. Survey counts and the monthly coverage strip come from the generated gap report. The risk and cost bullets are the `plain` line of every issue, placed by a mapping in the renderer, which fails if an issue is unplaced. Map facts come from the provenance record, and image digests are validated against it.
 Prototype tables read the saved Stage 1 to 4 results. Stage 4 headline ratios use complete-workload medians.
+The sensor band comparison in section 01 comes from [sensor-bands.json](sensor-bands.json). It fills two selectors, one table per sensor, a legend for the use chips, and the source note.
+Without JavaScript the page lists every sensor table in order.
 The page uses local JavaScript for accessible tabs and paired map selectors. It opens from disk and makes no external request.
 Keep [assets/discovery/](assets/discovery/) beside the HTML when sharing it.
 

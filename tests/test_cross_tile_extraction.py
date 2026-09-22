@@ -568,6 +568,44 @@ def test_alternative_catalog_revisions_do_not_accumulate_geometry_error(tmp_path
     assert a == b
 
 
+def test_lake_yale_records_best_unconverged_refinement():
+    fixture = ROOT / "tests/fixtures/lake-yale"
+    lake = json.loads((fixture / "nhd-112613946.geojson").read_text())
+    catalog = json.loads((fixture / "catalog-geometry.json").read_text())
+    grids = {tile: masks.TileGrid(**grid) for tile, grid in catalog["grids"].items()}
+    context = cross.geometry_context(lake, grids, catalog["items"])
+    audit = context["audit"]
+    assert audit["converged"] is False
+    assert audit["spacing_m"] == 125
+    assert audit["chosen_iteration"] == 3
+    assert audit["relative_change_bound"] == pytest.approx(4.4156520446378153e-7, rel=0.01)
+    assert len(audit["refinements"]) == 8
+    assert audit["relative_change_bound"] == min(
+        row["relative_change_bound"] for row in audit["refinements"]
+    )
+    assert audit["roundtrip_relative_error"] < cross.TOLERANCE
+    group = "GS2B_20250601T155819_043023_N05.11"
+    items = {i["id"]: i for i in catalog["items"] if i["properties"]["s2:datatake_id"] == group}
+    covered = cross.coverage(context, items)
+    assert covered["support_uncovered_fraction"] == 0
+    assert context["polygon"].covered_by(context["extents"]["17RMN"])
+    assert {row["tile"] for row in covered["members"]} == {"17RMM", "17RMN"}
+
+
+def test_converged_geometry_retains_original_audit(scene):
+    items, lakes = scene["items"], scene["lakes"]
+    grids = {cross.item_tile(i): masks.TileGrid.from_item(i) for i in items}
+    audit = cross.geometry_context(lakes[0], grids, items)["audit"]
+    assert set(audit) == {
+        "spacing_m",
+        "relative_change_bound",
+        "roundtrip_relative_error",
+        "buffer_quad_segs",
+        "bound_scope",
+    }
+    assert audit["relative_change_bound"] <= cross.TOLERANCE / 8
+
+
 def test_split_datastrips_survive_selection_preparation_and_both_paths(tmp_path, monkeypatch):
     first = item_for(tmp_path / "first", GRID, "17SKU", seed=1)
     second = item_for(tmp_path / "second", GRID, "17SKU", seed=20)

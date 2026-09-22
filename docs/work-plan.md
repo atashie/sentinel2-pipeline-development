@@ -5,6 +5,10 @@ A checked box means the work exists in this repository with evidence.
 
 ## Next session: Phase 2, Prototyping
 
+Review the completed [sleep-interrupted workload replacements](reviews/2026-09-21-sleep-rerun.md) with the owner and reviewing agent before starting another experiment.
+The [review response](reviews/2026-09-22-sleep-rerun-review-response.md) records timing caveats, qualified interpretations, and the next experiment's timing rule.
+All fourteen comparisons completed with matching outputs, no sleep overlap, and no worker memory stops.
+
 Stages 1 to 4 have reviewed laptop measurements. [Measurements](measurements.md) owns the results, dates, and limitations.
 The [Stage 4 response](reviews/2026-09-16-codex-stage-4-review-response.md) records the accepted interpretation and future selection corrections.
 The [Stage 3 rerun review](reviews/2026-09-16-codex-stage-3-rerun-review.md) supports the preceding evidence.
@@ -19,8 +23,15 @@ Its four documentation corrections are closed in the [presentation update](revie
 
 The detailed prototype workflow will develop jointly. These questions do not require a complete infrastructure design before experiments begin.
 The owner accepted the [Stage 4 response](reviews/2026-09-16-codex-stage-4-review-response.md) on 2026-09-17.
-The current step is review of the [documentation and presentation update](reviews/2026-09-17-documentation-and-presentation.md).
+Related records cover the [documentation update](reviews/2026-09-17-documentation-and-presentation.md), [sensor band comparison](reviews/2026-09-17-sensor-band-comparison.md), and [section 02 heading](reviews/2026-09-18-access-problem-first.md).
+The [workload review](reviews/2026-09-18-claude-lazy-reader-workload-review.md) informed the corrections below.
 The inventory includes Stage 4. Scientific validation, the primary-tile rule, and AWS measurements remain open. Stage 5 needs separate owner authorization.
+
+The owner authorized the [larger-workload plan](reviews/2026-09-18-lazy-reader-workload-plan.md) on 2026-09-18.
+Its [review response](reviews/2026-09-18-lazy-reader-review-response.md) adds resumable preflight, complete transfer scenarios, and acquisition splitting.
+The owner authorized replacing twelve sleep-affected attempts on 2026-09-21. The two unaffected observations and approved memory limits remain unchanged.
+The replacement comparison is complete. Its review owns CPU, elapsed-time, requested-byte, RAM, and operational findings.
+Geometry non-convergence is recorded without blocking workflow measurements.
 
 ## How options are judged
 
@@ -117,6 +128,8 @@ The owner requested a narrative for engineering and business colleagues with lim
 - [x] Plain-language pass over the whole page, 2026-09-11. [Record](reviews/2026-09-11-plain-language-pass.md).
 - [x] Owner review round two applied: names, links, figure text, effort bars with technical detail, one row per pixel, 2026-09-11. [Record](reviews/2026-09-11-owner-review-round-two.md).
 - [x] Codex reviewed the latest page and reconciled active documentation, 2026-09-11. [Handoff](reviews/2026-09-11-prototyping-handoff.md).
+- [x] Sensor band comparison added to section 01: six sensors, two selectors, and a checked water-quality-use column, 2026-09-17. [Record](reviews/2026-09-17-sensor-band-comparison.md).
+- [x] Section 02 restated problem first: two public copies, four differences, then the fallback order, 2026-09-18. [Record](reviews/2026-09-18-access-problem-first.md).
 - [ ] Owner review of these corrections. Workflow selection and later phases remain open.
 
 ## Phase 2: Prototyping

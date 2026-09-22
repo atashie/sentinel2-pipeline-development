@@ -39,6 +39,7 @@ uv sync --locked                          # pinned environment, Python 3.12.13, 
 uv run pytest                             # documentation, inventory, survey, and report tests, no network
 uv run ruff check . && uv run ruff format --check .
 uv run python tools/collate_checks.py          # rebuild the inventory from check records, no network
+uv run python tools/collate_sensor_bands.py    # rebuild the sensor band dataset from its check records, no network
 uv run python tools/render_options.py          # regenerate docs/s2-options.html, no network
 uv run python tools/gap_report.py              # regenerate the gap survey report, no network
 uv run python tools/build_pilot_manifest.py    # rebuild the pilot manifest from the saved run, no network
@@ -46,7 +47,9 @@ uv run python benchmarks/raw_access.py --dry-run   # print the stage 1 plan, no 
 uv run python benchmarks/lake_extraction.py --dry-run   # print the stage 2 plan, no network
 uv run python benchmarks/tile_extraction.py --dry-run   # print the stage 3 plan, no network
 uv run python benchmarks/cross_tile_extraction.py --dry-run   # print the stage 4 workload, no network
-uv run python tools/collate_checks.py --check && uv run python tools/render_options.py --check && uv run python tools/gap_report.py --check
+uv run python benchmarks/lazy_reader_workloads.py            # print the larger-workload plan, no network
+uv run python tools/collate_checks.py --check && uv run python tools/collate_sensor_bands.py --check && uv run python tools/render_options.py --check && uv run python tools/gap_report.py --check
+python3 ~/github/cc-skills/html-review-comments/scripts/inject.py tools/s2-options.template.html --config "$(cat tools/review-layer.json)" --check   # review-comment layer, no network
 ```
 
 CI runs, in order: `uv sync --locked`, `ruff check`, `ruff format --check`, `pytest`. Run `/check` before you finish a change.
@@ -61,6 +64,20 @@ invokes them. Requester-pays buckets charge the reader. Record bucket or endpoin
 `benchmarks/cross_tile_extraction.py` separates metadata selection from imagery extraction.
 See its [implementation record](docs/reviews/2026-09-16-stage-4-implementation.md) for modes, review gates, resource limits, and proposed commands.
 
+`benchmarks/lazy_reader_workloads.py --execute RUN_DIR` prepares both larger cohorts and stops after printing the preflight.
+It invokes `tools/build_workload_manifests.py` for public boundaries, then queries catalogs and source headers.
+`--extract RUN_DIR` reads pixels for configurations whose workers have never launched. Both commands resume the same owned directory.
+The owner authorized the full comparison on 2026-09-18. Its [review response](docs/reviews/2026-09-18-lazy-reader-review-response.md) records corrections and current commands.
+Memory limits and all fourteen configurations remain unchanged. The owner authorized recording geometry non-convergence and continuing the experiment.
+The [continuation record](docs/reviews/2026-09-18-geometry-diagnostic-resume.md) owns the audited source-supersession procedure.
+The [original execution record](docs/reviews/2026-09-19-larger-workload-execution.md) records three complete workers, eleven failures, and sleep-related timing limits.
+On 2026-09-21, the owner authorized replacing the twelve sleep-affected attempts and retaining the two unaffected observations.
+The replacements completed. All fourteen comparisons have matching outputs and no sleep overlap. No worker exceeded the memory limits.
+The [rerun record](docs/reviews/2026-09-21-sleep-rerun.md) owns results, resource measurements, the recovered startup pause, provenance, and verification.
+The [review response](docs/reviews/2026-09-22-sleep-rerun-review-response.md) qualifies timing comparisons and carries consistent component boundaries into the next experiment's design.
+`tools/rerun_sleep_workloads.py --extract RUN_DIR` runs replacements under verified macOS sleep prevention.
+`--execute RUN_DIR --accept-source-change REASON` archives source-dependent preparation before rebuilding it. Any extraction launch forbids source supersession.
+
 The separate educational map builder, [tools/build_discovery_maps.py](tools/build_discovery_maps.py), reads pixels only with `--download` and explicit authorization.
 The owner authorized one public image crop for the presentation on 2026-09-11. This does not authorize workflow prototypes or additional surveys.
 
@@ -68,7 +85,7 @@ The owner authorized one public image crop for the presentation on 2026-09-11. T
 
 | Path | What it is |
 |---|---|
-| `docs/` | Assumptions, best practices, contract draft, work plan, gap survey plan, measurements, decisions, current reviews, Vercel configuration and hosting note |
+| `docs/` | Assumptions, best practices, contract draft, work plan, gap survey plan, measurements, decisions, current reviews, the sensor band dataset, Vercel configuration and hosting note |
 | `docs/archive/` | Ignored by git. Superseded reviews and plans, kept locally until deleted. Nothing links to it |
 | `docs/options-inventory.json` | Canonical assessment dataset: issues, candidates, claims, sources, probes, findings |
 | `docs/assessment-checks/` | Research drafts and independent check records that bind claims. Evidence, not prose |
@@ -88,6 +105,7 @@ The owner authorized one public image crop for the presentation on 2026-09-11. T
   Do not restate an assumption elsewhere. Link to it.
 - One fact has one home. Link to it. Do not copy it.
 - Assessment facts live in `docs/options-inventory.json`. Follow [its format](docs/assessment-data-format.md).
+  Sensor band facts for the presentation live in `docs/sensor-bands.json`, bound from research and check records the same way.
 - Keep unvalidated specifications null. Every populated claim needs primary evidence and an independent check.
 - The assessment has four phases: discovery, prototyping, integration specs, and tradeoffs. Discovery compares
   access routes, processing workflows, compute platforms, and storage layouts. It does not rank vendors.
@@ -100,6 +118,7 @@ The owner authorized one public image crop for the presentation on 2026-09-11. T
   primary pages before marking them `documented`.
 - Refer to colleagues by role, never by name. Do not name customers or their current vendors. This repository can become public.
 - Never edit `benchmarks/results/*.json` by hand. Rerun the script that wrote it.
+- Never edit the review-comment block in `tools/s2-options.template.html` by hand. Rerun `inject.py` with `tools/review-layer.json`, then regenerate the page.
 - Timestamps carry a UTC offset. Dates are ISO 8601. No relative dates in documents.
 - Documents use plain English and American spelling. Descriptive sentences: 25 words maximum. Procedure steps:
   imperative, 20 words maximum. No semicolons. No "should": write "must" or state a fact. Quoted source text stays verbatim.

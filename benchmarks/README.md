@@ -17,6 +17,16 @@ The [response](../docs/reviews/2026-09-16-codex-stage-4-review-response.md) upda
 It compares lake-first and tile-first extraction with separate native tile records.
 The [implementation record](../docs/reviews/2026-09-16-stage-4-implementation.md) owns its commands, input rules, resource limits, and verification.
 
+The larger workload comparison uses [lazy_reader_workloads.py](lazy_reader_workloads.py).
+It compares seven configurations for 100 dispersed U.S. lakes and 1,000 concentrated Florida lakes.
+The [implementation record](../docs/reviews/2026-09-18-lazy-reader-workload-implementation.md) records selection, commands, memory controls, and cleanup.
+The script prints its plan without arguments. `--execute` prepares provider metadata and geometry, then stops after printing the preflight.
+`--extract` runs unattempted configurations from that frozen directory. The [review response](../docs/reviews/2026-09-18-lazy-reader-review-response.md) owns current commands and resume rules.
+The [geometry continuation](../docs/reviews/2026-09-18-geometry-diagnostic-resume.md) records diagnostic non-convergence and explicit source supersession before extraction.
+Each configuration runs once per run directory. Existing pilot evidence remains unchanged.
+The owner authorized replacing twelve sleep-interrupted attempts on 2026-09-21, preserving original attempts and retaining two unaffected observations.
+The [rerun record](../docs/reviews/2026-09-21-sleep-rerun.md) owns that exception and its guarded recovery commands.
+
 `gap-survey-sites.json` lists the public water bodies the gap survey used as points on 2026-09-10, with the reason for each. The [pilot manifest](../examples/water-bodies-public-pilot.geojson) anchors its regions on these sites, and the survey takes either file.
 
 Prototype scripts share the measurement harness in [../src/s2proto/harness.py](../src/s2proto/harness.py). Until AWS access exists they run on the owner's laptop over the internet, assumption A25 in [../docs/assumptions.md](../docs/assumptions.md).

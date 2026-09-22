@@ -1,0 +1,3120 @@
+{
+ "schema_version": 1,
+ "purpose": "Band tables and water-quality uses for six sensors, for the presentation's sensor comparison. Context only. Adds no candidate specification.",
+ "collated_from": {
+  "research": "assessment-checks/sensor-bands-research.json",
+  "checks": "assessment-checks/sensor-bands-checks.json"
+ },
+ "sources": [
+  {
+   "id": "src-sentiwiki-s2-mission",
+   "url": "https://sentiwiki.copernicus.eu/web/s2-mission",
+   "title": "S2 Mission | SentiWiki",
+   "publisher": "ESA (SentiWiki)",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-sentiwiki-s2-products",
+   "url": "https://sentiwiki.copernicus.eu/web/s2-products",
+   "title": "S2 Products | SentiWiki",
+   "publisher": "ESA (SentiWiki)",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-sentiwiki-s2-processing",
+   "url": "https://sentiwiki.copernicus.eu/web/s2-processing",
+   "title": "S2 Processing | SentiWiki",
+   "publisher": "ESA (SentiWiki)",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-sentiwiki-s2-applications",
+   "url": "https://sentiwiki.copernicus.eu/web/s2-applications",
+   "title": "S2 Applications | SentiWiki",
+   "publisher": "ESA (SentiWiki)",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-cdse-s2l2a",
+   "url": "https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Data/S2L2A.html",
+   "title": "Sentinel-2 L2A – Documentation",
+   "publisher": "ESA (Copernicus Data Space Ecosystem)",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-cdse-s2l1c",
+   "url": "https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Data/S2L1C.html",
+   "title": "Sentinel-2 L1C – Documentation",
+   "publisher": "ESA (Copernicus Data Space Ecosystem)",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-cdse-home",
+   "url": "https://dataspace.copernicus.eu/",
+   "title": "Copernicus Data Space Ecosystem | Europe's eyes on Earth",
+   "publisher": "ESA (Copernicus Data Space Ecosystem)",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-usgs-landsat-9",
+   "url": "https://www.usgs.gov/landsat-missions/landsat-9",
+   "title": "Landsat 9 | U.S. Geological Survey",
+   "publisher": "USGS",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-usgs-band-designations",
+   "url": "https://www.usgs.gov/faqs/what-are-band-designations-landsat-satellites",
+   "title": "What are the band designations for the Landsat satellites? | U.S. Geological Survey",
+   "publisher": "USGS",
+   "accessed_on": "2026-09-17",
+   "page_updated": "2026-08-10"
+  },
+  {
+   "id": "src-usgs-best-bands",
+   "url": "https://www.usgs.gov/faqs/what-are-best-landsat-spectral-bands-use-my-research",
+   "title": "What are the best Landsat spectral bands for use in my research? | U.S. Geological Survey",
+   "publisher": "USGS",
+   "accessed_on": "2026-09-17",
+   "page_updated": "2026-08-10"
+  },
+  {
+   "id": "src-nasa-landsat-9",
+   "url": "https://landsat.gsfc.nasa.gov/satellites/landsat-9/",
+   "title": "Landsat 9 - NASA Science",
+   "publisher": "NASA",
+   "accessed_on": "2026-09-17",
+   "page_updated": "2026-09-17"
+  },
+  {
+   "id": "src-usgs-dswe-c2",
+   "url": "https://www.usgs.gov/landsat-missions/landsat-collection-2-level-3-dynamic-surface-water-extent-science-product",
+   "title": "Landsat Collection 2 Level-3 Dynamic Surface Water Extent Science Product | U.S. Geological Survey",
+   "publisher": "USGS",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-usgs-dswe-add",
+   "url": "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/LSDS-2084_LandsatC2_L3_DSWE_ADD-v1.pdf",
+   "title": "Landsat Collection 2 (C2) Level 3 (L3) Dynamic Surface Water Extent (DSWE) Algorithm Description Document (ADD), LSDS-2084 Version 1.0",
+   "publisher": "USGS",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-sentiwiki-s3-mission",
+   "url": "https://sentiwiki.copernicus.eu/web/s3-mission",
+   "title": "S3 Mission | SentiWiki",
+   "publisher": "ESA (SentiWiki)",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-sentiwiki-olci-products",
+   "url": "https://sentiwiki.copernicus.eu/web/olci-products",
+   "title": "OLCI Products | SentiWiki",
+   "publisher": "ESA (SentiWiki)",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-sentiwiki-s3-olci-instrument",
+   "url": "https://sentiwiki.copernicus.eu/web/s3-olci-instrument",
+   "title": "S3 OLCI Instrument | SentiWiki",
+   "publisher": "ESA (SentiWiki)",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-sentiwiki-slstr-products",
+   "url": "https://sentiwiki.copernicus.eu/web/slstr-products",
+   "title": "SLSTR Products | SentiWiki",
+   "publisher": "ESA (SentiWiki)",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-sentiwiki-s3-slstr-instrument",
+   "url": "https://sentiwiki.copernicus.eu/web/s3-slstr-instrument",
+   "title": "S3 SLSTR Instrument | SentiWiki",
+   "publisher": "ESA (SentiWiki)",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-modis-specifications",
+   "url": "https://modis.gsfc.nasa.gov/about/specifications.php",
+   "title": "MODIS Web: Specifications",
+   "publisher": "NASA Goddard Space Flight Center",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-modis-about",
+   "url": "https://modis.gsfc.nasa.gov/about/",
+   "title": "MODIS Web: About",
+   "publisher": "NASA Goddard Space Flight Center",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-nasa-esds-open-data",
+   "url": "https://www.earthdata.nasa.gov/engage/open-data-services-software-policies",
+   "title": "Open Data, Services, and Software Policies | NASA Earthdata",
+   "publisher": "NASA",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-planet-planetscope",
+   "url": "https://developers.planet.com/docs/data/planetscope/",
+   "title": "PlanetScope | Planet Documentation",
+   "publisher": "Planet Labs PBC",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-planet-psscene-spec",
+   "url": "https://planet.widen.net/s/vswqcrm9zw/planet-userdocumentation-psscene-productspec",
+   "title": "PlanetScope Product Specifications (June 2026)",
+   "publisher": "Planet Labs PBC",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-planet-licensing",
+   "url": "https://www.planet.com/licensing-information/",
+   "title": "Licensing Information Center | Planet",
+   "publisher": "Planet Labs PBC",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-gholizadeh-2016",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5017463/",
+   "title": "A Comprehensive Review on Water Quality Parameters Estimation Using Remote Sensing Techniques (Sensors 2016, 16(8):1298)",
+   "publisher": "MDPI, open-access copy in PubMed Central",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-topp-2020",
+   "url": "https://cdr.lib.unc.edu/downloads/j9602973h",
+   "title": "Research Trends in the Use of Remote Sensing for Inland Water Quality Science: Moving Towards Multidisciplinary Applications (Water 2020, 12(1):169)",
+   "publisher": "MDPI, open-access copy in the Carolina Digital Repository",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-vanhellemont-2023",
+   "url": "https://www.vliz.be/imisdocs/publications/389100.pdf",
+   "title": "Evaluation of eight band SuperDove imagery for aquatic applications (Optics Express 31(9):13851, 2023)",
+   "publisher": "Optica Publishing Group, open-access copy in the VLIZ repository",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-vanhellemont-ruddick-2015",
+   "url": "https://www.vliz.be/imisdocs/publications/269628.pdf",
+   "title": "Advantages of high quality SWIR bands for ocean colour processing: Examples from Landsat-8 (Remote Sensing of Environment 161:89-106, 2015)",
+   "publisher": "Elsevier, open-access copy in the VLIZ repository",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  },
+  {
+   "id": "src-soomets-2020",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7038399/",
+   "title": "Validation and Comparison of Water Quality Products in Baltic Lakes Using Sentinel-2 MSI and Sentinel-3 OLCI Data (Sensors 2020, 20(3):742)",
+   "publisher": "MDPI, open-access copy in PubMed Central",
+   "accessed_on": "2026-09-17",
+   "page_updated": null
+  }
+ ],
+ "uses": [
+  {
+   "id": "chlorophyll",
+   "label": "Chlorophyll and cyanobacteria",
+   "definition": "Chlorophyll absorbs red light near 665 nm and fluoresces near 680 nm, and dense blooms reflect a peak near 710 nm. Cyanobacteria add phycocyanin absorption near 620 nm.",
+   "source_ids": [
+    "src-topp-2020",
+    "src-vanhellemont-2023"
+   ],
+   "check": "chk-use-chlorophyll"
+  },
+  {
+   "id": "turbidity",
+   "label": "Turbidity and suspended sediment",
+   "definition": "Suspended particles raise reflectance and move the reflectance maximum from green toward red and near-infrared wavelengths. Single red or near-infrared bands track suspended sediment.",
+   "source_ids": [
+    "src-topp-2020",
+    "src-vanhellemont-ruddick-2015"
+   ],
+   "check": "chk-use-turbidity"
+  },
+  {
+   "id": "cdom",
+   "label": "Dissolved organic matter",
+   "definition": "Colored dissolved organic matter, also called yellow matter, absorbs blue and green light. Absorption rises exponentially toward shorter wavelengths, so retrievals ratio red against green or blue.",
+   "source_ids": [
+    "src-gholizadeh-2016",
+    "src-soomets-2020"
+   ],
+   "check": "chk-use-cdom"
+  },
+  {
+   "id": "temperature",
+   "label": "Surface temperature",
+   "definition": "Thermal infrared bands measure emitted radiant heat, which gives the radiant temperature of the water surface. Clouds block the measurement.",
+   "source_ids": [
+    "src-gholizadeh-2016"
+   ],
+   "check": "chk-use-temperature"
+  },
+  {
+   "id": "correction",
+   "label": "Atmospheric correction and screening",
+   "definition": "Aerosol, water vapor, cirrus, cloud, and sun glint add signal that a water retrieval must remove or mask. Absorption bands and near and shortwave infrared bands estimate these terms.",
+   "source_ids": [
+    "src-vanhellemont-ruddick-2015",
+    "src-vanhellemont-2023",
+    "src-sentiwiki-s2-mission"
+   ],
+   "check": "chk-use-correction"
+  },
+  {
+   "id": "extent",
+   "label": "Water extent and shoreline",
+   "definition": "Water absorbs near-infrared and shortwave infrared light and appears dark where land is bright. Green to infrared indices such as NDWI and MNDWI separate water from land.",
+   "source_ids": [
+    "src-gholizadeh-2016",
+    "src-usgs-dswe-add",
+    "src-sentiwiki-s2-applications"
+   ],
+   "check": "chk-use-extent"
+  }
+ ],
+ "sensors": [
+  {
+   "id": "sentinel-2-msi",
+   "label": "Sentinel-2 MSI",
+   "platform": "Sentinel-2A (launched 2015), Sentinel-2B (launched 2017), and Sentinel-2C (launched 2024)",
+   "instrument": "Multi-Spectral Instrument (MSI)",
+   "operator": "ESA (Copernicus)",
+   "access": "public",
+   "wavelength_form": "center-width",
+   "notes": [
+    "Main values are the Sentinel-2A equivalent wavelength and bandwidth from SentiWiki Table 3. Sentinel-2B and Sentinel-2C sit under variants.",
+    "SentiWiki lists bands by number. Band names come from the Copernicus Data Space Ecosystem Sentinel-2 L2A and L1C pages.",
+    "Level-2A surface reflectance omits B10. The store described in this repository therefore never holds B10.",
+    "The Level-1C cloud mask uses B1 or B2, B10, and B11 or B12. Level-2A water vapor uses B8A and B9, and aerosol reference areas use the 2.2 µm band.",
+    "The Copernicus Data Space Ecosystem opens Sentinel data with free access."
+   ],
+   "source_ids": [
+    "src-sentiwiki-s2-mission",
+    "src-sentiwiki-s2-products",
+    "src-cdse-s2l2a",
+    "src-cdse-s2l1c",
+    "src-cdse-home"
+   ],
+   "check": "chk-sensor-sentinel-2-msi",
+   "bands": [
+    {
+     "id": "B01",
+     "name": "Coastal aerosol",
+     "center_nm": 442.7,
+     "width_nm": 21,
+     "range_nm": null,
+     "resolution_m": 60,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 442.3,
+       "width_nm": 20
+      },
+      "Sentinel-2C": {
+       "center_nm": 444.2,
+       "width_nm": 20
+      }
+     },
+     "note": "Level-2A products carry B01 in the 20 m and 60 m folders.",
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-s2-processing"
+       ]
+      },
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B01"
+    },
+    {
+     "id": "B02",
+     "name": "Blue",
+     "center_nm": 492.7,
+     "width_nm": 65,
+     "range_nm": null,
+     "resolution_m": 10,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 492.3,
+       "width_nm": 65
+      },
+      "Sentinel-2C": {
+       "center_nm": 489.1,
+       "width_nm": 65
+      }
+     },
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-s2-processing"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B02"
+    },
+    {
+     "id": "B03",
+     "name": "Green",
+     "center_nm": 559.9,
+     "width_nm": 35,
+     "range_nm": null,
+     "resolution_m": 10,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 559.0,
+       "width_nm": 35
+      },
+      "Sentinel-2C": {
+       "center_nm": 560.6,
+       "width_nm": 35
+      }
+     },
+     "note": null,
+     "uses": [
+      {
+       "use": "extent",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-s2-applications"
+       ]
+      },
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B03"
+    },
+    {
+     "id": "B04",
+     "name": "Red",
+     "center_nm": 664.6,
+     "width_nm": 31,
+     "range_nm": null,
+     "resolution_m": 10,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 664.9,
+       "width_nm": 31
+      },
+      "Sentinel-2C": {
+       "center_nm": 666.5,
+       "width_nm": 31
+      }
+     },
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B04"
+    },
+    {
+     "id": "B05",
+     "name": "Vegetation red edge",
+     "center_nm": 704.1,
+     "width_nm": 15,
+     "range_nm": null,
+     "resolution_m": 20,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 703.8,
+       "width_nm": 14
+      },
+      "Sentinel-2C": {
+       "center_nm": 707.1,
+       "width_nm": 16
+      }
+     },
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B05"
+    },
+    {
+     "id": "B06",
+     "name": "Vegetation red edge",
+     "center_nm": 740.5,
+     "width_nm": 13,
+     "range_nm": null,
+     "resolution_m": 20,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 739.1,
+       "width_nm": 14
+      },
+      "Sentinel-2C": {
+       "center_nm": 741.1,
+       "width_nm": 16
+      }
+     },
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B06"
+    },
+    {
+     "id": "B07",
+     "name": "Vegetation red edge",
+     "center_nm": 782.8,
+     "width_nm": 19,
+     "range_nm": null,
+     "resolution_m": 20,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 779.7,
+       "width_nm": 20
+      },
+      "Sentinel-2C": {
+       "center_nm": 784.7,
+       "width_nm": 20
+      }
+     },
+     "note": null,
+     "uses": [
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B07"
+    },
+    {
+     "id": "B08",
+     "name": "NIR",
+     "center_nm": 832.8,
+     "width_nm": 118,
+     "range_nm": null,
+     "resolution_m": 10,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 832.9,
+       "width_nm": 115
+      },
+      "Sentinel-2C": {
+       "center_nm": 834.6,
+       "width_nm": 114
+      }
+     },
+     "note": null,
+     "uses": [
+      {
+       "use": "extent",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-s2-applications"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      },
+      {
+       "use": "correction",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B08"
+    },
+    {
+     "id": "B8A",
+     "name": "Narrow NIR",
+     "center_nm": 864.7,
+     "width_nm": 20,
+     "range_nm": null,
+     "resolution_m": 20,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 864.0,
+       "width_nm": 21
+      },
+      "Sentinel-2C": {
+       "center_nm": 865.6,
+       "width_nm": 20
+      }
+     },
+     "note": "SentiWiki writes this band as 8a. Copernicus Data Space writes it as B8A.",
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-s2-processing"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B8A"
+    },
+    {
+     "id": "B09",
+     "name": "Water vapour",
+     "center_nm": 945.1,
+     "width_nm": 20,
+     "range_nm": null,
+     "resolution_m": 60,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 943.2,
+       "width_nm": 19
+      },
+      "Sentinel-2C": {
+       "center_nm": 947.2,
+       "width_nm": 20
+      }
+     },
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-s2-processing"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B09"
+    },
+    {
+     "id": "B10",
+     "name": "SWIR – Cirrus",
+     "center_nm": 1373.5,
+     "width_nm": 29,
+     "range_nm": null,
+     "resolution_m": 60,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 1376.9,
+       "width_nm": 29
+      },
+      "Sentinel-2C": {
+       "center_nm": 1372.2,
+       "width_nm": 33
+      }
+     },
+     "note": "Level-2A surface reflectance omits this band. SentiWiki states that the cirrus band 10 is omitted because it does not contain surface information.",
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-s2-processing"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B10"
+    },
+    {
+     "id": "B11",
+     "name": "SWIR",
+     "center_nm": 1613.7,
+     "width_nm": 89,
+     "range_nm": null,
+     "resolution_m": 20,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 1610.4,
+       "width_nm": 93
+      },
+      "Sentinel-2C": {
+       "center_nm": 1612.0,
+       "width_nm": 90
+      }
+     },
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-s2-processing"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B11"
+    },
+    {
+     "id": "B12",
+     "name": "SWIR",
+     "center_nm": 2202.4,
+     "width_nm": 180,
+     "range_nm": null,
+     "resolution_m": 20,
+     "variants": {
+      "Sentinel-2B": {
+       "center_nm": 2185.7,
+       "width_nm": 181
+      },
+      "Sentinel-2C": {
+       "center_nm": 2191.3,
+       "width_nm": 181
+      }
+     },
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-s2-processing"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-2-msi-B12"
+    }
+   ]
+  },
+  {
+   "id": "landsat-9-oli-tirs",
+   "label": "Landsat 9 OLI-2 and TIRS-2",
+   "platform": "Landsat 9 (launched 2021-09-27)",
+   "instrument": "Operational Land Imager 2 (OLI-2) and Thermal Infrared Sensor 2 (TIRS-2)",
+   "operator": "USGS and NASA",
+   "access": "public",
+   "wavelength_form": "range",
+   "notes": [
+    "The USGS Landsat 9 page names the instruments OLI and TIRS. NASA photo captions name them OLI-2 and TIRS-2.",
+    "USGS states that the Landsat 9 OLI is a copy of the Landsat 8 OLI. Landsat 8 findings carry over by wavelength.",
+    "Ranges come from the USGS band designation FAQ. The Landsat 9 mission page lists the same ranges with one extra decimal on band 2.",
+    "TIRS bands 10 and 11 are acquired at 100 m and resampled to 30 m in Level-1 products. The table follows the schema rule and lists 30 m.",
+    "Gholizadeh, Melesse, and Reddi find Landsat bands not suitably positioned for chlorophyll-a because no band sits near 700 nm.",
+    "USGS DSWE surface water products use the green, NIR, SWIR1, SWIR2, blue, and red bands of Landsat 8-9 OLI."
+   ],
+   "source_ids": [
+    "src-usgs-landsat-9",
+    "src-usgs-band-designations",
+    "src-nasa-landsat-9",
+    "src-usgs-dswe-c2"
+   ],
+   "check": "chk-sensor-landsat-9-oli-tirs",
+   "bands": [
+    {
+     "id": "B1",
+     "name": "Coastal aerosol",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      430,
+      450
+     ],
+     "resolution_m": 30,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-usgs-best-bands"
+       ]
+      },
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      }
+     ],
+     "check": "chk-band-landsat-9-oli-tirs-B1"
+    },
+    {
+     "id": "B2",
+     "name": "Blue",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      450,
+      510
+     ],
+     "resolution_m": 30,
+     "variants": null,
+     "note": "The Landsat 9 page writes the range as 0.450 - 0.51 µm.",
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-landsat-9-oli-tirs-B2"
+    },
+    {
+     "id": "B3",
+     "name": "Green",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      530,
+      590
+     ],
+     "resolution_m": 30,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "extent",
+       "basis": "named",
+       "source_ids": [
+        "src-usgs-dswe-add"
+       ]
+      },
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-landsat-9-oli-tirs-B3"
+    },
+    {
+     "id": "B4",
+     "name": "Red",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      640,
+      670
+     ],
+     "resolution_m": 30,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-topp-2020"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-landsat-9-oli-tirs-B4"
+    },
+    {
+     "id": "B5",
+     "name": "Near Infrared (NIR)",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      850,
+      880
+     ],
+     "resolution_m": 30,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "extent",
+       "basis": "named",
+       "source_ids": [
+        "src-usgs-best-bands"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      },
+      {
+       "use": "correction",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      }
+     ],
+     "check": "chk-band-landsat-9-oli-tirs-B5"
+    },
+    {
+     "id": "B6",
+     "name": "Shortwave Infrared (SWIR) 1",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      1570,
+      1650
+     ],
+     "resolution_m": 30,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "extent",
+       "basis": "named",
+       "source_ids": [
+        "src-usgs-dswe-add"
+       ]
+      },
+      {
+       "use": "correction",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      }
+     ],
+     "check": "chk-band-landsat-9-oli-tirs-B6"
+    },
+    {
+     "id": "B7",
+     "name": "Shortwave Infrared (SWIR) 2",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      2110,
+      2290
+     ],
+     "resolution_m": 30,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "extent",
+       "basis": "named",
+       "source_ids": [
+        "src-usgs-dswe-add"
+       ]
+      },
+      {
+       "use": "correction",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      }
+     ],
+     "check": "chk-band-landsat-9-oli-tirs-B7"
+    },
+    {
+     "id": "B8",
+     "name": "Panchromatic",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      500,
+      680
+     ],
+     "resolution_m": 15,
+     "variants": null,
+     "note": "Panchromatic band at 15 m. It spans green to red, so wavelength anchors were not applied. No source names a water-quality use.",
+     "uses": [],
+     "check": "chk-band-landsat-9-oli-tirs-B8"
+    },
+    {
+     "id": "B9",
+     "name": "Cirrus",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      1360,
+      1380
+     ],
+     "resolution_m": 30,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-usgs-best-bands"
+       ]
+      }
+     ],
+     "check": "chk-band-landsat-9-oli-tirs-B9"
+    },
+    {
+     "id": "B10",
+     "name": "Thermal Infrared (TIRS) 1",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      10600,
+      11190
+     ],
+     "resolution_m": 30,
+     "variants": null,
+     "note": "Acquired at 100 m. The USGS band designation FAQ lists 100 (resampled to 30) and marks the value as resampled for Level-1 product processing. The Landsat 9 page lists 100-m.",
+     "uses": [
+      {
+       "use": "temperature",
+       "basis": "named",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      }
+     ],
+     "check": "chk-band-landsat-9-oli-tirs-B10"
+    },
+    {
+     "id": "B11",
+     "name": "Thermal Infrared (TIRS) 2",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      11500,
+      12510
+     ],
+     "resolution_m": 30,
+     "variants": null,
+     "note": "Acquired at 100 m. The USGS band designation FAQ lists 100 (resampled to 30) and marks the value as resampled for Level-1 product processing. The Landsat 9 page lists 100-m.",
+     "uses": [
+      {
+       "use": "temperature",
+       "basis": "named",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      }
+     ],
+     "check": "chk-band-landsat-9-oli-tirs-B11"
+    }
+   ]
+  },
+  {
+   "id": "sentinel-3-olci",
+   "label": "Sentinel-3 OLCI",
+   "platform": "Sentinel-3A (launched 2016) and Sentinel-3B (launched 2018)",
+   "instrument": "Ocean and Land Colour Instrument (OLCI)",
+   "operator": "ESA and EUMETSAT (Copernicus)",
+   "access": "public",
+   "wavelength_form": "center-width",
+   "notes": [
+    "Full Resolution products sample at about 300 m. Reduced Resolution products average 4 by 4 pixels to about 1.2 km.",
+    "Centers and widths come from Table 2 of the OLCI Products page. The page gives no band names, so the name field carries the Function cell verbatim.",
+    "Uses marked named come from that Function column. Wavelength-basis uses come from the literature anchors.",
+    "The S3 OLCI Instrument page lists two centers that differ from the products page, Oa09 and Oa16. Band notes record both values.",
+    "MERIS heritage bands and additional bands are distinguished on the instrument page by color only."
+   ],
+   "source_ids": [
+    "src-sentiwiki-s3-mission",
+    "src-sentiwiki-olci-products",
+    "src-sentiwiki-s3-olci-instrument",
+    "src-cdse-home"
+   ],
+   "check": "chk-sensor-sentinel-3-olci",
+   "bands": [
+    {
+     "id": "Oa01",
+     "name": "Aerosol correction, improved water constituent retrieval",
+     "center_nm": 400,
+     "width_nm": 15,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa01"
+    },
+    {
+     "id": "Oa02",
+     "name": "Yellow substance and detrital pigments (turbidity)",
+     "center_nm": 412.5,
+     "width_nm": 10,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": "Yellow substance is the ocean-color name for colored dissolved organic matter. Gholizadeh, Melesse, and Reddi give the synonym.",
+     "uses": [
+      {
+       "use": "turbidity",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa02"
+    },
+    {
+     "id": "Oa03",
+     "name": "Chlorophyll absorption maximum, biogeochemistry, vegetation",
+     "center_nm": 442.5,
+     "width_nm": 10,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa03"
+    },
+    {
+     "id": "Oa04",
+     "name": "High Chlorophyll,",
+     "center_nm": 490,
+     "width_nm": 10,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa04"
+    },
+    {
+     "id": "Oa05",
+     "name": "Chlorophyll, sediment, turbidity, red tide",
+     "center_nm": 510,
+     "width_nm": 10,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa05"
+    },
+    {
+     "id": "Oa06",
+     "name": "Chlorophyll reference (Chlorophyll minimum)",
+     "center_nm": 560,
+     "width_nm": 10,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa06"
+    },
+    {
+     "id": "Oa07",
+     "name": "Sediment loading",
+     "center_nm": 620,
+     "width_nm": 10,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "turbidity",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-2023"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa07"
+    },
+    {
+     "id": "Oa08",
+     "name": "Chlorophyll (2nd Chlorophyll absorption maximum), sediment, yellow substance/vegetation",
+     "center_nm": 665,
+     "width_nm": 10,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": "Yellow substance is the ocean-color name for colored dissolved organic matter. Gholizadeh, Melesse, and Reddi give the synonym.",
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa08"
+    },
+    {
+     "id": "Oa09",
+     "name": "For improved fluorescence retrieval and to better account for smile together with the bands 665 and 680 nm",
+     "center_nm": 673.75,
+     "width_nm": 7.5,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": "The S3 OLCI Instrument page lists 673.25 nm. The OLCI Products page lists 673.75 nm. This record uses the products page.",
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa09"
+    },
+    {
+     "id": "Oa10",
+     "name": "Chlorophyll fluorescence peak, red edge",
+     "center_nm": 681.25,
+     "width_nm": 7.5,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa10"
+    },
+    {
+     "id": "Oa11",
+     "name": "Chlorophyll fluorescence baseline, red edge transition",
+     "center_nm": 708.75,
+     "width_nm": 10,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa11"
+    },
+    {
+     "id": "Oa12",
+     "name": "O2 absorption/clouds, vegetation",
+     "center_nm": 753.75,
+     "width_nm": 7.5,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa12"
+    },
+    {
+     "id": "Oa13",
+     "name": "O2 absorption band/aerosol correction.",
+     "center_nm": 761.25,
+     "width_nm": 2.5,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa13"
+    },
+    {
+     "id": "Oa14",
+     "name": "Atmospheric correction",
+     "center_nm": 764.375,
+     "width_nm": 3.75,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa14"
+    },
+    {
+     "id": "Oa15",
+     "name": "O2A used for cloud top pressure, fluorescence over land",
+     "center_nm": 767.5,
+     "width_nm": 2.5,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa15"
+    },
+    {
+     "id": "Oa16",
+     "name": "Atmos. corr./aerosol corr.",
+     "center_nm": 778.75,
+     "width_nm": 15,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": "The S3 OLCI Instrument page lists 778.85 nm. The OLCI Products page lists 778.75 nm. This record uses the products page.",
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa16"
+    },
+    {
+     "id": "Oa17",
+     "name": "Atmospheric correction/aerosol correction, clouds, pixel co-registration",
+     "center_nm": 865,
+     "width_nm": 20,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa17"
+    },
+    {
+     "id": "Oa18",
+     "name": "Water vapour absorption reference band. Common reference band with SLSTR instrument. Vegetation monitoring",
+     "center_nm": 885,
+     "width_nm": 10,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa18"
+    },
+    {
+     "id": "Oa19",
+     "name": "Water vapour absorption/vegetation monitoring (maximum reflectance)",
+     "center_nm": 900,
+     "width_nm": 10,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa19"
+    },
+    {
+     "id": "Oa20",
+     "name": "Water vapour absorption, Atmospheric correction/aerosol correction",
+     "center_nm": 940,
+     "width_nm": 20,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa20"
+    },
+    {
+     "id": "Oa21",
+     "name": "Atmospheric correction/aerosol correction",
+     "center_nm": 1020,
+     "width_nm": 40,
+     "range_nm": null,
+     "resolution_m": 300,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-olci-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-olci-Oa21"
+    }
+   ]
+  },
+  {
+   "id": "sentinel-3-slstr",
+   "label": "Sentinel-3 SLSTR",
+   "platform": "Sentinel-3A (launched 2016) and Sentinel-3B (launched 2018)",
+   "instrument": "Sea and Land Surface Temperature Radiometer (SLSTR)",
+   "operator": "ESA and EUMETSAT (Copernicus)",
+   "access": "public",
+   "wavelength_form": "center-width",
+   "notes": [
+    "S1 to S6 sample at 500 m. S7 to S9, F1, and F2 sample at 1 km. The Resolution column of Table 2 spans those rows.",
+    "Centers, widths, and functions come from Table 2 of the SLSTR Products page. The page gives no band names, so the name field carries the Comments group cell.",
+    "The instrument page names S4 (1.375 µm) and S6 (2.25 µm) as new channels for improved cloud detection.",
+    "S7, S8, and S9 retrieve sea and land surface temperature. F1 and F2 share detectors with S7 and S8 and add dynamic range for fires.",
+    "The Function column holds two typos, '>Cloud screening' and 'loud clearing'. Quotes keep them verbatim."
+   ],
+   "source_ids": [
+    "src-sentiwiki-s3-mission",
+    "src-sentiwiki-slstr-products",
+    "src-sentiwiki-s3-slstr-instrument",
+    "src-cdse-home"
+   ],
+   "check": "chk-sensor-sentinel-3-slstr",
+   "bands": [
+    {
+     "id": "S1",
+     "name": "VNIR",
+     "center_nm": 554.27,
+     "width_nm": 19.26,
+     "range_nm": null,
+     "resolution_m": 500,
+     "variants": null,
+     "note": "The Function cell on the page reads '>Cloud screening' with a stray '>' character. The quote keeps it.",
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-slstr-products"
+       ]
+      },
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-slstr-S1"
+    },
+    {
+     "id": "S2",
+     "name": "VNIR",
+     "center_nm": 659.47,
+     "width_nm": 19.25,
+     "range_nm": null,
+     "resolution_m": 500,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-slstr-products"
+       ]
+      },
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-topp-2020"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-slstr-S2"
+    },
+    {
+     "id": "S3",
+     "name": "VNIR",
+     "center_nm": 868.0,
+     "width_nm": 20.6,
+     "range_nm": null,
+     "resolution_m": 500,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-slstr-products"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-slstr-S3"
+    },
+    {
+     "id": "S4",
+     "name": "SWIR",
+     "center_nm": 1374.8,
+     "width_nm": 20.8,
+     "range_nm": null,
+     "resolution_m": 500,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-slstr-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-slstr-S4"
+    },
+    {
+     "id": "S5",
+     "name": "SWIR",
+     "center_nm": 1613.4,
+     "width_nm": 60.68,
+     "range_nm": null,
+     "resolution_m": 500,
+     "variants": null,
+     "note": "The Function cell on the page reads 'loud clearing', a typo for cloud clearing. The quote keeps it.",
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-slstr-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-slstr-S5"
+    },
+    {
+     "id": "S6",
+     "name": "SWIR",
+     "center_nm": 2255.7,
+     "width_nm": 50.15,
+     "range_nm": null,
+     "resolution_m": 500,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-slstr-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-slstr-S6"
+    },
+    {
+     "id": "S7",
+     "name": "Thermal IR Ambient bands (200 K -320 K)",
+     "center_nm": 3742.0,
+     "width_nm": 398.0,
+     "range_nm": null,
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "temperature",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-slstr-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-slstr-S7"
+    },
+    {
+     "id": "S8",
+     "name": "Thermal IR Ambient bands (200 K -320 K)",
+     "center_nm": 10854.0,
+     "width_nm": 776.0,
+     "range_nm": null,
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "temperature",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-slstr-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-slstr-S8"
+    },
+    {
+     "id": "S9",
+     "name": "Thermal IR Ambient bands (200 K -320 K)",
+     "center_nm": 12022.5,
+     "width_nm": 905.0,
+     "range_nm": null,
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "temperature",
+       "basis": "named",
+       "source_ids": [
+        "src-sentiwiki-slstr-products"
+       ]
+      }
+     ],
+     "check": "chk-band-sentinel-3-slstr-S9"
+    },
+    {
+     "id": "F1",
+     "name": "Thermal IR fire emission bands",
+     "center_nm": 3742.0,
+     "width_nm": 398.0,
+     "range_nm": null,
+     "resolution_m": 1000,
+     "variants": null,
+     "note": "Fire band on the S7 detectors with an increased dynamic range. No source names a water-quality use.",
+     "uses": [],
+     "check": "chk-band-sentinel-3-slstr-F1"
+    },
+    {
+     "id": "F2",
+     "name": "Thermal IR fire emission bands",
+     "center_nm": 10854.0,
+     "width_nm": 776.0,
+     "range_nm": null,
+     "resolution_m": 1000,
+     "variants": null,
+     "note": "Fire band on the S8 detectors with an increased dynamic range. No source names a water-quality use.",
+     "uses": [],
+     "check": "chk-band-sentinel-3-slstr-F2"
+    }
+   ]
+  },
+  {
+   "id": "modis",
+   "label": "MODIS on Terra and Aqua",
+   "platform": "Terra (EOS AM-1) and Aqua (EOS PM-1)",
+   "instrument": "Moderate Resolution Imaging Spectroradiometer (MODIS)",
+   "operator": "NASA",
+   "access": "public",
+   "wavelength_form": "range",
+   "notes": [
+    "The specifications page lists bands by number with a Primary Use group and no band names. The name field carries the group label.",
+    "Bands 1 to 19 are listed in nm and bands 20 to 36 in µm on the page. This record converts every value to nm.",
+    "Bands 1 and 2 sample at 250 m, bands 3 to 7 at 500 m, and bands 8 to 36 at 1000 m.",
+    "Uses marked named come from the Primary Use column. Phytoplankton in the ocean color group maps to the chlorophyll use.",
+    "NASA Earth science data are shared under a full and open data policy."
+   ],
+   "source_ids": [
+    "src-modis-about",
+    "src-modis-specifications",
+    "src-nasa-esds-open-data"
+   ],
+   "check": "chk-sensor-modis",
+   "bands": [
+    {
+     "id": "B1",
+     "name": "Land/Cloud/Aerosols Boundaries",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      620,
+      670
+     ],
+     "resolution_m": 250,
+     "variants": null,
+     "note": "Vanhellemont and Ruddick name the 250 m MODIS land bands at 645 and 859 nm for red and NIR marine reflectance comparison.",
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      },
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-topp-2020"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B1"
+    },
+    {
+     "id": "B2",
+     "name": "Land/Cloud/Aerosols Boundaries",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      841,
+      876
+     ],
+     "resolution_m": 250,
+     "variants": null,
+     "note": "Vanhellemont and Ruddick name the 250 m MODIS land bands at 645 and 859 nm for red and NIR marine reflectance comparison.",
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B2"
+    },
+    {
+     "id": "B3",
+     "name": "Land/Cloud/Aerosols Properties",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      459,
+      479
+     ],
+     "resolution_m": 500,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B3"
+    },
+    {
+     "id": "B4",
+     "name": "Land/Cloud/Aerosols Properties",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      545,
+      565
+     ],
+     "resolution_m": 500,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      },
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B4"
+    },
+    {
+     "id": "B5",
+     "name": "Land/Cloud/Aerosols Properties",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      1230,
+      1250
+     ],
+     "resolution_m": 500,
+     "variants": null,
+     "note": "Vanhellemont and Ruddick name the 1240 nm band for MODIS atmospheric correction.",
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B5"
+    },
+    {
+     "id": "B6",
+     "name": "Land/Cloud/Aerosols Properties",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      1628,
+      1652
+     ],
+     "resolution_m": 500,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B6"
+    },
+    {
+     "id": "B7",
+     "name": "Land/Cloud/Aerosols Properties",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      2105,
+      2155
+     ],
+     "resolution_m": 500,
+     "variants": null,
+     "note": "Vanhellemont and Ruddick name the 2130 nm band for MODIS atmospheric correction.",
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B7"
+    },
+    {
+     "id": "B8",
+     "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      405,
+      420
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B8"
+    },
+    {
+     "id": "B9",
+     "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      438,
+      448
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B9"
+    },
+    {
+     "id": "B10",
+     "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      483,
+      493
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B10"
+    },
+    {
+     "id": "B11",
+     "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      526,
+      536
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B11"
+    },
+    {
+     "id": "B12",
+     "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      546,
+      556
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B12"
+    },
+    {
+     "id": "B13",
+     "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      662,
+      672
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B13"
+    },
+    {
+     "id": "B14",
+     "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      673,
+      683
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B14"
+    },
+    {
+     "id": "B15",
+     "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      743,
+      753
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B15"
+    },
+    {
+     "id": "B16",
+     "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      862,
+      877
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      },
+      {
+       "use": "correction",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B16"
+    },
+    {
+     "id": "B17",
+     "name": "Atmospheric Water Vapor",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      890,
+      920
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B17"
+    },
+    {
+     "id": "B18",
+     "name": "Atmospheric Water Vapor",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      931,
+      941
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B18"
+    },
+    {
+     "id": "B19",
+     "name": "Atmospheric Water Vapor",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      915,
+      965
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B19"
+    },
+    {
+     "id": "B20",
+     "name": "Surface/Cloud Temperature",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      3660,
+      3840
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "temperature",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B20"
+    },
+    {
+     "id": "B21",
+     "name": "Surface/Cloud Temperature",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      3929,
+      3989
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "temperature",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B21"
+    },
+    {
+     "id": "B22",
+     "name": "Surface/Cloud Temperature",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      3929,
+      3989
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "temperature",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B22"
+    },
+    {
+     "id": "B23",
+     "name": "Surface/Cloud Temperature",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      4020,
+      4080
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "temperature",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B23"
+    },
+    {
+     "id": "B24",
+     "name": "Atmospheric Temperature",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      4433,
+      4498
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": "Primary use Atmospheric Temperature. No source names a water-quality use.",
+     "uses": [],
+     "check": "chk-band-modis-B24"
+    },
+    {
+     "id": "B25",
+     "name": "Atmospheric Temperature",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      4482,
+      4549
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": "Primary use Atmospheric Temperature. No source names a water-quality use.",
+     "uses": [],
+     "check": "chk-band-modis-B25"
+    },
+    {
+     "id": "B26",
+     "name": "Cirrus Clouds Water Vapor",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      1360,
+      1390
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B26"
+    },
+    {
+     "id": "B27",
+     "name": "Cirrus Clouds Water Vapor",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      6535,
+      6895
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B27"
+    },
+    {
+     "id": "B28",
+     "name": "Cirrus Clouds Water Vapor",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      7175,
+      7475
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B28"
+    },
+    {
+     "id": "B29",
+     "name": "Cloud Properties",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      8400,
+      8700
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B29"
+    },
+    {
+     "id": "B30",
+     "name": "Ozone",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      9580,
+      9880
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": "Primary use Ozone. Ozone is not in the correction vocabulary, so no use is assigned.",
+     "uses": [],
+     "check": "chk-band-modis-B30"
+    },
+    {
+     "id": "B31",
+     "name": "Surface/Cloud Temperature",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      10780,
+      11280
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "temperature",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B31"
+    },
+    {
+     "id": "B32",
+     "name": "Surface/Cloud Temperature",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      11770,
+      12270
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": null,
+     "uses": [
+      {
+       "use": "temperature",
+       "basis": "named",
+       "source_ids": [
+        "src-modis-specifications"
+       ]
+      }
+     ],
+     "check": "chk-band-modis-B32"
+    },
+    {
+     "id": "B33",
+     "name": "Cloud Top Altitude",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      13185,
+      13485
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": "Primary use Cloud Top Altitude. Not assigned to correction because no source ties it to a water retrieval.",
+     "uses": [],
+     "check": "chk-band-modis-B33"
+    },
+    {
+     "id": "B34",
+     "name": "Cloud Top Altitude",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      13485,
+      13785
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": "Primary use Cloud Top Altitude. Not assigned to correction because no source ties it to a water retrieval.",
+     "uses": [],
+     "check": "chk-band-modis-B34"
+    },
+    {
+     "id": "B35",
+     "name": "Cloud Top Altitude",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      13785,
+      14085
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": "Primary use Cloud Top Altitude. Not assigned to correction because no source ties it to a water retrieval.",
+     "uses": [],
+     "check": "chk-band-modis-B35"
+    },
+    {
+     "id": "B36",
+     "name": "Cloud Top Altitude",
+     "center_nm": null,
+     "width_nm": null,
+     "range_nm": [
+      14085,
+      14385
+     ],
+     "resolution_m": 1000,
+     "variants": null,
+     "note": "Primary use Cloud Top Altitude. Not assigned to correction because no source ties it to a water retrieval.",
+     "uses": [],
+     "check": "chk-band-modis-B36"
+    }
+   ]
+  },
+  {
+   "id": "planetscope",
+   "label": "PlanetScope SuperDove",
+   "platform": "PlanetScope SuperDove satellites, Dove flocks in sun-synchronous orbit",
+   "instrument": "PSB.SD eight-band frame imager (SuperDove)",
+   "operator": "Planet Labs PBC",
+   "access": "commercial",
+   "wavelength_form": "center-width",
+   "notes": [
+    "Imagery is commercial. Planet's Master Content License Agreement applies to all Order Schedules.",
+    "Centers and full widths at half maximum come from Planet's PSB.SD table, headed Wavelength (fwhm).",
+    "Planet's 8-band range table lists edges that differ by 1 nm from center and fwhm, for example Red Edge 697 to 713 nm.",
+    "Orthorectified products have a 3.0 m pixel size. The PSB.SD ground sample distance at nadir is 3.7 m to 4.2 m.",
+    "Vanhellemont derives centers from the relative spectral response that differ slightly, for example Yellow 612 nm and NIR 866 nm.",
+    "PSB.SD imagery starts in March 2020. Since April 29, 2022 all new PlanetScope images are 8-band PSB.SD."
+   ],
+   "source_ids": [
+    "src-planet-planetscope",
+    "src-planet-psscene-spec",
+    "src-planet-licensing",
+    "src-vanhellemont-2023"
+   ],
+   "check": "chk-sensor-planetscope",
+   "bands": [
+    {
+     "id": "B1",
+     "name": "Coastal Blue",
+     "center_nm": 443,
+     "width_nm": 20,
+     "range_nm": null,
+     "resolution_m": 3,
+     "variants": null,
+     "note": "Planet's range table gives 431 to 452 nm.",
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      }
+     ],
+     "check": "chk-band-planetscope-B1"
+    },
+    {
+     "id": "B2",
+     "name": "Blue",
+     "center_nm": 490,
+     "width_nm": 50,
+     "range_nm": null,
+     "resolution_m": 3,
+     "variants": null,
+     "note": "Planet's range table gives 465 to 515 nm.",
+     "uses": [
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-planetscope-B2"
+    },
+    {
+     "id": "B3",
+     "name": "Green I",
+     "center_nm": 531,
+     "width_nm": 36,
+     "range_nm": null,
+     "resolution_m": 3,
+     "variants": null,
+     "note": "Planet's range table gives 513 to 549 nm.",
+     "uses": [],
+     "check": "chk-band-planetscope-B3"
+    },
+    {
+     "id": "B4",
+     "name": "Green",
+     "center_nm": 565,
+     "width_nm": 36,
+     "range_nm": null,
+     "resolution_m": 3,
+     "variants": null,
+     "note": "Planet's range table gives 547 to 583 nm.",
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-gholizadeh-2016"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-planetscope-B4"
+    },
+    {
+     "id": "B5",
+     "name": "Yellow",
+     "center_nm": 610,
+     "width_nm": 20,
+     "range_nm": null,
+     "resolution_m": 3,
+     "variants": null,
+     "note": "Planet's range table gives 600 to 620 nm.",
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-vanhellemont-2023"
+       ]
+      }
+     ],
+     "check": "chk-band-planetscope-B5"
+    },
+    {
+     "id": "B6",
+     "name": "Red",
+     "center_nm": 665,
+     "width_nm": 31,
+     "range_nm": null,
+     "resolution_m": 3,
+     "variants": null,
+     "note": "Planet's range table gives 650 to 680 nm.",
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-vanhellemont-2023"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      },
+      {
+       "use": "cdom",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-planetscope-B6"
+    },
+    {
+     "id": "B7",
+     "name": "Red Edge",
+     "center_nm": 705,
+     "width_nm": 15,
+     "range_nm": null,
+     "resolution_m": 3,
+     "variants": null,
+     "note": "Planet's range table gives 697 to 713 nm.",
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-vanhellemont-2023"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-soomets-2020"
+       ]
+      }
+     ],
+     "check": "chk-band-planetscope-B7"
+    },
+    {
+     "id": "B8",
+     "name": "NIR",
+     "center_nm": 865,
+     "width_nm": 40,
+     "range_nm": null,
+     "resolution_m": 3,
+     "variants": null,
+     "note": "Planet's range table gives 845 to 885 nm.",
+     "uses": [
+      {
+       "use": "chlorophyll",
+       "basis": "named",
+       "source_ids": [
+        "src-vanhellemont-2023"
+       ]
+      },
+      {
+       "use": "correction",
+       "basis": "named",
+       "source_ids": [
+        "src-vanhellemont-2023"
+       ]
+      },
+      {
+       "use": "turbidity",
+       "basis": "wavelength",
+       "source_ids": [
+        "src-vanhellemont-ruddick-2015"
+       ]
+      }
+     ],
+     "check": "chk-band-planetscope-B8"
+    }
+   ]
+  }
+ ],
+ "gaps": [],
+ "verification": {
+  "researcher": {
+   "agent": "Claude Code research agent",
+   "model": "Claude Opus 5 (1M context)",
+   "started_at": "2026-09-17T12:11:34-04:00",
+   "finished_at": "2026-09-17T12:49:54-04:00"
+  },
+  "checker": {
+   "agent": "Claude Code checking agent",
+   "model": "Claude Sonnet 5",
+   "started_at": "2026-09-17T12:55:00-04:00",
+   "finished_at": "2026-09-17T13:20:27-04:00"
+  },
+  "method": "One research agent drafted every band and every water-quality use with a verbatim quote and a locator. A checking agent on a different model opened every cited page and recorded confirmed, corrected, or not_verifiable per use, sensor, and band. Only confirmed and corrected records bind. tools/collate_sensor_bands.py rebuilt this dataset from those records.",
+  "bound_checks": 112,
+  "limitations": [
+   "MDPI pages return HTTP 403 to this environment. Gholizadeh et al. 2016 is cited from its PubMed Central copy. Topp et al. 2020 is cited from the Carolina Digital Repository PDF.",
+   "Toming et al. 2016 is not cited. Its MDPI page was unreachable and no open copy was found. Soomets et al. 2020 in PubMed Central supplies the Sentinel-2 wavelengths instead.",
+   "ScienceDirect and Optica pages block automated access. Vanhellemont and Ruddick 2015 and Vanhellemont 2023 are cited from open PDF copies in the VLIZ repository.",
+   "Taylor and Francis pages block automated access. Wynne et al. 2008, Nechad et al. 2010, McFeeters 1996, and Xu 2006 are not cited. The USGS DSWE algorithm document and the SentiWiki NDWI entry stand in.",
+   "The SentiWiki S2 Mission page lists bands by number without names. Names come from the Copernicus Data Space Ecosystem S2L2A and S2L1C pages.",
+   "The Data Space pages list centers that differ from SentiWiki by up to 0.4 nm for some bands, for example B02 492.4 versus 492.7 nm. The record uses SentiWiki.",
+   "The S3 OLCI Instrument page lists Oa09 at 673.25 nm and Oa16 at 778.85 nm. The OLCI Products page lists 673.75 nm and 778.75 nm. The record follows the products page.",
+   "The USGS Landsat 9 page and band FAQ name the instruments OLI and TIRS. The OLI-2 and TIRS-2 names come from NASA photo captions on the Landsat 9 science page.",
+   "TIRS bands 10 and 11 carry resolution_m 30 per the schema rule on product pixel size. Their acquired resolution is 100 m, recorded in the band note.",
+   "The MODIS specifications page gives no band names. The name field carries the Primary Use group label. A banner states that NASA is not updating the site during a lapse in federal funding.",
+   "Planet's PSScene product specification PDF sits behind a Widen viewer page with a signed, expiring download link. The cited URL is the viewer page. The PDF is dated June 2026.",
+   "Planet's PSB.SD table gives center and fwhm. Planet's range table and Vanhellemont 2023 give slightly different edges and centers. The record uses the center and fwhm table.",
+   "Wavelength-basis uses come from point wavelengths that a source ties to a use, plus one half-range, CDOM below about 500 nm. Broad single-band ranges from Gholizadeh's Table 8 were not applied.",
+   "Landsat 8 statements from Vanhellemont and Ruddick 2015 apply to Landsat 9 by wavelength, not by band number. USGS states that the Landsat 9 OLI is a copy of the Landsat 8 OLI.",
+   "For the USGS DSWE extent use, only green, NIR, SWIR1, and SWIR2 are marked. Blue and red also enter AWESH and MBSRV but stay unmarked to keep the column selective.",
+   "No source names Sentinel-2 B11 or B12, MODIS, OLCI, SLSTR, or PlanetScope bands for water extent. Those bands carry no extent use.",
+   "MODIS bands 24, 25, 30, and 33 to 36 carry no use. Their groups, Atmospheric Temperature, Ozone, and Cloud Top Altitude, sit outside the vocabulary or lack a water retrieval tie.",
+   "Per-satellite values exist for Sentinel-2 only. The OLCI, SLSTR, MODIS, and Planet pages give one set of values for all platforms.",
+   "Only the USGS FAQs (Updated Date: August 10, 2026) and the NASA Landsat 9 page (Page Last Updated Sep 17, 2026) display an update date. Other pages carry null.",
+   "Table cells that break lines are quoted with a single space at the break. Examples are the OLCI Oa08 function and the MODIS ocean color group.",
+   "The Gholizadeh review names the TIR band of OLI/TIRS without a band number. Both TIRS bands carry the temperature use on that basis.",
+   "The Landsat 9 panchromatic band spans 500 to 680 nm and contains several anchors. It is excluded from wavelength-basis uses because it merges green to red light.",
+   "OLCI and SLSTR pages give no band names. OLCI names carry the Function cell verbatim. SLSTR names carry the Comments group cell, VNIR, SWIR, or the thermal group.",
+   "Topp et al. 2020 and Vanhellemont and Ruddick 2015 PDFs could not be read by WebFetch directly (it reported encoded/binary content); both were converted to text with pdftotext from the same binary WebFetch had already fetched and saved, then checked by exact string search. Vanhellemont 2023's PDF exceeded WebFetch's 10 MB limit and was fetched separately with curl, then converted with pdftotext.",
+   "The Landsat Collection 2 Level 3 DSWE Algorithm Description Document (PDF) could not be read by WebFetch directly; it was converted with pdftotext from the binary WebFetch had already fetched and saved, then checked by exact string search.",
+   "usgs.gov returns an HTTP 403 from CloudFront to direct curl requests, so the USGS Landsat 9 page, band-designation FAQ, and best-bands FAQ were read only through WebFetch, not cross-checked against raw HTML the way SentiWiki, MODIS, PMC, and Planet pages were. Three separate WebFetch calls to these pages were internally consistent with each other and with the draft's numbers.",
+   "Planet's PSScene Product Specification PDF (src-planet-psscene-spec) sits behind a Widen viewer with a signed, expiring link; both WebFetch and curl returned only viewer chrome (a title tag and UI text), never the document's own text, confirming the draft's own disclosed limitation. No band's or sensor's approved values depend solely on this source: every PlanetScope band table and range value it supposedly backs is also on developers.planet.com (redirects to docs.planet.com), which was independently read and matched the draft exactly. The one sentence that could not be found on any reachable page is PlanetScope's note that PSB.SD's nadir ground sample distance is 3.7-4.2 m and that orthorectified products use a 3.0 m pixel size; docs.planet.com states only a fleet-wide '3 m spatial resolution', which is what the per-band resolution_m: 3 values rest on and which is confirmed.",
+   "developers.planet.com/docs/data/planetscope/ and landsat.gsfc.nasa.gov/satellites/landsat-9/ both now return HTTP 301 redirects (to docs.planet.com/data/imagery/planetscope/ and science.nasa.gov/mission/landsat-9). Both redirect targets carry the same content the draft cites, read and confirmed at the new addresses.",
+   "Two locator strings point to the wrong subsection, though the quotes they cite are verbatim on the cited page and the checks that depend on them still hold: Soomets et al. 2020's 705 nm/Table 4 sentence (cited for Sentinel-2 B05, OLCI Oa11, and PlanetScope B7 turbidity) sits in the paper's Section 4 'Discussion', not Section 5 (Section 5 is 'Conclusions'). Vanhellemont 2023's glint sentence (cited for PlanetScope B8 correction) sits in Section 4 'Conclusions', not a 'Section 4 Discussion' (the paper combines results and discussion into Section 3 and has no separate Discussion section).",
+   "OLCI Oa16's turbidity use quotes Soomets Table 1's Multispectral Instrument (MSI) column TSM formula ('R783 - R740 + R865/2') rather than the Ocean and Land Colour Instrument (OLCI) column's own formula for the same row ('R779 - R754 + R865/2'), even though Oa16 is an OLCI band; Oa12's turbidity use correctly cites the OLCI column for the same table row. Both formulas' wavelengths fall inside Oa16's 771.25-786.25 nm range, so the use still holds and no value changed, but the locator's column label does not describe this band's own instrument.",
+   "Sentinel-2A, Sentinel-3A/3B, and PlanetScope PSB.SD launch/start dates were confirmed against SentiWiki and Planet pages but not against an independent third-party source; they were internally consistent with well-established public mission dates."
+  ]
+ }
+}

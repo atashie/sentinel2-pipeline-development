@@ -1,12 +1,14 @@
 # Measurements, 2026-09-10
 
-Six measurement sets exist. The data gap survey required by [decision 0003](decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) ran once on 2026-09-10 and wrote [gap-survey.json](../benchmarks/results/gap-survey.json).
+The six measurement sets summarized below cover the surveys and first four prototype stages.
+The data gap survey required by [decision 0003](decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) ran once on 2026-09-10 and wrote [gap-survey.json](../benchmarks/results/gap-survey.json).
 The fallback survey the owner asked for the same day ran once and wrote [fallback-survey.json](../benchmarks/results/fallback-survey.json). Both are summarized for review in the generated [gap survey report](reviews/2026-09-10-gap-survey-report.json).
 The plan, definitions, and rerun steps are in [gap-survey-plan.md](gap-survey-plan.md). Every number in the survey sections is a count of catalog items, acquisitions, requests, or bytes, as labeled. The surveys read no imagery byte.
 The third set is [prototype stage 1](#prototype-stage-1-raw-access-to-whole-tiles-2026-09-14), which read whole tiles on 2026-09-14.
 The fourth is [prototype stage 2](#prototype-stage-2-one-lake-at-a-time-2026-09-15), which read one lake at a time on 2026-09-15.
 The fifth is [prototype stage 3](#prototype-stage-3-many-lakes-in-one-tile-2026-09-16), which read every lake of a tile in one process on 2026-09-16.
 The sixth is [prototype stage 4](#prototype-stage-4-lakes-across-tiles-2026-09-16), which preserves separate tile contributions while comparing work organization.
+The [larger-workload comparison](reviews/2026-09-21-sleep-rerun.md) records subsequent measurements, replacement attempts, and their limits.
 
 An acquisition is one sensing date and platform within one tile. Item counts stand beside acquisition counts because one acquisition can appear as several items.
 

@@ -1,0 +1,2481 @@
+{
+  "topic": "sensor-bands",
+  "checker": {
+    "agent": "Claude Code checking agent",
+    "model": "Claude Sonnet 5",
+    "started_at": "2026-09-17T12:55:00-04:00",
+    "finished_at": "2026-09-17T13:20:27-04:00"
+  },
+  "checks": [
+    {
+      "id": "chk-use-chlorophyll",
+      "claim_id": "use-chlorophyll",
+      "verdict": "confirmed",
+      "approved": {
+        "label": "Chlorophyll and cyanobacteria",
+        "definition": "Chlorophyll absorbs red light near 665 nm and fluoresces near 680 nm, and dense blooms reflect a peak near 710 nm. Cyanobacteria add phycocyanin absorption near 620 nm.",
+        "source_ids": [
+          "src-topp-2020",
+          "src-vanhellemont-2023"
+        ]
+      },
+      "reason": "Fetched Topp et al. 2020 (cdr.lib.unc.edu PDF, converted with pdftotext) Section 2.1. Chlorophyll-A: the fluorescence-peak/backscatter-peak sentence, including its citation brackets [84-86][87][88-90], appears verbatim.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-use-turbidity",
+      "claim_id": "use-turbidity",
+      "verdict": "confirmed",
+      "approved": {
+        "label": "Turbidity and suspended sediment",
+        "definition": "Suspended particles raise reflectance and move the reflectance maximum from green toward red and near-infrared wavelengths. Single red or near-infrared bands track suspended sediment.",
+        "source_ids": [
+          "src-topp-2020",
+          "src-vanhellemont-ruddick-2015"
+        ]
+      },
+      "reason": "Fetched Topp et al. 2020 Section 2.2. Total Suspended Solids: the sentence on the spectral maximum moving from 550 nm into red/NIR wavelengths, citation [49], appears verbatim across the page break.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-use-cdom",
+      "claim_id": "use-cdom",
+      "verdict": "confirmed",
+      "approved": {
+        "label": "Dissolved organic matter",
+        "definition": "Colored dissolved organic matter, also called yellow matter, absorbs blue and green light. Absorption rises exponentially toward shorter wavelengths, so retrievals ratio red against green or blue.",
+        "source_ids": [
+          "src-gholizadeh-2016",
+          "src-soomets-2020"
+        ]
+      },
+      "reason": "Fetched Gholizadeh, Melesse and Reddi 2016 (PMC5017463) Section 4.2 Colored Dissolved Organic Matters (CDOM): the quoted sentence on reflectance below ~500 nm appears verbatim. Soomets et al. 2020 Table 1 independently ties CDOM to the same wavelengths used across the bands citing it.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-use-temperature",
+      "claim_id": "use-temperature",
+      "verdict": "confirmed",
+      "approved": {
+        "label": "Surface temperature",
+        "definition": "Thermal infrared bands measure emitted radiant heat, which gives the radiant temperature of the water surface. Clouds block the measurement.",
+        "source_ids": [
+          "src-gholizadeh-2016"
+        ]
+      },
+      "reason": "Fetched Gholizadeh et al. 2016 Section 4.6 Water Temperature: the quoted sentence on thermal infrared bands and radiant temperature appears verbatim.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-use-correction",
+      "claim_id": "use-correction",
+      "verdict": "confirmed",
+      "approved": {
+        "label": "Atmospheric correction and screening",
+        "definition": "Aerosol, water vapor, cirrus, cloud, and sun glint add signal that a water retrieval must remove or mask. Absorption bands and near and shortwave infrared bands estimate these terms.",
+        "source_ids": [
+          "src-vanhellemont-ruddick-2015",
+          "src-vanhellemont-2023",
+          "src-sentiwiki-s2-mission"
+        ]
+      },
+      "reason": "Fetched Vanhellemont and Ruddick 2015 (vliz.be PDF, converted with pdftotext) Abstract: the quoted sentence on atmospheric correction and aerosol contribution to top-of-atmosphere radiance appears verbatim (ligature-only differences, fi/fl). SentiWiki S2 Mission separately confirms Level-2A converts to Bottom-of-Atmosphere reflectance by correcting atmosphere and cirrus, and Vanhellemont 2023 covers glint and aerosol correction for SuperDove, so both added sources are topically supported.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-use-extent",
+      "claim_id": "use-extent",
+      "verdict": "confirmed",
+      "approved": {
+        "label": "Water extent and shoreline",
+        "definition": "Water absorbs near-infrared and shortwave infrared light and appears dark where land is bright. Green to infrared indices such as NDWI and MNDWI separate water from land.",
+        "source_ids": [
+          "src-gholizadeh-2016",
+          "src-usgs-dswe-add",
+          "src-sentiwiki-s2-applications"
+        ]
+      },
+      "reason": "Fetched Gholizadeh et al. 2016 Section 4.4 Turbidity and Total Suspended Sediments: the quoted sentence on NIR/Mid-IR water absorption appears verbatim in that section (the section title covers turbidity, but the quoted sentence itself is about water absorption generally). The USGS DSWE ADD (curl+pdftotext) confirms the MNDWI and AWESH formulas and SentiWiki S2 Applications confirms the NDWI formula and its water body mapping statement, both cited alongside it.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-sensor-sentinel-2-msi",
+      "claim_id": "sensor-sentinel-2-msi",
+      "verdict": "confirmed",
+      "approved": {
+        "label": "Sentinel-2 MSI",
+        "platform": "Sentinel-2A (launched 2015), Sentinel-2B (launched 2017), and Sentinel-2C (launched 2024)",
+        "instrument": "Multi-Spectral Instrument (MSI)",
+        "operator": "ESA (Copernicus)",
+        "access": "public",
+        "wavelength_form": "center-width",
+        "notes": [
+          "Main values are the Sentinel-2A equivalent wavelength and bandwidth from SentiWiki Table 3. Sentinel-2B and Sentinel-2C sit under variants.",
+          "SentiWiki lists bands by number. Band names come from the Copernicus Data Space Ecosystem Sentinel-2 L2A and L1C pages.",
+          "Level-2A surface reflectance omits B10. The store described in this repository therefore never holds B10.",
+          "The Level-1C cloud mask uses B1 or B2, B10, and B11 or B12. Level-2A water vapor uses B8A and B9, and aerosol reference areas use the 2.2 µm band.",
+          "The Copernicus Data Space Ecosystem opens Sentinel data with free access."
+        ],
+        "source_ids": [
+          "src-sentiwiki-s2-mission",
+          "src-sentiwiki-s2-products",
+          "src-cdse-s2l2a",
+          "src-cdse-s2l1c",
+          "src-cdse-home"
+        ]
+      },
+      "reason": "Fetched SentiWiki S2 Mission (instrument/resolution sentence and Table 3/4 spectral data), S2 Products (B10 omitted from L2A, and the 20 m folder holding B01 which the 60 m folder then inherits), S2 Processing (cloud mask, water vapour, AOT paragraphs), S2 Applications (NDWI), and CDSE S2L1C/S2L2A (band names) and the CDSE home page (free access). Every sentence in notes and the platform/instrument/operator/access fields matched the pages; CDSE lists centers up to 0.4 nm from SentiWiki as the notes already disclose.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-sensor-landsat-9-oli-tirs",
+      "claim_id": "sensor-landsat-9-oli-tirs",
+      "verdict": "confirmed",
+      "approved": {
+        "label": "Landsat 9 OLI-2 and TIRS-2",
+        "platform": "Landsat 9 (launched 2021-09-27)",
+        "instrument": "Operational Land Imager 2 (OLI-2) and Thermal Infrared Sensor 2 (TIRS-2)",
+        "operator": "USGS and NASA",
+        "access": "public",
+        "wavelength_form": "range",
+        "notes": [
+          "The USGS Landsat 9 page names the instruments OLI and TIRS. NASA photo captions name them OLI-2 and TIRS-2.",
+          "USGS states that the Landsat 9 OLI is a copy of the Landsat 8 OLI. Landsat 8 findings carry over by wavelength.",
+          "Ranges come from the USGS band designation FAQ. The Landsat 9 mission page lists the same ranges with one extra decimal on band 2.",
+          "TIRS bands 10 and 11 are acquired at 100 m and resampled to 30 m in Level-1 products. The table follows the schema rule and lists 30 m.",
+          "Gholizadeh, Melesse, and Reddi find Landsat bands not suitably positioned for chlorophyll-a because no band sits near 700 nm.",
+          "USGS DSWE surface water products use the green, NIR, SWIR1, SWIR2, blue, and red bands of Landsat 8-9 OLI."
+        ],
+        "source_ids": [
+          "src-usgs-landsat-9",
+          "src-usgs-band-designations",
+          "src-nasa-landsat-9",
+          "src-usgs-dswe-c2"
+        ]
+      },
+      "reason": "Fetched the USGS Landsat 9 page (instrument sentence, launch date 2021-09-27, OLI-is-a-copy-of-L8 sentence, free-of-charge statement, and Band 2 range written as 0.450 - 0.51 um), the USGS band-designation FAQ (full 11-band table, updated 2026-08-10), the USGS best-bands FAQ (Useful for Mapping text), the redirected NASA page (science.nasa.gov/mission/landsat-9, OLI-2/TIRS-2 designations, TIRS 100 m resampled to 30 m, page updated 2026-09-17), and the USGS DSWE C2 product page (Landsat 8-9 OLI input). Every note matched; the cited landsat.gsfc.nasa.gov URL now 301-redirects to science.nasa.gov but the content is the same page under NASA's new domain. usgs.gov blocks direct curl with a CloudFront 403, so USGS pages were read through WebFetch only, not cross-checked against raw HTML the way SentiWiki, MODIS, PMC, and Planet pages were; the three separate WebFetch calls to usgs.gov pages were internally consistent with each other and with the draft.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-sensor-sentinel-3-olci",
+      "claim_id": "sensor-sentinel-3-olci",
+      "verdict": "confirmed",
+      "approved": {
+        "label": "Sentinel-3 OLCI",
+        "platform": "Sentinel-3A (launched 2016) and Sentinel-3B (launched 2018)",
+        "instrument": "Ocean and Land Colour Instrument (OLCI)",
+        "operator": "ESA and EUMETSAT (Copernicus)",
+        "access": "public",
+        "wavelength_form": "center-width",
+        "notes": [
+          "Full Resolution products sample at about 300 m. Reduced Resolution products average 4 by 4 pixels to about 1.2 km.",
+          "Centers and widths come from Table 2 of the OLCI Products page. The page gives no band names, so the name field carries the Function cell verbatim.",
+          "Uses marked named come from that Function column. Wavelength-basis uses come from the literature anchors.",
+          "The S3 OLCI Instrument page lists two centers that differ from the products page, Oa09 and Oa16. Band notes record both values.",
+          "MERIS heritage bands and additional bands are distinguished on the instrument page by color only."
+        ],
+        "source_ids": [
+          "src-sentiwiki-s3-mission",
+          "src-sentiwiki-olci-products",
+          "src-sentiwiki-s3-olci-instrument",
+          "src-cdse-home"
+        ]
+      },
+      "reason": "Fetched SentiWiki S3 Mission (OLCI paragraph and ESA/EUMETSAT operator sentence, confirmed verbatim by raw HTML), OLCI Products Table 2 (all 21 Oa01-Oa21 rows, confirmed verbatim by raw HTML including the Oa04 trailing comma and Oa08 line-break join), and the S3 OLCI Instrument page (673.25/778.85 nm variants for Oa09/Oa16, and the MERIS-heritage-by-color statement). Every note matched.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-sensor-sentinel-3-slstr",
+      "claim_id": "sensor-sentinel-3-slstr",
+      "verdict": "confirmed",
+      "approved": {
+        "label": "Sentinel-3 SLSTR",
+        "platform": "Sentinel-3A (launched 2016) and Sentinel-3B (launched 2018)",
+        "instrument": "Sea and Land Surface Temperature Radiometer (SLSTR)",
+        "operator": "ESA and EUMETSAT (Copernicus)",
+        "access": "public",
+        "wavelength_form": "center-width",
+        "notes": [
+          "S1 to S6 sample at 500 m. S7 to S9, F1, and F2 sample at 1 km. The Resolution column of Table 2 spans those rows.",
+          "Centers, widths, and functions come from Table 2 of the SLSTR Products page. The page gives no band names, so the name field carries the Comments group cell.",
+          "The instrument page names S4 (1.375 µm) and S6 (2.25 µm) as new channels for improved cloud detection.",
+          "S7, S8, and S9 retrieve sea and land surface temperature. F1 and F2 share detectors with S7 and S8 and add dynamic range for fires.",
+          "The Function column holds two typos, '>Cloud screening' and 'loud clearing'. Quotes keep them verbatim."
+        ],
+        "source_ids": [
+          "src-sentiwiki-s3-mission",
+          "src-sentiwiki-slstr-products",
+          "src-sentiwiki-s3-slstr-instrument",
+          "src-cdse-home"
+        ]
+      },
+      "reason": "Fetched SentiWiki S3 Mission (SLSTR paragraph, confirmed verbatim by raw HTML), SLSTR Products Table 2 (all S1-S9, F1, F2 rows, confirmed verbatim by raw HTML including the '>Cloud screening' and 'loud clearing' typos and the no-space 'flagging,Pixel' and 'snow,vegetation' joins), and the S3 SLSTR Instrument page (S4/S6 named as new cloud-detection channels). Every note matched.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-sensor-modis",
+      "claim_id": "sensor-modis",
+      "verdict": "confirmed",
+      "approved": {
+        "label": "MODIS on Terra and Aqua",
+        "platform": "Terra (EOS AM-1) and Aqua (EOS PM-1)",
+        "instrument": "Moderate Resolution Imaging Spectroradiometer (MODIS)",
+        "operator": "NASA",
+        "access": "public",
+        "wavelength_form": "range",
+        "notes": [
+          "The specifications page lists bands by number with a Primary Use group and no band names. The name field carries the group label.",
+          "Bands 1 to 19 are listed in nm and bands 20 to 36 in µm on the page. This record converts every value to nm.",
+          "Bands 1 and 2 sample at 250 m, bands 3 to 7 at 500 m, and bands 8 to 36 at 1000 m.",
+          "Uses marked named come from the Primary Use column. Phytoplankton in the ocean color group maps to the chlorophyll use.",
+          "NASA Earth science data are shared under a full and open data policy."
+        ],
+        "source_ids": [
+          "src-modis-about",
+          "src-modis-specifications",
+          "src-nasa-esds-open-data"
+        ]
+      },
+      "reason": "Fetched the MODIS specifications page (raw HTML): the Spatial Resolution line states 250 m for bands 1-2, 500 m for bands 3-7, 1000 m for bands 8-36 verbatim, the full 36-band table matched exactly including the line-break-joined group names (e.g. 'Ocean Color/ Phytoplankton/ Biogeochemistry'), and the federal-funding-lapse banner is present verbatim. Fetched the MODIS About page (Terra/Aqua sentence) and the NASA Earthdata open-data page (full and open data policy). Every note matched.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-sensor-planetscope",
+      "claim_id": "sensor-planetscope",
+      "verdict": "confirmed",
+      "approved": {
+        "label": "PlanetScope SuperDove",
+        "platform": "PlanetScope SuperDove satellites, Dove flocks in sun-synchronous orbit",
+        "instrument": "PSB.SD eight-band frame imager (SuperDove)",
+        "operator": "Planet Labs PBC",
+        "access": "commercial",
+        "wavelength_form": "center-width",
+        "notes": [
+          "Imagery is commercial. Planet's Master Content License Agreement applies to all Order Schedules.",
+          "Centers and full widths at half maximum come from Planet's PSB.SD table, headed Wavelength (fwhm).",
+          "Planet's 8-band range table lists edges that differ by 1 nm from center and fwhm, for example Red Edge 697 to 713 nm.",
+          "Orthorectified products have a 3.0 m pixel size. The PSB.SD ground sample distance at nadir is 3.7 m to 4.2 m.",
+          "Vanhellemont derives centers from the relative spectral response that differ slightly, for example Yellow 612 nm and NIR 866 nm.",
+          "PSB.SD imagery starts in March 2020. Since April 29, 2022 all new PlanetScope images are 8-band PSB.SD."
+        ],
+        "source_ids": [
+          "src-planet-planetscope",
+          "src-planet-psscene-spec",
+          "src-planet-licensing",
+          "src-vanhellemont-2023"
+        ]
+      },
+      "reason": "Fetched developers.planet.com/docs.planet.com PlanetScope page (raw HTML tables): the PSB.SD instrument paragraph matches verbatim, the 8-band center/fwhm table and the 8-band wavelength-range table match every note exactly, and the PS2 Classic end date (April 29, 2022) confirms the 'all new imagery 8-band since' note. Fetched Planet licensing page (Master Content License Agreement) and Vanhellemont 2023 (612/866 nm relative-spectral-response centers). Could not independently confirm the 3.7-4.2 m nadir GSD and 3.0 m orthorectified pixel size note: the cited PSScene spec PDF sits behind a signed Widen viewer with no extractable text (confirmed by curl: only viewer chrome, no PDF text or embed URL), matching the draft's own disclosed limitation, and the docs.planet.com page states only the general '3 m spatial resolution' fleet-wide figure. All other notes and the resolution_m=3 used on every band are confirmed.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B01",
+      "claim_id": "band-sentinel-2-msi-B01",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Coastal aerosol",
+        "center_nm": 442.7,
+        "width_nm": 21,
+        "range_nm": null,
+        "resolution_m": 60,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 442.3,
+            "width_nm": 20
+          },
+          "Sentinel-2C": {
+            "center_nm": 444.2,
+            "width_nm": 20
+          }
+        },
+        "note": "Level-2A products carry B01 in the 20 m and 60 m folders.",
+        "uses": [
+          "correction",
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B01 center 442.7 nm, width 21 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 60 m and the name 'Coastal aerosol'. S2 Products confirms the 20 m folder holds B01 and the 60 m folder inherits everything in the 20 m folder, so B01 sits in both, matching the note. Uses confirmed: correction (SentiWiki S2 Processing, named, quote verbatim); chlorophyll (Gholizadeh 2016, 443 nm inside 432.2-453.2 nm); cdom (Gholizadeh 2016, 443 nm inside 432.2-453.2 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B02",
+      "claim_id": "band-sentinel-2-msi-B02",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Blue",
+        "center_nm": 492.7,
+        "width_nm": 65,
+        "range_nm": null,
+        "resolution_m": 10,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 492.3,
+            "width_nm": 65
+          },
+          "Sentinel-2C": {
+            "center_nm": 489.1,
+            "width_nm": 65
+          }
+        },
+        "note": null,
+        "uses": [
+          "correction",
+          "cdom"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B02 center 492.7 nm, width 65 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 10 m and the name 'Blue'. Uses confirmed: correction (SentiWiki S2 Processing, named, quote verbatim); cdom (Soomets 2020, 490 nm inside 460.2-525.2 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B03",
+      "claim_id": "band-sentinel-2-msi-B03",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Green",
+        "center_nm": 559.9,
+        "width_nm": 35,
+        "range_nm": null,
+        "resolution_m": 10,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 559.0,
+            "width_nm": 35
+          },
+          "Sentinel-2C": {
+            "center_nm": 560.6,
+            "width_nm": 35
+          }
+        },
+        "note": null,
+        "uses": [
+          "extent",
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B03 center 559.9 nm, width 35 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 10 m and the name 'Green'. Uses confirmed: extent (SentiWiki S2 Applications, named, quote verbatim); chlorophyll (Gholizadeh 2016, 550 nm inside 542.4-577.4 nm); cdom (Soomets 2020, 550 nm inside 542.4-577.4 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B04",
+      "claim_id": "band-sentinel-2-msi-B04",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Red",
+        "center_nm": 664.6,
+        "width_nm": 31,
+        "range_nm": null,
+        "resolution_m": 10,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 664.9,
+            "width_nm": 31
+          },
+          "Sentinel-2C": {
+            "center_nm": 666.5,
+            "width_nm": 31
+          }
+        },
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "turbidity",
+          "cdom"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B04 center 664.6 nm, width 31 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 10 m and the name 'Red'. Uses confirmed: chlorophyll (Soomets 2020, 665 nm inside 649.1-680.1 nm); turbidity (Vanhellemont & Ruddick 2015, 655 nm inside 649.1-680.1 nm); cdom (Soomets 2020, 665 nm inside 649.1-680.1 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B05",
+      "claim_id": "band-sentinel-2-msi-B05",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Vegetation red edge",
+        "center_nm": 704.1,
+        "width_nm": 15,
+        "range_nm": null,
+        "resolution_m": 20,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 703.8,
+            "width_nm": 14
+          },
+          "Sentinel-2C": {
+            "center_nm": 707.1,
+            "width_nm": 16
+          }
+        },
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "turbidity"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B05 center 704.1 nm, width 15 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 20 m and the name 'Vegetation red edge'. Uses confirmed: chlorophyll (Soomets 2020, 705 nm inside 696.6-711.6 nm); turbidity (Soomets 2020, 705 nm inside 696.6-711.6 nm). Soomets' 705 nm/Table 4 sentence sits in Section 4 Discussion by the paper's own numbering (verified by locating '4. Discussion' before '5. Conclusions' in the text), not Section 5 as the locator states; the quote itself is verbatim.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B06",
+      "claim_id": "band-sentinel-2-msi-B06",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Vegetation red edge",
+        "center_nm": 740.5,
+        "width_nm": 13,
+        "range_nm": null,
+        "resolution_m": 20,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 739.1,
+            "width_nm": 14
+          },
+          "Sentinel-2C": {
+            "center_nm": 741.1,
+            "width_nm": 16
+          }
+        },
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "turbidity"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B06 center 740.5 nm, width 13 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 20 m and the name 'Vegetation red edge'. Uses confirmed: chlorophyll (Soomets 2020, 740 nm inside 734.0-747.0 nm); turbidity (Soomets 2020, 740 nm inside 734.0-747.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B07",
+      "claim_id": "band-sentinel-2-msi-B07",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Vegetation red edge",
+        "center_nm": 782.8,
+        "width_nm": 19,
+        "range_nm": null,
+        "resolution_m": 20,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 779.7,
+            "width_nm": 20
+          },
+          "Sentinel-2C": {
+            "center_nm": 784.7,
+            "width_nm": 20
+          }
+        },
+        "note": null,
+        "uses": [
+          "turbidity"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B07 center 782.8 nm, width 19 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 20 m and the name 'Vegetation red edge'. Uses confirmed: turbidity (Soomets 2020, 783 nm inside 773.3-792.3 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B08",
+      "claim_id": "band-sentinel-2-msi-B08",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "NIR",
+        "center_nm": 832.8,
+        "width_nm": 118,
+        "range_nm": null,
+        "resolution_m": 10,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 832.9,
+            "width_nm": 115
+          },
+          "Sentinel-2C": {
+            "center_nm": 834.6,
+            "width_nm": 114
+          }
+        },
+        "note": null,
+        "uses": [
+          "extent",
+          "turbidity",
+          "correction"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B08 center 832.8 nm, width 118 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 10 m and the name 'NIR'. Uses confirmed: extent (SentiWiki S2 Applications, named, quote verbatim); turbidity (Vanhellemont & Ruddick 2015, 865 nm inside 773.8-891.8 nm); correction (Vanhellemont & Ruddick 2015, 865 nm inside 773.8-891.8 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B8A",
+      "claim_id": "band-sentinel-2-msi-B8A",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Narrow NIR",
+        "center_nm": 864.7,
+        "width_nm": 20,
+        "range_nm": null,
+        "resolution_m": 20,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 864.0,
+            "width_nm": 21
+          },
+          "Sentinel-2C": {
+            "center_nm": 865.6,
+            "width_nm": 20
+          }
+        },
+        "note": "SentiWiki writes this band as 8a. Copernicus Data Space writes it as B8A.",
+        "uses": [
+          "correction",
+          "turbidity"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B8A center 864.7 nm, width 20 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 20 m and the name 'Narrow NIR'. Uses confirmed: correction (SentiWiki S2 Processing, named, quote verbatim); turbidity (Vanhellemont & Ruddick 2015, 865 nm inside 854.7-874.7 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B09",
+      "claim_id": "band-sentinel-2-msi-B09",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Water vapour",
+        "center_nm": 945.1,
+        "width_nm": 20,
+        "range_nm": null,
+        "resolution_m": 60,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 943.2,
+            "width_nm": 19
+          },
+          "Sentinel-2C": {
+            "center_nm": 947.2,
+            "width_nm": 20
+          }
+        },
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B09 center 945.1 nm, width 20 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 60 m and the name 'Water vapour'. Uses confirmed: correction (SentiWiki S2 Processing, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B10",
+      "claim_id": "band-sentinel-2-msi-B10",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "SWIR – Cirrus",
+        "center_nm": 1373.5,
+        "width_nm": 29,
+        "range_nm": null,
+        "resolution_m": 60,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 1376.9,
+            "width_nm": 29
+          },
+          "Sentinel-2C": {
+            "center_nm": 1372.2,
+            "width_nm": 33
+          }
+        },
+        "note": "Level-2A surface reflectance omits this band. SentiWiki states that the cirrus band 10 is omitted because it does not contain surface information.",
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B10 center 1373.5 nm, width 29 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 60 m and the name 'SWIR – Cirrus'. B10 is absent from the S2L2A band table (L2A omits it), matching the note. Uses confirmed: correction (SentiWiki S2 Processing, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B11",
+      "claim_id": "band-sentinel-2-msi-B11",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "SWIR",
+        "center_nm": 1613.7,
+        "width_nm": 89,
+        "range_nm": null,
+        "resolution_m": 20,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 1610.4,
+            "width_nm": 93
+          },
+          "Sentinel-2C": {
+            "center_nm": 1612.0,
+            "width_nm": 90
+          }
+        },
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B11 center 1613.7 nm, width 89 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 20 m and the name 'SWIR'. Uses confirmed: correction (SentiWiki S2 Processing, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-2-msi-B12",
+      "claim_id": "band-sentinel-2-msi-B12",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "SWIR",
+        "center_nm": 2202.4,
+        "width_nm": 180,
+        "range_nm": null,
+        "resolution_m": 20,
+        "variants": {
+          "Sentinel-2B": {
+            "center_nm": 2185.7,
+            "width_nm": 181
+          },
+          "Sentinel-2C": {
+            "center_nm": 2191.3,
+            "width_nm": 181
+          }
+        },
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "SentiWiki S2 Mission Table 3/4 confirms B12 center 2202.4 nm, width 180 nm, and the Sentinel-2B/2C variants exactly; CDSE S2L1C/S2L2A confirms resolution 20 m and the name 'SWIR'. Uses confirmed: correction (SentiWiki S2 Processing, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-landsat-9-oli-tirs-B1",
+      "claim_id": "band-landsat-9-oli-tirs-B1",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Coastal aerosol",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          430,
+          450
+        ],
+        "resolution_m": 30,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction",
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "USGS band-designation FAQ table confirms B1 range [430, 450] nm and resolution 30 m. USGS best-bands FAQ confirms the Useful for Mapping quote verbatim. Uses confirmed: correction (USGS best-bands FAQ, named, quote verbatim); chlorophyll (Gholizadeh 2016, 443 nm inside 430.0-450.0 nm); cdom (Gholizadeh 2016, 443 nm inside 430.0-450.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-landsat-9-oli-tirs-B2",
+      "claim_id": "band-landsat-9-oli-tirs-B2",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Blue",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          450,
+          510
+        ],
+        "resolution_m": 30,
+        "variants": null,
+        "note": "The Landsat 9 page writes the range as 0.450 - 0.51 µm.",
+        "uses": [
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "USGS band-designation FAQ table confirms B2 range [450, 510] nm and resolution 30 m. USGS Landsat 9 page confirms the range is printed as 0.450 - 0.51 um, matching the note. Uses confirmed: chlorophyll (Gholizadeh 2016, source range 450-475 nm overlaps band 450.0-510.0 nm); cdom (Soomets 2020, 490 nm inside 450.0-510.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-landsat-9-oli-tirs-B3",
+      "claim_id": "band-landsat-9-oli-tirs-B3",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Green",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          530,
+          590
+        ],
+        "resolution_m": 30,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "extent",
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "USGS band-designation FAQ table confirms B3 range [530, 590] nm and resolution 30 m. Uses confirmed: extent (USGS DSWE ADD, named, quote verbatim); chlorophyll (Gholizadeh 2016, 550 nm inside 530.0-590.0 nm); cdom (Soomets 2020, 550 nm inside 530.0-590.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-landsat-9-oli-tirs-B4",
+      "claim_id": "band-landsat-9-oli-tirs-B4",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Red",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          640,
+          670
+        ],
+        "resolution_m": 30,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "turbidity",
+          "cdom"
+        ]
+      },
+      "reason": "USGS band-designation FAQ table confirms B4 range [640, 670] nm and resolution 30 m. Uses confirmed: chlorophyll (Topp 2020, 665 nm inside 640.0-670.0 nm); turbidity (Vanhellemont & Ruddick 2015, 655 nm inside 640.0-670.0 nm); cdom (Soomets 2020, 665 nm inside 640.0-670.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-landsat-9-oli-tirs-B5",
+      "claim_id": "band-landsat-9-oli-tirs-B5",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Near Infrared (NIR)",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          850,
+          880
+        ],
+        "resolution_m": 30,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "extent",
+          "turbidity",
+          "correction"
+        ]
+      },
+      "reason": "USGS band-designation FAQ table confirms B5 range [850, 880] nm and resolution 30 m. USGS best-bands FAQ confirms the Useful for Mapping quote verbatim. Uses confirmed: extent (USGS best-bands FAQ, named, quote verbatim); turbidity (Vanhellemont & Ruddick 2015, 865 nm inside 850.0-880.0 nm); correction (Vanhellemont & Ruddick 2015, 865 nm inside 850.0-880.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-landsat-9-oli-tirs-B6",
+      "claim_id": "band-landsat-9-oli-tirs-B6",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Shortwave Infrared (SWIR) 1",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          1570,
+          1650
+        ],
+        "resolution_m": 30,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "extent",
+          "correction"
+        ]
+      },
+      "reason": "USGS band-designation FAQ table confirms B6 range [1570, 1650] nm and resolution 30 m. Uses confirmed: extent (USGS DSWE ADD, named, quote verbatim); correction (Vanhellemont & Ruddick 2015, 1609 nm inside 1570.0-1650.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-landsat-9-oli-tirs-B7",
+      "claim_id": "band-landsat-9-oli-tirs-B7",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Shortwave Infrared (SWIR) 2",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          2110,
+          2290
+        ],
+        "resolution_m": 30,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "extent",
+          "correction"
+        ]
+      },
+      "reason": "USGS band-designation FAQ table confirms B7 range [2110, 2290] nm and resolution 30 m. Uses confirmed: extent (USGS DSWE ADD, named, quote verbatim); correction (Vanhellemont & Ruddick 2015, 2201 nm inside 2110.0-2290.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-landsat-9-oli-tirs-B8",
+      "claim_id": "band-landsat-9-oli-tirs-B8",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Panchromatic",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          500,
+          680
+        ],
+        "resolution_m": 15,
+        "variants": null,
+        "note": "Panchromatic band at 15 m. It spans green to red, so wavelength anchors were not applied. No source names a water-quality use.",
+        "uses": []
+      },
+      "reason": "USGS band-designation FAQ table confirms B8 range [500, 680] nm and resolution 15 m. No use is listed; consistent with the note, none of the cited pages tie this band to a water-quality retrieval.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-landsat-9-oli-tirs-B9",
+      "claim_id": "band-landsat-9-oli-tirs-B9",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Cirrus",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          1360,
+          1380
+        ],
+        "resolution_m": 30,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "USGS band-designation FAQ table confirms B9 range [1360, 1380] nm and resolution 30 m. USGS best-bands FAQ confirms the Useful for Mapping quote verbatim. Uses confirmed: correction (USGS best-bands FAQ, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-landsat-9-oli-tirs-B10",
+      "claim_id": "band-landsat-9-oli-tirs-B10",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Thermal Infrared (TIRS) 1",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          10600,
+          11190
+        ],
+        "resolution_m": 30,
+        "variants": null,
+        "note": "Acquired at 100 m. The USGS band designation FAQ lists 100 (resampled to 30) and marks the value as resampled for Level-1 product processing. The Landsat 9 page lists 100-m.",
+        "uses": [
+          "temperature"
+        ]
+      },
+      "reason": "USGS band-designation FAQ table confirms B10 range [10600, 11190] nm and resolution 30 m. NASA and USGS both list the acquired 100 m resampled to 30 m for Level-1, matching the note. Uses confirmed: temperature (Gholizadeh 2016, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-landsat-9-oli-tirs-B11",
+      "claim_id": "band-landsat-9-oli-tirs-B11",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Thermal Infrared (TIRS) 2",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          11500,
+          12510
+        ],
+        "resolution_m": 30,
+        "variants": null,
+        "note": "Acquired at 100 m. The USGS band designation FAQ lists 100 (resampled to 30) and marks the value as resampled for Level-1 product processing. The Landsat 9 page lists 100-m.",
+        "uses": [
+          "temperature"
+        ]
+      },
+      "reason": "USGS band-designation FAQ table confirms B11 range [11500, 12510] nm and resolution 30 m. NASA and USGS both list the acquired 100 m resampled to 30 m for Level-1, matching the note. Uses confirmed: temperature (Gholizadeh 2016, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa01",
+      "claim_id": "band-sentinel-3-olci-Oa01",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Aerosol correction, improved water constituent retrieval",
+        "center_nm": 400,
+        "width_nm": 15,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction",
+          "cdom"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa01 center 400 nm, width 15 nm, resolution 300 m, and the name 'Aerosol correction, improved water constituent retrieval' verbatim, including punctuation. Uses confirmed: correction (OLCI Products Table 2, named, quote verbatim); cdom (Gholizadeh 2016, band 392.5-407.5 nm entirely below ~500 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa02",
+      "claim_id": "band-sentinel-3-olci-Oa02",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Yellow substance and detrital pigments (turbidity)",
+        "center_nm": 412.5,
+        "width_nm": 10,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": "Yellow substance is the ocean-color name for colored dissolved organic matter. Gholizadeh, Melesse, and Reddi give the synonym.",
+        "uses": [
+          "turbidity",
+          "cdom"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa02 center 412.5 nm, width 10 nm, resolution 300 m, and the name 'Yellow substance and detrital pigments (turbidity)' verbatim, including punctuation. Uses confirmed: turbidity (OLCI Products Table 2, named, quote verbatim); cdom (OLCI Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa03",
+      "claim_id": "band-sentinel-3-olci-Oa03",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Chlorophyll absorption maximum, biogeochemistry, vegetation",
+        "center_nm": 442.5,
+        "width_nm": 10,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa03 center 442.5 nm, width 10 nm, resolution 300 m, and the name 'Chlorophyll absorption maximum, biogeochemistry, vegetation' verbatim, including punctuation. Uses confirmed: chlorophyll (OLCI Products Table 2, named, quote verbatim); cdom (Gholizadeh 2016, 443 nm inside 437.5-447.5 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa04",
+      "claim_id": "band-sentinel-3-olci-Oa04",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "High Chlorophyll,",
+        "center_nm": 490,
+        "width_nm": 10,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa04 center 490 nm, width 10 nm, resolution 300 m, and the name 'High Chlorophyll,' verbatim, including punctuation. Uses confirmed: chlorophyll (OLCI Products Table 2, named, quote verbatim); cdom (Gholizadeh 2016, band 485.0-495.0 nm entirely below ~500 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa05",
+      "claim_id": "band-sentinel-3-olci-Oa05",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Chlorophyll, sediment, turbidity, red tide",
+        "center_nm": 510,
+        "width_nm": 10,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "turbidity"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa05 center 510 nm, width 10 nm, resolution 300 m, and the name 'Chlorophyll, sediment, turbidity, red tide' verbatim, including punctuation. Uses confirmed: chlorophyll (OLCI Products Table 2, named, quote verbatim); turbidity (OLCI Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa06",
+      "claim_id": "band-sentinel-3-olci-Oa06",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Chlorophyll reference (Chlorophyll minimum)",
+        "center_nm": 560,
+        "width_nm": 10,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa06 center 560 nm, width 10 nm, resolution 300 m, and the name 'Chlorophyll reference (Chlorophyll minimum)' verbatim, including punctuation. Uses confirmed: chlorophyll (OLCI Products Table 2, named, quote verbatim); cdom (Soomets 2020, 560 nm inside 555.0-565.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa07",
+      "claim_id": "band-sentinel-3-olci-Oa07",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Sediment loading",
+        "center_nm": 620,
+        "width_nm": 10,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "turbidity",
+          "chlorophyll"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa07 center 620 nm, width 10 nm, resolution 300 m, and the name 'Sediment loading' verbatim, including punctuation. Uses confirmed: turbidity (OLCI Products Table 2, named, quote verbatim); chlorophyll (Vanhellemont 2023, 620 nm inside 615.0-625.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa08",
+      "claim_id": "band-sentinel-3-olci-Oa08",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Chlorophyll (2nd Chlorophyll absorption maximum), sediment, yellow substance/vegetation",
+        "center_nm": 665,
+        "width_nm": 10,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": "Yellow substance is the ocean-color name for colored dissolved organic matter. Gholizadeh, Melesse, and Reddi give the synonym.",
+        "uses": [
+          "chlorophyll",
+          "turbidity",
+          "cdom"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa08 center 665 nm, width 10 nm, resolution 300 m, and the name 'Chlorophyll (2nd Chlorophyll absorption maximum), sediment, yellow substance/vegetation' verbatim, including punctuation. Uses confirmed: chlorophyll (OLCI Products Table 2, named, quote verbatim); turbidity (OLCI Products Table 2, named, quote verbatim); cdom (OLCI Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa09",
+      "claim_id": "band-sentinel-3-olci-Oa09",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "For improved fluorescence retrieval and to better account for smile together with the bands 665 and 680 nm",
+        "center_nm": 673.75,
+        "width_nm": 7.5,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": "The S3 OLCI Instrument page lists 673.25 nm. The OLCI Products page lists 673.75 nm. This record uses the products page.",
+        "uses": [
+          "chlorophyll"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa09 center 673.75 nm, width 7.5 nm, resolution 300 m, and the name 'For improved fluorescence retrieval and to better account for smile together with the bands 665 and 680 nm' verbatim, including punctuation. S3 OLCI Instrument page independently lists 673.25 nm for this band, matching the note that the two SentiWiki pages disagree. Uses confirmed: chlorophyll (OLCI Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa10",
+      "claim_id": "band-sentinel-3-olci-Oa10",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Chlorophyll fluorescence peak, red edge",
+        "center_nm": 681.25,
+        "width_nm": 7.5,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa10 center 681.25 nm, width 7.5 nm, resolution 300 m, and the name 'Chlorophyll fluorescence peak, red edge' verbatim, including punctuation. Uses confirmed: chlorophyll (OLCI Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa11",
+      "claim_id": "band-sentinel-3-olci-Oa11",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Chlorophyll fluorescence baseline, red edge transition",
+        "center_nm": 708.75,
+        "width_nm": 10,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "turbidity"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa11 center 708.75 nm, width 10 nm, resolution 300 m, and the name 'Chlorophyll fluorescence baseline, red edge transition' verbatim, including punctuation. Uses confirmed: chlorophyll (OLCI Products Table 2, named, quote verbatim); turbidity (Soomets 2020, 705 nm inside 703.8-713.8 nm). Soomets' 705 nm/Table 4 sentence sits in Section 4 Discussion by the paper's own numbering, not Section 5 as the locator states; the quote itself is verbatim.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa12",
+      "claim_id": "band-sentinel-3-olci-Oa12",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "O2 absorption/clouds, vegetation",
+        "center_nm": 753.75,
+        "width_nm": 7.5,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction",
+          "turbidity"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa12 center 753.75 nm, width 7.5 nm, resolution 300 m, and the name 'O2 absorption/clouds, vegetation' verbatim, including punctuation. Uses confirmed: correction (OLCI Products Table 2, named, quote verbatim); turbidity (Soomets 2020, 754 nm inside 750.0-757.5 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa13",
+      "claim_id": "band-sentinel-3-olci-Oa13",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "O2 absorption band/aerosol correction.",
+        "center_nm": 761.25,
+        "width_nm": 2.5,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa13 center 761.25 nm, width 2.5 nm, resolution 300 m, and the name 'O2 absorption band/aerosol correction.' verbatim, including punctuation. Uses confirmed: correction (OLCI Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa14",
+      "claim_id": "band-sentinel-3-olci-Oa14",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Atmospheric correction",
+        "center_nm": 764.375,
+        "width_nm": 3.75,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa14 center 764.375 nm, width 3.75 nm, resolution 300 m, and the name 'Atmospheric correction' verbatim, including punctuation. Uses confirmed: correction (OLCI Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa15",
+      "claim_id": "band-sentinel-3-olci-Oa15",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "O2A used for cloud top pressure, fluorescence over land",
+        "center_nm": 767.5,
+        "width_nm": 2.5,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa15 center 767.5 nm, width 2.5 nm, resolution 300 m, and the name 'O2A used for cloud top pressure, fluorescence over land' verbatim, including punctuation. Uses confirmed: correction (OLCI Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa16",
+      "claim_id": "band-sentinel-3-olci-Oa16",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Atmos. corr./aerosol corr.",
+        "center_nm": 778.75,
+        "width_nm": 15,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": "The S3 OLCI Instrument page lists 778.85 nm. The OLCI Products page lists 778.75 nm. This record uses the products page.",
+        "uses": [
+          "correction",
+          "turbidity"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa16 center 778.75 nm, width 15 nm, resolution 300 m, and the name 'Atmos. corr./aerosol corr.' verbatim, including punctuation. S3 OLCI Instrument page independently lists 778.85 nm for this band, matching the note that the two SentiWiki pages disagree. Uses confirmed: correction (OLCI Products Table 2, named, quote verbatim); turbidity (Soomets 2020, 783 nm inside 771.2-786.2 nm). The turbidity quote is Soomets Table 1's Multispectral Instrument column formula (783 nm falls inside Oa16's 771.25-786.25 nm range); the matching OLCI-column formula for the same TSM row is 'R779 - R754 + R865/2' (also inside Oa16's range, as used correctly for Oa12), so the use still holds but the locator's column label does not match this band's own instrument.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa17",
+      "claim_id": "band-sentinel-3-olci-Oa17",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Atmospheric correction/aerosol correction, clouds, pixel co-registration",
+        "center_nm": 865,
+        "width_nm": 20,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction",
+          "turbidity"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa17 center 865 nm, width 20 nm, resolution 300 m, and the name 'Atmospheric correction/aerosol correction, clouds, pixel co-registration' verbatim, including punctuation. Uses confirmed: correction (OLCI Products Table 2, named, quote verbatim); turbidity (Vanhellemont & Ruddick 2015, 865 nm inside 855.0-875.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa18",
+      "claim_id": "band-sentinel-3-olci-Oa18",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Water vapour absorption reference band. Common reference band with SLSTR instrument. Vegetation monitoring",
+        "center_nm": 885,
+        "width_nm": 10,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa18 center 885 nm, width 10 nm, resolution 300 m, and the name 'Water vapour absorption reference band. Common reference band with SLSTR instrument. Vegetation monitoring' verbatim, including punctuation. Uses confirmed: correction (OLCI Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa19",
+      "claim_id": "band-sentinel-3-olci-Oa19",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Water vapour absorption/vegetation monitoring (maximum reflectance)",
+        "center_nm": 900,
+        "width_nm": 10,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa19 center 900 nm, width 10 nm, resolution 300 m, and the name 'Water vapour absorption/vegetation monitoring (maximum reflectance)' verbatim, including punctuation. Uses confirmed: correction (OLCI Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa20",
+      "claim_id": "band-sentinel-3-olci-Oa20",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Water vapour absorption, Atmospheric correction/aerosol correction",
+        "center_nm": 940,
+        "width_nm": 20,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa20 center 940 nm, width 20 nm, resolution 300 m, and the name 'Water vapour absorption, Atmospheric correction/aerosol correction' verbatim, including punctuation. Uses confirmed: correction (OLCI Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-olci-Oa21",
+      "claim_id": "band-sentinel-3-olci-Oa21",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Atmospheric correction/aerosol correction",
+        "center_nm": 1020,
+        "width_nm": 40,
+        "range_nm": null,
+        "resolution_m": 300,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "OLCI Products Table 2 (raw HTML) confirms Oa21 center 1020 nm, width 40 nm, resolution 300 m, and the name 'Atmospheric correction/aerosol correction' verbatim, including punctuation. Uses confirmed: correction (OLCI Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-slstr-S1",
+      "claim_id": "band-sentinel-3-slstr-S1",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "VNIR",
+        "center_nm": 554.27,
+        "width_nm": 19.26,
+        "range_nm": null,
+        "resolution_m": 500,
+        "variants": null,
+        "note": "The Function cell on the page reads '>Cloud screening' with a stray '>' character. The quote keeps it.",
+        "uses": [
+          "correction",
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "SLSTR Products Table 2 (raw HTML, parsed with rowspans resolved) confirms S1 center 554.27 nm, width 19.26 nm, resolution 500 m, and the rowspanned Comments-column group name 'VNIR', separate from the Function column used for the quoted use text, with any typo in either column preserved verbatim. Uses confirmed: correction (SLSTR Products Table 2, named, quote verbatim); chlorophyll (Gholizadeh 2016, 550 nm inside 544.6-563.9 nm); cdom (Soomets 2020, 550 nm inside 544.6-563.9 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-slstr-S2",
+      "claim_id": "band-sentinel-3-slstr-S2",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "VNIR",
+        "center_nm": 659.47,
+        "width_nm": 19.25,
+        "range_nm": null,
+        "resolution_m": 500,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction",
+          "chlorophyll",
+          "turbidity",
+          "cdom"
+        ]
+      },
+      "reason": "SLSTR Products Table 2 (raw HTML, parsed with rowspans resolved) confirms S2 center 659.47 nm, width 19.25 nm, resolution 500 m, and the rowspanned Comments-column group name 'VNIR', separate from the Function column used for the quoted use text, with any typo in either column preserved verbatim. Uses confirmed: correction (SLSTR Products Table 2, named, quote verbatim); chlorophyll (Topp 2020, 665 nm inside 649.8-669.1 nm); turbidity (Vanhellemont & Ruddick 2015, 655 nm inside 649.8-669.1 nm); cdom (Soomets 2020, 665 nm inside 649.8-669.1 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-slstr-S3",
+      "claim_id": "band-sentinel-3-slstr-S3",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "VNIR",
+        "center_nm": 868.0,
+        "width_nm": 20.6,
+        "range_nm": null,
+        "resolution_m": 500,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction",
+          "turbidity"
+        ]
+      },
+      "reason": "SLSTR Products Table 2 (raw HTML, parsed with rowspans resolved) confirms S3 center 868.0 nm, width 20.6 nm, resolution 500 m, and the rowspanned Comments-column group name 'VNIR', separate from the Function column used for the quoted use text, with any typo in either column preserved verbatim. Uses confirmed: correction (SLSTR Products Table 2, named, quote verbatim); turbidity (Vanhellemont & Ruddick 2015, 865 nm inside 857.7-878.3 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-slstr-S4",
+      "claim_id": "band-sentinel-3-slstr-S4",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "SWIR",
+        "center_nm": 1374.8,
+        "width_nm": 20.8,
+        "range_nm": null,
+        "resolution_m": 500,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "SLSTR Products Table 2 (raw HTML, parsed with rowspans resolved) confirms S4 center 1374.8 nm, width 20.8 nm, resolution 500 m, and the rowspanned Comments-column group name 'SWIR', separate from the Function column used for the quoted use text, with any typo in either column preserved verbatim. Uses confirmed: correction (SLSTR Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-slstr-S5",
+      "claim_id": "band-sentinel-3-slstr-S5",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "SWIR",
+        "center_nm": 1613.4,
+        "width_nm": 60.68,
+        "range_nm": null,
+        "resolution_m": 500,
+        "variants": null,
+        "note": "The Function cell on the page reads 'loud clearing', a typo for cloud clearing. The quote keeps it.",
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "SLSTR Products Table 2 (raw HTML, parsed with rowspans resolved) confirms S5 center 1613.4 nm, width 60.68 nm, resolution 500 m, and the rowspanned Comments-column group name 'SWIR', separate from the Function column used for the quoted use text, with any typo in either column preserved verbatim. Uses confirmed: correction (SLSTR Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-slstr-S6",
+      "claim_id": "band-sentinel-3-slstr-S6",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "SWIR",
+        "center_nm": 2255.7,
+        "width_nm": 50.15,
+        "range_nm": null,
+        "resolution_m": 500,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "SLSTR Products Table 2 (raw HTML, parsed with rowspans resolved) confirms S6 center 2255.7 nm, width 50.15 nm, resolution 500 m, and the rowspanned Comments-column group name 'SWIR', separate from the Function column used for the quoted use text, with any typo in either column preserved verbatim. Uses confirmed: correction (SLSTR Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-slstr-S7",
+      "claim_id": "band-sentinel-3-slstr-S7",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Thermal IR Ambient bands (200 K -320 K)",
+        "center_nm": 3742.0,
+        "width_nm": 398.0,
+        "range_nm": null,
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "temperature"
+        ]
+      },
+      "reason": "SLSTR Products Table 2 (raw HTML, parsed with rowspans resolved) confirms S7 center 3742.0 nm, width 398.0 nm, resolution 1000 m, and the rowspanned Comments-column group name 'Thermal IR Ambient bands (200 K -320 K)', separate from the Function column used for the quoted use text, with any typo in either column preserved verbatim. Uses confirmed: temperature (SLSTR Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-slstr-S8",
+      "claim_id": "band-sentinel-3-slstr-S8",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Thermal IR Ambient bands (200 K -320 K)",
+        "center_nm": 10854.0,
+        "width_nm": 776.0,
+        "range_nm": null,
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "temperature"
+        ]
+      },
+      "reason": "SLSTR Products Table 2 (raw HTML, parsed with rowspans resolved) confirms S8 center 10854.0 nm, width 776.0 nm, resolution 1000 m, and the rowspanned Comments-column group name 'Thermal IR Ambient bands (200 K -320 K)', separate from the Function column used for the quoted use text, with any typo in either column preserved verbatim. Uses confirmed: temperature (SLSTR Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-slstr-S9",
+      "claim_id": "band-sentinel-3-slstr-S9",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Thermal IR Ambient bands (200 K -320 K)",
+        "center_nm": 12022.5,
+        "width_nm": 905.0,
+        "range_nm": null,
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "temperature"
+        ]
+      },
+      "reason": "SLSTR Products Table 2 (raw HTML, parsed with rowspans resolved) confirms S9 center 12022.5 nm, width 905.0 nm, resolution 1000 m, and the rowspanned Comments-column group name 'Thermal IR Ambient bands (200 K -320 K)', separate from the Function column used for the quoted use text, with any typo in either column preserved verbatim. Uses confirmed: temperature (SLSTR Products Table 2, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-slstr-F1",
+      "claim_id": "band-sentinel-3-slstr-F1",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Thermal IR fire emission bands",
+        "center_nm": 3742.0,
+        "width_nm": 398.0,
+        "range_nm": null,
+        "resolution_m": 1000,
+        "variants": null,
+        "note": "Fire band on the S7 detectors with an increased dynamic range. No source names a water-quality use.",
+        "uses": []
+      },
+      "reason": "SLSTR Products Table 2 (raw HTML, parsed with rowspans resolved) confirms F1 center 3742.0 nm, width 398.0 nm, resolution 1000 m, and the rowspanned Comments-column group name 'Thermal IR fire emission bands', separate from the Function column used for the quoted use text, with any typo in either column preserved verbatim. No use is listed; consistent with the note, none of the cited pages tie this band to a water-quality retrieval.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-sentinel-3-slstr-F2",
+      "claim_id": "band-sentinel-3-slstr-F2",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Thermal IR fire emission bands",
+        "center_nm": 10854.0,
+        "width_nm": 776.0,
+        "range_nm": null,
+        "resolution_m": 1000,
+        "variants": null,
+        "note": "Fire band on the S8 detectors with an increased dynamic range. No source names a water-quality use.",
+        "uses": []
+      },
+      "reason": "SLSTR Products Table 2 (raw HTML, parsed with rowspans resolved) confirms F2 center 10854.0 nm, width 776.0 nm, resolution 1000 m, and the rowspanned Comments-column group name 'Thermal IR fire emission bands', separate from the Function column used for the quoted use text, with any typo in either column preserved verbatim. No use is listed; consistent with the note, none of the cited pages tie this band to a water-quality retrieval.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B1",
+      "claim_id": "band-modis-B1",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Land/Cloud/Aerosols Boundaries",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          620,
+          670
+        ],
+        "resolution_m": 250,
+        "variants": null,
+        "note": "Vanhellemont and Ruddick name the 250 m MODIS land bands at 645 and 859 nm for red and NIR marine reflectance comparison.",
+        "uses": [
+          "correction",
+          "chlorophyll",
+          "turbidity",
+          "cdom"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B1 range [620, 670] nm (converted from the page's um figures where band >= 20) and resolution 250 m per the page's Spatial Resolution line, and the Primary Use group 'Land/Cloud/Aerosols Boundaries', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim); chlorophyll (Topp 2020, 665 nm inside 620.0-670.0 nm); turbidity (Vanhellemont & Ruddick 2015, 655 nm inside 620.0-670.0 nm); cdom (Soomets 2020, 665 nm inside 620.0-670.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B2",
+      "claim_id": "band-modis-B2",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Land/Cloud/Aerosols Boundaries",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          841,
+          876
+        ],
+        "resolution_m": 250,
+        "variants": null,
+        "note": "Vanhellemont and Ruddick name the 250 m MODIS land bands at 645 and 859 nm for red and NIR marine reflectance comparison.",
+        "uses": [
+          "correction",
+          "turbidity"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B2 range [841, 876] nm (converted from the page's um figures where band >= 20) and resolution 250 m per the page's Spatial Resolution line, and the Primary Use group 'Land/Cloud/Aerosols Boundaries', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim); turbidity (Vanhellemont & Ruddick 2015, 865 nm inside 841.0-876.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B3",
+      "claim_id": "band-modis-B3",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Land/Cloud/Aerosols Properties",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          459,
+          479
+        ],
+        "resolution_m": 500,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction",
+          "cdom"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B3 range [459, 479] nm (converted from the page's um figures where band >= 20) and resolution 500 m per the page's Spatial Resolution line, and the Primary Use group 'Land/Cloud/Aerosols Properties', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim); cdom (Gholizadeh 2016, band 459.0-479.0 nm entirely below ~500 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B4",
+      "claim_id": "band-modis-B4",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Land/Cloud/Aerosols Properties",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          545,
+          565
+        ],
+        "resolution_m": 500,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction",
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B4 range [545, 565] nm (converted from the page's um figures where band >= 20) and resolution 500 m per the page's Spatial Resolution line, and the Primary Use group 'Land/Cloud/Aerosols Properties', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim); chlorophyll (Gholizadeh 2016, 550 nm inside 545.0-565.0 nm); cdom (Soomets 2020, 550 nm inside 545.0-565.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B5",
+      "claim_id": "band-modis-B5",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Land/Cloud/Aerosols Properties",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          1230,
+          1250
+        ],
+        "resolution_m": 500,
+        "variants": null,
+        "note": "Vanhellemont and Ruddick name the 1240 nm band for MODIS atmospheric correction.",
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B5 range [1230, 1250] nm (converted from the page's um figures where band >= 20) and resolution 500 m per the page's Spatial Resolution line, and the Primary Use group 'Land/Cloud/Aerosols Properties', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B6",
+      "claim_id": "band-modis-B6",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Land/Cloud/Aerosols Properties",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          1628,
+          1652
+        ],
+        "resolution_m": 500,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B6 range [1628, 1652] nm (converted from the page's um figures where band >= 20) and resolution 500 m per the page's Spatial Resolution line, and the Primary Use group 'Land/Cloud/Aerosols Properties', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B7",
+      "claim_id": "band-modis-B7",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Land/Cloud/Aerosols Properties",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          2105,
+          2155
+        ],
+        "resolution_m": 500,
+        "variants": null,
+        "note": "Vanhellemont and Ruddick name the 2130 nm band for MODIS atmospheric correction.",
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B7 range [2105, 2155] nm (converted from the page's um figures where band >= 20) and resolution 500 m per the page's Spatial Resolution line, and the Primary Use group 'Land/Cloud/Aerosols Properties', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B8",
+      "claim_id": "band-modis-B8",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          405,
+          420
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B8 range [405, 420] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Ocean Color/ Phytoplankton/ Biogeochemistry', including the line-break join, matches verbatim. Uses confirmed: chlorophyll (MODIS specifications, named, quote verbatim); cdom (Gholizadeh 2016, band 405.0-420.0 nm entirely below ~500 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B9",
+      "claim_id": "band-modis-B9",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          438,
+          448
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B9 range [438, 448] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Ocean Color/ Phytoplankton/ Biogeochemistry', including the line-break join, matches verbatim. Uses confirmed: chlorophyll (MODIS specifications, named, quote verbatim); cdom (Gholizadeh 2016, 443 nm inside 438.0-448.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B10",
+      "claim_id": "band-modis-B10",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          483,
+          493
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B10 range [483, 493] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Ocean Color/ Phytoplankton/ Biogeochemistry', including the line-break join, matches verbatim. Uses confirmed: chlorophyll (MODIS specifications, named, quote verbatim); cdom (Gholizadeh 2016, band 483.0-493.0 nm entirely below ~500 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B11",
+      "claim_id": "band-modis-B11",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          526,
+          536
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B11 range [526, 536] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Ocean Color/ Phytoplankton/ Biogeochemistry', including the line-break join, matches verbatim. Uses confirmed: chlorophyll (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B12",
+      "claim_id": "band-modis-B12",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          546,
+          556
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B12 range [546, 556] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Ocean Color/ Phytoplankton/ Biogeochemistry', including the line-break join, matches verbatim. Uses confirmed: chlorophyll (MODIS specifications, named, quote verbatim); cdom (Soomets 2020, 550 nm inside 546.0-556.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B13",
+      "claim_id": "band-modis-B13",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          662,
+          672
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B13 range [662, 672] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Ocean Color/ Phytoplankton/ Biogeochemistry', including the line-break join, matches verbatim. Uses confirmed: chlorophyll (MODIS specifications, named, quote verbatim); cdom (Soomets 2020, 665 nm inside 662.0-672.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B14",
+      "claim_id": "band-modis-B14",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          673,
+          683
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B14 range [673, 683] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Ocean Color/ Phytoplankton/ Biogeochemistry', including the line-break join, matches verbatim. Uses confirmed: chlorophyll (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B15",
+      "claim_id": "band-modis-B15",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          743,
+          753
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B15 range [743, 753] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Ocean Color/ Phytoplankton/ Biogeochemistry', including the line-break join, matches verbatim. Uses confirmed: chlorophyll (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B16",
+      "claim_id": "band-modis-B16",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Ocean Color/ Phytoplankton/ Biogeochemistry",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          862,
+          877
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "chlorophyll",
+          "turbidity",
+          "correction"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B16 range [862, 877] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Ocean Color/ Phytoplankton/ Biogeochemistry', including the line-break join, matches verbatim. Uses confirmed: chlorophyll (MODIS specifications, named, quote verbatim); turbidity (Vanhellemont & Ruddick 2015, 865 nm inside 862.0-877.0 nm); correction (Vanhellemont & Ruddick 2015, 865 nm inside 862.0-877.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B17",
+      "claim_id": "band-modis-B17",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Atmospheric Water Vapor",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          890,
+          920
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B17 range [890, 920] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Atmospheric Water Vapor', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B18",
+      "claim_id": "band-modis-B18",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Atmospheric Water Vapor",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          931,
+          941
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B18 range [931, 941] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Atmospheric Water Vapor', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B19",
+      "claim_id": "band-modis-B19",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Atmospheric Water Vapor",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          915,
+          965
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B19 range [915, 965] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Atmospheric Water Vapor', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B20",
+      "claim_id": "band-modis-B20",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Surface/Cloud Temperature",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          3660,
+          3840
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "temperature"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B20 range [3660, 3840] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Surface/Cloud Temperature', including the line-break join, matches verbatim. Uses confirmed: temperature (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B21",
+      "claim_id": "band-modis-B21",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Surface/Cloud Temperature",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          3929,
+          3989
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "temperature"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B21 range [3929, 3989] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Surface/Cloud Temperature', including the line-break join, matches verbatim. Uses confirmed: temperature (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B22",
+      "claim_id": "band-modis-B22",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Surface/Cloud Temperature",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          3929,
+          3989
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "temperature"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B22 range [3929, 3989] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Surface/Cloud Temperature', including the line-break join, matches verbatim. Uses confirmed: temperature (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B23",
+      "claim_id": "band-modis-B23",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Surface/Cloud Temperature",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          4020,
+          4080
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "temperature"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B23 range [4020, 4080] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Surface/Cloud Temperature', including the line-break join, matches verbatim. Uses confirmed: temperature (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B24",
+      "claim_id": "band-modis-B24",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Atmospheric Temperature",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          4433,
+          4498
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": "Primary use Atmospheric Temperature. No source names a water-quality use.",
+        "uses": []
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B24 range [4433, 4498] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Atmospheric Temperature', including the line-break join, matches verbatim. No use is listed; consistent with the note, none of the cited pages tie this band to a water-quality retrieval.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B25",
+      "claim_id": "band-modis-B25",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Atmospheric Temperature",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          4482,
+          4549
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": "Primary use Atmospheric Temperature. No source names a water-quality use.",
+        "uses": []
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B25 range [4482, 4549] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Atmospheric Temperature', including the line-break join, matches verbatim. No use is listed; consistent with the note, none of the cited pages tie this band to a water-quality retrieval.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B26",
+      "claim_id": "band-modis-B26",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Cirrus Clouds Water Vapor",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          1360,
+          1390
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B26 range [1360, 1390] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Cirrus Clouds Water Vapor', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B27",
+      "claim_id": "band-modis-B27",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Cirrus Clouds Water Vapor",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          6535,
+          6895
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B27 range [6535, 6895] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Cirrus Clouds Water Vapor', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B28",
+      "claim_id": "band-modis-B28",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Cirrus Clouds Water Vapor",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          7175,
+          7475
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B28 range [7175, 7475] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Cirrus Clouds Water Vapor', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B29",
+      "claim_id": "band-modis-B29",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Cloud Properties",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          8400,
+          8700
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "correction"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B29 range [8400, 8700] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Cloud Properties', including the line-break join, matches verbatim. Uses confirmed: correction (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B30",
+      "claim_id": "band-modis-B30",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Ozone",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          9580,
+          9880
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": "Primary use Ozone. Ozone is not in the correction vocabulary, so no use is assigned.",
+        "uses": []
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B30 range [9580, 9880] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Ozone', including the line-break join, matches verbatim. No use is listed; consistent with the note, none of the cited pages tie this band to a water-quality retrieval.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B31",
+      "claim_id": "band-modis-B31",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Surface/Cloud Temperature",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          10780,
+          11280
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "temperature"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B31 range [10780, 11280] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Surface/Cloud Temperature', including the line-break join, matches verbatim. Uses confirmed: temperature (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B32",
+      "claim_id": "band-modis-B32",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Surface/Cloud Temperature",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          11770,
+          12270
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": null,
+        "uses": [
+          "temperature"
+        ]
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B32 range [11770, 12270] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Surface/Cloud Temperature', including the line-break join, matches verbatim. Uses confirmed: temperature (MODIS specifications, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B33",
+      "claim_id": "band-modis-B33",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Cloud Top Altitude",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          13185,
+          13485
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": "Primary use Cloud Top Altitude. Not assigned to correction because no source ties it to a water retrieval.",
+        "uses": []
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B33 range [13185, 13485] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Cloud Top Altitude', including the line-break join, matches verbatim. No use is listed; consistent with the note, none of the cited pages tie this band to a water-quality retrieval.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B34",
+      "claim_id": "band-modis-B34",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Cloud Top Altitude",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          13485,
+          13785
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": "Primary use Cloud Top Altitude. Not assigned to correction because no source ties it to a water retrieval.",
+        "uses": []
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B34 range [13485, 13785] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Cloud Top Altitude', including the line-break join, matches verbatim. No use is listed; consistent with the note, none of the cited pages tie this band to a water-quality retrieval.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B35",
+      "claim_id": "band-modis-B35",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Cloud Top Altitude",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          13785,
+          14085
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": "Primary use Cloud Top Altitude. Not assigned to correction because no source ties it to a water retrieval.",
+        "uses": []
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B35 range [13785, 14085] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Cloud Top Altitude', including the line-break join, matches verbatim. No use is listed; consistent with the note, none of the cited pages tie this band to a water-quality retrieval.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-modis-B36",
+      "claim_id": "band-modis-B36",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Cloud Top Altitude",
+        "center_nm": null,
+        "width_nm": null,
+        "range_nm": [
+          14085,
+          14385
+        ],
+        "resolution_m": 1000,
+        "variants": null,
+        "note": "Primary use Cloud Top Altitude. Not assigned to correction because no source ties it to a water retrieval.",
+        "uses": []
+      },
+      "reason": "MODIS specifications page (raw HTML) confirms B36 range [14085, 14385] nm (converted from the page's um figures where band >= 20) and resolution 1000 m per the page's Spatial Resolution line, and the Primary Use group 'Cloud Top Altitude', including the line-break join, matches verbatim. No use is listed; consistent with the note, none of the cited pages tie this band to a water-quality retrieval.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-planetscope-B1",
+      "claim_id": "band-planetscope-B1",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Coastal Blue",
+        "center_nm": 443,
+        "width_nm": 20,
+        "range_nm": null,
+        "resolution_m": 3,
+        "variants": null,
+        "note": "Planet's range table gives 431 to 452 nm.",
+        "uses": [
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "docs.planet.com PSB.SD table confirms B1 center 443 nm, fwhm 20 nm, and resolution 3 m; the 8-band range table confirms the note's 431 to 452 nm. Uses confirmed: chlorophyll (Gholizadeh 2016, 443 nm inside 433.0-453.0 nm); cdom (Gholizadeh 2016, 443 nm inside 433.0-453.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-planetscope-B2",
+      "claim_id": "band-planetscope-B2",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Blue",
+        "center_nm": 490,
+        "width_nm": 50,
+        "range_nm": null,
+        "resolution_m": 3,
+        "variants": null,
+        "note": "Planet's range table gives 465 to 515 nm.",
+        "uses": [
+          "cdom"
+        ]
+      },
+      "reason": "docs.planet.com PSB.SD table confirms B2 center 490 nm, fwhm 50 nm, and resolution 3 m; the 8-band range table confirms the note's 465 to 515 nm. Uses confirmed: cdom (Soomets 2020, 490 nm inside 465.0-515.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-planetscope-B3",
+      "claim_id": "band-planetscope-B3",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Green I",
+        "center_nm": 531,
+        "width_nm": 36,
+        "range_nm": null,
+        "resolution_m": 3,
+        "variants": null,
+        "note": "Planet's range table gives 513 to 549 nm.",
+        "uses": []
+      },
+      "reason": "docs.planet.com PSB.SD table confirms B3 center 531 nm, fwhm 36 nm, and resolution 3 m; the 8-band range table confirms the note's 513 to 549 nm. No use is listed; consistent with the note, none of the cited pages tie this band to a water-quality retrieval.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-planetscope-B4",
+      "claim_id": "band-planetscope-B4",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Green",
+        "center_nm": 565,
+        "width_nm": 36,
+        "range_nm": null,
+        "resolution_m": 3,
+        "variants": null,
+        "note": "Planet's range table gives 547 to 583 nm.",
+        "uses": [
+          "chlorophyll",
+          "cdom"
+        ]
+      },
+      "reason": "docs.planet.com PSB.SD table confirms B4 center 565 nm, fwhm 36 nm, and resolution 3 m; the 8-band range table confirms the note's 547 to 583 nm. Uses confirmed: chlorophyll (Gholizadeh 2016, 550 nm inside 547.0-583.0 nm); cdom (Soomets 2020, 550 nm inside 547.0-583.0 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-planetscope-B5",
+      "claim_id": "band-planetscope-B5",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Yellow",
+        "center_nm": 610,
+        "width_nm": 20,
+        "range_nm": null,
+        "resolution_m": 3,
+        "variants": null,
+        "note": "Planet's range table gives 600 to 620 nm.",
+        "uses": [
+          "chlorophyll"
+        ]
+      },
+      "reason": "docs.planet.com PSB.SD table confirms B5 center 610 nm, fwhm 20 nm, and resolution 3 m; the 8-band range table confirms the note's 600 to 620 nm. Uses confirmed: chlorophyll (Vanhellemont 2023, named, quote verbatim).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-planetscope-B6",
+      "claim_id": "band-planetscope-B6",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Red",
+        "center_nm": 665,
+        "width_nm": 31,
+        "range_nm": null,
+        "resolution_m": 3,
+        "variants": null,
+        "note": "Planet's range table gives 650 to 680 nm.",
+        "uses": [
+          "chlorophyll",
+          "turbidity",
+          "cdom"
+        ]
+      },
+      "reason": "docs.planet.com PSB.SD table confirms B6 center 665 nm, fwhm 31 nm, and resolution 3 m; the 8-band range table confirms the note's 650 to 680 nm. Uses confirmed: chlorophyll (Vanhellemont 2023, named, quote verbatim); turbidity (Vanhellemont & Ruddick 2015, 655 nm inside 649.5-680.5 nm); cdom (Soomets 2020, 665 nm inside 649.5-680.5 nm).",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-planetscope-B7",
+      "claim_id": "band-planetscope-B7",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "Red Edge",
+        "center_nm": 705,
+        "width_nm": 15,
+        "range_nm": null,
+        "resolution_m": 3,
+        "variants": null,
+        "note": "Planet's range table gives 697 to 713 nm.",
+        "uses": [
+          "chlorophyll",
+          "turbidity"
+        ]
+      },
+      "reason": "docs.planet.com PSB.SD table confirms B7 center 705 nm, fwhm 15 nm, and resolution 3 m; the 8-band range table confirms the note's 697 to 713 nm. Uses confirmed: chlorophyll (Vanhellemont 2023, named, quote verbatim); turbidity (Soomets 2020, 705 nm inside 697.5-712.5 nm). Soomets' 705 nm/Table 4 sentence sits in Section 4 Discussion by the paper's own numbering, not Section 5 as the locator states; the quote itself is verbatim.",
+      "checked_on": "2026-09-17"
+    },
+    {
+      "id": "chk-band-planetscope-B8",
+      "claim_id": "band-planetscope-B8",
+      "verdict": "confirmed",
+      "approved": {
+        "name": "NIR",
+        "center_nm": 865,
+        "width_nm": 40,
+        "range_nm": null,
+        "resolution_m": 3,
+        "variants": null,
+        "note": "Planet's range table gives 845 to 885 nm.",
+        "uses": [
+          "chlorophyll",
+          "correction",
+          "turbidity"
+        ]
+      },
+      "reason": "docs.planet.com PSB.SD table confirms B8 center 865 nm, fwhm 40 nm, and resolution 3 m; the 8-band range table confirms the note's 845 to 885 nm. Uses confirmed: chlorophyll (Vanhellemont 2023, named, quote verbatim); correction (Vanhellemont 2023, named, quote verbatim); turbidity (Vanhellemont & Ruddick 2015, 865 nm inside 845.0-885.0 nm). Vanhellemont 2023's glint sentence sits in Section 4 'Conclusions' by the paper's own numbering (there is no separate Discussion section; results and discussion are combined in Section 3), not 'Section 4 Discussion' as the locator states; the quote itself is verbatim and does reference Appendix B.",
+      "checked_on": "2026-09-17"
+    }
+  ],
+  "limitations": [
+    "Topp et al. 2020 and Vanhellemont and Ruddick 2015 PDFs could not be read by WebFetch directly (it reported encoded/binary content); both were converted to text with pdftotext from the same binary WebFetch had already fetched and saved, then checked by exact string search. Vanhellemont 2023's PDF exceeded WebFetch's 10 MB limit and was fetched separately with curl, then converted with pdftotext.",
+    "The Landsat Collection 2 Level 3 DSWE Algorithm Description Document (PDF) could not be read by WebFetch directly; it was converted with pdftotext from the binary WebFetch had already fetched and saved, then checked by exact string search.",
+    "usgs.gov returns an HTTP 403 from CloudFront to direct curl requests, so the USGS Landsat 9 page, band-designation FAQ, and best-bands FAQ were read only through WebFetch, not cross-checked against raw HTML the way SentiWiki, MODIS, PMC, and Planet pages were. Three separate WebFetch calls to these pages were internally consistent with each other and with the draft's numbers.",
+    "Planet's PSScene Product Specification PDF (src-planet-psscene-spec) sits behind a Widen viewer with a signed, expiring link; both WebFetch and curl returned only viewer chrome (a title tag and UI text), never the document's own text, confirming the draft's own disclosed limitation. No band's or sensor's approved values depend solely on this source: every PlanetScope band table and range value it supposedly backs is also on developers.planet.com (redirects to docs.planet.com), which was independently read and matched the draft exactly. The one sentence that could not be found on any reachable page is PlanetScope's note that PSB.SD's nadir ground sample distance is 3.7-4.2 m and that orthorectified products use a 3.0 m pixel size; docs.planet.com states only a fleet-wide '3 m spatial resolution', which is what the per-band resolution_m: 3 values rest on and which is confirmed.",
+    "developers.planet.com/docs/data/planetscope/ and landsat.gsfc.nasa.gov/satellites/landsat-9/ both now return HTTP 301 redirects (to docs.planet.com/data/imagery/planetscope/ and science.nasa.gov/mission/landsat-9). Both redirect targets carry the same content the draft cites, read and confirmed at the new addresses.",
+    "Two locator strings point to the wrong subsection, though the quotes they cite are verbatim on the cited page and the checks that depend on them still hold: Soomets et al. 2020's 705 nm/Table 4 sentence (cited for Sentinel-2 B05, OLCI Oa11, and PlanetScope B7 turbidity) sits in the paper's Section 4 'Discussion', not Section 5 (Section 5 is 'Conclusions'). Vanhellemont 2023's glint sentence (cited for PlanetScope B8 correction) sits in Section 4 'Conclusions', not a 'Section 4 Discussion' (the paper combines results and discussion into Section 3 and has no separate Discussion section).",
+    "OLCI Oa16's turbidity use quotes Soomets Table 1's Multispectral Instrument (MSI) column TSM formula ('R783 - R740 + R865/2') rather than the Ocean and Land Colour Instrument (OLCI) column's own formula for the same row ('R779 - R754 + R865/2'), even though Oa16 is an OLCI band; Oa12's turbidity use correctly cites the OLCI column for the same table row. Both formulas' wavelengths fall inside Oa16's 771.25-786.25 nm range, so the use still holds and no value changed, but the locator's column label does not describe this band's own instrument.",
+    "Sentinel-2A, Sentinel-3A/3B, and PlanetScope PSB.SD launch/start dates were confirmed against SentiWiki and Planet pages but not against an independent third-party source; they were internally consistent with well-established public mission dates."
+  ]
+}

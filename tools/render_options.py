@@ -3,7 +3,8 @@
 Edit s2-options.template.html for the narrative and layout. The renderer fills the markers:
 survey counts and the monthly coverage strip from the gap survey report, the risk and cost
 bullets from the inventory's plain-language lines, map facts from the provenance record,
-pilot counts from the manifest, prototype tables from saved results, and the input digests.
+pilot counts from the manifest, prototype tables from saved results, the sensor band tables
+from the bound sensor band dataset, and the input digests.
 """
 
 from __future__ import annotations
@@ -30,6 +31,8 @@ COPY_DIFFERENCE = RESULTS / "copy-difference.json"
 LAKE_EXTRACTION = RESULTS / "lake-extraction.json"
 TILE_EXTRACTION = RESULTS / "tile-extraction.json"
 CROSS_TILE_EXTRACTION = RESULTS / "cross-tile-extraction.json"
+LAZY_WORKLOADS = RESULTS / "lazy-reader-workloads.json"
+WORKLOAD_AUDIT = RESULTS / "lazy-reader-workloads-audit.json"
 REGION_LABELS = {
     "tahoe": "Tahoe",
     "lanier": "Lanier",
@@ -39,10 +42,31 @@ REGION_LABELS = {
     "iliamna": "Iliamna",
 }
 METHOD_LABELS = {
-    "naive-clip": "Naive clip",
-    "raster-mask": "Raster mask",
-    "index-lists": "Index lists",
-    "lazy-stack": "Lazy stack",
+    "naive-clip": "Boundary clip",
+    "raster-mask": "Prepared mask",
+    "index-lists": "Stored positions",
+    "lazy-stack": "Prepared mask",
+}
+WORKFLOW_LABELS = {
+    "lake-first": "A · Each lake separately",
+    "tile-first": "B · Share image windows",
+    "whole-tile": "C · Read the whole image",
+}
+READER_LABELS = {
+    1: "Direct raster reads",
+    2: "Large-chunk lazy reads",
+    3: "Source-block lazy reads",
+}
+METHOD_READERS = {"naive-clip": 1, "raster-mask": 1, "index-lists": 1, "lazy-stack": 2}
+# Presentation identities only. Frozen result keys and experiment settings remain separate.
+WORKLOAD_CONFIGURATIONS = {
+    "A-raster": ("lake-first", 1),
+    "A-lazy": ("lake-first", 3),
+    "B-raster": ("tile-first", 1),
+    "B-lazy-control": ("tile-first", 2),
+    "B-lazy": ("tile-first", 3),
+    "C-raster": ("whole-tile", 1),
+    "C-lazy": ("whole-tile", 3),
 }
 SIZE_LABELS = {
     "10 m": "10 m class",
@@ -60,6 +84,21 @@ GROUP_LABELS = {
     "all": "Everything together",
 }
 COPY_LABELS = {"c1": "Collection 1 copy", "older": "older copy"}
+SENSOR_BANDS = DOCS / "sensor-bands.json"
+# Short chip labels for the water-quality uses. The legend carries the full label and definition.
+USE_SHORT = {
+    "chlorophyll": "Chlorophyll",
+    "turbidity": "Turbidity",
+    "cdom": "Dissolved organics",
+    "temperature": "Temperature",
+    "correction": "Correction",
+    "extent": "Water extent",
+}
+# Uses that support a retrieval without carrying the water signal themselves.
+SUPPORT_USES = {"correction", "extent"}
+ACCESS_LABELS = {"public": "Public data", "commercial": "Commercial imagery"}
+# The two sensors shown before the reader picks, left then right.
+DEFAULT_SENSORS = ("sentinel-2-msi", "landsat-9-oli-tirs")
 TEMPLATE = Path(__file__).with_name("s2-options.template.html")
 OUTPUT = DOCS / "s2-options.html"
 
@@ -309,8 +348,50 @@ def pixel_class_rows(result: dict) -> str:
     return "\n".join(parts)
 
 
-def io_label(requests: int, bytes_requested: int, seconds: float) -> str:
-    return f"{requests} requests · {megabytes_label(bytes_requested)} · {seconds_label(seconds)}"
+def lake_method_rows(result: dict) -> str:
+    """Show both ends of the size range, with each method's own resource measurements."""
+    rows = {(r["size_label"], r["method"]): r for r in result["summary"]["by_size_class_method"]}
+    parts = []
+    for size, label in (
+        ("10 m", "Smallest ponds · 10 m size class"),
+        ("anchor", "Larger reference lakes"),
+    ):
+        parts.append(
+            f'<tbody><tr class="result-group"><th colspan="6" scope="rowgroup">{label}</th></tr>'
+        )
+        for method, description in METHOD_LABELS.items():
+            row = rows.get((size, method))
+            reader = METHOD_READERS[method]
+            selection = "Nearby land omitted" if method == "naive-clip" else "All three classes"
+            cells = (
+                f'<th scope="row" class="workflow-a"><a href="#reader-{reader}">'
+                f'A{reader} · {description}</a><span class="cell-note">'
+                f"{READER_LABELS[reader]}</span></th><td>{selection}</td>"
+            )
+            if not row:
+                cells += '<td colspan="4">Not measured</td>'
+            elif "read_seconds_median" not in row:
+                cells += '<td colspan="4">No successful read</td>'
+            else:
+                cells += (
+                    f"<td>{row['read_seconds_median']:.2f} s</td>"
+                    f"<td>{row['requests_median']:,}</td>"
+                    f"<td>{row['bytes_requested_median'] / 1e6:.2f} MB</td>"
+                    f"<td>{megabytes_label(row['peak_rss_bytes_max'])}</td>"
+                )
+            parts.append("<tr>" + cells + "</tr>")
+        parts.append("</tbody>")
+    return "\n".join(parts)
+
+
+def workflow_cell(workflow: str, reader: int, note: str = "") -> str:
+    """Identify the recipe while preserving visible experiment-specific qualifications."""
+    letter, label = WORKFLOW_LABELS[workflow].split(" · ", 1)
+    detail = f'<span class="cell-note">{html.escape(note)}</span>' if note else ""
+    return (
+        f'<th scope="row" class="workflow-{letter.lower()}">'
+        f'<a href="#reader-{reader}">{letter}{reader} · {label}</a>{detail}</th>'
+    )
 
 
 EXCLUDED_RUNS = (
@@ -321,53 +402,88 @@ EXCLUDED_RUNS = (
 )
 
 
-def _pattern_cell(row: dict | None) -> str:
-    """Medians of the clean runs. A cell says when runs were left out, or none was clean."""
+def _read_metric_cells(row: dict | None) -> str:
+    """Keep absent and excluded measurements explicit across five resource columns."""
     if not row:
-        return "<td>not run</td>"
+        return '<td colspan="5">Not measured</td>'
     if "read_seconds_median" not in row:
         left_out = ", ".join(f"{row[k]} {text}" for k, text in EXCLUDED_RUNS if row.get(k))
-        return f"<td>no clean run: {left_out or 'nothing measured'}</td>"
-    label = io_label(
-        row["requests_median"], row["bytes_requested_median"], row["read_seconds_median"]
-    )
+        return f'<td colspan="5">No clean run: {left_out or "nothing measured"}</td>'
     used, runs = row.get("timings_from_runs"), row.get("runs")
-    if used is not None and runs and used < runs:
-        label += f", {used} of {runs} runs"
-    return f"<td>{label}</td>"
+    basis = f"{used} of {runs} runs" if used is not None and runs else "Repetitions not recorded"
+    memory = row.get("peak_rss_bytes_max")
+    return (
+        f"<td>{row['read_seconds_median']:.2f} s</td>"
+        f"<td>{row['requests_median']:,}</td>"
+        f"<td>{row['bytes_requested_median'] / 1e6:.2f} MB</td>"
+        f"<td>{megabytes_label(memory) if memory is not None else 'Not recorded'}</td>"
+        f"<td>{basis}</td>"
+    )
 
 
-def tile_extraction_rows(result: dict) -> str:
-    """One table row per tile from the stage 3 summary: three read patterns beside stage 2."""
+def tile_extraction_rows(result: dict, *, tile_ids: set[str] | None = None) -> str:
+    """Group alternatives by identical tile workload, keeping the earlier baseline separate."""
     rows = {
         (r["tile"], r["pattern"], r["method"]): r
         for r in result["summary"]["by_tile_pattern_method"]
     }
     parts = []
     for tile in result["summary"]["tiles"]:
-        windowed = rows.get((tile["tile"], "tile-by-tile", "raster-mask"))
-        if not windowed:
+        if tile_ids is not None and tile["tile"] not in tile_ids:
             continue
-        base = windowed.get("baseline_stage_2") or {}
+        windowed = rows.get((tile["tile"], "tile-by-tile", "raster-mask"))
+        base = (windowed or {}).get("baseline_stage_2") or {}
         with_baseline = base.get("lakes_with_baseline", [])
         if not base.get("comparable") or not with_baseline:
-            stage_2 = "not read in Stage 2"
+            baseline_cells = '<td colspan="5">No matching individual-lake comparison</td>'
         else:
-            stage_2 = io_label(base["requests"], base["bytes_requested"], base["read_seconds"])
+            basis = "Sum of lake medians"
             if len(with_baseline) != tile["lakes"]:
-                stage_2 = f"{len(with_baseline)} of {tile['lakes']} lakes: {stage_2}"
+                basis += f" · only {len(with_baseline)} of {tile['lakes']} lakes"
+            baseline_cells = (
+                f"<td>{base['read_seconds']:.2f} s</td><td>{base['requests']:,}</td>"
+                f"<td>{base['bytes_requested'] / 1e6:.2f} MB</td>"
+                f"<td>Not summarized</td><td>{basis}</td>"
+            )
         partly = tile.get("lakes_partly_inside") or 0
-        lakes = f"{tile['lakes']}" + (f", {partly} partly inside" if partly else "")
+        lakes = f"{tile['lakes']} lakes" + (f", {partly} partly inside" if partly else "")
         region = html.escape(REGION_LABELS.get(tile["region"], tile["region"]))
-        cells = [
-            f'<th scope="row">{html.escape(tile["tile"])}, {region}</th>',
-            f"<td>{lakes}</td>",
-            f"<td>{stage_2}</td>",
-            _pattern_cell(windowed),
-            _pattern_cell(rows.get((tile["tile"], "whole-tile", "raster-mask"))),
-            _pattern_cell(rows.get((tile["tile"], "tile-by-tile", "lazy-stack"))),
-        ]
-        parts.append("<tr>" + "".join(cells) + "</tr>")
+        parts.append(
+            '<tbody><tr class="result-group"><th colspan="7" scope="rowgroup">'
+            f"{region} · {html.escape(tile['tile'])} · {lakes}</th></tr>"
+        )
+        parts.append(
+            "<tr>"
+            + workflow_cell("lake-first", 1, "Separate process per lake")
+            + f"<td>{READER_LABELS[1]}</td>"
+            + baseline_cells
+            + "</tr>"
+        )
+        for pattern, method, workflow, note in (
+            (
+                "lake-by-lake",
+                "raster-mask",
+                "lake-first",
+                "One process, reopen files for each lake",
+            ),
+            ("tile-by-tile", "raster-mask", "tile-first", "Keep files open across lakes"),
+            ("whole-tile", "raster-mask", "whole-tile", "Load complete band grids first"),
+            (
+                "tile-by-tile",
+                "lazy-stack",
+                "tile-first",
+                "Shared graph, compute each lake separately",
+            ),
+        ):
+            reader = METHOD_READERS[method]
+            parts.append(
+                "<tr>"
+                + workflow_cell(workflow, reader, note)
+                + f"<td>{READER_LABELS[reader]}</td>"
+                + _read_metric_cells(rows.get((tile["tile"], pattern, method)))
+                + "</tr>"
+            )
+        parts.append("</tbody>")
     return "\n".join(parts)
 
 
@@ -383,14 +499,15 @@ def cross_tile_rows(result: dict) -> str:
     rows = {(r["path"], r["method"]): r for r in result["summary"]["medians"]}
     parts = []
     for method in ("raster-mask", "lazy-stack"):
-        for path, label in (("lake-first", "Lake first"), ("tile-first", "Tile first")):
+        for path in ("lake-first", "tile-first"):
             row = rows.get((path, method))
             times = [
                 w["end_to_end_seconds"]
                 for w in result["summary"]["workloads"]
                 if (w["path"], w["method"]) == (path, method) and w["clean"]
             ]
-            cells = f'<th scope="row">{label}</th><td>{METHOD_LABELS[method]}</td>'
+            reader = METHOD_READERS[method]
+            cells = workflow_cell(path, reader) + f"<td>{READER_LABELS[reader]}</td>"
             if not row or not times or not row.get("clean_repetitions"):
                 cells += '<td colspan="4">No clean complete repetition</td>'
             else:
@@ -446,6 +563,303 @@ def cross_tile_markers(result: dict) -> dict[str, str]:
     return markers
 
 
+def plain_number(value: float) -> str:
+    """Whole numbers without a decimal, otherwise one decimal, with thousands separators."""
+    text = f"{value:,.1f}"
+    return text[:-2] if text.endswith(".0") else text
+
+
+def wavelength_label(band: dict) -> str:
+    """The band's range in nanometers, from the source's range or its center and bandwidth."""
+    if band["range_nm"] is not None:
+        low, high = band["range_nm"]
+    else:
+        low = band["center_nm"] - band["width_nm"] / 2
+        high = band["center_nm"] + band["width_nm"] / 2
+    return f"{plain_number(low)}–{plain_number(high)}"
+
+
+def use_chip(use_id: str, uses: dict[str, dict]) -> str:
+    kind = " support" if use_id in SUPPORT_USES else ""
+    label = html.escape(uses[use_id]["label"], quote=True)
+    return f'<span class="use{kind}" title="{label}">{USE_SHORT[use_id]}</span>'
+
+
+def variant_note(sensor: dict) -> list[str]:
+    """How far the other satellites' centers and bandwidths in the source stray from the table."""
+    names: dict[str, None] = {}
+    centers, widths = [(0.0, "")], [(0.0, "")]
+    for band in sensor["bands"]:
+        for name, values in (band.get("variants") or {}).items():
+            names[name] = None
+            centers.append((abs(values["center_nm"] - band["center_nm"]), band["id"]))
+            widths.append((abs(values["width_nm"] - band["width_nm"]), band["id"]))
+    if not names:
+        return []
+    listed = list(names)
+    joined = listed[0] if len(listed) == 1 else ", ".join(listed[:-1]) + f" and {listed[-1]}"
+    center, width = max(centers), max(widths)
+    return [
+        f"{joined} differ from these values by up to {plain_number(center[0])} nm in center "
+        f"wavelength, on {center[1]}, and {plain_number(width[0])} nm in bandwidth, on {width[1]}."
+    ]
+
+
+def sensor_band_table(sensor: dict, uses: dict[str, dict], gaps: int = 0) -> str:
+    """One sensor's bands: id, name, wavelength range, pixel size, and documented uses."""
+    label = html.escape(sensor["label"])
+    meta = " · ".join(
+        html.escape(part)
+        for part in (
+            sensor["platform"],
+            sensor["instrument"],
+            sensor["operator"],
+            ACCESS_LABELS[sensor["access"]],
+        )
+    )
+    rows, footnotes = [], []
+    for band in sensor["bands"]:
+        marker = ""
+        if band["note"]:
+            footnotes.append(f"<li>{html.escape(band['note'])}</li>")
+            marker = f"<sup>{len(footnotes)}</sup>"
+        chips = " ".join(use_chip(use["use"], uses) for use in band["uses"])
+        rows.append(
+            f'<tr><th scope="row">{html.escape(band["id"])}{marker}</th>'
+            f"<td>{html.escape(band['name'])}</td>"
+            f"<td>{wavelength_label(band)}</td><td>{plain_number(band['resolution_m'])}</td>"
+            f"<td>{chips or '<span class="muted">none named</span>'}</td></tr>"
+        )
+    notes = [html.escape(note) for note in sensor["notes"]] + variant_note(sensor)
+    if gaps:
+        plural = "band" if gaps == 1 else "bands"
+        notes.append(f"{gaps} {plural} did not verify and are not listed.")
+    footnote_list = f'<ol class="band-footnotes">{"".join(footnotes)}</ol>' if footnotes else ""
+    items = "".join(f"<li>{note}</li>" for note in notes)
+    return (
+        f'<div class="band-table" data-sensor="{html.escape(sensor["id"], quote=True)}">'
+        f'<h4>{label}</h4><p class="small muted">{meta}</p>'
+        f'<div class="table-scroll" role="region" aria-label="{label} bands" tabindex="0">'
+        '<table class="plans bands"><thead><tr><th scope="col">Band</th><th scope="col">Name</th>'
+        '<th scope="col">Wavelength (nm)</th><th scope="col">Pixel (m)</th>'
+        '<th scope="col">Water-quality use</th></tr></thead>'
+        f"<tbody>{''.join(rows)}</tbody></table></div>{footnote_list}"
+        '<details class="tech"><summary>Notes on this table</summary>'
+        f"<ul>{items}</ul></details></div>"
+    )
+
+
+def sensor_options(sensors: list[dict], selected: str) -> str:
+    if selected not in {sensor["id"] for sensor in sensors}:
+        raise ValueError(f"Default sensor {selected} is not in the dataset")
+    return "".join(
+        f'<option value="{html.escape(s["id"], quote=True)}"'
+        f"{' selected' if s['id'] == selected else ''}>{html.escape(s['label'])}</option>"
+        for s in sensors
+    )
+
+
+def use_legend(uses: list[dict]) -> str:
+    by_id = {use["id"]: use for use in uses}
+    items = "".join(
+        f"<li>{use_chip(use['id'], by_id)} <b>{html.escape(use['label'])}.</b> "
+        f"{html.escape(use['definition'])}</li>"
+        for use in uses
+    )
+    return f'<ul class="use-legend">{items}</ul>'
+
+
+def sensor_sources(dataset: dict) -> str:
+    """Source links grouped by publisher, in the dataset's order, then the reading rules."""
+    groups: dict[str, list[str]] = {}
+    for source in dataset["sources"]:
+        title = html.escape(source["title"].split(" | ")[0])
+        link = f'<a href="{html.escape(source["url"], quote=True)}">{title}</a>'
+        groups.setdefault(html.escape(source["publisher"]), []).append(link)
+    links = " ".join(f"{publisher}: {', '.join(items)}." for publisher, items in groups.items())
+    checked = html.escape(dataset["verification"]["checker"]["finished_at"][:10])
+    return (
+        f"<b>Documented:</b> {links} Researched and independently checked {checked}. "
+        "Where a source lists a center wavelength and a bandwidth, the range is the center plus "
+        "and minus half the bandwidth. A use is listed when a cited source names the band, or "
+        "names a wavelength inside it. These are documented uses. They do not validate a model."
+    )
+
+
+def sensor_band_markers(dataset: dict) -> dict[str, str]:
+    uses = {use["id"]: use for use in dataset["uses"]}
+    tables = "".join(
+        sensor_band_table(
+            sensor,
+            uses,
+            sum(g["claim_id"].startswith(f"band-{sensor['id']}-") for g in dataset["gaps"]),
+        )
+        for sensor in dataset["sensors"]
+    )
+    return {
+        "SENSOR_TABLES": tables,
+        "SENSOR_OPTIONS_LEFT": sensor_options(dataset["sensors"], DEFAULT_SENSORS[0]),
+        "SENSOR_OPTIONS_RIGHT": sensor_options(dataset["sensors"], DEFAULT_SENSORS[1]),
+        "SENSOR_LEGEND": use_legend(dataset["uses"]),
+        "SENSOR_SOURCES": sensor_sources(dataset),
+        "SENSOR_COUNT": str(len(dataset["sensors"])),
+        "SENSOR_BAND_COUNT": str(sum(len(sensor["bands"]) for sensor in dataset["sensors"])),
+    }
+
+
+def workload_comparison(result: dict | None, execution_audit: dict | None = None) -> str:
+    """Keep all planned alternatives visible, and never rank partial work as complete."""
+    sections = []
+    lineage = (result or {}).get("rerun")
+    retained = {tuple(key) for key in (lineage or {}).get("retained_configurations", [])}
+    if lineage:
+        sections.append(
+            '<p class="note-line"><strong>Sleep-affected attempts were rerun.</strong> '
+            f"{len(lineage['replacement_configurations'])} replacements use the same frozen "
+            f"inputs and memory limits. {len(retained)} unaffected results retain their original "
+            "dates and source versions. Replacement lazy readers use saved metadata without "
+            "live catalog lookups. "
+            '<a href="reviews/2026-09-21-sleep-rerun.md">Rerun review</a>.</p>'
+        )
+    interrupted = {
+        (row["cohort"], row["configuration"])
+        for row in (execution_audit or {}).get("rows", [])
+        if row["sleep_intervals_overlapping"]
+    }
+    if interrupted:
+        sections.append(
+            '<p class="note-line"><strong>Sleep interrupted this experiment.</strong> '
+            f"{len(interrupted)} attempts overlapped laptop sleep. Their elapsed times do not "
+            "establish uninterrupted workload performance. "
+            '<a href="reviews/2026-09-19-larger-workload-execution.md">Execution review</a>.</p>'
+        )
+    for cohort, label in [
+        ("dispersed", "100 lakes across the continental U.S."),
+        ("florida", "1,000 lakes concentrated in Florida"),
+    ]:
+        data = (result or {}).get("cohorts", {}).get(cohort, {})
+        rows = {row["configuration"]: row for row in data.get("comparisons", [])}
+        rendered = []
+        for key, (workflow, reader) in WORKLOAD_CONFIGURATIONS.items():
+            row = rows.get(key, {})
+            complete = row.get("status") == "complete"
+            valid = complete and row.get("matches_all_complete_outputs") is True
+            state = "Complete · outputs agree" if valid else row.get("status", "Not measured")
+            if row.get("status") == "complete" and not valid:
+                state = "Complete · agreement unverified"
+            sleeping = (cohort, key) in interrupted
+            if sleeping:
+                state += " · sleep interrupted"
+            if (cohort, key) in retained:
+                state += " · retained original"
+            timed = complete and not sleeping
+            seconds = f"{row['extraction_seconds']:,.1f} s" if timed else "—"
+            cpu = row.get("cpu", {})
+            cpu_seconds = (
+                f"{cpu['user'] + cpu['system']:,.1f} s"
+                if complete and "user" in cpu and "system" in cpu
+                else "—"
+            )
+            reader_seconds = (
+                f"{row['read_and_extract_seconds']:,.1f} s"
+                if timed and "read_and_extract_seconds" in row
+                else "—"
+            )
+            io = row.get("io", {})
+            requests = f"{io['requests']:,}" if complete and "requests" in io else "—"
+            megabytes = (
+                f"{io['bytes_requested'] / 1e6:,.1f} MB"
+                if complete and "bytes_requested" in io
+                else "—"
+            )
+            peak = row.get("supervision", {}).get("peak_aggregate_rss_bytes")
+            memory = f"{peak / 1024**3:.2f} GiB" if peak is not None else "—"
+            note = "Control for this comparison" if key == "B-lazy-control" else ""
+            rendered.append(
+                "<tr>"
+                + workflow_cell(workflow, reader, note)
+                + "".join(
+                    f"<td>{html.escape(str(value))}</td>"
+                    for value in (
+                        READER_LABELS[reader],
+                        state,
+                        reader_seconds,
+                        seconds,
+                        cpu_seconds,
+                        requests,
+                        megabytes,
+                        memory,
+                    )
+                )
+                + "</tr>"
+            )
+        preflight = data.get("preflight", {})
+        coverage = (
+            f"<p>{preflight['products']} source products · {preflight['tiles']} tiles · "
+            f"{preflight['tile_dates']} tile-dates · "
+            f"{preflight['lake_product_memberships']} lake-product memberships.</p>"
+            if preflight
+            else "<p>Exact products and image coverage await input selection.</p>"
+        )
+        unconverged = preflight.get("unconverged_geometry_count", 0)
+        if unconverged:
+            coverage += (
+                f'<p class="small muted">{unconverged} '
+                f"{'lake uses' if unconverged == 1 else 'lakes use'} a recorded approximation "
+                "for image selection. Every reader uses the same prepared pixel selections.</p>"
+            )
+        sections.append(
+            f'<h3 class="comparison-heading">{label}</h3>{coverage}'
+            '<p class="scroll-hint">Scroll horizontally to compare all columns.</p>'
+            '<div class="table-scroll" role="region" tabindex="0" '
+            f'aria-label="{html.escape(label)} workflow and reader comparison">'
+            '<table class="plans results-table">'
+            "<caption>Seven workflow and reader combinations. Codes identify recipes, "
+            "with settings and timing qualifications stated above.</caption>"
+            '<thead><tr><th scope="col">Workflow + reader</th><th scope="col">Reader</th>'
+            '<th scope="col">Status</th><th scope="col">Read + extract</th>'
+            '<th scope="col">Total extraction</th><th scope="col">Worker CPU</th>'
+            '<th scope="col">Requests</th><th scope="col">Requested bytes</th>'
+            '<th scope="col">Peak benchmark RAM</th></tr></thead>'
+            "<tbody>" + "\n".join(rendered) + "</tbody></table></div>"
+        )
+    if result:
+        partial_note = ""
+        if any(
+            row.get("status") == "incomplete"
+            for data in result.get("cohorts", {}).values()
+            for row in data.get("comparisons", [])
+        ):
+            partial_note = (
+                "Incomplete attempts retain their partial measurements in the evidence file. "
+                "Their times do not appear as completed comparisons. Their RAM peaks cover only "
+                "the work reached before failure. "
+            )
+        history_note = (
+            'Earlier attempts remain in the <a href="../benchmarks/results/'
+            'lazy-reader-workloads-before-sleep-rerun.json">preserved original result</a>. '
+            if lineage
+            else ""
+        )
+        sections.append(
+            '<p class="source-note"><a href="../benchmarks/results/lazy-reader-workloads.json">'
+            "Execution evidence, completion checks, resource limits, and cleanup audit</a>. "
+            "Worker CPU sums user and system CPU seconds. Peak RAM includes the supervisor "
+            "and worker processes, sampled every 0.1 seconds. Shorter spikes can be missed. "
+            f"{partial_note}{history_note}GDAL counters exclude Python catalog requests.</p>"
+        )
+    return "\n".join(sections)
+
+
+def workload_audit():
+    if not WORKLOAD_AUDIT.exists() or not LAZY_WORKLOADS.exists():
+        return None
+    value = json.loads(WORKLOAD_AUDIT.read_text())
+    if value["result_sha256"] != hashlib.sha256(LAZY_WORKLOADS.read_bytes()).hexdigest():
+        raise ValueError("workload audit does not match the current result")
+    return value
+
+
 def build_html(inventory: Path = INVENTORY) -> str:
     issues = {issue["id"]: issue for issue in json.loads(inventory.read_text())["issues"]}
     check_placement(issues)
@@ -462,6 +876,7 @@ def build_html(inventory: Path = INVENTORY) -> str:
     lake_extraction = json.loads(LAKE_EXTRACTION.read_text())
     tile_extraction = json.loads(TILE_EXTRACTION.read_text())
     cross_tile_extraction = json.loads(CROSS_TILE_EXTRACTION.read_text())
+    sensor_bands = json.loads(SENSOR_BANDS.read_text())
     for entry in maps["images"].values():
         path = MAPS.parent / entry["file"]
         if hashlib.sha256(path.read_bytes()).hexdigest() != entry["sha256"]:
@@ -502,6 +917,7 @@ def build_html(inventory: Path = INVENTORY) -> str:
         "DIFF_ROWS": copy_difference_rows(copy_difference),
         "DIFF_DIGEST": hashlib.sha256(COPY_DIFFERENCE.read_bytes()).hexdigest(),
         "LAKE_ROWS": lake_extraction_rows(lake_extraction),
+        "LAKE_METHOD_ROWS": lake_method_rows(lake_extraction),
         "LAKE_CLASS_ROWS": pixel_class_rows(lake_extraction),
         "LAKE_DATE": html.escape(lake_extraction["measured_at"][:10]),
         "LAKE_MACHINE": html.escape(machine_label(lake_extraction["machine"])),
@@ -509,7 +925,11 @@ def build_html(inventory: Path = INVENTORY) -> str:
         "LAKE_TILES": str(lake_extraction["summary"]["distinct_tiles"]),
         "LAKE_RUNS": f"{len(lake_extraction['runs']):,}",
         "LAKE_DIGEST": hashlib.sha256(LAKE_EXTRACTION.read_bytes()).hexdigest(),
-        "TILE_ROWS": tile_extraction_rows(tile_extraction),
+        "TILE_ROWS": tile_extraction_rows(tile_extraction, tile_ids={"10SGJ"}),
+        "TILE_DETAIL_ROWS": tile_extraction_rows(
+            tile_extraction,
+            tile_ids={r["tile"] for r in tile_extraction["summary"]["tiles"]} - {"10SGJ"},
+        ),
         "TILE_DATE": html.escape(tile_extraction["measured_at"][:10]),
         "TILE_MACHINE": html.escape(machine_label(tile_extraction["machine"])),
         "TILE_LAKES": str(tile_extraction["summary"]["lakes"]),
@@ -518,6 +938,12 @@ def build_html(inventory: Path = INVENTORY) -> str:
         "TILE_DIGEST": hashlib.sha256(TILE_EXTRACTION.read_bytes()).hexdigest(),
         "CROSS_DIGEST": hashlib.sha256(CROSS_TILE_EXTRACTION.read_bytes()).hexdigest(),
         **cross_tile_markers(cross_tile_extraction),
+        "SENSOR_DIGEST": hashlib.sha256(SENSOR_BANDS.read_bytes()).hexdigest(),
+        **sensor_band_markers(sensor_bands),
+        "WORKLOAD_COMPARISON": workload_comparison(
+            json.loads(LAZY_WORKLOADS.read_text()) if LAZY_WORKLOADS.exists() else None,
+            workload_audit(),
+        ),
     }
     rendered = TEMPLATE.read_text()
     for key, value in replacements.items():

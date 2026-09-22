@@ -193,6 +193,8 @@ def geometry_context(lake, grids, items):
         group_counts[group] += 1
     footprint_count = max(group_counts.values(), default=0)
     previous = None
+    best = None
+    refinements = []
     for iteration in range(9):
         spacing = 1000 / 2**iteration
         polygon = transform(original, 4326, epsg, spacing)
@@ -232,6 +234,11 @@ def geometry_context(lake, grids, items):
                 + extent_change
                 + max(group_change.values(), default=0)
             ) / min(polygon.area, support.area)
+            refinements.append(
+                {"iteration": iteration, "spacing_m": spacing, "relative_change_bound": change}
+            )
+            if best is None or change < best[0]:
+                best = (change, iteration, spacing, polygon, support, extents, footprints)
             if change <= TOLERANCE / 8:
                 # The coordinate displacement bound avoids overlaying near-identical
                 # complex shorelines solely to test floating-point round-trip error.
@@ -262,7 +269,36 @@ def geometry_context(lake, grids, items):
                     },
                 }
         previous = current
-    raise ValueError(f"geometry did not converge: {lake_id(lake)}")
+    # Selection diagnostics need a bounded, explicit approximation. Native pixel
+    # classes are prepared separately from the original polygon, never this buffer.
+    change, iteration, spacing, polygon, support, extents, footprints = best
+    coords = shapely.get_coordinates(polygon)
+    forward = pyproj.Transformer.from_crs(epsg, 4326, always_xy=True)
+    backward = pyproj.Transformer.from_crs(4326, epsg, always_xy=True)
+    lon, lat = forward.transform(coords[:, 0], coords[:, 1])
+    x, y = backward.transform(lon, lat)
+    displacement = float(np.hypot(x - coords[:, 0], y - coords[:, 1]).max())
+    error = (2 * polygon.length * displacement + math.pi * displacement**2) / polygon.area
+    if error > TOLERANCE:
+        raise ValueError("polygon round trip exceeds tolerance")
+    return {
+        "epsg": epsg,
+        "polygon": polygon,
+        "support": support,
+        "extents": extents,
+        "footprints": footprints,
+        "native_members": native_members,
+        "audit": {
+            "spacing_m": spacing,
+            "relative_change_bound": change,
+            "roundtrip_relative_error": error,
+            "buffer_quad_segs": 16,
+            "bound_scope": "worst alternative per datastrip, summed within each group",
+            "converged": False,
+            "chosen_iteration": iteration,
+            "refinements": refinements,
+        },
+    }
 
 
 def coverage(context, items):

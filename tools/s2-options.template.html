@@ -65,6 +65,29 @@ small,.small{font-size:13px;line-height:1.6}
 .sensor dl{display:grid;grid-template-columns:105px 1fr;gap:11px 20px;margin:0;font-size:14px}
 .sensor dt{color:var(--muted)}
 .sensor dd{margin:0}
+.band-compare{margin-top:28px;border-top:1px solid var(--line);padding-top:16px}
+.band-compare>summary{font-weight:600}
+.band-compare>p{margin-top:10px;max-width:760px;font-size:15px;color:var(--muted)}
+.band-pair{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:18px}
+.band-panel{min-width:0}
+.band-slot .table-scroll{max-height:680px;overflow:auto}
+.band-table h4{margin:0 0 4px;font-size:17px;font-weight:650}
+.band-table>.small{margin-bottom:8px}
+.band-library .band-table{margin-top:22px}
+.bands{margin-top:0;font-size:13px}
+.bands th,.bands td{padding:8px 10px}
+.bands tbody th{width:auto;white-space:nowrap}
+.bands th:nth-child(1){width:9%}.bands th:nth-child(2){width:25%}.bands th:nth-child(3){width:19%}.bands th:nth-child(4){width:9%}
+.bands td:nth-child(3),.bands td:nth-child(4){white-space:nowrap}
+.bands sup{font-size:10px;color:var(--teal);margin-left:2px}
+.band-footnotes{margin:8px 0 0;padding-left:18px;font-size:12px;color:var(--muted)}
+.band-footnotes li{margin-bottom:3px}
+.band-table .tech ul{list-style:disc}
+.bands thead th{position:sticky;top:0;background:var(--paper)}
+.use{display:inline-block;background:var(--mint);color:var(--teal);padding:2px 7px;border-radius:3px;font-size:11px;font-weight:650;letter-spacing:.02em;white-space:nowrap;margin:2px 2px 2px 0}
+.use.support{background:#eeeee8;color:var(--muted)}
+.use-legend{margin:18px 0 0;padding:0;list-style:none;font-size:13px;color:var(--muted);display:grid;grid-template-columns:1fr 1fr;gap:6px 24px}
+.use-legend b{color:var(--ink);font-weight:600}
 .resolution-figure{display:grid;grid-template-columns:1fr 1.25fr;gap:36px;align-items:center;background:var(--mint);padding:28px 32px;margin-top:28px}
 .resolution-figure svg{width:100%;max-height:190px}
 .resolution-figure h3{font-size:23px;margin-bottom:10px}
@@ -140,10 +163,10 @@ summary{cursor:pointer;color:var(--teal)}
 .future .eyebrow{color:var(--teal);margin-bottom:20px}
 .future h1{max-width:750px}
 .future p{max-width:600px;margin-top:24px;font-size:18px;color:var(--muted)}
-.prototype-intro{padding-block:54px 32px}
-.prototype-intro .eyebrow{color:var(--teal);margin-bottom:20px}
-.prototype-intro h1{max-width:820px}
-.prototype-intro p{max-width:740px;margin-top:22px;font-size:18px;color:var(--muted)}
+.prototype-intro{padding-block:32px 24px}
+.prototype-intro .eyebrow{color:var(--teal);margin-bottom:12px}
+.prototype-intro h1{max-width:940px;font-size:clamp(30px,3.5vw,44px)}
+.prototype-intro p{max-width:850px;margin-top:14px;font-size:17px;color:var(--muted)}
 .pilot-counts b{font-size:28px;line-height:1.3}
 .back-button{border:0;background:var(--teal);color:#fff;padding:11px 18px;border-radius:3px;margin-top:26px;font-size:14px}
 footer{padding-block:25px 35px;font-size:11px;color:var(--muted);display:flex;gap:15px;justify-content:space-between}
@@ -202,6 +225,95 @@ noscript p{padding:16px;background:var(--sand)}
 .drivers ul{margin:0;padding-left:18px;font-size:13px;color:var(--muted)}
 .drivers li{margin-bottom:6px}
 
+#prototyping .chapter{padding-block:38px}
+#prototyping .chapter-head{margin-bottom:22px}
+#prototyping h2{font-size:clamp(27px,2.8vw,35px)}
+#prototyping .chapter-head p{max-width:900px;font-size:16px;margin-top:12px}
+.takeaway-overview{display:grid;grid-template-columns:1.2fr 1fr;gap:34px;align-items:center}
+.takeaway-overview h3,.takeaway-readers h3,.takeaway-coverage h3{font-size:20px;line-height:1.3}
+.takeaway-overview p,.takeaway-coverage>p{font-size:15px;color:var(--muted);margin-top:10px}
+.takeaway-picture{padding:16px;background:white;border:1px solid var(--line);border-radius:5px}
+.takeaway-picture svg{display:block;width:100%;max-height:210px}
+.takeaway-picture figcaption{font-size:12px;color:var(--muted);text-align:center;margin-top:8px}
+.takeaway-ref{display:inline-block;min-width:24px;min-height:24px;text-align:center;font-weight:700}
+.takeaway-readers,.takeaway-coverage{margin-top:28px}
+.takeaway-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0 0}
+.takeaway-cards>div{padding:20px;background:white;border:1px solid var(--line);border-top:3px solid var(--teal)}
+.takeaway-cards dt{font-size:16px;font-weight:650}
+.takeaway-cards dd{margin:9px 0 0;font-size:14px;color:var(--muted)}
+.takeaway-cards .takeaway-tradeoff{color:var(--ink);margin-top:14px}
+.takeaway-cards a{font-size:13px}
+.takeaway-cohorts{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px}
+.takeaway-cohorts>p{margin:0;padding:14px 18px;background:var(--mint);font-size:14px}
+.takeaway-cohorts strong{display:block;color:var(--teal);font-size:19px}
+.takeaway-support{margin-top:22px;font-size:14px;color:var(--muted)}
+.workflow-chart{background:#fff;border:1px solid var(--line);border-radius:5px;padding:22px}
+.workflow-chart h3{font-size:18px;letter-spacing:-.02em;margin-top:10px;line-height:1.3}
+.workflow-chart p{font-size:13px;color:var(--muted)}
+.workflow-chart a{font-size:12px}
+.workflow-prep,.workflow-input{display:grid;grid-template-columns:1fr 2fr;gap:24px;padding:17px 20px;background:#f5f7f3;border-left:3px solid #bc8429}
+.workflow-input{border-left-color:var(--teal);background:var(--mint)}
+.cadence{display:inline-block;font-size:10px;font-weight:650;line-height:1.5;padding:3px 7px;border:1px solid #d0a56b;border-radius:3px;color:#875416;background:#fff9ee}
+.cadence.refresh{border-color:#99c1ba;color:var(--teal);background:#f3faf6}
+.cadence.pending{border-color:#bfc2cf;color:#555c75;background:#f6f5fa}
+.workflow-connector{text-align:center;color:var(--teal);font-size:23px;line-height:1.5}
+.workflow-chart .workflow-label{font-size:12px;font-weight:650;color:var(--ink);margin-bottom:12px}
+.workflow-a{--workflow-color:#386eaa}
+.workflow-b{--workflow-color:#167568}
+.workflow-c{--workflow-color:#986226}
+.workflow-path{display:grid;grid-template-columns:1fr 1.2fr 1.25fr;border:1px solid var(--line);border-left:4px solid var(--workflow-color);margin-top:10px}
+.workflow-name{padding:16px;background:#f7f9f6}
+.workflow-name h3{display:inline;font-size:16px;margin:0}
+.workflow-letter{display:inline-block;background:var(--workflow-color);color:white;border-radius:3px;padding:1px 6px;font-size:12px;font-weight:700;margin-right:5px}
+.workflow-name a{display:block;margin-top:8px}
+.workflow-operation{position:relative;padding:16px 18px;border-left:1px solid var(--line)}
+.workflow-operation::before{content:'→';position:absolute;left:-10px;top:40%;color:var(--workflow-color);background:white;font-size:20px;line-height:1}
+.workflow-operation .eyebrow{font-size:9px;letter-spacing:.09em;color:var(--muted)}
+.workflow-operation h4{font-size:14px;line-height:1.45;margin:5px 0 6px;font-weight:650}
+.workflow-output{display:grid;grid-template-columns:1.4fr 1fr;gap:28px}
+.workflow-output>div{position:relative;padding:18px;background:var(--mint)}
+.workflow-output p{margin-top:8px}
+.workflow-output .workflow-future{background:#fafafa;border:1px dashed #b6bac7}
+.workflow-future::before{content:'→';position:absolute;left:-24px;top:40%;font-size:23px;color:#656d80}
+.workflow-chart figcaption{font-size:12px;color:var(--muted);margin-top:15px}
+.comparison-heading{margin-top:30px}
+.reader-chart{margin-top:22px}
+.reader-chart .workflow-name h3{display:block;margin-top:8px}
+.recipe-key{padding:16px 20px;background:var(--mint);margin-top:22px;font-size:14px;line-height:1.7}
+.recipe-key strong{font-size:20px;color:var(--teal);margin-right:8px}
+.reader-variants{margin-top:18px}
+.reader-variants p{font-size:14px;margin-top:10px}
+.extraction-methods{margin:0 0 22px}
+.extraction-methods>div{display:grid;grid-template-columns:1fr 2.5fr;gap:22px;padding:16px 18px;border-top:1px solid var(--line);background:white}
+.extraction-methods>div:last-child{border-bottom:1px solid var(--line)}
+.extraction-methods dt{font-size:14px;font-weight:650}
+.extraction-methods dd{margin:0;font-size:14px;color:var(--muted)}
+.extraction-methods dd p+p{margin-top:6px}
+.comparison-questions{min-width:660px}
+.comparison-questions th:first-child{width:23%}
+.comparison-questions td{width:38.5%}
+.comparison-brief{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;background:var(--mint);padding:18px 22px;margin-bottom:20px}
+.comparison-brief b{font-size:13px;color:var(--teal)}
+.comparison-brief p{font-size:14px;line-height:1.55;margin-top:5px}
+.comparison-scope{font-size:14px;max-width:980px;margin-top:18px}
+.results-table{min-width:850px;font-size:13px;background:white}
+.results-table caption{text-align:left;font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.6}
+.results-table thead th{font-size:10px;letter-spacing:.035em;background:#f0f4ee}
+.results-table th,.results-table td{padding:12px}
+.results-table tbody th{width:230px;color:var(--ink)}
+.results-table tbody th[class^="workflow-"]{border-left:3px solid var(--workflow-color)}
+.results-table td{font-variant-numeric:tabular-nums}
+.results-table .result-group th{background:var(--mint);font-size:12px;color:var(--teal);padding:9px 12px}
+.cell-note{display:block;font-size:11px;line-height:1.5;color:var(--muted);font-weight:400;margin-top:4px}
+.comparison-conclusion{border-left:3px solid var(--teal);padding:12px 18px;margin-top:22px;background:#edf2eb;font-size:14px}
+.comparison-conclusion>b,.agreement-result>b{font-size:13px;color:var(--teal)}
+.comparison-conclusion p,.agreement-result p{margin-top:6px}
+.agreement-result{padding:16px 18px;margin-top:18px;border:1px solid #a9c2b6;font-size:14px}
+.pilot-summary{padding:12px 16px;background:var(--mint);font-size:14px}
+.scroll-hint{display:none;font-size:12px;color:var(--muted);margin-top:16px}
+#prototyping .benchmark-detail>p{margin-top:12px;font-size:14px}
+#prototyping .table-scroll:focus-visible{outline:3px solid #b66930;outline-offset:3px}
+
 @media(max-width:900px){.wrap{padding-inline:24px}
 .route.lineage{grid-template-columns:1fr}.route.lineage .route-arrow{height:30px;transform:rotate(90deg)}
 .hero{gap:28px}
@@ -213,8 +325,17 @@ noscript p{padding:16px;background:var(--sand)}
 .chapter-head{grid-template-columns:45px 1fr}
 .resolution-figure{gap:25px}
 .sensor dl{grid-template-columns:80px 1fr;gap:10px}
+.band-pair,.use-legend{grid-template-columns:1fr}
 .diagram{padding:18px}
 .diagram svg{height:auto}
+.workflow-chart{padding:16px}
+.workflow-path{grid-template-columns:1fr 1fr}
+.workflow-name{grid-column:1/-1;display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;padding:10px 14px}
+.workflow-name a{margin-top:0}
+.workflow-operation{border-top:1px solid var(--line)}
+.workflow-operation:nth-child(2){border-left:0}
+.workflow-operation:nth-child(2)::before{display:none}
+.scroll-hint{display:block}
 }
 
 @media(max-width:620px){.wrap{padding-inline:20px}
@@ -236,6 +357,8 @@ noscript p{padding:16px;background:var(--sand)}
 .route-arrow{height:34px;transform:rotate(90deg)}
 .plans{font-size:13px}
 .plans tbody th{width:105px}
+.bands th:nth-child(n){width:auto}
+.bands th,.bands td{padding:8px 6px}
 .split{gap:26px}
 .resolution-figure{padding:22px;gap:18px}
 .resolution-figure svg{max-height:160px}
@@ -252,6 +375,24 @@ noscript p{padding:16px;background:var(--sand)}
 .closing{font-size:17px}
 footer{display:block}
 footer p+p{margin-top:10px}
+.workflow-prep,.workflow-input,.workflow-path,.workflow-output,.comparison-brief{grid-template-columns:1fr;gap:12px}
+.workflow-prep,.workflow-input{padding:14px}
+.workflow-name{display:block}
+.workflow-name a{margin-top:8px}
+.workflow-path{gap:0}
+.workflow-operation{border-left:0}
+.workflow-operation::before{content:'↓';left:50%;top:-12px}
+.workflow-operation:nth-child(2)::before{display:block}
+.workflow-output{gap:28px}
+.workflow-future::before{content:'↓';left:50%;top:-29px}
+.comparison-brief{padding:16px;gap:16px}
+.extraction-methods>div{grid-template-columns:1fr;gap:8px;padding:14px}
+.prototype-intro{padding-top:25px}
+.prototype-intro p{font-size:16px}
+.takeaway-overview,.takeaway-cards,.takeaway-cohorts{grid-template-columns:1fr;gap:14px}
+.takeaway-cards>div{padding:16px}
+.workflow-chart{padding:12px}
+#prototyping .chapter{padding-block:30px}
 }
 
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}
@@ -288,8 +429,8 @@ footer{display:block}
 <section id="discovery" role="tabpanel" aria-labelledby="tab-discovery">
 <div class="hero">
 <div>
-<div class="eyebrow">Discovery / The story so far</div>
-<h1>From satellite pixels<br>to useful water data.</h1>
+<div class="eyebrow">Discovery / Data sources and processing requirements</div>
+<h1>Satellite data for<br>water-quality models.</h1>
 <p>We are assessing how to turn public satellite images into reliable inputs for water-quality models across thousands of lakes.</p>
 <p>Sentinel-2 in AWS is our choice. Discovery explains why, what can go wrong, and what we need to test.</p>
 </div>
@@ -306,7 +447,7 @@ footer{display:block}
 <div class="chapter-head">
 <div class="chapter-num">01 / DATA</div>
 <div>
-<h2>Two public sensors. We start with Sentinel-2.</h2>
+<h2>Why we selected Sentinel-2 for the assessment.</h2>
 <p>A satellite measures reflected sunlight in separate wavelength bands. A water-quality model reads those bands for signs of algae, sediment, and dissolved organic matter.</p>
 </div>
 </div>
@@ -357,6 +498,27 @@ footer{display:block}
 </dl>
 </article>
 </div>
+<details class="band-compare" id="band-compare">
+<summary>Compare bands across @@SENSOR_COUNT@@ sensors · wavelength, pixel size, and water-quality use</summary>
+<p>Pick a sensor for each panel. Each table lists its bands, wavelengths, pixel sizes, and the water-quality uses that documentation and studies name for it.</p>
+<div class="band-pair" hidden>
+<div class="band-panel" id="bands-left">
+<div class="map-controls"><label for="sensor-left">Left sensor</label>
+<select id="sensor-left" data-bands="bands-left">@@SENSOR_OPTIONS_LEFT@@</select>
+</div>
+<div class="band-slot"></div>
+</div>
+<div class="band-panel" id="bands-right">
+<div class="map-controls"><label for="sensor-right">Right sensor</label>
+<select id="sensor-right" data-bands="bands-right">@@SENSOR_OPTIONS_RIGHT@@</select>
+</div>
+<div class="band-slot"></div>
+</div>
+</div>
+<div class="band-library" id="band-library">@@SENSOR_TABLES@@</div>
+@@SENSOR_LEGEND@@
+<p class="source-note">@@SENSOR_SOURCES@@</p>
+</details>
 <figure class="resolution-figure">
 <svg viewBox="0 0 450 180" role="img" aria-labelledby="resolution-title">
 <title id="resolution-title">The same 30 meter square as nine 10 meter samples or one 30 meter sample. Each square carries one value. The line is the true shoreline, drawn for reference. This is a schematic.</title>
@@ -383,7 +545,7 @@ footer{display:block}
 <text x="347" y="170" text-anchor="middle" font-size="13">1 sample at 30 m</text>
 </svg>
 <figcaption>
-<h3>Small water bodies make pixel size matter.</h3>
+<h3>Smaller pixels help distinguish water from land.</h3>
 <p>Finer pixels give more chances to separate water from land at a shoreline. A pond only 10 m across can have no pixel entirely inside it.</p>
 <p>Even a 10 m pixel can contain both. More detail helps, but it does not guarantee a clean water measurement.</p>
 <p class="small">Illustration: the same 30 × 30 m area at two sampling sizes. Each square shows the one value a sensor reports for it, a mix where the shoreline crosses. The dark line is the true shoreline. Schematic only.</p>
@@ -398,10 +560,17 @@ footer{display:block}
 <div class="chapter-head">
 <div class="chapter-num">02 / ACCESS</div>
 <div>
-<h2>Use Collection 1 first. Keep the older copy for gaps.</h2>
-<p>Both archives contain Element 84’s cloud-optimized GeoTIFF conversions of ESA’s surface-reflectance product. Earth Search catalogs both. Their history and delivery conventions differ. The same name or date does not guarantee the same values.</p>
+<h2>Choosing between two public Sentinel-2 archives.</h2>
+<p>Sentinel-2 surface reflectance reaches AWS as two public collections. Both are Element 84’s cloud-optimized GeoTIFF conversions of ESA’s product, and Earth Search catalogs both. They are not interchangeable. Each covers different periods, carries different processing versions, and stores values differently. Before we read a pixel, we must decide which copy to trust, and when.</p>
 </div>
 </div>
+<div class="needs">
+<div><b>Neither copy is complete</b><span>Collection 1 is nearly empty for most of 2022 in the sampled tiles. The older copy fills most of that gap, not all of it.</span></div>
+<div><b>Stored pixel values can differ</b><span>We compared three bands of one product in both archives. The older copy changed the values and replaced the lowest values with a fixed minimum, losing information.</span></div>
+<div><b>Several versions can share a date</b><span>Both copies can hold several processing versions of one observation. The older copy holds more in our sample. A date does not identify one product.</span></div>
+<div><b>Quality layers differ</b><span>In the tested product, classification matched, but aerosol and water-vapor grids differed. The older copy’s cloud and snow layers used another file format.</span></div>
+</div>
+<h3 class="plans-title" style="margin-bottom:14px">Use Collection 1 first and the older copy to fill gaps.</h3>
 <figure class="route">
 <div class="route-step"><span class="eyebrow">Find</span><h4>Earth Search</h4><p>Locate products, their processing versions, and their band files in one catalog.</p></div>
 <div class="route-arrow" aria-hidden="true">→</div>
@@ -419,13 +588,33 @@ footer{display:block}
 <tr><th scope="row">Why use it?</th><td>The preferred copy. Its sampled quality assets are more uniform, and it has fewer competing product versions.</td><td>Fills most gaps the survey found, especially in 2022.</td></tr>
 <tr><th scope="row">What complicates it?</th><td>Nearly empty from 2022-01 through 2022-11 in the sampled tiles. It holds only part of ESA’s later reprocessing.</td><td>More competing versions, different value conventions, and missing quality assets across much of the sampled history.</td></tr>
 </tbody></table></div>
-<p class="note-line"><strong>The fallback needs validation.</strong> Stage 1 found a value offset and irreversible clamping in one older-copy product. Matching catalog labels did not mean matching stored values. <a href="#stage-1">See the measured comparison.</a></p>
+<p class="note-line"><strong>Check value conversions before combining archives.</strong> The tested older copy already included a numerical adjustment that its catalog still listed. Applying it again would distort the measurements. The lost low-value detail cannot be recovered. This finding covers one product, not the full archive.</p>
+<details class="benchmark-detail" id="archive-values">
+<summary id="stage-1">Measured differences between the archive copies</summary>
+<p>We compared tile @@RAW_TILE@@ on @@RAW_SCENE_DATE@@ in both archives. The findings below apply to this product.</p>
+<p><b>Pixel values:</b> on three reflectance bands, the older copy subtracted 1,000 from Collection 1’s stored integers and set a minimum of 1. Every pixel valid in both copies followed this rule. It loses distinctions between values at or below zero reflectance.</p>
+<p><b>Quality layers:</b> scene classification matched. Aerosol and water-vapor grids differed. The older copy’s cloud and snow probabilities used JPEG 2000 files, outside this GeoTIFF comparison.</p>
+<p><b>File access:</b> the older copy’s 10 m bands needed about three times as many requests for similar data volumes. Whole-file reads were faster for several complete band sets on this connection. These timings do not predict small-lake performance.</p>
+<details class="benchmark-detail"><summary>Pixel comparison · one product, six files</summary>
+<p class="small muted">Three reflectance bands, classification, aerosol, and water vapor. The comparison skipped grids of different shapes.</p>
+<div class="table-scroll" role="region" aria-label="Archive pixel comparison" tabindex="0"><table class="plans datasets">
+<thead><tr><th scope="col">Asset</th><th scope="col">Different valid pixels</th><th scope="col">Older minus Collection 1</th><th scope="col">Offset and clamp rule</th><th scope="col">No-data agrees?</th></tr></thead>
+<tbody>@@DIFF_ROWS@@</tbody></table></div>
+</details>
+<details class="benchmark-detail"><summary>Full-file access timings and memory</summary>
+<div class="table-scroll" role="region" aria-label="Full-file access timings" tabindex="0"><table class="plans datasets">
+<caption class="small">Medians of three successful runs per combination. Time covers per-file access and decoding. It excludes digest and statistics work. Range reads fetch full-resolution image blocks here. Whole-object reads also fetch embedded overviews. Quality and all-band sets differ between copies.</caption>
+<thead><tr><th scope="col">Band set</th><th scope="col">Collection 1 · ranges</th><th scope="col">Collection 1 · whole object</th><th scope="col">Older · ranges</th><th scope="col">Older · whole object</th><th scope="col">Highest process memory</th></tr></thead>
+<tbody>@@RAW_ROWS@@</tbody></table></div>
+</details>
+<p class="source-note"><b>Measured:</b> @@RAW_DATE@@, @@RAW_MACHINE@@, outside the bucket’s region. <a href="measurements.md#prototype-stage-1-raw-access-to-whole-tiles-2026-09-14">Access findings and limits</a>, <a href="../benchmarks/results/raw-access.json">initial result</a>, <a href="../benchmarks/results/raw-access-older-quality-all.json">quality rerun</a>, and <a href="../benchmarks/results/copy-difference.json">pixel comparison</a>. Run order and network conditions were uncontrolled. The evidence keeps the earlier failed JPEG 2000 attempts.</p>
+</details>
 <details class="map-details"><summary>The third AWS archive and the naming</summary>
 <p>The ESA-format JPEG 2000 archive, <code>sentinel-s2-l2a</code>, is in AWS Frankfurt. It is context and a possible reference source.</p>
 <p>Element 84 maintains its registry entry, and Sinergise wrote its readme. Neither document names the bucket’s owner. Provider pages disagree on whether Level-2A reads from it cost the reader money.</p>
 <p>“Processing version” means ESA’s processing baseline, such as 05.11. It describes the processing, not the observation date.</p>
 </details>
-<h3 class="plans-title">What we think is happening.</h3>
+<h3 class="plans-title">Possible reasons for the archive gaps.</h3>
 <p>We do not know why Element 84 still runs both copies, or why Collection 1 lacks most of 2022-01 to 2022-11. In 2024-04, Element 84 cited incomplete ESA reprocessing. The surveyed Copernicus catalog now contains the reprocessed 2022 products, but most are still absent here.</p>
 <p><strong>Inference from the survey:</strong> Collection 1 appears to combine arriving products with a backfill of ESA’s reprocessed history. Every sampled 2021 item is reprocessed. The 2022 and 2023 holdings look like an incomplete update. The cause can lie in the copying, the conversion, or the cataloging. We cannot tell from outside.</p>
 <details class="map-details archive-history" id="archive-history">
@@ -447,38 +636,38 @@ footer{display:block}
 <p><b>Measured:</b> <a href="measurements.md#archive-history-measurements-and-inferred-explanation">survey evidence and count definitions</a>. <b>Documented:</b> <a href="https://sentiwiki.copernicus.eu/web/s2-processing">ESA processing history</a>, <a href="https://sentinels.copernicus.eu/documents/d/sentinel/ompc-cs-dqr-002-03-2023-i60r0-msi-l2a-dqr-april-2023">05.09 deployment</a>, and <a href="https://dataspace.copernicus.eu/news/2026-9-2-copernicus-sentinel-2c-tandem-data-reprocessing-campaign-completed">Sentinel-2C tandem reprocessing</a>. Sources checked 2026-09-11. The last one shows availability at Copernicus only, and says nothing about AWS.</p>
 </details>
 <figure class="coverage">
-<h3>What our survey found, month by month.</h3>
+<h3>Archive coverage by month.</h3>
 <p>Share of expected observations present across 30 sampled tiles, 2021-01 through 2026-09-10. Dark means complete.</p>
 @@COVERAGE_STRIP@@
 <figcaption class="small muted" style="margin-top:12px">Expected observations come from the Copernicus catalog. Of @@MISSING@@ missing from the Collection 1 copy in the incomplete months, @@FALLBACK@@ list the required GeoTIFF assets in the older copy. @@UNCOVERED@@ lack a matching fallback item. Most of those are one Alaska tile. Another @@OTHER_FORMAT@@ have only JPEG 2000 links. A catalog entry does not prove a usable water observation.</figcaption>
 </figure>
 <p class="choice"><strong>Why both matter.</strong> Collection 1 alone leaves most of the surveyed 2022 gap. The older copy supplies candidate GeoTIFF assets for @@FALLBACK_PERCENT@@ percent of the missing observations in the incomplete months. The fallback order is settled. Version choice, value conversion, and missing quality layers still need a fill policy.</p>
-<p class="source-note"><b>Documented:</b> <a href="https://registry.opendata.aws/sentinel-2-l2a-cogs/">AWS GeoTIFF registry</a>, <a href="https://registry.opendata.aws/sentinel-2/">JPEG 2000 registry</a>, and <a href="https://github.com/Element84/earth-search/blob/main/README.md">Earth Search README</a>. <b>Measured:</b> <a href="reviews/2026-09-10-gap-survey-report.json">the catalog survey</a> and <a href="#stage-1">one-product pixel comparison</a>. The survey covers 30 sampled tiles. It does not show global completeness. The ingestion history above is an inference.</p>
+<p class="source-note"><b>Documented:</b> <a href="https://registry.opendata.aws/sentinel-2-l2a-cogs/">AWS GeoTIFF registry</a>, <a href="https://registry.opendata.aws/sentinel-2/">JPEG 2000 registry</a>, and <a href="https://github.com/Element84/earth-search/blob/main/README.md">Earth Search README</a>. <b>Measured:</b> <a href="reviews/2026-09-10-gap-survey-report.json">the catalog survey</a> and <a href="#archive-values">one-product pixel comparison</a>. The survey covers 30 sampled tiles. It does not show global completeness. The ingestion history above is an inference.</p>
 </section>
 
 <section class="chapter" id="risks">
 <div class="chapter-head">
 <div class="chapter-num">03 / QUALITY</div>
 <div>
-<h2>This is where things can go wrong.</h2>
+<h2>Six risks to water-quality measurements.</h2>
 <p>A change in a pixel value can come from the water, the atmosphere, or the processing. We need enough context to tell them apart. Six categories cover the main quality risks.</p>
 </div>
 </div>
 <div class="risk-grid">
 <article class="risk">
-<h3>Land leaks into a water pixel.</h3>
+<h3>Pixels can mix water and land.</h3>
 <p>Small ponds and shorelines produce mixed pixels. A small location error can change how much land enters a measurement.</p>
 <p class="response"><b>Our approach:</b> distinguish interior, shoreline, and nearby land. Keep each pixel’s water fraction.</p>
 @@RISK_LAND@@
 </article>
 <article class="risk">
-<h3>Clear-looking water can be misleading.</h3>
+<h3>Quality screening can miss contamination.</h3>
 <p>Clouds, shadows, haze, sun glint, and nearby bright land can affect the signal. Quality flags help, but they are imperfect.</p>
 <p class="response"><b>Our approach:</b> keep the available quality flags and the shoreline context. Test the screening rules.</p>
 @@RISK_FLAGS@@
 </article>
 <article class="risk">
-<h3>The same lake can arrive twice.</h3>
+<h3>Overlapping tiles can give different measurements.</h3>
 <p>Satellite tiles overlap. Processing can give the same location different values or quality labels in neighboring tiles.</p>
 <p class="response"><b>Our approach:</b> keep every tile’s values separately. Measure the differences in the overlap first. Then choose how the model uses competing observations.</p>
 @@RISK_TILES@@
@@ -490,13 +679,13 @@ footer{display:block}
 @@RISK_VERSIONS@@
 </article>
 <article class="risk">
-<h3>A sharper grid can imply false detail.</h3>
+<h3>Resampling does not add measured detail.</h3>
 <p>Sentinel-2 bands have 10, 20, or 60 m pixels. Enlarging a coarse band does not create finer observations.</p>
 <p class="response"><b>Our approach:</b> keep the native band resolution. When an analysis combines grids, make the resampling explicit.</p>
 @@RISK_GRID@@
 </article>
 <article class="risk">
-<h3>A missing date can be misread.</h3>
+<h3>Missing images can bias the record.</h3>
 <p>A gap can mean no coverage, a catalog omission, or invalid band values. A catalog footprint or a clear classification does not certify every band.</p>
 <p class="response"><b>Our approach:</b> track coverage and quality separately. Keep the reason for each missing value.</p>
 @@RISK_MISSING@@
@@ -504,7 +693,7 @@ footer{display:block}
 </div>
 <div class="diagrams">
 <figure class="diagram">
-<h3>Keep the shoreline visible.</h3>
+<h3>Distinguish water, shoreline, and nearby land.</h3>
 <svg viewBox="0 0 440 210" role="img" aria-labelledby="shore-title">
 <title id="shore-title">Schematic lake boundary across a pixel grid. Cells fully inside the edge are interior water, cells the edge crosses are shoreline, and the rest are nearby land.</title>
 <g stroke="#fafaf6" stroke-width="1.5">
@@ -579,7 +768,7 @@ footer{display:block}
 <p>Three pixel classes per resolution. Cells inside the edge are interior, cells the edge crosses are shoreline, the rest nearby land. Each keeps its water fraction, so the model chooses its own strictness.</p>
 </figure>
 <figure class="diagram">
-<h3>Keep overlapping tiles traceable.</h3>
+<h3>Keep the source of each overlapping observation.</h3>
 <svg viewBox="0 0 440 210" role="img" aria-labelledby="overlap-title">
 <title id="overlap-title">Two overlapping satellite tiles keep separate values and source identities for the same lake.</title>
 <rect x="46" y="25" width="205" height="155" fill="#a6c2b3" fill-opacity=".6" stroke="#327c79" stroke-width="1.5"/>
@@ -593,7 +782,7 @@ footer{display:block}
 <text x="222" y="14" font-size="14">Same water, two sources</text>
 </svg>
 <p>Every observation keeps its tile identity. The rule for the preferred observation is not decided yet.</p>
-<p>We never stitch tiles during ingestion. Stage 4 kept the contributions separate. Their scientific agreement is unmeasured.</p>
+<p>We never stitch tiles during ingestion. The test of lakes spanning multiple tiles kept each tile’s values separate. Agreement between overlapping observations is unmeasured.</p>
 </figure>
 </div>
 <p class="source-note"><b>Documented:</b> <a href="s2-best-practices.md">Reviewed geospatial evidence and processing practices</a>. <b>Project direction:</b> <a href="data-contract.md">Data content and provenance</a>. The drawings are schematics. Screening effectiveness and cross-tile differences are unmeasured.</p>
@@ -603,13 +792,13 @@ footer{display:block}
 <div class="chapter-head">
 <div class="chapter-num">04 / WORKLOAD</div>
 <div>
-<h2>Read only what we need, and reuse the work.</h2>
+<h2>Processing steps and opportunities to reuse data.</h2>
 <p>We only need the pixels around water bodies. Five steps get us there. Local prototypes timed preparation and extraction. Quality screening and storage still need measurement.</p>
 </div>
 </div>
 <div class="processing">
 <article class="work-group"><span class="tag">ONCE PER WATER BODY · REDONE WHEN GEOMETRY CHANGES</span>
-<h3 style="margin-top:14px">Prepare the places.</h3>
+<h3 style="margin-top:14px">Map water bodies to image pixels.</h3>
 <p class="small">This work repeats when a boundary, grid, or classification rule changes.</p>
 <div class="step"><span class="step-number">1</span>
 <div>
@@ -625,7 +814,7 @@ footer{display:block}
 </div>
 <div class="step"><span class="step-number">2</span>
 <div>
-<h4>Describe the pixels we want.</h4>
+<h4>Identify water, shoreline, and nearby-land pixels.</h4>
 <p>Classify interior, shoreline, and nearby-land pixels at each native resolution. Save the water fraction and the edge distance.</p>
 <div class="effort medium"><i></i>Effort: medium</div>
 <details class="tech"><summary>Technical detail</summary><ul>
@@ -637,7 +826,7 @@ footer{display:block}
 </div>
 </article>
 <article class="work-group"><span class="tag">ONCE PER OBSERVATION · MANY TIMES A DAY</span>
-<h3 style="margin-top:14px">Bring in the measurements.</h3>
+<h3 style="margin-top:14px">Extract values for each observation.</h3>
 <p class="small">A historical backfill repeats this work for every past date.</p>
 <div class="step"><span class="step-number">3</span>
 <div>
@@ -680,7 +869,7 @@ footer{display:block}
 </div>
 <figure class="record">
 <figcaption>
-<h3>What the model needs in a record.</h3>
+<h3>Information to store with each pixel.</h3>
 <p>Candidate: one row per pixel, per observation. Bands come on three grids, so a row belongs to one grid. A 10 m row carries the four 10 m bands. A 20 m row carries the six 20 m bands, and a 60 m row the two 60 m bands. Level-2A has 12 bands in all.</p>
 <p>A 100 × 100 m square aligned with both grids contains 100 whole pixels at 10 m and 25 at 20 m. Actual pond counts depend on shape, grid alignment, and pixel selection. Each row also carries its position, pixel class, quality codes, and provenance.</p>
 <p class="small" style="margin-top:8px">Working picture, not a selected layout. Parquet with these columns is one candidate. One row per pixel per band, or arrays per water body, are the alternatives to compare. The <a href="data-contract.md">draft data contract</a> lists every field.</p>
@@ -699,14 +888,14 @@ footer{display:block}
 <div><span>Visible to us since</span><b>the time we published it locally</b></div>
 </div>
 </figure>
-<p class="note-line"><strong>Measured locally:</strong> shared open files and cached blocks reduced requests in Stages 3 and 4. The AWS cost saving is unmeasured.</p>
+<p class="note-line"><strong>Measured locally:</strong> reusing open files and previously read image blocks reduced requests when processing multiple lakes and tiles. The AWS cost saving is unmeasured.</p>
 <div class="drivers">
 <h3>What drives cost and reliability.</h3>
 @@COST_BULLETS@@
 </div>
 <div class="prototype-bridge">
-<div><span class="eyebrow">The bridge to prototyping</span>
-<h3 style="margin-top:12px">Compare methods on the same work.</h3>
+<div><span class="eyebrow">Prototype comparisons</span>
+<h3 style="margin-top:12px">Compare extraction methods on the same data.</h3>
 <p>Windowed reads per lake, whole-tile reads shared across lakes, and precomputed pixel selections offer different tradeoffs. Measurements will guide the workflow, compute, and storage choices.</p>
 </div>
 <ul>
@@ -723,7 +912,7 @@ footer{display:block}
 <div class="chapter-head">
 <div class="chapter-num">05 / EXAMPLES</div>
 <div>
-<h2>One place, one date, six views.</h2>
+<h2>Six views of the same satellite observation.</h2>
 <p>These are real Sentinel-2 measurements. Change either view to see how a single band, a color composite, or an index changes what stands out.</p>
 </div>
 </div>
@@ -800,235 +989,374 @@ footer{display:block}
 </section>
 <section id="prototyping" role="tabpanel" aria-labelledby="tab-prototyping" hidden>
 <div class="prototype-intro">
-<div class="eyebrow">Prototyping / Partial results</div>
-<h1>Sharing reads helps.<br>Reliable water observations need more checks.</h1>
-<p>Stages 1 to 4 measured access and extraction on one laptop. Grouping lakes reduced requests. The extracted pixel values did not change.</p>
-<p>Stage 4 extended that comparison across tile boundaries. Scientific agreement across observations, seasonal reliability, AWS performance, and storage remain open.</p>
+<div class="eyebrow">Prototyping / Workflow comparisons</div>
+<h1>Comparing workflows and readers for lake-pixel extraction.</h1>
+<p>These laptop trials compare the time, processor work, data requests, and memory needed to extract lake pixels. Start with the takeaways, then explore the methods and results.</p>
 </div>
-<nav class="section-nav" aria-label="Prototype sections"><a href="#pilot-status">Status</a><a href="#stage-1">Archive values</a><a href="#stage-2">One lake</a><a href="#stage-3">Many lakes</a><a href="#stage-4">Across tiles</a></nav>
-<div class="needs pilot-counts" aria-label="Pilot manifest counts">
-<div><b data-pilot-count="features">@@PILOT_TOTAL@@</b><span>Public water-body polygons</span></div>
-<div><b data-pilot-count="regions">@@PILOT_REGIONS@@</b><span>U.S. regions</span></div>
-<div><b data-pilot-count="pilot">@@PILOT_PICKS@@</b><span>Size-class selections</span></div>
-<div><b data-pilot-count="large">@@PILOT_ANCHORS@@</b><span>Larger anchor lakes</span></div>
-</div>
-<p class="source-note"><b>Measured:</b> counts from the <a href="../examples/water-bodies-public-pilot.geojson">public pilot manifest</a>, retrieved @@PILOT_DATE@@ UTC. Source: USGS National Hydrography Dataset. These are polygon counts, not imagery or performance results.</p>
+<nav class="section-nav" aria-label="Prototype sections"><a href="#prototype-takeaways">High level takeaways</a><a href="#prototype-workflow">Workflows and readers</a><a href="#stage-2">Pixel selection · A1 and A2</a><a href="#stage-3">A1, B1, C1 and B2</a><a href="#stage-4">Readers 1 and 2 across tiles</a><a href="#larger-workloads">Reader 3 · Larger workloads</a><a href="#pilot-why">Test cases</a><a href="#pilot-status">Open decisions</a></nav>
 
-<section class="chapter" aria-labelledby="pilot-why">
-<div class="chapter-head"><div class="chapter-num">01 / Test cases</div><div>
-<h2 id="pilot-why">Give each method the same difficult cases.</h2>
-<p>Small ponds, complex shorelines, and contrasting settings help us expose differences before we estimate the cost of serving thousands of water bodies.</p>
+<section class="chapter" aria-labelledby="prototype-takeaways">
+<div class="chapter-head"><div class="chapter-num">00 / High level takeaways</div><div>
+<h2 id="prototype-takeaways">Group lakes by tile image. Read only the pixels they need.</h2>
+<p>The results favor shared image windows, with <b>B1</b><sup><a class="takeaway-ref" href="#takeaway-b1" aria-label="Quick definition of B1">*</a></sup> and <b>B3</b><sup><a class="takeaway-ref" href="#takeaway-b3" aria-label="Quick definition of B3">*</a></sup> as the leading tested candidates.</p>
 </div></div>
-<div class="risk-grid">
-<article class="risk"><h3>Small ponds</h3>
-<p>The pilot spans the @@PILOT_CLASSES@@ m size classes. The smallest class holds @@PILOT_TINY@@ bodies. Stage 2 counted their pixels. The smallest ponds have no interior pixel at any resolution. They still yield shoreline and nearby-land pixels.</p>
-<p class="response"><b>Why it matters:</b> a mapped pond can have no satellite pixel wholly inside it. Area alone does not tell us.</p></article>
-<article class="risk"><h3>Complex shorelines</h3>
-<p>Tahoe, Lanier, Okeechobee, Grand Lake St. Marys, and Washington contribute larger polygons. Lanier has a very detailed boundary.</p>
-<p class="response"><b>Why it matters:</b> shoreline complexity and area can change extraction work. Stages 2 and 3 timed these polygons. The anchors dominate the bytes and the mask preparation. The results do not separate complexity from area.</p></article>
-<article class="risk"><h3>Contrasting settings</h3>
-<p>The six regions include mountain, hill, flat, and lowland settings. Alaska contributes smaller lakes near Iliamna, without the large lake itself.</p>
-<p class="response"><b>Why it matters:</b> these cases support later checks across different conditions. The terrain labels are descriptive. Seasonal imagery is untested.</p></article>
+<div class="takeaway-overview">
+<div><h3>The largest gains come from reading less and reusing it.</h3><p>Group lakes using the same image and read their required areas. Reuse image data wherever their reads overlap.</p><p>In Florida, shared-window extraction took roughly one-sixth to one-tenth the time of the corresponding separate-lake workflows.</p><p>Whole-image reads requested over four times the shared-window bytes, even with 1,000 lakes. <a href="#larger-workloads">Compare the measured workflows →</a></p></div>
+<figure class="takeaway-picture" aria-labelledby="takeaway-picture-caption">
+<svg viewBox="0 0 340 205" role="img" aria-labelledby="takeaway-image-title takeaway-image-desc">
+<title id="takeaway-image-title">Two lake windows sharing an image block</title>
+<desc id="takeaway-image-desc">A grid represents blocks in one image. Two lake windows overlap a highlighted block that can serve both lakes.</desc>
+<rect x="20" y="14" width="280" height="150" rx="3" fill="#f2f4ef" stroke="#aebdb9"/>
+<rect x="90" y="14" width="140" height="100" fill="#e0ece5"/>
+<rect x="160" y="64" width="70" height="50" fill="#94c5b7"/>
+<path d="M90 14v150M160 14v150M230 14v150M20 64h280M20 114h280" fill="none" stroke="#aebdb9"/>
+<rect x="101" y="37" width="82" height="58" rx="3" fill="none" stroke="#386eaa" stroke-width="2" stroke-dasharray="5 3"/>
+<rect x="145" y="59" width="67" height="47" rx="3" fill="none" stroke="#386eaa" stroke-width="2" stroke-dasharray="5 3"/>
+<path d="M119 48c16-5 21 10 30 15s18 1 20 11-10 13-20 7-12-15-24-14-18-14-6-19Z" fill="#386eaa"/>
+<path d="M172 75c9-11 24-5 25 5s-6 19-17 15-16-10-8-20Z" fill="#386eaa"/>
+<path d="M203 116l20 30h66" fill="none" stroke="#166864" stroke-width="1.5"/>
+<text x="227" y="140" fill="#163b43" font-size="11">Shared block</text>
+<rect x="67" y="181" width="15" height="12" fill="none" stroke="#386eaa" stroke-dasharray="4 2"/>
+<text x="90" y="191" fill="#526970" font-size="12">Lake windows</text>
+<rect x="196" y="181" width="15" height="12" fill="#94c5b7"/>
+<text x="219" y="191" fill="#526970" font-size="12">Reusable data</text>
+</svg>
+<figcaption id="takeaway-picture-caption">Illustration: nearby lakes can share the same stored image block.</figcaption>
+</figure>
 </div>
-<p class="note-line"><strong>What “10 m” means here.</strong> Size labels use the square root of polygon area, not the actual distance across a pond. These mapped boundaries are test inputs. Their shoreline accuracy and water presence on any image date are unverified.</p>
-<p class="source-note"><b>Documented:</b> USGS no longer maintains NHD. A service refresh does not date the shoreline observations. Some reservoir codes do not state the purpose. Before you interpret extracted pixels, confirm the water-body type and boundary. <a href="reviews/2026-09-12-pilot-manifest-review.md#source-checks">Independent USGS source checks</a>.</p>
-<p class="source-note"><b>Measured:</b> selection and geometry metadata in the <a href="../examples/water-bodies-public-pilot.geojson">manifest</a>. <b>Unverified:</b> current water extent and suitability for the model. This small set follows size-class rules. It is not a representative workload sample.</p>
+
+<div class="takeaway-readers">
+<h3>* Quick definitions: two ways to share image reads</h3>
+<dl class="takeaway-cards">
+<div id="takeaway-b1" tabindex="-1"><dt>B1 · Direct raster reads</dt><dd><p>Keep image files open across lakes. Read each lake’s rectangle, reusing already-loaded data when it is available in the cache.</p><p class="takeaway-tradeoff"><b>Less CPU work and fewer requests</b> in both larger cohorts.</p><p>In the dispersed case, CPU time was 10.8 seconds, compared with 24.4 seconds for B3.</p><p><a href="#reader-1">How direct raster reads work in section 01 →</a></p></dd></div>
+<div id="takeaway-b3" tabindex="-1"><dt>B3 · Source-block lazy reads</dt><dd><p>Read each needed image block and use it for all lakes requesting it. Work through the blocks in small batches.</p><p class="takeaway-tradeoff"><b>Shorter observed elapsed time:</b> 8% less for dispersed lakes and 34% less for Florida, compared with B1.</p><p>It used more CPU and requests, but requested slightly fewer bytes. RAM had no consistent winner.</p><p><a href="#reader-3">How source-block lazy reads work in section 01 →</a></p></dd></div>
+</dl>
+</div>
+
+<div class="takeaway-coverage">
+<h3>Count the images as well as the lakes.</h3>
+<div class="takeaway-cohorts">
+<p>100 dispersed lakes<strong>121 source products</strong>Across 120 tiles</p>
+<p>1,000 Florida lakes<strong>4 source products</strong>Across 4 tiles</p>
+</div>
+<p>Both shared-window readers processed Florida faster and requested fewer bytes, despite its larger lake count.</p>
+<p>Sharing offered little benefit for the dispersed lakes, where the corresponding separate-lake workflow took 30 percent less total time. Its two separate-lake observations come from an earlier date and source version, so that comparison is weaker than Florida’s. Geography, lake sizes, and source products also differed between cohorts. <a href="#pilot-why">Explore the test cases →</a></p>
+</div>
+<p class="takeaway-support"><b>Matching extraction outputs, modest extraction RAM.</b> All fourteen larger-workload configurations agreed on their extraction outputs. B1 and B3 peaked at 0.22–0.33 GiB, including supervision. Preparation and other pipeline stages can require more memory.</p>
+<p class="source-note"><b>Measured:</b> <a href="../benchmarks/results/lazy-reader-workloads.json">larger-workload results</a>, with one observation per configuration on one laptop and uncontrolled network conditions. RAM sampling can miss short spikes. <b>Interpretation:</b> <a href="reviews/2026-09-22-prototype-high-level-takeaways-review.md">takeaway evidence and qualifications</a>. No production reader is selected. <a href="#pilot-status">Scientific validation and operating costs remain open</a>.</p>
 </section>
 
-<section class="chapter" aria-labelledby="pilot-status">
-<div class="chapter-head"><div class="chapter-num">02 / Findings so far</div><div>
-<h2 id="pilot-status">Extraction works on the tested cases. Scientific validation is still open.</h2>
-<p>The remaining work will test correctness alongside resource use. We will develop those comparisons together and add results as evidence arrives.</p>
+<section class="chapter" aria-labelledby="prototype-workflow">
+<div class="chapter-head"><div class="chapter-num">01 / Processing outline</div><div>
+<h2 id="prototype-workflow">From satellite images to records for each lake.</h2>
+<p>Start with the workflow letter: which lakes and images we process together, and how much of each image we read. Then choose the reading technique.</p>
 </div></div>
-<div class="table-scroll" role="region" aria-label="Benchmark evidence table" tabindex="0"><table class="plans datasets">
-<caption class="small">Status of Prototyping so far</caption>
-<thead><tr><th scope="col">Question</th><th scope="col">Established so far</th><th scope="col">Still to test</th></tr></thead>
+<figure class="workflow-chart" aria-labelledby="workflow-caption">
+<div class="workflow-prep">
+<div><span class="cadence setup">Prepare for each boundary and grid</span><h3>Map lakes to native pixels</h3></div>
+<p>Identify relevant tiles and classify interior, shoreline, and nearby-land pixels at 10, 20, and 60 m. Reuse the selections until boundaries or grids change. The <a href="#stage-2">boundary-clip baseline</a> instead prepares its selection afresh.</p>
+</div>
+<div class="workflow-connector" aria-hidden="true">↓</div>
+<div class="workflow-input">
+<div><span class="cadence refresh">Repeat for each acquisition</span><h3>Find the relevant images</h3></div>
+<p>Use Earth Search to identify products and band files. Collection 1 is the first choice, with the older copy for gaps. <a href="#aws">Archive choice and limitations ↗</a></p>
+</div>
+<div class="workflow-connector" aria-hidden="true">↓</div>
+<p class="workflow-label">Alternative paths · use the same images and required pixel selections</p>
+<div class="workflow-path workflow-a">
+<div class="workflow-name"><span class="workflow-letter">A</span><h3>Each lake separately</h3><a href="#stage-3">Shared-image results ↓</a><a href="#stage-4">Multiple-tile results ↓</a></div>
+<div class="workflow-operation"><span class="eyebrow">Read</span><h4>Choose a lake, then read its images</h4><p>Read the rectangular areas around that lake from its relevant band files.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Extract and repeat</span><h4>Select its pixels, then move to the next lake</h4><p>Neighboring lakes may need the same image blocks again.</p></div>
+</div>
+<div class="workflow-path workflow-b">
+<div class="workflow-name"><span class="workflow-letter">B</span><h3>Share image windows</h3><a href="#stage-3">Shared-image results ↓</a><a href="#stage-4">Multiple-tile results ↓</a></div>
+<div class="workflow-operation"><span class="eyebrow">Read</span><h4>Choose an image, then read its lake areas</h4><p>Group lakes using the same image. Keep files or an array graph available across those reads.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Extract and repeat</span><h4>Select every lake’s pixels, then move to the next image</h4><p>Downloaded blocks may serve several lakes. Reuse depends on the reader.</p></div>
+</div>
+<div class="workflow-path workflow-c">
+<div class="workflow-name"><span class="workflow-letter">C</span><h3>Read the whole image</h3><a href="#stage-3">Shared-image results ↓</a><a href="#larger-workloads">Larger-workload results ↓</a><span class="cell-note">Tested across many tiles in section 05. Excluded from section 04.</span></div>
+<div class="workflow-operation"><span class="eyebrow">Read</span><h4>Load each complete band grid</h4><p>Read the full image before extracting lakes, including areas outside their windows.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Extract and repeat</span><h4>Select every lake’s pixels from memory</h4><p>This trades additional reading and memory for access to the complete grid.</p></div>
+</div>
+<div class="workflow-connector" aria-hidden="true">↓</div>
+<div class="workflow-output">
+<div><span class="cadence refresh">Common extraction output</span><h3>Collect contributions for each lake</h3><p>Keep native pixels, their classes, quality codes, and product and tile identities. Keep overlapping observations separate. <a href="#stage-4">Check completeness and agreement ↓</a></p></div>
+<div class="workflow-future"><span class="cadence pending">Storage and retrieval untested</span><h3>Store and serve records</h3><p>The model needs retrievable values and quality information. Storage layout, revision handling, and retrieval performance remain open.</p></div>
+</div>
+<figcaption id="workflow-caption">Processing outline, not a selected production workflow. Arrows show data flow. A, B, and C identify alternatives, not sequential steps.</figcaption>
+</figure>
+<p class="source-note"><b>Basis:</b> <a href="work-plan.md#phase-2-prototyping">prototype comparisons</a>, <a href="data-contract.md">draft record requirements</a>, and the measured results below. Reuse is conditional on the selected pixels, image layout, and reading implementation.</p>
+
+<h3 class="comparison-heading" id="reader-key">Three readers, with different ways to reuse work</h3>
+<p class="comparison-scope">A <b>window</b> is a requested rectangle. A <b>source block</b> is a TIFF storage unit. A <b>chunk</b> is an array-processing unit. Its boundaries can differ from the source blocks.</p>
+<div class="recipe-key"><strong>B3</strong> = <a href="#prototype-workflow">B · Share image windows</a> + <a href="#reader-3">3 · Source-block lazy reads</a><br>Numbers identify recipes, not speed rankings or versions. Pixel selection and experiment settings remain separate. These codes apply to this tab’s workflow comparisons.</div>
+<figure class="workflow-chart reader-chart" aria-labelledby="reader-caption">
+<p class="workflow-label">One example for all three paths: two lakes need windows that touch the same source block. Each path uses workflow B.</p>
+<div class="workflow-path workflow-b" id="reader-1">
+<div class="workflow-name"><span class="workflow-letter">B1</span><h3>1 · Direct raster reads</h3><p>Call Rasterio directly for image windows.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Request</span><h4>Read lake 1’s window, then lake 2’s</h4><p>Keep the band file open across both calls. Each call returns the requested rectangle.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Reuse and select</span><h4>The second call may use a cached block</h4><p>GDAL caches can avoid repeated reading or decoding. Apply each lake’s pixel selection to its window.</p></div>
+</div>
+<div class="workflow-path workflow-b" id="reader-2">
+<div class="workflow-name"><span class="workflow-letter">B2</span><h3>2 · Large-chunk lazy reads</h3><p>Describe image reads in an array graph with configured chunks.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Request</span><h4>Compute lake 1, then compute lake 2</h4><p>Build one full-image graph. Each lake starts a separate computation of its intersecting chunks.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Reuse and select</span><h4>A shared graph can repeat chunk work</h4><p>Completed arrays are not retained between lake computations. Select each lake’s pixels from its returned window.</p></div>
+</div>
+<div class="workflow-path workflow-b" id="reader-3">
+<div class="workflow-name"><span class="workflow-letter">B3</span><h3>3 · Source-block lazy reads</h3><p>Match array chunks to TIFF storage blocks.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Request</span><h4>Collect distinct blocks needed by both lakes</h4><p>Compute them in bounded batches. The maximum batch size follows the thread setting, which was two in these runs.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Reuse and select</span><h4>One block computation serves both lakes</h4><p>Gather both lakes’ selected pixels before releasing the block array. Continue with the next required blocks.</p></div>
+</div>
+<figcaption id="reader-caption">Reading recipes used in the measured implementations. Both lazy readers use ODC/Dask and ultimately Rasterio/GDAL. Reader 3 changes alignment and computation sharing together in workflow B.</figcaption>
+</figure>
+<div class="reader-variants">
+<p><b>Reader 1 across workflows:</b> A1 reopens bands for each lake. B1 keeps them open across lakes. C1 directly reads complete bands.</p>
+<p><b>Reader 2 across workflows:</b> A2 starts its graph at each lake window, so chunk boundaries can shift between lakes. B2 starts at the full image. This changes chunk placement as well as graph sharing, while retaining the same native pixels. C2 computes complete bands using larger chunks.</p>
+<p><b>Reader 3 across workflows:</b> A3 batches blocks for the current lake. B3 shares each block array across its lakes. C3 computes an entire band, then gathers lake pixels. It uses source-block alignment without bounded batching.</p>
+</div>
+<p class="source-note"><b>Implementation basis:</b> <a href="reviews/2026-09-22-raster-lazy-extraction-walkthrough.md">step-by-step walkthrough and checked literature</a> and <a href="reviews/2026-09-22-prototype-extraction-naming-proposal.md">code mappings and settings</a>. C1 versus C3 changes the reading stack as well as alignment. It does not isolate alignment’s performance effect.</p>
+
+<h3 class="comparison-heading">How the following comparisons fit together</h3>
+<p class="comparison-scope">Pixel selection determines what we keep. The workflow and reader determine how we retrieve it. Each comparison below states its inputs, settings, and timing scope.</p>
+<div class="table-scroll" role="region" aria-label="Processing comparison questions" tabindex="0"><table class="plans comparison-questions">
+<thead><tr><th scope="col">Comparison</th><th scope="col">What changes?</th><th scope="col">What does it tell us?</th></tr></thead>
 <tbody>
-<tr><th scope="row">Can we reproduce the test set?</th><td><span class="tag">Checked locally</span><br>The saved downloads reproduce the committed manifest exactly. All polygons passed a geometry validity check.</td><td>A valid geometry does not prove an accurate or current shoreline.</td></tr>
-<tr><th scope="row">Which images cover these bodies?</th><td><span class="tag">Partly measured</span><br>Stage 3 extracted every lake from its selected tile memberships, partial polygons included. Stage 4’s tile unions cover the whole buffered area of its eleven lakes.</td><td>Grid coverage does not prove valid measurements. Seasonal coverage and cloud-free dates are unchecked.</td></tr>
-<tr><th scope="row">Do methods agree on values?</th><td><span class="tag">Measured within each stage</span><br>Mask methods agree for corresponding source pixels. Stage 4’s two readers and two work organizations agree on every expected contribution.</td><td>Agreement between methods says nothing about agreement between overlapping tiles. Quality screening and wider offset checks are open.</td></tr>
-<tr><th scope="row">What will processing cost?</th><td><span class="tag">Partly measured</span><br>Access and extraction timings cover single lakes, shared tiles, and cross-tile lakes. Shared raster reads reduced requests in these cases.</td><td>AWS performance, seasonal and production workloads, reader tuning, storage, and monetary cost.</td></tr>
+<tr><th scope="row"><a href="#stage-2">02 · Pixel selection, A1 and A2</a></th><td>Compare boundary clip, prepared mask, and stored positions within A1. Compare A1 and A2 with the same prepared mask.</td><td>Which selections return the required pixels, and what does each reader cost?</td></tr>
+<tr><th scope="row"><a href="#stage-3">03 · A1, B1, C1 and B2</a></th><td>Keep prepared selections fixed. Compare three workflows with direct raster reads, then B1 and B2 with different readers.</td><td>Does reorganizing the reads reduce requests and unnecessary data transfer? Does the reader affect those savings?</td></tr>
+<tr><th scope="row"><a href="#stage-4">04 · A1, B1, A2 and B2 across tiles</a></th><td>Compare finishing each lake across its tiles with finishing each tile across its lakes. Test both orders with readers 1 and 2.</td><td>Does either order reduce reading while retaining every required pixel contribution?</td></tr>
+<tr><th scope="row"><a href="#larger-workloads">05 · Reader 3 and larger workloads</a></th><td>Compare readers 1 and 3 in A, B, and C. Include B2 as this comparison’s large-chunk lazy control.</td><td>How do the recipes differ in elapsed time, CPU work, requests, bytes, and peak RAM for dispersed and concentrated lakes?</td></tr>
 </tbody></table></div>
-<p class="note-line"><strong>Keep the two samples distinct.</strong> Discovery’s archive findings come from the earlier survey of 20 points. They are not results for these @@PILOT_TOTAL@@ polygons. The Discovery satellite maps are teaching examples. They are separate from the processing comparisons.</p>
-<p class="source-note"><b>Evidence:</b> <a href="reviews/2026-09-11-pilot-manifest.md">initial preparation record</a>, <a href="reviews/2026-09-12-pilot-manifest-review.md">independent review and limitations</a>, and <a href="../examples/README.md">manifest format and selection rules</a>. The review records the local checks. Integration specifications and tradeoffs remain open.</p>
-</section>
-
-<section class="chapter" aria-labelledby="stage-1">
-<div class="chapter-head"><div class="chapter-num">03 / Stage 1 · Archive access and values</div><div>
-<h2 id="stage-1">The same product does not guarantee the same numbers.</h2>
-<p>We read one acquisition from both GeoTIFF copies: tile @@RAW_TILE@@ on @@RAW_SCENE_DATE@@. Access timings and pixel comparisons exposed differences that a catalog check cannot settle.</p>
-</div></div>
-<div class="risk-grid">
-<article class="risk"><h3>The older copy changed dark values</h3>
-<p>On three tested reflectance bands, its integers equal Collection 1’s minus 1,000, clamped to a minimum of 1. That rule held on every pixel valid in both copies.</p>
-<p class="response"><b>Why it matters:</b> this conversion loses values at or below zero reflectance. If a reader applies the catalog’s offset again, it subtracts the offset twice. One product does not validate the fallback history.</p></article>
-<article class="risk"><h3>Quality assets differ</h3>
-<p>The tested scene classification was identical. Aerosol and water-vapor grids differed. The older copy linked cloud and snow probabilities as JPEG 2000, outside this GeoTIFF benchmark.</p>
-<p class="response"><b>Why it matters:</b> the fallback needs explicit rules for missing or differently sampled quality layers.</p></article>
-<article class="risk"><h3>File layout affects access</h3>
-<p>The older copy’s 10 m bands needed about three times the range requests for similar bytes. Whole-object reads were faster for several complete band sets on this connection.</p>
-<p class="response"><b>Why it matters:</b> request count matters as well as bytes. A whole-tile timing does not predict the cost of a small lake window.</p></article>
-</div>
-<details class="benchmark-detail"><summary>Pixel comparison · one product, six files</summary>
-<p class="small muted">Three reflectance bands, classification, aerosol, and water vapor. The comparison skipped grids of different shapes.</p>
-<div class="table-scroll" role="region" aria-label="Archive pixel comparison" tabindex="0"><table class="plans datasets">
-<thead><tr><th scope="col">Asset</th><th scope="col">Different valid pixels</th><th scope="col">Older minus Collection 1</th><th scope="col">Offset and clamp rule</th><th scope="col">No-data agrees?</th></tr></thead>
-<tbody>@@DIFF_ROWS@@</tbody></table></div>
-</details>
-<details class="benchmark-detail"><summary>Full-file access timings and memory</summary>
-<div class="table-scroll" role="region" aria-label="Full-file access timings" tabindex="0"><table class="plans datasets">
-<caption class="small">Medians of three successful runs per combination. Time covers per-file access and decoding. It excludes digest and statistics work. Range reads fetch full-resolution image blocks here. Whole-object reads also fetch embedded overviews. Quality and all-band sets differ between copies.</caption>
-<thead><tr><th scope="col">Band set</th><th scope="col">Collection 1 · ranges</th><th scope="col">Collection 1 · whole object</th><th scope="col">Older · ranges</th><th scope="col">Older · whole object</th><th scope="col">Highest process memory</th></tr></thead>
-<tbody>@@RAW_ROWS@@</tbody></table></div>
-</details>
-<p class="source-note"><b>Measured:</b> @@RAW_DATE@@, @@RAW_MACHINE@@, outside the bucket’s region. <a href="measurements.md#prototype-stage-1-raw-access-to-whole-tiles-2026-09-14">Access findings and limits</a>, <a href="../benchmarks/results/raw-access.json">initial result</a>, <a href="../benchmarks/results/raw-access-older-quality-all.json">quality rerun</a>, and <a href="../benchmarks/results/copy-difference.json">pixel comparison</a>. Run order and network conditions were uncontrolled. The evidence keeps the earlier failed JPEG 2000 attempts.</p>
+<p class="comparison-scope"><b>Shared test inputs:</b> five files per image: red, near-infrared, shortwave infrared, coastal aerosol, and scene classification. The tests retain native resolutions. “Window” means a rectangular part of an image. “Tile” means a named satellite grid area.</p>
 </section>
 
 <section class="chapter" aria-labelledby="stage-2">
-<div class="chapter-head"><div class="chapter-num">04 / Stage 2 · One lake at a time</div><div>
-<h2 id="stage-2">Reading a tiny pond still costs an image block.</h2>
-<p>We tested @@LAKE_LAKES@@ public water bodies across @@LAKE_TILES@@ tiles with four extraction methods. Each lake ran in its own process, three times: @@LAKE_RUNS@@ workers in all.</p>
+<div class="chapter-head"><div class="chapter-num">02 / Pixel selection · A1 and A2</div><div>
+<h2 id="stage-2">Separate the pixel selection from the reading technique.</h2>
+<p>Keep workflow A: each lake separately, using one selected tile. First vary selection within A1, then compare A1 and A2 with a prepared mask.</p>
 </div></div>
-<div class="risk-grid">
-<article class="risk"><h3>Bytes do not follow pixel count</h3>
-<p>Most small lakes with pixels touched one internal block per file. Those reads took 15 requests for five files, whatever the selected pixel count.</p>
-<p class="response"><b>Why it matters:</b> block position, compression, and request overhead set the cost of a small-lake read.</p></article>
-<article class="risk"><h3>Masks keep shoreline context</h3>
-<p>Raster masks, index lists, and the lazy stack returned identical values for identical selected pixels. They keep the water fraction, the shoreline pixels, and the nearby land. The naive clip selects differently and omits nearby land.</p>
-<p class="response"><b>Why it matters:</b> method comparisons need the same output requirements. A faster clip that omits required context does different work.</p></article>
-<article class="risk"><h3>One tile per region is not enough</h3>
-<p>Two ponds fell outside their region’s chosen tile. Three larger polygons were only partly inside. Their extracted records cover only the parts inside the selected tile.</p>
-<p class="response"><b>Why it matters:</b> tile membership must come from each polygon. Stages 3 and 4 extend this limited first comparison.</p></article>
+<dl class="extraction-methods" aria-label="A1 selection variants and A2 reader comparison">
+<div><dt>A1 · Boundary clip<span class="cell-note"><a href="#reader-1">Direct raster reads</a></span></dt><dd><p>Apply the lake boundary afresh to each image, keeping pixels selected by the clipping rule. Nearby-land pixels and prepared pixel classes are omitted.</p></dd></div>
+<div><dt>A1 · Prepared mask<span class="cell-note"><a href="#reader-1">Direct raster reads</a></span></dt><dd><p>Prepare a grid marking which pixels to keep and their classes. Read the surrounding image window and apply that grid.</p></dd></div>
+<div><dt>A1 · Stored positions<span class="cell-note"><a href="#reader-1">Direct raster reads</a></span></dt><dd><p>Save the row and column positions of the same selected pixels. Read their surrounding window, then retrieve values at those positions.</p></dd></div>
+<div><dt>A2 · Prepared mask<span class="cell-note"><a href="#reader-2">Large-chunk lazy reads</a></span></dt><dd><p>Use the same prepared mask, but schedule image reads as array chunks. The graph starts at the lake window, so chunk boundaries follow that window’s origin.</p></dd></div>
+</dl>
+<div class="comparison-brief">
+<div><b>What changes</b><p>Three selection variants use reader 1. The prepared-mask comparison changes reader 1 to reader 2. The boundary clip computes its selection afresh.</p></div>
+<div><b>What stays the same</b><p>Workflow A, the lake, source image, and five band files. Required output includes interior, shoreline, and nearby-land pixels.</p></div>
+<div><b>What we measure</b><p>Selected values and classes, read time, requests, requested bytes, and peak process memory.</p></div>
 </div>
-<p class="note-line"><strong>Smallest ponds have no interior pixel.</strong> All five 10 m size-class ponds still yield shoreline and nearby-land pixels. The size class is the square root of mapped area, not a measured pond diameter.</p>
-<details class="benchmark-detail"><summary>Methods, read timings, and selected pixels by size class</summary>
-<p class="small muted">Raster masks select classified pixels in an array. Index lists select the same pixels by stored positions. The lazy stack schedules array reads in chunks.</p>
-<div class="table-scroll" role="region" aria-label="Single lake timings" tabindex="0"><table class="plans datasets">
-<caption class="small">Class summaries use medians. Block counts show the maximum where it differs. Five files: red, near-infrared, shortwave infrared, coastal aerosol, and scene classification. Times sum per-file read or compute timers. Bytes and requests use the raster mask. Selected 10 m pixels include all three classes. We did not measure storage writes.</caption>
-<thead><tr><th scope="col">Size class</th><th scope="col">Lakes</th><th scope="col">Selected 10 m pixels</th><th scope="col">Blocks and requests</th><th scope="col">Naive clip</th><th scope="col">Raster mask</th><th scope="col">Index lists</th><th scope="col">Lazy stack</th><th scope="col">Highest process memory</th></tr></thead>
+<p class="comparison-scope"><b>Measured sample:</b> @@LAKE_LAKES@@ water bodies across @@LAKE_TILES@@ tiles, with three repetitions per method. The table shows both ends of the size range: five small ponds and five larger reference lakes.</p>
+<p class="scroll-hint">Scroll horizontally to compare all columns.</p>
+<div class="table-scroll" role="region" aria-label="A1 selection variants and A2 results" tabindex="0"><table class="plans results-table">
+<caption>A1 and A2 process each lake separately. The selection qualifier distinguishes the three A1 rows. Read time, requests, and requested bytes are per-size-class medians. Memory is the highest process peak. Timings exclude preparation and storage writes.</caption>
+<thead><tr><th scope="col">Recipe + selection</th><th scope="col">Required pixel classes</th><th scope="col">Read time</th><th scope="col">Requests</th><th scope="col">Requested bytes</th><th scope="col">Peak RAM</th></tr></thead>
+@@LAKE_METHOD_ROWS@@
+</table></div>
+<div class="comparison-conclusion"><b>What this tells us</b><p>A1 with prepared masks or stored positions matched A2 with prepared masks. A1 with boundary clipping omitted nearby land and selected some boundary pixels differently.</p><p>Most small lakes with pixels required one internal block per file and 15 requests overall. Fewer selected pixels did not necessarily reduce reading.</p></div>
+<p class="note-line"><strong>Equivalent output matters.</strong> A faster clip that omits required context does different work. These trials do not establish a general speed ranking.</p>
+<details class="benchmark-detail"><summary>All size classes: read timings, selected pixels, and preparation</summary>
+<p class="small muted">The same recipe codes and selection qualifiers apply to every size class.</p>
+<div class="table-scroll" role="region" aria-label="Single lake timings by size class" tabindex="0"><table class="plans datasets">
+<caption class="small">Class summaries use medians. Block counts show the maximum where it differs. Bytes and requests use A1 with a prepared mask. Selected 10 m pixels include all three classes. Highest memory covers all methods.</caption>
+<thead><tr><th scope="col">Size class</th><th scope="col">Lakes</th><th scope="col">Selected 10 m pixels</th><th scope="col">Blocks and requests</th><th scope="col">A1 · Boundary clip</th><th scope="col">A1 · Prepared mask</th><th scope="col">A1 · Stored positions</th><th scope="col">A2 · Prepared mask</th><th scope="col">Highest process memory</th></tr></thead>
 <tbody>@@LAKE_ROWS@@</tbody></table></div>
-</details>
-<details class="benchmark-detail"><summary>Pixel classes and preparation time</summary>
-<p class="small muted">Interior pixels lie inside the mapped boundary. Shoreline pixels intersect it. Nearby-land pixels have centers within 100 m of that boundary. The measurement record lists the numerical tolerances.</p>
+<p class="small muted">Interior pixels lie inside the mapped boundary. Shoreline pixels intersect it. Nearby-land pixel centers lie within 100 m of the boundary, outside intersecting pixels. Preparation computes all three native resolutions once per lake and tile.</p>
 <div class="table-scroll" role="region" aria-label="Pixel classes by size" tabindex="0"><table class="plans datasets">
-<caption class="small">Per-class median counts: interior · shoreline · nearby land. Preparation computes all three native resolutions once per lake and tile.</caption>
+<caption class="small">Per-class median counts: interior · shoreline · nearby land. The measurement record lists the numerical tolerances.</caption>
 <thead><tr><th scope="col">Size class</th><th scope="col">Lakes</th><th scope="col">10 m</th><th scope="col">20 m</th><th scope="col">60 m</th><th scope="col">Preparation</th></tr></thead>
 <tbody>@@LAKE_CLASS_ROWS@@</tbody></table></div>
+<p class="small muted">Each lake ran in its own process: @@LAKE_RUNS@@ workers in all. Two ponds were outside their region’s selected tile. Three larger polygons were partly inside. Later tests use additional tiles.</p>
 </details>
-<p class="source-note"><b>Measured:</b> @@LAKE_DATE@@, @@LAKE_MACHINE@@, over an uncontrolled internet connection. <a href="../benchmarks/results/lake-extraction.json">Single-lake result</a> and <a href="measurements.md#prototype-stage-2-one-lake-at-a-time-2026-09-15">findings and limits</a>. One acquisition per region. A fixed method order and three repetitions do not give a general performance ranking.</p>
+<p class="source-note"><b>Measured:</b> @@LAKE_DATE@@, @@LAKE_MACHINE@@, over an uncontrolled internet connection. <a href="../benchmarks/results/lake-extraction.json">Individual-lake results</a> and <a href="measurements.md#prototype-stage-2-one-lake-at-a-time-2026-09-15">findings and limits</a>. One acquisition per region. Method order was fixed.</p>
 </section>
 
 <section class="chapter" aria-labelledby="stage-3">
-<div class="chapter-head"><div class="chapter-num">05 / Stage 3 · Many lakes in one tile</div><div>
-<h2 id="stage-3">Share open files before reading whole tiles.</h2>
-<p>We tested @@TILE_LAKES@@ lakes across @@TILE_TILES@@ selected tiles. Three read patterns and four methods ran three times each: @@TILE_RUNS@@ workers. The runs read partial lakes only inside their selected tiles.</p>
+<div class="chapter-head"><div class="chapter-num">03 / Workflow comparison · Lakes sharing an image</div><div>
+<h2 id="stage-3">Compare A1, B1, C1 and B2 on one image.</h2>
+<p>Use direct raster reads to compare three workflows. Then compare B1 and B2: direct raster reads versus large-chunk lazy reads for shared image windows.</p>
 </div></div>
-<figure class="route">
-<div class="route-step"><span class="eyebrow">Lake by lake</span><h4>Reopen each file</h4><p>Each lake starts its own reads. The reader can fetch file headers and decoded blocks again.</p></div>
-<div class="route-arrow" aria-hidden="true">↔</div>
-<div class="route-step"><span class="eyebrow">File by file</span><h4>Share cached blocks</h4><p>Keep a file open across every lake’s window. Earlier reads can serve later lakes.</p></div>
-<div class="route-arrow" aria-hidden="true">↔</div>
-<div class="route-step"><span class="eyebrow">Whole tile</span><h4>Read everything first</h4><p>Fetch the complete grid, then extract lakes from memory. This also reads pixels outside the requested windows.</p></div>
-<figcaption>Three read patterns for the same tile workload. Their value depends on lake distribution and reader behavior.</figcaption>
-</figure>
-<div class="risk-grid">
-<article class="risk"><h3>Sharing reduced requests</h3>
-<p>On five tiles matching Stage 2’s acquisitions, shared raster reads used 24–46 percent of the requests. Bytes fell to 49–87 percent. Twenty-one of 26 pond memberships beside anchors needed no extra request.</p>
-<p class="response"><b>Why it matters:</b> once a file is shared, a pond beside an anchor often costs no extra request. Neither a pond count nor a pixel count alone predicts transfer.</p></article>
-<article class="risk"><h3>Whole tiles transferred much more</h3>
-<p>Whole-tile reads requested 6–32 times the windowed bytes at this pilot’s lake density. One mostly no-data tile compressed especially well, but still needed more bytes than its windows.</p>
-<p class="response"><b>Why it matters:</b> windows used fewer bytes on every tested tile. Whether a whole-tile read pays off depends on lake size, shape, position, and shared blocks. No lake count alone decides it.</p></article>
-<article class="risk"><h3>Chunk behavior needs tuning</h3>
-<p>The tested lazy recipe requested 1.6–7.1 times the shared raster bytes. A separate compute per lake reread chunks. The mask selections and values still agreed.</p>
-<p class="response"><b>Why it matters:</b> chunk size and kept intermediate results can change transfer. This measures one recipe. It does not set a limit for lazy reading.</p></article>
+<div class="comparison-brief">
+<div><b>What changes</b><p>A1 processes lakes separately. B1 shares open files across lake windows. C1 loads complete bands. B2 computes lake windows separately from a shared graph.</p></div>
+<div><b>What stays the same</b><p>The lakes inside each selected tile, the image date, five band files, and prepared pixel selections.</p></div>
+<div><b>What we measure</b><p>Read time, requests, requested bytes, and memory. Check that each method preserves its selected values.</p></div>
 </div>
-<details class="benchmark-detail"><summary>Per-tile medians and the Stage 2 comparison</summary>
-<div class="table-scroll" role="region" aria-label="Shared tile timings" tabindex="0"><table class="plans datasets">
-<caption class="small">Five files per tile. Time sums the per-file read or compute timers. It excludes startup, mask loading, and later work. Raster masks provide the first three comparisons. Stage 2 sums medians for the same lakes and acquisition. A cell names a missing comparison or an excluded repetition.</caption>
-<thead><tr><th scope="col">Tile</th><th scope="col">Memberships</th><th scope="col">Stage 2 · separate processes</th><th scope="col">Shared open files</th><th scope="col">Whole-tile read</th><th scope="col">Shared lazy graph</th></tr></thead>
-<tbody>@@TILE_ROWS@@</tbody></table></div>
-<p class="small muted">If this lake mix and the bytes per lake stay constant, the byte break-even is 25–150 lakes per tile. This is arithmetic on medians. It is not a measured timing, cost, or operating threshold.</p>
+<p class="comparison-scope"><b>How to read the table:</b> compare A1, B1, and C1 for the workflow effect, then B1 and B2 for the reader effect. The two A1 rows have different process arrangements and measurement bases.</p>
+<p class="comparison-scope"><b>Settings in this experiment:</b> a 512 MiB GDAL block cache. Reader 2 uses nominal 2,048-pixel chunks and four threads. Section 05’s B2 control uses two threads and a 256 MiB cache.</p>
+<p class="comparison-scope"><b>Example: Tahoe, six lakes in one tile.</b> This includes a large reference lake and smaller lakes, all within the selected tile. The other eight tiles appear below. The example is not an average or a production estimate.</p>
+<p class="scroll-hint">Scroll horizontally to compare all columns.</p>
+<div class="table-scroll" role="region" aria-label="Shared image workflow results" tabindex="0"><table class="plans results-table">
+<caption>Read times sum per-file timers, excluding startup, mask loading, and later work. Requested bytes are summed range lengths. Memory is peak process RAM.</caption>
+<thead><tr><th scope="col">Workflow + reader</th><th scope="col">Reader</th><th scope="col">Read time</th><th scope="col">Requests</th><th scope="col">Requested bytes</th><th scope="col">Peak RAM</th><th scope="col">Measurement basis</th></tr></thead>
+@@TILE_ROWS@@
+</table></div>
+<p class="small muted">The separate-process row sums earlier individual-lake medians for matching lakes and observations. Its memory is not summarized. Other rows use repeated tile runs.</p>
+<div class="comparison-conclusion"><b>What this tells us</b><p>Across five tiles, B1 used 24–46 percent of the requests and 49–87 percent of the bytes of matching separate-process A1 observations.</p><p>C1 requested 6–32 times B1’s bytes across the tested tiles. B2 requested 1.6–7.1 times B1’s bytes.</p></div>
+<p class="note-line"><strong>Grouping work only helps when reads are reused.</strong> B2 computed each lake separately and reread chunks. Its output values still agreed.</p>
+<details class="benchmark-detail"><summary>The other eight tiles: the same workflow comparison</summary>
+<p class="small muted">Each group is a separate workload. Some lakes lie partly inside a selected tile. Missing earlier comparisons are labeled explicitly.</p>
+<div class="table-scroll" role="region" aria-label="Other shared image workflow results" tabindex="0"><table class="plans results-table">
+<caption>The same definitions apply as above. Compare alternatives within a tile, not timings between different tiles.</caption>
+<thead><tr><th scope="col">Workflow + reader</th><th scope="col">Reader</th><th scope="col">Read time</th><th scope="col">Requests</th><th scope="col">Requested bytes</th><th scope="col">Peak RAM</th><th scope="col">Measurement basis</th></tr></thead>
+@@TILE_DETAIL_ROWS@@
+</table></div>
 </details>
-<details class="benchmark-detail"><summary>What the corrected rerun shows</summary>
-<p>All 200 lake-band comparisons agreed across the three mask methods and read patterns. The naive clip agreed across patterns within its separate selection rule.</p>
-<p>The 130 comparisons that share a Stage 2 acquisition matched within each method family. The remaining 70 have no Stage 2 comparison.</p>
-<p>The rerun used a 512 MiB GDAL block cache. The review found that the earlier run used 512 bytes by mistake. We withdrew its slow-clipping claim. After the correction, the median clip setup took under half a second per large lake.</p>
-<p>The lazy recipe used 2,048-pixel chunks and four threads. Whole-tile computation opened each 10 m file 36 times. Smaller chunks, kept chunks, and combined lake computations are untested.</p>
+<details class="benchmark-detail"><summary>Value agreement, cache settings, and timing limitations</summary>
+<p>We tested @@TILE_LAKES@@ lakes across @@TILE_TILES@@ tiles, with three read patterns and four methods: @@TILE_RUNS@@ workers. Each tile run extracts only the lake portions within that tile.</p>
+<p>All 200 lake-band comparisons agreed across the three prepared-selection methods and read patterns. Boundary clipping agreed across patterns within its separate selection rule.</p>
+<p>The 130 comparisons with matching individual-lake observations agreed within each method family. The remaining 70 have no individual-lake comparison.</p>
+<p>Twenty-one of 26 pond memberships beside larger reference lakes needed no extra request. Lake size, position, and shared blocks matter alongside lake count.</p>
+<p>The rerun used a 512 MiB GDAL block cache. The earlier run mistakenly used 512 bytes, and its slow-clipping claim was withdrawn. Corrected median clip setup took under half a second per large lake.</p>
+<p>The full evidence includes combinations beyond these selected rows. Its C2 whole-image computations opened each 10 m file 36 times.</p>
+<p>This historical experiment did not test source-block alignment or shared consumption of computed blocks. <a href="#larger-workloads">Section 05 tests both together in B3</a>. Persistent chunk caching remains a separate, untested strategy.</p>
 <p>Nine workers were unusually slow. The largest had recorded timeouts and repeated range requests. The other eight have no known cause.</p>
+<p>If this lake mix and the bytes per lake stay constant, the byte break-even is 25–150 lakes per tile. This arithmetic on medians is not a measured timing, cost, or operating threshold.</p>
 </details>
-<p class="source-note"><b>Measured:</b> @@TILE_DATE@@, @@TILE_MACHINE@@, outside AWS. <a href="../benchmarks/results/tile-extraction.json">Corrected-cache result</a>, <a href="measurements.md#prototype-stage-3-many-lakes-in-one-tile-2026-09-16">findings and limits</a>, and <a href="reviews/2026-09-16-codex-stage-3-rerun-review.md">independent review</a>. One acquisition per tile, three repetitions, and three to six memberships per tile.</p>
+<p class="source-note"><b>Measured:</b> @@TILE_DATE@@, @@TILE_MACHINE@@, outside AWS. <a href="../benchmarks/results/tile-extraction.json">Corrected-cache results</a>, <a href="measurements.md#prototype-stage-3-many-lakes-in-one-tile-2026-09-16">findings and limits</a>, and <a href="reviews/2026-09-16-codex-stage-3-rerun-review.md">independent review</a>. One acquisition per tile, three repetitions, and three to six lakes per tile.</p>
 </section>
 
 <section class="chapter" aria-labelledby="stage-4">
-<div class="chapter-head"><div class="chapter-num">06 / Stage 4 · Lakes across tiles</div><div>
-<h2 id="stage-4">Keep every tile contribution. Change how the reads are shared.</h2>
-<p>@@CROSS_LAKES@@ lakes around Lanier and Okeechobee span @@CROSS_TILES@@ tiles. Each region uses one acquisition. Every item stays on its native grid. We compare two orders: all tiles for each lake, and all lakes for each tile.</p>
+<div class="chapter-head"><div class="chapter-num">04 / Workflow comparison · Lakes spanning multiple tiles</div><div>
+<h2 id="stage-4">Compare A and B across tiles with readers 1 and 2.</h2>
+<p>Extend the comparison to lakes that need several tiles. A finishes each lake across its tiles. B finishes each tile across its lakes.</p>
 </div></div>
-<p class="takeaway"><strong>Tile-first raster reading used @@CROSS_SAVED_REQUESTS@@ percent fewer requests and @@CROSS_SAVED_BYTES@@ percent fewer bytes.</strong> Its median workload time fell @@CROSS_SAVED_TIME@@ percent. These are laptop results for this sample.</p>
-<div class="table-scroll" role="region" aria-label="Cross-tile workload comparison" tabindex="0"><table class="plans datasets">
-<caption class="small">Whole-workload medians and time ranges across three repetitions. Time sums the worker durations, with startup and assembly. It excludes catalog selection, mask preparation, and final summary work. MB means decimal megabytes. Bytes count requested ranges. No meter recorded the delivered bytes.</caption>
-<thead><tr><th scope="col">Work organization</th><th scope="col">Reader</th><th scope="col">Median time<br>and range</th><th scope="col">Requests</th><th scope="col">Requested bytes</th><th scope="col">Repetitions</th></tr></thead>
+<div class="comparison-brief">
+<div><b>What changes</b><p>A1 versus B1 uses direct raster reads.<br>A2 versus B2 uses large-chunk lazy reads.<br>Compare lake-first with image-first processing.</p></div>
+<div><b>What stays the same</b><p>@@CROSS_LAKES@@ lakes, @@CROSS_TILES@@ tiles, five band files per item, and frozen source products. Lanier and Okeechobee each use one acquisition.</p></div>
+<div><b>What we measure</b><p>Complete pixel contributions and value agreement, alongside workload time, requests, and requested bytes. Whole-image reading is not part of this comparison.</p></div>
+</div>
+<p class="comparison-scope"><b>How to read the table:</b> compare A1 with B1, then A2 with B2. Both workflows keep overlapping observations separate.</p>
+<p class="comparison-scope"><b>A2 and B2 change more than sharing:</b> A2 anchors each graph at the lake window. B2 anchors its graph at the full image. Chunk boundaries can shift, changing the chunks computed for the same native pixels.</p>
+<p class="comparison-scope"><b>Settings in this experiment:</b> a 512 MiB GDAL block cache. Reader 2 uses nominal 2,048-pixel chunks and four threads. Section 05’s B2 control uses two threads and a 256 MiB cache.</p>
+<p class="scroll-hint">Scroll horizontally to compare all columns.</p>
+<div class="table-scroll" role="region" aria-label="Cross-tile workload comparison" tabindex="0"><table class="plans results-table">
+<caption>Whole-workload medians and time ranges. Time sums worker durations, including startup and assembly. It excludes catalog selection, mask preparation, and final summary work.</caption>
+<thead><tr><th scope="col">Workflow + reader</th><th scope="col">Reader</th><th scope="col">Workload time<br>Median and range</th><th scope="col">Requests</th><th scope="col">Requested bytes</th><th scope="col">Repetitions</th></tr></thead>
 <tbody>@@CROSS_ROWS@@</tbody></table></div>
-<p class="small muted">The lazy tile-first recipe requested @@CROSS_LAZY_BYTES@@ times its lake-first bytes. Its time ranges overlap. These three repetitions do not show a stable timing advantage for the lazy reader.</p>
-<div class="diagrams">
-<figure class="diagram">
-<h3>Overlapping coverage is common in these cases.</h3>
-<p>Share of each anchor’s buffered area inside two or more tile extents, counted once:</p>
+<p class="small muted">Bytes count requested ranges, not metered network delivery. MB means decimal megabytes. These workload times cover more work than the read timers above.</p>
+<div class="comparison-conclusion"><b>What this tells us</b><p>B1 used @@CROSS_SAVED_REQUESTS@@ percent fewer requests and @@CROSS_SAVED_BYTES@@ percent fewer bytes than A1. Median workload time fell @@CROSS_SAVED_TIME@@ percent.</p><p>B2 requested @@CROSS_LAZY_BYTES@@ times A2’s bytes. Their time ranges overlap, so these repetitions show no stable timing advantage.</p></div>
+<div class="agreement-result"><b>Completeness and agreement: passed for matching source pixels</b><p>@@CROSS_MEMBERSHIPS@@ lake-tile combinations produced all @@CROSS_EXPECTED@@ expected band contributions per workload. Values, pixel identities, and classes agreed across readers, processing orders, and repetitions.</p><p>This checks different ways of reading the same source pixels. Agreement between overlapping observations of the same ground remains untested.</p></div>
+<details class="benchmark-detail"><summary>Memory use, source handling, and measurement limits</summary>
+<p>@@CROSS_RUNS@@ fresh extraction workers completed across @@CROSS_ACQUISITIONS@@ acquisitions and three repetitions. The medians include every complete repetition.</p>
+<p>Extraction peaked near 1.80 GiB. Selection reached 3.40 GiB and recorded host swapping, without a guard stop. These peaks cover different activities and are not per-workflow memory comparisons.</p>
+<p>The guard used a 4 GiB process budget and 1.5 GiB available-memory reserve. It sampled every 0.25 seconds, with a 128 MiB page-out threshold.</p>
+<p>Settings were fixed: 512 MiB GDAL cache, 2,048-pixel lazy chunks, and four threads. We did not tune the readers.</p>
+<p>The measured implementation is version 2. The review corrected version 3’s datastrip selection and handling of coarse footprints. The selected groups did not change. Revised code has local fixture tests and no new public-data run.</p>
+<p>Each lake retains an ordered list of contribution keys. This logical assembly does not blend tiles or select a storage layout.</p>
+</details>
+<p class="source-note"><b>Measured:</b> @@CROSS_DATE@@, @@CROSS_MACHINE@@. <a href="../benchmarks/results/cross-tile-extraction.json">Frozen multiple-tile results</a>, <a href="measurements.md#prototype-stage-4-lakes-across-tiles-2026-09-16">findings and limits</a>, and <a href="reviews/2026-09-16-codex-stage-4-review-response.md">accepted review response</a>. The run did not isolate window shape, compression, or grid alignment.</p>
+</section>
+
+<section class="chapter" aria-labelledby="larger-workloads">
+<div class="chapter-head"><div class="chapter-num">05 / Reader 3 and larger workloads</div><div>
+<h2 id="larger-workloads">Compare reader costs for dispersed and concentrated lakes.</h2>
+<p>How do direct raster reads, large-chunk lazy reads, and source-block lazy reads differ in elapsed time, CPU work, data requests, and peak RAM?</p>
+</div></div>
+<div class="comparison-brief">
+<div><b>B1 · Direct raster reads</b><p>Keep bands open. Read each lake’s window directly, with possible reuse through GDAL caches.</p></div>
+<div><b>B2 · Large-chunk lazy reads</b><p>The control for this comparison. Use nominal 2,048-pixel chunks and compute each lake separately from a full-image graph.</p></div>
+<div><b>B3 · Source-block lazy reads</b><p>Align chunks to TIFF blocks. Compute each required block once and serve every requesting lake before releasing its array.</p></div>
+</div>
+<p class="comparison-scope">B3 changes chunk alignment and computation sharing together. The comparison measures the combined recipe’s resource use. It cannot assign savings to either change alone.</p>
+<p class="comparison-scope"><b>A and C extend the comparison:</b> A3 batches blocks for each lake separately. C3 computes a complete band without bounded batching. C1 versus C3 changes the reading stack, so it does not isolate alignment’s effect. A2 and C2 were not run for these cohorts.</p>
+<p>The comparison reports one complete observation per configuration. Both workloads include varied lake sizes and use identical inputs across their seven configurations.</p>
+<p class="comparison-scope"><b>Settings in this experiment:</b> one worker, a 256 MiB GDAL block cache, and identical pixel selections across configurations. Both lazy readers use two threads. A3 and B3 take their maximum batch size from that setting: two blocks here. C3 does not use those batches.</p>
+<p class="small muted">Earlier B2 runs in sections 03 and 04 used four threads and a 512 MiB cache. The recurring code identifies the recipe, not identical settings.</p>
+<p>“Total extraction” includes reader setup, image reads, value extraction, selection loading, output checks, and audit checkpoints. Compare this column across readers, accounting for different dates and source versions on retained rows.</p>
+<p class="note-line"><strong>“Read + extract” has different timing boundaries.</strong> Reader 1 setup includes file opens and any header or size requests. A1 reopens each product band for each lake. Readers 2 and 3 build graphs during setup. Their file opens occur inside timed reads, so these component times are not directly comparable with reader 1.</p>
+<p class="small muted">The retained dispersed A3 observation includes older catalog setup. Its total extraction time includes that extra work. The retained A1 and A3 rows keep their original dates and source versions.</p>
+@@WORKLOAD_COMPARISON@@
+<p class="note-line"><strong>Read these comparisons within each workload.</strong> The workloads differ in lake count, geography, and size distribution. Differences between them cannot be attributed solely to concentration.</p>
+<details class="benchmark-detail"><summary>Historical transfer estimates use different reference readers</summary>
+<p>Requested bytes in the tables are measured for each displayed recipe. The earlier preflight estimates used historical proxies, not measurements of these configurations.</p>
+<p><b>Estimate for B3, based on historical B1 measurements.</b> The preflight scaled B1 bytes by lake-product memberships. A3 estimates used historical A2 measurements. C3 estimates used historical C2 measurements.</p>
+<p>The <a href="../benchmarks/results/lazy-reader-workloads.json">saved preflight</a> retains reference files, digests, settings, and formulas. Those proxies are not bounds. The new codes do not make their inputs or resource settings equivalent.</p>
+</details>
+<p class="source-note"><b>Plan:</b> <a href="reviews/2026-09-18-lazy-reader-workload-plan.md">Approved comparison and memory controls</a>. <a href="reviews/2026-09-21-sleep-rerun.md">Replacement execution, preserved evidence, and timing limits</a>. <a href="reviews/2026-09-22-sleep-rerun-review-response.md">Timing interpretation review response</a>. Each run deletes temporary imagery after use. No production storage system is tested.</p>
+</section>
+
+<section class="chapter" aria-labelledby="pilot-why">
+<div class="chapter-head"><div class="chapter-num">06 / Test cases and coverage</div><div>
+<h2 id="pilot-why">Why these lakes help test the workflows.</h2>
+<p>The original pilot and the two larger cohorts expose different processing problems. They are deliberately selected samples, not representative production workloads.</p>
+</div></div>
+<h3>Original pilot · Sections 02–04</h3>
+<p class="comparison-scope">Sections <a href="#stage-2">02</a> and <a href="#stage-3">03</a> use the pilot’s selected lake portions. Section <a href="#stage-4">04</a> uses eleven lakes needing complete tile contributions.</p>
+<p class="pilot-summary"><b data-pilot-count="features">@@PILOT_TOTAL@@</b> public water bodies · <b data-pilot-count="regions">@@PILOT_REGIONS@@</b> U.S. regions · <b data-pilot-count="pilot">@@PILOT_PICKS@@</b> size-class selections · <b data-pilot-count="large">@@PILOT_ANCHORS@@</b> larger reference lakes</p>
+<div class="table-scroll" role="region" aria-label="Test cases and their purpose" tabindex="0"><table class="plans comparison-questions">
+<thead><tr><th scope="col">Case</th><th scope="col">Why it matters</th><th scope="col">What we learned or still need</th></tr></thead>
+<tbody>
+<tr><th scope="row">Small ponds</th><td>Test shoreline selection and the minimum amount of image data needed for a read.</td><td>All five 10 m size-class ponds have shoreline and nearby-land pixels, but no interior pixels at any native resolution.</td></tr>
+<tr><th scope="row">Large lakes and complex shorelines</th><td>Test larger reads and more demanding pixel preparation.</td><td>Larger lakes dominate reading and preparation. The tests do not separate shoreline complexity from area.</td></tr>
+<tr><th scope="row">Lakes sharing an image</th><td>Test whether neighboring lakes reuse already-read image blocks.</td><td>B1 reduced requests relative to A1. The benefit depends on reader behavior and lake distribution.</td></tr>
+<tr><th scope="row">Lakes crossing tile boundaries</th><td>Test complete collection of pixels without blending overlapping observations.</td><td>The selected tile grids cover all eleven lakes and their buffers. Grid coverage does not prove usable band values.</td></tr>
+<tr><th scope="row">Contrasting settings</th><td>Support later checks in mountain, hill, flat, and lowland settings.</td><td>Terrain labels are descriptive. Seasonal imagery and cloud-free coverage remain untested.</td></tr>
+</tbody></table></div>
+<details class="benchmark-detail"><summary>Lake selection, mapped boundaries, and overlapping coverage</summary>
+<p>Size classes use the square root of polygon area: 10, 30, 100, 300, and 1,000 m. These labels are not measured pond diameters.</p>
+<p>Tahoe, Lanier, Okeechobee, Grand Lake St. Marys, and Washington are the larger reference lakes, called “anchors” in the results. Alaska contributes smaller lakes near Iliamna, without the large lake itself.</p>
+<p>Saved downloads reproduce the committed manifest exactly. Every polygon passed a geometry validity check. Neither check proves an accurate shoreline or water presence on an image date.</p>
+<div class="diagrams"><figure class="diagram">
+<h3>Overlap in the multiple-tile test</h3>
+<p>Share of each reference lake’s buffered area inside two or more tile extents, counted once:</p>
 <div class="comparison-bars">
 <div><label for="lanier-overlap">Lanier · @@CROSS_LANIER_OVERLAP@@%</label><meter id="lanier-overlap" min="0" max="100" value="@@CROSS_LANIER_OVERLAP@@">@@CROSS_LANIER_OVERLAP@@%</meter></div>
 <div><label for="okeechobee-overlap">Okeechobee · @@CROSS_OKEECHOBEE_OVERLAP@@%</label><meter id="okeechobee-overlap" min="0" max="100" value="@@CROSS_OKEECHOBEE_OVERLAP@@">@@CROSS_OKEECHOBEE_OVERLAP@@%</meter></div>
 </div>
-<figcaption class="small muted">Both tile unions cover the whole buffered area. Neither anchor fits in one tile. Extent coverage does not prove usable band values.</figcaption>
-</figure>
-<article class="diagram">
-<h3>Equal extraction is a narrower result.</h3>
-<p>@@CROSS_MEMBERSHIPS@@ lake-tile memberships produce @@CROSS_EXPECTED@@ band contributions per workload. Every expected contribution is present. Values, pixel identities, and classes agree across readers, work organizations, and repetitions.</p>
-<p><strong>This compares methods that read the same source pixels.</strong> It does not compare two tiles’ measurements of the same ground. Contributions stay separate, with an ordered list of keys for each lake.</p>
-</article>
-</div>
-<div class="risk-grid">
-<article class="risk"><h3>Catalog outlines are approximate</h3>
-<p>Selected item footprints have coarse edges. If a reader treats them as precise coverage boundaries, it can omit candidate areas. One acquisition can also hold distinct, overlapping datastrips within a tile.</p>
-<p class="response"><b>Implication:</b> keep native tile candidates and complete product identities. Check per-band validity separately.</p></article>
-<article class="risk"><h3>Classification is not band validity</h3>
-<p>Each workload contains @@CROSS_NODATA@@ declared no-data entries among @@CROSS_PIXELS@@ selected band-pixel entries. They occur in 10 m bands, despite nonzero selected 20 m classification values.</p>
-<p class="response"><b>Implication:</b> the summaries do not say which water or classification cells hold those zeros. Their cause is unknown. A stored zero does not mean zero reflectance.</p></article>
-<article class="risk"><h3>Preferred observations are undecided</h3>
-<p>Ambiguous primary-tile roles are unresolved. The run keeps overlapping observations without blending them. It does not choose a storage layout or test whether those observations agree.</p>
-<p class="response"><b>Implication:</b> choose overlap behavior with the model’s requirements and matched-location checks. A complete extraction is only part of that decision.</p></article>
-</div>
-<details class="benchmark-detail"><summary>Resource limits and the boundaries of the reviewed run</summary>
-<p>@@CROSS_RUNS@@ fresh extraction workers completed, across @@CROSS_ACQUISITIONS@@ acquisitions and three repetitions. The medians include every complete repetition.</p>
-<p>The guard used a 4 GiB process budget and 1.5 GiB available-memory reserve. It sampled every 0.25 seconds, with a 128 MiB page-out threshold.</p>
-<p>Extraction peaked near 1.80 GiB. Selection reached 3.40 GiB and recorded host swapping, without a guard stop. A run that fits on a laptop is not proof of a run without memory pressure.</p>
-<p>The settings were fixed: 512 MiB GDAL cache, 2,048-pixel lazy chunks, and four threads. We did not tune the readers.</p>
-<p>The measured implementation is version 2. The review corrected how version 3 selects datastrips and handles coarse footprints. The groups selected here did not change. The revised code has local fixture tests and no new public-data run.</p>
+<figcaption class="small muted">Both tile unions cover the whole buffered area. Neither reference lake fits in one tile. Extent coverage does not prove usable band values.</figcaption>
+</figure></div>
+<p class="source-note"><b>Documented:</b> USGS no longer maintains NHD. A service refresh does not date shoreline observations. Some reservoir codes do not state purpose. <a href="reviews/2026-09-12-pilot-manifest-review.md#source-checks">Independent USGS source checks</a>. <b>Unverified:</b> current boundaries, water extent, and suitability for the model.</p>
 </details>
-<p class="source-note"><b>Measured:</b> @@CROSS_DATE@@, @@CROSS_MACHINE@@. <a href="../benchmarks/results/cross-tile-extraction.json">Frozen cross-tile result</a>, <a href="measurements.md#prototype-stage-4-lakes-across-tiles-2026-09-16">findings and limits</a>, and <a href="reviews/2026-09-16-codex-stage-4-review-response.md">accepted review response</a>. The run did not isolate window shape, compression, or grid alignment. These findings do not select an AWS platform, production workflow, or storage format.</p>
-<p class="note-line"><strong>Prototyping is partial.</strong> Scientific checks, seasonal coverage, AWS costs, and stored-record retrieval are unfinished. The next step needs separate agreement.</p>
+<p class="source-note"><b>Measured:</b> <a href="../examples/water-bodies-public-pilot.geojson">public pilot manifest</a>, retrieved @@PILOT_DATE@@ UTC from the USGS National Hydrography Dataset. <a href="../examples/README.md">Selection rules</a>, <a href="reviews/2026-09-12-pilot-manifest-review.md">manifest review</a>, and <a href="../benchmarks/results/cross-tile-extraction.json">multiple-tile coverage evidence</a>.</p>
+<h3 class="comparison-heading">Larger cohorts · Section 05</h3>
+<div class="comparison-brief">
+<div><b>100 dispersed lakes</b><p>Lakes across the continental U.S. test the resource cost of processing many source products with limited opportunities to share blocks.</p></div>
+<div><b>1,000 Florida lakes</b><p>Concentrated lakes test block reuse across many lake selections. This cohort also has a different lake-size distribution.</p></div>
+<div><b>Seven recipes per cohort</b><p>A1, A3, B1, B2, B3, C1, and C3 use identical prepared selections within each cohort. Whole images remain separate across tiles.</p></div>
+</div>
+<p class="source-note"><b>Measured:</b> <a href="#larger-workloads">larger-workload comparisons</a> and their <a href="../benchmarks/results/lazy-reader-workloads.json">saved inputs, coverage, and selection qualifications</a>. Geography, size distribution, and lake count all differ between these cohorts.</p>
+<p class="note-line"><strong>The samples differ.</strong> Discovery’s archive survey used 20 points, not these polygons. Its satellite maps are separate teaching examples.</p>
+</section>
+
+<section class="chapter" aria-labelledby="pilot-status">
+<div class="chapter-head"><div class="chapter-num">07 / Remaining decisions</div><div>
+<h2 id="pilot-status">What remains before choosing a workflow and reader?</h2>
+<p>The trials establish extraction behavior for selected images. Scientific checks, operating costs, storage, and reliable updates remain open.</p>
+</div></div>
+<div class="table-scroll" role="region" aria-label="Remaining workflow and reader decisions" tabindex="0"><table class="plans comparison-questions">
+<thead><tr><th scope="col">Decision</th><th scope="col">Evidence so far</th><th scope="col">Still to establish</th></tr></thead>
+<tbody>
+<tr><th scope="row">Which workflow and reader fit the workload</th><td>A1, B1, and C1 compare direct reads across workflows. B1, B2, and B3 compare reading recipes within shared image windows.</td><td>Repeated measurements with consistent timing boundaries, matched settings, and representative inputs. Separate elapsed time, CPU work, requests, requested bytes, and RAM spikes.</td></tr>
+<tr><th scope="row">Which observation to use in overlaps</th><td>Both processing orders preserve separate contributions. Catalog outlines can be coarse, and one acquisition can contain overlapping datastrips.</td><td>Matched-location checks between observations and a rule for ambiguous primary-tile roles.</td></tr>
+<tr><th scope="row">Which extracted values are usable</th><td>@@CROSS_NODATA@@ declared no-data entries occur among @@CROSS_PIXELS@@ selected band-pixel entries. They occur in 10 m bands despite nonzero selected 20 m classification values.</td><td>Locate and explain those entries, validate quality screening, and extend value-conversion checks. A stored zero does not mean zero reflectance.</td></tr>
+<tr><th scope="row">How the workflow behaves over time</th><td>Measurements cover selected acquisitions and fixed reader settings on one laptop.</td><td>Seasonal completeness, reader tuning, reliable updates, AWS performance, and monetary cost.</td></tr>
+<tr><th scope="row">How records are stored and served</th><td>The tests collect pixel contributions with source identities. They do not choose or benchmark a record store.</td><td>Storage layout, revision handling, retrieval correctness, and read/write costs.</td></tr>
+</tbody></table></div>
+<p class="source-note"><b>Evidence:</b> <a href="measurements.md#prototype-stage-4-lakes-across-tiles-2026-09-16">measured coverage and no-data findings</a> and <a href="work-plan.md">remaining assessment work</a>. The no-data summaries do not identify the affected water or classification cells. Their cause is unknown.</p>
+<p class="note-line"><strong>No production workflow or reader is selected.</strong> B1 and B3 offer different resource tradeoffs in these samples. The remaining checks determine which recipe fits the model’s full workload.</p>
 </section>
 </section>
+
 <section class="future" id="integration" role="tabpanel" aria-labelledby="tab-integration" hidden>
 <div class="eyebrow">Integration Specs / To come</div>
-<h1>Turn the findings into an engineering handoff.</h1>
+<h1>Engineering specifications based on the findings.</h1>
 <p>This section will hold the technical guidance and specifications that the prototypes support.</p>
 <button class="back-button" data-return>Return to Discovery</button>
 </section>
 <section class="future" id="tradeoffs" role="tabpanel" aria-labelledby="tab-tradeoffs" hidden>
 <div class="eyebrow">Tradeoffs &amp; Issues / To come</div>
-<h1>Make the choices and their consequences clear.</h1>
+<h1>Comparing costs, benefits, and unresolved issues.</h1>
 <p>When the evidence allows a comparison, this section will bring together costs, benefits, limits, and open issues.</p>
 <button class="back-button" data-return>Return to Discovery</button>
 </section>
 <noscript>
-<p>Discovery is readable without JavaScript. To switch phases or change the map views, enable JavaScript.</p></noscript>
+<p>Discovery is readable without JavaScript. To switch phases, change the map views, or pick two sensors to compare, enable JavaScript.</p></noscript>
 </main>
 <footer class="wrap">
-<p>Sentinel-2 assessment · Discovery &amp; partial Prototyping · Updated 2026-09-17</p>
+<p>Sentinel-2 assessment · Discovery &amp; partial Prototyping · Updated 2026-09-22</p>
 <p><a href="../README.md">Project documentation</a> · <a href="assets/discovery/provenance.json">Imagery attribution &amp; provenance</a>
 </p>
 </footer>
-<!-- Generated from inventory @@INVENTORY_DIGEST@@, survey @@REPORT_DIGEST@@, maps @@MAP_DIGEST@@, pilot @@PILOT_DIGEST@@, raw access @@RAW_DIGESTS@@, copy difference @@DIFF_DIGEST@@, lake extraction @@LAKE_DIGEST@@, tile extraction @@TILE_DIGEST@@, cross-tile extraction @@CROSS_DIGEST@@. -->
+<!-- Generated from inventory @@INVENTORY_DIGEST@@, survey @@REPORT_DIGEST@@, maps @@MAP_DIGEST@@, pilot @@PILOT_DIGEST@@, raw access @@RAW_DIGESTS@@, copy difference @@DIFF_DIGEST@@, lake extraction @@LAKE_DIGEST@@, tile extraction @@TILE_DIGEST@@, cross-tile extraction @@CROSS_DIGEST@@, sensor bands @@SENSOR_DIGEST@@. -->
 <script>
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 function activate(id, focus = false) {
@@ -1091,6 +1419,957 @@ document.querySelectorAll('[data-map]').forEach(select => {
   }
   select.addEventListener('change', updateMap); updateMap();
 });
+const library = document.getElementById('band-library');
+if (library) {
+  document.querySelector('.band-pair').hidden = false;
+  library.hidden = true;
+  document.querySelectorAll('[data-bands]').forEach(select => {
+    function updateBands() {
+      const table = library.querySelector('[data-sensor="' + select.value + '"]');
+      const slot = document.getElementById(select.dataset.bands).querySelector('.band-slot');
+      slot.replaceChildren(table.cloneNode(true));
+    }
+    select.addEventListener('change', updateBands); updateBands();
+  });
+}
 </script>
+<!-- rc:start v0.1.0 -->
+<style id="rc-style">/* html-review-comments: styles. Every selector starts with .rc- or #rc-. */
+#rc-root { --rc-bg: #fff; --rc-fg: #1b1b1b; --rc-muted: #5c5c5c; --rc-line: #d8d8d8; --rc-accent: #0b5fa5;
+  --rc-mark: #fff0a6; --rc-flash: #ffc247; --rc-shadow: 0 4px 18px rgba(0, 0, 0, .18);
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--rc-fg); }
+#rc-root[hidden] { display: none; }
+#rc-root *, #rc-root *::before, #rc-root *::after { box-sizing: border-box; }
+#rc-root button { font: inherit; }
+
+::highlight(rc-comments) { background-color: #fff0a6; }
+::highlight(rc-flash) { background-color: #ffc247; }
+
+.rc-toggle { position: fixed; right: 16px; bottom: 16px; z-index: 2147483000; padding: 8px 14px; border: 1px solid var(--rc-line);
+  border-radius: 20px; background: var(--rc-bg); color: var(--rc-fg); box-shadow: var(--rc-shadow); cursor: pointer; }
+.rc-toggle:hover, .rc-toggle[aria-expanded="true"] { border-color: var(--rc-accent); color: var(--rc-accent); }
+
+.rc-pop { position: fixed; z-index: 2147483001; max-width: min(360px, calc(100vw - 16px)); padding: 6px; border: 1px solid var(--rc-line);
+  border-radius: 8px; background: var(--rc-bg); box-shadow: var(--rc-shadow); }
+.rc-pop[hidden] { display: none; }
+.rc-pop-msg { margin: 4px 6px; color: var(--rc-muted); }
+.rc-add { min-height: 44px; padding: 8px 14px; border: 0; border-radius: 6px; background: var(--rc-accent); color: #fff; cursor: pointer; }
+.rc-form { display: flex; flex-direction: column; gap: 6px; width: min(340px, calc(100vw - 32px)); padding: 4px; }
+.rc-text, .rc-name { width: 100%; padding: 6px 8px; border: 1px solid var(--rc-line); border-radius: 6px; background: var(--rc-bg); color: var(--rc-fg); font: inherit; }
+.rc-text { resize: vertical; min-height: 64px; }
+.rc-form-row { display: flex; gap: 6px; }
+.rc-save { min-height: 36px; padding: 6px 14px; border: 0; border-radius: 6px; background: var(--rc-accent); color: #fff; cursor: pointer; }
+.rc-cancel, .rc-route, .rc-actions button { min-height: 36px; padding: 6px 10px; border: 1px solid var(--rc-line); border-radius: 6px; background: var(--rc-bg); color: var(--rc-fg); cursor: pointer; }
+.rc-cancel:hover, .rc-route:hover, .rc-actions button:hover { border-color: var(--rc-accent); color: var(--rc-accent); }
+.rc-hint { margin: 0; color: var(--rc-muted); font-size: 12px; }
+
+.rc-panel { position: fixed; top: 0; right: 0; bottom: 0; z-index: 2147483000; width: min(380px, 100vw); overflow-y: auto; padding: 12px 14px 80px;
+  border-left: 1px solid var(--rc-line); background: var(--rc-bg); box-shadow: var(--rc-shadow); }
+.rc-panel[hidden] { display: none; }
+.rc-head { position: sticky; top: -12px; z-index: 1; display: flex; align-items: center; justify-content: space-between; margin: -12px -14px 8px; padding: 12px 14px 6px; background: var(--rc-bg); }
+.rc-head h2 { margin: 0; font-size: 16px; }
+.rc-close { width: 36px; height: 36px; border: 0; border-radius: 18px; background: transparent; color: var(--rc-muted); font-size: 22px; cursor: pointer; }
+.rc-close:hover { background: var(--rc-mark); color: var(--rc-fg); }
+.rc-routes { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.rc-route-select { margin-left: auto; }
+.rc-status { margin: 0 0 8px; color: var(--rc-muted); }
+.rc-note { margin: 0 0 10px; padding: 8px 10px; border-radius: 6px; background: var(--rc-mark); color: var(--rc-fg); }
+.rc-note[hidden], .rc-paste[hidden] { display: none; }
+.rc-paste { margin-bottom: 10px; }
+.rc-paste-area { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+.rc-empty { color: var(--rc-muted); }
+.rc-tab { margin: 14px 0 4px; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; color: var(--rc-muted); }
+.rc-section { margin: 8px 0 4px; font-size: 13px; font-weight: 600; }
+.rc-card { margin: 0 0 8px; padding: 8px 10px; border: 1px solid var(--rc-line); border-radius: 8px; cursor: pointer; }
+.rc-card:hover, .rc-card:focus { border-color: var(--rc-accent); outline: none; }
+.rc-card:focus-visible { outline: 2px solid var(--rc-accent); outline-offset: 2px; }
+.rc-quote { margin: 0 0 6px; padding-left: 8px; border-left: 3px solid var(--rc-mark); color: var(--rc-muted); font-style: italic; }
+.rc-orphan .rc-quote { border-left-color: var(--rc-line); text-decoration: line-through; }
+.rc-moved .rc-quote { border-left-color: var(--rc-flash); }
+.rc-body { margin: 0 0 6px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.rc-meta { margin: 0; color: var(--rc-muted); font-size: 12px; }
+.rc-actions { display: flex; gap: 6px; margin-top: 6px; }
+.rc-actions button { min-height: 30px; padding: 3px 8px; font-size: 12px; }
+
+@media (max-width: 600px) {
+  .rc-panel { top: auto; left: 0; width: 100vw; max-height: 55vh; border-left: 0; border-top: 1px solid var(--rc-line); }
+  .rc-toggle { bottom: 12px; right: 12px; }
+  #rc-root:has(.rc-panel:not([hidden])) .rc-toggle { display: none; }
+}
+@media (prefers-color-scheme: dark) {
+  #rc-root { --rc-bg: #1e1e1e; --rc-fg: #ededed; --rc-muted: #a8a8a8; --rc-line: #444; --rc-accent: #7cb7ff; --rc-mark: #5c4d00; --rc-flash: #9a6b00; }
+  ::highlight(rc-comments) { background-color: #5c4d00; }
+  ::highlight(rc-flash) { background-color: #9a6b00; }
+}
+@media (prefers-reduced-motion: reduce) { #rc-root * { scroll-behavior: auto; transition: none; } }
+@media print {
+  #rc-root { display: none !important; }
+  ::highlight(rc-comments), ::highlight(rc-flash) { background-color: transparent; }
+}</style>
+<script type="application/json" id="rc-config">{"rootSelector": "#main", "tabSelector": "section[role=\"tabpanel\"]", "docKey": "s2-options"}</script>
+<div id="rc-root" hidden></div>
+<script id="rc-script">/* html-review-comments: pure text anchoring.
+   Finds a quoted passage in a text, tolerating edits. No DOM, no dependencies.
+   Mirror of scripts/rc_anchor.py. Both must return identical results for
+   tests/vectors/anchoring.json. Offsets count UTF-16 code units. */
+'use strict';
+const rcAnchor = (() => {
+  const Q_MIN = 3, Q_MAX = 8, SEED_CAP = 256, EXACT_CAP = 1000, CLUSTER_LIMIT = 5, ERROR_RATE = 0.3;
+  const WHITESPACE = ' \t\n\r\f\v\u00a0';
+  const PUNCT = '.,;:!?()[]{}<>"\'«»“”‘’…-–—/\\|';
+  const W_QUOTE = 50, W_PREFIX = 20, W_SUFFIX = 20, W_POS = 2;
+  const W_TOTAL = W_QUOTE + W_PREFIX + W_SUFFIX + W_POS;
+  const isWs = (c) => WHITESPACE.indexOf(c) !== -1;
+  const isWord = (c) => !isWs(c) && PUNCT.indexOf(c) === -1;
+
+  function maxErrors(m) { return Math.floor(m * ERROR_RATE); }
+
+  function findAll(text, s, cap) {
+    const out = [];
+    let i = text.indexOf(s);
+    while (i !== -1) {
+      if (out.length >= cap) return { positions: out, truncated: true };
+      out.push(i);
+      i = text.indexOf(s, i + 1);
+    }
+    return { positions: out, truncated: false };
+  }
+
+  function levenshtein(a, b) {
+    if (!a.length) return b.length;
+    if (!b.length) return a.length;
+    let prev = new Array(b.length + 1);
+    for (let j = 0; j <= b.length; j++) prev[j] = j;
+    for (let i = 1; i <= a.length; i++) {
+      const cur = new Array(b.length + 1);
+      cur[0] = i;
+      const ca = a[i - 1];
+      for (let j = 1; j <= b.length; j++) {
+        const cost = b[j - 1] === ca ? 0 : 1;
+        cur[j] = Math.min(prev[j - 1] + cost, prev[j] + 1, cur[j - 1] + 1);
+      }
+      prev = cur;
+    }
+    return prev[b.length];
+  }
+
+  // Best placement of pattern inside window: [errors, start, end], window-relative.
+  function align(pattern, window) {
+    const m = pattern.length, w = window.length;
+    let prev = new Array(w + 1).fill(0);
+    let prevStart = new Array(w + 1);
+    for (let j = 0; j <= w; j++) prevStart[j] = j;
+    for (let i = 1; i <= m; i++) {
+      const cur = new Array(w + 1), curStart = new Array(w + 1);
+      cur[0] = i; curStart[0] = 0;
+      const pc = pattern[i - 1];
+      for (let j = 1; j <= w; j++) {
+        const diag = prev[j - 1] + (window[j - 1] === pc ? 0 : 1);
+        const up = prev[j] + 1;
+        const left = cur[j - 1] + 1;
+        // lowest cost wins, then the latest start, so a match never grows leading slack
+        let cost = diag, start = prevStart[j - 1];
+        if (up < cost || (up === cost && prevStart[j] > start)) { cost = up; start = prevStart[j]; }
+        if (left < cost || (left === cost && curStart[j - 1] > start)) { cost = left; start = curStart[j - 1]; }
+        cur[j] = cost; curStart[j] = start;
+      }
+      prev = cur; prevStart = curStart;
+    }
+    let best = 0;
+    for (let j = 1; j <= w; j++) if (prev[j] < prev[best]) best = j;
+    return [prev[best], prevStart[best], best];
+  }
+
+  function contextScore(window, expected) {
+    if (!expected) return 1.0;
+    const score = 1 - levenshtein(window, expected) / expected.length;
+    return score > 0 ? score : 0.0;
+  }
+
+  // Expand a fuzzy span that starts or ends inside a word, at most `limit` units each way.
+  function snap(text, start, end, limit = 24) {
+    const n = text.length;
+    let steps = 0;
+    while (start > 0 && start < n && isWord(text[start - 1]) && isWord(text[start]) && steps < limit) { start--; steps++; }
+    steps = 0;
+    while (end > 0 && end < n && isWord(text[end]) && isWord(text[end - 1]) && steps < limit) { end++; steps++; }
+    return [start, end];
+  }
+
+  // Locate `exact` in `text`. Returns {start, end, errors, score, method} or null.
+  function anchor(text, exact, prefix = '', suffix = '', hint = null) {
+    const m = exact.length;
+    if (m === 0 || !text) return null;
+    let cands, method;
+    const occurrences = findAll(text, exact, EXACT_CAP).positions;
+    if (occurrences.length) {
+      cands = occurrences.map((s) => [s, s + m, 0]);
+      method = 'exact';
+    } else {
+      const k = maxErrors(m);
+      if (k === 0) return null;
+      const q = Math.min(Q_MAX, Math.max(Q_MIN, Math.floor(m / 3)));
+      const votes = [];
+      for (let off = 0; off + q <= m; off += q) {
+        const seed = exact.slice(off, off + q);
+        let blank = true;
+        for (const c of seed) if (!isWs(c)) { blank = false; break; }
+        if (blank) continue;
+        const found = findAll(text, seed, SEED_CAP);
+        if (found.truncated) continue;
+        for (const p of found.positions) votes.push(p - off);
+      }
+      if (!votes.length) return null;
+      votes.sort((a, b) => a - b);
+      const clusters = [];
+      for (const v of votes) {
+        const last = clusters[clusters.length - 1];
+        if (last && v - last.first <= k + q) { last.n++; last.sum += v; }
+        else clusters.push({ first: v, n: 1, sum: v });
+      }
+      const dist = (c) => (hint === null ? 0 : Math.abs(c.first - hint));
+      clusters.sort((a, b) => (b.n - a.n) || (dist(a) - dist(b)) || (a.first - b.first));
+      cands = [];
+      const seen = new Set();
+      for (const c of clusters.slice(0, CLUSTER_LIMIT)) {
+        const center = Math.floor(c.sum / c.n);
+        const lo = Math.max(0, center - k - q);
+        const hi = Math.min(text.length, center + m + k + q);
+        const [errors, ws, we] = align(exact, text.slice(lo, hi));
+        if (errors > k) continue;
+        const span = snap(text, lo + ws, lo + we);
+        const key = span[0] + ':' + span[1];
+        if (seen.has(key)) continue;
+        seen.add(key);
+        cands.push([span[0], span[1], errors]);
+      }
+      if (!cands.length) return null;
+      method = 'fuzzy';
+    }
+    let best = null;
+    for (const [s, e, errors] of cands) {
+      const p = contextScore(text.slice(Math.max(0, s - prefix.length), s), prefix);
+      const x = contextScore(text.slice(e, e + suffix.length), suffix);
+      const pos = hint === null ? 1.0 : 1 - Math.abs(s - hint) / text.length;
+      const score = (W_QUOTE * (1 - errors / m) + W_PREFIX * p + W_SUFFIX * x + W_POS * pos) / W_TOTAL;
+      if (best === null || score > best.score) best = { start: s, end: e, errors, score, method };
+    }
+    return best;
+  }
+
+  // 64-bit hash of a string as 16 hex digits (cyrb53). Document identity, not security.
+  function hashText(str, seed = 0) {
+    let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+    for (let i = 0; i < str.length; i++) {
+      const ch = str.charCodeAt(i);
+      h1 = Math.imul(h1 ^ ch, 2654435761);
+      h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return (h2 >>> 0).toString(16).padStart(8, '0') + (h1 >>> 0).toString(16).padStart(8, '0');
+  }
+
+  return { anchor, align, levenshtein, snap, findAll, maxErrors, hashText };
+})();
+if (typeof globalThis !== 'undefined') globalThis.rcAnchor = rcAnchor;
+if (typeof module !== 'undefined') module.exports = rcAnchor;
+
+/* html-review-comments: the comment layer. DOM glue around rcAnchor.
+   One config block, one root element, CSS Custom Highlight API, localStorage.
+   Every class, id, highlight name, and storage key starts with rc- or rc::. */
+'use strict';
+(() => {
+  const VERSION = '0.1.0';
+  const A = globalThis.rcAnchor;
+  const CONFIG_DEFAULTS = {
+    rootSelector: 'body', tabSelector: null, docKey: null, activation: 'always',
+    routes: ['copy', 'json', 'copy-page', 'paste'], copyRoute: 'auto',
+    minQuoteLength: 4, maxQuoteLength: 1000, contextLength: 32, shortcut: null, tabActivation: 'hash', labels: {},
+  };
+  const LABELS = {
+    toggle: 'Comments', unsent: '{n} not yet sent', add: 'Add comment', composerTitle: 'Add a comment',
+    placeholder: 'Your comment', namePlaceholder: 'Your name (optional)', save: 'Save', cancel: 'Cancel',
+    hint: 'Enter saves. Shift+Enter starts a new line.', tooShort: 'Select at least {n} characters to comment.',
+    tooLong: 'Selection too long. Select less, or comment on the heading.',
+    outsideRoot: 'Comments work on the main content. Select text there.', panelTitle: 'Comments', close: 'Close',
+    copy: 'Copy', json: 'Download JSON', copyPage: 'Download page with comments', paste: 'Paste',
+    commentOnSelection: 'Comment on selection', edit: 'Edit', delete: 'Delete', confirmDelete: 'Confirm delete',
+    keep: 'Keep', anchored: 'anchored', moved: 'moved', orphan: 'not found', fileOrigin: 'from file',
+    pastedOrigin: 'imported', status: '{n} comments', noComments: 'No comments yet. Select text on the page to add one.',
+    copied: 'Copied. Paste the text into a message to the maintainer.',
+    copyFallback: 'Copy the text below and send it to the maintainer.',
+    downloaded: 'Downloaded. Send the file to the maintainer.',
+    pageNote: 'The file contains the whole page and the comments.',
+    pasteTitle: 'Paste comments here, or drop a file on the panel.', import: 'Import',
+    imported: 'Imported {n} comments. Skipped {s} invalid items.', earlier: '{n} comments from an earlier revision of this page.',
+    importEarlier: 'Import them', pageGroup: 'Page', selectFirst: 'Select text on the page first.',
+  };
+  const SKIP = /^(script|style|template|noscript)$/i;
+  const BLOCKS = /^(p|li|td|th|dt|dd|h[1-6]|caption|figcaption|summary|blockquote|pre|div|section|article|main|body)$/i;
+  const WS = /\s/;
+  const HIGHLIGHTS = typeof CSS !== 'undefined' && 'highlights' in CSS && typeof Highlight === 'function';
+  // Built from fragments: the page carries this source inline, and the marker must match only the real block.
+  const COMMENTS_OPEN = '<script type="application/json" id="rc-' + 'comments">';
+  const COMMENTS_RE = new RegExp('^' + COMMENTS_OPEN.replace(/[/]/g, '\\/') + '([\\s\\S]*?)</scr' + 'ipt>\\n?', 'm');
+
+  const cfgEl = document.getElementById('rc-config');
+  let userConfig = {};
+  try { userConfig = cfgEl ? JSON.parse(cfgEl.textContent) : {}; } catch (e) { console.warn('rc-config is not valid JSON', e); }
+  const config = Object.assign({}, CONFIG_DEFAULTS, userConfig);
+  const L = Object.assign({}, LABELS, config.labels || {});
+  const fmt = (s, vars) => s.replace(/\{(\w+)\}/g, (m, k) => (vars && k in vars ? vars[k] : m));
+  const root = document.querySelector(config.rootSelector) || document.body;
+  if (!document.querySelector(config.rootSelector)) console.warn('rc: rootSelector matched nothing, using body:', config.rootSelector);
+
+  // ---------- small helpers ----------
+  const el = (tag, attrs, ...children) => {
+    const node = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (k === 'class') node.className = v;
+      else if (k === 'text') node.textContent = v;
+      else if (k.startsWith('on')) node.addEventListener(k.slice(2), v);
+      else if (v !== undefined && v !== null && v !== false) node.setAttribute(k, v === true ? '' : v);
+    }
+    for (const c of children) if (c) node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+    return node;
+  };
+  const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+  const pad = (n) => String(n).padStart(2, '0');
+  function localIso(d = new Date()) {
+    const off = -d.getTimezoneOffset(), sign = off >= 0 ? '+' : '-', a = Math.abs(off);
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}${sign}${pad(Math.floor(a / 60))}:${pad(a % 60)}`;
+  }
+  const uuid = () => 'urn:uuid:' + (crypto.randomUUID ? crypto.randomUUID()
+    : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => { const r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); }));
+  const docUrl = () => (location.protocol === 'file:' ? decodeURIComponent(location.pathname.split('/').pop()) : location.href.replace(/#.*$/, ''));
+  const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'page';
+  const reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- text serialization, shared with the merge tool ----------
+  let ui = null;
+  function textNodes(scope) {
+    const walker = document.createTreeWalker(scope, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
+      acceptNode: (n) => n.nodeType === 1
+        ? (SKIP.test(n.tagName) || n.id === 'rc-root' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_SKIP)
+        : NodeFilter.FILTER_ACCEPT,
+    });
+    const segs = [];
+    let pos = 0;
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      segs.push({ node, start: pos, end: pos + node.data.length });
+      pos += node.data.length;
+    }
+    return segs;
+  }
+  function serialize(scope) {
+    const segs = textNodes(scope);
+    return { text: segs.map((s) => s.node.data).join(''), segs };
+  }
+  let rootCache = null;
+  const rootText = () => rootCache || (rootCache = serialize(root));
+
+  function rangeFromOffsets(segs, start, end) {
+    const range = document.createRange();
+    const locate = (offset, atEnd) => {
+      let lo = 0, hi = segs.length - 1;
+      while (lo < hi) { const mid = (lo + hi) >> 1; if (segs[mid].end < offset || (segs[mid].end === offset && !atEnd)) lo = mid + 1; else hi = mid; }
+      const s = segs[lo];
+      return s ? [s.node, Math.max(0, Math.min(offset - s.start, s.node.data.length))] : null;
+    };
+    const a = locate(start, false), b = locate(end, true);
+    if (!a || !b) return null;
+    range.setStart(a[0], a[1]);
+    range.setEnd(b[0], b[1]);
+    return range;
+  }
+  function offsetsFromRange(segs, range) {
+    let start = 0, end = 0, startDone = false;
+    for (const s of segs) {
+      const len = s.node.data.length;
+      if (!startDone) {
+        if (range.comparePoint(s.node, len) < 0) { start += len; end += len; continue; }
+        if (s.node === range.startContainer) start += range.startOffset;
+        end = start;
+        startDone = true;
+      }
+      if (range.comparePoint(s.node, 0) > 0) break;
+      if (s.node === range.endContainer) { end += range.endOffset - (s.node === range.startContainer ? range.startOffset : 0); break; }
+      end += len - (s.node === range.startContainer ? range.startOffset : 0);
+    }
+    return { start, end };
+  }
+  function elementRange(element) {
+    const r = document.createRange();
+    r.selectNodeContents(element);
+    return r;
+  }
+
+  // ---------- page structure ----------
+  function containerOf(node) {
+    let e = node.nodeType === 1 ? node : node.parentElement;
+    while (e && e !== root) { if (e.id && e.id !== 'rc-root') return e; e = e.parentElement; }
+    return root;
+  }
+  function tabOf(node) {
+    if (!config.tabSelector) return null;
+    const e = (node.nodeType === 1 ? node : node.parentElement);
+    const tab = e && e.closest(config.tabSelector);
+    if (!tab || !root.contains(tab)) return null;
+    const heading = tab.querySelector('h1,h2,h3');
+    const labelled = tab.getAttribute('aria-labelledby') && document.getElementById(tab.getAttribute('aria-labelledby'));
+    const label = (heading && heading.textContent.trim()) || (labelled && labelled.textContent.trim()) || tab.id || '';
+    return { el: tab, id: tab.id || undefined, label: label.slice(0, 200) };
+  }
+  function sectionOf(node) {
+    let best = null;
+    for (const h of root.querySelectorAll('h1,h2,h3,h4,h5,h6')) {
+      if (h.contains(node)) { best = h; break; }
+      if (h.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_FOLLOWING) best = h; else break;
+    }
+    return best ? best.textContent.trim().replace(/\s+/g, ' ').slice(0, 300) : undefined;
+  }
+  function blockOf(node) {
+    let e = node.nodeType === 1 ? node : node.parentElement;
+    while (e && e !== root && !BLOCKS.test(e.tagName)) e = e.parentElement;
+    return e || root;
+  }
+  function trimToBlock(range) {
+    const startBlock = blockOf(range.startContainer);
+    if (startBlock !== blockOf(range.endContainer) && !startBlock.contains(range.endContainer)) {
+      range.setEnd(startBlock, startBlock.childNodes.length);
+    }
+    return range;
+  }
+
+  // ---------- anchoring ----------
+  function describe(range) {
+    const R = rootText();
+    const { start, end } = offsetsFromRange(R.segs, range);
+    const n = config.contextLength;
+    const container = containerOf(range.startContainer);
+    const C = container === root ? R : serialize(container);
+    const pos = offsetsFromRange(C.segs, range);
+    const tab = tabOf(range.startContainer);
+    return {
+      source: docUrl(),
+      selector: [
+        { type: 'TextQuoteSelector', exact: R.text.slice(start, end), prefix: R.text.slice(Math.max(0, start - n), start), suffix: R.text.slice(end, end + n) },
+        { type: 'CssSelector', value: container === root ? config.rootSelector : '#' + CSS.escape(container.id), refinedBy: { type: 'TextPositionSelector', start: pos.start, end: pos.end } },
+      ],
+      'rc:tab': tab ? tab.id : undefined, 'rc:tabLabel': tab ? tab.label : undefined, 'rc:section': sectionOf(range.startContainer),
+    };
+  }
+  function resolve(item, memo) {
+    const sel = item.target.selector;
+    const quote = sel.find((s) => s.type === 'TextQuoteSelector');
+    const css = sel.find((s) => s.type === 'CssSelector');
+    let container = null;
+    if (css) { try { container = document.querySelector(css.value); } catch (e) { container = null; } }
+    if (container && container !== root && !root.contains(container)) container = null;
+    const done = (scope, S, start, end, status, errors) => {
+      const range = rangeFromOffsets(S.segs, start, end);
+      if (!range) return null;
+      const key = 'P:' + (scope === root ? '' : scope.id);
+      if (!(key in memo)) memo[key] = scope === root ? 0 : offsetsFromRange(rootText().segs, elementRange(scope)).start;
+      return { range, status, errors, pos: memo[key] + start };
+    };
+    if (container) {
+      const C = container === root ? rootText() : (memo['C:' + container.id] || (memo['C:' + container.id] = serialize(container)));
+      const pos = css.refinedBy && css.refinedBy.type === 'TextPositionSelector' ? css.refinedBy : null;
+      if (pos && C.text.slice(pos.start, pos.end) === quote.exact) {
+        const r = done(container, C, pos.start, pos.end, 'anchored', 0);
+        if (r) return r;
+      }
+      const m = A.anchor(C.text, quote.exact, quote.prefix || '', quote.suffix || '', pos ? pos.start : null);
+      if (m) { const r = done(container, C, m.start, m.end, m.method === 'exact' ? 'anchored' : 'moved', m.errors); if (r) return r; }
+    }
+    if (container !== root) {
+      const R = rootText();
+      const m = A.anchor(R.text, quote.exact, quote.prefix || '', quote.suffix || '', null);
+      if (m) { const r = done(root, R, m.start, m.end, m.method === 'exact' ? 'anchored' : 'moved', m.errors); if (r) return r; }
+    }
+    return { range: null, status: 'orphan', errors: null, pos: Infinity };
+  }
+  function reanchorAll() {
+    rootCache = null;
+    const memo = {};
+    for (const item of items) item._anchor = resolve(item, memo);
+  }
+
+  // ---------- state and storage ----------
+  let items = [];
+  let sent = new Set();
+  const docKey = config.docKey || ('h:' + A.hashText(rootText().text.replace(/\s+/g, ' ')));
+  const storeKey = 'rc::' + docKey;
+  const storage = { get: (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); return true; } catch (e) { return false; } }, remove: (k) => { try { localStorage.removeItem(k); } catch (e) { /* ignore */ } } };
+
+  function cleanItem(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    const str = (v, max) => (typeof v === 'string' ? v.slice(0, max) : undefined);
+    const id = str(raw.id, 80);
+    const t = raw.target, sel = t && Array.isArray(t.selector) ? t.selector : null;
+    const q = sel && sel.find((s) => s && s.type === 'TextQuoteSelector');
+    const body = raw.body && typeof raw.body.value === 'string' ? raw.body.value : (typeof raw.body === 'string' ? raw.body : null);
+    if (!id || !/^[A-Za-z0-9:_-]{1,80}$/.test(id) || body === null || body.length > 10000 || !q || typeof q.exact !== 'string' || !q.exact || q.exact.length > 2000) return null;
+    const item = {
+      '@context': 'http://www.w3.org/ns/anno.jsonld', id, type: 'Annotation', motivation: 'commenting',
+      created: str(raw.created, 40) || localIso(), modified: str(raw.modified, 40),
+      creator: raw.creator && typeof raw.creator.name === 'string' && raw.creator.name.trim() ? { type: 'Person', name: raw.creator.name.trim().slice(0, 100) } : undefined,
+      body: { type: 'TextualBody', value: body, format: 'text/plain', purpose: 'commenting' },
+      target: {
+        source: str(t.source, 500) || docUrl(),
+        selector: [{ type: 'TextQuoteSelector', exact: q.exact, prefix: str(q.prefix, 200) || '', suffix: str(q.suffix, 200) || '' }],
+        'rc:tab': str(t['rc:tab'], 200), 'rc:tabLabel': str(t['rc:tabLabel'], 200), 'rc:section': str(t['rc:section'], 300),
+      },
+    };
+    const css = sel.find((s) => s && s.type === 'CssSelector' && typeof s.value === 'string');
+    if (css) {
+      const p = css.refinedBy;
+      const refined = p && p.type === 'TextPositionSelector' && Number.isInteger(p.start) && Number.isInteger(p.end) && p.start >= 0 && p.end >= p.start
+        ? { type: 'TextPositionSelector', start: p.start, end: p.end } : undefined;
+      item.target.selector.push({ type: 'CssSelector', value: css.value.slice(0, 200), refinedBy: refined });
+    }
+    return item;
+  }
+  function parseFile(data) {
+    if (typeof data === 'string') {
+      const text = data.trim();
+      if (text.startsWith('<') || COMMENTS_RE.test(text)) {
+        const m = text.match(COMMENTS_RE);
+        if (!m) throw new Error('no comments in this page');
+        data = JSON.parse(m[1]);
+      } else data = JSON.parse(text);
+    }
+    if (!data || typeof data !== 'object') throw new Error('not a comment file');
+    if (JSON.stringify(data).length > 2e6) throw new Error('file too large');
+    const raw = Array.isArray(data.items) ? data.items.slice(0, 2000) : (Array.isArray(data) ? data.slice(0, 2000) : []);
+    const clean = [];
+    let skipped = 0;
+    for (const r of raw) { const c = cleanItem(r); if (c) { c._origin = (r['rc:origin'] === 'local' || r['rc:origin'] === 'file' || r['rc:origin'] === 'pasted') ? r['rc:origin'] : null; clean.push(c); } else skipped++; }
+    const doc = data.document && typeof data.document === 'object' ? data.document : {};
+    return { items: clean, skipped, sent: Array.isArray(data.sent) ? data.sent.filter((s) => typeof s === 'string') : [], document: doc };
+  }
+  function merge(incoming, origin) {
+    let added = 0;
+    for (const it of incoming) {
+      const existing = items.find((x) => x.id === it.id);
+      it._origin = origin === 'storage' ? (it._origin || 'local') : origin;
+      if (!existing) { items.push(it); added++; continue; }
+      if (existing._origin === 'local' && origin !== 'storage') continue;
+      if ((it.modified || it.created) > (existing.modified || existing.created)) Object.assign(existing, it, { _origin: existing._origin });
+    }
+    return added;
+  }
+  function load() {
+    const raw = storage.get(storeKey);
+    if (raw) { try { const f = parseFile(raw); merge(f.items, 'storage'); sent = new Set(f.sent); } catch (e) { console.warn('stored comments unreadable', e); } }
+    const embedded = document.getElementById('rc-comments');
+    if (embedded) { try { merge(parseFile(embedded.textContent).items, 'file'); } catch (e) { console.warn('embedded comments unreadable', e); } }
+  }
+  const publicItem = (it) => { const o = {}; for (const k of Object.keys(it)) if (!k.startsWith('_')) o[k] = it[k]; return o; };
+  function exportFile(forStorage) {
+    const file = {
+      format: 'html-review-comments/1', generator: { name: 'html-review-comments', version: VERSION },
+      document: { key: docKey, title: document.title, url: docUrl(), exported: localIso() },
+      items: items.map((it) => (forStorage ? Object.assign(publicItem(it), { 'rc:origin': it._origin }) : publicItem(it))),
+    };
+    if (forStorage) file.sent = [...sent];
+    return file;
+  }
+  function persist() {
+    if (!storage.set(storeKey, JSON.stringify(exportFile(true)))) note('Storage is full or unavailable. Export your comments now.');
+    document.dispatchEvent(new CustomEvent('rc-change', { detail: { count: items.length } }));
+  }
+  const unsentCount = () => items.filter((it) => it._origin === 'local' && !sent.has(it.id)).length;
+  function markSent() { for (const it of items) if (it._origin === 'local') sent.add(it.id); persist(); render(); }
+  function earlierRevisions() {
+    const found = [];
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (!k || !k.startsWith('rc::') || k === storeKey || k === 'rc::name' || k === 'rc::active') continue;
+        try {
+          const f = parseFile(localStorage.getItem(k));
+          if (f.document.url !== docUrl()) continue;
+          const s = new Set(f.sent);
+          const own = f.items.filter((it) => (it._origin || 'local') === 'local' && !s.has(it.id));
+          if (own.length) found.push({ key: k, items: own });
+        } catch (e) { /* skip */ }
+      }
+    } catch (e) { /* storage unavailable */ }
+    return found;
+  }
+
+  // ---------- highlights ----------
+  function paint() {
+    if (!HIGHLIGHTS) return;
+    const ranges = items.filter((it) => it._anchor && it._anchor.range).map((it) => it._anchor.range);
+    CSS.highlights.set('rc-comments', new Highlight(...ranges));
+  }
+  function flash(range) {
+    if (!HIGHLIGHTS) { const s = getSelection(); s.removeAllRanges(); s.addRange(range); return; }
+    const h = new Highlight(range);
+    h.priority = 2;
+    CSS.highlights.set('rc-flash', h);
+    setTimeout(() => CSS.highlights.delete('rc-flash'), 1500);
+  }
+  function caretAt(x, y) {
+    if (document.caretPositionFromPoint) { const p = document.caretPositionFromPoint(x, y); return p ? { node: p.offsetNode, offset: p.offset } : null; }
+    if (document.caretRangeFromPoint) { const r = document.caretRangeFromPoint(x, y); return r ? { node: r.startContainer, offset: r.startOffset } : null; }
+    return null;
+  }
+  const inRange = (range, node, offset) => { try { return range.isPointInRange(node, offset); } catch (e) { return false; } };
+  function reveal(item) {
+    const a = item._anchor;
+    if (!a || !a.range) return;
+    for (let e = a.range.startContainer.parentElement; e && e !== root; e = e.parentElement) if (e.tagName === 'DETAILS') e.open = true;
+    const tab = tabOf(a.range.startContainer);
+    if (tab && tab.id && config.tabActivation === 'hash' && tab.el.getClientRects().length === 0) location.hash = '#' + tab.id;
+    setTimeout(() => {
+      const r = a.range.getBoundingClientRect();
+      window.scrollTo({ top: window.scrollY + r.top - window.innerHeight / 3, behavior: reducedMotion() ? 'auto' : 'smooth' });
+      flash(a.range);
+    }, 60);
+  }
+
+  // ---------- user interface ----------
+  let pending = null, composing = false, lastFocus = null, deleteArmed = null, editing = null;
+  function buildUI() {
+    let host = document.getElementById('rc-root');
+    if (!host) { host = el('div', { id: 'rc-root' }); document.body.appendChild(host); }
+    host.hidden = false;
+    host.textContent = '';
+    ui = { root: host };
+    ui.toggle = el('button', { class: 'rc-toggle', type: 'button', 'aria-expanded': 'false', 'aria-controls': 'rc-panel', onclick: () => (ui.panel.hidden ? openPanel() : closePanel()) });
+    ui.pop = el('div', { class: 'rc-pop', id: 'rc-pop', role: 'dialog', 'aria-label': L.composerTitle, hidden: true });
+    ui.panel = el('aside', { class: 'rc-panel', id: 'rc-panel', role: 'complementary', 'aria-label': L.panelTitle, hidden: true });
+    ui.status = el('p', { class: 'rc-status', 'aria-live': 'polite' });
+    ui.note = el('div', { class: 'rc-note', hidden: true, 'aria-live': 'polite' });
+    ui.pasteBox = el('div', { class: 'rc-paste', hidden: true });
+    ui.list = el('div', { class: 'rc-list' });
+    const routes = el('div', { class: 'rc-routes' });
+    const routeDefs = { copy: [L.copy, routeCopy], json: [L.json, routeJson], 'copy-page': [L.copyPage, routePage], paste: [L.paste, showPasteBox] };
+    for (const key of config.routes) if (routeDefs[key]) routes.appendChild(el('button', { type: 'button', class: 'rc-route', text: routeDefs[key][0], onclick: routeDefs[key][1] }));
+    routes.appendChild(el('button', { type: 'button', class: 'rc-route rc-route-select', text: L.commentOnSelection, onclick: commentOnSelection }));
+    ui.panel.append(
+      el('header', { class: 'rc-head' }, el('h2', { text: L.panelTitle }), el('button', { type: 'button', class: 'rc-close', 'aria-label': L.close, text: '×', onclick: closePanel })),
+      routes, ui.status, ui.note, ui.pasteBox, ui.list,
+    );
+    ui.panel.addEventListener('dragover', (e) => { e.preventDefault(); });
+    ui.panel.addEventListener('drop', (e) => { e.preventDefault(); const f = e.dataTransfer && e.dataTransfer.files[0]; if (f) f.text().then((t) => importText(t)); });
+    host.append(ui.toggle, ui.pop, ui.panel);
+    document.addEventListener('selectionchange', debounce(onSelection, 150));
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onKey);
+    const observer = new MutationObserver((records) => {
+      if (records.every((r) => host.contains(r.target))) return;
+      scheduleReanchor();
+    });
+    observer.observe(root, { childList: true, characterData: true, subtree: true });
+  }
+  const scheduleReanchor = debounce(() => { reanchorAll(); paint(); render(); }, 200);
+  function note(text, keep) {
+    ui.note.textContent = text;
+    ui.note.hidden = !text;
+    if (!keep) { clearTimeout(note.timer); note.timer = setTimeout(() => { ui.note.hidden = true; }, 8000); }
+  }
+  function openPanel() { ui.panel.hidden = false; ui.toggle.setAttribute('aria-expanded', 'true'); }
+  function closePanel() { ui.panel.hidden = true; ui.toggle.setAttribute('aria-expanded', 'false'); ui.toggle.focus(); }
+
+  function onSelection() {
+    if (composing) return;
+    const sel = getSelection();
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) { hidePopover(); return; }
+    const range = sel.getRangeAt(0).cloneRange();
+    if (ui.root.contains(range.commonAncestorContainer)) return;
+    if (!root.contains(range.commonAncestorContainer)) { pending = null; showPopover(range, L.outsideRoot); return; }
+    prepare(range);
+  }
+  function prepare(range) {
+    trimToBlock(range);
+    const R = rootText();
+    let { start, end } = offsetsFromRange(R.segs, range);
+    while (start < end && WS.test(R.text[start])) start++;
+    while (end > start && WS.test(R.text[end - 1])) end--;
+    const len = end - start;
+    pending = null;
+    if (len < config.minQuoteLength) { showPopover(range, fmt(L.tooShort, { n: config.minQuoteLength })); return false; }
+    if (len > config.maxQuoteLength) { showPopover(range, L.tooLong); return false; }
+    pending = { range: rangeFromOffsets(R.segs, start, end) };
+    showPopover(pending.range);
+    return true;
+  }
+  function showPopover(range, message) {
+    ui.pop.textContent = '';
+    if (message) ui.pop.appendChild(el('p', { class: 'rc-pop-msg', text: message }));
+    else ui.pop.appendChild(el('button', { type: 'button', class: 'rc-add', text: L.add, onmousedown: (e) => e.preventDefault(), onclick: () => openComposer() }));
+    ui.pop.hidden = false;
+    placePopover(range);
+  }
+  function placePopover(range) {
+    const rects = range.getClientRects();
+    const r = rects.length ? rects[rects.length - 1] : range.getBoundingClientRect();
+    const w = ui.pop.offsetWidth || 160, h = ui.pop.offsetHeight || 40;
+    let left = Math.min(Math.max(8, r.right - w / 2), window.innerWidth - w - 8);
+    let top = r.bottom + 8;
+    if (top + h > window.innerHeight - 8) top = Math.max(8, r.top - h - 8);
+    ui.pop.style.left = left + 'px';
+    ui.pop.style.top = top + 'px';
+  }
+  function hidePopover() { if (!composing) { ui.pop.hidden = true; pending = null; } }
+  function commentOnSelection() {
+    const sel = getSelection();
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) { note(L.selectFirst); return; }
+    const range = sel.getRangeAt(0).cloneRange();
+    if (!root.contains(range.commonAncestorContainer) || ui.root.contains(range.commonAncestorContainer)) { note(L.selectFirst); return; }
+    if (prepare(range)) openComposer();
+  }
+  function openComposer() {
+    if (!pending) return;
+    composing = true;
+    lastFocus = document.activeElement;
+    ui.pop.textContent = '';
+    const textarea = el('textarea', { class: 'rc-text', rows: '3', placeholder: L.placeholder, 'aria-label': L.placeholder });
+    const name = el('input', { class: 'rc-name', type: 'text', placeholder: L.namePlaceholder, 'aria-label': L.namePlaceholder, value: storage.get('rc::name') || '' });
+    const save = () => {
+      const value = textarea.value.trim();
+      if (!value) { textarea.focus(); return; }
+      storage.set('rc::name', name.value.trim());
+      addComment(pending.range, value, name.value.trim());
+      closeComposer();
+    };
+    const form = el('form', { class: 'rc-form', onsubmit: (e) => { e.preventDefault(); save(); } },
+      textarea, name,
+      el('div', { class: 'rc-form-row' }, el('button', { type: 'submit', class: 'rc-save', text: L.save }), el('button', { type: 'button', class: 'rc-cancel', text: L.cancel, onclick: closeComposer })),
+      el('p', { class: 'rc-hint', text: L.hint }));
+    textarea.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); save(); } });
+    ui.pop.appendChild(form);
+    ui.pop.hidden = false;
+    placePopover(pending.range);
+    textarea.focus();
+  }
+  function closeComposer() {
+    composing = false;
+    ui.pop.hidden = true;
+    pending = null;
+    const s = getSelection();
+    if (s) s.removeAllRanges();
+    if (lastFocus && lastFocus.focus && lastFocus !== document.body) lastFocus.focus();
+  }
+  function addComment(range, value, name) {
+    const item = {
+      '@context': 'http://www.w3.org/ns/anno.jsonld', id: uuid(), type: 'Annotation', motivation: 'commenting',
+      created: localIso(), creator: name ? { type: 'Person', name } : undefined,
+      body: { type: 'TextualBody', value, format: 'text/plain', purpose: 'commenting' },
+      target: describe(range),
+    };
+    item._origin = 'local';
+    items.push(item);
+    reanchorAll();
+    persist();
+    paint();
+    render();
+    openPanel();
+    focusCard(item.id);
+  }
+  function onDocumentClick(ev) {
+    if (!ui || ui.root.contains(ev.target) || !root.contains(ev.target)) return;
+    const sel = getSelection();
+    if (sel && !sel.isCollapsed) return;
+    const pt = caretAt(ev.clientX, ev.clientY);
+    if (!pt) return;
+    const hits = items.filter((it) => it._anchor && it._anchor.range && inRange(it._anchor.range, pt.node, pt.offset));
+    if (!hits.length) return;
+    hits.sort((a, b) => a._anchor.range.toString().length - b._anchor.range.toString().length);
+    openPanel();
+    focusCard(hits[0].id);
+    flash(hits[0]._anchor.range);
+  }
+  function onKey(ev) {
+    if (ev.key === 'Escape') {
+      if (composing) { closeComposer(); return; }
+      if (!ui.pop.hidden) { hidePopover(); return; }
+      if (!ui.panel.hidden && ui.panel.contains(document.activeElement)) closePanel();
+      return;
+    }
+    if (config.shortcut && matchesShortcut(ev, config.shortcut)) { ev.preventDefault(); commentOnSelection(); }
+  }
+  function matchesShortcut(ev, spec) {
+    const parts = spec.toLowerCase().split('+');
+    const key = parts.pop();
+    return ev.key.toLowerCase() === key && parts.includes('alt') === ev.altKey && parts.includes('ctrl') === ev.ctrlKey && parts.includes('shift') === ev.shiftKey && parts.includes('meta') === ev.metaKey;
+  }
+
+  // ---------- panel rendering ----------
+  function render() {
+    const unsent = unsentCount();
+    ui.toggle.textContent = `${L.toggle} (${items.length})` + (unsent ? ` · ${fmt(L.unsent, { n: unsent })}` : '');
+    ui.status.textContent = fmt(L.status, { n: items.length }) + (unsent ? ` · ${fmt(L.unsent, { n: unsent })}` : '');
+    ui.list.textContent = '';
+    if (!items.length) { ui.list.appendChild(el('p', { class: 'rc-empty', text: L.noComments })); return; }
+    const tabs = config.tabSelector ? [...root.querySelectorAll(config.tabSelector)].map((t) => t.id) : [];
+    const tabIndex = (it) => { const i = tabs.indexOf(it.target['rc:tab']); return i === -1 ? (it.target['rc:tab'] ? tabs.length : -1) : i; };
+    const sorted = items.slice().sort((a, b) => tabIndex(a) - tabIndex(b) || a._anchor.pos - b._anchor.pos || (a.created > b.created ? 1 : -1));
+    let lastTab = {}, lastSection = {}, group = null;
+    for (const it of sorted) {
+      const tabKey = it.target['rc:tab'] || '';
+      const sectionKey = it.target['rc:section'] || (it.target.selector[1] && it.target.selector[1].value) || '';
+      if (tabKey !== lastTab.key) { lastTab = { key: tabKey }; ui.list.appendChild(el('h3', { class: 'rc-tab', text: it.target['rc:tabLabel'] || tabKey || L.pageGroup })); lastSection = {}; }
+      if (sectionKey !== lastSection.key) { lastSection = { key: sectionKey }; group = el('section', { class: 'rc-group' }, el('h4', { class: 'rc-section', text: sectionKey })); ui.list.appendChild(group); }
+      group.appendChild(card(it));
+    }
+  }
+  function card(it) {
+    const a = it._anchor || { status: 'orphan' };
+    const quote = it.target.selector[0].exact;
+    const status = a.status === 'orphan' ? L.orphan : a.status === 'moved' ? L.moved : L.anchored;
+    const origin = it._origin === 'file' ? L.fileOrigin : it._origin === 'pasted' ? L.pastedOrigin : '';
+    const when = (() => { const d = new Date(it.created); return isNaN(d) ? it.created : d.toLocaleString(); })();
+    const meta = [it.creator && it.creator.name, when, status, origin].filter(Boolean).join(' · ');
+    const node = el('article', { class: 'rc-card rc-' + a.status, 'data-id': it.id, tabindex: '0' },
+      el('blockquote', { class: 'rc-quote', text: quote.length > 140 ? quote.slice(0, 140) + '…' : quote }),
+      el('p', { class: 'rc-body', text: it.body.value }),
+      el('p', { class: 'rc-meta', text: meta }));
+    const open = (e) => { if (e.target.closest('button, textarea, input')) return; reveal(it); };
+    node.addEventListener('click', open);
+    node.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target === node) reveal(it); });
+    if (it._origin === 'local') {
+      const actions = el('div', { class: 'rc-actions' });
+      actions.append(
+        el('button', { type: 'button', text: L.edit, onclick: () => startEdit(node, it) }),
+        el('button', { type: 'button', text: L.delete, onclick: (e) => armDelete(e.target, it) }));
+      node.appendChild(actions);
+    }
+    return node;
+  }
+  function startEdit(node, it) {
+    const body = node.querySelector('.rc-body');
+    const textarea = el('textarea', { class: 'rc-text', rows: '3', 'aria-label': L.edit });
+    textarea.value = it.body.value;
+    const finish = (save) => { if (save && textarea.value.trim()) { it.body.value = textarea.value.trim(); it.modified = localIso(); persist(); } render(); focusCard(it.id); };
+    const row = el('div', { class: 'rc-form-row' }, el('button', { type: 'button', class: 'rc-save', text: L.save, onclick: () => finish(true) }), el('button', { type: 'button', class: 'rc-cancel', text: L.cancel, onclick: () => finish(false) }));
+    textarea.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); finish(true); } if (e.key === 'Escape') { e.stopPropagation(); finish(false); } });
+    body.replaceWith(textarea, row);
+    textarea.focus();
+  }
+  function armDelete(button, it) {
+    if (deleteArmed === it.id) { items = items.filter((x) => x.id !== it.id); sent.delete(it.id); deleteArmed = null; persist(); paint(); render(); return; }
+    deleteArmed = it.id;
+    button.textContent = L.confirmDelete;
+    setTimeout(() => { if (deleteArmed === it.id) { deleteArmed = null; button.textContent = L.delete; } }, 4000);
+  }
+  function focusCard(id) {
+    const node = ui.list.querySelector(`[data-id="${CSS.escape(id)}"]`);
+    if (!node) return;
+    node.scrollIntoView({ block: 'nearest', behavior: reducedMotion() ? 'auto' : 'smooth' });
+    node.focus({ preventScroll: true });
+  }
+
+  // ---------- return routes ----------
+  const fileName = (kind, ext) => `${slug(document.title)}-${kind}-${localIso().slice(0, 10)}.${ext}`;
+  function download(name, content, type) {
+    const a = el('a', { download: name, rel: 'noopener' });
+    a.href = URL.createObjectURL(new Blob([content], { type }));
+    ui.root.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+  }
+  async function routeCopy() {
+    const text = JSON.stringify(exportFile(), null, 1);
+    try { await navigator.clipboard.writeText(text); markSent(); note(L.copied); return; } catch (e) { /* fall through */ }
+    showPasteBox(text);
+    try { ui.pasteArea.select(); if (document.execCommand('copy')) { markSent(); note(L.copied); return; } } catch (e) { /* fall through */ }
+    note(L.copyFallback, true);
+  }
+  function routeJson() { download(fileName('comments', 'json'), JSON.stringify(exportFile(), null, 1), 'application/json'); markSent(); note(L.downloaded); }
+  async function routePage() {
+    let html = null;
+    const useFetch = config.copyRoute === 'fetch' || (config.copyRoute === 'auto' && /^https?:$/.test(location.protocol));
+    if (useFetch) { try { const r = await fetch(location.href, { cache: 'no-store' }); if (r.ok) html = await r.text(); } catch (e) { html = null; } }
+    if (html === null) html = serializeDocument();
+    download(fileName('commented', 'html'), embedComments(html, exportFile()), 'text/html');
+    markSent();
+    note(L.downloaded + ' ' + L.pageNote);
+  }
+  function serializeDocument() {
+    const clone = document.documentElement.cloneNode(true);
+    const layer = clone.querySelector('#rc-root');
+    if (layer) { layer.textContent = ''; layer.hidden = true; }
+    const old = clone.querySelector('#rc-comments');
+    if (old) old.remove();
+    return '<!doctype html>\n' + clone.outerHTML;
+  }
+  function embedComments(html, file) {
+    const json = JSON.stringify(file).replace(/</g, '\\u003c');
+    const block = COMMENTS_OPEN + json + '</scr' + 'ipt>\n';
+    if (COMMENTS_RE.test(html)) return html.replace(COMMENTS_RE, () => block);
+    const endMarker = '<!' + '-- rc:end --' + '>';
+    const marker = html.lastIndexOf(endMarker);
+    if (marker !== -1) return html.slice(0, marker) + block + html.slice(marker);
+    const body = html.lastIndexOf('</' + 'body>');
+    return body === -1 ? html + block : html.slice(0, body) + block + html.slice(body);
+  }
+  function showPasteBox(prefill) {
+    ui.pasteBox.textContent = '';
+    ui.pasteArea = el('textarea', { class: 'rc-text rc-paste-area', rows: '5', 'aria-label': L.pasteTitle, placeholder: L.pasteTitle });
+    if (typeof prefill === 'string') ui.pasteArea.value = prefill;
+    ui.pasteBox.append(
+      el('p', { class: 'rc-hint', text: L.pasteTitle }), ui.pasteArea,
+      el('div', { class: 'rc-form-row' }, el('button', { type: 'button', class: 'rc-save', text: L.import, onclick: () => importText(ui.pasteArea.value) }), el('button', { type: 'button', class: 'rc-cancel', text: L.close, onclick: () => { ui.pasteBox.hidden = true; } })));
+    ui.pasteBox.hidden = false;
+    if (typeof prefill !== 'string') ui.pasteArea.focus();
+  }
+  function importText(text) {
+    try {
+      const f = parseFile(text);
+      const added = merge(f.items, 'pasted');
+      reanchorAll(); persist(); paint(); render();
+      ui.pasteBox.hidden = true;
+      note(fmt(L.imported, { n: added, s: f.skipped }));
+      return { added, skipped: f.skipped };
+    } catch (e) { note(String(e.message || e), true); return null; }
+  }
+  function offerEarlier() {
+    const earlier = earlierRevisions();
+    const count = earlier.reduce((n, e) => n + e.items.length, 0);
+    if (!count) return;
+    ui.note.textContent = fmt(L.earlier, { n: count }) + ' ';
+    ui.note.appendChild(el('button', { type: 'button', class: 'rc-route', text: L.importEarlier, onclick: () => {
+      for (const e of earlier) { merge(e.items, 'local'); storage.remove(e.key); }
+      reanchorAll(); persist(); paint(); render(); note('');
+    } }));
+    ui.note.hidden = false;
+  }
+
+  // ---------- activation and public API ----------
+  let enabled = false;
+  function enable() {
+    if (enabled) { ui.root.hidden = false; paint(); return; }
+    enabled = true;
+    buildUI();
+    load();
+    reanchorAll();
+    paint();
+    render();
+    offerEarlier();
+  }
+  function disable() { if (!enabled) return; ui.root.hidden = true; if (HIGHLIGHTS) { CSS.highlights.delete('rc-comments'); CSS.highlights.delete('rc-flash'); } }
+  window.ReviewComments = {
+    version: VERSION,
+    enable, disable,
+    list: () => items.map((it) => Object.assign(publicItem(it), { status: it._anchor ? it._anchor.status : 'orphan', origin: it._origin })),
+    export: () => exportFile(),
+    import: (data) => { if (!enabled) enable(); return importText(typeof data === 'string' ? data : JSON.stringify(data)); },
+    clear: () => { if (!enabled) enable(); if (!window.confirm || window.confirm(`${L.delete} ${items.length}?`)) { items = []; sent = new Set(); persist(); paint(); render(); } },
+    reanchor: () => { if (!enabled) return; reanchorAll(); paint(); render(); },
+  };
+  const wantsFragment = config.activation === 'fragment';
+  const activated = () => location.hash === '#review' || storage.get('rc::active') === '1';
+  if (!wantsFragment || activated()) { if (wantsFragment) storage.set('rc::active', '1'); enable(); }
+  else window.addEventListener('hashchange', () => { if (activated()) { storage.set('rc::active', '1'); enable(); } });
+})();</script>
+<!-- rc:end -->
 </body>
 </html>
