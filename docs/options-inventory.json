@@ -7823,7 +7823,7 @@
         "cl-wf-lazy-array-stack-geolocation_handling-2",
         "cl-wf-server-side-extraction-geolocation_handling"
       ],
-      "plain": "Neighboring tiles are processed separately. Where they overlap, the same ground can get different reflectance and a different class.",
+      "plain": "Neighboring tiles are processed separately. Where they overlap, the same ground can get different reflectance and a different class. ESA expects the reflectance differences to be small.",
       "why": "A pond in an overlap has two values per date. Averaging or silently picking one would hide a real difference. Every record carries its tile, so the model can see and handle both."
     },
     {
@@ -7857,7 +7857,7 @@
         "cl-wf-lazy-array-stack-offset_handling",
         "cl-wf-lazy-array-stack-offset_handling-2"
       ],
-      "plain": "Popular readers apply, ignore, or partially apply the scale and offset by default, each differently.",
+      "plain": "Popular readers disagree by default. Some apply the scale and offset, and others ignore them.",
       "why": "Two pipelines reading the same file can return different numbers. One tested conversion function owns the arithmetic, and no library default is trusted."
     },
     {
@@ -7895,7 +7895,7 @@
         "PR-06",
         "PR-07"
       ],
-      "plain": "The archive is not one uniform series. ESA reprocessed products in 2023 and 2024, the route holds them in two collections, and 2022 is nearly missing from the preferred one.",
+      "plain": "The archive is not one uniform series. ESA finished reprocessing 2015 to 2021 in 2024 and 2022 to 2023 in 2025. The route holds them in two collections, and 2022 is nearly missing from the preferred one.",
       "why": "A five-year history mixes processing versions and has a hole unless it is filled deliberately. The fill choice decides whether 2022 data carry a different offset state and fewer quality layers than the rest."
     },
     {
@@ -7939,7 +7939,7 @@
         "cl-ar-earth-search-cogs-quality_layers",
         "cl-ar-aws-requester-pays-quality_layers"
       ],
-      "plain": "At a swath edge the no-data mask is coarser than the bands. Edge pixels can hold interpolated dark values that look like water.",
+      "plain": "At a swath edge the no-data mask is coarser than the 10 m bands. Edge pixels can hold interpolated dark values that look like water.",
       "why": "A pond at a swath edge can get fake dark readings. The per-band detector footprint mask removes them, and whether the route delivers it is unknown."
     },
     {
@@ -8030,7 +8030,7 @@
         "PR-01",
         "PR-03"
       ],
-      "plain": "For 2017 the route holds products made by the provider's own processor, with a version number ESA never issued.",
+      "plain": "For June 2017 in one sampled area, the older collection holds products at version 00.01, which ESA never issued. No page names their producer.",
       "why": "A 2017-onward history would start with products that lack the offset, dilation, and refinement of later years. The 2017 to 2020 tier is deferred until the 2021 prototype has run."
     },
     {
@@ -8086,7 +8086,7 @@
     },
     {
       "id": "I-21",
-      "title": "No compute platform deduplicates work",
+      "title": "The assessed compute platforms do not deduplicate work",
       "text": "Lambda, Batch, Kubernetes, Spark, and Dask document retry only. Lambda tells the function to expect duplicate events.",
       "consequence": "The draft contract requires immutable revisions and repeat-safe publication. Content-addressed publication keyed by tile, sensing time, baseline, and product is one mechanism. The mechanism is not selected.",
       "status": "open",
@@ -8096,7 +8096,7 @@
         "cl-cp-kubernetes-dask-idempotency",
         "cl-cp-batch-containers-idempotency"
       ],
-      "plain": "Every compute platform retries on failure and none promises to run a job exactly once.",
+      "plain": "The assessed compute platforms retry failed work. A retry can repeat a write, so outputs must be safe to rewrite.",
       "why": "The same scene can be processed twice. Publication must be repeat-safe, so a second run produces the same record and not a duplicate."
     },
     {
@@ -8156,7 +8156,7 @@
         "Q7",
         "PR-05"
       ],
-      "plain": "Sentinel-2C entered routine operations in 2025. Orbit overlap increases at high latitude, and one pass can produce multiple products for a tile.",
+      "plain": "Sentinel-2C replaced Sentinel-2A in January 2025. Sentinel-2A continues an extension campaign through 2026. Orbit overlap increases at high latitude, and one pass can produce multiple products for a tile.",
       "why": "Scenes per year per pond are not constant. Completeness accounting and benchmark sizing must use the densest period, not an assumed cadence."
     },
     {

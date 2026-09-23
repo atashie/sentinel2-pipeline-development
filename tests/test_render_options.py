@@ -1,6 +1,7 @@
 """Fixture tests for prototype presentation data. No network or result file needed."""
 
 import importlib.util
+import json
 from pathlib import Path
 
 import pytest
@@ -145,8 +146,10 @@ def test_larger_workloads_show_whole_lazy_and_hide_partial_timing():
         "retained_configurations": [["dispersed", "C-lazy"]],
     }
     replacement = render_options.workload_comparison(result, {"rows": []})
-    assert "1 replacements use the same frozen inputs" in replacement
-    assert "1 unaffected results retain their original dates and source versions" in replacement
+    note = render_options.workload_rerun_note(result)
+    assert "1 replacements use the same frozen inputs" in note
+    assert "1 unaffected results retain their original dates and source versions" in note
+    assert render_options.workload_rerun_note(None) == ""
     assert "retained original" in replacement
     assert "12.3 s" in replacement
     assert "lazy-reader-workloads-before-sleep-rerun.json" in replacement
@@ -396,3 +399,140 @@ def test_cross_tile_rows_report_missing_clean_combinations():
 def test_cross_tile_headline_refuses_incomplete_or_unequal_results(complete, equal):
     with pytest.raises(ValueError, match="requires complete, equal"):
         render_options.cross_tile_markers({"summary": {"complete": complete, "equal": equal}})
+
+
+def cost_fixture():
+    """Estimates for four workloads and three cases, scaled so each figure is traceable."""
+    sizes = {
+        "all_land": 100.0,
+        "all_water_shore": 40.0,
+        "sample_land": 1.0,
+        "sample_water_shore": 0.5,
+    }
+    estimates, daily = [], []
+    for workload, size in sizes.items():
+        for case, stress in (("low", 0.2), ("base", 1.0), ("high", 10.0)):
+            scale = size * stress
+            recipes = {
+                code: {
+                    "historical_ec2_total_including_prep_put_usd": scale * 12 * factor,
+                    "historical_lambda_total_including_ec2_prep_put_usd": scale * 25 * factor,
+                    "historical_requested_TB_decimal": scale * 6 * factor,
+                    "ec2_ingest_usd_per_month": scale * 0.2 * factor,
+                    "lambda_ingest_usd_per_month": scale * 0.5 * factor,
+                }
+                for code, factor in (("A1", 9.0), ("B1", 1.0), ("B3", 1.2))
+            }
+            sample = workload.startswith("sample")
+            estimates.append(
+                {
+                    "workload": workload,
+                    "case": case,
+                    "bodies": 10_000 if sample else 5_000_000,
+                    "historical_dynamic_TiB": scale / 10,
+                    "static_geometry_GiB": scale / 2,
+                    "s3_monthly_at_cutoff_usd": scale * 8,
+                    "recipes": recipes,
+                }
+            )
+            daily.append(
+                {
+                    "workload": workload,
+                    "case": case,
+                    "s3_monthly_added_after_one_year_usd": scale * 1.5,
+                    "operations": {
+                        "monthly_total_usd": 13.21 if sample else 13.41,
+                        "monthly_components_usd": {"residual_allowance": 10.0},
+                    },
+                    "recipes": recipes,
+                }
+            )
+    return {
+        "status": "estimated, not measured",
+        "as_of": "2026-09-22",
+        "calibration": {
+            "byte_calibration": {"cohorts": [{"a1_b1_byte_ratio": 9.0}, {"a1_b1_byte_ratio": 1.0}]}
+        },
+        "estimates": estimates,
+        "daily_updates": daily,
+    }
+
+
+COST_INPUTS = {
+    "start": "2021-01-01",
+    "end_exclusive": "2026-09-23",
+    "revision_date": "2026-09-23",
+    "sample_size": 10_000,
+    "land_radius_km": 0.1,
+    "ec2_instance_vcpu": 4,
+    "ec2_instance_memory_gib": 8,
+    "lambda_memory_gib": 3,
+}
+
+
+def test_usd_keeps_whole_dollars_for_backfill_and_cents_for_monthly_charges():
+    assert render_options.usd(1262.04) == "$1,262"
+    assert render_options.usd(22.115077, cents=True) == "$22.12"
+    assert render_options.usd(10.0, cents=True) == "$10.00"
+
+
+def test_cost_table_groups_three_recipes_under_each_workload_with_its_storage():
+    rendered = render_options.cost_table_rows(cost_fixture(), "100")
+    assert rendered.count('class="result-group"') == 4
+    for label in (
+        "All contiguous US water bodies (5,000,000) · water + shoreline + 100 m nearby land",
+        "All contiguous US water bodies (5,000,000) · water + shoreline only",
+        "10,000-lake sample · water + shoreline + 100 m nearby land",
+        "10,000-lake sample · water + shoreline only",
+    ):
+        assert label in rendered, label
+    assert rendered.count("<tr>") == 12
+    assert 'href="#reader-1">A1' in rendered and 'href="#reader-3">B3' in rendered
+    # All water bodies with nearby land: storage, then B1 backfill and daily updates.
+    assert "Storage at completion: 10,290 GiB of records and geometry" in rendered
+    assert "S3 Standard $800.00 per month, rising by $150.00 over the first year" in rendered
+    assert "<td>600 TB</td><td>$1,200</td><td>$2,500</td><td>$20.00</td><td>$50.00</td>" in rendered
+
+
+def test_cost_markers_define_the_experiments_from_the_inputs():
+    markers = render_options.cost_markers(cost_fixture(), COST_INPUTS)
+    assert markers["COST_CUTOFF"] == "2026-09-22"
+    assert markers["COST_BODIES"] == "5,000,000"
+    assert markers["COST_SAMPLE"] == "10,000"
+    assert markers["COST_LAND_M"] == "100"
+    assert (markers["COST_EC2_VCPU"], markers["COST_EC2_GIB"]) == ("4", "8")
+    assert markers["COST_LAMBDA_GIB"] == "3"
+    assert markers["COST_OPS"] == "$13.21 to $13.41"
+    assert markers["COST_RESIDUAL"] == "$10.00"
+    assert (markers["COST_A1_CAP"], markers["COST_REVISED"]) == ("9.0", "2026-09-23")
+
+
+def test_cost_markers_refuse_national_a1_away_from_the_measured_cap():
+    data = cost_fixture()
+    data["calibration"]["byte_calibration"]["cohorts"][0]["a1_b1_byte_ratio"] = 5.0
+    with pytest.raises(ValueError, match="largest measured A1/B1 ratio"):
+        render_options.cost_markers(data, COST_INPUTS)
+
+
+def test_cost_markers_refuse_unexpected_status_or_duplicate_rows():
+    data = cost_fixture()
+    data["status"] = "measured"
+    with pytest.raises(ValueError, match="status"):
+        render_options.cost_markers(data, COST_INPUTS)
+    data = cost_fixture()
+    data["estimates"].append(data["estimates"][1])
+    with pytest.raises(ValueError, match="Expected one estimates row"):
+        render_options.cost_rows(data, "all_land")
+
+
+def test_cost_estimates_refuse_a_file_older_than_its_model(tmp_path, monkeypatch):
+    model, inputs, estimates = (tmp_path / n for n in ("model.py", "inputs.json", "est.json"))
+    model.write_text("changed")
+    inputs.write_text("{}")
+    digest = render_options.hashlib.sha256(b"{}").hexdigest()
+    estimates.write_text(json.dumps({"input_sha256": digest, "model_sha256": "old"}))
+    monkeypatch.setattr(render_options, "COST_MODEL", model)
+    monkeypatch.setattr(render_options, "COST_INPUTS", inputs)
+    monkeypatch.setattr(render_options, "COST_ESTIMATES", estimates)
+    with pytest.raises(ValueError, match="predate model.py"):
+        render_options.cost_estimates()

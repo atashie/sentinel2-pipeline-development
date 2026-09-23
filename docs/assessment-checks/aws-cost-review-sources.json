@@ -1,0 +1,119 @@
+{
+  "purpose": "Independent primary-source checks for the AWS cost-analysis revision.",
+  "accessed_on": "2026-09-23",
+  "researcher": {
+    "agent": "Codex research agent /root/pricing_revision_research"
+  },
+  "checker": {
+    "agent": "Independent Codex checking agent /root/revision_price_checker",
+    "model": "gpt-5.6-sol"
+  },
+  "method": "The checker independently opened each primary AWS page and checked values, units, scope, and qualifications.",
+  "checks": [
+    {
+      "id": "AWS14",
+      "topic": "S3 Standard-Infrequent Access prices and billing constraints",
+      "claimed_value": {
+        "storage_usd_per_billed_gb_month": 0.0125,
+        "data_retrieval_usd_per_gb": 0.01,
+        "lifecycle_transition_usd_per_1000_requests": 0.01,
+        "minimum_billable_object_kb": 128,
+        "minimum_storage_duration_days": 30
+      },
+      "approved_qualification": "The storage, retrieval, and transition prices are publication-time North Virginia proxies, not current Oregon quotes. S3 storage uses binary billed GB. AWS states retrieval and transfer rates per GB. Standard-IA bills objects below 128 KB as 128 KB. Deletion, overwrite, or transition before 30 days incurs a prorated charge for the remaining minimum duration.",
+      "verdict": "confirmed_as_regional_proxy",
+      "source_urls": [
+        "https://aws.amazon.com/blogs/storage/optimizing-storage-costs-and-query-performance-by-compacting-small-objects/",
+        "https://aws.amazon.com/blogs/storage/analyze-access-patterns-and-use-the-most-cost-effective-amazon-s3-storage-class/",
+        "https://aws.amazon.com/s3/pricing/"
+      ],
+      "accessed_on": "2026-09-23"
+    },
+    {
+      "id": "AWS14-GET",
+      "topic": "S3 Standard-IA GET request price",
+      "claimed_value": {
+        "get_usd_per_1000_requests": 0.001
+      },
+      "approved_qualification": "No accessible primary AWS prose or captured current Oregon price export established this request price during this check.",
+      "verdict": "unverified",
+      "source_urls": [
+        "https://aws.amazon.com/s3/pricing/"
+      ],
+      "accessed_on": "2026-09-23"
+    },
+    {
+      "id": "AWS15",
+      "topic": "S3 Intelligent-Tiering prices and tier behavior",
+      "claimed_value": {
+        "frequent_access_usd_per_billed_gb_month": 0.023,
+        "infrequent_access_usd_per_billed_gb_month": 0.0125,
+        "archive_instant_access_usd_per_billed_gb_month": 0.004,
+        "monitoring_usd_per_1000_objects_month": 0.0025,
+        "infrequent_access_after_days": 30,
+        "archive_instant_access_after_days": 90,
+        "auto_tiering_minimum_object_kb": 128,
+        "retrieval_charge_usd_per_gb": 0,
+        "minimum_storage_duration_days": 0
+      },
+      "approved_qualification": "The four numeric prices are publication-time North Virginia proxies, not current Oregon quotes. Automatic tiers move objects after 30 and 90 consecutive days without access. An access returns an object from Infrequent or Archive Instant Access to Frequent Access. A monthly full scan therefore resets the access clock. Objects below 128 KB remain at Frequent Access rates and incur no monitoring charge. Intelligent-Tiering has no retrieval charge or minimum storage duration. Optional asynchronous archive tiers require restoration before access.",
+      "verdict": "confirmed_as_regional_proxy",
+      "source_urls": [
+        "https://aws.amazon.com/blogs/storage/analyze-access-patterns-and-use-the-most-cost-effective-amazon-s3-storage-class/",
+        "https://aws.amazon.com/s3/storage-classes/intelligent-tiering/",
+        "https://aws.amazon.com/s3/pricing/"
+      ],
+      "accessed_on": "2026-09-23"
+    },
+    {
+      "id": "AWS16",
+      "topic": "S3 data transfer prices and free internet egress",
+      "claimed_value": {
+        "internet_egress_usd_per_gb": 0.09,
+        "oregon_to_north_virginia_usd_per_gb": 0.02,
+        "free_internet_egress_gb_per_month": 100
+      },
+      "approved_qualification": "The $0.09 per GB internet-egress value is a current S3 pricing-page Europe (Ireland) example, not a verified Oregon quote. The $0.02 per GB value explicitly covers S3 inter-region transfer out from Oregon to North Virginia. The first 100 GB of monthly internet egress is free in aggregate across AWS services and Regions, excluding China and GovCloud. AWS labels transfer units GB, not GiB.",
+      "verdict": "confirmed_with_regional_qualification",
+      "source_urls": [
+        "https://aws.amazon.com/s3/pricing/",
+        "https://aws.amazon.com/ec2/pricing/on-demand-backup/"
+      ],
+      "accessed_on": "2026-09-23"
+    },
+    {
+      "id": "AWS17",
+      "topic": "EC2 Spot discount scope",
+      "claimed_value": {
+        "maximum_discount_percent": 90,
+        "modeled_discount_percent": [60, 70]
+      },
+      "approved_qualification": "AWS documents savings up to 90 percent against On-Demand prices for unused, interruptible EC2 capacity. The 60 and 70 percent modeled discounts are unsourced planning sensitivities, not quotes or guaranteed discounts.",
+      "verdict": "confirmed_ceiling_only",
+      "source_urls": [
+        "https://aws.amazon.com/ec2/spot/",
+        "https://docs.aws.amazon.com/decision-guides/latest/decision-guides/ec2-purchasing-options-aws-how-to-choose.html"
+      ],
+      "accessed_on": "2026-09-23"
+    },
+    {
+      "id": "AWS18",
+      "topic": "Savings Plans discount and commitment scope",
+      "claimed_value": {
+        "compute_savings_plan_maximum_discount_percent": 66,
+        "ec2_instance_savings_plan_maximum_discount_percent": 72,
+        "term_years": [1, 3],
+        "modeled_discount_percent": 30
+      },
+      "approved_qualification": "Compute Savings Plans offer up to 66 percent savings and cover eligible EC2, Fargate, and Lambda usage across instance families and Regions. EC2 Instance Savings Plans offer up to 72 percent savings for a chosen instance family in one Region. Both require an hourly usage commitment for one or three years and do not reserve capacity. The modeled 30 percent discount is an unsourced planning sensitivity, not a quote or guaranteed discount.",
+      "verdict": "confirmed_ceiling_only",
+      "source_urls": [
+        "https://aws.amazon.com/savingsplans/faqs/",
+        "https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html",
+        "https://docs.aws.amazon.com/decision-guides/latest/decision-guides/ec2-purchasing-options-aws-how-to-choose.html"
+      ],
+      "accessed_on": "2026-09-23"
+    }
+  ],
+  "limits": "No current Oregon S3 storage-class price export was verified. Regional publication-time prices remain planning proxies. Source review does not measure workload behavior or establish realized discounts."
+}

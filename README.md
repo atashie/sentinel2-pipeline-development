@@ -10,7 +10,7 @@ The authorized [larger-workload comparison](docs/reviews/2026-09-18-lazy-reader-
 The [review response](docs/reviews/2026-09-18-lazy-reader-review-response.md) records implemented corrections and disagreements.
 **Current ingest status:** twelve sleep-affected attempts were rerun, retaining two unaffected results. All fourteen comparisons completed with matching outputs and no sleep overlap. The [rerun record](docs/reviews/2026-09-21-sleep-rerun.md) owns results, resource measurements, and verification.
 
-**Start here:** the [assessment presentation](docs/s2-options.html) explains Discovery and the partial results from Stages 1 to 4.
+**Start here:** the [assessment presentation](docs/s2-options.html) explains Discovery, the partial results from Stages 1 to 4, and offline AWS cost estimates.
 It is written for engineering and business colleagues. Integration Specs and Tradeoffs & Issues remain placeholders.
 Open the HTML locally with its `assets/discovery/` directory beside it. [Hosting](docs/vercel-hosting.md) is prepared, with no deployment recorded.
 
@@ -54,8 +54,9 @@ The tests check documentation links, the inventory schema, the survey logic, and
 | [docs/s2-best-practices.md](docs/s2-best-practices.md) | Sentinel-2 facts and practices for per-water-body extraction, with claim status |
 | [docs/data-contract.md](docs/data-contract.md) | Draft of what the store serves. Not selected |
 | [docs/measurements.md](docs/measurements.md) | What was measured, and what the numbers do not show |
+| [docs/aws-cost-analysis.md](docs/aws-cost-analysis.md) | Estimated AWS costs for national and sampled A1, B1, and B3 workloads |
 | [docs/gap-survey-plan.md](docs/gap-survey-plan.md) | Data gap survey: sites, collections, gap definitions, rerun steps |
-| [docs/s2-options.html](docs/s2-options.html) | Discovery story, satellite map examples, and partial Prototyping results |
+| [docs/s2-options.html](docs/s2-options.html) | Discovery story, satellite map examples, partial Prototyping results, and AWS cost estimates |
 | [docs/vercel-hosting.md](docs/vercel-hosting.md) | Prepared Vercel configuration and deployment instructions |
 | [docs/options-inventory.json](docs/options-inventory.json) | The canonical assessment dataset. [Format](docs/assessment-data-format.md), [check records](docs/assessment-checks/README.md) |
 | [docs/sensor-bands.json](docs/sensor-bands.json) | Band tables and documented water-quality uses for six sensors, bound from checked records for the presentation |

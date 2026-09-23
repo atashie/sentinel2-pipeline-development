@@ -1,0 +1,93 @@
+{
+  "purpose": "Primary-source checks for corrections from the whole-page accuracy review of the assessment page, outside candidate specifications.",
+  "accessed_on": "2026-09-23",
+  "researcher": "Claude Code research agent, general-purpose, inherited parent model claude-opus-5-5",
+  "checker": "Independent Claude Code checking agent, claude-sonnet-5",
+  "method": "The researcher flagged outdated or overstated page claims and cited primary pages. The checker opened each page separately and quoted it. The parent used the checked wording.",
+  "checks": [
+    {
+      "id": "C1",
+      "topic": "Completion of ESA Collection 1 reprocessing",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "ESA completed Collection 1 reprocessing in two phases. Phase 1, sensing 2015 to 2021 at baseline 05.00, was fully available on 2024-09-02. Phase 2, sensing 2022-01-01 to 2023-12-13 at baseline 05.10, was announced complete on 2025-09-08. Removal of old-baseline 2022 to 2023 products began on 2025-08-12.",
+      "source_urls": [
+        "https://dataspace.copernicus.eu/news/2024-9-2-sentinel-2-collection-1-products-availability",
+        "https://dataspace.copernicus.eu/news/2025-9-8-sentinel-2-collection-1-phase-2-products-availability"
+      ],
+      "locator": "Phase 1 and Phase 2 availability news items, main body",
+      "quote": "from 1 January 2022 up to 13 December 2023 / reprocessing and publication activities for Sentinel-2 Collection-1 Phase-2 are completed / The deletion process of products with old baselines started on 12th August 2025",
+      "qualification": "Availability at the Copernicus Data Space Ecosystem says nothing about the AWS copies."
+    },
+    {
+      "id": "C2",
+      "topic": "Reflectance differences in the overlap of adjacent tiles",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "In the overlap between adjacent Level-2A tiles, ESA states that aerosol optical depth and surface reflectance are generally different, although the difference should be small.",
+      "source_urls": ["https://sentiwiki.copernicus.eu/web/s2-products"],
+      "locator": "Level-2A section, tile overlap",
+      "quote": "The Aerosol Optical Depth (AOD) and surface reflectances are generally different, although the difference should be small.",
+      "qualification": "ESA gives no magnitude. Agreement in the overlap remains unmeasured in this assessment."
+    },
+    {
+      "id": "C3",
+      "topic": "Resolution of the Level-2A no-data mask at swath edges",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "The Level-2A no-data and detector-footprint handling at swath edges is computed at 20 m, so artifacts can appear in the 10 m bands. ESA recommends the MSK_DETFOO mask.",
+      "source_urls": ["https://sentiwiki.copernicus.eu/web/s2-products"],
+      "locator": "Artefacts at the edge of the swath due to L2A NoData mask",
+      "quote": "The nodata mask at L2A is common to all the bands and computed at 20 m resolution... the resulting common mask at 20 m is then oversampled at 10 m during the processing of 10 m bands.",
+      "qualification": "The checker noted that the page also describes a correction in baseline 05.13. That statement was not drafted or checked here."
+    },
+    {
+      "id": "C4",
+      "topic": "Sentinel-2A extension campaign",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "Sentinel-2A continues an extension campaign after Sentinel-2C took over its operational role in 2025. ESA prolonged the campaign until 31 December 2026.",
+      "source_urls": [
+        "https://dataspace.copernicus.eu/news/2026-5-15-sentinel-2a-extension-campaign-prolonged-until-end-2026",
+        "https://sentiwiki.copernicus.eu/web/s2-mission"
+      ],
+      "locator": "S2 Mission, Sentinel-2A and 2C section, and the 2026-05-15 news item",
+      "quote": "Sentinel-2C has replaced Sentinel-2A in operation on January 21st, 2025 / Sentinel-2A will continue to operate under the tailored operational scenario introduced in 2025 until 31 December 2026",
+      "qualification": "The campaign's added coverage over the contiguous United States is not established here."
+    },
+    {
+      "id": "C5",
+      "topic": "Maintenance status of NHD and NHDPlus HR",
+      "status": "documented",
+      "verdict": "corrected",
+      "approved_wording": "USGS retired the National Hydrography Dataset on 2023-10-01. NHD data remains available but is no longer maintained. USGS halted NHDPlus HR production to focus on the 3D Hydrography Program, which will include many of NHDPlus HR's best features.",
+      "source_urls": [
+        "https://www.usgs.gov/national-hydrography",
+        "https://www.usgs.gov/national-hydrography/nhdplus-high-resolution",
+        "https://www.usgs.gov/3d-hydrography-program"
+      ],
+      "locator": "National Hydrography overview, NHDPlus High Resolution page, and 3D Hydrography Program page",
+      "quote": "As of October 1, 2023, the NHD was retired. / NHD data will continue to be available, but no longer maintained. / Production of NHDPlus HR has been halted to allow USGS to focus on the 3DHP",
+      "qualification": "The draft said the 3D Hydrography Program replaces both datasets. No cited page uses that word, so the approved wording drops it."
+    },
+    {
+      "id": "C6",
+      "topic": "Authorship of the sentinel-s2-l2a readme",
+      "status": "documented",
+      "verdict": "confirmed",
+      "approved_wording": "The readme for the sentinel-s2-l2a bucket is hosted on a Sentinel Hub domain. The readme does not name its author.",
+      "source_urls": [
+        "https://roda.sentinel-hub.com/sentinel-s2-l2a/readme.html",
+        "https://registry.opendata.aws/sentinel-2/"
+      ],
+      "locator": "Readme full text",
+      "quote": "If you have questions about the data, please use Sentinel Hub forum",
+      "qualification": "Hosting does not establish authorship or bucket ownership."
+    }
+  ],
+  "limitations": [
+    "Documentation checks are not measurements, sensor validation, or human approval.",
+    "Researcher and checker are both Claude models. They differ by model, not by organization.",
+    "Three wording corrections in the same review needed no new source. They align summary lines with existing inventory text and evidence."
+  ]
+}

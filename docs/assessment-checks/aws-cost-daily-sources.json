@@ -1,0 +1,89 @@
+{
+  "purpose": "Independent primary-source checks for recurring AWS control-plane and observability costs.",
+  "accessed_on": "2026-09-23",
+  "researcher": {
+    "agent": "Codex research agent /root/daily_price_research"
+  },
+  "checker": {
+    "agent": "Independent Codex checking agent /root/revision_price_checker",
+    "model": "gpt-5.6-sol"
+  },
+  "method": "The checker independently opened each primary AWS page and checked values, units, billing rules, and geographic scope.",
+  "checks": [
+    {
+      "id": "AWS19",
+      "topic": "EventBridge Scheduler invocation price",
+      "claimed_value": {
+        "usd_per_million_invocations": 1.0,
+        "free_invocations_per_month": 14000000
+      },
+      "approved_qualification": "AWS demonstrates $1.00 per million Scheduler invocations in a US West example. The example does not identify a specific US West Region. The monthly free tier is aggregated across Regions except GovCloud. Gross scenario costs intentionally ignore the free tier.",
+      "verdict": "confirmed_with_regional_qualification",
+      "source_urls": [
+        "https://aws.amazon.com/eventbridge/pricing/"
+      ],
+      "accessed_on": "2026-09-23"
+    },
+    {
+      "id": "AWS20",
+      "topic": "SQS Standard request price and request metering",
+      "claimed_value": {
+        "standard_usd_per_million_requests": 0.4,
+        "payload_chunk_kb_per_billed_request": 64,
+        "free_requests_per_month": 1000000
+      },
+      "approved_qualification": "Every SQS API action counts as a request. Each 64 KB payload chunk is billed as one request. An AWS solution example prices SQS at $0.40 per million requests for a transfer originating in Oregon. Gross scenario costs intentionally ignore the monthly free tier.",
+      "verdict": "confirmed_as_oregon_example",
+      "source_urls": [
+        "https://aws.amazon.com/sqs/pricing/",
+        "https://docs.aws.amazon.com/solutions/latest/data-transfer-hub/cost.html"
+      ],
+      "accessed_on": "2026-09-23"
+    },
+    {
+      "id": "AWS21",
+      "topic": "DynamoDB Standard on-demand request and storage prices",
+      "claimed_value": {
+        "write_usd_per_million_wru": 0.625,
+        "read_usd_per_million_rru": 0.125,
+        "storage_usd_per_gb_month": 0.25
+      },
+      "approved_qualification": "AWS North Virginia examples price DynamoDB Standard at $0.625 per million WRUs, $0.125 per million RRUs, and $0.25 per GB-month. Standard writes consume one WRU per 1 KB or part. Strongly consistent reads consume one RRU per 4 KB or part. Eventually consistent reads consume one-half RRU. Transactional operations consume twice the standard units. These are North Virginia proxies, not current Oregon quotes. Gross scenario costs intentionally ignore free storage and other free-tier allowances.",
+      "verdict": "confirmed_as_regional_proxy",
+      "source_urls": [
+        "https://aws.amazon.com/dynamodb/pricing/"
+      ],
+      "accessed_on": "2026-09-23"
+    },
+    {
+      "id": "AWS22",
+      "topic": "CloudWatch Logs, metrics, and alarms prices",
+      "claimed_value": {
+        "log_ingestion_usd_per_gb": 0.5,
+        "compressed_log_archive_usd_per_gb_month": 0.03,
+        "standard_resolution_alarm_usd_per_metric_month": 0.1,
+        "custom_metric_usd_per_metric_month": 0.3
+      },
+      "approved_qualification": "AWS examples use $0.50 per GB of log ingestion and $0.03 per GB-month of compressed archived logs. Standard-resolution alarms cost $0.10 per metric analyzed each month. The first custom-metric price tier is $0.30 per metric-month. The examples identify North Virginia or US East, so these values are regional proxies rather than current Oregon quotes. Alarm cost scales with metrics analyzed. Gross scenario costs intentionally ignore free allowances and volume tiers.",
+      "verdict": "confirmed_as_regional_proxy",
+      "source_urls": [
+        "https://aws.amazon.com/cloudwatch/pricing/"
+      ],
+      "accessed_on": "2026-09-23"
+    },
+    {
+      "id": "AWS23",
+      "topic": "ECR private image storage price",
+      "claimed_value": {
+        "private_image_storage_usd_per_gb_month": 0.1
+      },
+      "approved_qualification": "AWS's first private-repository example charges $0.10 per GB-month without identifying a Region. A second example in us-east-1 repeats the same implied storage rate. This does not establish a current Oregon quote. Same-region pulls by named AWS compute services have no ECR data-transfer-out charge, while cross-region transfer can add charges.",
+      "verdict": "confirmed_with_regional_qualification",
+      "source_urls": [
+        "https://aws.amazon.com/ecr/pricing/"
+      ],
+      "accessed_on": "2026-09-23"
+    }
+  ],
+  "limits": "No current Oregon quote was established for EventBridge Scheduler, DynamoDB, CloudWatch, or ECR. Gross modeled costs omit free-tier allowances by design. Source review does not measure actual request counts, payload sizes, log compression, or metric cardinality."
+}

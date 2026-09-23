@@ -174,6 +174,12 @@ Preserve tile provenance and keep ambiguous primary labels explicit. Nothing is 
 - [x] Full workload measured after owner authorization, 2026-09-16. [Record](reviews/2026-09-16-stage-4-full-run.md), findings 23 to 25 in [measurements.md](measurements.md).
 - [x] Review response accepted on 2026-09-17. Inventory and presentation updated in the [record](reviews/2026-09-17-documentation-and-presentation.md). Cross-tile scientific comparison remains open.
 
+AWS cost estimates, an offline model built on the larger-workload measurements:
+
+- [x] Estimates for the four workloads of assumption A27 shown as Prototyping section 07, 2026-09-23. [Record](reviews/2026-09-23-cost-presentation.md). Owner review pending.
+- [x] Whole-page accuracy fixes with independent source checks, 2026-09-23. [Record](reviews/2026-09-23-page-accuracy-fixes.md). Owner review pending.
+- [x] Prototyping tab reordered answer-first: takeaways, what we tested, main comparison, costs, and collapsed earlier experiments, 2026-09-23. [Record](reviews/2026-09-23-prototyping-flow.md). Owner review pending.
+
 Stage 5, scientific and quality checks, after stages 1 to 4:
 
 - [ ] Offset pixel check, issue I-05. Read one 60 m band window from a GeoTIFF and from its JPEG 2000 alternate. Do it for a flag-true and a flag-false 04.00 item.

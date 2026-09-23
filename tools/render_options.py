@@ -4,7 +4,8 @@ Edit s2-options.template.html for the narrative and layout. The renderer fills t
 survey counts and the monthly coverage strip from the gap survey report, the risk and cost
 bullets from the inventory's plain-language lines, map facts from the provenance record,
 pilot counts from the manifest, prototype tables from saved results, the sensor band tables
-from the bound sensor band dataset, and the input digests.
+from the bound sensor band dataset, the AWS cost table from the generated cost estimates, and
+the input digests.
 """
 
 from __future__ import annotations
@@ -13,10 +14,11 @@ import argparse
 import hashlib
 import html
 import json
+import math
 import re
 import statistics
 from collections import Counter
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,6 +35,17 @@ TILE_EXTRACTION = RESULTS / "tile-extraction.json"
 CROSS_TILE_EXTRACTION = RESULTS / "cross-tile-extraction.json"
 LAZY_WORKLOADS = RESULTS / "lazy-reader-workloads.json"
 WORKLOAD_AUDIT = RESULTS / "lazy-reader-workloads-audit.json"
+COST_ESTIMATES = DOCS / "cost-analysis" / "estimates.json"
+COST_INPUTS = DOCS / "cost-analysis" / "inputs.json"
+COST_MODEL = ROOT / "tools" / "estimate_aws_costs.py"
+# Workload key: whether it is the national population, and whether it keeps nearby land.
+COST_WORKLOADS = {
+    "all_land": (True, True),
+    "all_water_shore": (True, False),
+    "sample_land": (False, True),
+    "sample_water_shore": (False, False),
+}
+COST_RECIPES = {"A1": ("lake-first", 1), "B1": ("tile-first", 1), "B3": ("tile-first", 3)}
 REGION_LABELS = {
     "tahoe": "Tahoe",
     "lanier": "Lanier",
@@ -534,20 +547,12 @@ def cross_tile_markers(result: dict) -> dict[str, str]:
         rows[("tile-first", "lazy-stack")]["bytes_requested"]
         / rows[("lake-first", "lazy-stack")]["bytes_requested"]
     )
-    reference = [
-        c
-        for run in result["runs"]
-        if (run["path"], run["method"], run["repetition"]) == ("lake-first", "raster-mask", 1)
-        for c in run["contributions"]
-    ]
     markers = {
         "CROSS_ROWS": cross_tile_rows(result),
         "CROSS_DATE": html.escape(result["measured_at"][:10]),
         "CROSS_MACHINE": html.escape(machine_label(result["machine"])),
         "CROSS_RUNS": str(len(result["runs"])),
         "CROSS_EXPECTED": str(summary["expected_contributions_per_workload"]),
-        "CROSS_NODATA": f"{sum(c['nodata_extracted'] for c in reference):,}",
-        "CROSS_PIXELS": f"{sum(c['pixels_extracted'] for c in reference):,}",
         "CROSS_LAZY_BYTES": f"{lazy_ratio:.2f}",
     }
     for key in ("lakes", "tiles", "acquisitions", "memberships"):
@@ -596,12 +601,23 @@ def variant_note(sensor: dict) -> list[str]:
             widths.append((abs(values["width_nm"] - band["width_nm"]), band["id"]))
     if not names:
         return []
-    listed = list(names)
-    joined = listed[0] if len(listed) == 1 else ", ".join(listed[:-1]) + f" and {listed[-1]}"
-    center, width = max(centers), max(widths)
+
+    def joined(items: list[str]) -> str:
+        return (
+            " and ".join(items) if len(items) < 3 else ", ".join(items[:-1]) + f", and {items[-1]}"
+        )
+
+    def largest(pairs: list[tuple[float, str]]) -> tuple[float, str]:
+        # Name every band that ties for the largest difference, not only the last one.
+        top = max(value for value, _ in pairs)
+        bands = sorted({band for value, band in pairs if band and math.isclose(value, top)})
+        return top, joined(bands)
+
+    center, width = largest(centers), largest(widths)
     return [
-        f"{joined} differ from these values by up to {plain_number(center[0])} nm in center "
-        f"wavelength, on {center[1]}, and {plain_number(width[0])} nm in bandwidth, on {width[1]}."
+        f"{joined(list(names))} differ from these values by up to {plain_number(center[0])} nm "
+        f"in center wavelength, on {center[1]}, and {plain_number(width[0])} nm in bandwidth, "
+        f"on {width[1]}."
     ]
 
 
@@ -707,20 +723,27 @@ def sensor_band_markers(dataset: dict) -> dict[str, str]:
     }
 
 
+def workload_rerun_note(result: dict | None) -> str:
+    """How many sleep-affected attempts were replaced, for the method notes."""
+    lineage = (result or {}).get("rerun")
+    if not lineage:
+        return ""
+    retained = lineage.get("retained_configurations", [])
+    return (
+        "<p><b>Sleep-affected attempts were rerun.</b> "
+        f"{len(lineage['replacement_configurations'])} replacements use the same frozen "
+        f"inputs and memory limits. {len(retained)} unaffected results retain their original "
+        "dates and source versions. Replacement lazy readers use saved metadata without "
+        "live catalog lookups. "
+        '<a href="reviews/2026-09-21-sleep-rerun.md">Rerun review</a>.</p>'
+    )
+
+
 def workload_comparison(result: dict | None, execution_audit: dict | None = None) -> str:
     """Keep all planned alternatives visible, and never rank partial work as complete."""
     sections = []
     lineage = (result or {}).get("rerun")
     retained = {tuple(key) for key in (lineage or {}).get("retained_configurations", [])}
-    if lineage:
-        sections.append(
-            '<p class="note-line"><strong>Sleep-affected attempts were rerun.</strong> '
-            f"{len(lineage['replacement_configurations'])} replacements use the same frozen "
-            f"inputs and memory limits. {len(retained)} unaffected results retain their original "
-            "dates and source versions. Replacement lazy readers use saved metadata without "
-            "live catalog lookups. "
-            '<a href="reviews/2026-09-21-sleep-rerun.md">Rerun review</a>.</p>'
-        )
     interrupted = {
         (row["cohort"], row["configuration"])
         for row in (execution_audit or {}).get("rows", [])
@@ -795,9 +818,9 @@ def workload_comparison(result: dict | None, execution_audit: dict | None = None
             )
         preflight = data.get("preflight", {})
         coverage = (
-            f"<p>{preflight['products']} source products · {preflight['tiles']} tiles · "
-            f"{preflight['tile_dates']} tile-dates · "
-            f"{preflight['lake_product_memberships']} lake-product memberships.</p>"
+            f"<p>{preflight['products']:,} source products · {preflight['tiles']:,} tiles · "
+            f"{preflight['tile_dates']:,} tile-dates · "
+            f"{preflight['lake_product_memberships']:,} lake-product memberships.</p>"
             if preflight
             else "<p>Exact products and image coverage await input selection.</p>"
         )
@@ -815,7 +838,7 @@ def workload_comparison(result: dict | None, execution_audit: dict | None = None
             f'aria-label="{html.escape(label)} workflow and reader comparison">'
             '<table class="plans results-table">'
             "<caption>Seven workflow and reader combinations. Codes identify recipes, "
-            "with settings and timing qualifications stated above.</caption>"
+            "with settings and timing qualifications in the method notes below.</caption>"
             '<thead><tr><th scope="col">Workflow + reader</th><th scope="col">Reader</th>'
             '<th scope="col">Status</th><th scope="col">Read + extract</th>'
             '<th scope="col">Total extraction</th><th scope="col">Worker CPU</th>'
@@ -860,12 +883,128 @@ def workload_audit():
     return value
 
 
+def usd(value: float, cents: bool = False) -> str:
+    """Whole dollars for one-time costs, cents for monthly charges, as in the cost report."""
+    return f"${value:,.2f}" if cents else f"${value:,.0f}"
+
+
+def cost_rows(data: dict, workload: str, case: str = "base") -> tuple[dict, dict]:
+    """The backfill estimate and the forward-update estimate for one workload and case."""
+    picked = []
+    for key in ("estimates", "daily_updates"):
+        rows = [r for r in data[key] if (r["workload"], r["case"]) == (workload, case)]
+        if len(rows) != 1:
+            raise ValueError(f"Expected one {key} row for {workload} {case}, found {len(rows)}")
+        picked.append(rows[0])
+    return picked[0], picked[1]
+
+
+def cost_workload_label(row: dict, land_m: str) -> str:
+    """Population and pixel classes, with the body count and buffer from the estimates."""
+    national, land = COST_WORKLOADS[row["workload"]]
+    scope = (
+        f"All contiguous US water bodies ({row['bodies']:,})"
+        if national
+        else f"{row['bodies']:,}-lake sample"
+    )
+    pixels = f"water + shoreline + {land_m} m nearby land" if land else "water + shoreline only"
+    return f"{scope} · {pixels}"
+
+
+def cost_table_rows(data: dict, land_m: str) -> str:
+    """One group per workload with its storage, then each recipe's processing costs."""
+    parts = []
+    for workload in COST_WORKLOADS:
+        row, daily = cost_rows(data, workload)
+        label = cost_workload_label(row, land_m)
+        stored = row["historical_dynamic_TiB"] * 1024 + row["static_geometry_GiB"]
+        parts.append(
+            '<tbody><tr class="result-group"><th colspan="6" scope="rowgroup">'
+            f'{label}<span class="cell-note">Storage at completion: '
+            f"{stored:,.0f} GiB of records and geometry · S3 Standard "
+            f"{usd(row['s3_monthly_at_cutoff_usd'], True)} per month, rising by "
+            f"{usd(daily['s3_monthly_added_after_one_year_usd'], True)} over the first year"
+            "</span></th></tr>"
+        )
+        for code, (workflow, reader) in COST_RECIPES.items():
+            backfill, forward = row["recipes"][code], daily["recipes"][code]
+            parts.append(
+                "<tr>"
+                + workflow_cell(workflow, reader, READER_LABELS[reader])
+                + f"<td>{backfill['historical_requested_TB_decimal']:,.0f} TB</td>"
+                + f"<td>{usd(backfill['historical_ec2_total_including_prep_put_usd'])}</td>"
+                + f"<td>{usd(backfill['historical_lambda_total_including_ec2_prep_put_usd'])}</td>"
+                + f"<td>{usd(forward['ec2_ingest_usd_per_month'], True)}</td>"
+                + f"<td>{usd(forward['lambda_ingest_usd_per_month'], True)}</td></tr>"
+            )
+        parts.append("</tbody>")
+    return "\n".join(parts)
+
+
+def cost_estimates() -> dict:
+    """Load the generated estimates, refusing a file older than its inputs or its model."""
+    data = json.loads(COST_ESTIMATES.read_text())
+    for key, source in (("input_sha256", COST_INPUTS), ("model_sha256", COST_MODEL)):
+        if data[key] != hashlib.sha256(source.read_bytes()).hexdigest():
+            raise ValueError(
+                f"Cost estimates predate {source.name}. Run tools/estimate_aws_costs.py first."
+            )
+    return data
+
+
+def cost_markers(data: dict, inputs: dict) -> dict[str, str]:
+    """The cost table and the experiment definitions, from the estimates and their inputs."""
+    if data["status"] != "estimated, not measured":
+        raise ValueError(f"Unexpected cost estimate status: {data['status']}")
+    national, _ = cost_rows(data, "all_land")
+    operations = sorted(
+        {cost_rows(data, w)[1]["operations"]["monthly_total_usd"] for w in COST_WORKLOADS}
+    )
+    residuals = {
+        cost_rows(data, w)[1]["operations"]["monthly_components_usd"]["residual_allowance"]
+        for w in COST_WORKLOADS
+    }
+    if len(residuals) != 1:
+        raise ValueError("Workloads carry different residual operations allowances")
+    cap = max(c["a1_b1_byte_ratio"] for c in data["calibration"]["byte_calibration"]["cohorts"])
+    for workload in ("all_land", "all_water_shore"):
+        recipes = cost_rows(data, workload)[0]["recipes"]
+        bytes_a1, bytes_b1 = (recipes[c]["historical_requested_TB_decimal"] for c in ("A1", "B1"))
+        if not math.isclose(bytes_a1 / bytes_b1, cap, rel_tol=1e-9):
+            raise ValueError("National A1 bytes no longer sit at the largest measured A1/B1 ratio")
+    cutoff = date.fromisoformat(inputs["end_exclusive"]) - timedelta(days=1)
+    land_m = f"{1000 * inputs['land_radius_km']:,.0f}"
+    return {
+        "COST_ROWS": cost_table_rows(data, land_m),
+        "COST_REVISED": html.escape(inputs["revision_date"]),
+        "COST_A1_CAP": f"{cap:.1f}",
+        "COST_START": html.escape(inputs["start"]),
+        "COST_CUTOFF": cutoff.isoformat(),
+        "COST_BODIES": f"{national['bodies']:,}",
+        "COST_SAMPLE": f"{inputs['sample_size']:,}",
+        "COST_LAND_M": land_m,
+        "COST_EC2_VCPU": plain_number(inputs["ec2_instance_vcpu"]),
+        "COST_EC2_GIB": plain_number(inputs["ec2_instance_memory_gib"]),
+        "COST_LAMBDA_GIB": plain_number(inputs["lambda_memory_gib"]),
+        "COST_OPS": " to ".join(dict.fromkeys(usd(v, True) for v in operations)),
+        "COST_RESIDUAL": usd(residuals.pop(), True),
+        "COST_TAKEAWAY_B1": usd(
+            national["recipes"]["B1"]["historical_ec2_total_including_prep_put_usd"]
+        ),
+        "COST_TAKEAWAY_B3": usd(
+            national["recipes"]["B3"]["historical_ec2_total_including_prep_put_usd"]
+        ),
+        "COST_TAKEAWAY_S3": usd(national["s3_monthly_at_cutoff_usd"], True),
+    }
+
+
 def build_html(inventory: Path = INVENTORY) -> str:
     issues = {issue["id"]: issue for issue in json.loads(inventory.read_text())["issues"]}
     check_placement(issues)
     report = json.loads(REPORT.read_text())
     maps = json.loads(MAPS.read_text())
     pilot = json.loads(PILOT.read_text())
+    workloads = json.loads(LAZY_WORKLOADS.read_text()) if LAZY_WORKLOADS.exists() else None
     pilot_props = [feature["properties"] for feature in pilot["features"]]
     pilot_tiers = Counter(p["tier"] for p in pilot_props)
     pilot_classes = sorted({p["size_class_m"] for p in pilot_props if p["tier"] == "pilot"})
@@ -940,10 +1079,10 @@ def build_html(inventory: Path = INVENTORY) -> str:
         **cross_tile_markers(cross_tile_extraction),
         "SENSOR_DIGEST": hashlib.sha256(SENSOR_BANDS.read_bytes()).hexdigest(),
         **sensor_band_markers(sensor_bands),
-        "WORKLOAD_COMPARISON": workload_comparison(
-            json.loads(LAZY_WORKLOADS.read_text()) if LAZY_WORKLOADS.exists() else None,
-            workload_audit(),
-        ),
+        "COST_DIGEST": hashlib.sha256(COST_ESTIMATES.read_bytes()).hexdigest(),
+        **cost_markers(cost_estimates(), json.loads(COST_INPUTS.read_text())),
+        "WORKLOAD_COMPARISON": workload_comparison(workloads, workload_audit()),
+        "WORKLOAD_RERUN_NOTE": workload_rerun_note(workloads),
     }
     rendered = TEMPLATE.read_text()
     for key, value in replacements.items():

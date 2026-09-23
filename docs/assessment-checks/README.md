@@ -18,6 +18,10 @@ A research agent drafted each claim and a different agent checked it against its
 | [discovery-presentation-sources.json](discovery-presentation-sources.json) | Sensor, archive, and quality context, plus display recipes, checked 2026-09-11 | Codex researcher and separate gpt-5.6-sol checker |
 | [sensor-bands-research.json](sensor-bands-research.json) | 100 bands on six sensors with quoted wavelengths, pixel sizes, and 152 use assignments from 29 sources, for the presentation's sensor comparison | Opus researcher |
 | [sensor-bands-checks.json](sensor-bands-checks.json) | 112 confirmed: 6 uses, 6 sensors, 100 bands. Bound into [../sensor-bands.json](../sensor-bands.json) by `tools/collate_sensor_bands.py` | Sonnet checker |
+| [aws-cost-analysis-sources.json](aws-cost-analysis-sources.json) | Qualified population, AWS price, transfer, and capacity facts for offline cost scenarios | Research and independent checking agents named in the record |
+| [aws-cost-review-sources.json](aws-cost-review-sources.json) | Storage-class, serving-transfer, Spot, and Savings Plan sensitivities with price qualifications | Researcher and separate-model checker named in the record |
+| [presentation-review-sources.json](presentation-review-sources.json) | Corrections from the whole-page accuracy review: reprocessing completion, tile overlap, swath-edge mask, Sentinel-2A campaign, NHDPlus HR status, and readme hosting | Claude Code researcher and separate claude-sonnet-5 checker |
+| [aws-cost-daily-sources.json](aws-cost-daily-sources.json) | Scheduling, queue, ledger, logs, monitoring, and registry pricing proxies | Researcher and independent checker named in the record |
 
 The original inventory pages were accessed on 2026-09-09. Only confirmed or corrected values populate the inventory.
 Estimated claims are reviewed by the parent agent, not by a checker.

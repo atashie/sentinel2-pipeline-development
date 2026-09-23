@@ -274,6 +274,22 @@ def test_sensor_band_table_renders_rows_notes_and_variants():
     assert "did not verify" not in beta and "differ from these values" not in beta
 
 
+def test_variant_note_names_every_band_tied_for_the_largest_difference():
+    def band(band_id, width, variant_width):
+        return {
+            "id": band_id,
+            "center_nm": 500.0,
+            "width_nm": width,
+            "variants": {"Two": {"center_nm": 500.0, "width_nm": variant_width}},
+        }
+
+    sensor = {"bands": [band("B1", 10.0, 14.0), band("B2", 20.0, 21.0), band("B3", 33.0, 29.0)]}
+    assert render_options.variant_note(sensor) == [
+        "Two differ from these values by up to 0 nm in center wavelength, on B1, B2, and B3, "
+        "and 4 nm in bandwidth, on B1 and B3."
+    ]
+
+
 def test_sensor_options_and_legend():
     sensors = [{"id": "a", "label": "A"}, {"id": "b", "label": "B & C"}]
     assert render_options.sensor_options(sensors, "b") == (

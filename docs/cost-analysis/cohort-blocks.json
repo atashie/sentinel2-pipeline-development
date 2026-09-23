@@ -1,0 +1,364 @@
+{
+  "status": "offline derived check, not a new measurement",
+  "checked_on": "2026-09-23",
+  "checker": "Independent Codex checking agent /root/claim_checker",
+  "evidence_path": "benchmarks/results/lazy-reader-workloads.json",
+  "evidence_sha256": "56e402bf1188678a77462bceefc78d450203bf66e8da39e1b32a3693bd0f09a9",
+  "decoded_bytes_definition": "Native dtype bytes for each actual source block window, clipped at image edges. Logical sums repeat each lake-band-block contribution. Unique sums deduplicate item, band, block row, block column. Full bytes sum native asset shapes.",
+  "cohorts": {
+    "florida": {
+      "plan_path": "data/lazy-reader-workloads/2026-09-21-sleep-rerun/florida/frozen-plan.json",
+      "plan_sha256": "191f608334f4b37e14c2057bf4da28cb74dd0134920bdfd9c532accfb8ffda35",
+      "plan_internal_sha256": "44cb65738a2c4a371df66a165f8f91af556054fdd31893373a4cc7dbd2cdd49b",
+      "expected_database_path": "data/lazy-reader-workloads/2026-09-21-sleep-rerun/florida/expected.sqlite",
+      "expected_database_sha256": "83bb4bbc9a309145c96a5e22e4b7be77bbd9431550abe6bc3d19dccb3b4349ef",
+      "lake_count": 1000,
+      "products": 4,
+      "lake_product_memberships": 1092,
+      "by_band": {
+        "red": {
+          "logical_blocks": 1284,
+          "unique_blocks": 99,
+          "full_blocks": 484,
+          "logical_decoded_bytes": 2647180480,
+          "unique_decoded_bytes": 197891616,
+          "full_decoded_bytes": 964483200
+        },
+        "nir": {
+          "logical_blocks": 1284,
+          "unique_blocks": 99,
+          "full_blocks": 484,
+          "logical_decoded_bytes": 2647180480,
+          "unique_decoded_bytes": 197891616,
+          "full_decoded_bytes": 964483200
+        },
+        "swir16": {
+          "logical_blocks": 1281,
+          "unique_blocks": 99,
+          "full_blocks": 484,
+          "logical_decoded_bytes": 660222256,
+          "unique_decoded_bytes": 49472904,
+          "full_decoded_bytes": 241120800
+        },
+        "coastal": {
+          "logical_blocks": 1219,
+          "unique_blocks": 58,
+          "full_blocks": 256,
+          "logical_decoded_bytes": 155708888,
+          "unique_decoded_bytes": 6246216,
+          "full_decoded_bytes": 26791200
+        },
+        "scl": {
+          "logical_blocks": 1281,
+          "unique_blocks": 99,
+          "full_blocks": 484,
+          "logical_decoded_bytes": 330111128,
+          "unique_decoded_bytes": 24736452,
+          "full_decoded_bytes": 120560400
+        }
+      },
+      "total": {
+        "logical_blocks": 6349,
+        "unique_blocks": 454,
+        "full_blocks": 2192,
+        "logical_decoded_bytes": 6440403232,
+        "unique_decoded_bytes": 476238804,
+        "full_decoded_bytes": 2317438800
+      },
+      "unique_decoded_fraction_of_full": 0.20550221390959708,
+      "observations": {
+        "A-raster": {
+          "requested_bytes": 1801042826,
+          "http_requests": 2755,
+          "read_units": 6349
+        },
+        "B-raster": {
+          "requested_bytes": 351999704,
+          "http_requests": 464,
+          "read_units": 6349
+        },
+        "B-lazy": {
+          "requested_bytes": 337254104,
+          "http_requests": 513,
+          "read_units": 454
+        },
+        "C-raster": {
+          "requested_bytes": 1519006868,
+          "http_requests": 205,
+          "read_units": 20
+        },
+        "C-lazy": {
+          "requested_bytes": 1539940539,
+          "http_requests": 2173,
+          "read_units": 2192
+        }
+      },
+      "requested_to_decoded_ratios": {
+        "A-raster": 0.2796475253368111,
+        "B-raster": 0.7391243658507088,
+        "B-lazy": 0.7081617481972342,
+        "C-raster": 0.6554679536736849,
+        "C-lazy": 0.6645010599632664,
+        "A1_repeat_miss_fraction_relative_to_B1": 0.3287109581357239
+      },
+      "old_model_conditional_backtest": {
+        "actual_red_logical_block_driver": 1284,
+        "actual_red_unique_blocks": 99,
+        "assumed_available_red_block_pool": 338.79999999999995,
+        "predicted_unsaturated_red_block_occupancy": 185.49710386983654,
+        "predictions": {
+          "A-raster": {
+            "requested_bytes": 1750602451.8388789,
+            "predicted_over_observed": 0.9719937952429782
+          },
+          "B-raster": {
+            "requested_bytes": 531103222.8749601,
+            "predicted_over_observed": 1.5088172428547273
+          },
+          "B-lazy": {
+            "requested_bytes": 505812593.2142477,
+            "predicted_over_observed": 1.499796702886817
+          }
+        },
+        "qualified_scope": "Actual geometry replaces national population geometry. Original national two-stratum occupancy and byte assumptions are retained. Five-asset normalization uses native payload ratio, not 17/5."
+      },
+      "old_byte_coefficient_with_actual_unique_geometry": {
+        "B-raster": {
+          "requested_bytes": 270597055.5734718,
+          "predicted_over_observed": 0.7687422815942816
+        },
+        "B-lazy": {
+          "requested_bytes": 257711481.49854454,
+          "predicted_over_observed": 0.7641463171002496
+        }
+      }
+    },
+    "dispersed": {
+      "plan_path": "data/lazy-reader-workloads/2026-09-21-sleep-rerun/dispersed/frozen-plan.json",
+      "plan_sha256": "c489b6e265545dd2e9d8019182e6c24b4928aa0325b6085f134843d2b4aecc3a",
+      "plan_internal_sha256": "965ece68efc8d1efb19efb801a758e14fb95ab1fa87d2410fc0ec064bdeaf891",
+      "expected_database_path": "data/lazy-reader-workloads/2026-09-21-sleep-rerun/dispersed/expected.sqlite",
+      "expected_database_sha256": "fe2662e9ead82efc09afbf043845a38d6299efeaab11d1145d7b72f13571577b",
+      "lake_count": 100,
+      "products": 121,
+      "lake_product_memberships": 128,
+      "by_band": {
+        "red": {
+          "logical_blocks": 163,
+          "unique_blocks": 162,
+          "full_blocks": 14641,
+          "logical_decoded_bytes": 329621504,
+          "unique_decoded_bytes": 327524352,
+          "full_decoded_bytes": 29175616800
+        },
+        "nir": {
+          "logical_blocks": 163,
+          "unique_blocks": 162,
+          "full_blocks": 14641,
+          "logical_decoded_bytes": 329621504,
+          "unique_decoded_bytes": 327524352,
+          "full_decoded_bytes": 29175616800
+        },
+        "swir16": {
+          "logical_blocks": 163,
+          "unique_blocks": 162,
+          "full_blocks": 14641,
+          "logical_decoded_bytes": 82405376,
+          "unique_decoded_bytes": 81881088,
+          "full_decoded_bytes": 7293904200
+        },
+        "coastal": {
+          "logical_blocks": 158,
+          "unique_blocks": 157,
+          "full_blocks": 7744,
+          "logical_decoded_bytes": 19593216,
+          "unique_decoded_bytes": 19462144,
+          "full_decoded_bytes": 810433800
+        },
+        "scl": {
+          "logical_blocks": 163,
+          "unique_blocks": 162,
+          "full_blocks": 14641,
+          "logical_decoded_bytes": 41202688,
+          "unique_decoded_bytes": 40940544,
+          "full_decoded_bytes": 3646952100
+        }
+      },
+      "total": {
+        "logical_blocks": 810,
+        "unique_blocks": 805,
+        "full_blocks": 66308,
+        "logical_decoded_bytes": 802444288,
+        "unique_decoded_bytes": 797332480,
+        "full_decoded_bytes": 70102523700
+      },
+      "unique_decoded_fraction_of_full": 0.011373805648026905,
+      "observations": {
+        "A-raster": {
+          "requested_bytes": 571324795,
+          "http_requests": 2022,
+          "read_units": 810
+        },
+        "B-raster": {
+          "requested_bytes": 569653627,
+          "http_requests": 1997,
+          "read_units": 810
+        },
+        "B-lazy": {
+          "requested_bytes": 534934539,
+          "http_requests": 2143,
+          "read_units": 805
+        },
+        "C-raster": {
+          "requested_bytes": 41466215924,
+          "http_requests": 5792,
+          "read_units": 605
+        },
+        "C-lazy": {
+          "requested_bytes": 42002460291,
+          "http_requests": 58842,
+          "read_units": 66308
+        }
+      },
+      "requested_to_decoded_ratios": {
+        "A-raster": 0.7119806365921817,
+        "B-raster": 0.7144492934741602,
+        "B-lazy": 0.6709052401828658,
+        "C-raster": 0.59150817596029,
+        "C-lazy": 0.5991576062332261,
+        "A1_repeat_miss_fraction_relative_to_B1": 0.457587515180188
+      },
+      "old_model_conditional_backtest": {
+        "actual_red_logical_block_driver": 163,
+        "actual_red_unique_blocks": 162,
+        "assumed_available_red_block_pool": 10248.699999999999,
+        "predicted_unsaturated_red_block_occupancy": 158.8620176879535,
+        "predictions": {
+          "A-raster": {
+            "requested_bytes": 433184170.8233687,
+            "predicted_over_observed": 0.7582099965105991
+          },
+          "B-raster": {
+            "requested_bytes": 454843379.3645373,
+            "predicted_over_observed": 0.7984560403133136
+          },
+          "B-lazy": {
+            "requested_bytes": 433184170.8233687,
+            "predicted_over_observed": 0.8097891222973896
+          }
+        },
+        "qualified_scope": "Actual geometry replaces national population geometry. Original national two-stratum occupancy and byte assumptions are retained. Five-asset normalization uses native payload ratio, not 17/5."
+      },
+      "old_byte_coefficient_with_actual_unique_geometry": {
+        "B-raster": {
+          "requested_bytes": 453041246.5110552,
+          "predicted_over_observed": 0.79529248132226
+        },
+        "B-lazy": {
+          "requested_bytes": 431467853.8200525,
+          "predicted_over_observed": 0.806580660554529
+        }
+      }
+    }
+  },
+  "native_payload_bytes_per_km2": {
+    "five_measured_assets": 48055.555555555555,
+    "seventeen_modeled_assets": 158611.11111111112,
+    "seventeen_to_five_ratio": 3.3005780346820814
+  },
+  "old_9MB_block_set_implied_requested_to_decoded_ratio": 0.5411391917961909,
+  "cross_cohort_holdouts": [
+    {
+      "training": "florida",
+      "held_out": "dispersed",
+      "recipe": "B-raster",
+      "predicted_requested_bytes": 589327863.652173,
+      "observed_requested_bytes": 569653627,
+      "predicted_over_observed": 1.034537191935009
+    },
+    {
+      "training": "florida",
+      "held_out": "dispersed",
+      "recipe": "B-lazy",
+      "predicted_requested_bytes": 564640362.9312363,
+      "observed_requested_bytes": 534934539,
+      "predicted_over_observed": 1.0555316992370094
+    },
+    {
+      "training": "florida",
+      "held_out": "dispersed",
+      "recipe": "C-raster",
+      "predicted_requested_bytes": 45949957757.0,
+      "observed_requested_bytes": 41466215924,
+      "predicted_over_observed": 1.1081299977123034
+    },
+    {
+      "training": "florida",
+      "held_out": "dispersed",
+      "recipe": "C-lazy",
+      "predicted_requested_bytes": 46583201304.75,
+      "observed_requested_bytes": 42002460291,
+      "predicted_over_observed": 1.1090588737424871
+    },
+    {
+      "training": "florida",
+      "held_out": "dispersed",
+      "recipe": "A-raster repeat-miss model",
+      "predicted_requested_bytes": 590569819.7237746,
+      "observed_requested_bytes": 571324795,
+      "predicted_over_observed": 1.033684910741139
+    },
+    {
+      "training": "dispersed",
+      "held_out": "florida",
+      "recipe": "B-raster",
+      "predicted_requested_bytes": 340248477.042779,
+      "observed_requested_bytes": 351999704,
+      "predicted_over_observed": 0.9666158044348214
+    },
+    {
+      "training": "dispersed",
+      "held_out": "florida",
+      "recipe": "B-lazy",
+      "predicted_requested_bytes": 319511109.1820207,
+      "observed_requested_bytes": 337254104,
+      "predicted_over_observed": 0.9473898327476564
+    },
+    {
+      "training": "dispersed",
+      "held_out": "florida",
+      "recipe": "C-raster",
+      "predicted_requested_bytes": 1370783997.4876034,
+      "observed_requested_bytes": 1519006868,
+      "predicted_over_observed": 0.9024211979320711
+    },
+    {
+      "training": "dispersed",
+      "held_out": "florida",
+      "recipe": "C-lazy",
+      "predicted_requested_bytes": 1388511084.0,
+      "observed_requested_bytes": 1539940539,
+      "predicted_over_observed": 0.9016653882634101
+    },
+    {
+      "training": "dispersed",
+      "held_out": "florida",
+      "recipe": "A-raster repeat-miss model",
+      "predicted_requested_bytes": 2290071463.1197314,
+      "observed_requested_bytes": 1801042826,
+      "predicted_over_observed": 1.271525268616645
+    }
+  ],
+  "limitations": [
+    "The two cohorts differ in geography and size, not only lake density. Cross-cohort checks are directional validation from two observations, not a broad statistical validation.",
+    "Requested bytes include range overhead and cache behavior. Requested-to-decoded ratios are not pure file compression ratios.",
+    "Seventeen-asset native payload weights extrapolate unmeasured bands and quality assets. They do not measure their compression.",
+    "The old-model backtest supplies actual red-grid logical blocks but retains the original assumed national spatial concentration. It isolates occupancy and bytes from population geometry.",
+    "A1 repeat-miss inference is poorly conditioned in the dispersed cohort because logical and unique block volumes differ by less than one percent.",
+    "Frozen plans and SQLite inputs remain local under data. Aggregate counts and hashes make the derivation reviewable without distributing polygons."
+  ],
+  "generator_path": "tools/backtest_source_bytes.py",
+  "generator_sha256": "5667c8de7bf75545e8f071dc28d5500c89e6cfed691eec7282631e5f194c23fb",
+  "reproduction_command": "uv run python tools/backtest_source_bytes.py",
+  "old_model_geometry_qualification": "The original national two-stratum occupancy remains an unsourced extrapolation. Conditional cohort backtesting predicts Florida unique footprints about 1.87 times observed, and dispersed footprints about 0.98 times observed. Updating only byte coefficients does not fix that geography bias."
+}

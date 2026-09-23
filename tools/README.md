@@ -6,10 +6,28 @@ The four scripts in the table use the standard library and make no network reque
 |---|---|---|---|
 | [collate_checks.py](collate_checks.py) | `docs/assessment-checks/*-research.json` and `*-checks.json`, the current inventory | `docs/options-inventory.json` | `--check` fails when the inventory is stale |
 | [collate_sensor_bands.py](collate_sensor_bands.py) | `docs/assessment-checks/sensor-bands-research.json` and `sensor-bands-checks.json` | `docs/sensor-bands.json` | `--check` fails when the dataset is stale |
-| [render_options.py](render_options.py) | [Presentation template](s2-options.template.html), inventory issue `plain` lines, gap survey report, map provenance and image digests, pilot manifest, Stage 1 to 4 results, sensor band dataset | `docs/s2-options.html` | `--check` fails when the HTML or map assets are stale |
+| [render_options.py](render_options.py) | [Presentation template](s2-options.template.html), inventory issue `plain` lines, gap survey report, map provenance and image digests, pilot manifest, Stage 1 to 4 results, sensor band dataset, AWS cost estimates and inputs | `docs/s2-options.html` | `--check` fails when the HTML or map assets are stale. Rendering fails when the cost estimates predate their inputs or model |
 | [gap_report.py](gap_report.py) | `benchmarks/results/gap-survey.json`, `benchmarks/results/fallback-survey.json`, the probe record | `docs/reviews/2026-09-10-gap-survey-report.json` | `--check` fails when the report is stale |
 
 [../docs/assessment-data-format.md](../docs/assessment-data-format.md) defines the formats and the regeneration order.
+
+## Offline AWS cost model
+
+[estimate_aws_costs.py](estimate_aws_costs.py) reads explicit planning inputs and frozen laptop measurements. It contacts no provider.
+The model also reads frozen acquisition counts and separates historical estimates from forward daily costs and retention forecasts.
+The [analysis](../docs/aws-cost-analysis.md) explains assumptions, formulas, uncertainty, and qualified price sources.
+
+```sh
+uv run python tools/estimate_aws_costs.py
+uv run python tools/estimate_aws_costs.py --check
+```
+
+Use the pinned Python environment for reproducible floating-point output.
+
+[backtest_source_bytes.py](backtest_source_bytes.py) audits saved block geometry and requested bytes across the two larger-workload cohorts.
+It reads frozen local plans and SQLite selections without contacting a provider or changing benchmark evidence.
+It writes [cohort-blocks.json](../docs/cost-analysis/cohort-blocks.json). Its `--check` mode requires those preserved local inputs.
+The regular accounting tests use the checked-in aggregate and do not require those local inputs.
 
 ## Discovery map examples
 
