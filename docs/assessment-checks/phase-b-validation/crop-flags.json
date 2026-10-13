@@ -1,0 +1,182 @@
+{
+  "reviewer": {
+    "agent": "crop and flag validation reviewer",
+    "model": "sonnet"
+  },
+  "reviewed_at": "2026-10-13T16:12:15-04:00",
+  "verdicts": [
+    {
+      "id": "V-CROP-1",
+      "claim": "The crop is 400 by 400 cells at 20 m of B02, B03, B04, NDWI, and l2_flags. No band pixel is no-data (-32768). B04 holds 45 negative values.",
+      "verdict": "validated",
+      "recomputed": {
+        "arrays": {
+          "B02": "(400, 400)",
+          "B03": "(400, 400)",
+          "B04": "(400, 400)",
+          "NDWI": "(400, 400)",
+          "l2_flags": "(400, 400)"
+        },
+        "dtypes": {
+          "B02": "int16",
+          "B03": "int16",
+          "B04": "int16",
+          "NDWI": "int16",
+          "l2_flags": "int32"
+        },
+        "count_equal_minus_32768": {
+          "B02": 0,
+          "B03": 0,
+          "B04": 0,
+          "NDWI": 0,
+          "l2_flags": 0
+        },
+        "B04_negative": 45,
+        "B04_range": [
+          -77,
+          4838
+        ],
+        "B02_negative": 12,
+        "B03_negative": 1,
+        "exact_zeros": {
+          "B02": 1,
+          "B03": 0,
+          "B04": 3
+        },
+        "window_20m_col_row_w_h": [
+          1268,
+          4944,
+          400,
+          400
+        ],
+        "window_matches_level2A_window": "read.json 10 m window [2536, 9888, 800, 800] halved gives the same cells",
+        "window_centre_lon_lat": [
+          -83.9401,
+          34.28
+        ],
+        "extent_m": "400 x 20 m = 8,000 m on each side"
+      },
+      "reason": "All five arrays are 400 by 400 and none holds -32768. B04 has exactly 45 negative cells, B02 has 12 and B03 has 1. The window equals half the 10 m Level-2A map window and its centre sits near Lake Lanier. Masked cells did not collapse to zero either, because exact zeros are 1, 0, and 3 cells in B02, B03, and B04.",
+      "suggested_correction": null
+    },
+    {
+      "id": "V-CROP-2",
+      "claim": "Every l2_flags value is a multiple of 10,000. Divided by 10,000 the values are 0, 1, 4, 5, 8, and 9. 58,009 cells (36 percent) carry no flag, so 64 percent carry a flag.",
+      "verdict": "validated",
+      "recomputed": {
+        "raw_value_counts": {
+          "0": 58009,
+          "10000": 97727,
+          "40000": 1,
+          "50000": 4207,
+          "80000": 38,
+          "90000": 18
+        },
+        "all_multiples_of_10000": true,
+        "divided_values": [
+          0,
+          1,
+          4,
+          5,
+          8,
+          9
+        ],
+        "zero_flag_cells": 58009,
+        "zero_fraction": 0.36256,
+        "flagged_cells": 101991,
+        "flagged_fraction": 0.63744,
+        "bit_decomposition_after_division": {
+          "bit0_value1": 101952,
+          "bit1_value2": 0,
+          "bit2_value4": 4208,
+          "bit3_value8": 56,
+          "bit4_value16": 0,
+          "bit5_value32": 0,
+          "bit6_value64": 0
+        },
+        "matches_provenance_flag_counts_20m": true
+      },
+      "reason": "The counts reproduce exactly, including the provenance flag_counts_20m. Rounded, 36 percent have no flag and 64 percent carry one. The by-10,000 scaling is an inference, because the USGS metadata XML lists no l2_flags layer. The inference is sound, since all 160,000 values divide cleanly and the quotients are only combinations of bits 0, 2, and 3 (1, 4, 5, 8, 9).",
+      "suggested_correction": "Optional: say the factor of 10,000 is inferred from the values. The USGS metadata describes band and NDWI files, a log, and a settings file, and does not list l2_flags."
+    },
+    {
+      "id": "V-CROP-3",
+      "claim": "Read with the settings file's flag exponents (swir=0, cirrus=1, toa=2, negative=3, outofscene=4, mixed=5, dem_shadow=6), value 1 is ACOLITE's non-water test at 1,600 nm, 4 is bright top-of-atmosphere, and 8 is negative reflectance. A set bit means the condition is true.",
+      "verdict": "validated",
+      "evidence": {
+        "code_20221114.0_acolite/acolite/acolite_l2w.py": {
+          "line_112_114": "cur_mask = rhot_<closest to l2w_mask_wave 1600> > l2w_mask_threshold; l2_flags = cur_mask * 2**flag_exponent_swir. Bit 0 is SET when top-of-atmosphere reflectance near 1,600 nm exceeds the threshold, which the code calls the non-water test.",
+          "line_149_150": "toa_mask is True when rhot in any band from 400 to 2,500 nm exceeds l2w_mask_high_toa_threshold (0.3); l2_flags |= toa_mask * 2**flag_exponent_toa. Bit 2 is SET for bright TOA.",
+          "line_165_166": "neg_mask is True when any rhos in l2w_mask_negative_wave_range is below 0; l2_flags |= neg_mask * 2**flag_exponent_negative. Bit 3 is SET for negative surface reflectance.",
+          "note": "flag_exponent_mixed and flag_exponent_dem_shadow do not exist in this release. Only bits 0 to 4 are defined."
+        },
+        "code_20250402.0_acolite/acolite/acolite_flags.py": "Same logic at lines 75-77 (bit 0), 122-125 (bits 2 and 4), and 146-147 (bit 3). Bit 5 is VIIRS-only (line 170). This is the release whose defaults best match the saved settings file.",
+        "manual": "ACOLITE manual 20221114.0, section 4.1.2, lists exponents 0 to 4: flag_exponent_swir=0 stores the SWIR threshold step, cirrus=1, toa=2 the top-of-atmosphere threshold step, negative=3 the negative retrievals step, outofscene=4. The 20260421.0 manual adds mixed=5 (VIIRS mixed pixels) and dem_shadow=6.",
+        "settings_file_values": "l2w_mask_wave=1600, l2w_mask_threshold=0.05, l2w_mask_high_toa_threshold=0.3 over 400-2500 nm, l2w_mask_negative_wave_range=450,700, l2w_mask_negative_rhow=True, l2w_mask_smooth=False."
+      },
+      "recomputed": {
+        "negative_bit_vs_values": "All 53 cells with a negative B02, B03, or B04 have bit 3 set. Bit 3 is set on 56 cells. The other 3 cells have a minimum of exactly 0 across B02-B04, consistent with a slightly negative rhos rounding to 0 at 1e-4 resolution. All 45 negative B04 cells are in flag 8 (35) or flag 9 (10).",
+        "bit0_vs_surface_type": "Flag 0 cells: median B04 0.0075, NDWI above 0 on 90.7 percent, and 71 connected components of which two hold 41,638 and 15,756 cells (the lake body). Flag 1 cells: median B04 0.0233, NDWI below 0 on 99.6 percent.",
+        "bit2": "4,208 cells, of which 4,207 also carry bit 0. Median B04 0.0465 for flag 5, so bright cells are mostly land or cloud.",
+        "bits_never_seen": "Bits 1 (cirrus), 4 (out of scene), 5 (mixed, VIIRS only), and 6 (DEM shadow, off) have zero cells."
+      },
+      "reason": "In both the 20221114.0 and 20250402.0 code, each step ORs the test result shifted to its exponent, so a set bit means the condition is true. Bit 0 is rhot near 1,600 nm above 0.05, bit 2 is rhot above 0.3 in any band, and bit 3 is rhos below zero in 450-700 nm. The data agree: every negative B02-B04 cell has bit 3 set, and bit-0 cells behave like land while flag-0 cells form the lake.",
+      "suggested_correction": "Reword 'value 1 is the water mask at 1,600 nm', which can be read as 'value 1 marks water'. Say: 'value 1 marks non-water: top-of-atmosphere reflectance near 1,600 nm is above 0.05. Value 4 marks top-of-atmosphere reflectance above 0.3 in any band. Value 8 marks surface reflectance below zero in the 450 to 700 nm bands.' Optionally note that flag 0 means the tests passed, not that a pixel is verified water (10 flag-0 cells have B04 above 0.1)."
+    },
+    {
+      "id": "V-CROP-4",
+      "claim": "Tension: USGS documents the bands as water-leaving reflectance (Rhow) and ACOLITE documents its L2W rhow as masked for non-water pixels, yet land pixels in the crop carry values.",
+      "verdict": "validated",
+      "evidence": {
+        "usgs_metadata_S2_AQR_Metadata.xml": "'Aquatic reflectance, noted Rhow in ACOLITE documentation, is defined here as unitless water-leaving radiance reflectance'. Also: 'Negative values have been retained in this dataset for transparency, and end users are encouraged to mask or adjust these values'. And: NetCDF outputs were converted to COGs 'with no data values being set to -32,768'. It lists band COGs, NDWI, a log, and a settings file, and says nothing about l2_flags or about masking land.",
+        "acolite_manual_20221114.0_and_20260421.0_section_5": "'rhow_*: rho_w, the surface level reflectance for water pixels, with a SWIR based mask applied to non-water pixels.' Section 4.1.2: l2w_mask_water_parameters 'Controls whether water specific parameters are to be masked'.",
+        "code_20221114.0_acolite_l2w.py": "Lines 206-214 and 231: rhow_<w> is a copy of rhos_<w> (factor 1.0) and Rrs_<w> is rhos_<w>/pi. Line 231: if mask and l2w_mask_water_parameters, cur_data[(l2_flags & flag_value) != 0] = NaN. flag_value is the sum of the enabled bits (swir, cirrus, toa, negative). Line 244 then writes l2_flags. So with l2w_mask=True and l2w_mask_water_parameters=True, rhow and Rrs are set to NaN where flagged AND the flag integer is written.",
+        "code_20250402.0_acolite_l2w.py": "Same behavior at lines 173-180 (flag_value now also adds mixed and DEM shadow bits), 253, 273, and 280. The same NaN rule also covers derived parameters (lines 1020, 1084).",
+        "settings_file": "l2w_mask=True, l2w_mask_water_parameters=True, l2w_mask_negative_rhow=True, l2w_parameters=tur_nechad2016,p3qaa,Rrs_*. Under these settings ACOLITE's own Rrs_* would be NaN in the 63.7 percent of crop cells that carry a flag, and in every negative cell, because bit 3 is part of flag_value."
+      },
+      "recomputed": {
+        "cells_flagged": 101991,
+        "cells_flagged_and_no_data": 0,
+        "flag1_land_like_cells_with_values": {
+          "count": 97727,
+          "B04_median_reflectance": 0.0233,
+          "B04_p95": 0.0931
+        },
+        "negative_cells_retained": "53 cells with negative B02/B03/B04 are present, all with bit 3 set. A masked rhow/Rrs would have no value there."
+      },
+      "reason": "The documents and the data agree on the tension. ACOLITE documents rhow as masked, and the code does set both rhow_* and Rrs_* to NaN where flagged. The code masks the water-reflectance copies as well as the derived parameters, so the 'only derived parameters are masked' reading is wrong for rhow and Rrs. USGS says negatives were retained, and the crop holds values on every flagged cell. Therefore the USGS bands are not ACOLITE's masked rhow_* or Rrs_* output. Which NetCDF dataset USGS converted is not stated anywhere I could read, and the saved files do not settle it.",
+      "suggested_correction": "Keep the tension. Add one sentence of what the code says: 'ACOLITE copies rhow from rhos and, with these settings, sets rhow and Rrs to NaN where l2_flags marks a pixel. The USGS bands carry values on flagged pixels, so they are not those masked outputs. Which dataset USGS converted is unverified.' Note that rhow equals rhos before masking in the code, so an unmasked rhos or pi times an unmasked Rrs would give the same numbers, but no page says USGS did that. The product log file in the bucket, or a probe, would settle it."
+    },
+    {
+      "id": "V-CROP-5",
+      "claim": "docs/assets/discovery/aqr-true-color.png and aqr-water-flag.png match the provenance record (sha256) and the build code's description: gray where the flag integer is nonzero.",
+      "verdict": "validated",
+      "recomputed": {
+        "sha256_true_color": "ee0e08f8afd8bf153b4d880a1bb03d1bb2533b54dfd2d7496e8ac2a49630a4cb (matches provenance, 452,436 bytes)",
+        "sha256_water_flag": "2216c2e563314df8248fb5ba5e106105edca8f089ce3baf19bd8998a74bf75f8 (matches provenance, 155,863 bytes)",
+        "npz_sha256_matches_input_sha256": true,
+        "build_code_sha256_matches_code_sha256": true,
+        "independent_render": "Rebuilt both 800 x 800 images from aqr-pixels.npz: B04, B03, B02 x 1e-4, divide by 0.3, clip, power 1/2.2, 2x2 cell expansion. aqr-true-color.png is pixel-identical (max abs difference 0, no gray pixels). In aqr-water-flag.png the gray (221, 225, 226) count is 407,964 = 4 x 101,991 flagged cells, every flagged pixel is gray, and every unflagged pixel equals the true-color value (0 natural collisions).",
+        "valid_fraction_water_flag": "0.36255625 = 58,009 / 160,000 in provenance"
+      },
+      "reason": "Both hashes, the cached-arrays hash, and the build-script hash match the provenance record. An independent rendering reproduces the true-color image exactly. The flag image is gray on exactly the 101,991 cells with a nonzero flag integer and equals the true-color image elsewhere. The presentation captions (pixels the processor flagged as non-water, bright, or negative are gray) match.",
+      "suggested_correction": null
+    }
+  ],
+  "limitations": [
+    "Reviewed commit 4e89ea2 with a clean tree. I read only the cached arrays, saved headers, and settings. I made no S3 request, so I could not read the product log or the other eight band files, and I did not check any pixel outside the cached crop.",
+    "The crop is one scene (2025-10-15, tile T17SKU, one 8 by 8 km window). Nothing here says how often flagged pixels carry values elsewhere. That is probe T4.",
+    "I rendered the two images from the cached arrays, not from the S3 files. Whether the cached arrays equal the live bucket objects is not tested here.",
+    "The flag-bit reading rests on ACOLITE source and manuals plus the empirical match in this crop. No USGS page documents the l2_flags layer.",
+    "Which release made these scenes is inferred (see additional_observations). My code check covers both 20221114.0 and 20250402.0, and the semantics of bits 0, 2, and 3 are identical in both.",
+    "I read ACOLITE code and manuals as text and did not run ACOLITE.",
+    "I have no evidence on why USGS bands hold values on flagged pixels. The finding states a tension and I confirm it. I do not confirm a cause."
+  ],
+  "additional_observations": [
+    "VERSION MISMATCH: USGS metadata says ACOLITE 20221114.0. The saved settings files (written 2025-12-24 and 2026-02-15, identical apart from inputfile and runid) contain keys that do not exist in 20221114.0: flag_exponent_mixed (first seen in 20231023.0), and flag_exponent_dem_shadow, dem_shadow_mask, radcor_*, tsdsf_*, optimise_* (first seen in 20250114.0). Against tagged defaults, the settings key set matches release 20250402.0 almost exactly (3 runtime-only keys extra: inputfile, new_path, runid) and fits no other tag as well (20250114.0 has 28 extra keys, 20251013.0 lacks exp_swir_threshold). Measurements.md line 656 and data-contract.md line 27 say the files state no version, which is true, but the key set shows the software was newer than the metadata says. Earlier scenes may still have used 20221114.0, so the product may mix versions. This bears on the processor_version field and on the replan input 'ACOLITE 20221114.0'.",
+    "METADATA UNDERSTATES THE SETTINGS CHANGES: USGS lists four non-default settings. The saved file also has l2w_mask_smooth=False (default True), l2w_mask_negative_wave_range=450,700 (default 400,900), l2w_parameters=tur_nechad2016,p3qaa,Rrs_*, plus runtime items such as output_geometry=False. The first two change which cells get flag bit 0 and bit 3.",
+    "PR-11 says 'Every band pixel carries a value' and I-35 says 'Land, shoreline, and water all hold values'. The crop covers B02, B03, B04, NDWI, and l2_flags only. The other eight reflectance bands were not read. Scope the wording to the bands read.",
+    "The cached crop supports a testable hypothesis for probe T4 or the log file: the negative-flag bit matches the sign of the delivered B02-B04 values exactly (53 of 53), so the delivered bands are numerically the same quantity ACOLITE used for the negative test (rhos).",
+    "Image naming: aqr-water-flag shows UNFLAGGED cells in color. Gray is flagged. The option label 'pixels without a flag' and the caption are accurate. The file name alone could be misread as 'water flagged'."
+  ]
+}

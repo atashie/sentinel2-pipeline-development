@@ -1,0 +1,230 @@
+{
+  "reviewer": {
+    "agent": "USGS documentation validation reviewer",
+    "model": "sonnet"
+  },
+  "reviewed_at": "2026-10-13T16:11:06-04:00",
+  "verdicts": [
+    {
+      "id": "V-USGS-1",
+      "claim": "Values are signed 16-bit integers with reflectance scaled by 10,000 and no-data -32,768. NDWI is also int16 scaled by 10,000.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+          "quote": "Reflectance values were converted to 16-bit signed integers with no data values being set to -32,768 and reflectance values were scaled by 10,000 such that an aquatic reflectance value of 0.01 (1%) is reported as 100.",
+          "locator": "metadata/dataqual/lineage/procstep/procdesc, third step (NetCDF to COG conversion)"
+        },
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+          "quote": "The NDWI is converted to a 16-bit signed integer, scaled by 10,000, and compressed as a COG.",
+          "locator": "metadata/dataqual/lineage/procstep/procdesc, fourth step (NDWI)"
+        },
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+          "quote": "Normal difference water index (NDWI). Producer Defined -32,768 No data",
+          "locator": "metadata/eainfo/detailed/attr, NDWI entity, attrdef then edomv and edomvd (element text flattened)"
+        },
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?f=__disk__e4%2Fd1%2F33%2Fe4d13344d277fe3162d4178b474e84c7763e2e38",
+          "quote": "Reflectance values were converted to 16-bit signed integers with no data values being set to -32,768 and reflectance values were scaled by 10,000",
+          "locator": "Same lineage step in the 2024-11-21 Word edition of the metadata, S2_AQR_Metadata.docx"
+        }
+      ],
+      "reason": "The FGDC metadata states int16, scale 10,000 and no-data -32,768 for the aquatic reflectance bands, and int16 scaled by 10,000 for NDWI. The NDWI attribute table lists -32,768 as No data. The older Word edition carries the same text. These statements appear only in the metadata file, not on the usgs.gov page, the ScienceBase summary or the AWS registry. Nothing was measured on a pixel.",
+      "suggested_correction": null
+    },
+    {
+      "id": "V-USGS-2",
+      "claim": "Processing used ACOLITE version 20221114.0 dark spectrum fitting from Sentinel-2 Level-1C, and the Level-1C input came from the Copernicus Data Space Ecosystem OData API, not from an AWS bucket.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://www.usgs.gov/data/sentinel-2-acolite-dsf-aquatic-reflectance-conterminous-united-states",
+          "quote": "Level-1C top of atmosphere imagery collected with Multispectral Instrument (MSI) on the Sentinel-2A and Sentinel-2B satellites was atmospherically corrected using the dark spectrum fitting (DSF) algorithm and the Atmospheric Correction for OLI ‘lite’ (ACOLITE) version 20221114.0 processing software",
+          "locator": "Data release description, second paragraph"
+        },
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+          "quote": "Sentinel-2 Level-1C imagery is retrieved from the European Space Agency (ESA) through the Open Data Protocol (OData) API (European Space Agency, 2023).",
+          "locator": "metadata/dataqual/lineage/procstep/procdesc, first step"
+        },
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+          "quote": "European Space Agency 2023 Copernicus Data Space Ecosystem remote-sensing image https://catalogue.dataspace.copernicus.eu/odata/v1/",
+          "locator": "metadata/idinfo/crossref/citeinfo (the reference cited for the OData retrieval). The same URL is the online linkage of the lineage source Sentinel-2 MSI TOA Imagery, metadata/dataqual/lineage/srcinfo"
+        },
+        {
+          "source": "https://registry.opendata.aws/usgs_aqr/",
+          "quote": "Aquatic reflectance produced with the dark spectrum fitting (DSF) algorithm as implemented in the Atmospheric Correction for OLI “lite” (ACOLITE) software (version 20221114.0).",
+          "locator": "Registry Description"
+        }
+      ],
+      "reason": "The USGS pages name ACOLITE 20221114.0 with dark spectrum fitting on Level-1C input. The metadata says the Level-1C files are retrieved through the OData API and cites the Copernicus Data Space Ecosystem catalogue URL. The wording 'not from an AWS bucket' is not stated anywhere. It follows from the single named source, and no page mentions an AWS Level-1C source. The processing record is dated 2023.",
+      "suggested_correction": null
+    },
+    {
+      "id": "V-USGS-3",
+      "claim": "USGS documents coverage of the conterminous United States only.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://www.usgs.gov/data/sentinel-2-acolite-dsf-aquatic-reflectance-conterminous-united-states",
+          "quote": "This dynamic data release presents an aquatic reflectance product with 20-meter spatial resolution derived from Sentinel-2 satellite imagery for the conterminous United States",
+          "locator": "Data release description, first sentence; the page title also reads 'for the Conterminous United States'"
+        },
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+          "quote": "Conterminous United States -126.0000 -66.0000 50.0000 24.0000",
+          "locator": "metadata/idinfo/spdom/descgeog, then bounding westbc, eastbc, northbc, southbc"
+        }
+      ],
+      "reason": "Title, abstract, geographic description and bounding box all say conterminous United States, from 126 W to 66 W and 24 N to 50 N. No page mentions Alaska, Hawaii or Puerto Rico, so the 'only' is an inference from silence plus the bounding box. The tile footprint shapefile sentinel_2_tiles_CONUS was not opened, so the exact tile list is unchecked.",
+      "suggested_correction": null
+    },
+    {
+      "id": "V-USGS-4",
+      "claim": "USGS documents that scenes over 30 percent cloud cover are not prioritized and may be missing.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+          "quote": "Imagery with cloud coverage greater than 30 percent are not prioritized for processing and therefore may not be included in the data release.",
+          "locator": "metadata/dataqual/complete (Completeness Report)"
+        },
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?f=__disk__e4%2Fd1%2F33%2Fe4d13344d277fe3162d4178b474e84c7763e2e38",
+          "quote": "Imagery with cloud coverage greater than 30 percent are not prioritized for processing and therefore may not be included in the data release.",
+          "locator": "Completeness Report in the 2024-11-21 Word edition of the metadata"
+        }
+      ],
+      "reason": "The Completeness Report states the rule in the same words in two metadata editions. It appears only in the metadata file, not on the usgs.gov page, the ScienceBase summary or the registry. The text does not say which cloud measure is used, whether skipped scenes are later processed, or how many scenes are missing.",
+      "suggested_correction": null
+    },
+    {
+      "id": "V-USGS-5",
+      "claim": "The license pages conflict: the AWS registry names CC BY-SA 3.0 IGO (for the Copernicus data), while ScienceBase and usgs.gov mark the release CC0 1.0.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://registry.opendata.aws/usgs_aqr/",
+          "quote": "License Contains modified Copernicus Sentinel data, which is available under the Creative Commons CC BY-SA 3.0 IGO license. Please reference King et al., 2024 (doi 10.5066/P904243C) when referring to the aquatic reflectance, and include the statement 'Contains modified Copernicus Sentinel data [Year]' to acknowledge the data originator.",
+          "locator": "Registry page, License field (the YAML License key carries the same text)"
+        },
+        {
+          "source": "https://www.sciencebase.gov/catalog/item/640f612dd34e254fd352e1ed?format=json",
+          "quote": "This work is marked with Creative Commons Zero v1.0 Universal (https://creativecommons.org/publicdomain/zero/1.0/).",
+          "locator": "ScienceBase item JSON, rights field"
+        },
+        {
+          "source": "https://www.usgs.gov/data/sentinel-2-acolite-dsf-aquatic-reflectance-conterminous-united-states",
+          "quote": "Rights This work is marked with CC0 1.0 Universal",
+          "locator": "Citation Information block, Rights"
+        },
+        {
+          "source": "https://data.usgs.gov/datacatalog/data/USGS:640f612dd34e254fd352e1ed",
+          "quote": "Access public License http://www.usa.gov/publicdomain/label/1.0/",
+          "locator": "USGS Science Data Catalog entry, edition 2026-10-11"
+        }
+      ],
+      "reason": "Each statement is quoted correctly. The registry sentence is about the upstream Copernicus data and asks for an attribution line, and the USGS pages mark the release itself as CC0 or public domain. The pages differ and no page reconciles them. A strict reading would call this 'unreconciled' because the registry does not say the USGS release is CC BY-SA. A third wording on data.usgs.gov uses the USA.gov public domain label 1.0, and the AWS Marketplace page repeats the registry text.",
+      "suggested_correction": null
+    },
+    {
+      "id": "V-USGS-6",
+      "claim": "The bucket is not requester pays, reads need no AWS account, and discovery is by bucket listing, an SNS topic, and a scene list file. No STAC catalog is documented.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://registry.opendata.aws/usgs_aqr/",
+          "quote": "Access (No AWS account required) aws s3 ls --no-sign-request s3://usgs-wma-sentinel-2-aqr-acolite-dsf/version_01/",
+          "locator": "Registry page, Resources on AWS, S3 bucket 'Scenes and metadata', AWS CLI access"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/awslabs/open-data-registry/main/datasets/usgs_aqr.yaml",
+          "quote": "Resources: - Description: Scenes and metadata ARN: arn:aws:s3:::usgs-wma-sentinel-2-aqr-acolite-dsf/version_01 Region: us-west-2 Type: S3 Bucket - Description: New scene notification ARN: arn:aws:sns:us-west-2:242201296900:usgs-wma-sentinel-2-aqr-acolite-dsf-object_created Region: us-west-2 Type: SNS Topic",
+          "locator": "Registry YAML, Resources list. No RequesterPays, AccountRequired or ControlledAccess key on either resource"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/awslabs/open-data-registry/main/README.md",
+          "quote": "Note that while Requester Pays means you will need an account",
+          "locator": "Registry README, schema row for Resources > AccountRequired (RequesterPays is an optional per-resource flag)"
+        },
+        {
+          "source": "https://www.sciencebase.gov/catalog/item/640f612dd34e254fd352e1ed?format=json",
+          "quote": "A list of all processes Sentinel-2 scenes are available here: S2_AQR_Scenes.zip.",
+          "locator": "ScienceBase item body, first sentence (a file on ScienceBase, 10.5 MB per the files list)"
+        },
+        {
+          "source": "https://aws.amazon.com/marketplace/pp/prodview-4pf3e3jypppz2",
+          "quote": "Open data resources Available with or without an AWS account.",
+          "locator": "AWS Marketplace listing, Usage information"
+        }
+      ],
+      "reason": "No page says 'not requester pays' in words. It follows from the registry omitting the RequesterPays flag, showing an unsigned CLI listing command, and saying no AWS account is required, which the registry README says Requester Pays would rule out. The SNS topic and the ScienceBase scene list are documented. The word STAC appears on none of the pages I read, so 'no STAC catalog documented' holds. The message format of the SNS topic is not documented, and the bucket was not listed (per the rules), so bucket contents are unchecked.",
+      "suggested_correction": null
+    },
+    {
+      "id": "V-USGS-7",
+      "claim": "USGS documents the bands as water-leaving reflectance (Rhow). Residual SWIR glint correction was not applied. Negative values are retained.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://www.usgs.gov/data/sentinel-2-acolite-dsf-aquatic-reflectance-conterminous-united-states",
+          "quote": "Aquatic reflectance, noted Rhow in ACOLITE documentation, is defined here as unitless water-leaving radiance reflectance and represents the ratio of water-leaving radiance (units of watts per square meter per steradian per nanometer) to downwelling irradiance (units of watts per square meter per nanometer) multiplied by π.",
+          "locator": "Data release description, first paragraph"
+        },
+        {
+          "source": "https://www.usgs.gov/data/sentinel-2-acolite-dsf-aquatic-reflectance-conterminous-united-states",
+          "quote": "The optional residual glint correcting using the SWIR bands was not applied.",
+          "locator": "Data release description, ACOLITE settings paragraph. Repeated in metadata/dataqual/lineage/procstep/procdesc"
+        },
+        {
+          "source": "https://www.usgs.gov/data/sentinel-2-acolite-dsf-aquatic-reflectance-conterminous-united-states",
+          "quote": "Negative values have been retained in this dataset for transparency, and end users are encouraged to mask or adjust these values prior to analysis.",
+          "locator": "Data release description, paragraph on tile overlap and negative values"
+        }
+      ],
+      "reason": "All three statements appear in the USGS text, and the same text appears in the ScienceBase item, the FGDC abstract and the data.usgs.gov entry. The quote says 'water-leaving radiance reflectance' and names Rhow as the ACOLITE term. These are producer statements. Whether any negative pixel survives the ACOLITE mask settings was not tested.",
+      "suggested_correction": null
+    },
+    {
+      "id": "V-USGS-8",
+      "claim": "USGS states no formal attribute accuracy tests were conducted, and no page gives a sensing-to-availability latency or a service level.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+          "quote": "No formal attribute accuracy tests were conducted.",
+          "locator": "metadata/dataqual/attracc/attraccr"
+        },
+        {
+          "source": "https://registry.opendata.aws/usgs_aqr/",
+          "quote": "Update Frequency New scenes are added daily.",
+          "locator": "Registry page; the only timing statement on the registry"
+        },
+        {
+          "source": "https://www.usgs.gov/data/sentinel-2-acolite-dsf-aquatic-reflectance-conterminous-united-states",
+          "quote": "When new Sentinel-2 imagery is collected, the Level-1C product is atmospherically corrected and the aquatic reflectance and NDWI products are added to this data release.",
+          "locator": "Data release description, near the end; the FGDC status/update value is 'Continually'"
+        },
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+          "quote": "Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall the act of distribution constitute any such warranty.",
+          "locator": "metadata/distinfo/distliab"
+        }
+      ],
+      "reason": "The attribute accuracy sentence is verbatim in the FGDC metadata and the older Word edition. The pages I read give only 'added daily' and 'Continually', which are update frequencies, not a time from sensing to availability. The liability statement disclaims any warranty, and none of the pages mention a service level, support commitment or availability target. The absence holds for the pages listed in the limitations, not for the whole web.",
+      "suggested_correction": null
+    }
+  ],
+  "limitations": [
+    "The ScienceBase item and its FGDC metadata XML are a dynamic release. The item's lastUpdated is 2026-10-13T20:02:48Z (16:02 -04:00) and the XML edition is 20261013. I fetched at about 16:05 -04:00, minutes after that update. The research ran 14:11 to 14:22 -04:00 and probably saw the previous edition. Quotes can drift with each update.",
+    "Edition cross-checks: the 2024-11-21 Word edition of the metadata carries the same wording for claims 1, 2, 4 and 8. The data.usgs.gov entry is the 2026-10-11 edition and carries the same abstract text for claims 3, 5 and 7.",
+    "Documentation only. I did not list or read the S3 bucket, did not run aws commands, and did not open S2_AQR_Scenes.zip or tutorial.zip. Encoding, no-data value, requester-pays status and the absence of a STAC catalog are not measured.",
+    "Absence claims (no latency, no service level, no STAC, no RequesterPays flag, no Alaska, Hawaii or Puerto Rico) hold for these sources only: the registry page and YAML, the registry README, the ScienceBase item JSON, the FGDC XML, the 2024 Word metadata, the usgs.gov page, the data.usgs.gov entry and the AWS Marketplace listing. The ScienceBase item HTML is a script-rendered page, so I used its JSON.",
+    "The usgs.gov page is the only source that carries the full description in plain HTML. Lineage, completeness, accuracy and attribute facts exist only in the FGDC metadata files. Quotes from XML and Word are flattened element text.",
+    "Inconsistencies seen in the sources, outside the eight claims: the NDWI valid range prints as -10,000 to -10,000. UTM zone 17 prints a central meridian of -87, the same as zone 16. The metadata links registry.opendata.aws/usgs-sentinel-2-aqr-acolite-dsf, which returned HTTP 404. The metadata also names an imagery location, ngwos-rswq-development.s3.us-west-2.amazonaws.com, that the registry does not list. The metadata Globus origin_id (9e967cb6-...) differs from the registry and ScienceBase link (8fd8727f-...).",
+    "Downloads are in usgs/ and usgs/extra/ under the scratchpad validation folder (the extra folder holds the registry README, Marketplace page, data.usgs.gov page, Word metadata and the AWS sponsorship page). I read the Word file as a zip with Python and extracted nothing to disk. Nothing was executed."
+  ]
+}

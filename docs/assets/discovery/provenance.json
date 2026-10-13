@@ -248,7 +248,7 @@
     "Small index denominators can exaggerate minor band differences. Display clipping also flattens extremes. The cause of visible texture is unverified.",
     "No performance measurements. GDAL transfer logs can be saved locally from stderr."
   ],
-  "code_sha256": "ddea1a2100cd8dbd7212a09969f3a22a0227e6802c9a7cdb9685d0678176b1b1",
+  "code_sha256": "c0e6e5dd093c4cd81bb32973204c56fec4771a5483874ac227b4a36f765caa78",
   "input_sha256": "97211722bda8fe8151d521cbd38d4122729544b58a8df69cad18e92667fbb550",
   "images": {
     "true-color": {
@@ -355,6 +355,11 @@
       "9": 18
     },
     "present_fraction": 1.0,
+    "negative_counts_20m": {
+      "B04": 45,
+      "B03": 1,
+      "B02": 12
+    },
     "bucket": "usgs-wma-sentinel-2-aqr-acolite-dsf",
     "region": "us-west-2",
     "payer": "Public unsigned reads. The bucket owner pays.",

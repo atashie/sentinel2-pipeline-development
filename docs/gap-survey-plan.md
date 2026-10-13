@@ -13,7 +13,7 @@ Which quality assets does each collection deliver, and does that change with bas
 
 - Catalog metadata only. No imagery byte is read. No bucket is listed. No credentials are used.
 - Earth Search was the route when this survey ran on 2026-09-10. Since 2026-10-13 it is the supplementary route, assumption A13 and [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md). The survey's findings stand for that role.
-- The Copernicus Data Space Ecosystem catalogs serve one purpose: a reference count of what ESA lists today. They are not a route and are not compared for selection.
+- The Copernicus Data Space Ecosystem catalogs serve one purpose: a reference count of what ESA listed when the survey ran on 2026-09-10. They are not a route and are not compared for selection.
 - Every request is logged in the result file with host, path, status, bytes, and seconds.
 - One request stream, with a pause between requests and backoff on throttling.
 
@@ -37,7 +37,7 @@ A tile whose items never cover the point, or the box, in that year is not survey
 | `sentinel-2-l2a` | Fallback. The older Earth Search collection, the same operator's earlier GeoTIFF conversion of the same ESA products, in the `sentinel-cogs` bucket |
 | `sentinel-2-pre-c1-l2a` | Listed for completeness. Its extent is measured, not assumed |
 | `sentinel-2-l1c` | Acquisition reference within Earth Search. Level-1C exists for every Level-2A product |
-| Copernicus STAC `sentinel-2-l2a` | External reference. What ESA lists today per tile and year |
+| Copernicus STAC `sentinel-2-l2a` | External reference. What ESA listed per tile and year on 2026-09-10 |
 | Copernicus OData products | Second external reference. A per-year count that checks the STAC listing |
 
 The window runs from 2021-01-01 to the run date, one calendar month at a time. The run date is recorded as `window.end`.
@@ -105,7 +105,7 @@ A HEAD returns headers only: status, size, entity tag, storage class, and whethe
 ## USGS coverage survey and join test
 
 Authority: Phase B of the [replan record](reviews/2026-10-13-acolite-first-replan.md), probes T2 and T3. The owner authorized both on 2026-10-13.
-The script is [../benchmarks/aqr_coverage.py](../benchmarks/aqr_coverage.py). Its result is [aqr-coverage.json](../benchmarks/results/aqr-coverage.json), read in [measurements.md](measurements.md#27-the-product-holds-41-to-61-percent-of-earth-searchs-acquisitions-in-most-years-and-recent-scenes-arrive-within-hours) as findings 27 and 28.
+The script is [../benchmarks/aqr_coverage.py](../benchmarks/aqr_coverage.py). Its result is [aqr-coverage.json](../benchmarks/results/aqr-coverage.json), read in [measurements.md](measurements.md#27-the-product-holds-41-to-61-percent-of-earth-searchs-acquisitions-in-most-years-and-new-scenes-arrive-a-median-eight-hours-after-sensing) as findings 27 and 28.
 
 Questions:
 

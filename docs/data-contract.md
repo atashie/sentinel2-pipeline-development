@@ -24,7 +24,7 @@ Alternatives include one row per pixel per band and arrays per water body. The f
 | Identity | `sensing_time` | Scene sensing time, UTC |
 | Identity | `product_family` | `aquatic_reflectance` for the primary product or `level_2a` for the supplementary product. Every record carries one. Decision 0008 |
 | Identity | `product_id` | Product name as delivered by the route. For the primary product, the object name in the bucket |
-| Identity | `processor`, `processor_version` | `acolite` or `sen2cor`. The primary product's settings file states no version. The USGS documentation names ACOLITE 20221114.0, inventory candidate `ar-usgs-acolite-aqr`. The Level-1C baseline keeps changing, finding 27 |
+| Identity | `processor`, `processor_version` | `acolite` or `sen2cor`. The primary product's settings file states no version. The USGS documentation names ACOLITE 20221114.0, but the probed settings carry the keys of release 20250402.0, finding 26. The version needs a per-scene source. The Level-1C baseline keeps changing, finding 27 |
 | Identity | `processing_baseline` | For Level-2A, from product metadata. For the primary product, the Level-1C baseline from the object name, which repeats the Level-1C product name, finding 26. Practice P4 in [s2-best-practices.md](s2-best-practices.md) |
 | Identity | `aerosol_mode` | How ACOLITE estimated aerosol for the scene, from the settings keys `dsf_aot_estimate` and `dsf_tile_dimensions`. Every file probed names tiled estimation on 300 by 300 pixel tiles, finding 26. Null for Level-2A. A self-run clipped to one lake uses a different estimate, assumption A48 |
 | Identity | `settings_digest` | Digest of the per-scene settings file the primary product delivers. Records the processing configuration. Null for Level-2A |
@@ -42,10 +42,10 @@ Alternatives include one row per pixel per band and arrays per water body. The f
 | Value | `conversion_source` | Which metadata supplied `scale` and `offset`: `esa_product_metadata`, `catalog_raster_bands`, `provider_pre_applied`, or `provider_documentation`. Earth Search applied the offset during conversion for some items, so the value is per asset, issue I-05. The gap survey measured that the provider's per-item flag and the asset's `raster:bands` offset disagree for most older-collection items from baseline 04.00, [measurements.md](measurements.md) |
 | Value | `ndwi` | The primary product's delivered NDWI layer, a signed 16-bit integer stored as delivered, assumption A49. Not an index the store derives. Null for Level-2A |
 | Value | `mask_reason` | Why a pixel has no value: `processor_masked`, `no_data`, `outside_tile`, or `not_delivered`. In one crop no pixel was processor-masked, and land kept its values, finding 29. Probe T4 decides at scale |
-| Quality | `scl_class`, `cloud_probability`, `snow_probability` | Delivered Level-2A layers at native resolution, where the route has them. Class codes, never names. Practice P11. The primary product ships no cloud, shadow, or snow layer, finding 26 |
+| Quality | `scl_class`, `cloud_probability`, `snow_probability` | Delivered Level-2A layers at native resolution, where the route has them. Class codes, never names. Practice P11. The primary product has no dedicated cloud, cloud-shadow, or snow layer. Its flags mark non-water, cirrus, bright, and negative pixels, finding 26 |
 | Quality | `acolite_flags` | The primary product's `l2_flags` layer, stored as delivered. In one crop every value was the ACOLITE flag integer times 10,000, finding 29. The settings file names the flag bits. Null for Level-2A |
 | Quality | `quality_source_product` | The Level-2A `product_id` whose quality layers were joined to a primary-product record, by tile, platform, and sensing start, finding 28. Null where the join found no item |
-| Quality | `quality_baseline_match` | Whether the joined Level-2A item has the primary product's processing baseline. False for most scenes sensed before 2022, finding 28. Null without a join |
+| Quality | `quality_baseline_match` | Whether the joined Level-2A item has the primary product's processing baseline. With Collection 1 tried first, false for most scenes sensed from 2017 to 2021, finding 28. Null without a join |
 | Quality | `detector_footprint` | `MSK_DETFOO`, required to detect oversampled no-data at swath edges, claim Q9 |
 | Quality | `l1c_masks` | Other delivered Level-1C quality masks, where the route has them |
 | Quality | `flag_cloud`, `flag_shadow`, `flag_glint`, `flag_snow_ice`, `flag_sensor` | Derived flags of assumption A2, with `flag_version`. For a primary-product record, derived from the joined Level-2A layers or from the record itself |
@@ -57,12 +57,13 @@ Alternatives include one row per pixel per band and arrays per water body. The f
 Reflectance is a documented derivation from `dn`, `scale`, and `offset`. Whether the store materializes it is a discovery question.
 Prototype checks must establish the conversion for each tested asset convention before trusting metadata with conflicting offset declarations.
 Quality layers have their own grids. Their association with band pixels needs an explicit, tested rule.
-Level-2A quality layers attached to a primary-product record need the same rule at 20 m, test T3.
+Level-2A quality layers attached to a primary-product record need the same rule at 20 m, the Phase C join prototype.
 
 ## Two products for one water body
 
 - A primary-product record and a Level-2A record for the same water body, tile, and sensing time are stored side by side. Neither replaces the other.
 - The join key is the tile, the platform, and the sensing start from the product names, finding 28. The baseline is recorded in `quality_baseline_match`, not required. A failed join leaves `quality_source_product` null and keeps the record.
+- The key identifies a pass, not one item. Preferring a same-baseline item in either collection raises baseline agreement from 51 to 58 percent, finding 28. The join rule is a Phase C decision.
 - A joined Level-2A item can come from another processing of the same pass. Before 2022 its geometry can differ, claims G7 and G8. How its quality layers map onto the product's pixels is open.
 - The modeling team's comparison of the two corrections needs both records for the same pixel. The primary product's 20 m grid matches the Level-2A 20 m grid, finding 26.
 - Where the primary product has no scene, the Level-2A record is the fallback, assumption A47. The accounting counts the missing primary scene.
@@ -94,7 +95,7 @@ How will revision identity preserve separate datastrips, while primary-tile choi
 Questions added 2026-10-13 for probes T1 to T3 of the [replan record](reviews/2026-10-13-acolite-first-replan.md), with their answers:
 Data type, no-data, and scale: signed 16-bit integers, -32768, and a documented factor of 10,000. The CRS is the tile's UTM zone on the Level-2A 20 m grid, finding 26.
 Masking of shoreline and near-land pixels: none in one crop, where flags mark non-water pixels instead, finding 29. Probe T4 decides at scale.
-Join: 92 percent of scenes join on tile, platform, and sensing start. Only 51 percent join to the same baseline, finding 28.
+Join: 92 percent of scenes join on tile, platform, and sensing start. 51 percent join to the same baseline with Collection 1 first, and 58 percent with either collection, finding 28.
 Still open: which quality flags of assumption A2 the primary product alone supports. Also open: how a quality layer from another baseline maps onto its pixels.
 
 ## Not in the contract

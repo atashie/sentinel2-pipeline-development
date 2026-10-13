@@ -1,0 +1,441 @@
+{
+  "reviewer": {
+    "agent": "literature validation reviewer",
+    "model": "sonnet"
+  },
+  "reviewed_at": "2026-10-13T16:20:00-04:00",
+  "verdicts": [
+    {
+      "id": "V-LIT-1",
+      "claim": "W1: The Sen2Cor Level-2A ATBD, issue 2.10, states the processor is not designed for applications over water or coastal regions, and issue 2.10 is still the current ATBD.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://step.esa.int/thirdparties/sen2cor/2.10.0/docs/S2-PDGS-MPC-L2A-ATBD-V2.10.0.pdf",
+          "quote": "The current processing baseline and processor version are not designed for applications over water or on coastal regions. The processor doesn’t contain modules for correction of water surface effects like sunglint.",
+          "locator": "ATBD S2-PDGS-MPC-ATBD-L2A issue 2.10, 2021-11-15, section 1.1 Purpose of the document, Restrictions item 1, page 6/78"
+        },
+        {
+          "source": "https://step.esa.int/thirdparties/sen2cor/2.10.0/docs/S2-PDGS-MPC-L2A-ATBD-V2.10.0.pdf",
+          "quote": "Updated scene classification part in line with Sen2Cor 2.10.0",
+          "locator": "ATBD Change Log, row for issue 2.10 (shows which version the restriction describes)"
+        },
+        {
+          "source": "https://sentiwiki.copernicus.eu/web/document-library",
+          "quote": "[S2-PDGS-MPC-ATBD-L2A] Sentinel-2 Level-2A ATBD 2021 - PDF Read more This ATBD document describes the algorithms implemented in the atmospheric correction processor Sen2Cor.",
+          "locator": "SentiWiki Document Library, Sentinel-2 section, Level-2A ATBD entry (fetched with curl 2026-10-13)"
+        },
+        {
+          "source": "https://sentiwiki.copernicus.eu/web/document-library",
+          "quote": "ISSUE: 2.10 YEAR : 2021",
+          "locator": "Same entry. Its REF field reads S2-PDGS-MPC-ATBD-L1, which looks like a copy error on the page, since its title and bracketed id say Level-2A. The page lists no later Level-2A ATBD issue"
+        },
+        {
+          "source": "https://step.esa.int/main/snap-supported-plugins/sen2cor/sen2cor-v2-13/",
+          "quote": "https://step.esa.int/thirdparties/sen2cor/2.10.0/docs/S2-PDGS-MPC-L2A-ATBD-V2.10.0.pdf",
+          "locator": "STEP Sen2Cor v2.13 page (latest release 2.13.02): its documentation link list points to the 2.10.0 ATBD as the ATBD. Link target, not prose"
+        },
+        {
+          "source": "https://step.esa.int/thirdparties/sen2cor/2.13.0/docs/OMPC.TPZ.SUM.004%20-%20i1r0%20-%20Sen2Cor%202.13.02%20Configuration%20and%20User%20Manual.pdf",
+          "quote": "The prototype implementation for the Level 2A processing of Sentinel-2 imagery over land is a combination of state-of-the-art techniques",
+          "locator": "Sen2Cor 2.13.02 Configuration and User Manual OMPC.TPZ.SUM.004 issue 1.0, section 1.1 Purpose of the document"
+        }
+      ],
+      "reason": "The restriction text is verbatim in issue 2.10, and the SentiWiki library and the STEP 2.13 page both still point to issue 2.10 as the Level-2A ATBD. The 2.13.02 manual describes processing over land, as the claim says. One caveat: the restriction is scoped to the processor version current at issue 2.10 (Sen2Cor 2.10.0, 2021), and no newer ATBD exists to confirm or retire it for 2.13 or baseline 05.13.",
+      "suggested_correction": "Optional wording: say the restriction describes 'the current processing baseline and processor version' at issue 2.10 (Sen2Cor 2.10.0, 2021-11-15). The claim as written is accurate. The record already shows the 2.13 water changes in W3."
+    },
+    {
+      "id": "V-LIT-2",
+      "claim": "W3/R5: Sen2Cor 2.13.01 mitigates an aerosol artifact over water. Baseline 05.13 lists enhanced atmospheric correction over water. ESA activated baseline 05.13 on 21 September 2026.",
+      "verdict": "partially validated",
+      "evidence": [
+        {
+          "source": "https://step.esa.int/thirdparties/sen2cor/2.13.0/docs/OMPC.TPZG.SRN.010%20-%20i1r0%20-%20Sen2Cor%202.13.02%20Software%20Release%20Note.pdf",
+          "quote": "[OMPC-3840] AOT Artefact over water in the S2 L2A data. This perfective maintenance consists in the mitigation of AOT Artefact over water occurring when CAMS AOT data are used to remove the effects of the atmosphere (path radiance) from the measured Top-of-Atmosphere signal.",
+          "locator": "Sen2Cor 2.13.02 Software Release Note OMPC.TPZG.SRN.010, section 3.1.2.3.1 (inside 3.1.2 Release 2.13.01)"
+        },
+        {
+          "source": "https://dataspace.copernicus.eu/news/2026-8-7-introduction-copernicus-sentinel-2-processing-baseline-0513",
+          "quote": "Enhanced atmospheric correction over water through improved use of CAMS aerosol information",
+          "locator": "CDSE news 'Introduction of Copernicus Sentinel-2 Processing Baseline 05.13', 2026-08-07, list of product enhancements (announcement made before deployment)"
+        },
+        {
+          "source": "https://step.esa.int/main/snap-supported-plugins/sen2cor/sen2cor-v2-13/",
+          "quote": "Enhanced atmospheric correction over water through improved use of CAMS aerosol information",
+          "locator": "STEP Sen2Cor v2.13 page, main new features of 2.13.02 relative to 2.12.04"
+        },
+        {
+          "source": "https://sentiwiki.copernicus.eu/__attachments/a_05551f216ff3e0ff859cd12fcc162978f08d70b32eaace391ba2ee5423bdc86b/S2-OMPC.CS.DQR.002.09-2026-i102r0-MSI-L2A-DQR-October-2026.pdf?cb=e04214f3627872643ed8771f787cc7b8",
+          "quote": "On September 21st, 2026, Processing Baseline 05.13 was deployed in operation together with Product Specification Document 15.2",
+          "locator": "Data Quality Report MSI L2A, October 2026, issue 102.0, section 2.1"
+        },
+        {
+          "source": "https://sentiwiki.copernicus.eu/__attachments/a_05551f216ff3e0ff859cd12fcc162978f08d70b32eaace391ba2ee5423bdc86b/S2-OMPC.CS.DQR.002.09-2026-i102r0-MSI-L2A-DQR-October-2026.pdf?cb=e04214f3627872643ed8771f787cc7b8",
+          "quote": "A new Processing Baseline (05.13) has been deployed on September 9th, 2026.",
+          "locator": "Same report, section 1.2 Main points for this month. This contradicts section 2.1 inside one document"
+        },
+        {
+          "source": "https://sentiwiki.copernicus.eu/__attachments/a_05551f216ff3e0ff859cd12fcc162978f08d70b32eaace391ba2ee5423bdc86b/S2-OMPC.CS.DQR.002.09-2026-i102r0-MSI-L2A-DQR-October-2026.pdf?cb=e04214f3627872643ed8771f787cc7b8",
+          "quote": "Mitigation of AOT artefacts over dark surfaces when the fallback retrieval method based on CAMS forecast data is used",
+          "locator": "Same report, section 2.1 list of PB 05.13 improvements. It does not use the words 'over water'"
+        },
+        {
+          "source": "https://sentinels.copernicus.eu/web/sentinel/-/activation-of-copernicus-sentinel-2-processing-baseline-05.13-on-21-september-2026",
+          "quote": "scheduled for 21 September 2026",
+          "locator": "Sentinel Online news dated 2026-09-15 (S23), first paragraph. Forward-looking wording"
+        },
+        {
+          "source": "https://sentinels.copernicus.eu/web/sentinel/-/activation-of-copernicus-sentinel-2-processing-baseline-05.13-on-21-september-2026",
+          "quote": "Products generated from these Datatakes onwards will feature Processing Baseline 05.13.",
+          "locator": "Same news item, after the list of first datatakes. The cutover is by datatake, not by calendar day"
+        }
+      ],
+      "reason": "The 2.13.01 artifact fix is verbatim in the release note, and both the CDSE announcement and the STEP page list the water-correction enhancement. The activation date is supported only by the October data quality report, section 2.1. The cited Sentinel Online notice is a schedule written in the future tense, and section 1.2 of the same report says 9 September. The operational list in the report says AOT artifacts over dark surfaces, not enhanced correction over water.",
+      "suggested_correction": "Reword the date: 'ESA scheduled the 05.13 cutover for 21 September 2026 (S23). The October 2026 Level-2A quality report states deployment on 21 September in section 2.1 and on 9 September in section 1.2. The cutover is by named datatake.' Credit the 'enhanced atmospheric correction over water' wording to the pre-deployment announcement (S22) and the 2.13 STEP page, not to the operational report."
+    },
+    {
+      "id": "V-LIT-3",
+      "claim": "W5/W6: Warren et al. 2019 (doi 10.1016/j.rse.2019.03.018): over inland waters Polymer and C2RCC generally performed best. Sen2Cor had the second-lowest inland median spectral angle, ahead of Acolite. Across all datasets Sen2Cor and l2gen performed worst. Versions: Sen2Cor v2.4.0, Acolite v20170718.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://plymsea.ac.uk/id/eprint/8168/1/1-s2.0-S0034425719301099-main%20%281%29.pdf",
+          "quote": "in two optically diverse coastal regions (Baltic Sea, Western Channel) and from 13 inland waterbodies from 5 European countries",
+          "locator": "Abstract"
+        },
+        {
+          "source": "https://plymsea.ac.uk/id/eprint/8168/1/1-s2.0-S0034425719301099-main%20%281%29.pdf",
+          "quote": "Sen2Cor v2.4.0 (Main-Knorn et al., 2017), Acolite v20170718 (Vanhellemont and Ruddick, 2014)",
+          "locator": "Section 3.1 Atmospheric correction processors"
+        },
+        {
+          "source": "https://plymsea.ac.uk/id/eprint/8168/1/1-s2.0-S0034425719301099-main%20%281%29.pdf",
+          "quote": "that the algorithms performed more similarly over inland waters compared to coastal regions while, generally, Polymer and C2RCC performed the best",
+          "locator": "Section 4.5 Inland match-up analysis"
+        },
+        {
+          "source": "https://plymsea.ac.uk/id/eprint/8168/1/1-s2.0-S0034425719301099-main%20%281%29.pdf",
+          "quote": "For the inland waters C2RCC has the lowest median spectral angle (20.4°), followed by Sen2Cor, iCOR, Polymer, Acolite and l2gen.",
+          "locator": "Section 4.7 Spectral similarity"
+        },
+        {
+          "source": "https://plymsea.ac.uk/id/eprint/8168/1/1-s2.0-S0034425719301099-main%20%281%29.pdf",
+          "quote": "C2RCC, iCOR, Polymer and Acolite out performed l2gen and Sen2cor when taking into account all datasets",
+          "locator": "Section 4.9 Summary discussions, last paragraph before section 5"
+        },
+        {
+          "source": "https://plymsea.ac.uk/id/eprint/8168/1/1-s2.0-S0034425719301099-main%20%281%29.pdf",
+          "quote": "With 50% of the inland match-ups < 0.5 km from the shore",
+          "locator": "Section 5 Conclusions"
+        },
+        {
+          "source": "https://plymsea.ac.uk/id/eprint/8168/1/1-s2.0-S0034425719301099-main%20%281%29.pdf",
+          "quote": "Acolite attained higher R2 in the red and NIR bands",
+          "locator": "Section 4.5. Not in W5 or W6, but it bears on how to read them"
+        },
+        {
+          "source": "https://plymsea.ac.uk/id/eprint/8168/1/1-s2.0-S0034425719301099-main%20%281%29.pdf",
+          "quote": "Acolite 443 163 0.21 0.0033",
+          "locator": "Table A3 inland statistics, page 285. Columns are N, R2, RMSD. Read from the full table: ACOLITE RMSD is lower than Sen2Cor's at 443, 490, 665, 705, and 740 nm and higher at 560, 782, and 865 nm. Sen2Cor's first row is 'Sen2Cor 443 160 0.46 0.0042'"
+        }
+      ],
+      "reason": "Every element of W5 and W6 matches the paper, including the processor versions, the second-place spectral angle for Sen2Cor ahead of Acolite, and the all-datasets result. The 'second-lowest' rank holds for median spectral angle only. In Table A3 the older Acolite (SWIR-NIR aerosol, not dark spectrum fitting) has lower inland RMSD than Sen2Cor in five of eight bands, so the metric chosen decides the order.",
+      "suggested_correction": "None needed. Optionally add to W6: 'By RMSD, Acolite was lower than Sen2Cor at five of eight inland bands (Table A3).' That makes the metric dependence visible."
+    },
+    {
+      "id": "V-LIT-4",
+      "claim": "W7: ACIX-Aqua (Pahlevan et al. 2021, doi 10.1016/j.rse.2021.112366) did not include Sen2Cor. ACOLITE and iCOR performed best for mostly freshwater and turbid or eutrophic waters, with 20 to 30 percent errors in green and red.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://www.vliz.be/imisdocs/publications/379951.pdf",
+          "quote": "We evaluated eight different AC processors applied to Landsat-8 Operational Land Imager (OLI) data and Sentinel-2A/B MultiSpectal Instrument (MSI) images over inland and coastal waters.",
+          "locator": "Introduction (typo 'MultiSpectal' is in the source)"
+        },
+        {
+          "source": "https://www.vliz.be/imisdocs/publications/379951.pdf",
+          "quote": "ACOLITE: Atmospheric Correction for OLI lite; C2X: Case-2 Extreme Waters; GRS: Glint Removal for Sentinel-2; MEETC2: Meet Case 2 waters; POLYMER: POLYnomial based algorithm applied to MERIS",
+          "locator": "Table 2 abbreviation list. With SeaDAS, OC-SMART, and iCOR that makes the eight. A case-insensitive search of the full text for 'Sen2Cor' and 'S2COR' returns zero hits"
+        },
+        {
+          "source": "https://www.vliz.be/imisdocs/publications/379951.pdf",
+          "quote": "suggest that iCOR and ACOLITE outperform other schemes for the diverse, mostly freshwater observations contained within the CVD or in turbid and/or eutrophic ecosystems represented by OWTs 3 through 7.",
+          "locator": "Section 5.2 Matchup assessments"
+        },
+        {
+          "source": "https://www.vliz.be/imisdocs/publications/379951.pdf",
+          "quote": "Overall, the processors like iCOR and ACOLITE that often outperform other schemes for regions represented in CVD achieve 20 to 30% errors in the green and red bands",
+          "locator": "Section 5.2 Matchup assessments"
+        },
+        {
+          "source": "https://www.vliz.be/imisdocs/publications/379951.pdf",
+          "quote": "Among the excluded measurements were in situ measurements in small lakes (e.g., Methods #6 and #9 in Table S1), close to shorelines, or in proximity of man-made objects where AE may have impeded a reliable AC.",
+          "locator": "Section 3.3 Matchup selection"
+        },
+        {
+          "source": "https://www.vliz.be/imisdocs/publications/379951.pdf",
+          "quote": "ACOLITE performed poorly in coastal waters represented in AERONET-OC matchups.",
+          "locator": "Section 5.2. Context for 'best' in W7: it holds for the inland database only"
+        }
+      ],
+      "reason": "The paper lists eight processors without Sen2Cor and states the iCOR and ACOLITE result and the 20 to 30 percent errors in the words W7 uses. The 'best' applies to the inland community database and optical water types 3 to 7, and the same paragraph says ACOLITE did poorly in coastal matchups. The paper's own caveat that small-lake and near-shore matchups were removed is correctly carried into W7.",
+      "suggested_correction": null
+    },
+    {
+      "id": "V-LIT-5",
+      "claim": "W8: Pereira-Sandoval et al. 2019 (Remote Sensing 11, 1469) found Polymer and C2RCC best, and lower visible-band errors for ACOLITE than Sen2Cor in meso- to hypertrophic waters. Shan et al. 2026 (Atmosphere 17, 869) found C2RCC best and Sen2Cor's pooled r2 above ACOLITE's.",
+      "verdict": "partially validated",
+      "evidence": [
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-11-01469/article_deploy/remotesensing-11-01469.pdf",
+          "quote": "Polymer and C2RCC are the processors that give back the best statistics, with coefficients of determination higher than 0.83 and mean average errors less than 0.01.",
+          "locator": "Pereira-Sandoval 2019, Abstract"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-11-01469/article_deploy/remotesensing-11-01469.pdf",
+          "quote": "ACOLITE has lower errors than Sen2Cor does, with MAE between 0.009 to 0.016 and a R2 from 0.21 to 0.87.",
+          "locator": "Pereira-Sandoval 2019, section 4.3. The preceding sentence limits this to the visible bands of water types 2 (mesotrophic to eutrophic) and 3 (hypertrophic)"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-11-01469/article_deploy/remotesensing-11-01469.pdf",
+          "quote": "In this work, we have applied the ACOLITE v.beta. 20180925 processor using the default approach",
+          "locator": "Pereira-Sandoval 2019, section 2, page 8. The default is dark spectrum fitting, the same family as the USGS product. No Sen2Cor version is named"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-11-01469/article_deploy/remotesensing-11-01469.pdf",
+          "quote": "R2 values from 0.02 for iCOR, to 0.34 for Sen2cor",
+          "locator": "Pereira-Sandoval 2019, section 4.1. With all matchups pooled, Sen2Cor has the highest R2 of the weaker group while ACOLITE has its lowest MAE (0.022)"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/atmosphere/atmosphere-17-00869/article_deploy/atmosphere-17-00869.pdf",
+          "quote": "In the pooled-band analysis, C2RCC yielded the most favorable balance of the evaluated metrics for both sensor datasets.",
+          "locator": "Shan 2026, Abstract"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/atmosphere/atmosphere-17-00869/article_deploy/atmosphere-17-00869.pdf",
+          "quote": "FLAASH, Sen2Cor, and 6S achieved r2 values of 0.8662, 0.9046, and 0.8762, respectively (Figure 11b–d).",
+          "locator": "Shan 2026, section 4.3 Overall Band Error Analysis, Sentinel-2 pooled bands"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/atmosphere/atmosphere-17-00869/article_deploy/atmosphere-17-00869.pdf",
+          "quote": "ACOLITE yielded an r2 value of 0.8808 with intermediate error values (Figure 11f).",
+          "locator": "Shan 2026, section 4.3, Sentinel-2 pooled bands"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/atmosphere/atmosphere-17-00869/article_deploy/atmosphere-17-00869.pdf",
+          "quote": "For Sentinel-2 MSI, Sen2Cor achieved the lowest RMSE",
+          "locator": "Shan 2026, section 4.1, independent temporal validation (14 observations, 2024). The abstract says the same: Sen2Cor yielded the lowest Sentinel-2 RMSE and AURE"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/atmosphere/atmosphere-17-00869/article_deploy/atmosphere-17-00869.pdf",
+          "quote": "whereas ACOLITE achieved the highest r2 (0.807) but larger RMSE",
+          "locator": "Same passage"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/atmosphere/atmosphere-17-00869/article_deploy/atmosphere-17-00869.pdf",
+          "quote": "The processor rankings therefore depended on the sensor, band, and evaluation metric.",
+          "locator": "Shan 2026, section 4.3, paragraph after Figure 12"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/atmosphere/atmosphere-17-00869/article_deploy/atmosphere-17-00869.pdf",
+          "quote": "Prior to atmospheric correction, all Sentinel-2 bands evaluated in this study were resampled to a common 10 m grid using the S2 Resampling operator in the Sentinel Application Platform (SNAP, version 13.0).",
+          "locator": "Shan 2026, section 2.2. No Sen2Cor version is named. ACOLITE is 20251013.0"
+        }
+      ],
+      "reason": "The Pereira-Sandoval half is accurate, with ACOLITE's advantage stated for the visible bands of water types 2 and 3. The Shan half is literally true for the pooled bands but selective. The same paper finds Sen2Cor had the lowest Sentinel-2 chlorophyll-a error in its independent validation while ACOLITE had the highest r2 and larger error. Those are the results closest to a modeling use, and they favor Sen2Cor on error.",
+      "suggested_correction": "Replace the Shan sentence with: 'Over two Chinese reservoirs, Shan et al. (2026) found C2RCC had the most favorable pooled-band balance, and Sen2Cor's pooled r2 (0.9046) was above ACOLITE's (0.8808). In the 14-observation independent chlorophyll-a validation, Sen2Cor had the lowest Sentinel-2 RMSE, and ACOLITE had the highest r2 with larger RMSE. The authors state that rankings depended on sensor, band, and metric.'"
+    },
+    {
+      "id": "V-LIT-6",
+      "claim": "Headline of docs/reviews/2026-10-13-phase-b-discovery-ii.md, 'What the literature checks found': the replan input that intercomparisons rank Sen2Cor behind POLYMER, C2RCC, and ACOLITE is not supported as one statement, and the four studies read disagree. Also: was a well-known inland-water intercomparison with both Sen2Cor and ACOLITE missed in a way that would change this?",
+      "verdict": "partially validated",
+      "evidence": [
+        {
+          "source": "https://plymsea.ac.uk/id/eprint/8168/1/1-s2.0-S0034425719301099-main%20%281%29.pdf",
+          "quote": "C2RCC, iCOR, Polymer and Acolite out performed l2gen and Sen2cor when taking into account all datasets",
+          "locator": "Warren 2019 section 4.9. Pooled: Sen2Cor behind all four"
+        },
+        {
+          "source": "https://plymsea.ac.uk/id/eprint/8168/1/1-s2.0-S0034425719301099-main%20%281%29.pdf",
+          "quote": "For the inland waters C2RCC has the lowest median spectral angle (20.4°), followed by Sen2Cor, iCOR, Polymer, Acolite and l2gen.",
+          "locator": "Warren 2019 section 4.7. Inland: Sen2Cor ahead of Polymer and Acolite on this metric"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-11-01469/article_deploy/remotesensing-11-01469.pdf",
+          "quote": "ACOLITE has lower errors than Sen2Cor does, with MAE between 0.009 to 0.016 and a R2 from 0.21 to 0.87.",
+          "locator": "Pereira-Sandoval 2019 section 4.3"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/atmosphere/atmosphere-17-00869/article_deploy/atmosphere-17-00869.pdf",
+          "quote": "whereas ACOLITE achieved the highest r2 (0.807) but larger RMSE",
+          "locator": "Shan 2026, independent validation: Sen2Cor lowest RMSE"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-09-00322/article_deploy/remotesensing-09-00322.pdf",
+          "quote": "In general, Sen2Cor produced the smallest overall RMSE and the best MSI-corrected shape compared with in-situ data",
+          "locator": "Martins 2017, section 4.4 (additional study, see additional_studies)"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-15-05370/article_deploy/remotesensing-15-05370.pdf",
+          "quote": "Compared with the in situ Rrs , it was found that for the DBX, the Sen2Cor processor performed best.",
+          "locator": "Li 2023, Abstract (additional study)"
+        },
+        {
+          "source": "https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2024.1347520/pdf",
+          "quote": "The ACOLITE_DSF atmospheric correction algorithm performs better than the Sen2Cor atmospheric correction (designed for land, but still the only standard Sentinel-2 product for coastal waters) for all spectral bands, for both clear and turbid waters",
+          "locator": "Ruddick 2024, key findings (additional study, coastal sites only)"
+        }
+      ],
+      "reason": "The conclusion holds for the ACOLITE part. These studies and four more I found do not agree on whether ACOLITE beats Sen2Cor over inland water, so decision 0008 cannot rest on a demonstrated accuracy gap. The sentence 'the four studies read disagree' is too broad, because Warren, Pereira-Sandoval, and Shan all put C2RCC (and Polymer where tested) ahead of both Sen2Cor and ACOLITE on their main metrics. The record also omits that the 2026 paper documenting the USGS product could not be read (HTTP 403), so its reported Sen2Cor comparison is unchecked.",
+      "suggested_correction": "Reword the first two bullets: 'Three of the four studies put C2RCC, and Polymer where tested, ahead of both Sen2Cor and ACOLITE on their main metrics. ACIX-Aqua did not test Sen2Cor. The studies disagree on the order of Sen2Cor and ACOLITE, and the order changes with the metric within Warren et al. and within Shan et al.' Add one sentence: 'Ducar et al. (2026), which documents the USGS product, could not be read (HTTP 403) and may contain a direct comparison. Martins et al. (2017) and Li et al. (2023) also compare Sen2Cor with ACOLITE and favor Sen2Cor in their sites.' Keep the decision 0008 paragraph."
+    }
+  ],
+  "additional_studies": [
+    {
+      "citation": "Martins, V.S. et al. (2017). Assessment of Atmospheric Correction Methods for Sentinel-2 MSI Images Applied to Amazon Floodplain Lakes. Remote Sensing 9(4), 322. doi 10.3390/rs9040322",
+      "url": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-09-00322/article_deploy/remotesensing-09-00322.pdf",
+      "includes_sen2cor_and_acolite": true,
+      "scope": "One Sentinel-2A image, four Amazon floodplain lakes, bright and dark. Sen2Cor 2.2.1, ACOLITE 2016.05.20 (SWIR approach), and 6SV.",
+      "findings": [
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-09-00322/article_deploy/remotesensing-09-00322.pdf",
+          "quote": "In general, Sen2Cor produced the smallest overall RMSE and the best MSI-corrected shape compared with in-situ data",
+          "locator": "Section 4.4 Inter-Comparison of Atmospheric Correction Methods"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-09-00322/article_deploy/remotesensing-09-00322.pdf",
+          "quote": "In the visible bands, Sen2Cor and ACOLITE showed quite similar RMSEs for dark lakes",
+          "locator": "Section 5 Conclusions"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-09-00322/article_deploy/remotesensing-09-00322.pdf",
+          "quote": "To run the Sen2Cor algorithm (version 2.2.1)",
+          "locator": "Section 3.3"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-09-00322/article_deploy/remotesensing-09-00322.pdf",
+          "quote": "The algorithm (version 2016.05.20)",
+          "locator": "Section 3.2, ACOLITE"
+        }
+      ],
+      "would_change_conclusion": "It supports 'not one ranking' and goes against ACOLITE-over-Sen2Cor. It is one image and old versions, so it is weak evidence. The research record listed it under not_assessed. The review and best-practices text do not mention it."
+    },
+    {
+      "citation": "Li, W. et al. (2023). Assessment of Seven Atmospheric Correction Processors for the Sentinel-2 Multi-Spectral Imager over Lakes in Qinghai Province. Remote Sensing 15(22), 5370. doi 10.3390/rs15225370",
+      "url": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-15-05370/article_deploy/remotesensing-15-05370.pdf",
+      "includes_sen2cor_and_acolite": true,
+      "scope": "Three Chinese lake classes with in situ Rrs. Sen2Cor V2.11, ACOLITE V20210802, C2RCC, C2XC, iCOR, POLYMER, SeaDAS.",
+      "findings": [
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-15-05370/article_deploy/remotesensing-15-05370.pdf",
+          "quote": "Compared with the in situ Rrs , it was found that for the DBX, the Sen2Cor processor performed best.",
+          "locator": "Abstract (DBX is the turbid class I lake)"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-15-05370/article_deploy/remotesensing-15-05370.pdf",
+          "quote": "ACOLITE V20210802 [25]; C2RCC V1.1 [33]; C2XC V1.1, iCOR V3.0 [27]; POLYMER V4.13 [16]; SeaDAS/l2gen V8.2 [46]; Sen2Cor V2.11 [47].",
+          "locator": "Section 2.3.2"
+        },
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-15-05370/article_deploy/remotesensing-15-05370.pdf",
+          "quote": "The Sen2Cor processor performed best for turbid waters, such as the Dabusun Lake, and its performance was poor for clean water.",
+          "locator": "Conclusions"
+        }
+      ],
+      "would_change_conclusion": "It supports the review's conclusion and goes further: Sen2Cor was best in the turbid lake, with ACOLITE also scoring above 1, and poor in clean lakes. It also names Sen2Cor 2.11, newer than any version in the studies the record read. It was not mentioned. The PDF text layer is duplicated, so I quoted only clean passages."
+    },
+    {
+      "citation": "Ruddick, K.G. et al. (2024). WATERHYPERNET: a prototype network of automated in situ measurements of hyperspectral water reflectance for satellite validation and water quality monitoring. Frontiers in Remote Sensing 5. doi 10.3389/frsen.2024.1347520",
+      "url": "https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2024.1347520/pdf",
+      "includes_sen2cor_and_acolite": true,
+      "scope": "155 Sentinel-2 matchups at two coastal sites, an Adriatic tower and the Belgian coast. Not inland. Sen2Cor L2A taken from the Google Earth Engine archive, no version named. The first author is from the institute that developed ACOLITE, so it is not an independent comparison of ACOLITE.",
+      "findings": [
+        {
+          "source": "https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2024.1347520/pdf",
+          "quote": "The ACOLITE_DSF atmospheric correction algorithm performs better than the Sen2Cor atmospheric correction (designed for land, but still the only standard Sentinel-2 product for coastal waters) for all spectral bands, for both clear and turbid waters",
+          "locator": "Key findings after Figure 6"
+        },
+        {
+          "source": "https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2024.1347520/pdf",
+          "quote": "For the ACOLITE_DSF processor, without sunglint correction, results are improved somewhat compared to Sen2Cor with reduction of the positive bias (MD) at all bands",
+          "locator": "Section 5.1"
+        }
+      ],
+      "would_change_conclusion": "It favors ACOLITE-DSF over Sen2Cor, but over coastal water, not inland. It supports decision 0008 only weakly and does not contradict the review."
+    },
+    {
+      "citation": "Ducar, S.D. et al. (2026). Aquatic reflectance derived from Sentinel-2 Multispectral Imager data for inland waters in the conterminous United States. Limnology and Oceanography Letters 11(2), e70112. doi 10.1002/lol2.70112",
+      "url": "https://doi.org/10.1002/lol2.70112",
+      "includes_sen2cor_and_acolite": "unverified",
+      "scope": "This paper documents the USGS ACOLITE product itself. Its full text returned HTTP 403 to curl and WebFetch, no open repository copy exists (OpenAlex), and the Chrome extension was not connected. Its Crossref abstract names neither Sen2Cor nor a validation.",
+      "findings": [],
+      "would_change_conclusion": "Unknown. One web-search summary said its validation table compares ACOLITE with Sen2Cor and shows ACOLITE better, citing band-1 numbers. I could not confirm that against the paper, so I do not rely on it. Its authors include the ACOLITE developer and the product's USGS authors, so it is not an independent comparison. A human with publisher access should read its technical validation section before decision 0008 is cited as evidence-based."
+    },
+    {
+      "citation": "Ilori, C.O., Pahlevan, N., Knudby, A. (2019). Analyzing Performances of Different Atmospheric Correction Techniques for Landsat 8: Application for Coastal Remote Sensing. Remote Sensing 11(4), 469. doi 10.3390/rs11040469",
+      "url": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-11-00469/article_deploy/remotesensing-11-00469.pdf",
+      "includes_sen2cor_and_acolite": false,
+      "scope": "Landsat 8, four processors (ARCSI, ACOLITE, LaSRC, SeaDAS), coastal AERONET-OC. The text contains no 'Sen2Cor'.",
+      "findings": [
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-11-00469/article_deploy/remotesensing-11-00469.pdf",
+          "quote": "Recognizing that the AERONET-OC sites are not representative of inland waters",
+          "locator": "Abstract"
+        }
+      ],
+      "would_change_conclusion": "No. It does not test Sen2Cor, Sentinel-2 Level-2A, or inland water."
+    },
+    {
+      "citation": "Renosh, P.R. et al. (2020). Evaluation of Atmospheric Correction Algorithms for Sentinel-2-MSI and Sentinel-3-OLCI in Highly Turbid Estuarine Waters. Remote Sensing 12(8), 1285. doi 10.3390/rs12081285",
+      "url": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-12-01285/article_deploy/remotesensing-12-01285.pdf",
+      "includes_sen2cor_and_acolite": false,
+      "scope": "Gironde Estuary, four Sentinel-2 processors. The text contains no 'Sen2Cor'.",
+      "findings": [
+        {
+          "source": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-12-01285/article_deploy/remotesensing-12-01285.pdf",
+          "quote": "Acolite DSF and iCOR (image correction for atmospheric effects) are identified as the best performing AC algorithms among the tested AC algorithms (Acolite DSF, iCOR, Polymer and C2RCC (case 2 regional coast color)) for S2-MSI.",
+          "locator": "Abstract"
+        }
+      ],
+      "would_change_conclusion": "No for Sen2Cor, since it was not tested. It does add estuarine support for ACOLITE DSF among water-specific processors, consistent with ACIX-Aqua."
+    },
+    {
+      "citation": "Liu, C. et al. (2024). Evaluation of atmospheric correction algorithms for salt lake water assessment: Accuracy, band-specific effects, and sensor consistency. PLoS ONE 19(12), e0315837. doi 10.1371/journal.pone.0315837",
+      "url": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0315837&type=printable",
+      "includes_sen2cor_and_acolite": "Sen2Cor appears only as the reference product, not as a compared method",
+      "scope": "Ebinur Lake, 10 field spectra, FLAASH, QUAC, 6S, ACOLITE DSF and EXP.",
+      "findings": [
+        {
+          "source": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0315837&type=printable",
+          "quote": "Sentinel 2 reflectance product data (atmospheric correction algorithm is Sen2cor)",
+          "locator": "Section 3, used as a consistency reference"
+        },
+        {
+          "source": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0315837&type=printable",
+          "quote": "Compared with the measured hyperspectral data, the atmospheric correction accuracy of Acolite-DSF is superior to FLAASH, QUAC, 6S, and Acolite-EXP.",
+          "locator": "Conclusions"
+        }
+      ],
+      "would_change_conclusion": "No. Sen2Cor was not scored against the field spectra."
+    },
+    {
+      "citation": "Allam, M. et al. (2024). Atmospheric Correction Algorithms Assessment for Sentinel-2A Imagery over Inland Waters of China: Case Study, Qiandao Lake. Earth Systems and Environment. doi 10.1007/s41748-023-00366-w",
+      "url": "https://doi.org/10.1007/s41748-023-00366-w",
+      "includes_sen2cor_and_acolite": "unverified",
+      "scope": "Springer redirected to a cookie handshake and Crossref has no abstract. A search summary said ACOLITE and iCOR were best and Sen2Cor was worse. I did not verify it.",
+      "findings": [],
+      "would_change_conclusion": "Unknown. Listed so a human can check it with publisher access."
+    }
+  ],
+  "limitations": [
+    "Every quote in this file was machine-checked as a substring of text I extracted myself with pdftotext or curl (whitespace and hyphenated line breaks normalized). Two runs of the check are in the scratchpad. The Li et al. PDF has an overlapping text layer, so I quoted only passages that extracted cleanly.",
+    "Ducar et al. (2026), the paper that documents the USGS product, was not readable. Wiley returned 403 to curl and WebFetch, OpenAlex shows no repository copy, and the Chrome extension was not connected. I did not try to get around the block. V-LIT-6 is therefore incomplete on the single most relevant paper.",
+    "The Qiandao Lake paper (Allam et al. 2024) was not read. Its publisher page needs a cookie handshake and Crossref has no abstract.",
+    "Web search was used only to find candidate papers. Its summaries are not evidence, and two of them disagreed with each other about Ducar et al. I rely on none of those summaries.",
+    "The activation date of baseline 05.13 rests on one report section. I did not query the Earth Search or CDSE catalogs for 05.13 items sensed on or after 21 September 2026, because that is a provider contact outside this review.",
+    "I checked claims W1, W3, W5 to W8, R5, and the review headline only. I did not check W2, W4, or W9 to W11, and I did not re-audit the check records in water-correction-checks.json.",
+    "I could not tell from the papers whether Warren, Pereira-Sandoval, and Shan ran Sen2Cor with default or tuned settings. Only Warren (2.4.0) names a version, so none of the studies speaks for Sen2Cor 2.12, 2.13, or baseline 05.13.",
+    "WATERHYPERNET's first author belongs to the institute behind ACOLITE, and Ducar et al. include the ACOLITE developer. Neither is independent evidence for ACOLITE over Sen2Cor.",
+    "The Table A3 comparison of ACOLITE and Sen2Cor RMSD in Warren et al. is my reading of the table text from the layout extraction, not a statement of the authors."
+  ]
+}

@@ -33,6 +33,15 @@ The owner's eight directions and the inputs to recheck are in the [replan record
 - The cost analysis is re-parameterized after the header probe and the access replay.
 - The Alaska pilot region leaves the primary scope and stays as a Level-2A-only case.
 
+## Evidence after Phase B, 2026-10-13
+
+This note records evidence that arrived after the decision. It changes no provision. The owner has not reviewed it.
+
+- Phase B confirmed the primary product's documented facts with check records and probes T1 to T3, [record](../reviews/2026-10-13-phase-b-discovery-ii.md).
+- The decision rests on Sen2Cor's design statement and land-only validation, claims W1 and R3 in [s2-best-practices.md](../s2-best-practices.md), and on the product's availability.
+- The peer-reviewed comparisons read do not show ACOLITE consistently ahead of Sen2Cor over inland water, claims W5 to W8. ESA's baseline 05.13 adds water-specific aerosol changes, claim W3.
+- The documented processor version does not match the probed settings files, measurement finding 26.
+
 ## Review triggers
 
 - The header probe shows that the product masks shoreline or near-land pixels, or uses an encoding that breaks the integer-plus-conversion contract.

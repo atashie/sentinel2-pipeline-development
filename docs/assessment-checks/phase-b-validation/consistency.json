@@ -1,0 +1,298 @@
+{
+  "reviewer": {
+    "agent": "consistency and overclaim reviewer",
+    "model": "sonnet"
+  },
+  "reviewed_at": "2026-10-13T16:25:00-04:00",
+  "commit_reviewed": "4e89ea2",
+  "verdicts": [
+    {
+      "id": "V-CON-1",
+      "claim": "No document overclaims. 'Designed for land' is supported by W1 and R3, and no page implies ACOLITE is more accurate than Sen2Cor for these waters.",
+      "verdict": "partially validated",
+      "findings": [
+        {
+          "file": "docs/s2-options.html (template tools/s2-options.template.html:674 and :592)",
+          "location": "Discovery 03 QUALITY, first risk, and the 02 ACCESS comparison table, Correction row",
+          "text": "Earth Search’s correction was designed and validated for land.  /  ESA’s Sen2Cor, designed and validated for land",
+          "problem": "W1 supports 'not designed for applications over water or coastal regions' (ATBD issue 2.10) plus the manual 'describes processing of imagery over land'. R3 supports 'validated at vegetation, arid, forest, and agricultural sites, no inland water site'. 'Designed for land' is not a bound claim in W1 to W11. It appears only in a check-record note about one study (water-correction-checks.json, checks[16]). The correction is ESA's Sen2Cor, not Earth Search's, so 'Earth Search’s correction' misattributes it. The adjacent issue bullet already uses the supported wording ('its makers did not design for water'), so the same panel says two different things. Inventory I-31's title ('A land processor corrects the water pixels...') repeats the stronger form.",
+          "suggested_fix": "Write: 'ESA’s Sen2Cor, the processor behind Earth Search, is documented as not designed for water. ESA validates it at land sites only.' Use the same wording in the table row and in the I-31 title."
+        },
+        {
+          "file": "docs/s2-options.html:685 (issue text from docs/options-inventory.json I-31 plain); also :669",
+          "location": "Discovery 03 QUALITY, atmospheric correction, 'Our approach' and issue bullets; 02 ACCESS source note",
+          "text": "Earth Search's surface reflectance comes from a processor its makers did not design for water. Its accuracy over small water bodies is unknown.  /  No USGS pixel value has been compared yet.",
+          "problem": "The tab states the unknown for Sen2Cor and is silent on ACOLITE. It carries none of W5 to W8 (the four intercomparisons do not rank ACOLITE consistently ahead of Sen2Cor), and no statement that neither correction is tested on ponds. Beside the cards 'Corrected for water' and 'Use the USGS product for water pixels', the reader infers an accuracy advantage that section 5, P10, P16, I-31 text and the Phase B record say is not shown. The honest wording exists only in I-31 'text' (not rendered), P10, P16, and the record.",
+          "suggested_fix": "Add one sentence to the lead risk: 'Peer-reviewed comparisons over inland water do not rank ACOLITE consistently ahead of Sen2Cor, and neither correction is tested on ponds. The choice rests on design intent and availability.' Render it from I-31 text or add it to I-31 plain."
+        },
+        {
+          "file": "docs/s2-options.html:683-685 (template :674); docs/s2-best-practices.md W3",
+          "location": "Discovery lead risk versus claim W3",
+          "text": "Earth Search’s surface reflectance comes from a processor its makers did not design for water.",
+          "problem": "Present-tense claim ignores W3: Sen2Cor 2.13.01 mitigates an aerosol artifact over water, and baseline 05.13 and Sen2Cor 2.13.02 list enhanced atmospheric correction over water (05.13 active 2026-09-21). The ATBD design statement is about issue 2.10. The Phase B record lists W3 but neither weighs it against the rationale nor puts it on the page. grep of the Discovery text finds no '05.13', '2.13', or 'CAMS'.",
+          "suggested_fix": "Add 'ESA's baseline 05.13, active since 2026-09-21, adds water-specific aerosol changes. No study has tested them.' or date the design statement to ATBD issue 2.10."
+        },
+        {
+          "file": "docs/s2-options.html:669 (template tools/s2-options.template.html:660, token AQR_TILE_PREFIXES)",
+          "location": "Discovery 02 ACCESS, source note",
+          "text": "Measured: USGS file headers across 1,340 tile folders, the USGS coverage and join survey, ...",
+          "problem": "T1 listed 1,340 tile prefixes but read GeoTIFF headers for 39 files of 3 scenes in 2 tiles (17SKU, 10SGJ). aqr-headers.json: summary.tile_prefixes 1340, scenes_probed 3, geotiffs_probed 39. The sentence says headers were read across all folders.",
+          "suggested_fix": "Write: 'Measured: the USGS bucket layout (1,340 tile folders) and file headers of three scenes, ...'."
+        },
+        {
+          "file": "docs/measurements.md:649; docs/reviews/2026-10-13-phase-b-discovery-ii.md:59; docs/options-inventory.json PR-09 result; docs/data-contract.md band row; docs/s2-options.html:479 (template :479)",
+          "location": "Finding 26, record 'What the probes found', PR-09, contract `band`, Discovery 01 Product row",
+          "text": "Each scene is 14 objects: bands B01 to B08, B8A, B11, and B12, an NDWI layer, an `l2_flags` layer, and a settings text file.  /  with eleven bands on one 20 m grid and no B9 or B10.",
+          "problem": "Derived from 3 probed scenes. Finding 27 (measurements.md:682, same document) reports 586 of 19,336 scenes lack the 14-object set (488 only B06 and settings, 97 only settings, 1 only B06) and 16 scenes add a B10 band. 'Each scene' and 'no B9 or B10' contradict the survey that followed. aqr-coverage.json layer_sets: 18,734 full sets.",
+          "suggested_fix": "Write 'The three probed scenes each hold 14 objects. 18,734 of 19,336 listed scenes do, 586 are incomplete, and 16 add B10.' Change the Discovery cell to 'eleven bands in nearly every scene'."
+        },
+        {
+          "file": "docs/s2-options.html:592 and :707 (template :592, :698); docs/options-inventory.json I-34",
+          "location": "Discovery Correction row and 'processing change' risk",
+          "text": "ACOLITE dark spectrum fitting, one processor version for the whole record  /  The water product pins one processor version while its input versions keep changing.",
+          "problem": "The version is documented (claim source_dataset: 'Sentinel-2A and 2B ... ACOLITE 20221114.0'), not measured. The three settings files state no version (aqr-headers.json settings_selected acolite_version null). The documented period ends 2024-12-23 and names only S2A and S2B, yet T2 found 1,844 Sentinel-2C scenes and scenes through 2026, and the inventory's own open question says ACOLITE 20221114.0 ships no S2C defaults file. The tension is not reconciled anywhere. The page states a pin as fact.",
+          "suggested_fix": "Write 'USGS documents ACOLITE 20221114.0 for the record. The scene settings files name no version, and the bucket holds Sentinel-2C scenes the documentation does not list.' Add the S2C question to the carried-forward list."
+        },
+        {
+          "file": "docs/s2-options.html:594 (template :594); docs/measurements.md:684; docs/reviews/2026-10-13-phase-b-discovery-ii.md:63; docs/options-inventory.json PR-10",
+          "location": "Discovery 02 table 'Why use it?'; finding 27; record; PR-10",
+          "text": "New scenes arrived a median 8 hours after sensing in recent months.  /  Recent scenes appear a median 0.33 days after sensing.",
+          "problem": "benchmarks/results/aqr-coverage.json limitations and gap-survey-plan.md ('Scenes not yet published are absent, so it is biased low') both carry the caveat. It was dropped from finding 27, the record, PR-10, and the page. The metric is the first object's last-modified time, not full-scene arrival. P90 3.76 days and max 18.93 days are omitted. 'In recent months' is a relative date.",
+          "suggested_fix": "Write 'For 784 scenes sensed from 2026-06-15 and already published, the first object appeared a median 0.33 days (8 hours) after sensing, 90th percentile 3.76 days. Unpublished scenes are absent, so this is biased low.'"
+        },
+        {
+          "file": "docs/measurements.md:701",
+          "location": "Finding 29",
+          "text": "B04 holds 45 negative values. Source: `aquatic_reflectance.present_fraction` in the map provenance, and the cached arrays.",
+          "problem": "present_fraction is 1.0 and no negative-pixel count exists in docs/assets/discovery/provenance.json. The cached arrays are under data/ (not committed). The number has no committed source, against the rule that measurement numbers cite a result file.",
+          "suggested_fix": "Record the per-band negative counts in the provenance JSON and cite them, or drop the number."
+        }
+      ],
+      "reason": "No page states ACOLITE is more accurate, and section 5, P10, P16, I-31 text, and the record are honest about the literature. 'Designed for land' is a mild stretch of W1 and R3 and misattributed to Earth Search. The larger problems are one-sided framing on the rendered tab, omitted W3, and generalizations from three scenes or one crop stated as properties of the product."
+    },
+    {
+      "id": "V-CON-2",
+      "claim": "The numbers agree everywhere they appear: 41 to 61 percent, 92 and 51 percent, 0.33 days or 8 hours, 19,336 scenes, 24 tiles, 1,340 tile prefixes, 36 or 64 percent flagged.",
+      "verdict": "partially validated",
+      "findings": [
+        {
+          "file": "docs/s2-options.html:669",
+          "location": "Discovery 02 source note",
+          "text": "Measured: USGS file headers across 1,340 tile folders",
+          "problem": "The value 1,340 matches measurements.md, PR-09, and aqr-headers.json, but it counts bucket prefixes, not folders whose headers were read (3 scenes). See V-CON-1.",
+          "suggested_fix": "Describe 1,340 as the count of tile prefixes listed."
+        },
+        {
+          "file": "docs/measurements.md:649 versus :682",
+          "location": "Findings 26 and 27",
+          "text": "Each scene is 14 objects  /  586 scenes lack the 14-object set. ... 16 scenes add a B10 band.",
+          "problem": "Two counts of what a scene holds disagree inside one document, and 'eleven bands' is repeated unqualified in A3, the contract, and the Discovery tab.",
+          "suggested_fix": "Scope finding 26 to the three probed scenes and cite 18,734 of 19,336 for the full set."
+        },
+        {
+          "file": "docs/options-inventory.json I-32 title and text; docs/data-contract.md:45; docs/assumptions.md A46 and A47; docs/s2-options.html:573, :695, :697; inventory claim cl-ar-usgs-acolite-aqr-quality_layers",
+          "location": "What the primary product lacks",
+          "text": "The primary product has no cloud, shadow, or snow layer (I-32 title, contract)  /  No layer marks cloud shadow or snow (I-32 text)  /  lacks cloud-shadow and snow layers (A47)  /  absent cloud layer (A46)  /  No cloud, shadow, or glint layer is listed (claim)",
+          "problem": "Five phrasings of one fact. Cloud is dropped in A47 and the Discovery tab but kept in the I-32 title and the contract. Snow is in some and glint in the claim. The flags layer marks bright top-of-atmosphere and cirrus, which the title and contract ignore. The two-source join depends on exactly which flags are missing.",
+          "suggested_fix": "Use one sentence everywhere: 'The product has no dedicated cloud, cloud-shadow, or snow layer. Its flags mark non-water, cirrus, bright, and negative pixels.' Link to finding 26 for the list."
+        },
+        {
+          "file": "docs/measurements.md:661",
+          "location": "Finding 27, first sentence",
+          "text": "It found 19,336 scenes and 18,384 acquisitions on every tile.",
+          "problem": "Reads as if each tile holds 19,336 scenes. The source is summary.tiles_with_scenes = 24, summary.scenes = 19,336.",
+          "suggested_fix": "Write 'It found 19,336 scenes and 18,384 acquisitions on the 24 tiles, and every tile holds scenes.'"
+        },
+        {
+          "file": "docs/measurements.md:662; docs/s2-options.html coverage strip; docs/options-inventory.json I-40",
+          "location": "'From 2018' cut-off",
+          "text": "Earth Search lists no acquisition on these tiles before 2017. From 2018 to 2026 the product holds 41 to 61 percent of the acquisitions any Earth Search collection lists.",
+          "problem": "The strip on the same page shows 71 to 98 percent in 2017 (for example 2017-07 at 97 percent of 162 acquisitions). The table starts at 2018 and the 2017 share is never stated or explained, so 'about half' meets a chart that shows near-complete 2017 coverage.",
+          "suggested_fix": "Add the 2017 row or one sentence explaining why 2017 is excluded."
+        }
+      ],
+      "reason": "Recomputed from benchmarks/results/aqr-coverage.json and provenance.json, every quoted value matches across documents: yearly shares 44, 43, 41, 44, 56, 61, 56, 59, 51 percent (min 41, max 61); join 17,816 of 19,336 = 92.1 percent and exact baseline 9,953 of 19,336 = 51.5 percent; 0.33 days = 7.9 hours; 24 tiles; 1,340 prefixes (997 in zones 10 to 19, 343 outside); 58,009 of 160,000 cells unflagged = 36.3 percent and 101,991 flagged = 63.7 percent (I-35 says 64, PR-11 and finding 29 say 36). The disagreements are in what the numbers count and in how the layer gap is worded, not in the values."
+    },
+    {
+      "id": "V-CON-3",
+      "claim": "The documents agree on Alaska (documented conterminous US, yet bucket scenes exist), on masking (one crop shows values with flags, T4 decides), and on the join key (tile, platform, sensing start, baseline recorded not required).",
+      "verdict": "partially validated",
+      "findings": [
+        {
+          "file": "docs/s2-options.html:685; docs/options-inventory.json I-35 title and plain; CLAUDE.md:143",
+          "location": "Masking in the rendered Discovery tab, I-35, and the CLAUDE.md gotcha",
+          "text": "The water-focused product keeps values for land and shoreline pixels and marks them with a flag. A reader must check the flag before using a value.  /  Land pixels carry values, flagged.  /  Its flags mark non-water, bright, and negative pixels.",
+          "problem": "The contract (mask_reason), A46, finding 29, PR-11, and the provenance limitations all say 'one crop' and 'probe T4 decides'. The Discovery issue, the I-35 title ('The processor flags non-water pixels instead of removing them'), and the CLAUDE.md gotcha state it as a property of the product. Shoreline pixels being flagged was not measured, since shoreline classes need the pilot polygons (T4). The flag meanings come from the settings file's exponents and are 'observed, not documented' (record, Limits). Claim quality_layers-5 notes no page says how masked pixels are stored.",
+          "suggested_fix": "Open each statement with 'In the one crop read,' and add 'Probe T4 measures this on the pilot lakes.' Drop 'shoreline' from the Discovery bullet until T4 runs."
+        },
+        {
+          "file": "docs/decisions/0008-acolite-aquatic-reflectance-first.md:34; docs/work-plan.md:71; docs/s2-options.html (no mention); docs/data-contract.md (no mention); docs/measurements.md:101-106",
+          "location": "Alaska scope",
+          "text": "The Alaska pilot region leaves the primary scope and stays as a Level-2A-only case.  /  Alaska is a Level-2A-only case under decision 0008.",
+          "problem": "A4, I-33, PR-10, finding 27, the record, and examples/README agree on the facts (documented conterminous US, Alaska tile 05VLG holds scenes). Two links are missing. First, 'Level-2A-only' reads as a data limit, but the bucket holds 05VLG scenes sensed from 2015-11-15, so it is a scope choice. Second, 05VLG is the Alaska tile that finding 3 shows absent from every Earth Search collection for 52 months (1,162 acquisitions), so the scope choice leaves the one tile with a Level-2A hole where the primary bucket has scenes. No document says this. Also 343 of 1,340 tile prefixes lie outside UTM zones 10 to 19 and only 05VLG was sampled, so 'Alaska scenes' understates the unassessed holdings. The Discovery tab never mentions bucket scenes outside the lower 48.",
+          "suggested_fix": "Add the 05VLG cross-reference to I-33 and A4, state that Alaska is a scope choice the owner can reopen, and name the 343 outside-zone prefixes as unassessed in the Discovery expansion paragraph."
+        },
+        {
+          "file": "docs/data-contract.md:60",
+          "location": "Contract, closing paragraph before 'Two products for one water body'",
+          "text": "Level-2A quality layers attached to a primary-product record need the same rule at 20 m, test T3.",
+          "problem": "T3 ran and settled the join key, not the pixel association. The open item is the Phase C join prototype. The sentence reads as if T3 is pending.",
+          "suggested_fix": "Replace 'test T3' with 'the Phase C join prototype'."
+        }
+      ],
+      "reason": "Join key: consistent in the contract (Two products, quality_source_product, quality_baseline_match), finding 28, A47, F-28, I-32, C-09, gap-survey-plan, and the Discovery processing step ('tile, satellite, and sensing start ... Record whether the processing versions match'). Only the replan record's T3 row says 'tile, sensing time, and baseline', which is a plan. Alaska: consistent in substance, with the two missing links above. Masking: qualified everywhere except the rendered tab, I-35, and one CLAUDE.md sentence."
+    },
+    {
+      "id": "V-CON-4",
+      "claim": "No statement that predates Phase B and is now wrong remains.",
+      "verdict": "partially validated",
+      "findings": [
+        {
+          "file": "CLAUDE.md:119",
+          "location": "Conventions list",
+          "text": "decision 0008). Its facts are `unverified` until Phase B. Earth Search Level-2A is supplementary:",
+          "problem": "Phase B ran on 2026-10-13. Agents read this file first. It tells them the primary product's facts are unverified, while the same file says Phase B bound them and findings 26 to 29 exist.",
+          "suggested_fix": "Write 'Its facts are `documented` with check records or `measured` by probes T1 to T3 as of 2026-10-13. Pixel behavior stays `unverified` until T4.'"
+        },
+        {
+          "file": "docs/decisions/0008-acolite-aquatic-reflectance-first.md:17",
+          "location": "Decision, Primary source bullet",
+          "text": "Its facts are `unverified` until check records and the T1 to T3 probes confirm them.",
+          "problem": "The check records and T1 to T3 exist. The decision is active and linked from every index.",
+          "suggested_fix": "Add a dated note: 'Phase B confirmed them on 2026-10-13, record linked.' Keep the original sentence as history."
+        },
+        {
+          "file": "docs/work-plan.md:71",
+          "location": "Step 2: selection, open item",
+          "text": "Fill policy for each Level-2A data gap. Alaska is a Level-2A-only case under decision 0008. The primary product's gaps await test T2.",
+          "problem": "T2 ran. Finding 27 and I-40 measure the primary product's gaps.",
+          "suggested_fix": "Replace with 'The primary product's gaps are measured in finding 27. The fill policy awaits the Phase C join prototype.'"
+        },
+        {
+          "file": "docs/reviews/2026-10-13-phase-b-discovery-ii.md:4",
+          "location": "Record status line",
+          "text": "Nothing is committed.",
+          "problem": "HEAD 4e89ea2 contains this record, the probes, and the Discovery rewrite. Either the commit followed the record or the record was committed without the owner's authorization noted. Either way the line is now false.",
+          "suggested_fix": "Update the status line to name the commit and the authorization, or remove the sentence."
+        },
+        {
+          "file": "docs/s2-options.html Prototyping tab (grep: zero occurrences of 'Level-2A'; one 'Earth Search'); docs/decisions/0008-acolite-aquatic-reflectance-first.md:32; docs/aws-cost-analysis.md (no re-scope note)",
+          "location": "Prototyping tab and cost report",
+          "text": "Use Earth Search to identify products and band files. Collection 1 is the first choice, with the older copy for gaps.  /  decision 0008: Every measured number on the page is relabeled as the Level-2A series until the ACOLITE replay exists.",
+          "problem": "The decision's relabeling consequence is not applied. A reader leaving the Discovery tab (primary is the USGS product) meets Prototyping results, takeaways, and dollar costs with no statement that they describe Earth Search Level-2A, the supplementary source. CLAUDE.md and README say so, the page does not.",
+          "suggested_fix": "Add a one-line banner to the Prototyping tab and the cost report: 'Measured on Earth Search Level-2A files, the reference series. Phase C repeats the tests on the primary product.'"
+        },
+        {
+          "file": "docs/assumptions.md:76",
+          "location": "ACOLITE-first re-scope section intro",
+          "text": "Every fact about the primary product stays `unverified` until a check record or a probe confirms it.",
+          "problem": "Conditional and still a valid rule, but it sits above rows A46 to A51 that cite Phase B findings, so it reads as an unchanged Phase A sentence.",
+          "suggested_fix": "Write 'Primary-product facts carry `documented` or `measured` where Phase B confirmed them. The rest stay `unverified`.'"
+        },
+        {
+          "file": "docs/options-inventory.json claim cl-ar-usgs-acolite-aqr-raw_pixel_access note; candidate ar-usgs-acolite-aqr questions",
+          "location": "Inventory claim notes and candidate questions",
+          "text": "This assessment has not tested it. Phase B probes the bucket.  /  Does DSF run in tiled or fixed aerosol mode? ... Are Sentinel-2C scenes processed ...? ... How long after sensing does a scene appear?",
+          "problem": "Disclosed in the record's Limits, but these questions are now answered by findings 26 and 27 and still render as open. The raw_pixel_access note predates the one crop that did window-read the bucket.",
+          "suggested_fix": "Mark answered questions with the finding number, or regenerate `questions_open` from the checks."
+        },
+        {
+          "file": "README.md:3",
+          "location": "Header paragraph",
+          "text": "Phase B probed the primary product's layout, coverage, and join with metadata only.",
+          "problem": "True for T1 to T3, but Phase B also read one pixel crop. CLAUDE.md says so. README does not.",
+          "suggested_fix": "Add 'and one authorized pixel crop'."
+        }
+      ],
+      "reason": "The named examples were mostly fixed. 'Nothing measured describes the primary product' is gone. 'Nine new issues' survives only in the dated replan plan and is corrected to ten in the record and the inventory. Gap-survey-plan and the contract describe Earth Search as supplementary. The 'unverified until' wording survives in CLAUDE.md and decision 0008, and four other stale items remain."
+    },
+    {
+      "id": "V-CON-5",
+      "claim": "The documents follow the writing rules: no semicolons, no 'should', descriptive sentences of 25 words or fewer, ISO dates, colleagues by role, no customer or vendor names beyond data providers.",
+      "verdict": "partially validated",
+      "findings": [
+        {
+          "file": "docs/s2-best-practices.md:97",
+          "location": "Claim W8",
+          "text": "Over Valencia lakes and reservoirs, Pereira-Sandoval et al. (2019) found Polymer and C2RCC best, and lower visible-band errors for ACOLITE than for Sen2Cor in meso- to hypertrophic waters.",
+          "problem": "28 words by whitespace count in one descriptive sentence. The Phase B record (line 53) claims its scan found no sentence over 25 words. The scan probably split at 'et al.'.",
+          "suggested_fix": "Split after 'best.' and start a second sentence 'It found lower visible-band errors for ACOLITE than for Sen2Cor in meso- to hypertrophic waters.' Fix the scan's abbreviation handling."
+        },
+        {
+          "file": "docs/work-plan.md:233",
+          "location": "Phase D list item",
+          "text": "Offset pixel check on Level-2A, issue I-05, and the recheck of the 05.10 release note against claim R5, carried from the former stage 5.",
+          "problem": "27 words. Added in the committed range 84a4a7e..4e89ea2.",
+          "suggested_fix": "Split into two items."
+        },
+        {
+          "file": "docs/s2-options.html:594; docs/gap-survey-plan.md:16 and :40; docs/measurements.md:659",
+          "location": "Relative dates",
+          "text": "New scenes arrived a median 8 hours after sensing in recent months.  /  a reference count of what ESA lists today  /  and recent scenes arrive within hours",
+          "problem": "Rules: no relative dates. Each needs a date or a window.",
+          "suggested_fix": "Write 'for scenes sensed from 2026-06-15' and 'what ESA lists on 2026-10-13'."
+        },
+        {
+          "file": "docs/s2-best-practices.md:53 (R5), :92 (W3), :99 (W10)",
+          "location": "Date format",
+          "text": "ESA activated baseline 05.13 on 21 September 2026, claim W3.  /  OpenJPEG 2.5.3, released in December 2024",
+          "problem": "Dates are ISO 8601. The record states the same fact as 2026-09-21. Older rows (G7, G8, R1) use the long form, so the new rows copy a prior violation.",
+          "suggested_fix": "Use 2026-09-21 and 2024-12."
+        },
+        {
+          "file": "docs/measurements.md:1; docs/s2-best-practices.md:1",
+          "location": "First-heading dates",
+          "text": "# Measurements, 2026-09-10  /  # Sentinel-2 facts and practices for per-water-body extraction, 2026-09-09",
+          "problem": "Rule: dated documents put the date in the first heading. Both documents gained 2026-10-13 content but keep their creation dates (measurements.md gained its seventh set, best-practices a section 5).",
+          "suggested_fix": "Add 'updated 2026-10-13' as the data contract does."
+        }
+      ],
+      "reason": "Clean: no semicolon and no 'should' in any added Markdown line, any new or changed inventory string, or the 80 added Discovery text lines. The added Discovery sentences are 25 words or fewer. No British spellings. No personal names or customers: study authors are cited, the ACOLITE developer is 'the developer', the owner is 'the owner'. Vendors named are data providers only. The record's style-scan claim is not fully true: W8 and one work-plan item exceed 25 words. Three relative dates and the non-ISO dates are low severity."
+    },
+    {
+      "id": "V-CON-6",
+      "claim": "Decision 0008's rationale is honestly stated, given the literature shows no accuracy advantage, and the Phase B record surfaces that to the owner clearly.",
+      "verdict": "partially validated",
+      "findings": [
+        {
+          "file": "docs/reviews/2026-10-13-phase-b-discovery-ii.md:77-78",
+          "location": "'What the literature checks found'",
+          "text": "So decision 0008 rests on the processor's design statement and ESA's land-only validation, claims W1 and R3. It does not rest on a demonstrated accuracy advantage of ACOLITE over Sen2Cor for these waters. ... This record raises it for the owner. It does not change decision 0008.",
+          "problem": "The statement is honest and exact. It sits in the middle of a 125-line record, in the sixth section. It is absent from the status line, the 'Decision 0008 review triggers' section, and the 'Proposed next step'. It poses no question to the owner. The modeling comparison it names is out of the assessment's scope (replan 'Deferred and out of scope', modeling team owns it), and no work-plan row carries it. Phase D (T5, T7) measures disagreement, not accuracy, and A15 excludes field validation.",
+          "suggested_fix": "Add a 'For the owner' paragraph near the top: the replan's ranking input is not supported, decision 0008 rests on design intent and availability, no planned step tests accuracy, and the owner may confirm or reopen. Add a work-plan row naming who runs the modeling comparison."
+        },
+        {
+          "file": "docs/decisions/0008-acolite-aquatic-reflectance-first.md:11-13",
+          "location": "Context",
+          "text": "The analysis, AI-generated input under the documentation rules, reported that ESA designs and validates Sen2Cor for land.",
+          "problem": "The decision file was not annotated after Phase B corrected the same analysis (ranking input not supported as one statement, W5 to W8) and found W3. It carries the owner's direction and nothing about the corrected evidence. It never says what the decision does and does not rest on. Its 'Primary source' bullet still says the facts are `unverified`.",
+          "suggested_fix": "Add a dated 'Evidence after Phase B' note: rests on W1, R3, and availability. Literature shows no consistent advantage, W5 to W8. W3 reduces the design gap. Link to the record."
+        },
+        {
+          "file": "docs/reviews/2026-10-13-phase-b-discovery-ii.md:86-90 versus docs/decisions/0008-acolite-aquatic-reflectance-first.md:39",
+          "location": "Review triggers",
+          "text": "[Decision 0008] lists triggers for revisiting it. Phase B bears on three:",
+          "problem": "The record covers masking, encoding, and join. It skips the trigger 'The coverage survey shows gaps or latency that the supplementary route cannot fill', although T2 is that survey. T2 shows 8 percent of scenes with no Level-2A item (1,520), Earth Search Collection 1 nearly empty in 2022, and the Alaska hole in finding 3. The record also never lists 'accuracy advantage unshown' as a reason to revisit.",
+          "suggested_fix": "Evaluate the second trigger explicitly (met, not met, or deferred to the fill policy) and add the accuracy question as a stated condition."
+        },
+        {
+          "file": "docs/s2-options.html:683-685",
+          "location": "Discovery tab",
+          "text": "Earth Search’s correction was designed and validated for land.",
+          "problem": "The owner-facing narrative gives the decision's design rationale and none of the corrections from Phase B. See V-CON-1.",
+          "suggested_fix": "See V-CON-1 findings 1 to 3."
+        }
+      ],
+      "reason": "No document claims an accuracy advantage, and the Phase B record states the true basis and the corrected replan input. The disposition table also records the correction. What is missing is placement and follow-through: the caveat is not in the decision, not on the page, not in the triggers or next step, and no step or owner for the modeling comparison."
+    }
+  ],
+  "limitations": [
+    "Read-only review of the repository at commit 4e89ea2. I ran no tests, no repository commands, and no network calls. The CLAUDE.md copy in the task context predates Phase B. I reviewed the repository file.",
+    "I did not check source pages. Quotes in the check records and the literature claims W1 to W11 were taken as bound. Other reviewers cover sources and recomputation. I recomputed shares and counts only from benchmarks/results/aqr-coverage.json, aqr-headers.json, and docs/assets/discovery/provenance.json.",
+    "The Discovery tab was read as text extracted with html.parser from the section id=discovery of docs/s2-options.html, plus targeted grep of the raw HTML and the template. I did not view it in a browser. Inventory fields that the renderer does not show (issue text, why) were read from options-inventory.json.",
+    "The Prototyping, Integration, and Tradeoffs tabs were scanned by keyword only for pre-Phase-B route wording. The Prototyping tab was not reviewed for accuracy.",
+    "Style checks were scripted: whitespace word counts per sentence, a sentence split at '. ' with common abbreviations protected, and regex for semicolons and 'should'. A sentence with unusual punctuation could be mis-split. The scan covered added lines of the 84a4a7e..4e89ea2 diff for Markdown, new or changed inventory strings, and the added Discovery text lines. It did not cover Python docstrings or test files.",
+    "The commit range includes Phase A work. Findings on lines Phase A added (for example work-plan.md:233) are reported because they sit in the reviewed commit.",
+    "I could not tell whether the owner authorized commit 4e89ea2. The Phase B record's 'Nothing is committed' line is reported only as a stale statement."
+  ]
+}

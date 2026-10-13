@@ -1,6 +1,7 @@
 # AWS Sentinel-2 cost analysis, revised 2026-09-23
 
 Status: offline planning estimate for owner review. History remains 2021-01-01 through 2026-09-22 for comparison with the initial analysis.
+Every input below was measured on Earth Search Level-2A files, the reference series of [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md). Phase C re-parameterizes the estimate for the primary product.
 
 **Source-block coverage and archive access patterns dominate this estimate. Neither lake count nor selected output pixels alone predicts the bill.**
 The central national cases read a substantial fraction of modeled source blocks.

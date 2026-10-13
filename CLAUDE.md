@@ -116,7 +116,8 @@ The owner authorized one public image crop for the presentation on 2026-09-11. T
 - The assessment has four phases: discovery, prototyping, integration specs, and tradeoffs. Discovery compares
   access routes, processing workflows, compute platforms, and storage layouts. It does not rank vendors.
 - The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states (assumption A13,
-  decision 0008). Its facts are `unverified` until Phase B. Earth Search Level-2A is supplementary: Collection 1 GeoTIFF assets
+  decision 0008). Phase B documented or measured its metadata facts on 2026-10-13. Pixel behavior stays `unverified` until probe T4.
+  Earth Search Level-2A is supplementary: Collection 1 GeoTIFF assets
   first, the older collection's GeoTIFF assets as fallback (decision 0004). Non-AWS and managed options are context, never compared for selection.
 - The store serves raw band values and quality flags. It serves no derived water-quality index (assumption A1).
 - Customer polygons never enter this repository. Prototypes use public water-body polygons (assumption A8).
@@ -139,10 +140,13 @@ inventory, or its finding in [docs/measurements.md](docs/measurements.md). Numbe
 
 - Measurement findings 1 to 25 and the gotchas below describe Level-2A files from Earth Search, the reference series of
   assumption A50. Findings 26 to 29 describe the primary product's metadata and one crop. Decision 0008.
-- The primary product's headers state scale 1 and offset 0. USGS documents a factor of 10,000. Its flags layer holds the
-  ACOLITE flag integer times 10,000 in the one crop read. Land pixels carry values, flagged. Findings 26 and 29.
+- GDAL reports scale 1 and offset 0 for the primary product, its defaults. USGS documents a factor of 10,000. In the one crop read,
+  the flags layer holds the ACOLITE flag integer times 10,000, and land pixels carry values with flags. Findings 26 and 29.
+- USGS documents ACOLITE 20221114.0, but the probed settings files carry the keys of release 20250402.0. Read the processor
+  version per scene, never from the documentation. Finding 26, issue I-34.
 - The primary product holds about half of Earth Search's acquisitions, mostly from original Level-1C baselines. A Level-2A
-  join by tile, platform, and sensing start finds the same baseline only half the time. Findings 27 and 28, issues I-32 and I-40.
+  join by tile, platform, and sensing start finds the same baseline for 51 percent with Collection 1 first, 58 percent with either.
+  Findings 27 and 28, issues I-32 and I-40.
 - Level-2A bands have three native resolutions, and the primary product has one 20 m grid. Every water body is stored as
   three pixel classes per source grid (assumption A20). A 10 m pond has no interior pixel. Claim G3, practice P6.
 - **Cross-tile mosaicking is a MAJOR CONCERN (issue I-30). The store never mosaics.** Tiles overlap and differ

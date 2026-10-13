@@ -1,7 +1,15 @@
 # Phase B, Discovery II: check records, probes T1 to T3, and the Discovery rewrite, 2026-10-13
 
 Author: Claude Code (AI coding agent), directed by the repository owner.
-Status: delivered, awaiting review by Codex, Claude Code, and the owner. Nothing is committed.
+Status: delivered and committed as 4e89ea2 on the owner's instruction of 2026-10-13. Awaiting review by Codex and the owner.
+An eight-agent [validation review](2026-10-13-phase-b-claim-validation.md) followed the commit. Its corrections are applied in this record and the documents it names.
+
+## For the owner
+
+- Decision 0008 rests on Sen2Cor's design statement, its land-only validation, and the product's availability. It does not rest on a measured accuracy advantage. The literature read shows no consistent ranking of ACOLITE and Sen2Cor.
+- The work plan now carries your decision on whether an accuracy comparison belongs in the assessment, Phase D.
+- USGS documents ACOLITE 20221114.0, but the three settings files read carry the keys of release 20250402.0. Issue I-34.
+- The join rule is a Phase C choice. Collection 1 first gives 51 percent baseline agreement, and either collection gives 58 percent.
 
 ## Step and authorization
 
@@ -56,28 +64,30 @@ A style scan covered the added Markdown lines, the new inventory strings, and th
 
 Findings 26 to 29 in [measurements.md](../measurements.md#phase-b-probes-on-the-usgs-aquatic-reflectance-product-2026-10-13) own the numbers. In short:
 
-- Each scene is 14 objects: eleven 20 m bands, NDWI, a flags layer, and a settings file. Values are 16-bit integers. The headers carry no reflectance scale.
-- The grid matches the Level-2A 20 m grid. The settings name tiled aerosol estimation on 300-pixel tiles and no residual glint correction.
+- Each of the three probed scenes is 14 objects: eleven 20 m bands, NDWI, a flags layer, and a settings file. Values are 16-bit integers. The headers carry no reflectance scale.
+- The grid matches the Level-2A 20 m grid. The settings name tiled aerosol estimation on 300-pixel tiles at 20 m and no residual glint correction. Their keys match a later ACOLITE release than the documented one.
 - From 2018 the product holds 41 to 61 percent of Earth Search's acquisitions per year on 24 lower-48 tiles. Cloudy and partial acquisitions are missing most often.
-- Its inputs are mostly original Level-1C baselines. 92 percent of scenes join to a Level-2A item of the same pass, but only 51 percent to the same baseline.
-- Recent scenes appear a median 0.33 days after sensing. Most of the history arrived in batches.
+- Its inputs from 2018 to 2022 are mostly original Level-1C baselines. 92 percent of scenes join to a Level-2A item of the same pass. 51 percent join to the same baseline with Collection 1 first, and 58 percent with either collection.
+- Published scenes sensed from 2026-06-15 appeared a median 0.33 days after sensing, a statistic biased low. Most of the history arrived in batches.
 - The bucket also holds Alaska scenes, although USGS documents the conterminous United States.
-- In the one crop, every pixel carries a value and the flags mark non-water pixels. USGS documents the bands as water-leaving reflectance.
+- In the one crop, every pixel of the five layers read carries a value, and the flags mark non-water pixels. USGS documents the bands as water-leaving reflectance, which ACOLITE itself masks.
 
 ## What the literature checks found
 
 Section 5 of [s2-best-practices.md](../s2-best-practices.md#5-atmospheric-correction-over-water) holds the claims, W1 to W11.
 
 - The Sen2Cor algorithm document states the processor is not designed for applications over water or coastal regions. ESA still lists that issue as current. Claim W1.
-- The replan input that intercomparisons rank Sen2Cor behind POLYMER, C2RCC, and ACOLITE is not supported as one statement. The four studies read disagree. Claims W5 to W8.
+- The replan input that intercomparisons rank Sen2Cor behind POLYMER, C2RCC, and ACOLITE is not supported as one statement. Claims W5 to W8.
+- Three of the four studies put C2RCC, and Polymer where tested, ahead of both Sen2Cor and ACOLITE. Their order of Sen2Cor and ACOLITE changes with the study and the metric.
 - One study found Sen2Cor second-best by median spectral angle over inland water, ahead of Acolite, but worst across all its sites. ACIX-Aqua did not test Sen2Cor.
-- Another study found ACOLITE better than Sen2Cor in eutrophic Spanish lakes. A 2026 study found Sen2Cor's pooled fit slightly better than ACOLITE's in two Chinese reservoirs.
+- Another study found ACOLITE better than Sen2Cor in eutrophic Spanish lakes. A 2026 study found Sen2Cor's pooled fit slightly better than ACOLITE's in two Chinese reservoirs, and its chlorophyll error lowest.
+- The paper documenting the USGS product could not be read. Two further studies with both processors are unrecorded leads, section 7 of the best-practices document.
 - The studies that name versions tested older processors than the USGS product or Earth Search use. No claim above describes pond-sized waters.
 
 So decision 0008 rests on the processor's design statement and ESA's land-only validation, claims W1 and R3. It does not rest on a demonstrated accuracy advantage of ACOLITE over Sen2Cor for these waters.
 The modeling comparison of both corrections on the same pixels, which the store enables, is the relevant test. This record raises it for the owner. It does not change decision 0008.
 
-- Sen2Cor 2.13.01 and baseline 05.13 add water-specific aerosol changes. 05.13 became operational on 2026-09-21. Claim R5 is updated. Claim W3.
+- Sen2Cor 2.13.01 and baseline 05.13 add water-specific aerosol changes. 05.13 entered operations in September 2026, on a date the quality report gives two ways. Claims R5 and W3.
 - Level-1C on AWS is JPEG 2000 in a requester-pays bucket. Some Earth Search Level-1C items point their assets at the Level-2A bucket. Claim W9.
 - Whether a reader can clip Level-1C JPEG 2000 before download is unsettled. GDAL documents that its OpenJPEG driver ignores tile-part length markers, but newer OpenJPEG uses them. Claim W10.
 
@@ -87,7 +97,8 @@ The modeling comparison of both corrections on the same pixels, which the store 
 
 - Masking of shoreline or near-land pixels: none in the one crop. Probe T4 decides at scale.
 - An encoding that breaks the integer-plus-conversion contract: no. The scale comes from the documentation, recorded as `provider_documentation` in the contract.
-- A join that fails for a material share of scenes: 8 percent find no Level-2A item, and 41 percent join to another baseline. Whether that is material is the owner's call.
+- A join that fails for a material share of scenes: 8 percent find no Level-2A item. 41 percent join to another baseline with Collection 1 first, and 34 percent find no same-baseline item in either collection. Whether that is material is the owner's call.
+- Gaps the supplementary route cannot fill: not met on the survey tiles. Every acquisition Earth Search lists without a USGS scene is in Earth Search by definition. The fill policy decides how it is used.
 
 ## Limits
 

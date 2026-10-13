@@ -116,6 +116,14 @@ def cloud_bin(cover: float) -> str:
     raise ValueError(f"cloud cover out of range: {cover}")
 
 
+def yearly_split(values: dict[str, float], aqr_keys: set[str]) -> dict[str, dict]:
+    """Per sensing year, the values of acquisitions with and without a product scene."""
+    out: dict[str, dict] = defaultdict(lambda: {"present": [], "missing": []})
+    for key, value in values.items():
+        out[key[:4]]["present" if key in aqr_keys else "missing"].append(value)
+    return out
+
+
 def cloud_comparison(l1c_items: list[dict], tile: str, aqr_keys: set[str]) -> dict:
     """Level-1C cloud cover of Earth Search acquisitions with and without a product scene.
 
@@ -133,8 +141,15 @@ def cloud_comparison(l1c_items: list[dict], tile: str, aqr_keys: set[str]) -> di
     for key, value in cover.items():
         bins["present" if key in aqr_keys else "missing"][cloud_bin(value)] += 1
     labels = [f"{low}-{min(high, 100)}" for low, high in CLOUD_BINS]
+    by_year = {}
+    for year, sides in sorted(yearly_split(cover, aqr_keys).items()):
+        by_year[year] = {
+            side: {label: sum(1 for v in sides[side] if cloud_bin(v) == label) for label in labels}
+            for side in ("present", "missing")
+        }
     return {
         "bins": {side: {label: bins[side].get(label, 0) for label in labels} for side in bins},
+        "bins_by_year": by_year,
         "present_max": present[-1] if present else None,
         "present_median": aqr.percentile(present, 0.5),
         "missing_min": missing[0] if missing else None,
@@ -158,6 +173,10 @@ def nodata_comparison(l2a_items: list[dict], tile: str, aqr_keys: set[str]) -> d
     present = [v for k, v in share.items() if k in aqr_keys]
     missing = [v for k, v in share.items() if k not in aqr_keys]
     return {
+        "values_by_year": {
+            year: {side: sorted(sides[side]) for side in ("present", "missing")}
+            for year, sides in sorted(yearly_split(share, aqr_keys).items())
+        },
         "present_median": aqr.percentile(present, 0.5),
         "missing_median": aqr.percentile(missing, 0.5),
         "present_over_50": sum(1 for v in present if v > 50),
@@ -222,6 +241,17 @@ def analyze_tile(tile: str, objects: list[dict], es: dict[str, list[dict]], mont
         join_by_year[scene["sensing_time"][:4]][f"{status} {collection}"] += 1
         join_by_baseline[scene["baseline"]][f"{status} {collection}"] += 1
 
+    any_same_baseline: dict[str, Counter] = defaultdict(Counter)
+    for scene, joined in zip(scenes.values(), joins, strict=True):
+        hits = [h for c in JOIN_ORDER for h in joined["matches"].get(c, [])]
+        if not hits:
+            status = "none"
+        elif any(h["same_baseline"] for h in hits):
+            status = "same_baseline_in_some_collection"
+        else:
+            status = "other_baseline_only"
+        any_same_baseline[scene["sensing_time"][:4]][status] += 1
+
     l1c_names = {i["product_uri"].removesuffix(".SAFE") for i in items[L1C] if i["product_uri"]}
     l1c_status: dict[str, Counter] = defaultdict(Counter)
     for scene in scenes.values():
@@ -285,6 +315,9 @@ def analyze_tile(tile: str, objects: list[dict], es: dict[str, list[dict]], mont
         "join_by_baseline": {
             b: dict(sorted(c.items())) for b, c in sorted(join_by_baseline.items())
         },
+        "join_any_collection_by_year": {
+            y: dict(sorted(c.items())) for y, c in sorted(any_same_baseline.items())
+        },
         "join_unmatched": sorted(j["product"] for j in joins if j["status"] == "none")[:30],
         "l1c_by_year": {y: dict(sorted(c.items())) for y, c in sorted(l1c_status.items())},
         "cloud_cover": cloud_comparison(items[L1C], tile, set(by_key)),
@@ -333,6 +366,19 @@ def pooled(records: list[dict], months: list[str], hours: list[float]) -> dict:
     for r in records:
         for side in cloud_bins:
             cloud_bins[side].update(r["cloud_cover"]["bins"][side])
+    cloud_by_year: dict[str, dict] = {}
+    for r in records:
+        for year, sides in r["cloud_cover"]["bins_by_year"].items():
+            entry = cloud_by_year.setdefault(year, {"present": Counter(), "missing": Counter()})
+            for side in entry:
+                entry[side].update(sides[side])
+    nodata_by_year: dict[str, dict] = {}
+    for r in records:
+        for year, sides in r["nodata_share"]["values_by_year"].items():
+            entry = nodata_by_year.setdefault(year, {"present": [], "missing": []})
+            for side in entry:
+                entry[side].extend(sides[side])
+        del r["nodata_share"]["values_by_year"]
     present_max = [r["cloud_cover"]["present_max"] for r in records]
     missing_min = [r["cloud_cover"]["missing_min"] for r in records]
     l1c_totals: Counter = Counter()
@@ -374,6 +420,15 @@ def pooled(records: list[dict], months: list[str], hours: list[float]) -> dict:
         "l1c_by_year": merge("l1c_by_year"),
         "latency_recent": latency_stats(hours),
         "cloud_cover_bins": {side: dict(c) for side, c in cloud_bins.items()},
+        "cloud_cover_bins_by_year": {
+            y: {side: dict(sorted(c.items())) for side, c in v.items()}
+            for y, v in sorted(cloud_by_year.items())
+        },
+        "nodata_share_median_by_year": {
+            y: {side: aqr.percentile(vals, 0.5) for side, vals in v.items()}
+            for y, v in sorted(nodata_by_year.items())
+        },
+        "join_any_collection_by_year": merge("join_any_collection_by_year"),
         "cloud_cover_present_max": max((v for v in present_max if v is not None), default=None),
         "cloud_cover_missing_min": min((v for v in missing_min if v is not None), default=None),
         "published_by_month": merge_flat("published_by_month"),
@@ -490,6 +545,9 @@ def main(argv=None) -> int:
             "last-modified time of the scene's objects. It describes the bucket copy.",
             "join": "Tile, platform, and sensing start from the product names. Exact when the "
             "processing baseline also agrees. Collection 1 first, then the older collection.",
+            "join_any_collection": "Whether any Level-2A item of the same pass, in either "
+            "collection, has the scene's processing baseline. Baselines are compared as strings "
+            "across product levels, so an older Level-2A numbering can differ from its Level-1C.",
             "cloud_cover": "Earth Search Level-1C eo:cloud_cover per acquisition, the lowest "
             "of its items, split by whether the acquisition has a product scene.",
             "l1c": "same_product: Earth Search's Level-1C collection lists the Level-1C product "

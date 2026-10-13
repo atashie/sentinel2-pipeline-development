@@ -236,6 +236,11 @@ def aqr_coverage_strip(rows: list[dict]) -> str:
     return "".join(parts)
 
 
+def coverage_recent_from(coverage: dict) -> str:
+    """The first sensing date of the recent-latency window, from any tile record."""
+    return coverage["tiles"][0]["latency_recent"]["sensed_from"]
+
+
 def aqr_markers(coverage: dict, headers: dict) -> dict[str, str]:
     """Numbers the archive section states about the primary product, from probes T1 to T3."""
     summary = coverage["summary"]
@@ -253,7 +258,11 @@ def aqr_markers(coverage: dict, headers: dict) -> dict[str, str]:
     exact = sum(v for k, v in joins.items() if k.startswith("exact"))
     if scenes != summary["scenes"]:
         raise ValueError("Join totals do not cover every scene")
-    latency = summary["latency_recent"]
+    latency = summary["latency_recent"] | {"sensed_from": coverage_recent_from(coverage)}
+    any_same = sum(
+        counts.get("same_baseline_in_some_collection", 0)
+        for counts in summary["join_any_collection_by_year"].values()
+    )
     return {
         "AQR_COVERAGE_STRIP": aqr_coverage_strip(rows),
         "AQR_DATE": html.escape(coverage["measured_at"][:10]),
@@ -264,6 +273,8 @@ def aqr_markers(coverage: dict, headers: dict) -> dict[str, str]:
         "AQR_FIRST_YEAR": "2018",
         "AQR_JOIN_PERCENT": f"{100 * joined / scenes:.0f}",
         "AQR_SAME_BASELINE_PERCENT": f"{100 * exact / scenes:.0f}",
+        "AQR_ANY_BASELINE_PERCENT": f"{100 * any_same / scenes:.0f}",
+        "AQR_RECENT_FROM": html.escape(latency["sensed_from"]),
         "AQR_LATENCY_HOURS": f"{24 * latency['median_days']:.0f}",
         "AQR_LATENCY_SCENES": f"{latency['scenes']:,}",
         "AQR_TILE_PREFIXES": f"{headers['summary']['tile_prefixes']:,}",

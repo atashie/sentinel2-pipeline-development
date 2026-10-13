@@ -1,0 +1,285 @@
+{
+ "reviewer": {
+  "agent": "T3 join validation reviewer",
+  "model": "sonnet"
+ },
+ "reviewed_at": "2026-10-13T16:14:27-04:00",
+ "verdicts": [
+  {
+   "id": "V-T3-1",
+   "claim": "Joining every USGS scene to Earth Search Level-2A items by tile, platform, and sensing start, Collection 1 first and then the older collection: 92 percent of scenes found an item, 13,792 in Collection 1 and 4,024 in the older collection. 1,520 found none, 1,390 of them sensed before 2018.",
+   "verdict": "validated",
+   "recomputed": {
+    "scenes": 19336,
+    "found_an_item": 17816,
+    "found_pct": 92.14,
+    "found_in_c1": 13792,
+    "found_only_in_older_collection": 4024,
+    "found_none": 1520,
+    "none_sensed_before_2018": 1390,
+    "none_by_year": {
+     "2015": 122,
+     "2016": 972,
+     "2017": 296,
+     "2018": 124,
+     "2022": 6
+    },
+    "scenes_with_any_older_collection_item": 17790,
+    "scenes_with_items_in_both_collections": 13766,
+    "complete_scenes_only(>=14 layers)": {
+     "scenes": 18750,
+     "found_pct": 91.96
+    },
+    "distinct_acquisition_keys": {
+     "keys": 18384,
+     "keys_matched": 16905,
+     "pct": 91.96
+    },
+    "join_by_year_and_l1c_by_year_identical_to_result_file": true
+   },
+   "reason": "My own parse of the 263,590 object keys and 110,529 Earth Search features reproduces every count exactly, and the per-year table equals summary.join_by_year. None of the 1,520 misses has any Earth Search item on the same tile, platform, and day in any of the three collections, so they are absences and not key artifacts. The 4,024 is the count found only in the older collection, because 13,766 Collection 1 scenes also have an older-collection item.",
+   "suggested_correction": "Write 'only in the older collection' after 4,024. State that the 19,336 scenes include 586 with one or two layers (settings only, or B06 and settings) and that 949 acquisition keys carry 1,901 scenes (several generations or baselines). Both leave the percentage at about 92."
+  },
+  {
+   "id": "V-T3-2",
+   "claim": "Only 51 percent matched an item of the same processing baseline. From 2017 to 2021 fewer than 15 percent did. From 2024 at least 98 percent did.",
+   "verdict": "partially validated",
+   "recomputed": {
+    "same_baseline_scenes_collection1_first": 9953,
+    "pct": 51.47,
+    "same_baseline_in_either_collection": 11182,
+    "pct_either": 57.83,
+    "by_year_pct_c1_first": {
+     "2017": 0.6,
+     "2018": 6.1,
+     "2019": 7.5,
+     "2020": 14.5,
+     "2021": 13.1,
+     "2022": 78.9,
+     "2023": 67.8,
+     "2024": 98.4,
+     "2025": 100.0,
+     "2026": 100.0
+    },
+    "by_year_pct_either_collection": {
+     "2017": 0.6,
+     "2018": 6.1,
+     "2019": 7.5,
+     "2020": 14.5,
+     "2021": 83.6,
+     "2022": 79.7,
+     "2023": 68.3,
+     "2024": 98.4,
+     "2025": 100.0,
+     "2026": 100.0
+    },
+    "pooled_2017_2021_pct": {
+     "c1_first": 8.6,
+     "either_collection": 24.0
+    },
+    "scenes_where_c1_first_hides_a_same_baseline_older_item": 1229,
+    "of_which_2021": 1202,
+    "2024_nonexact": "33 scenes, all with AQR baselines N9905 (31) or N9906 (2)"
+   },
+   "reason": "Every number reproduces under the stated rule, including 14.5 percent in 2020 and 98.4 percent in 2024. The result depends on the collection order. For 1,229 scenes the older collection holds a same-baseline item that the Collection 1 first rule skips, 1,202 of them in 2021 (USGS N03.00 and N03.01 against the older collection's 03.00 and 03.01). Checking both collections gives 58 percent overall, 24 percent for 2017 to 2021, and 84 percent for 2021.",
+   "suggested_correction": "Say 'Collection 1 first' beside each percentage. Add that a same-baseline item exists in one of the two collections for 58 percent of scenes, and that 2021 reaches 84 percent when the older collection is checked. State that the 33 non-matching scenes from 2024 are the N99.05 and N99.06 scenes."
+  },
+  {
+   "id": "V-T3-3",
+   "claim": "935 scenes matched more than one item in the chosen collection.",
+   "verdict": "validated",
+   "recomputed": {
+    "scenes_with_more_than_one_item_in_chosen_collection": 935,
+    "with_2_items": 930,
+    "with_3_items": 5,
+    "scenes_with_exactly_one_same_baseline_item_plus_other_items": 0,
+    "same_baseline_for_all_items": 934,
+    "two_baselines": 1,
+    "items_with_different_item_datetime": 890,
+    "items_with_same_item_datetime": 45,
+    "scenes_whose_aqr_key_is_also_held_by_a_second_aqr_scene": 661,
+    "by_year": {
+     "2017": 68,
+     "2018": 52,
+     "2019": 88,
+     "2020": 87,
+     "2021": 64,
+     "2022": 79,
+     "2023": 108,
+     "2024": 122,
+     "2025": 145,
+     "2026": 122
+    }
+   },
+   "reason": "The count is exact, and it is not an undercount because no scene has one same-baseline item beside other items in the chosen collection. In 934 of 935 cases the extra items share the baseline and differ in generation time. 890 differ in item datetime, which fits overlapping datastrips on one tile and pass. For 661 of the 935, the bucket also holds two scenes on the same key, so the pairing is many to many and the key alone cannot resolve it.",
+   "suggested_correction": "Add that the extra items almost always carry the same baseline (934 of 935) and differ in generation time and tile time, so they are datastrip or reprocessing duplicates and not other baselines. Add that 661 of these scenes share their key with a second USGS scene."
+  },
+  {
+   "id": "V-T3-4",
+   "claim": "Earth Search's Level-1C collection lists the exact input Level-1C product (USGS object name with MSIAQR replaced by MSIL1C) for 15,744 scenes, 81 percent. It lists the same pass with another product for 2,046, and no pass for 1,546.",
+   "verdict": "validated",
+   "recomputed": {
+    "same_product": 15744,
+    "same_product_pct": 81.42,
+    "same_pass_other_product": 2046,
+    "same_pass_other_product_pct": 10.58,
+    "no_pass": 1546,
+    "no_pass_pct": 8.0,
+    "no_pass_before_2018": 1390,
+    "no_pass_before_2018_share": 0.899,
+    "same_pass_other_product_baseline_differs": 2041,
+    "same_pass_other_product_baseline_same_generation_differs": 5,
+    "same_product_by_year": {
+     "2017": 638,
+     "2018": 1247,
+     "2019": 1575,
+     "2020": 1372,
+     "2021": 1631,
+     "2022": 1602,
+     "2023": 1504,
+     "2024": 2010,
+     "2025": 2466,
+     "2026": 1699
+    },
+    "same_pass_other_product_by_year": {
+     "2017": 503,
+     "2018": 80,
+     "2019": 41,
+     "2020": 211,
+     "2021": 75,
+     "2022": 402,
+     "2023": 701,
+     "2024": 33
+    },
+    "l1c_by_year_identical_to_result_file": true
+   },
+   "reason": "All three counts reproduce, and the per-year table equals summary.l1c_by_year. A match on the full name, including the six-digit generation timestamp, cannot occur by chance, so the name derivation is sound as a naming fact. That the USGS pixels came from that Level-1C product is an inference from the name and is not shown by the listings.",
+   "suggested_correction": "Write 'lists a Level-1C product with the same name as the scene except for the product level' and keep 'input' tied to the USGS documentation of its source. Note that 701 of the 2,046 are from 2023, where USGS used N05.10 and Earth Search lists N05.09."
+  },
+  {
+   "id": "V-T3-5",
+   "claim": "The baseline mismatch arises because USGS used original Level-1C while Collection 1 holds the 05.00 reprocessing for those years (2017 to 2021).",
+   "verdict": "partially validated",
+   "recomputed": {
+    "scenes_2017_2021": 7793,
+    "aqr_baselines_2017_2021": {
+     "original (02.04 to 03.01)": 6349,
+     "05.00": 1444,
+     "original_share_pct": 81.5
+    },
+    "aqr_original_generation_lag_days": {
+     "median": 0.15,
+     "p99": 2.74
+    },
+    "aqr_0500_generation_lag_days": {
+     "min": 361,
+     "median": 1888,
+     "max": 2477
+    },
+    "c1_baselines_by_sensing_year_2017_2021": "05.00 only, for all 11,282 products",
+    "older_collection_baselines_2017_2021": {
+     "2017": {
+      "00.01": 1274,
+      "05.00": 31
+     },
+     "2018": {
+      "00.01": 2590,
+      "02.11": 180,
+      "05.00": 1217
+     },
+     "2019": {
+      "02.11": 1258,
+      "02.12": 664,
+      "02.13": 1744,
+      "05.00": 2846
+     },
+     "2020": {
+      "02.13": 327,
+      "02.14": 3278,
+      "05.00": 3619
+     },
+     "2021": {
+      "02.14": 863,
+      "03.00": 903,
+      "03.01": 1810,
+      "05.00": 3820
+     }
+    },
+    "mismatch_scenes_2017_2021": 6701,
+    "mismatch_joined_to_c1_with_aqr_original": 4555,
+    "mismatch_joined_to_older_with_aqr_original": 1564,
+    "mismatch_joined_to_older_with_aqr_0500": 582,
+    "c1_joined_scenes_2017_2021": {
+     "aqr_original_vs_c1_0500": 4555,
+     "aqr_0500_vs_c1_0500_exact": 672
+    },
+    "aqr_input_l1c_listed_on_earth_search_l1c": {
+     "aqr_original": "6119 of 6349",
+     "aqr_0500": "344 of 1444"
+    },
+    "l1c_pairs_older_l2a_baseline": {
+     "L1C 02.07": [
+      "L2A 02.11",
+      "L2A 02.12"
+     ],
+     "L1C 02.08": [
+      "L2A 02.13"
+     ],
+     "L1C 02.09": [
+      "L2A 02.14"
+     ]
+    },
+    "scenes_aqr_0207_vs_older_0211_label_mismatch": 334
+   },
+   "reason": "For Collection 1 the data fit well: it holds only N05.00 for 2017 to 2021, and all 4,555 mismatches joined to it are USGS scenes with an original baseline (N02.06 to N03.01), generated within about a day of sensing. This is 68 percent of the 6,701 mismatches in those years. The other 32 percent come from the older collection, where 582 are the reverse case (USGS used N05.00 but the only listed item is N00.01 or N02.11) and 334 are partly a numbering effect (Level-1C N02.07 pairs with Level-2A N02.11 and N02.12). Also 18.5 percent of the 2017 to 2021 scenes used N05.00 input, so 'used original Level-1C' is not universal. The data show baselines only and do not show the geometry difference.",
+   "suggested_correction": "Limit the statement to Collection 1: 'For the 4,555 scenes joined to Collection 1 in 2017 to 2021, USGS used an original baseline (N02.06 to N03.01) and Collection 1 holds N05.00.' Add that 1,444 scenes in those years used N05.00 and that 2,146 scenes joined to the older collection, whose baselines are N00.01 and N02.11 to N02.14 and are not comparable with Level-1C numbers. Say that pixel or geometry differences were not tested."
+  },
+  {
+   "id": "V-T3-6",
+   "claim": "Judge the join key itself. Is tile + platform + sensing start (the datatake start time in the product name) a sound key? Could it produce false matches or misses?",
+   "verdict": "partially validated",
+   "recomputed": {
+    "tile_platform_day_groups_with_more_than_one_sensing_string": {
+     "aqr": 0,
+     "c1": 0,
+     "older": 0,
+     "l1c": 0
+    },
+    "misses_with_any_earth_search_item_same_tile_platform_day": "0 of 1520",
+    "orbit_number_agrees_for_matched_items": "18756 of 18756",
+    "prefix_tile_equals_name_tile_in_aqr_keys": "263590 of 263590",
+    "es_l2a_items_with_an_l1c_item_on_the_same_key": {
+     "c1": "26366 of 26401",
+     "older": "45072 of 45072"
+    },
+    "grid_code_equals_product_uri_tile_in_es": "110529 of 110529",
+    "scenes_matching_more_than_one_item": 935,
+    "aqr_keys_with_more_than_one_scene": {
+     "keys": 949,
+     "scenes": 1901
+    },
+    "multi_hit_scenes_where_l1c_has_two_or_more_items_on_the_key": 901,
+    "multi_hit_scenes_resolved_by_equal_datetime_with_the_named_l1c_item": "597 of 935",
+    "c1_item_id_time_equals_datetime_property": "0 of 26401, offsets 3 to 830 seconds"
+   },
+   "reason": "As an existence test for a pass the key is sound. The sensing string never differs among items of one tile, platform, and day in any listing, the orbit number agrees for all 18,756 hits, and no miss has a near match on another sensing time, so no false miss or false pass match appears. As an item identifier it is not unique. 935 scenes (4.8 percent) hit two or three Level-2A items, 949 USGS keys hold two or more scenes, and the key carries no datastrip or generation identity. Time comparisons cannot settle granule identity, because Collection 1 item datetimes differ from the item id times by 3 to 830 seconds in every item.",
+   "suggested_correction": "Describe the key as a pass-level key and not an item-level key. Add that the join returns a set of items, that 935 scenes need a further rule (the named Level-1C item's datetime resolves 597 of them), and that tile and sensing start give a pass, not the exact granule or product."
+  }
+ ],
+ "method_concerns": [
+  "Collection order hides same-baseline items. The join takes the first collection with any hit, so 1,229 scenes (1,202 in 2021) have a same-baseline item in the older collection that is counted as a mismatch. This changes the headline 51 percent to 58 percent and 2021 from 13 percent to 84 percent.",
+  "Scene counts are not acquisition counts. 949 keys hold 1,901 scenes (different generations or baselines), and 586 scenes (3.0 percent) have only one or two layers. All are scored as ordinary scenes. Matched share is almost unchanged (91.96 percent on 18,750 complete scenes, 91.96 percent on 18,384 distinct keys), but exact share rises to 52.6 percent on complete scenes.",
+  "The key ignores the relative orbit and the datastrip. I checked that the orbit agrees for every hit, so the omission does no harm here. The code does not guard against it.",
+  "Baseline strings are compared across product levels. Level-2A numbers in the older collection (N00.01, N02.11 to N02.14) do not follow the Level-1C numbers (N02.04 to N02.09) that USGS names carry. A string mismatch there does not show different inputs. Collection 1 (all N05.00) and the older collection from N03.00 onward use matching numbers.",
+  "Earth Search item datetime is not a stable identity time. Collection 1 item ids carry a time that never equals the datetime property (3 to 830 seconds apart), and the older collection's ids carry no time. Granule-level confirmation by time is therefore not possible from these listings.",
+  "The interpretation of baseline mismatch is stated for 2017 to 2021 only, but the mechanism differs elsewhere. In 2022 and 2023 about 1,100 scenes carry N05.10 against Earth Search N05.09 or N04.00, and 33 scenes in 2024 carry N99.05 or N99.06. These are not original versus 05.00 cases.",
+  "The ES listing relied on a grid:code equality query. The 24 in-range tiles all have two-digit zones, so the Alaska zero-padding issue in the gotchas does not apply. Pagination logged no failures (216 requests, all status 200)."
+ ],
+ "limitations": [
+  "Recomputation used only the saved listings in data/aqr-coverage/2026-10-13T182253+0000. I did not check them against the live bucket or the live catalog.",
+  "Whether USGS read the Level-1C product named in the object name, and whether geometry differs between baselines, cannot be tested from names and metadata. Claims G7, G8, and the USGS source documentation were not re-verified.",
+  "The Earth Search properties kept in the raw listings exclude nodata percentage and footprint, so I could not test whether a matched Level-2A item covers the same pixels as the USGS scene.",
+  "My item-datetime comparisons are inconclusive because the three collections use different datetime conventions. I do not claim any granule-level false match.",
+  "I wrote my own parsers. I used the repository only to read the claim text, the result file totals, and the method, and then compared my tables to summary.join_by_year and summary.l1c_by_year."
+ ]
+}

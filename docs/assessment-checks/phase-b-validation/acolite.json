@@ -1,0 +1,334 @@
+{
+  "reviewer": {
+    "agent": "self-run ACOLITE validation reviewer",
+    "model": "sonnet"
+  },
+  "reviewed_at": "2026-10-13T16:18:10-04:00",
+  "verdicts": [
+    {
+      "id": "V-ACO-1",
+      "claim": "ACOLITE accepts Sentinel-2 Level-1C only, not Level-2A, as input for atmospheric correction.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "ACOLITE User Manual QV April 21, 2026 (release 20260421.0), https://github.com/acolite/acolite/releases/download/20260421.0/acolite_manual_20260421.0.pdf",
+          "quote": "Sentinel-2 Provide the full path to the .SAFE file. Make sure you have a L1C TOA bundle, not a L2 SR bundle.",
+          "locator": "Section 3.3 Inputfiles, PDF page 8"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/sentinel2/l1_convert.py",
+          "quote": "if meta['PROCESSING_LEVEL'] != 'Level-1C': print('Processing of {} Sentinel-2 {} data not supported'.format(bundle, meta['PROCESSING_LEVEL']))",
+          "locator": "Lines 96-98 at commit ca477dd. The next statement is continue, so the product is skipped"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/20221114.0/acolite/sentinel2/l1_convert.py",
+          "quote": "if meta['PROCESSING_LEVEL'] != 'Level-1C':",
+          "locator": "Line 75 at tag 20221114.0, the version USGS used. The same gate"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/sentinel2/zarr/l1_convert.py",
+          "quote": "if meta['processing:level'] != 'L1C': print('Processing of {} Sentinel-2 {} data not supported'.format(bundle, meta['processing:level']))",
+          "locator": "Lines 73-74 at commit ca477dd. The Zarr reader has the same gate"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/sentinel2/l2_convert.py",
+          "quote": "## converts Sentinel-2 L2A Sen2Cor .SAFE bundle data to s2c_l2a NetCDF",
+          "locator": "Line 2. A format conversion of Sen2Cor values, no atmospheric correction. A search of the whole tree at ca477dd found no caller of l2_convert"
+        }
+      ],
+      "reason": "Both the manual and the code gate on Level-1C. The Sentinel-2 converter prints a message and skips any product whose PROCESSING_LEVEL is not Level-1C, and the Zarr converter does the same. A separate l2_convert function only reformats Sen2Cor output to NetCDF, and nothing in the tree calls it, so Level-2A never reaches the dark spectrum fitting.",
+      "suggested_correction": null
+    },
+    {
+      "id": "V-ACO-2",
+      "claim": "ACOLITE reads local .SAFE products (or extracts compressed inputs first), can download whole products from the Copernicus Data Space Ecosystem, and has no reader for Sentinel-2 objects in AWS buckets.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "ACOLITE User Manual QV April 21, 2026 (release 20260421.0), https://github.com/acolite/acolite/releases/download/20260421.0/acolite_manual_20260421.0.pdf",
+          "quote": "Inputfiles can be either single files (e.g. CHRIS .hdf files or zipped Planet bundles) or directories (e.g. Sentinel .SAFE bundles or extracted Planet bundles). In general ACOLITE will be able to extract compressed input files.",
+          "locator": "Section 3.3 Inputfiles, PDF page 8"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/acolite/identify_bundle.py",
+          "quote": "if os.path.isfile(bundle) & (ext.lower() in ['.zip', '.tar', '.gz', '.tgz', '.bz2']):",
+          "locator": "Line 32, inside the extract_inputfile test on line 31"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/sentinel2/safe_test.py",
+          "quote": "files = os.listdir(file)",
+          "locator": "Line 14. The SAFE reader walks a local directory. Line 65 parses band file names with a split on underscore and accepts three parts"
+        },
+        {
+          "source": "ACOLITE User Manual QV April 21, 2026 (release 20260421.0), https://github.com/acolite/acolite/releases/download/20260421.0/acolite_manual_20260421.0.pdf",
+          "quote": "Controls whether to attempt to download a Sentinel-2 or Sentinel-3 scene from the CDSE or a Landsat scene from EarthExplorer.",
+          "locator": "Setting scene_download, printed under heading 4.1.3, PDF page 25"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/acolite/inputfile_test.py",
+          "quote": "if bn[0:3] in ['S2A', 'S2B', 'S2C', 'S3A', 'S3B']: download_source = 'CDSE'",
+          "locator": "Lines 66-67. Every Sentinel-2 name routes to CDSE, nothing else"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/api/cdse/download.py",
+          "quote": "extract_zip = True, remove_zip = True, override = False, verbosity = 1):",
+          "locator": "Function signature lines 9-11, with zfile = '{}/{}.zip' at line 77. One whole-product zip per scene"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/api/s3/query_goes.py",
+          "quote": "url_base = 's3://noaa-goes'",
+          "locator": "Line 10. A search of the tree at ca477dd for boto, s3://, amazonaws, earth-search, vsis3 and sentinel-s2 finds S3 only for NOAA GOES and Himawari, Natural Earth lakes, and Copernicus DEM. It finds no Sentinel-2 AWS reader"
+        },
+        {
+          "source": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items (item S2A_16SFE_20251015_1_L1C)",
+          "quote": "s3://sentinel-s2-l1c/tiles/16/S/FE/2025/10/15/1/B02.jp2",
+          "locator": "Asset blue. AWS objects are named B02.jp2 and metadata.xml, one part and no 'MTD', so safe_test (needs three-part names and MTD xml names) cannot read that layout without a rebuild. This is an inference from the code, not a test"
+        }
+      ],
+      "reason": "The code confirms all three parts. SAFE detection lists a local directory, compressed inputs are unpacked on request, and the only Sentinel-2 download path is the CDSE helper, which fetches one whole zip per product. No Sentinel-2 AWS reader exists in the tree at the pinned commit. One qualification: release 20260421.0 reads Sentinel-2 Zarr stores from an https URL, but the AWS Sentinel-2 buckets hold JPEG 2000 files, so the claim holds for them.",
+      "suggested_correction": "Keep the claim. Add that the 20221114.0 release, the version USGS used, has no CDSE helper (see V-ACO-5), and that the Zarr reader of release 20260421.0 is the one remote-read path (see V-ACO-6)."
+    },
+    {
+      "id": "V-ACO-3",
+      "claim": "The dark spectrum fitting aerosol estimate comes from the darkest pixels of the processed region or tile. The Sentinel-2 default is tiled estimation with 600 by 600 pixel tiles, also in release 20221114.0. A region of 600 pixels or fewer in either dimension falls back to fixed estimation.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "ACOLITE User Manual QV April 21, 2026 (release 20260421.0), https://github.com/acolite/acolite/releases/download/20260421.0/acolite_manual_20260421.0.pdf",
+          "quote": "The DSF uses the bands and pixels giving the lowest estimate of aerosol optical thickness over the processed region or tile.",
+          "locator": "Section 2.2.2, PDF page 2"
+        },
+        {
+          "source": "ACOLITE User Manual QV April 21, 2026 (release 20260421.0), https://github.com/acolite/acolite/releases/download/20260421.0/acolite_manual_20260421.0.pdf",
+          "quote": "divides the full scene in approximately 6x6 km tiles, retrieves",
+          "locator": "Section 2.2.1 item 2 'tiled', PDF page 2"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/config/defaults/S2A_MSI.txt",
+          "quote": "dsf_aot_estimate=tiled",
+          "locator": "Line 22. Line 31 is dsf_tile_dimensions=600,600. S2B_MSI.txt and S2C_MSI.txt carry the same lines 22 and 31"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/20221114.0/config/defaults/S2A_MSI.txt",
+          "quote": "dsf_tile_dimensions=600,600",
+          "locator": "Line 23 at tag 20221114.0, with dsf_aot_estimate=tiled on line 14. S2B_MSI.txt at the tag has the same lines"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/acolite/acolite_l2r.py",
+          "quote": "ni = np.ceil(gem.gatts['data_dimensions'][0]/setu['dsf_tile_dimensions'][0]).astype(int)",
+          "locator": "Lines 435-439 at ca477dd: if (ni <= 1) | (nj <= 1) then dsf_aot_estimate is set to 'fixed'. ni <= 1 means the dimension is 600 pixels or fewer"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/20221114.0/acolite/acolite/acolite_l2r.py",
+          "quote": "if (ni <= 1) | (nj <= 1):",
+          "locator": "Line 246 at tag 20221114.0, setting 'fixed' on line 248. The fallback exists in the USGS version"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/config/defaults/S2A_MSI.txt",
+          "quote": "dsf_spectrum_option=intercept",
+          "locator": "Line 23, with dsf_intercept_pixels=200 on line 30. See the reason for the nuance"
+        }
+      ],
+      "reason": "Every part is confirmed in the manual and the code, including at tag 20221114.0. The fallback test is ceil(dimension / tile size) <= 1, so 600 pixels or fewer in either dimension runs fixed, counted in pixels of the output grid. Two precision notes: the Sentinel-2 default dark spectrum is an intercept fit over the lowest 200 pixels, not the single darkest pixel, and 600 pixels is 6 km only at the default 10 m output grid.",
+      "suggested_correction": "Optional wording: 'from the darkest pixels (an intercept fit over the lowest 200 pixels by default) of the processed region or tile'. State the fallback in km as well as pixels, 6 km at 10 m with 600 pixels and 6 km at 20 m with 300 pixels."
+    },
+    {
+      "id": "V-ACO-4",
+      "claim": "The developer advises processing single lakes separately with a limited region and dsf_aot_estimate=fixed (forum reply 2025-12-15), and says whole-scene tiled results approximate per-target runs.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://odnature.naturalsciences.be/remsem/acolite-forum/viewtopic.php?p=2378",
+          "quote": "My general recommendation for processing individual lakes with ACOLITE/DSF is to process them separately with a limited ROI covering the lake and a fixed aerosol (dsf_aot_estimate=fixed).",
+          "locator": "Post by the developer account, Mon Dec 15, 2025 5:56 am, thread 'Proper utilisation of RAdCor'"
+        },
+        {
+          "source": "https://odnature.naturalsciences.be/remsem/acolite-forum/viewtopic.php?p=2378",
+          "quote": "In DSF the setting dsf_aot_estimate=tiled cuts up the scene in subscenes and estimates the aerosol for each subscene. These aerosol estimates are then interpolated between the tiles, and the results should approximate those obtained when processing individual targets.",
+          "locator": "Same post, second paragraph"
+        },
+        {
+          "source": "https://odnature.naturalsciences.be/remsem/acolite-forum/viewtopic.php?p=2378",
+          "quote": "(Although there are issues near bright targets such as clouds and deserts, where a tile with extremely high aerosol optical depth will impact tiles around it in the interpolation.)",
+          "locator": "Same post, same paragraph"
+        },
+        {
+          "source": "https://odnature.naturalsciences.be/remsem/acolite-forum/viewtopic.php?p=2378",
+          "quote": "radcor_aot_estimate=ancillary_fixed only got added this morning",
+          "locator": "Post by the developer account, Mon Dec 8, 2025 5:14 pm, signed 'the developer account'. The code header '2025-12-08 (QV) added ancillary_fixed option' in acolite/adjacency/radcor/radcor.py line 45 ties the poster to the code author"
+        }
+      ],
+      "reason": "The two quoted sentences match the claim and the date. The poster is the code author, because he reports adding an option 'this morning' on the day the radcor.py header records his own change. The reply is hedged ('should approximate') and sits in a RAdCor thread about 3 to 22 ha lakes, but it states the advice as a general one for ACOLITE/DSF.",
+      "suggested_correction": "Keep the claim. In the second claim restore the hedge: 'results should approximate those of individual-target runs, with exceptions near bright targets such as clouds and deserts'. Note the example in the reply used a 5 km ROI."
+    },
+    {
+      "id": "V-ACO-5",
+      "claim": "The estimated engineering effort, 'medium for one-off gap fills, high as a repeatable pipeline', is reasonable given the documented facts.",
+      "verdict": "partially validated",
+      "evidence": [
+        {
+          "source": "ACOLITE User Manual QV April 21, 2026 (release 20260421.0), https://github.com/acolite/acolite/releases/download/20260421.0/acolite_manual_20260421.0.pdf",
+          "quote": "The use of ancillary and SRTM DEM data requires the set up of an EarthData account",
+          "locator": "Section 2.6, PDF page 3. The USGS settings use dem_source=srtm and ancillary_data=True, so matching them needs EarthData, not only the ancillary option"
+        },
+        {
+          "source": "USGS per-scene ACOLITE settings file, data/aqr-headers/2026-10-13T181726+0000/",
+          "quote": "dem_source=srtm",
+          "locator": "Settings file for S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU, with ancillary_data=True further down"
+        },
+        {
+          "source": "ACOLITE User Manual QV April 21, 2026 (release 20260421.0), https://github.com/acolite/acolite/releases/download/20260421.0/acolite_manual_20260421.0.pdf",
+          "quote": "Added CDSE and EarthExplorer query and download option",
+          "locator": "Release notes under 20231023.0, PDF page 58, after 20221114.0. The tree of tag 20221114.0 (532 entries, via the GitHub API) has no acolite/api folder. The USGS version has no built-in CDSE downloader"
+        },
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+          "quote": "ACOLITE) version 20221114.0 processing software",
+          "locator": "Abstract of S2_AQR_Metadata.xml. USGS ran release 20221114.0"
+        },
+        {
+          "source": "ACOLITE User Manual QV April 21, 2026 (release 20260421.0), https://github.com/acolite/acolite/releases/download/20260421.0/acolite_manual_20260421.0.pdf",
+          "quote": "Improved interpolation for tiled DSF",
+          "locator": "Release notes under 20250114.0, PDF page 57. A current release does not repeat the 20221114.0 tiled aerosol interpolation exactly"
+        },
+        {
+          "source": "https://documentation.dataspace.copernicus.eu/Quotas.html",
+          "quote": "Monthly transfer limit (TB) (IAD¹)¹⁰ 12",
+          "locator": "Copernicus General Users column. The same table gives 4 concurrent connections and 20 MB/s per connection"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/sentinel2/l1_convert.py",
+          "quote": "oname = '{}_{}_{}'.format(gatts['sensor'], stime.strftime('%Y_%m_%d_%H_%M_%S'), gatts['tile_code'])",
+          "locator": "Line 182. Output names carry no processing baseline, so two products of one acquisition collide"
+        },
+        {
+          "source": "https://odnature.naturalsciences.be/remsem/acolite-forum/viewtopic.php?p=2069",
+          "quote": "Yes processing MSI data at 10 m resolution currently uses a lot of memory.",
+          "locator": "Post by the developer account, Wed Apr 17, 2024 8:37 am. No page gives run time, peak memory or disk per scene"
+        },
+        {
+          "source": "benchmarks/results/aqr-coverage.json in this repository",
+          "quote": "\"missing_vs_l1c_by_year\": { \"2015\": 0, \"2016\": 0, \"2017\": 140, \"2018\": 1599, \"2019\": 1983, \"2020\": 2073, \"2021\": 1962, \"2022\": 1522, \"2023\": 1342, \"2024\": 1562, \"2025\": 1707, \"2026\": 1595 }",
+          "locator": "Top-level summary object (line 32653, not the per-tile copies). Acquisitions in the Earth Search L1C collection with no USGS scene, 24 survey tiles, 15,485 in total"
+        }
+      ],
+      "reason": "'High as a repeatable pipeline' is well supported: custom staging, per-scene disk, CDSE quotas, baseline-blind output names, and a version pin all add work. 'Medium for one-off gap fills' holds only for a few scenes on the current release with the built-in CDSE download, and the claim states neither the scene count nor the route. The listed basis omits that matching USGS output needs release 20221114.0 (no CDSE downloader, so custom staging even for one scene), EarthData for the SRTM DEM, and that run time, memory and disk are unmeasured.",
+      "suggested_correction": "Reword to a conditional: 'Low to medium for a handful of named scenes on the current release with the built-in CDSE download and a whole-tile run. Medium to high if the output must match USGS, which pins release 20221114.0 and its settings and removes the built-in download. High as a repeatable pipeline, with about 1,300 to 2,100 missing scenes a year since 2018 on the 24 survey tiles alone.' Add to the basis: EarthData needed for srtm, no baseline in output names, and the unchecked AWS-to-SAFE rebuild. Mark run time, memory and disk as unknown, not medium."
+    },
+    {
+      "id": "V-ACO-6",
+      "claim": "Finding F-29: The GeoTIFF archives cannot be reprocessed to ACOLITE values, and Level-1C comes from a requester-pays bucket or the Copernicus service.",
+      "verdict": "validated",
+      "evidence": [
+        {
+          "source": "https://earth-search.aws.element84.com/v1/collections",
+          "quote": "Sentinel-2 Collection 1 Level-2A, data from the Multispectral Instrument (MSI) onboard Sentinel-2",
+          "locator": "Collection sentinel-2-c1-l2a. Its item_assets are GeoTIFF, JPEG, JSON and XML only"
+        },
+        {
+          "source": "https://earth-search.aws.element84.com/v1/collections",
+          "quote": "Pre-Collection 1 Level-2A (baseline < 05.00), with data and metadata matching collection sentinel-2-c1-l2a",
+          "locator": "Collection sentinel-2-pre-c1-l2a, description. Its item_assets are GeoTIFF, JPEG, JSON and XML only. The older sentinel-2-l2a collection adds only Level-2A JP2 twins (aot-jp2, scl-jp2 and so on)"
+        },
+        {
+          "source": "https://earth-search.aws.element84.com/v1/collections",
+          "quote": "Sentinel-2 Level-1C",
+          "locator": "Collection sentinel-2-l1c. Its item_assets types are JSON, XML, image/jp2 and image/jpeg. There is no GeoTIFF Level-1C collection in the 9 collections listed"
+        },
+        {
+          "source": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items (item S2A_16SFE_20251015_1_L1C)",
+          "quote": "s3://sentinel-s2-l1c/tiles/16/S/FE/2025/10/15/1/B02.jp2",
+          "locator": "Asset blue, type image/jp2. Item metadata only. No bucket was contacted"
+        },
+        {
+          "source": "https://registry.opendata.aws/sentinel-2/",
+          "quote": "Description Level 1C scenes and metadata, in Requester Pays S3 bucket Resource type S3 Bucket Requester Pays Amazon Resource Name (ARN) arn:aws:s3:::sentinel-s2-l1c AWS Region eu-central-1",
+          "locator": "Resources on AWS, first entry"
+        },
+        {
+          "source": "https://registry.opendata.aws/sentinel-2/",
+          "quote": "Description Zipped archives for each L1C product with 3 day retention period, in Requester Pays bucket",
+          "locator": "Resources on AWS, sentinel-s2-l1c-zips. A 3 day window cannot serve an archive gap fill"
+        },
+        {
+          "source": "https://documentation.dataspace.copernicus.eu/Data/SentinelMissions/Sentinel2.html",
+          "quote": "Sentinel-2 Level 1C products are available globally from 2015 onwards.",
+          "locator": "Level 1C section"
+        },
+        {
+          "source": "https://documentation.dataspace.copernicus.eu/Quotas.html",
+          "quote": "Every user account is set a limited quota to guarantee fair sharing of free tier resources within all users of Copernicus Data Space Ecosystem.",
+          "locator": "Opening paragraph. Free tier within quotas, per account"
+        },
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+          "quote": "https://catalogue.dataspace.copernicus.eu/odata/v1/",
+          "locator": "Lineage source citation 'Copernicus Data Space Ecosystem' in S2_AQR_Metadata.xml. The metadata names the Level-1C input but has no sentence saying 'downloaded from'"
+        },
+        {
+          "source": "https://stac.core.eopf.eodc.eu/collections/sentinel-2-l1c",
+          "quote": "Sentinel-2 Level-1C",
+          "locator": "Collection metadata, temporal extent 2015-09-13 to 2026-10-12. Items are Zarr stores at objects.eodc.eu from the 'EOPF Sentinel Zarr Samples Service'. This is a third Level-1C source that release 20260421.0 reads by https"
+        }
+      ],
+      "reason": "The logic holds. ACOLITE needs Level-1C (V-ACO-1), both Earth Search GeoTIFF collections are Level-2A only, and the only Earth Search Level-1C collection is JPEG 2000 in the requester-pays bucket sentinel-s2-l1c in eu-central-1, while Copernicus serves Level-1C within free per-account quotas. 'Cannot be reprocessed' is a statement about inputs, since no Level-1C GeoTIFF exists. The 'or' is not exhaustive, because ACOLITE 20260421.0 also reads Level-1C Zarr from the EODC sample service, with completeness and stability unknown.",
+      "suggested_correction": "Keep the finding. Replace 'cannot be reprocessed' with 'cannot be used as ACOLITE input' and say 'Level-1C comes from the requester-pays bucket, the Copernicus service, or, for release 20260421.0 only, the EODC Zarr sample service'. Say that the AWS objects are per-band files, not SAFE folders, so staging also rebuilds the SAFE layout."
+    },
+    {
+      "id": "V-ACO-7",
+      "claim": "Finding F-30: a clipped self-run uses a different aerosol estimate than the USGS whole-tile run (USGS settings: tiled, 300 by 300 tiles), so a self-run gap fill is a different product from the scene it fills.",
+      "verdict": "partially validated",
+      "evidence": [
+        {
+          "source": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+          "quote": "Current default ACOLITE settings were used with the exception that; 1) output pixel size (S2_TARGET_RES) was set to 20 m, 2) the tiling dimensions (DSF_TILE_DIMENSIONS) was set to 300 pixels",
+          "locator": "Abstract of S2_AQR_Metadata.xml"
+        },
+        {
+          "source": "USGS per-scene ACOLITE settings file (three files on disk, identical on these keys)",
+          "quote": "dsf_tile_dimensions=300,300",
+          "locator": "Also s2_target_res=20, dsf_aot_estimate=tiled, limit=None, polygon=None, polygon_clip=False. USGS ran whole tiles"
+        },
+        {
+          "source": "ACOLITE User Manual QV April 21, 2026 (release 20260421.0), https://github.com/acolite/acolite/releases/download/20260421.0/acolite_manual_20260421.0.pdf",
+          "quote": "divides the full scene in approximately 6x6 km tiles, retrieves",
+          "locator": "Section 2.2.1, PDF page 2. 300 pixels at 20 m and 600 pixels at 10 m are both 6 km"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/acolite/acolite_l2r.py",
+          "quote": "if (ni <= 1) | (nj <= 1):",
+          "locator": "Line 437 at ca477dd, the same test at tag 20221114.0 line 246. A clip of 6 km or less (300 pixels at 20 m with USGS settings) runs fixed"
+        },
+        {
+          "source": "https://odnature.naturalsciences.be/remsem/acolite-forum/viewtopic.php?p=2378",
+          "quote": "the results should approximate those obtained when processing individual targets.",
+          "locator": "Developer reply 2025-12-15. The size of the difference is not claimed, and F-30 itself says it is unmeasured, probe T9"
+        },
+        {
+          "source": "ACOLITE User Manual QV April 21, 2026 (release 20260421.0), https://github.com/acolite/acolite/releases/download/20260421.0/acolite_manual_20260421.0.pdf",
+          "quote": "Improved interpolation for tiled DSF",
+          "locator": "Release notes under 20250114.0, PDF page 57. A current-release self-run differs from USGS even on a whole tile"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/shared/tiles_interp.py",
+          "quote": "2024-04-18 (QV) new version using interpn, added option to use RGI",
+          "locator": "Header line 9. The file at tag 20221114.0 has no such line and uses griddata (diff of the two files)"
+        }
+      ],
+      "reason": "The mechanism is right: a clip replaces the 6 km tiled estimate with one fixed estimate from the clip window, or with a tile grid anchored to the clip corner. The wording misleads, because 300 and 600 pixels are both 6 km on their own grids (20 m and 10 m), so F-30's contrast suggests a tile-size gap that does not exist. 'A different product' is also too strong, because a whole-tile run with USGS settings reproduces the estimation window, while the release and interpolation code are a second source of difference. The size of the difference is unmeasured, and the developer expects tiled and per-target results to be close.",
+      "suggested_correction": "Reword F-30 and practice P15 in km: 'USGS tiles are 6 km (300 pixels at 20 m). A clip of 6 km or less in either dimension runs one fixed estimate, and a larger clip tiles from its own corner, so the aerosol differs from the whole-tile run. A whole-tile run with the USGS settings uses the same window. Any run on a release after 20221114.0 also differs in tiled interpolation. The size of the difference is unmeasured, probe T9.' Replace 'is a different product' with 'is not guaranteed to match the scene it fills'. Candidate question 5 can close, since the version is 20221114.0 and the settings files are on disk."
+    }
+  ],
+  "limitations": [
+    "No ACOLITE code was executed. Every source was read as text. git fetch, curl and pdftotext were used only to download and parse. Saved copies are under /private/tmp/claude-501/-Users-arik-github-sentinel2-pipeline-development/762b3e6f-e4f2-4a11-be66-876d07ee3350/scratchpad/validation/acolite (repo at commit ca477dd, manual PDF, forum pages, registry and documentation pages, Earth Search and EODC STAC metadata).",
+    "Fetched fresh on 2026-10-13: GitHub raw files at ca477dd and tag 20221114.0, the GitHub tag tree, the manual PDF (67 pages, release 20260421.0), three forum threads, the AWS registry, the Sinergise L1C readme, CDSE documentation, the USGS metadata XML, and JSON metadata from the Earth Search API and the EODC STAC API. No S3 bucket and no imagery were touched. Earth Search and EODC calls returned collection and item metadata only.",
+    "PDF quotes come from pdftotext output with line breaks joined, and hyphenated line breaks were avoided. Page numbers are PDF page indexes, found by searching each page.",
+    "V-ACO-2 'no reader for AWS objects' is an absence claim. It rests on a text search of the tree at one commit (boto, s3://, amazonaws, earth-search, vsis3, sentinel-s2) plus a reading of safe_test.py. The AWS-layout rebuild problem is an inference from the code, not a run.",
+    "The poster 'the developer account' is identified as the developer from the signature, the code headers by QV, and the matching 2025-12-08 change. The forum page does not label the role.",
+    "V-ACO-5 is a judgment on an estimate. Run time, peak memory, disk per scene, and whether GDAL reads only the JPEG 2000 tiles a clip needs are unmeasured, so no reviewer can confirm a medium or high rating from documents alone. The 2022-era code on a current GDAL and numpy stack was not checked.",
+    "I did not verify the 81 percent figure in F-29 (measurement finding 28). The ratio 15,744 of 19,336 scenes in aqr-coverage.json is consistent with it.",
+    "The Zarr route of release 20260421.0 and the legacy Google Cloud helper in acolite/gem/scene_download.py (gs://gcp-public-data-sentinel-2) are leads. Coverage, stability, payer terms and fit with release 20221114.0 were not checked.",
+    "CDSE 'free to registered users' rests on the quota page, which speaks of user accounts and a free tier. Offline (deferred) products on CDSE and real throughput were not tested.",
+    "Verdict 'validated' means the cited sources support the claim as worded, with the notes given. It does not mean the engineering conclusions drawn downstream hold."
+  ]
+}

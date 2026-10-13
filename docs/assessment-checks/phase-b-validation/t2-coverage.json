@@ -1,0 +1,485 @@
+{
+ "reviewer": {
+  "agent": "T2 coverage validation reviewer",
+  "model": "sonnet"
+ },
+ "reviewed_at": "2026-10-13T16:15:00-04:00",
+ "verdicts": [
+  {
+   "id": "V-T2-1",
+   "claim": "24 lower-48 tiles, 2015-06-01 to 2026-10-13: 19,336 scenes and 18,384 acquisitions (distinct sensing date plus platform letter per tile).",
+   "verdict": "validated",
+   "recomputed": {
+    "scenes": 19336,
+    "acquisitions": 18384,
+    "tiles_with_scenes": "24 of 24",
+    "objects": 263590,
+    "unparsed_keys": 0,
+    "tile_prefix_vs_filename_tile_mismatches": 0,
+    "first_sensing": "2015-07-11T16:54:56Z",
+    "last_sensing": "2026-10-12T16:12:21Z",
+    "scenes_outside_window": 0,
+    "acquisitions_with_two_distinct_sensing_times": 0,
+    "scenes_minus_acquisitions": 952,
+    "multi_scene_acquisitions": 949,
+    "scenes_in_multi_scene_acquisitions": 1901,
+    "s3_listing_integrity": "281 list requests all HTTP 200, keys sorted, no duplicate keys, page counts equal ceil(objects/1000) on every tile",
+    "raw_file_hashes_match_result": "102 of 102"
+   },
+   "reason": "I grouped every object key into products (platform, sensing, baseline, orbit, tile, generation) and then into (tile, UTC sensing date, platform letter). Both totals match exactly, and the 952 difference equals the surplus scenes inside the 949 multi-scene acquisitions. No acquisition collapses two different sensing times, so the key loses nothing in this data. Every acquisition also has at least one full 14-object scene.",
+   "suggested_correction": null
+  },
+  {
+   "id": "V-T2-2",
+   "claim": "Earth Search lists no acquisition before 2017. From 2018 to 2026 the USGS product holds 41 to 61 percent of the acquisitions any of three Earth Search collections lists, per year: 2018 44, 2019 43, 2020 41, 2021 44, 2022 56, 2023 61, 2024 56, 2025 59, 2026 51 percent.",
+   "verdict": "validated",
+   "recomputed": {
+    "earth_search_min_datetime": "2017-01-01T18:27:43Z (all three collections combined, 0 items earlier)",
+    "earth_search_distinct_acquisitions": 32399,
+    "bucket_acquisitions_also_on_earth_search": 16905,
+    "bucket_acquisitions_not_on_earth_search": 1479,
+    "by_year (ES acquisitions, with product scene, share)": {
+     "2017": [
+      1232,
+      1092,
+      88.6
+     ],
+     "2018": [
+      2849,
+      1250,
+      43.9
+     ],
+     "2019": [
+      3489,
+      1506,
+      43.2
+     ],
+     "2020": [
+      3494,
+      1421,
+      40.7
+     ],
+     "2021": [
+      3488,
+      1526,
+      43.8
+     ],
+     "2022": [
+      3462,
+      1940,
+      56.0
+     ],
+     "2023": [
+      3453,
+      2111,
+      61.1
+     ],
+     "2024": [
+      3551,
+      1989,
+      56.0
+     ],
+     "2025": [
+      4135,
+      2426,
+      58.7
+     ],
+     "2026": [
+      3246,
+      1644,
+      50.6
+     ]
+    },
+    "bucket_acquisitions_not_on_earth_search_by_year": {
+     "2015": 120,
+     "2016": 950,
+     "2017": 286,
+     "2018": 117,
+     "2022": 6
+    },
+    "es_listing_integrity": "72 listings, 3 pages each, page 3 empty, all HTTP 200, 0 items whose grid:code differs from the queried tile, platform field agrees with item id on all items",
+    "acquisition_key_robustness": "ES key from item datetime date equals the date in s2:product_uri for all 32,399 ES acquisitions. All sensing times fall in 15 to 19 UTC on both sides, so no midnight split. No bucket-only acquisition has an ES acquisition within one day on the same platform."
+   },
+   "reason": "All nine yearly shares and the table counts (ES acquisitions and with-product counts) reproduce exactly, and the 41 to 61 range is right. The table skips 2017, where ES lists 1,232 acquisitions and the product covers 89 percent. The numerator counts only bucket acquisitions that ES also lists, so 1,479 bucket-only acquisitions (mostly 2015 to 2017) are outside every share.",
+   "suggested_correction": "Add a 2017 row (1,232 acquisitions, 1,092 with a scene, 89%) or state why 2017 is excluded. State that shares count only bucket acquisitions that Earth Search also lists, and give the 1,479 bucket-only acquisitions (1,070 sensed in 2015 and 2016) separately."
+  },
+  {
+   "id": "V-T2-3",
+   "claim": "74 percent of Earth Search acquisitions under 10 percent Level-1C cloud cover have a USGS scene, 15 percent of those over 75 percent do, and 2,840 missing acquisitions have under 10 percent cloud cover.",
+   "verdict": "validated",
+   "recomputed": {
+    "reference": "sentinel-2-l1c collection, 32,364 distinct acquisitions, every one with eo:cloud_cover, lowest value per acquisition",
+    "pooled_bins (present, missing, share)": {
+     "0-10": [
+      7888,
+      2840,
+      73.5
+     ],
+     "10-25": [
+      2713,
+      903,
+      75.0
+     ],
+     "25-50": [
+      2977,
+      1175,
+      71.7
+     ],
+     "50-75": [
+      1805,
+      1929,
+      48.3
+     ],
+     "75-100": [
+      1496,
+      8638,
+      14.8
+     ]
+    },
+    "missing_under_10_cloud": 2840,
+    "sensitivity_highest_cloud_per_acquisition": {
+     "0-10 share": 74.3,
+     "75-100 share": 15.5,
+     "missing_under_10": 2634
+    },
+    "acquisitions_with_several_l1c_items": 6316,
+    "of_which_cloud_differs_over_10_points": 1206,
+    "by_year_share_with_scene (cloud under 10 / cloud 75 and over)": {
+     "2017": [
+      93.9,
+      58.3
+     ],
+     "2018": [
+      53.3,
+      24.0
+     ],
+     "2019": [
+      60.2,
+      25.0
+     ],
+     "2020": [
+      54.9,
+      21.4
+     ],
+     "2021": [
+      58.8,
+      27.8
+     ],
+     "2022": [
+      76.2,
+      27.3
+     ],
+     "2023": [
+      94.3,
+      6.9
+     ],
+     "2024": [
+      92.6,
+      0.0
+     ],
+     "2025": [
+      87.4,
+      0.0
+     ],
+     "2026": [
+      72.1,
+      0.0
+     ]
+    },
+    "missing_under_10_cloud_by_year": {
+     "2017": 33,
+     "2018": 544,
+     "2019": 424,
+     "2020": 528,
+     "2021": 443,
+     "2022": 268,
+     "2023": 59,
+     "2024": 84,
+     "2025": 177,
+     "2026": 280
+    },
+    "missing_under_10_cloud_with_L2A_nodata_over_50": 1038,
+    "missing_under_10_cloud_with_L2A_nodata_over_30": 1474
+   },
+   "reason": "All three numbers reproduce (73.5, 14.8, 2,840). The pooled figures mix two regimes. In 2018 to 2021 the product held 53 to 60 percent of low-cloud and 21 to 28 percent of high-cloud acquisitions. From 2023 it held 87 to 94 percent of low-cloud and none of the 2024 to 2026 acquisitions over 75 percent cloud. The 2,840 is also sensitive to taking the lowest cloud value per acquisition (2,634 with the highest).",
+   "suggested_correction": "Keep the pooled sentence and add the split: 2018 to 2021 about 55 to 60 percent of low-cloud acquisitions and 21 to 28 percent of high-cloud ones, 2023 to 2025 about 87 to 94 percent and 0 to 7 percent. Say that 2,840 uses the lowest cloud cover among an acquisition's items, and that 1,038 of the 2,840 have over 50 percent Level-2A no-data."
+  },
+  {
+   "id": "V-T2-4",
+   "claim": "On 17 of 24 tiles the median Level-2A no-data share of missing acquisitions exceeds that of present ones. Median of per-tile medians: 2.6 percent present, 38.8 percent missing.",
+   "verdict": "validated",
+   "recomputed": {
+    "tiles_where_missing_median_exceeds_present": 17,
+    "median_of_per_tile_medians_present": 2.64,
+    "median_of_per_tile_medians_missing": 38.82,
+    "aggregation_sensitivity": {
+     "lowest no-data per acquisition (the claim's choice)": {
+      "tiles": 17,
+      "present": 2.64,
+      "missing": 38.82
+     },
+     "highest no-data per acquisition": {
+      "tiles": 18,
+      "present": 17.46,
+      "missing": 46.04
+     },
+     "Collection 1 only (lowest)": {
+      "tiles": 17,
+      "present": 2.05,
+      "missing": 37.35
+     },
+     "older collection only (lowest)": {
+      "tiles": 17,
+      "present": 2.64,
+      "missing": 38.82
+     }
+    },
+    "tiles_with_absolute_median_gap_under_1_point": {
+     "10TET": -0.03,
+     "11SQA": 0.29,
+     "13TGN": -0.36,
+     "17SKU": 0.78
+    },
+    "tiles_where_present_median_is_higher": [
+     "10SEJ",
+     "10SGJ",
+     "10TET",
+     "11SKD",
+     "13TGN",
+     "17RNK",
+     "17SKT"
+    ],
+    "pooled_share_with_scene_by_nodata_bin_2018_2022 (0-5,5-25,25-50,50-75,75-100)": [
+     51.3,
+     55.9,
+     51.8,
+     24.3,
+     22.2
+    ],
+    "pooled_share_with_scene_by_nodata_bin_2023_2026": [
+     55.5,
+     62.1,
+     55.8,
+     56.8,
+     57.6
+    ]
+   },
+   "reason": "The count of 17 tiles and both medians (2.64 and 38.82) reproduce exactly using the lowest no-data value per acquisition across both Level-2A collections. The levels depend on that choice: the highest value gives 17.5 and 46.0 percent. The partial-tile effect exists in 2018 to 2022, where acquisitions over 50 percent no-data have 22 to 24 percent coverage, and disappears in 2023 to 2026.",
+   "suggested_correction": "State that each acquisition uses the lowest no-data share among its Level-2A items. Qualify 'Partial tiles are also missing more often' as true for 2018 to 2022 and not for 2023 to 2026, or split the figures by period."
+  },
+  {
+   "id": "V-T2-5",
+   "claim": "Inputs are mostly original Level-1C baselines (02.01 to 04.00 dominate 2015 to 2022, beside some 05.00). 949 acquisitions hold more than one product with the same sensing time: 486 pair an original baseline with 05.00 and 362 repeat one baseline.",
+   "verdict": "partially validated",
+   "recomputed": {
+    "duplicates": {
+     "acquisitions_with_more_than_one_scene": 949,
+     "all_with_identical_sensing_time": 949,
+     "original_baseline_plus_05.00": 486,
+     "same_baseline_repeated": 362,
+     "other": 101,
+     "other_breakdown": {
+      "05.09+05.10": 63,
+      "04.00+05.10": 29,
+      "03.01+05.10": 6,
+      "02.05+02.06": 2,
+      "05.11+99.06": 1
+     },
+     "repeat_pairs_with_two_generation_times_and_one_orbit": 362
+    },
+    "baseline_class_share_by_sensing_year (02.01-04.00 / 05.00 / 05.09-05.13)": {
+     "2015": [
+      16,
+      84,
+      0
+     ],
+     "2016": [
+      12,
+      88,
+      0
+     ],
+     "2017": [
+      52,
+      48,
+      0
+     ],
+     "2018": [
+      89,
+      11,
+      0
+     ],
+     "2019": [
+      92,
+      8,
+      0
+     ],
+     "2020": [
+      86,
+      14,
+      0
+     ],
+     "2021": [
+      87,
+      13,
+      0
+     ],
+     "2022": [
+      75,
+      0,
+      25
+     ],
+     "2023": [
+      0,
+      0,
+      100
+     ],
+     "2024": [
+      0,
+      0,
+      98
+     ],
+     "2025": [
+      0,
+      0,
+      100
+     ],
+     "2026": [
+      0,
+      0,
+      100
+     ]
+    },
+    "scene_counts_2015_2022_pooled": {
+     "02.01-04.00": 7981,
+     "05.00": 2407,
+     "05.09-05.10": 509,
+     "total": 10897
+    },
+    "scene_counts_all_years": {
+     "02.01-04.00": 7981,
+     "05.00": 2407,
+     "05.09-05.13": 8915,
+     "99.05-99.06": 33,
+     "total": 19336
+    }
+   },
+   "reason": "The duplicate counts (949, 486, 362) reproduce exactly, and 101 further acquisitions are neither type, mostly 05.09 beside 05.10. The baseline sentence holds for 2018 to 2022, where 02.xx to 04.00 make up 75 to 92 percent a year. It fails for 2015 and 2016, where 05.00 is 84 and 88 percent of scenes, and 2017, where it is 48 percent. 'Some 05.00' understates those years.",
+   "suggested_correction": "Write: 'Baselines 02.01 to 04.00 dominate 2018 to 2022 (75 to 92 percent a year). Scenes sensed in 2015 and 2016 are mostly 05.00 (84 and 88 percent), and 2017 is 48 percent. 2023 on holds 05.09 to 05.13.' Add that 101 of the 949 duplicate acquisitions pair other baselines."
+  },
+  {
+   "id": "V-T2-6",
+   "claim": "586 scenes lack the 14-object set: 488 only B06 plus settings, 97 only settings, 1 only B06. 16 scenes add B10. Sentinel-2C appears in 1,844 scenes.",
+   "verdict": "validated",
+   "recomputed": {
+    "layer_sets": {
+     "14-object set": 18734,
+     "B06 + settings": 488,
+     "settings only": 97,
+     "B06 only": 1,
+     "14 objects + B10": 16
+    },
+    "scenes_lacking_14_object_set": 586,
+    "scenes_with_B10": 16,
+    "sentinel_2c_scenes": 1844,
+    "platform_counts": {
+     "S2A": 8660,
+     "S2B": 8832,
+     "S2C": 1844
+    },
+    "all_586_partial_scenes_have_a_full_sibling_scene_of_the_same_acquisition": true,
+    "acquisitions_with_no_full_scene": 0,
+    "partial_scenes_by_sensing_year": {
+     "2016": 1,
+     "2017": 33,
+     "2018": 62,
+     "2019": 94,
+     "2020": 135,
+     "2021": 163,
+     "2022": 42,
+     "2023": 56
+    },
+    "earliest_object_month_of_partial_scenes": "2024-12 for all 586",
+    "extra_check_99.05_99.06_scenes": 33,
+    "extra_check_05.13_scenes": 133
+   },
+   "reason": "All counts reproduce exactly. The 586 partial scenes all sit beside a complete scene of the same acquisition, so they do not inflate any coverage share: every one of the 18,384 acquisitions has a full 14-object scene.",
+   "suggested_correction": "Optional: add that all 586 partial scenes are duplicates of an acquisition that also has a full scene."
+  },
+  {
+   "id": "V-T2-7",
+   "claim": "For 784 scenes sensed from 2026-06-15, the first object appeared a median 0.33 days after sensing, 90th percentile 3.76 days, maximum 18.93 days. Earliest object timestamps fall in 2024-12 for 10,164 scenes.",
+   "verdict": "validated",
+   "recomputed": {
+    "scenes_sensed_from_2026-06-15": 784,
+    "median_hours": 8.04,
+    "median_days_exact": "0.335 (8.04 to 8.05 hours; rounds to 0.33 or 0.34)",
+    "p90_days_nearest_rank": 3.76,
+    "p90_days_linear": 3.76,
+    "min_days": 0.2,
+    "max_days": 18.93,
+    "share_within_12h": 0.712,
+    "share_within_24h": 0.788,
+    "share_within_48h": 0.844,
+    "scenes_over_7_days": 37,
+    "negative_latencies": 0,
+    "earliest_object_month_counts": {
+     "2024-12": 10164,
+     "2025-05": 1947,
+     "2026-05": 2484
+    },
+    "right_edge_check_share_of_ES_acquisitions_with_scene": {
+     "2026-07": 56.8,
+     "2026-08": 54.8,
+     "2026-09": 49.1,
+     "2026-10": 49.7,
+     "2026-04": 37.1
+    },
+    "latest_object_timestamp": "2026-10-13T00:39:11Z"
+   },
+   "reason": "The latency statistics and the three batch months reproduce, apart from the median that sits on a rounding boundary (0.335 days). The earliest timestamp is the first object written, not the full set. About 79 percent of scenes appear within a day and 37 scenes took over 7 days, so 'within hours' describes the median only. Scenes not yet published are invisible, which biases the tail low. The doc omits this caveat that the result's limitations list states.",
+   "suggested_correction": "Report the median as 0.34 days or 8 hours. Change the heading to say the median is about 8 hours and 79 percent appear within a day. Add the result's caveat that unpublished recent scenes bias the statistic low."
+  },
+  {
+   "id": "V-T2-8",
+   "claim": "The bucket holds Alaska tile 05VLG scenes, first sensed 2015-11-15. The five context tiles outside the United States hold nothing.",
+   "verdict": "validated",
+   "recomputed": {
+    "05VLG": {
+     "keys_in_first_page": 1000,
+     "scenes_in_first_page": 71,
+     "first_key": "version_01/T05VLG/S2A_MSIAQR_20151115T213742_N0500_R086_T05VLG_20231016T121117_B01.tif",
+     "first_sensing": "2015-11-15T21:37:42Z",
+     "last_sensing_in_first_page": "2018-07-01T22:05:31Z",
+     "first_page_sorted": true
+    },
+    "31TGM": 0,
+    "32TLS": 0,
+    "36MVE": 0,
+    "60HUC": 0,
+    "60HVC": 0,
+    "empty_listing_response_bytes": 284
+   },
+   "reason": "The first page for 05VLG holds 1,000 keys and 71 scenes, and its first key is a Sentinel-2A scene sensed 2015-11-15. Keys sort by platform, then sensing time, so that key is the earliest on the tile. All five other prefixes returned empty listings, which are MGRS tiles in France, Italy or Switzerland, east Africa, and New Zealand.",
+   "suggested_correction": "Optional: say 'under the version_01 prefix' for the five empty tiles, and that the Alaska total is unknown because only one page was listed."
+  }
+ ],
+ "method_concerns": [
+  "Pooling across selection regimes. The product's selection changed over time. Cloud: 2018 to 2021 held 53 to 60 percent of acquisitions under 10 percent cloud and 21 to 28 percent of those over 75 percent. 2023 to 2025 held 87 to 94 percent and 0 to 7 percent. No-data: acquisitions over 50 percent no-data have 22 to 24 percent coverage in 2018 to 2022 and 57 to 58 percent in 2023 to 2026. The pooled 74/15 percent and the pooled no-data medians describe neither regime. Raised under V-T2-3 and V-T2-4.",
+  "Lowest value per acquisition. Both the cloud and the no-data comparisons keep the minimum across an acquisition's items. 6,316 acquisitions have several Level-1C items, and 1,206 differ by over 10 points in cloud cover. Taking the maximum changes the no-data medians from 2.6/38.8 to 17.5/46.0 percent and the missing low-cloud count from 2,840 to 2,634. The direction of every finding survives. The levels do not.",
+  "Reference is Earth Search, not ESA. Shares are relative to the acquisitions Element 84 lists. 1,479 bucket acquisitions are absent from all three Earth Search collections (1,070 sensed in 2015 and 2016, 286 in 2017, 117 in 2018, 6 in 2022) and sit outside every share. The table silently skips 2017, the year with the highest share (88.6 percent).",
+  "Presence is by listed objects, not by valid pixels. Every one of the 18,384 acquisitions has a full 14-object scene, and the 586 partial scenes all have a full sibling, so the coverage shares are not inflated by empty scenes. No object body was read.",
+  "Acquisition key. The Earth Search key (item datetime date plus platform) and the bucket key (sensing date in the object name, plus platform) agree on all 32,399 Earth Search acquisitions when compared with the date in s2:product_uri. All sensing times fall between 15:00 and 19:59 UTC, so no acquisition straddles midnight. No item has a grid:code different from its queried tile. No acquisition has two different sensing times in either source.",
+  "Baseline labels. 'Original' is not defined. The text treats 05.00 as the reprocessing, and 05.09 to 05.13 as original operational baselines. A reader may take 'original' to mean only 02.01 to 04.00, which is 41 percent of all scenes. 05.00 is 12 percent of all scenes.",
+  "Latency is the earliest last-modified time of any object in a scene. It describes the bucket copy. It is right-censored because unpublished scenes are absent. The coverage shares for the final weeks (49 to 50 percent) match the preceding months, so censoring looks modest, but the doc does not state the caveat. The heading 'within hours' fits the median only.",
+  "The result was produced from a dirty working tree (code_version 84a4a7e-dirty), so the analysis cannot be tied to a commit. The raw listings do match the sha256 hashes recorded in the result (102 of 102 files).",
+  "The Earth Search 'no acquisition before 2017' statement is a negative from one query window. It is consistent with the raw listing (earliest item 2017-01-01T18:27:43Z, listings paged to an empty last page) but cannot be re-verified offline."
+ ],
+ "limitations": [
+  "No network access. I could not re-query Earth Search or the bucket, so I cannot confirm that the saved listings equal the live state. I did confirm listing completeness from the request log, sorted keys, no duplicates, empty terminal pages, and the recorded file hashes.",
+  "I used the same acquisition definition the claims state (tile, UTC sensing date, platform letter), so I tested its robustness (same sensing time on every multi-scene acquisition, product_uri date agreement) but not whether it is the right unit for a model consumer.",
+  "I cannot say why acquisitions are missing. The cloud and no-data regime split is a descriptive finding. The USGS selection rule was not checked against its documentation here.",
+  "Tile geography was checked by MGRS letters only (for example 11UQP lies in northern Montana, 31TGM in France, 60HUC in New Zealand). I did not use a projection library.",
+  "Another reviewer shared the scratchpad directory and overwrote a helper file I first wrote there. I moved all my work to the t2work subdirectory and re-ran every check, so no result depends on the overwritten file.",
+  "Recomputation scripts are in /private/tmp/claude-501/-Users-arik-github-sentinel2-pipeline-development/762b3e6f-e4f2-4a11-be66-876d07ee3350/scratchpad/validation/t2work/. I did not import or run benchmarks/aqr_coverage.py or src/s2proto/aqr.py. I read them to judge the method."
+ ]
+}

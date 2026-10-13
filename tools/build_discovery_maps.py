@@ -225,6 +225,11 @@ def build() -> None:
             for k, v in zip(*np.unique(flags, return_counts=True), strict=True)
         }
         aqr["present_fraction"] = float(present.mean())
+        with np.load(CACHE / "aqr-pixels.npz") as archive:
+            aqr["negative_counts_20m"] = {
+                name: int(((archive[name] < 0) & (archive[name] != AQR_NODATA)).sum())
+                for name in ("B04", "B03", "B02")
+            }
     OUTPUT.mkdir(parents=True, exist_ok=True)
     products = {}
     for name, (pixels, mask) in views.items():

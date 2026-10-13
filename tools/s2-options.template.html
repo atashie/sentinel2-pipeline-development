@@ -476,7 +476,7 @@ footer{display:block}
 <dt>Consistency</dt>
 <dd>The MSI instrument family across missions. Instrument calibration and ground processing still vary.</dd>
 <dt>Product</dt>
-<dd>Two corrections of the same images. USGS aquatic reflectance is corrected for water, with eleven bands on one 20 m grid and no B9 or B10. Earth Search surface reflectance keeps the native grids.</dd>
+<dd>Two corrections of the same images. USGS aquatic reflectance is corrected for water, with eleven bands on one 20 m grid in nearly every scene. Earth Search surface reflectance keeps the native grids.</dd>
 <dt>Missing</dt>
 <dd>No thermal band. No record before 2015.</dd>
 </dl>
@@ -570,8 +570,8 @@ footer{display:block}
 <div class="needs">
 <div><b>Corrected for water</b><span>The USGS product uses a correction built for water. ESA validates its own correction at land sites only.</span></div>
 <div><b>About half the acquisitions</b><span>From @@AQR_FIRST_YEAR@@, the USGS product holds @@AQR_SHARE_LOW@@ to @@AQR_SHARE_HIGH@@ percent of Earth Search’s acquisitions per year on @@AQR_TILES@@ sampled tiles. Cloudy and partial images are missing most often.</span></div>
-<div><b>No cloud-shadow or snow layer</b><span>Its flags mark non-water, bright, and negative pixels. Shadow and snow flags must come from the land product of the same pass.</span></div>
-<div><b>The grids match, the versions often do not</b><span>@@AQR_JOIN_PERCENT@@ percent of its scenes match an Earth Search image of the same pass. Only @@AQR_SAME_BASELINE_PERCENT@@ percent match the same processing version.</span></div>
+<div><b>No dedicated cloud, shadow, or snow layer</b><span>Its flags mark non-water, cirrus, bright, and negative pixels. Shadow and snow flags must come from the land product of the same pass.</span></div>
+<div><b>The grids match, the versions often do not</b><span>@@AQR_JOIN_PERCENT@@ percent of its scenes match an Earth Search image of the same pass. @@AQR_SAME_BASELINE_PERCENT@@ percent match the same processing version in Collection 1 first, and @@AQR_ANY_BASELINE_PERCENT@@ percent in either copy.</span></div>
 </div>
 <h3 class="plans-title" style="margin-bottom:14px">Use the USGS product for water pixels, and Earth Search for everything around it.</h3>
 <figure class="route">
@@ -589,9 +589,9 @@ footer{display:block}
 <tr><th scope="row">Where is it?</th><td><code>usgs-wma-sentinel-2-aqr-acolite-dsf</code></td><td><code>e84-earth-search-sentinel-data</code></td><td><code>sentinel-cogs</code></td></tr>
 <tr><th scope="row">Who runs it?</th><td>The U.S. Geological Survey</td><td colspan="2">Element 84, converting ESA’s product</td></tr>
 <tr><th scope="row">What is shared?</th><td colspan="3">AWS Oregon. Public access without credentials or requester pays. Our compute, storage, and network costs are separate.</td></tr>
-<tr><th scope="row">Correction</th><td>ACOLITE dark spectrum fitting, one processor version for the whole record</td><td colspan="2">ESA’s Sen2Cor, designed and validated for land</td></tr>
+<tr><th scope="row">Correction</th><td>ACOLITE dark spectrum fitting. USGS documents one version, but the scene settings read match a later release.</td><td colspan="2">ESA’s Sen2Cor, documented as not designed for water and validated at land sites only</td></tr>
 <tr><th scope="row">Grid</th><td>Every band at 20 m, aligned with the land product’s 20 m grid</td><td colspan="2">Native 10, 20, and 60 m grids</td></tr>
-<tr><th scope="row">Why use it?</th><td>The water correction. New scenes arrived a median @@AQR_LATENCY_HOURS@@ hours after sensing in recent months.</td><td>Quality layers, land values, and comparison values. Its sampled quality assets are more uniform.</td><td>Fills most gaps the survey found in Collection 1, especially in 2022.</td></tr>
+<tr><th scope="row">Why use it?</th><td>The water correction. Published scenes sensed from @@AQR_RECENT_FROM@@ appeared a median @@AQR_LATENCY_HOURS@@ hours after sensing.</td><td>Quality layers, land values, and comparison values. Its sampled quality assets are more uniform.</td><td>Fills most gaps the survey found in Collection 1, especially in 2022.</td></tr>
 <tr><th scope="row">What complicates it?</th><td>About half the acquisitions. No searchable catalog. Documented for the lower 48 only.</td><td>Nearly empty from 2022-01 through 2022-11 in the sampled tiles.</td><td>More competing versions, different value conventions, and missing quality assets.</td></tr>
 </tbody></table></div>
 @@ARCHIVE_ITEMS@@
@@ -656,8 +656,8 @@ footer{display:block}
 <figcaption class="small muted" style="margin-top:12px">Expected observations come from the Copernicus catalog. Of @@MISSING@@ missing from the Collection 1 copy in the incomplete months, @@FALLBACK@@ list the required GeoTIFF assets in the older copy. @@UNCOVERED@@ lack a matching fallback item. Most of those are one Alaska tile. Another @@OTHER_FORMAT@@ have only JPEG 2000 links. A catalog entry does not prove a usable water observation.</figcaption>
 </figure>
 <p class="choice"><strong>Why all three matter.</strong> The USGS product supplies the water correction but about half the acquisitions and no shadow or snow layer. Collection 1 supplies those layers and most missing scenes. Collection 1 alone leaves most of the surveyed 2022 gap, and the older copy supplies candidate GeoTIFF assets for @@FALLBACK_PERCENT@@ percent of those missing observations. The order is settled. Joining across processing versions, value conversion, and missing quality layers still need a fill policy.</p>
-<p class="note-line" id="expansion"><strong>Beyond the lower 48 states.</strong> The USGS product is documented for the conterminous United States. Serving water bodies elsewhere needs a redrafted workflow, not a configuration change. The hurdles are Level-1C access, compute to run the correction, and a record of processor versions and settings. A cloud mask and validation over the new waters follow.</p>
-<p class="source-note"><b>Documented:</b> <a href="https://registry.opendata.aws/usgs_aqr/">USGS aquatic reflectance registry</a>, <a href="https://doi.org/10.5066/P904243C">USGS data release</a>, <a href="https://registry.opendata.aws/sentinel-2-l2a-cogs/">AWS GeoTIFF registry</a>, <a href="https://registry.opendata.aws/sentinel-2/">JPEG 2000 registry</a>, and <a href="https://github.com/Element84/earth-search/blob/main/README.md">Earth Search README</a>. USGS sources independently checked @@AQR_DATE@@. <b>Measured:</b> <a href="../benchmarks/results/aqr-headers.json">USGS file headers</a> across @@AQR_TILE_PREFIXES@@ tile folders, <a href="../benchmarks/results/aqr-coverage.json">the USGS coverage and join survey</a>, <a href="reviews/2026-09-10-gap-survey-report.json">the Earth Search survey</a>, and <a href="#archive-values">one-product pixel comparison</a>. The surveys cover sampled tiles, not global completeness. No USGS pixel value has been compared yet. The ingestion history above is an inference.</p>
+<p class="note-line" id="expansion"><strong>Beyond the lower 48 states.</strong> The USGS product is documented for the conterminous United States. Serving water bodies elsewhere needs a redrafted workflow, not a configuration change. The hurdles are Level-1C access, compute to run the correction, and a record of processor versions and settings. A cloud mask and validation over the new waters follow. The bucket also holds tile folders outside the lower-48 zones, unassessed.</p>
+<p class="source-note"><b>Documented:</b> <a href="https://registry.opendata.aws/usgs_aqr/">USGS aquatic reflectance registry</a>, <a href="https://doi.org/10.5066/P904243C">USGS data release</a>, <a href="https://registry.opendata.aws/sentinel-2-l2a-cogs/">AWS GeoTIFF registry</a>, <a href="https://registry.opendata.aws/sentinel-2/">JPEG 2000 registry</a>, and <a href="https://github.com/Element84/earth-search/blob/main/README.md">Earth Search README</a>. USGS sources independently checked @@AQR_DATE@@. <b>Measured:</b> <a href="../benchmarks/results/aqr-headers.json">the USGS bucket listing</a> of @@AQR_TILE_PREFIXES@@ tile folders, with file headers from three scenes. Also <a href="../benchmarks/results/aqr-coverage.json">the USGS coverage and join survey</a>, <a href="reviews/2026-09-10-gap-survey-report.json">the Earth Search survey</a>, and <a href="#archive-values">one-product pixel comparison</a>. The surveys cover sampled tiles, not global completeness. No USGS pixel value has been compared yet. The ingestion history above is an inference.</p>
 </section>
 
 <section class="chapter" id="risks">
@@ -671,7 +671,8 @@ footer{display:block}
 <div class="risk-grid">
 <article class="risk">
 <h3>The atmospheric correction can misread water.</h3>
-<p>Water reflects little sunlight, so a small correction error is a large share of the water signal. Earth Search’s correction was designed and validated for land.</p>
+<p>Water reflects little sunlight, so a small correction error is a large share of the water signal. ESA documents Sen2Cor, the processor behind Earth Search, as not designed for water, and validates it at land sites only. Its latest version adds water-specific changes that no study has tested.</p>
+<p>Published comparisons over lakes do not rank the water correction consistently ahead, and none tested ponds. The choice rests on design intent and availability, not on a measured advantage.</p>
 <p class="response"><b>Our approach:</b> use the USGS water correction for water pixels. Keep the land product beside it for quality flags and comparison.</p>
 @@RISK_CORRECTION@@
 </article>
@@ -695,7 +696,7 @@ footer{display:block}
 </article>
 <article class="risk">
 <h3>A processing change can look like a trend.</h3>
-<p>Archives mix processing versions and rules that convert stored integers to reflectance. A wrong conversion creates a false change. The water product pins one processor version while its input versions keep changing.</p>
+<p>Archives mix processing versions and rules that convert stored integers to reflectance. A wrong conversion creates a false change. The water product’s documented processor version does not match its scene settings, and its input versions keep changing.</p>
 <p class="response"><b>Our approach:</b> keep the product history and test the value conversion across versions.</p>
 @@RISK_VERSIONS@@
 </article>
@@ -1022,6 +1023,7 @@ footer{display:block}
 <div class="eyebrow">Prototyping / Workflow comparisons</div>
 <h1>Comparing workflows and readers for lake-pixel extraction.</h1>
 <p>These laptop trials compare the time, processor work, data requests, and memory needed to extract lake pixels. Start with the takeaways, then explore the methods and results.</p>
+<p class="note-line"><strong>Measured on the land product.</strong> Every result on this tab used Earth Search Level-2A files, now the reference series. The next phase repeats the tests on the USGS water product.</p>
 </div>
 <nav class="section-nav" aria-label="Prototype sections"><a href="#prototype-takeaways">High level takeaways</a><a href="#prototype-workflow">What we tested</a><a href="#larger-workloads">Main comparison</a><a href="#cost-estimates">Cost estimates</a><a href="#earlier-experiments">Earlier experiments</a></nav>
 

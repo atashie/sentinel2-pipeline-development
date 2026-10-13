@@ -1,4 +1,4 @@
-# Measurements, 2026-09-10
+# Measurements, 2026-09-10, updated 2026-10-13
 
 The six measurement sets summarized below cover the surveys and first four prototype stages.
 The data gap survey required by [decision 0003](decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) ran once on 2026-09-10 and wrote [gap-survey.json](../benchmarks/results/gap-survey.json).
@@ -639,27 +639,32 @@ The owner accepted the response on 2026-09-17. The [inventory](options-inventory
 
 Status: measured, awaiting review. The owner authorized probes T1 to T3 and one map crop on 2026-10-13. The [Phase B record](reviews/2026-10-13-phase-b-discovery-ii.md) owns the commands and verification.
 Evidence: [aqr-headers.json](../benchmarks/results/aqr-headers.json) from probe T1 and [aqr-coverage.json](../benchmarks/results/aqr-coverage.json) from probes T2 and T3. The crop is recorded in the map [provenance](assets/discovery/provenance.json) under `aquatic_reflectance`.
-Every request was unsigned. The bucket is `usgs-wma-sentinel-2-aqr-acolite-dsf` in us-west-2, and the bucket owner paid for every read.
-T1 made 66 requests and read three settings files whole. T2 and T3 made 281 bucket listings and 216 Earth Search requests and read no object body. No probe decoded a pixel. The crop read one window.
+Every request was unsigned and succeeded, so no requester was charged. The bucket is `usgs-wma-sentinel-2-aqr-acolite-dsf` in us-west-2.
+T1 logged 66 requests and read three settings files whole. GDAL made 39 more header range reads outside that log. T2 and T3 made 281 bucket listings and 216 Earth Search requests and read no object body.
+No probe decoded a pixel. The crop read one window. A [validation review](reviews/2026-10-13-phase-b-claim-validation.md) rechecked every finding below on 2026-10-13.
 
 ### 26. The product is one 20 m Cloud Optimized GeoTIFF per band, scaled integers, and a settings file per scene
 
 The bucket holds one version prefix, `version_01/`, and 1,340 tile prefixes. Source: `summary.versions` and `summary.tile_prefixes` in the T1 result.
-Of those, 997 lie in UTM zones 10 to 19, the zones of the lower 48 states. Zones 1 to 9, 20, 54, 55, 59, and 60 hold the other 343. Source: `summary.tile_prefixes_by_utm_zone`.
-Each scene is 14 objects: bands B01 to B08, B8A, B11, and B12, an NDWI layer, an `l2_flags` layer, and a settings text file. Source: `summary.layer_sets`.
+Of those, 997 lie in UTM zones 10 to 19, the zones of the lower 48 states. Some of those tiles lie outside the lower 48. Zones 1 to 9, 20, 54, 55, 59, and 60 hold the other 343. Source: `summary.tile_prefixes_by_utm_zone`.
+Each of the three probed scenes is 14 objects. They are bands B01 to B08, B8A, B11, and B12, an NDWI layer, an `l2_flags` layer, and a settings text file. Source: `summary.layer_sets`.
+Finding 27 counts the full listing: 18,734 of 19,336 scenes hold those 14 objects, 586 hold fewer, and 16 add a B10 band.
 The object name repeats the Level-1C product name with `MSIL1C` replaced by `MSIAQR`. The settings file names that Level-1C product as its input. Source: `scenes[].layers.settings.settings.all.inputfile`.
 All 39 GeoTIFFs probed are 5,490 by 5,490 pixels at 20 m, in 512-pixel blocks, deflate compressed, with overviews at 2, 4, 8, and 16. GDAL reports a COG layout. Source: `summary`.
-The bands and NDWI are 16-bit integers, and `l2_flags` is a 32-bit integer. Every file declares no-data -32768, scale 1, and offset 0. Source: `summary.dtypes`, `summary.nodata`, and `summary.scales_offsets`.
+The bands and NDWI are 16-bit integers, and `l2_flags` is a 32-bit integer. Every file declares no-data -32768. GDAL reports scale 1 and offset 0, its defaults when a file states none. Source: `summary.dtypes`, `summary.nodata`, and `summary.scales_offsets`.
 The headers carry no reflectance scale. The USGS documentation states a factor of 10,000, so the conversion comes from the documentation, not the file. Inventory claim `cl-ar-usgs-acolite-aqr-offset_delivery`.
 The grid matches the Level-2A 20 m grid of the same tile in every pair compared: same CRS, same pixel size, zero origin offset. Source: `summary.grid_alignment`, against Earth Search catalog metadata.
 The settings files of the three scenes are identical except the write time, the run id, and the input file. Each names tiled aerosol estimation on 300 by 300 pixel tiles, no residual glint correction, and a 20 m target resolution. Source: `scenes[].layers.settings.settings.selected`.
-They also enable ACOLITE's water mask at 1,600 nm with threshold 0.05, plus negative, cirrus, and bright top-of-atmosphere masks. The files state no ACOLITE version. Source: `settings.all`.
+They also enable ACOLITE's water mask at 1,600 nm with threshold 0.05, plus negative, cirrus, and bright top-of-atmosphere masks. The negative test covers 450 to 700 nm. Source: `settings.all`.
+The files state no ACOLITE version. Their keys match the [defaults of ACOLITE release 20250402.0](https://raw.githubusercontent.com/acolite/acolite/20250402.0/config/defaults.txt), apart from three run keys.
+The [defaults of release 20221114.0](https://raw.githubusercontent.com/acolite/acolite/20221114.0/config/defaults.txt), the version USGS documents, lack 148 of those keys. Which release processed these scenes is therefore uncertain.
 The settings write times are 2025-12-24 for both October 2025 scenes and 2026-02-15 for the July 2022 scene. Source: line 2 of the saved settings files under the run's raw directory.
 
-### 27. The product holds 41 to 61 percent of Earth Search's acquisitions in most years, and recent scenes arrive within hours
+### 27. The product holds 41 to 61 percent of Earth Search's acquisitions in most years, and new scenes arrive a median eight hours after sensing
 
-T2 listed 24 survey tiles in the lower 48 from 2015-06-01 to 2026-10-13. It found 19,336 scenes and 18,384 acquisitions on every tile. Source: `summary.scenes`, `summary.acquisitions`, `summary.tiles_with_scenes`.
-Earth Search lists no acquisition on these tiles before 2017. From 2018 to 2026 the product holds 41 to 61 percent of the acquisitions any Earth Search collection lists. Source: `summary.coverage_by_month`.
+T2 listed 24 survey tiles in the lower 48 from 2015-06-01 to 2026-10-13. It found 19,336 scenes and 18,384 acquisitions on the 24 tiles, and every tile holds scenes. Source: `summary.scenes`, `summary.acquisitions`, `summary.tiles_with_scenes`.
+Earth Search lists no acquisition on these tiles before 2017. In 2017 the product holds 89 percent of Earth Search's 1,232 acquisitions, a year in which Earth Search lists far fewer than later.
+From 2018 to 2026 it holds 41 to 61 percent of the acquisitions any Earth Search collection lists. Source: `summary.coverage_by_month`.
 | Year | Earth Search acquisitions | With a product scene | Share |
 |---|---|---|---|
 | 2018 | 2,849 | 1,250 | 44% |
@@ -673,35 +678,46 @@ Earth Search lists no acquisition on these tiles before 2017. From 2018 to 2026 
 | 2026, to 2026-10-13 | 3,246 | 1,644 | 51% |
 
 Cloudy acquisitions are missing most often. 74 percent of Earth Search acquisitions under 10 percent Level-1C cloud cover have a scene, and 15 percent of those over 75 percent do. Source: `summary.cloud_cover_bins`.
+The screening tightened in 2023. From 2018 to 2021, 53 to 60 percent of acquisitions under 10 percent cloud have a scene. So do 21 to 28 percent of those over 75 percent. Source: `summary.cloud_cover_bins_by_year`.
+From 2023 to 2025, 87 to 94 percent of acquisitions under 10 percent cloud have a scene. So do 0 to 7 percent of those over 75 percent.
 Cloud cover does not explain every absence. 2,840 missing acquisitions have under 10 percent cloud cover.
 Partial tiles are also missing more often. On 17 of 24 tiles, the median Level-2A no-data share of missing acquisitions exceeds that of present ones. Source: `tiles[].nodata_share`.
 Across tiles, the median of the per-tile medians is 2.6 percent no-data for present acquisitions and 38.8 percent for missing ones.
+The effect holds from 2017 to 2023 and reverses from 2024. Source: `summary.nodata_share_median_by_year`.
 USGS documents that scenes over 30 percent cloud cover are not prioritized. Inventory claims for `ar-usgs-acolite-aqr`, field `global_coverage`, record the exact wording.
-The inputs are mostly original Level-1C products, not the Collection 1 reprocessing. Baselines 02.01 to 04.00 dominate 2015 to 2022, beside some 05.00 scenes. 2023 holds 05.09 and 05.10. Source: `summary.baselines_by_year`.
+From 2018 to 2022 the inputs are mostly original Level-1C products, baselines 02.06 to 04.00 at 75 to 92 percent a year. In 2015 and 2016 most inputs are the 05.00 reprocessing, and in 2017 about half.
+2023 holds 05.09 and 05.10. Source: `summary.baselines_by_year`.
 949 acquisitions hold more than one product with the same sensing time. 486 pair an original baseline with its 05.00 reprocessing, and 362 repeat one baseline. Source: `tiles[].duplicate_baseline_sets`.
 586 scenes lack the 14-object set. 488 hold only B06 and the settings file, 97 hold only the settings file, and one holds only B06. 16 scenes add a B10 band. Source: `tiles[].layer_sets`.
-Sentinel-2C appears in 1,844 scenes. Baselines 99.05 and 99.06 from its commissioning appear in 33 scenes, and baseline 05.13 in 133. Source: `tiles[].platforms` and `summary.baselines_by_year`.
-For 784 scenes sensed from 2026-06-15, the first object appeared a median 0.33 days after sensing. The 90th percentile was 3.76 days and the maximum 18.93 days. Source: `summary.latency_recent`.
+USGS documents a processing log file per scene. None of the 263,590 listed objects is one. Source: `tiles[].layer_sets`.
+Sentinel-2C appears in 1,844 scenes, although the USGS pages name Sentinel-2A and 2B only. Baselines 99.05 and 99.06 from its commissioning appear in 33 scenes, and baseline 05.13 in 133. Source: `tiles[].platforms` and `summary.baselines_by_year`.
+For 784 scenes sensed from 2026-06-15 and already published, the first object appeared a median 0.33 days after sensing. The 90th percentile was 3.76 days and the maximum 18.93 days. Source: `summary.latency_recent`.
+Scenes not yet published are absent from that count, so the statistic is biased low.
 Older scenes arrived in batches. The earliest object timestamp falls in 2024-12 for 10,164 scenes, in 2025-05 for 1,947, and in 2026-05 for 2,484. Source: `summary.published_by_month`.
 The bucket also holds Alaska tile 05VLG, with a first scene sensed on 2015-11-15. The five context tiles outside the United States hold nothing. Source: `presence`.
 
 ### 28. Level-2A quality layers join by tile, platform, and sensing start, often from another processing of the same pass
 
 T3 matched every scene to Earth Search Level-2A items by tile, platform, and sensing start, Collection 1 first, then the older collection. Source: `summary.join_totals`.
-92 percent of scenes found a Level-2A item, 13,792 in Collection 1 and 4,024 in the older collection. 1,520 found none, 1,390 of them sensed before 2018. Source: `summary.join_totals` and `summary.join_by_year`.
-Only 51 percent matched an item of the same processing baseline. From 2017 to 2021, fewer than 15 percent did. From 2024, at least 98 percent did. Source: `summary.join_by_year`.
-The mismatch follows the inputs. The product used original Level-1C, while Collection 1 holds the 05.00 reprocessing for those years. Their geometry can differ, claims G7 and G8 in [s2-best-practices.md](s2-best-practices.md).
-935 scenes matched more than one item in the chosen collection. Source: `summary.join_totals`, keys ending `_multiple`.
-Earth Search's Level-1C collection lists the exact input product for 15,744 scenes, 81 percent. It lists the same pass with another product for 2,046, and no pass for 1,546, mostly before 2018. Source: `summary.l1c_totals`.
+92 percent of scenes found a Level-2A item, 13,792 in Collection 1 and 4,024 only in the older collection. 1,520 found none, 1,390 of them sensed before 2018. Source: `summary.join_totals` and `summary.join_by_year`.
+With Collection 1 tried first, 51 percent matched an item of the same processing baseline. From 2017 to 2021 fewer than 15 percent did, and from 2024 at least 98 percent. Source: `summary.join_by_year`.
+Allowing either collection to supply the same baseline, 58 percent have one. The share is 24 percent for 2017 to 2021 and 84 percent for 2021 alone. Source: `summary.join_any_collection_by_year`.
+In Collection 1 the mismatch follows the inputs. It holds only the 05.00 reprocessing for 2017 to 2021, while most product inputs are originals. Their geometry can differ, claims G7 and G8 in [s2-best-practices.md](s2-best-practices.md).
+Baselines are compared as strings across product levels. Some older Level-2A numbers differ from their Level-1C numbers, so part of the older collection's mismatch is numbering.
+935 scenes matched more than one item in the chosen collection. Source: `summary.join_totals`, keys ending `_multiple`. The key identifies a pass, not one item.
+Earth Search's Level-1C collection lists a product with the exact input name for 15,744 scenes, 81 percent. It lists the same pass with another product for 2,046, and no pass for 1,546, mostly before 2018. Source: `summary.l1c_totals`.
 That collection points into a requester-pays JPEG 2000 bucket. USGS documents that it reads Level-1C from the Copernicus OData API instead, inventory claim `cl-ar-usgs-acolite-aqr-source_dataset`.
 
 ### 29. In one crop, every pixel carries a value and the flags layer marks non-water pixels
 
 The owner authorized one crop for the presentation. It read B02, B03, B04, NDWI, and `l2_flags` for the Lake Lanier map window on 2025-10-15. The window is 8 by 8 km, 400 by 400 cells at 20 m.
-No band pixel in the crop is no-data. Land, shoreline, and water all carry values. B04 holds 45 negative values. Source: `aquatic_reflectance.present_fraction` in the map provenance, and the cached arrays.
+No pixel of the five layers read is no-data. Land, shoreline, and water all carry values in B02, B03, B04, and NDWI. B04 holds 45 negative values, B02 12, and B03 1.
+Source: `aquatic_reflectance.present_fraction` and `aquatic_reflectance.negative_counts_20m` in the map provenance.
 Every flag value in the crop is a multiple of 10,000. Divided by 10,000, they are 0, 1, 4, 5, 8, and 9. Source: `aquatic_reflectance.flag_counts_20m`.
-Read with the settings file's flag exponents, value 1 is the water mask at 1,600 nm, 4 is bright top-of-atmosphere, and 8 is negative reflectance. 58,009 cells carry no flag, 36 percent.
-USGS documents the bands as water-leaving reflectance, and ACOLITE documents its water reflectance as masked for non-water pixels. Land pixels in this crop still carry values. Claims for `ar-usgs-acolite-aqr` and `wf-acolite-self-run` in the [inventory](options-inventory.json).
+Read with the settings file's flag exponents, value 1 marks non-water by the 1,600 nm test, 4 marks bright top-of-atmosphere, and 8 marks negative reflectance. 58,009 cells carry no flag, 36 percent.
+ACOLITE 20221114.0 ORs each test into the flag integer at its exponent, so a set bit means the condition holds, `acolite_l2w.py` at that tag.
+USGS documents the bands as water-leaving reflectance. ACOLITE 20221114.0 sets its water-leaving reflectance to no value wherever a flag is set, and before masking that quantity equals surface reflectance.
+Land pixels in this crop carry values, so the delivered bands are not ACOLITE's masked output. No USGS page says which quantity they hold. Claims for `ar-usgs-acolite-aqr` and `wf-acolite-self-run` in the [inventory](options-inventory.json).
 This is one crop of one scene. Probe T4 measures validity per band and pixel class on the pilot lakes.
 
 ### What Phase B does not show

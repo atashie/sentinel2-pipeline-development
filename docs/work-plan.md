@@ -68,7 +68,7 @@ Out of scope: validation against field observations (A15), the join with weather
 - [x] Route: Earth Search, Collection 1 COGs first with older-collection COGs for backfill, decisions 0003 and 0004.
 - [x] Route re-scoped: the USGS ACOLITE aquatic reflectance product primary for water pixels in the lower 48, Level-2A supplementary, [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md), 2026-10-13.
 - [x] Primary-tile rule: provisional, assumption A22, decision 0003. **Cross-tile mosaicking is a MAJOR CONCERN, issue I-30.**
-- [ ] Fill policy for each Level-2A data gap. Alaska is a Level-2A-only case under decision 0008. The primary product's gaps await test T2. Record the eventual choice in a new decision. Options are in the [gap survey review](reviews/2026-09-10-gap-survey.md) and the [report](reviews/2026-09-10-gap-survey-report.json).
+- [ ] Fill policy for each Level-2A data gap. Alaska is a Level-2A-only case under decision 0008. The primary product's gaps are measured in finding 27. The fill policy awaits the Phase C join prototype. Record the eventual choice in a new decision. Options are in the [gap survey review](reviews/2026-09-10-gap-survey.md) and the [report](reviews/2026-09-10-gap-survey-report.json).
 - [ ] Agree the first bounded prototype comparison together. Workflow, platform, and layout choices develop from its evidence.
 
 ## Step 3a: data gap survey, delivered 2026-09-10, Codex review answered
@@ -230,7 +230,9 @@ Carried into Phase C from Phase B:
 ## Phase D: scientific checks
 
 - [ ] T5 and T7 interpreted as the first validation items, with limits and no in situ claim.
-- [ ] Offset pixel check on Level-2A, issue I-05, and the recheck of the 05.10 release note against claim R5, carried from the former stage 5.
+- [ ] Offset pixel check on Level-2A, issue I-05, carried from the former stage 5.
+- [ ] Recheck of the 05.10 release note against claim R5, carried from the former stage 5.
+- [ ] Owner decision: whether an accuracy comparison of the two corrections belongs in the assessment. Assumption A15 keeps validation against field data out, and the literature shows no consistent ranking, claims W5 to W8.
 - [ ] Quality-flag derivation prototyped and measured against the pilot set, for the flags the primary product lacks.
 - [ ] Contract revised from evidence. Processing version introduced.
 - [ ] T9, one self-run ACOLITE scene clipped to the pilot lakes, only if the owner asks for numbers behind the complexity estimate.

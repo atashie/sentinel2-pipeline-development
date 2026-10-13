@@ -8,6 +8,7 @@ The latest handoff records subsequent corrections and resolved wording.
 
 | Date | Review | Reviewer |
 |---|---|---|
+| 2026-10-13 | [Phase B claim validation: eight independent reviews, 34 validated, 18 partially validated, none denied, and the corrections applied](2026-10-13-phase-b-claim-validation.md) | Eight Claude Code subagents on Sonnet, collated by Claude Code |
 | 2026-10-13 | [Phase B, Discovery II: three check-record pairs, probes T1 to T3, one map crop, and the Discovery rewrite for the primary product](2026-10-13-phase-b-discovery-ii.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-13 | [Phase A re-scope: decision 0008 activated, four assumptions revised and six added, data contract v2, and the planning documents restated](2026-10-13-phase-a-rescope.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-13 | [ACOLITE-first replan: owner direction, document changes, nine owner-invoked tests, and six phases, with proposed decision 0008](2026-10-13-acolite-first-replan.md) | Claude Code (AI coding agent), directed by the repository owner |

@@ -1,0 +1,347 @@
+{
+ "reviewer": {
+  "agent": "T1 header validation reviewer",
+  "model": "sonnet"
+ },
+ "reviewed_at": "2026-10-13T16:10:29-04:00",
+ "verdicts": [
+  {
+   "id": "V-T1-1",
+   "claim": "One version prefix and 1,340 tile prefixes. 997 in UTM zones 10 to 19, 343 in zones 1 to 9, 20, 54, 55, 59, and 60.",
+   "verdict": "validated",
+   "recomputed": {
+    "tile_prefixes_in_saved_list": 1340,
+    "unique": 1340,
+    "malformed": 0,
+    "zones_10_to_19": 997,
+    "other_zones": 343,
+    "zones_1_to_9": 330,
+    "zones_20_54_55_59_60": 13,
+    "other_zone_set": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     20,
+     54,
+     55,
+     59,
+     60
+    ],
+    "per_zone": {
+     "1": 13,
+     "2": 29,
+     "3": 50,
+     "4": 83,
+     "5": 62,
+     "6": 43,
+     "7": 24,
+     "8": 19,
+     "9": 7,
+     "10": 69,
+     "11": 107,
+     "12": 116,
+     "13": 123,
+     "14": 143,
+     "15": 128,
+     "16": 118,
+     "17": 114,
+     "18": 51,
+     "19": 28,
+     "20": 2,
+     "54": 2,
+     "55": 2,
+     "59": 3,
+     "60": 4
+    },
+    "versions": [
+     "version_01/"
+    ],
+    "listing_log": "root listing 1 page, 351 bytes, HTTP 200. Tile listing 2 pages (68,575 and 23,619 bytes), HTTP 200. 351 bytes is consistent with one common prefix and no root-level objects (my estimate 347 bytes)."
+   },
+   "evidence": [
+    "data/aqr-headers/2026-10-13T181726+0000/tile-prefixes.json (all 1,340 entries)",
+    "benchmarks/results/aqr-headers.json summary.versions",
+    "benchmarks/results/aqr-headers.json summary.tile_prefixes",
+    "benchmarks/results/aqr-headers.json summary.tile_prefixes_by_utm_zone",
+    "benchmarks/results/aqr-headers.json request_log[0..2]"
+   ],
+   "reason": "I counted the 1,340 saved prefixes with my own code. They are unique, all of the form two digits, a latitude letter, and two letters. The zone split is exactly 997 and 343 (330 in zones 1 to 9, 13 in the five other zones). The single version prefix rests on the script's summary and a 351-byte root response, because the raw listing XML was not saved.",
+   "suggested_correction": "Optional: add that the 997 are tiles by UTM zone, not tiles that intersect the lower 48. The latitude letters show 106 R-band and 6 Q-band tiles (Mexico and the Caribbean) and 57 U-band tiles (mostly Canada) inside zones 10 to 19."
+  },
+  {
+   "id": "V-T1-2",
+   "claim": "Each scene is 14 objects: B01 to B08, B8A, B11, B12, NDWI, l2_flags, and a settings text file. The object name repeats the Level-1C product name with MSIL1C replaced by MSIAQR, and the settings file names that Level-1C product as input.",
+   "verdict": "partially validated",
+   "recomputed": {
+    "scenes_probed": 3,
+    "objects_per_scene": [
+     14,
+     14,
+     14
+    ],
+    "head_requests_on_objects": 42,
+    "layer_set_equals_claimed_set_in_all_three": true,
+    "every_object_key_equals_product_plus_layer_plus_ext": true,
+    "inputfile_equals_product_with_MSIAQR_replaced_by_MSIL1C_plus_dot_SAFE": [
+     true,
+     true,
+     true
+    ],
+    "inputfiles": [
+     "/input/S2B_MSIL1C_20251015T162149_N0511_R040_T17SKU_20251015T195355.SAFE",
+     "/input/S2B_MSIL1C_20251020T185329_N0511_R113_T10SGJ_20251020T204341.SAFE",
+     "/input/S2B_MSIL1C_20220703T161839_N0510_R040_T17SKU_20240701T030544.SAFE"
+    ],
+    "saved_settings_sha256_match_result": true,
+    "coverage_run_layer_sets_all_19336_scenes": {
+     "14_object_set": 18734,
+     "B06 + settings": 488,
+     "settings only": 97,
+     "14 objects + B10": 16,
+     "B06 only": 1
+    }
+   },
+   "evidence": [
+    "benchmarks/results/aqr-headers.json scenes[].layers (keys, head.status)",
+    "benchmarks/results/aqr-headers.json scenes[].layers.settings.settings.all.inputfile",
+    "data/aqr-headers/2026-10-13T181726+0000/*_settings.txt (inputfile line)",
+    "benchmarks/results/aqr-coverage.json tiles[].layer_sets and summary.scenes_without_observed_layers (586)"
+   ],
+   "reason": "For the three scenes probed, all three statements hold exactly: 14 objects each, object names built from the product name, and the settings inputfile equal to the product name with MSIAQR replaced by MSIL1C plus .SAFE. The word 'Each' reads as a rule for the bucket, and the repository's own T2 result contradicts that: 18,734 of 19,336 scenes (96.9 percent) have this set, 586 have fewer objects, and 16 add B10.",
+   "suggested_correction": "Write 'Each of the three scenes probed is 14 objects ...' and add 'Probe T2 finds the same set in 18,734 of 19,336 scenes, finding 27.'"
+  },
+  {
+   "id": "V-T1-3",
+   "claim": "All 39 GeoTIFFs are 5,490 by 5,490 at 20 m, 512-pixel blocks, deflate, overviews 2, 4, 8, 16, COG layout. Bands and NDWI are int16, l2_flags int32. All declare no-data -32768, scale 1, offset 0.",
+   "verdict": "partially validated",
+   "recomputed": {
+    "geotiffs": 39,
+    "shape": {
+     "5490x5490": 39
+    },
+    "resolution": {
+     "20x20": 39
+    },
+    "block_shapes": {
+     "512x512": 39
+    },
+    "overviews": {
+     "[2,4,8,16]": 39
+    },
+    "image_structure": {
+     "COG / DEFLATE / BAND": 39
+    },
+    "dtype_by_layer": {
+     "B01..B12, B8A, NDWI": "int16 (36 files)",
+     "l2_flags": "int32 (3 files)"
+    },
+    "nodata": {
+     "-32768.0": 39
+    },
+    "gdal_reported_scales": {
+     "[1.0]": 39
+    },
+    "gdal_reported_offsets": {
+     "[0.0]": 39
+    },
+    "band_count": {
+     "1": 39
+    },
+    "dataset_tags": "only OVR_RESAMPLING_ALG=NEAREST and AREA_OR_POINT=Area in all 39; no band tags, no descriptions, no units",
+    "local_test_of_gdal_defaults": "I wrote two tiny GeoTIFFs on the local disk with rasterio 1.5.1. One sets scales=(1.0,) and offsets=(0.0,), one sets nothing. Both read back as scales (1.0,) and offsets (0.0,), and neither stores a scale or offset item. A GDAL read of scale 1 and offset 0 cannot show that a file declares them."
+   },
+   "evidence": [
+    "benchmarks/results/aqr-headers.json summary.shape, resolution, block_shapes, overviews, image_structure, dtypes, nodata, scales_offsets",
+    "benchmarks/results/aqr-headers.json scenes[].layers.*.header"
+   ],
+   "reason": "Size, resolution, blocks, compression, overviews, layout, data types, and the -32768 no-data value are all confirmed from the per-file headers, 39 of 39. The scale 1 and offset 0 are GDAL's defaults, returned when a file states no scale or offset, so 'declare' is not demonstrated. The finding's next sentence ('The headers carry no reflectance scale') is the accurate reading.",
+   "suggested_correction": "Replace 'Every file declares no-data -32768, scale 1, and offset 0' with 'Every file declares no-data -32768. GDAL reports scale 1 and offset 0, which are its defaults when a file states none.'"
+  },
+  {
+   "id": "V-T1-4",
+   "claim": "The grid matches the Level-2A 20 m grid of the same tile in every pair compared: same CRS, same pixel size, zero origin offset.",
+   "verdict": "validated",
+   "recomputed": {
+    "pairs": 5,
+    "pair_list": [
+     "17SKU 2025-10-15 vs Collection 1 item S2B_T17SKU_20251015T162249_L2A",
+     "17SKU 2025-10-15 vs older item S2B_17SKU_20251015_0_L2A",
+     "10SGJ 2025-10-20 vs Collection 1 item S2B_T10SGJ_20251020T185627_L2A",
+     "10SGJ 2025-10-20 vs older item S2B_10SGJ_20251020_0_L2A",
+     "17SKU 2022-07-03 vs older item S2B_17SKU_20220703_0_L2A"
+    ],
+    "aqr_transform_17SKU": [
+     20.0,
+     0.0,
+     199980.0,
+     0.0,
+     -20.0,
+     3900000.0
+    ],
+    "aqr_transform_10SGJ": [
+     20.0,
+     0.0,
+     699960.0,
+     0.0,
+     -20.0,
+     4400040.0
+    ],
+    "es_rededge1_transform_17SKU": [
+     20,
+     0,
+     199980,
+     0,
+     -20,
+     3900000
+    ],
+    "es_rededge1_transform_10SGJ": [
+     20,
+     0,
+     699960,
+     0,
+     -20,
+     4400040
+    ],
+    "origin_offset_pixels_all_pairs": [
+     0.0,
+     0.0
+    ],
+    "pixel_size": "20 m both, all five pairs",
+    "crs": "EPSG:32617 for 17SKU, EPSG:32610 for 10SGJ, equal on both sides in all pairs",
+    "shape": "5490x5490 both sides in all pairs",
+    "aqr_transform_same_for_all_13_layers_per_scene": true,
+    "other_L2A_20m_assets_same_transform_as_rededge1": [
+     "rededge2",
+     "rededge3",
+     "nir08",
+     "swir16",
+     "swir22"
+    ],
+    "L2A_10m_assets_same_origin": "blue and nir at 10 m with the same origin, shape 10980x10980"
+   },
+   "evidence": [
+    "benchmarks/results/aqr-headers.json earth_search_pairs[]",
+    "benchmarks/results/aqr-headers.json summary.grid_alignment",
+    "data/aqr-headers/2026-10-13T181726+0000/S2B_T17SKU_20251015T162249_L2A.json (assets.rededge1.proj:transform, proj:shape; properties.proj:epsg)",
+    "data/aqr-headers/2026-10-13T181726+0000/S2B_17SKU_20251015_0_L2A.json",
+    "data/aqr-headers/2026-10-13T181726+0000/S2B_T10SGJ_20251020T185627_L2A.json",
+    "data/aqr-headers/2026-10-13T181726+0000/S2B_10SGJ_20251020_0_L2A.json",
+    "data/aqr-headers/2026-10-13T181726+0000/S2B_17SKU_20220703_0_L2A.json"
+   ],
+   "reason": "The script compares the right asset (rededge1 is B05, gsd 20) with the right math: offset = (origin difference) divided by the pixel size, on affine-ordered transforms. My independent computation from the saved item JSON gives zero offset on both axes, equal 20 m pixels, equal CRS, and equal shape in all five pairs. The comparison uses catalog metadata, not Level-2A file headers, and covers only two tiles, which the result's limitations already state.",
+   "suggested_correction": "Optional scope words: 'in all five pairs, on tiles 17SKU and 10SGJ, by catalog metadata'."
+  },
+  {
+   "id": "V-T1-5",
+   "claim": "The three settings files are identical except the write time, the run id, and the input file. They name dsf_aot_estimate=tiled, dsf_tile_dimensions=300,300, dsf_residual_glint_correction=False, s2_target_res=20, l2w_mask=True with l2w_mask_wave=1600 and l2w_mask_threshold=0.05. They state no ACOLITE version.",
+   "verdict": "validated",
+   "recomputed": {
+    "files": 3,
+    "bytes_each": 10074,
+    "lines_each": 392,
+    "key_value_pairs_each": 390,
+    "sha256": {
+     "20220703 (17SKU)": "6c1290bb9bf3eac13c0d045b43ab16f1b0b713f149a5e6536db08a9c730c1785",
+     "20251015 (17SKU)": "08eaec127008360fac345e7cbd6a13aeeaa361fc26bd57ea45da6129c33c4d63",
+     "20251020 (10SGJ)": "7393f25c2d538e515b5eebff6aa225997ffab54adad25c1e1f7f3e35cf9d83c7"
+    },
+    "line_diff": "exactly three line positions differ: line 2 (Written at), line 390 (runid), line 391 (inputfile). Pairwise diff of file 1 against files 2 and 3.",
+    "written_at": [
+     "2026-02-15 01:13:18 (July 2022 scene)",
+     "2025-12-24 15:55:56 (2025-10-15)",
+     "2025-12-24 16:17:59 (2025-10-20)"
+    ],
+    "runids": [
+     "20260215_011151",
+     "20251224_155347",
+     "20251224_161542"
+    ],
+    "values_in_all_three": {
+     "dsf_aot_estimate": "tiled",
+     "dsf_tile_dimensions": "300,300",
+     "dsf_residual_glint_correction": "False",
+     "s2_target_res": "20",
+     "l2w_mask": "True",
+     "l2w_mask_wave": "1600",
+     "l2w_mask_threshold": "0.05",
+     "l2w_mask_negative_rhow": "True",
+     "l2w_mask_cirrus": "True",
+     "l2w_mask_high_toa": "True"
+    },
+    "keys_containing_version": [
+     "eminet_model_version=20220809",
+     "rsr_version=None"
+    ],
+    "acolite_version_key_present": false,
+    "header_lines": [
+     "## ACOLITE settings",
+     "## Written at <timestamp>"
+    ]
+   },
+   "evidence": [
+    "data/aqr-headers/2026-10-13T181726+0000/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_settings.txt",
+    "data/aqr-headers/2026-10-13T181726+0000/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_settings.txt",
+    "data/aqr-headers/2026-10-13T181726+0000/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_settings.txt",
+    "benchmarks/results/aqr-headers.json summary.settings_selected, summary.settings_digests, scenes[].layers.settings.settings"
+   ],
+   "reason": "A line-by-line diff of the three saved files shows differences only at the write-time line, the runid line, and the inputfile line. All named parameter values are present as claimed. No ACOLITE version key or line exists: the only version-like keys are eminet_model_version and rsr_version, and the LUT names carry dates (ACOLITE-LUT-202110), not a release number. The saved files hash to the digests in the result.",
+   "suggested_correction": null
+  },
+  {
+   "id": "V-T1-6",
+   "claim": "Payer: every T1 request was unsigned, every bucket response was HTTP 200, and no response carried an x-amz-request-charged header.",
+   "verdict": "partially validated",
+   "recomputed": {
+    "logged_requests": 66,
+    "by_host_method_status": {
+     "usgs bucket HEAD 200": 42,
+     "usgs bucket GET 200": 18,
+     "earth-search POST 200": 6
+    },
+    "bucket_GETs": "1 root listing + 2 tile pages + 12 scene listing pages (3 scenes x 4 platforms) + 3 settings = 18",
+    "retries": "none, attempt 1 on all 66",
+    "auth_headers_in_client": "none, only accept, user-agent, and content-type",
+    "responses_whose_x_amz_request_charged_was_recorded": "46 of the 60 logged bucket responses: 42 HEAD + 3 settings GET + the root listing (x-amz filter shows only x-amz-bucket-region)",
+    "responses_whose_headers_were_not_kept": "14 listing pages (2 tile, 12 scene) discarded by list_all callers",
+    "gdal_reads_not_in_request_log": "39 range reads of 16,384 bytes each (638,976 bytes requested) plus 39 file-size probes logged by GDAL; statuses and headers not captured",
+    "request_charged_headers_summary": {
+     "None": 42
+    }
+   },
+   "evidence": [
+    "benchmarks/results/aqr-headers.json request_log (66 entries)",
+    "benchmarks/results/aqr-headers.json summary.head_statuses",
+    "benchmarks/results/aqr-headers.json summary.request_charged_headers",
+    "benchmarks/results/aqr-headers.json endpoints.root_listing_headers",
+    "benchmarks/results/aqr-headers.json scenes[].layers.settings.settings.get.request_charged",
+    "src/s2proto/harness.py Client._request (headers sent, what is logged)",
+    "benchmarks/aqr_headers.py list_all and main (headers of tile and scene listings discarded)"
+   ],
+   "reason": "For the probe's own client, the first two parts hold: no authorization header is ever sent, and all 60 bucket responses were HTTP 200 on the first attempt. The third part is true where headers were recorded (46 of 60) but is weak evidence: S3 returns x-amz-request-charged only when the request sends x-amz-request-payer, which the probe never does. The sound basis for 'not requester pays' is that anonymous requests succeeded, because S3 refuses anonymous access to requester-pays buckets. GDAL's 39 header reads and its size probes are outside the log, so 'every bucket response' is not shown for them (range reads normally answer 206, not 200).",
+   "suggested_correction": "Write: 'All 60 bucket requests made by the probe client were unsigned and answered HTTP 200. GDAL's 39 header reads also succeeded, but their statuses were not logged. Unsigned success shows the bucket is not requester pays. The absent x-amz-request-charged header adds nothing, because the probe never asks for that header.' Also say 'T1 made 66 logged requests plus 39 GDAL range reads' if the request count is quoted."
+  }
+ ],
+ "method_concerns": [
+  "Scale and offset: rasterio's scales and offsets return 1.0 and 0.0 when a file states none, and GDAL does not even write an item when the value is the default (local test). summary.scales_offsets cannot tell 'declared 1 and 0' from 'declared nothing'. Use the verb 'reports' for these two fields, not 'declares'.",
+  "Request accounting: request_log holds only the urllib client's calls (66). The 39 GDAL range reads and the 39 GDAL file-size probes (size_requests=1 per file) are separate traffic with no recorded status or headers. measurements.md says 'T1 made 66 requests'. The Phase B record lists the 39 GDAL ranges separately, so the facts are on disk, but the sentence undercounts.",
+  "Payer evidence: x-amz-request-charged appears only when the request sends x-amz-request-payer: requester. The probe sends no such header, so the header's absence is expected under any bucket configuration. The informative fact is HTTP 200 to anonymous requests. Also, 'the bucket owner paid' is an inference. The probe cannot name who pays, only that the reader did not.",
+  "Header capture gaps: list_all returns response headers, but main() discards them for the 2 tile pages and 12 scene pages. Only 46 of 60 bucket responses had their charge header recorded. Raw listing XML was not saved, so the 'one version prefix' count and the 1,340 count rest on the script's parsing, though my recount of tile-prefixes.json agrees.",
+  "'No pixel read': the 16,384-byte figure per file is GDAL's default /vsicurl/ chunk. In a COG the header, IFDs, and tag arrays take a few KB, so the chunk can include the first bytes of compressed tile data. Those bytes are requested and transferred but not decoded. The script's wording 'decodes no pixel' is accurate. A phrase like 'reads no pixel' would be slightly loose. The result logs requested ranges, not delivered bytes.",
+  "Grid comparison: it uses Element 84 catalog metadata (asset proj:transform and the item's proj:epsg), not Level-2A file headers, and only 5 pairs on 2 tiles in 2 UTM zones. Alignment is expected because every product sits on the MGRS grid, so a larger sample would add little but is untested. The AQR side uses B05 alone, but I checked that all 13 layers per scene share one transform.",
+  "Sample size: three scenes, all Sentinel-2B, baselines 05.10 and 05.11, one settings profile. The settings identity (V-T1-5) and the layer set (V-T1-2) are shown for three scenes only. T2 later shows 586 of 19,336 scenes without the 14-object set.",
+  "The scene selection for 2022-07 takes the earliest sensing of the month by sort order. That is a sound rule but not random, so it is not a sample of the 11 July scenes. (The coverage run's raw listing shows all 11 July 2022 scenes on tile 17SKU have 14 objects.)"
+ ],
+ "limitations": [
+  "No network access. I could not re-list the bucket, re-open any GeoTIFF, or re-check any HTTP header. Every recomputation is from saved files: the result JSON, the three saved settings files, tile-prefixes.json, and the five saved Earth Search item JSON files.",
+  "The result JSON's per-file header values are the script's own output. I could recompute counts and compare them, but I could not verify that GDAL read the true file headers. The consistency of 39 GDAL logs (1 request, 16,384 bytes each) and the cross-check against the settings, item, and coverage files raise confidence but are not independent measurements.",
+  "I tested GDAL's default scale and offset behavior only with local files and the repo's rasterio 1.5.1 and its GDAL, which may differ in minor details from the version that produced the result (GDAL 3.12.4 reported there).",
+  "I did not inspect the pytest suite or run any repository script. I wrote no repository file. My scratch files are under the scratchpad validation folder.",
+  "Statements about S3 behavior (x-amz-request-charged only with x-amz-request-payer, anonymous access refused for requester-pays buckets, range reads answering 206) come from my knowledge of the S3 documentation, not from a saved source in this repository."
+ ]
+}

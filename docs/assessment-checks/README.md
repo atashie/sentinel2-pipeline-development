@@ -29,6 +29,7 @@ A supplementary pair named `<dimension>-<topic>-research.json` and `-checks.json
 | [processing-workflow-acolite-checks.json](processing-workflow-acolite-checks.json) | 48 confirmed, 9 corrected. The parent agent reviewed the 3 estimates | Sonnet checker |
 | [water-correction-research.json](water-correction-research.json) | 46 draft claims on Sen2Cor over water, Sen2Cor versions, inland-water intercomparisons, and Level-1C sources, 33 sources, 2026-10-13. Feeds section 5 of [s2-best-practices.md](../s2-best-practices.md), not the inventory | Opus researcher |
 | [water-correction-checks.json](water-correction-checks.json) | 36 confirmed, 10 corrected. Binds claims W1 to W11 in the best-practices document | Sonnet checker |
+| [phase-b-validation/](phase-b-validation/) | Eight verdict files from the Phase B validation review, 52 verdicts, 2026-10-13. [Record](../reviews/2026-10-13-phase-b-claim-validation.md) | Sonnet reviewers |
 
 The original inventory pages were accessed on 2026-09-09. Only confirmed or corrected values populate the inventory.
 Estimated claims are reviewed by the parent agent, not by a checker.
