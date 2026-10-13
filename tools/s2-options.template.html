@@ -435,13 +435,13 @@ footer{display:block}
 <div class="eyebrow">Discovery / Data sources and processing requirements</div>
 <h1>Satellite data for<br>water-quality models.</h1>
 <p>We are assessing how to turn public satellite images into reliable inputs for water-quality models across U.S. lakes, ponds, and reservoirs.</p>
-<p>Sentinel-2 in AWS is our choice. Discovery explains why, what can go wrong, and what we need to test.</p>
+<p>Sentinel-2 in AWS is our choice. For water pixels in the lower 48 states, we use a USGS product corrected for water. Discovery explains why, what can go wrong, and what we need to test.</p>
 </div>
 <figure class="hero-image"><img src="assets/discovery/true-color.png" width="800" height="800" alt="Sentinel-2 true-color image showing branching water and wooded shores at Lake Lanier">
 <figcaption><b>One reservoir, several views.</b><br>@@MAP_PLACE@@ · Sentinel-2 · @@MAP_DATE@@</figcaption>
 </figure>
 </div>
-<div class="scope"><span>Lakes, ponds &amp; reservoirs</span><span>U.S. first, with global scale in mind</span><span>2021 onward first</span><span>Assessment for an engineering handoff</span>
+<div class="scope"><span>Lakes, ponds &amp; reservoirs</span><span>Lower 48 states first, with global scale in mind</span><span>2021 onward first</span><span>Assessment for an engineering handoff</span>
 </div>
 <nav class="section-nav" aria-label="Discovery sections"><a href="#the-data">The data</a><a href="#aws">The AWS archives</a><a href="#risks">Where errors enter</a><a href="#processing">The processing work</a><a href="#maps">See the data</a>
 </nav>
@@ -476,7 +476,7 @@ footer{display:block}
 <dt>Consistency</dt>
 <dd>The MSI instrument family across missions. Instrument calibration and ground processing still vary.</dd>
 <dt>Product</dt>
-<dd>Atmospherically corrected surface reflectance. That correction does not remove every effect on water measurements.</dd>
+<dd>Two corrections of the same images. USGS aquatic reflectance is corrected for water, with eleven bands on one 20 m grid and no B9 or B10. Earth Search surface reflectance keeps the native grids.</dd>
 <dt>Missing</dt>
 <dd>No thermal band. No record before 2015.</dd>
 </dl>
@@ -554,7 +554,7 @@ footer{display:block}
 <p class="small">Illustration: the same 30 × 30 m area at two sampling sizes. Each square shows the one value a sensor reports for it, a mix where the shoreline crosses. The dark line is the true shoreline. Schematic only.</p>
 </figcaption>
 </figure>
-<p class="note-line"><strong>A different product: 30 m HLS.</strong> NASA’s Harmonized Landsat Sentinel-2 places both sensors on a common 30 m grid. It applies its own atmospheric correction and additional cross-sensor adjustments. Our source keeps Sentinel-2’s native 10, 20, and 60 m band grids. Which product the existing model expects is still an open question.</p>
+<p class="note-line"><strong>A different product: 30 m HLS.</strong> NASA’s Harmonized Landsat Sentinel-2 places both sensors on a common 30 m grid. It applies its own atmospheric correction and additional cross-sensor adjustments. Our primary source puts every band on Sentinel-2’s 20 m grid, and the supplementary source keeps the native 10, 20, and 60 m grids. Which product the existing model expects is still an open question.</p>
 <p class="choice"><strong>The choice.</strong> We prefer Sentinel-2 for its finer visible pixels, frequent revisits, red-edge bands, and consistent instrument family. Landsat remains useful for thermal observations and longer history.</p>
 <p class="source-note"><b>Documented:</b> <a href="https://sentiwiki.copernicus.eu/web/s2-mission">Copernicus sensor specifications</a>, <a href="https://www.usgs.gov/faqs/what-are-band-designations-landsat-satellites">USGS band specifications</a>, <a href="https://www.usgs.gov/faqs/what-are-acquisition-schedules-landsat-satellites">Landsat revisit</a>, and <a href="https://hls.gsfc.nasa.gov/algorithms/">NASA HLS processing</a>. Independently checked 2026-09-17. Band selection depends on the model. The preference comes from project direction. These benchmarks did not test it.</p>
 </section>
@@ -563,34 +563,38 @@ footer{display:block}
 <div class="chapter-head">
 <div class="chapter-num">02 / ACCESS</div>
 <div>
-<h2>Choosing between two public Sentinel-2 archives.</h2>
-<p>Sentinel-2 surface reflectance reaches AWS as two public collections. Both are Element 84’s cloud-optimized GeoTIFF conversions of ESA’s product, and Earth Search catalogs both. They are not interchangeable. Each covers different periods, carries different processing versions, and stores values differently. Before we read a pixel, we must decide which copy to trust, and when.</p>
+<h2>Three public archives, one primary for water.</h2>
+<p>Sentinel-2 reflectance reaches AWS in three public GeoTIFF archives. The U.S. Geological Survey publishes aquatic reflectance for the lower 48 states, corrected for water with the ACOLITE processor. Element 84 publishes two conversions of ESA’s land-oriented product, and Earth Search catalogs both. Each archive serves a different purpose.</p>
 </div>
 </div>
 <div class="needs">
-<div><b>Neither copy is complete</b><span>Collection 1 is nearly empty for most of 2022 in the sampled tiles. The older copy fills most of that gap, not all of it.</span></div>
-<div><b>Stored pixel values can differ</b><span>We compared three bands of one product in both archives. The older copy changed the values and replaced the lowest values with a fixed minimum, losing information.</span></div>
-<div><b>Several versions can share a date</b><span>Both copies can hold several processing versions of one observation. The older copy holds more in our sample. A date does not identify one product.</span></div>
-<div><b>Quality layers differ</b><span>In the tested product, classification matched, but aerosol and water-vapor grids differed. The older copy’s cloud and snow layers used another file format.</span></div>
+<div><b>Corrected for water</b><span>The USGS product uses a correction built for water. ESA validates its own correction at land sites only.</span></div>
+<div><b>About half the acquisitions</b><span>From @@AQR_FIRST_YEAR@@, the USGS product holds @@AQR_SHARE_LOW@@ to @@AQR_SHARE_HIGH@@ percent of Earth Search’s acquisitions per year on @@AQR_TILES@@ sampled tiles. Cloudy and partial images are missing most often.</span></div>
+<div><b>No cloud-shadow or snow layer</b><span>Its flags mark non-water, bright, and negative pixels. Shadow and snow flags must come from the land product of the same pass.</span></div>
+<div><b>The grids match, the versions often do not</b><span>@@AQR_JOIN_PERCENT@@ percent of its scenes match an Earth Search image of the same pass. Only @@AQR_SAME_BASELINE_PERCENT@@ percent match the same processing version.</span></div>
 </div>
-<h3 class="plans-title" style="margin-bottom:14px">Use Collection 1 first and the older copy to fill gaps.</h3>
+<h3 class="plans-title" style="margin-bottom:14px">Use the USGS product for water pixels, and Earth Search for everything around it.</h3>
 <figure class="route">
-<div class="route-step"><span class="eyebrow">Find</span><h4>Earth Search</h4><p>Locate products, their processing versions, and their band files in one catalog.</p></div>
+<div class="route-step"><span class="eyebrow">Find</span><h4>Two discovery paths</h4><p>List the USGS bucket or subscribe to its notifications. Search Earth Search for the same pass.</p></div>
 <div class="route-arrow" aria-hidden="true">→</div>
-<div class="route-step"><span class="eyebrow">Read</span><h4>Two public AWS buckets</h4><p>Prefer Collection 1. If Collection 1 lacks the product, use the older copy.</p></div>
+<div class="route-step"><span class="eyebrow">Read</span><h4>Three public AWS buckets</h4><p>Water pixels from the USGS bucket. Quality layers, land, comparison values, and missing scenes from Collection 1, then the older copy.</p></div>
 <div class="route-arrow" aria-hidden="true">→</div>
-<div class="route-step"><span class="eyebrow">Keep</span><h4>Values with provenance</h4><p>Keep native pixels, quality information, and the source product. Validate the conversion before you combine the two histories.</p></div>
+<div class="route-step"><span class="eyebrow">Keep</span><h4>Both records, side by side</h4><p>Keep native pixels, flags, and both product identities. Never replace one correction with the other.</p></div>
 <figcaption>Our intended access path. A reader can fetch selected blocks of a cloud-optimized GeoTIFF and leave the rest of the file.</figcaption>
 </figure>
 <div class="table-scroll" role="region" aria-label="AWS archive comparison" tabindex="0">
 <table class="plans datasets">
-<thead><tr><th scope="col">Question</th><th scope="col">Collection 1 copy · preferred</th><th scope="col">Older copy · fallback</th></tr></thead>
+<thead><tr><th scope="col">Question</th><th scope="col">USGS aquatic reflectance · primary for water</th><th scope="col">Collection 1 copy · supplementary</th><th scope="col">Older copy · fallback</th></tr></thead>
 <tbody>
-<tr><th scope="row">Where is it?</th><td><code>e84-earth-search-sentinel-data</code></td><td><code>sentinel-cogs</code></td></tr>
-<tr><th scope="row">What is shared?</th><td colspan="2">Element 84 conversions in AWS Oregon. Public access without credentials or requester pays. Our compute, storage, and network costs are separate.</td></tr>
-<tr><th scope="row">Why use it?</th><td>The preferred copy. Its sampled quality assets are more uniform, and it has fewer competing product versions.</td><td>Fills most gaps the survey found, especially in 2022.</td></tr>
-<tr><th scope="row">What complicates it?</th><td>Nearly empty from 2022-01 through 2022-11 in the sampled tiles. It holds only part of ESA’s later reprocessing.</td><td>More competing versions, different value conventions, and missing quality assets across much of the sampled history.</td></tr>
+<tr><th scope="row">Where is it?</th><td><code>usgs-wma-sentinel-2-aqr-acolite-dsf</code></td><td><code>e84-earth-search-sentinel-data</code></td><td><code>sentinel-cogs</code></td></tr>
+<tr><th scope="row">Who runs it?</th><td>The U.S. Geological Survey</td><td colspan="2">Element 84, converting ESA’s product</td></tr>
+<tr><th scope="row">What is shared?</th><td colspan="3">AWS Oregon. Public access without credentials or requester pays. Our compute, storage, and network costs are separate.</td></tr>
+<tr><th scope="row">Correction</th><td>ACOLITE dark spectrum fitting, one processor version for the whole record</td><td colspan="2">ESA’s Sen2Cor, designed and validated for land</td></tr>
+<tr><th scope="row">Grid</th><td>Every band at 20 m, aligned with the land product’s 20 m grid</td><td colspan="2">Native 10, 20, and 60 m grids</td></tr>
+<tr><th scope="row">Why use it?</th><td>The water correction. New scenes arrived a median @@AQR_LATENCY_HOURS@@ hours after sensing in recent months.</td><td>Quality layers, land values, and comparison values. Its sampled quality assets are more uniform.</td><td>Fills most gaps the survey found in Collection 1, especially in 2022.</td></tr>
+<tr><th scope="row">What complicates it?</th><td>About half the acquisitions. No searchable catalog. Documented for the lower 48 only.</td><td>Nearly empty from 2022-01 through 2022-11 in the sampled tiles.</td><td>More competing versions, different value conventions, and missing quality assets.</td></tr>
 </tbody></table></div>
+@@ARCHIVE_ITEMS@@
 <p class="note-line"><strong>Check value conversions before combining archives.</strong> The tested older copy already included a numerical adjustment that its catalog still listed. Applying it again would distort the measurements. The lost low-value detail cannot be recovered. This finding covers one product, not the full archive.</p>
 <details class="benchmark-detail" id="archive-values">
 <summary id="stage-1">Measured differences between the archive copies</summary>
@@ -612,12 +616,13 @@ footer{display:block}
 </details>
 <p class="source-note"><b>Measured:</b> @@RAW_DATE@@, @@RAW_MACHINE@@, outside the bucket’s region. <a href="measurements.md#prototype-stage-1-raw-access-to-whole-tiles-2026-09-14">Access findings and limits</a>, <a href="../benchmarks/results/raw-access.json">initial result</a>, <a href="../benchmarks/results/raw-access-older-quality-all.json">quality rerun</a>, and <a href="../benchmarks/results/copy-difference.json">pixel comparison</a>. Run order and network conditions were uncontrolled. The evidence keeps the earlier failed JPEG 2000 attempts.</p>
 </details>
-<details class="map-details"><summary>The third AWS archive and the naming</summary>
+<details class="map-details"><summary>The JPEG 2000 archives and the naming</summary>
 <p>The ESA-format JPEG 2000 archive, <code>sentinel-s2-l2a</code>, is in AWS Frankfurt. It is context and a possible reference source.</p>
+<p>The Level-1C input the USGS product starts from is also on AWS only as JPEG 2000, in a requester-pays bucket. USGS reads its input from the Copernicus Data Space Ecosystem instead.</p>
 <p>Element 84 maintains its registry entry, and its readme is hosted on a Sentinel Hub domain. Neither document names the bucket’s owner. Provider pages disagree on whether Level-2A reads from it cost the reader money.</p>
-<p>“Processing version” means ESA’s processing baseline, such as 05.11. It describes the processing, not the observation date.</p>
+<p>“Processing version” means ESA’s processing baseline, such as 05.11. It describes the processing, not the observation date. The USGS product keeps the Level-1C version in its file names, and records its own processor settings per scene.</p>
 </details>
-<h3 class="plans-title">Possible reasons for the archive gaps.</h3>
+<h3 class="plans-title">Possible reasons for the gaps in Collection 1.</h3>
 <p>We do not know why Element 84 still runs both copies, or why Collection 1 lacks most of 2022-01 to 2022-11. In 2024-04, Element 84 cited incomplete ESA reprocessing. ESA <a href="assessment-checks/presentation-review-sources.json">announced that reprocessing complete</a> on 2025-09-08. The surveyed Copernicus catalog contains the reprocessed 2022 products, but most are still absent here.</p>
 <p><strong>Inference from the survey:</strong> Collection 1 appears to combine arriving products with a backfill of ESA’s reprocessed history. Every sampled 2021 item is reprocessed. The 2022 and 2023 holdings look like an incomplete update. The cause can lie in the copying, the conversion, or the cataloging. We cannot tell from outside.</p>
 <details class="map-details archive-history" id="archive-history">
@@ -638,25 +643,38 @@ footer{display:block}
 <p>Element 84’s small bridge collection for late 2022 covers no surveyed US tile. That fits an incomplete update, but does not show its cause.</p>
 <p><b>Measured:</b> <a href="measurements.md#archive-history-measurements-and-inferred-explanation">survey evidence and count definitions</a>. <b>Documented:</b> <a href="https://sentiwiki.copernicus.eu/web/s2-processing">ESA processing history</a>, <a href="https://sentinels.copernicus.eu/documents/d/sentinel/ompc-cs-dqr-002-03-2023-i60r0-msi-l2a-dqr-april-2023">05.09 deployment</a>, and <a href="https://dataspace.copernicus.eu/news/2026-9-2-copernicus-sentinel-2c-tandem-data-reprocessing-campaign-completed">Sentinel-2C tandem reprocessing</a>. Sources checked 2026-09-11. The last one shows availability at Copernicus only, and says nothing about AWS.</p>
 </details>
+<figure class="coverage" id="aqr-coverage">
+<h3>USGS aquatic reflectance coverage by month.</h3>
+<p>Share of Earth Search acquisitions with a USGS scene, across @@AQR_TILES@@ sampled tiles in the lower 48 states. Collection 1 is shown against the same reference. Dark means complete.</p>
+@@AQR_COVERAGE_STRIP@@
+<figcaption class="small muted" style="margin-top:12px">Listings of @@AQR_SCENES@@ USGS scenes and three Earth Search collections on @@AQR_DATE@@. Earth Search lists nothing on these tiles before 2017, so the strip starts there. A listed scene does not prove a usable water observation.</figcaption>
+</figure>
 <figure class="coverage">
-<h3>Archive coverage by month.</h3>
+<h3>Earth Search coverage by month.</h3>
 <p>Share of expected observations present across 30 sampled tiles, 2021-01 through 2026-09-10. Dark means complete.</p>
 @@COVERAGE_STRIP@@
 <figcaption class="small muted" style="margin-top:12px">Expected observations come from the Copernicus catalog. Of @@MISSING@@ missing from the Collection 1 copy in the incomplete months, @@FALLBACK@@ list the required GeoTIFF assets in the older copy. @@UNCOVERED@@ lack a matching fallback item. Most of those are one Alaska tile. Another @@OTHER_FORMAT@@ have only JPEG 2000 links. A catalog entry does not prove a usable water observation.</figcaption>
 </figure>
-<p class="choice"><strong>Why both matter.</strong> Collection 1 alone leaves most of the surveyed 2022 gap. The older copy supplies candidate GeoTIFF assets for @@FALLBACK_PERCENT@@ percent of the missing observations in the incomplete months. The fallback order is settled. Version choice, value conversion, and missing quality layers still need a fill policy.</p>
-<p class="source-note"><b>Documented:</b> <a href="https://registry.opendata.aws/sentinel-2-l2a-cogs/">AWS GeoTIFF registry</a>, <a href="https://registry.opendata.aws/sentinel-2/">JPEG 2000 registry</a>, and <a href="https://github.com/Element84/earth-search/blob/main/README.md">Earth Search README</a>. <b>Measured:</b> <a href="reviews/2026-09-10-gap-survey-report.json">the catalog survey</a> and <a href="#archive-values">one-product pixel comparison</a>. The survey covers 30 sampled tiles. It does not show global completeness. The ingestion history above is an inference.</p>
+<p class="choice"><strong>Why all three matter.</strong> The USGS product supplies the water correction but about half the acquisitions and no shadow or snow layer. Collection 1 supplies those layers and most missing scenes. Collection 1 alone leaves most of the surveyed 2022 gap, and the older copy supplies candidate GeoTIFF assets for @@FALLBACK_PERCENT@@ percent of those missing observations. The order is settled. Joining across processing versions, value conversion, and missing quality layers still need a fill policy.</p>
+<p class="note-line" id="expansion"><strong>Beyond the lower 48 states.</strong> The USGS product is documented for the conterminous United States. Serving water bodies elsewhere needs a redrafted workflow, not a configuration change. The hurdles are Level-1C access, compute to run the correction, and a record of processor versions and settings. A cloud mask and validation over the new waters follow.</p>
+<p class="source-note"><b>Documented:</b> <a href="https://registry.opendata.aws/usgs_aqr/">USGS aquatic reflectance registry</a>, <a href="https://doi.org/10.5066/P904243C">USGS data release</a>, <a href="https://registry.opendata.aws/sentinel-2-l2a-cogs/">AWS GeoTIFF registry</a>, <a href="https://registry.opendata.aws/sentinel-2/">JPEG 2000 registry</a>, and <a href="https://github.com/Element84/earth-search/blob/main/README.md">Earth Search README</a>. USGS sources independently checked @@AQR_DATE@@. <b>Measured:</b> <a href="../benchmarks/results/aqr-headers.json">USGS file headers</a> across @@AQR_TILE_PREFIXES@@ tile folders, <a href="../benchmarks/results/aqr-coverage.json">the USGS coverage and join survey</a>, <a href="reviews/2026-09-10-gap-survey-report.json">the Earth Search survey</a>, and <a href="#archive-values">one-product pixel comparison</a>. The surveys cover sampled tiles, not global completeness. No USGS pixel value has been compared yet. The ingestion history above is an inference.</p>
 </section>
 
 <section class="chapter" id="risks">
 <div class="chapter-head">
 <div class="chapter-num">03 / QUALITY</div>
 <div>
-<h2>Six risks to water-quality measurements.</h2>
-<p>A change in a pixel value can come from the water, the atmosphere, or the processing. We need enough context to tell them apart. Six categories cover the main quality risks.</p>
+<h2>Seven risks to water-quality measurements.</h2>
+<p>A change in a pixel value can come from the water, the atmosphere, or the processing. We need enough context to tell them apart. Seven categories cover the main quality risks. The atmospheric correction leads.</p>
 </div>
 </div>
 <div class="risk-grid">
+<article class="risk">
+<h3>The atmospheric correction can misread water.</h3>
+<p>Water reflects little sunlight, so a small correction error is a large share of the water signal. Earth Search’s correction was designed and validated for land.</p>
+<p class="response"><b>Our approach:</b> use the USGS water correction for water pixels. Keep the land product beside it for quality flags and comparison.</p>
+@@RISK_CORRECTION@@
+</article>
 <article class="risk">
 <h3>Pixels can mix water and land.</h3>
 <p>Small ponds and shorelines produce mixed pixels. A small location error can change how much land enters a measurement.</p>
@@ -665,7 +683,7 @@ footer{display:block}
 </article>
 <article class="risk">
 <h3>Quality screening can miss contamination.</h3>
-<p>Clouds, shadows, haze, sun glint, and nearby bright land can affect the signal. Quality flags help, but they are imperfect.</p>
+<p>Clouds, shadows, haze, sun glint, and nearby bright land can affect the signal. Quality flags help, but they are imperfect. The water product has no shadow or snow layer.</p>
 <p class="response"><b>Our approach:</b> keep the available quality flags and the shoreline context. Test the screening rules.</p>
 @@RISK_FLAGS@@
 </article>
@@ -677,13 +695,13 @@ footer{display:block}
 </article>
 <article class="risk">
 <h3>A processing change can look like a trend.</h3>
-<p>Archives mix processing versions and rules that convert stored integers to reflectance. A wrong conversion creates a false change.</p>
+<p>Archives mix processing versions and rules that convert stored integers to reflectance. A wrong conversion creates a false change. The water product pins one processor version while its input versions keep changing.</p>
 <p class="response"><b>Our approach:</b> keep the product history and test the value conversion across versions.</p>
 @@RISK_VERSIONS@@
 </article>
 <article class="risk">
 <h3>Resampling does not add measured detail.</h3>
-<p>Sentinel-2 bands have 10, 20, or 60 m pixels. Enlarging a coarse band does not create finer observations.</p>
+<p>Sentinel-2 bands have 10, 20, or 60 m pixels. Enlarging a coarse band does not create finer observations. The water product delivers every band at 20 m, so its 10 m bands arrive resampled.</p>
 <p class="response"><b>Our approach:</b> keep the native band resolution. When an analysis combines grids, make the resampling explicit.</p>
 @@RISK_GRID@@
 </article>
@@ -811,7 +829,7 @@ footer{display:block}
 <details class="tech"><summary>Technical detail</summary><ul>
 <li>Reproject each polygon into the UTM zone of every tile it touches. Buffer it by the nearby-land distance.</li>
 <li>Use native tile extents for candidates. Treat catalog footprints as coarse hints. The primary-tile rule is not decided yet.</li>
-<li>Compute the pixel window on the 10, 20, and 60 m grids of each tile. Store it per polygon version.</li>
+<li>Compute the pixel window on the 10, 20, and 60 m grids of each tile. The water product uses the 20 m grid. Store it per polygon version.</li>
 </ul></details>
 </div>
 </div>
@@ -834,10 +852,11 @@ footer{display:block}
 <div class="step"><span class="step-number">3</span>
 <div>
 <h4>Find products and read image windows.</h4>
-<p>Search the catalog, resolve versions, and read the image blocks that cover the water bodies.</p>
+<p>Find the water product’s scenes and the land product of the same pass. Resolve versions, and read the image blocks that cover the water bodies.</p>
 <div class="effort high"><i></i>Effort: high</div>
 <details class="tech"><summary>Technical detail</summary><ul>
-<li>Query the catalog by tile and time range. Keep product id, processing version, file locations, scale, and offset.</li>
+<li>List the USGS bucket by tile, or subscribe to its notifications. Parse product names, and check that every expected file exists.</li>
+<li>Query the Earth Search catalog by tile and time range. Keep product id, processing version, file locations, scale, and offset.</li>
 <li>Tell datastrips of one acquisition apart from reprocessed versions. Keep the product identity, and keep each contribution separate.</li>
 <li>Windowed approach: read the internal blocks that cover each window with HTTP range requests. Keep the native band grids.</li>
 <li>Alternatives to compare: one whole-tile read shared by every lake in the tile, and a lazy array stack.</li>
@@ -847,11 +866,12 @@ footer{display:block}
 <div class="step"><span class="step-number">4</span>
 <div>
 <h4>Attach quality, values, and source history.</h4>
-<p>Convert stored values one tested way. Attach quality codes, pixel classes, tile identity, and processing version.</p>
+<p>Convert stored values one tested way. Attach quality codes, pixel classes, tile identity, and both product identities.</p>
 <div class="effort medium"><i></i>Effort: medium</div>
 <details class="tech"><summary>Technical detail</summary><ul>
 <li>Validate the conversion against source values. Keep the delivered integers and the conversion metadata. Whether to store converted reflectance is an open question.</li>
 <li>Join the mask table: pixel class, water fraction, edge distance.</li>
+<li>Join the land product of the same pass by tile, satellite, and sensing start, for shadow and snow layers. Record whether the processing versions match.</li>
 <li>Keep the native quality grids and the per-band no-data. Test how they map onto finer pixels before you define a quality join.</li>
 </ul></details>
 </div>
@@ -873,7 +893,7 @@ footer{display:block}
 <figure class="record">
 <figcaption>
 <h3>Information to store with each pixel.</h3>
-<p>Candidate: one row per pixel, per observation. Bands come on three grids, so a row belongs to one grid. A 10 m row carries the four 10 m bands. A 20 m row carries the six 20 m bands, and a 60 m row the two 60 m bands. Level-2A has 12 bands in all.</p>
+<p>Candidate: one row per pixel, per observation. A water-product row carries its eleven 20 m bands and the delivered water index. Land-product bands come on three grids, so each of its rows belongs to one grid.</p>
 <p>A 100 × 100 m square aligned with both grids contains 100 whole pixels at 10 m and 25 at 20 m. Actual pond counts depend on shape, grid alignment, and pixel selection. Each row also carries its position, pixel class, quality codes, and provenance.</p>
 <p class="small" style="margin-top:8px">Working picture, not a selected layout. Parquet with these columns is one candidate. One row per pixel per band, or arrays per water body, are the alternatives to compare. The <a href="data-contract.md">draft data contract</a> lists every field.</p>
 <p class="small">The illustration groups information. It does not specify a quality join. Primary-tile roles and the physical layout are open.</p>
@@ -882,12 +902,14 @@ footer{display:block}
 <div><span>Water body and polygon version</span><b>polygon id · v3</b></div>
 <div><span>Tile and role</span><b>17SKU · role unresolved</b></div>
 <div><span>Sensing time and satellite</span><b>@@MAP_SENSING_TIME@@ · Sentinel-2B</b></div>
-<div><span>Product id and processing version</span><b>S2B_MSIL2A_…_T17SKU_… · 05.11</b></div>
-<div><span>Grid, row, column</span><b>10 m · 4,812 · 6,105</b></div>
+<div><span>Water product and processor</span><b>S2B_MSIAQR_…_T17SKU_… · ACOLITE · input 05.11</b></div>
+<div><span>Joined land product</span><b>S2B_MSIL2A_…_T17SKU_… · 05.11 · versions match</b></div>
+<div><span>Grid, row, column</span><b>20 m · 2,406 · 3,052</b></div>
 <div><span>Pixel class and water fraction</span><b>shoreline · 0.62 inside the polygon</b></div>
-<div><span>Band values on this grid</span><b>blue, green, red, near-infrared, as stored integers</b></div>
-<div><span>Scale and offset, and their source</span><b>Delivered integers + validated conversion metadata</b></div>
-<div><span>Quality codes</span><b>Native quality codes + per-band no-data</b></div>
+<div><span>Band values on this grid</span><b>eleven bands and the water index, as stored integers</b></div>
+<div><span>Scale and its source</span><b>× 0.0001, from the USGS documentation</b></div>
+<div><span>Quality codes</span><b>Processor flags + joined land classification</b></div>
+<div><span>Processing settings</span><b>Digest of the scene’s settings file</b></div>
 <div><span>Visible to us since</span><b>the time we published it locally</b></div>
 </div>
 </figure>
@@ -915,14 +937,14 @@ footer{display:block}
 <div class="chapter-head">
 <div class="chapter-num">05 / EXAMPLES</div>
 <div>
-<h2>Six views of the same satellite observation.</h2>
-<p>These are real Sentinel-2 measurements. Change either view to see how a single band, a color composite, or an index changes what stands out.</p>
+<h2>Eight views of the same satellite pass.</h2>
+<p>These are real Sentinel-2 measurements. Change either view to see how a single band, a color composite, an index, or the water product changes what stands out.</p>
 </div>
 </div>
 <div class="map-intro">
 <div>
 <h3>@@MAP_PLACE@@</h3>
-<p>@@MAP_DATE@@ · One 8 × 8 km window · 10 m input pixels · Same extent in both views</p>
+<p>@@MAP_DATE@@ · One 8 × 8 km window · 10 m input pixels, 20 m for the water product · Same extent in both views</p>
 </div><span class="tag">REAL SATELLITE DATA</span>
 </div>
 <div class="map-pair">
@@ -935,6 +957,8 @@ footer{display:block}
 <option value="false-color">Infrared false color</option>
 <option value="ndvi">Vegetation contrast · NDVI</option>
 <option value="ndwi">Water contrast · NDWI</option>
+<option value="aqr-true-color">Water product · true color, 20 m</option>
+<option value="aqr-water-flag">Water product · pixels without a flag</option>
 </select>
 </div>
 <div class="map-frame"><img src="assets/discovery/true-color.png" width="800" height="800" alt="Lake Lanier in true color, with dark water and green land"><span class="north" aria-label="Grid north points up">↑<br>N</span><span class="scale">1 km</span>
@@ -959,6 +983,8 @@ footer{display:block}
 <option value="false-color">Infrared false color</option>
 <option value="ndvi">Vegetation contrast · NDVI</option>
 <option value="ndwi" selected>Water contrast · NDWI</option>
+<option value="aqr-true-color">Water product · true color, 20 m</option>
+<option value="aqr-water-flag">Water product · pixels without a flag</option>
 </select>
 </div>
 <div class="map-frame"><img src="assets/discovery/ndwi.png" width="800" height="800" alt="Lake Lanier green and near-infrared water index: water appears blue and surrounding land brown"><span class="north" aria-label="Grid north points up">↑<br>N</span><span class="scale">1 km</span>
@@ -979,6 +1005,7 @@ footer{display:block}
 <p class="note-line">These indices show contrast between bands. They do not measure pollution, drinking-water safety, or any water-quality concentration.</p>
 <details class="map-details"><summary>How to read these maps · image source and display choices</summary>
 <p>Contains modified Copernicus Sentinel data (2025), served by Element 84. <a href="@@MAP_ITEM_URL@@">Source observation</a> · <a href="assets/discovery/provenance.json">Image provenance and recipes</a>.</p>
+<p>The two water-product views contain modified Copernicus Sentinel data (2025), processed with ACOLITE by the U.S. Geological Survey. They read the same window at 20 m and draw each cell as four display pixels. Stored integers are multiplied by 0.0001, the factor USGS documents.</p>
 <p>All reflectance inputs use the same native 10 m grid. The recipe converts stored values with the source asset’s scale and offset before any calculation.</p>
 <p>The display stretches colors for visibility. Red, green, and blue use 0–0.3 reflectance. Near-infrared uses 0–0.5. Both use gamma 2.2.</p>
 <p>NDVI = (near-infrared − red) / (near-infrared + red). NDWI here = (green − near-infrared) / (green + near-infrared). Both legends span −1 to +1.</p>
@@ -1356,7 +1383,7 @@ footer{display:block}
 <p><a href="../README.md">Project documentation</a> · <a href="assets/discovery/provenance.json">Imagery attribution &amp; provenance</a>
 </p>
 </footer>
-<!-- Generated from inventory @@INVENTORY_DIGEST@@, survey @@REPORT_DIGEST@@, maps @@MAP_DIGEST@@, pilot @@PILOT_DIGEST@@, raw access @@RAW_DIGESTS@@, copy difference @@DIFF_DIGEST@@, lake extraction @@LAKE_DIGEST@@, tile extraction @@TILE_DIGEST@@, cross-tile extraction @@CROSS_DIGEST@@, sensor bands @@SENSOR_DIGEST@@, cost estimates @@COST_DIGEST@@. -->
+<!-- Generated from inventory @@INVENTORY_DIGEST@@, survey @@REPORT_DIGEST@@, maps @@MAP_DIGEST@@, pilot @@PILOT_DIGEST@@, raw access @@RAW_DIGESTS@@, copy difference @@DIFF_DIGEST@@, lake extraction @@LAKE_DIGEST@@, tile extraction @@TILE_DIGEST@@, cross-tile extraction @@CROSS_DIGEST@@, sensor bands @@SENSOR_DIGEST@@, cost estimates @@COST_DIGEST@@, aquatic reflectance @@AQR_DIGEST@@. -->
 <script>
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 function activate(id, focus = false) {
@@ -1404,7 +1431,9 @@ const views = {
   'nir': {title:'Near-infrared band', description:'Vegetation reflects strongly and appears bright. Water is generally dark. Near-infrared measures reflected light, not temperature.', alt:'Lake Lanier near-infrared reflectance with dark water and bright vegetation'},
   'false-color': {title:'Infrared false color', description:'Near-infrared, red, and green mapped to display colors. Vegetation appears red, so the land–water boundary is easier to follow.', alt:'Lake Lanier false-color composite with red vegetation and dark water'},
   'ndvi': {title:'Vegetation contrast · NDVI', description:'Near-infrared and red contrast highlights vegetation. Greener pixels have a higher index. It does not diagnose plant health. Dark water can produce unstable ratios. Texture alone does not identify its cause.', alt:'Lake Lanier NDVI showing vegetation in green and water in blue', colors:['#183c58','#a3bbc5','#e9dfbd','#83a560','#245641']},
-  'ndwi': {title:'Water contrast · NDWI', description:'Green and near-infrared contrast helps separate water from land. Blue means a higher index, not better water quality. Dark pixels can produce unstable ratios.', alt:'Lake Lanier green and near-infrared water index: water appears blue and surrounding land brown', colors:['#9c6d40','#d7bc8c','#eee9dc','#68b8c4','#15556f']}
+  'ndwi': {title:'Water contrast · NDWI', description:'Green and near-infrared contrast helps separate water from land. Blue means a higher index, not better water quality. Dark pixels can produce unstable ratios.', alt:'Lake Lanier green and near-infrared water index: water appears blue and surrounding land brown', colors:['#9c6d40','#d7bc8c','#eee9dc','#68b8c4','#15556f']},
+  'aqr-true-color': {title:'Water product · true color, 20 m', description:'The USGS water-corrected product of the same pass, at its 20 m grid. Land and shoreline pixels also carry values, so a reader must check the flags.', alt:'Lake Lanier in true color from the USGS aquatic reflectance product, with coarser 20 m pixels'},
+  'aqr-water-flag': {title:'Water product · pixels without a flag', description:'Pixels the processor flagged as non-water, bright, or negative are gray. The rest is what its water mask keeps. A flag is a processor judgment, not a water boundary.', alt:'Lake Lanier from the USGS aquatic reflectance product with flagged land pixels in gray'}
 };
 document.querySelectorAll('[data-map]').forEach(select => {
   function updateMap() {

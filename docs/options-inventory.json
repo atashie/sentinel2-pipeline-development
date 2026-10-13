@@ -2,13 +2,13 @@
   "schema_version": 2,
   "assessed_on": "2026-09-09",
   "selection": {
-    "status": "route and first history scenario decided, remainder open",
-    "decision": "decisions/0004-cog-fallback-and-presentation-clarifications.md",
-    "note": "Earth Search is the access route: Collection 1 GeoTIFF assets first, the older collection's GeoTIFF assets as fallback. The 2021 scenario is prototyped first. The data gap survey ran on 2026-09-10. Workflow, compute platform, and storage layout remain open. Cross-tile mosaicking is a MAJOR CONCERN under investigation. Options marked context are not compared for selection.",
+    "status": "primary route and first history scenario decided, remainder open",
+    "decision": "decisions/0008-acolite-aquatic-reflectance-first.md",
+    "note": "The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states. Earth Search Level-2A is supplementary: Collection 1 GeoTIFF assets first, the older collection's GeoTIFF assets as fallback, under decision 0004. Self-run ACOLITE from Level-1C is context. The 2021 scenario is prototyped first. Workflow, compute platform, and storage layout remain open. Cross-tile mosaicking is a MAJOR CONCERN under investigation. Options marked context are not compared for selection.",
     "next": [
-      "Review the presentation of Stages 1 to 4, then agree the next bounded scientific comparison.",
-      "Resolve primary-tile roles, per-band validity, and quality-grid association using model requirements and matched-location evidence.",
-      "Test fallback offsets, seasonal reliability, AWS performance, and storage layouts in separately authorized steps."
+      "Review Phase B: the check records, probes T1 to T3, the crop, and the Discovery rewrite.",
+      "Run Phase C in separately authorized steps: validity per band and pixel class, paired values, and the access replay on the primary product.",
+      "Resolve primary-tile roles, the quality-layer join across processing baselines, and per-band validity using model requirements and matched-location evidence."
     ]
   },
   "scope": {
@@ -308,6 +308,182 @@
     }
   ],
   "sources": [
+    {
+      "id": "src-acolite-cdse-download",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/api/cdse/download.py",
+      "title": "ACOLITE acolite/api/cdse/download.py, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-defaults",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/config/defaults.txt",
+      "title": "ACOLITE config/defaults.txt, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-defaults-20221114",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/20221114.0/config/defaults.txt",
+      "title": "ACOLITE general default settings, tag 20221114.0",
+      "publisher": "ACOLITE project (acolite/acolite on GitHub)",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-forum-lagoon-tiles",
+      "url": "https://odnature.naturalsciences.be/remsem/acolite-forum/viewtopic.php?p=2115",
+      "title": "ACOLITE forum, Support: ACOLITE settings for MSI over a lagoon",
+      "publisher": "RBINS, ACOLITE forum",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2024-07-16"
+    },
+    {
+      "id": "src-acolite-forum-memory",
+      "url": "https://odnature.naturalsciences.be/remsem/acolite-forum/viewtopic.php?p=2069",
+      "title": "ACOLITE forum, Support: Memory issues when processing a full Sentinel-2 scene on linux",
+      "publisher": "RBINS, ACOLITE forum",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2024-04-18"
+    },
+    {
+      "id": "src-acolite-forum-radcor-lakes",
+      "url": "https://odnature.naturalsciences.be/remsem/acolite-forum/viewtopic.php?p=2378",
+      "title": "ACOLITE forum, Support: Proper utilisation of RAdCor",
+      "publisher": "RBINS, ACOLITE forum",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-01-28"
+    },
+    {
+      "id": "src-acolite-gem",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/gem/gem.py",
+      "title": "ACOLITE acolite/gem/gem.py, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-l2r",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/acolite/acolite_l2r.py",
+      "title": "ACOLITE acolite/acolite/acolite_l2r.py, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-licence",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/LICENCE.txt",
+      "title": "ACOLITE LICENCE.txt, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-manual-20260421",
+      "url": "https://github.com/acolite/acolite/releases/download/20260421.0/acolite_manual_20260421.0.pdf",
+      "title": "ACOLITE User Manual, release 20260421.0 (PDF, 67 pages)",
+      "publisher": "RBINS",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-04-21"
+    },
+    {
+      "id": "src-acolite-nc-to-geotiff",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/output/nc_to_geotiff.py",
+      "title": "ACOLITE acolite/output/nc_to_geotiff.py, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-read-band",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/shared/read_band.py",
+      "title": "ACOLITE acolite/shared/read_band.py, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-readme",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/README.md",
+      "title": "ACOLITE README.md, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-release-20221114",
+      "url": "https://github.com/acolite/acolite/releases/tag/20221114.0",
+      "title": "Release ACOLITE 20221114.0 - acolite/acolite - GitHub",
+      "publisher": "ACOLITE project (acolite/acolite on GitHub)",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2022-11-14"
+    },
+    {
+      "id": "src-acolite-release-20260421",
+      "url": "https://github.com/acolite/acolite/releases/tag/20260421.0",
+      "title": "ACOLITE 20260421.0 release page",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-04-21"
+    },
+    {
+      "id": "src-acolite-run",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/acolite/acolite_run.py",
+      "title": "ACOLITE acolite/acolite/acolite_run.py, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-s2-l1-convert",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/sentinel2/l1_convert.py",
+      "title": "ACOLITE acolite/sentinel2/l1_convert.py, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-s2-l2-convert",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/sentinel2/l2_convert.py",
+      "title": "ACOLITE acolite/sentinel2/l2_convert.py, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-s2-metadata-scene",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/sentinel2/metadata_scene.py",
+      "title": "ACOLITE acolite/sentinel2/metadata_scene.py, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-s2-zarr-l1-convert",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/acolite/sentinel2/zarr/l1_convert.py",
+      "title": "ACOLITE acolite/sentinel2/zarr/l1_convert.py, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-s2a-defaults",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/ca477dd91dfb5f8eb77333824b38cb0bcce5e083/config/defaults/S2A_MSI.txt",
+      "title": "ACOLITE config/defaults/S2A_MSI.txt, main branch at commit ca477dd",
+      "publisher": "RBINS, ACOLITE GitHub repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-s2a-defaults-20221114",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/20221114.0/config/defaults/S2A_MSI.txt",
+      "title": "ACOLITE default settings for S2A_MSI, tag 20221114.0",
+      "publisher": "ACOLITE project (acolite/acolite on GitHub)",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
     {
       "id": "src-aws-athena-iceberg",
       "url": "https://docs.aws.amazon.com/athena/latest/ug/querying-iceberg.html",
@@ -1259,6 +1435,78 @@
       "publisher": "stackstac documentation",
       "accessed_on": "2026-09-09",
       "page_updated": null
+    },
+    {
+      "id": "src-usgs-aqr-aws-marketplace",
+      "url": "https://aws.amazon.com/marketplace/pp/prodview-4pf3e3jypppz2",
+      "title": "Sentinel-2 ACOLITE-DSF Aquatic Reflectance for the Conterminous United States | AWS Marketplace",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-usgs-aqr-aws-sponsorship",
+      "url": "https://aws.amazon.com/opendata/open-data-sponsorship-program/",
+      "title": "Open Data Sponsorship Program",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-usgs-aqr-metadata-xml",
+      "url": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+      "title": "S2_AQR_Metadata.xml, FGDC metadata for Sentinel-2 ACOLITE-DSF Aquatic Reflectance for the Conterminous United States (updated 2026-10-11)",
+      "publisher": "U.S. Geological Survey",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-10-11"
+    },
+    {
+      "id": "src-usgs-aqr-registry",
+      "url": "https://registry.opendata.aws/usgs_aqr/",
+      "title": "Sentinel-2 ACOLITE-DSF Aquatic Reflectance for the Conterminous United States - Registry of Open Data on AWS",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-usgs-aqr-registry-yaml",
+      "url": "https://raw.githubusercontent.com/awslabs/open-data-registry/main/datasets/usgs_aqr.yaml",
+      "title": "open-data-registry datasets/usgs_aqr.yaml",
+      "publisher": "Amazon Web Services (awslabs/open-data-registry on GitHub)",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-usgs-aqr-sciencebase-item",
+      "url": "https://www.sciencebase.gov/catalog/item/640f612dd34e254fd352e1ed",
+      "title": "Sentinel-2 ACOLITE-DSF Aquatic Reflectance for the Conterminous United States (updated 2026-10-12) - ScienceBase-Catalog",
+      "publisher": "U.S. Geological Survey",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-10-12"
+    },
+    {
+      "id": "src-usgs-aqr-sciencebase-json",
+      "url": "https://www.sciencebase.gov/catalog/item/640f612dd34e254fd352e1ed?format=json",
+      "title": "ScienceBase item 640f612dd34e254fd352e1ed, JSON representation",
+      "publisher": "U.S. Geological Survey",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-10-12"
+    },
+    {
+      "id": "src-usgs-aqr-tutorial",
+      "url": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=tutorial.zip",
+      "title": "tutorial.zip, aquatic reflectance extraction tutorial (aqr_extraction_tutorial.ipynb and supporting files)",
+      "publisher": "U.S. Geological Survey",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-usgs-aqr-usgs-data-page",
+      "url": "https://www.usgs.gov/data/sentinel-2-acolite-dsf-aquatic-reflectance-conterminous-united-states",
+      "title": "Sentinel-2 ACOLITE-DSF Aquatic Reflectance for the Conterminous United States | U.S. Geological Survey",
+      "publisher": "U.S. Geological Survey",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2024-11-21"
     },
     {
       "id": "src-xarray-open-zarr",
@@ -3007,6 +3255,837 @@
       "check": {
         "file": "assessment-checks/access-route-checks.json",
         "id": "chk-cl-ar-sentinel-hub-region"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-coverage_start_l2a",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "coverage_start_l2a",
+      "value": "2015-07-25",
+      "unit": "date",
+      "note": "This is the ScienceBase record's start date. The metadata completeness report says imagery from 2016. This research did not read the scene list.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-sciencebase-json"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-coverage_start_l2a"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-coverage_start_l2a-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "coverage_start_l2a",
+      "value": "2016",
+      "unit": "date",
+      "note": "The same metadata gives a time period beginning 2015 and ending 2024-12-23. Its example file name has sensing date 2016-01-09.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-coverage_start_l2a-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-data_level",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "data_level",
+      "value": "Aquatic reflectance from Level-1C for bands 1 to 8, 8A, 11, and 12, plus an NDWI layer",
+      "unit": null,
+      "note": "Each scene also carries an ACOLITE settings file. The metadata entity overview adds a processing log file. Bands 9 and 10 are not in the list.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-data_level"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-data_level-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "data_level",
+      "value": "Unitless water-leaving radiance reflectance, named Rhow in ACOLITE",
+      "unit": null,
+      "note": "The same paragraph states it equals remote sensing reflectance multiplied by pi. The registry Description gives the same ratio definition.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-registry"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-data_level-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-data_level-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "data_level",
+      "value": "Correction applied to bands 1 to 8, 8a, 11, and 12, central wavelengths 443 to 2190 nm",
+      "unit": null,
+      "note": "The metadata lists 443, 490, 560, 665, 705, 740, 783, 842, 865, 1610, and 2190 nm in band order.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-data_level-3"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-discovery_mechanism",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "discovery_mechanism",
+      "value": "SNS topic for new scene notification, and bucket listing",
+      "unit": null,
+      "note": "No page documents the message format. The registry also shows an S3 listing command. No page read names a STAC catalog or inventory files.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-discovery_mechanism"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-discovery_mechanism-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "discovery_mechanism",
+      "value": "Scene list file S2_AQR_Scenes.zip on ScienceBase",
+      "unit": null,
+      "note": "The ScienceBase file list shows it uploaded 2026-10-12T20:02:34Z, about 10.5 MB. This research did not read its contents.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-sciencebase-json"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-discovery_mechanism-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-discovery_mechanism-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "discovery_mechanism",
+      "value": "Objects sit under version_01/<tile>/<scene>_<band>.tif",
+      "unit": null,
+      "note": "The tutorial builds the scene name by replacing L1C with AQR in the Level-1C product name. The tile folder comes from the scene name, for example T11TNN.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-tutorial"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-discovery_mechanism-3"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-format",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "format",
+      "value": "Cloud Optimized GeoTIFF, one file per band plus one NDWI file",
+      "unit": null,
+      "note": "File names end in the band code, B01 to B08, B8A, B11, B12, or NDWI. The same summary states a 20-meter spatial resolution.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-format"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-format-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "format",
+      "value": "20 m pixels",
+      "unit": null,
+      "note": "The spatial data section gives 5490 rows by 5490 columns at 20 m. Grids use UTM zones 10 to 19 on WGS 84.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-format-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-format-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "format",
+      "value": "Deflate-compressed COGs with 512-pixel blocks, converted from ACOLITE NetCDF output",
+      "unit": null,
+      "note": "The same step states the NetCDF outputs were converted to COGs with the GDAL Python package.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-format-3"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-global_coverage",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "global_coverage",
+      "value": "Conterminous United States only",
+      "unit": null,
+      "note": "The metadata bounding box spans -126 to -66 longitude and 24 to 50 latitude. A tile shapefile, sentinel_2_tiles_CONUS, is attached but was not read.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-metadata-xml",
+        "src-usgs-aqr-sciencebase-json"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-global_coverage"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-global_coverage-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "global_coverage",
+      "value": "Scenes over 30 percent cloud cover are not prioritized and may be missing",
+      "unit": null,
+      "note": "No page gives the share of scenes skipped.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-global_coverage-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-global_coverage-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "global_coverage",
+      "value": "Where tiles in adjacent UTM zones overlap, both tiles are processed and delivered",
+      "unit": null,
+      "note": "The same step states that tiles overlap neighboring tiles by 10 km.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-global_coverage-3"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-global_coverage-4",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "global_coverage",
+      "value": "Values can differ between overlapping tiles",
+      "unit": null,
+      "note": "ACOLITE runs on each tile separately. The metadata logic report attributes the difference to DSF choosing the darkest pixels in each image.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-global_coverage-4"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-license",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "license",
+      "value": "CC BY-SA 3.0 IGO for the Copernicus data per the registry, with a requested citation and attribution statement",
+      "unit": null,
+      "note": "The registry ties the license to the Copernicus Sentinel data and words the citation and attribution as a request. USGS pages mark the release CC0 1.0. The two statements differ.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml",
+        "src-usgs-aqr-sciencebase-item"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-license"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-license-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "license",
+      "value": "CC0 1.0 Universal per the ScienceBase rights statement",
+      "unit": null,
+      "note": "The metadata access and use constraints both begin None. The metadata asks users to recognize the USGS for use of the data.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-sciencebase-json",
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-license-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-license-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "license",
+      "value": "CC0 1.0 Universal per the usgs.gov data page",
+      "unit": null,
+      "note": "Third source for the USGS marking. It agrees with ScienceBase and differs from the registry.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-usgs-data-page"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-license-3"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-license-4",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "license",
+      "value": "Cite the USGS data release, doi 10.5066/P904243C",
+      "unit": null,
+      "note": "The title in the citation carries the latest update date. The registry citation differs slightly in initials and omits the update date.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-registry"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-license-4"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-offset_delivery",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "offset_delivery",
+      "value": "Signed 16-bit integers, reflectance scaled by 10,000, no-data -32,768",
+      "unit": null,
+      "note": "A reflectance of 0.01 is stored as 100. No page names an additive offset.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-offset_delivery"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-offset_delivery-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "offset_delivery",
+      "value": "Negative reflectance values retained",
+      "unit": null,
+      "note": "The page attributes negative values to overestimated aerosol optical thickness. Users are asked to mask or adjust them.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-offset_delivery-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-offset_delivery-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "offset_delivery",
+      "value": "Valid range -10,000 to 10,000, in reflectance scaled by 10,000",
+      "unit": null,
+      "note": "Whitespace between XML elements is collapsed in the quote. The NDWI entity lists both range limits as -10,000.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-offset_delivery-3"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-offset_delivery-4",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "offset_delivery",
+      "value": "NDWI stored as int16 scaled by 10,000, with inputs floored at 0.0001",
+      "unit": null,
+      "note": "The same step states the NDWI is converted to a 16-bit signed integer, scaled by 10,000, and compressed as a COG.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-offset_delivery-4"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-operator",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "operator",
+      "value": "United States Geological Survey",
+      "unit": null,
+      "note": "The registry YAML gives ManagedBy as United States Geological Survey. The ScienceBase record names U.S. Geological Survey - ScienceBase as distributor.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml",
+        "src-usgs-aqr-sciencebase-json"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-operator"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-operator-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "operator",
+      "value": "USGS Water Resources Mission Area",
+      "unit": null,
+      "note": "The ScienceBase point of contact organization is U.S. Geological Survey, NW-PACIFIC ISLAND REG. The usgs.gov page names Water Resources Mission Area - Headquarters.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-json",
+        "src-usgs-aqr-usgs-data-page"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-operator-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-payer",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "payer",
+      "value": "Provider. The bucket is not requester pays",
+      "unit": null,
+      "note": "The registry shows unsigned access with no AWS account. The registry YAML carries no RequesterPays entry. No page states requester pays.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-payer"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-payer-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "payer",
+      "value": "Provider. The bucket is not requester pays",
+      "unit": null,
+      "note": "Second source. USGS places the AWS copy in the Open Data Sponsorship Program. AWS states the program covers the cost of storing and sharing registry datasets.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-aws-sponsorship"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-payer-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-payer-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "payer",
+      "value": "Provider. The bucket is not requester pays",
+      "unit": null,
+      "note": "Third source. The Marketplace listing shows this text under Pricing. It names the same bucket, prefix, and SNS topic as the registry.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-aws-marketplace"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-payer-3"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-publication_latency",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "publication_latency",
+      "value": "New scenes added daily. No time from sensing to availability is stated",
+      "unit": null,
+      "note": "Cadence only. No numeric latency and no service level appear on any page read.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-publication_latency"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-publication_latency-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "publication_latency",
+      "value": "Scenes are added as new imagery is collected",
+      "unit": null,
+      "note": "The ScienceBase record gives update frequency Continually. The metadata says scenes over 30 percent cloud cover are not prioritized.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-sciencebase-json",
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-publication_latency-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "NDWI COG, processing log, and ACOLITE settings file per scene. No cloud, shadow, or glint layer is listed",
+      "unit": null,
+      "note": "No page states explicitly that cloud or shadow masks are absent. The delivered file lists name none.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml",
+        "src-usgs-aqr-sciencebase-item"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-quality_layers"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "Per-scene _settings.txt holds the ACOLITE settings, and _log.txt holds the processing log",
+      "unit": null,
+      "note": "The entity section describes the settings file only as a text file of the ACOLITE settings. No page lists its keys.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-quality_layers-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "Residual glint correction with the SWIR bands not applied",
+      "unit": null,
+      "note": "The metadata lineage repeats the statement. ACOLITE 20221114.0 general defaults also set dsf_residual_glint_correction=False.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-metadata-xml",
+        "src-acolite-defaults-20221114"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-quality_layers-3"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-4",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "USGS states that DSF largely avoids glint and adjacency effects",
+      "unit": null,
+      "note": "A qualitative statement. No glint layer appears in the delivered file lists.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-quality_layers-4"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-5",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "Non-water pixel mask threshold, L2W_MASK THRESHOLD, set to 0.05",
+      "unit": null,
+      "note": "No page states whether masked non-water pixels are written as no-data in the COGs.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-quality_layers-5"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-6",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "No formal attribute accuracy tests",
+      "unit": null,
+      "note": "No page read reports a validation of the reflectance values against field measurements.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-quality_layers-6"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-7",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "Horizontal accuracy equals that of the Level-1C input",
+      "unit": null,
+      "note": "Vertical accuracy was not assessed, per the same section.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-quality_layers-7"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-8",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "The USGS tutorial selects water pixels with NDWI above 0",
+      "unit": null,
+      "note": "Example code, not a delivered mask. The tutorial also sets negative band values to NaN before averaging.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-tutorial"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-quality_layers-8"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-raw_pixel_access",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "raw_pixel_access",
+      "value": "Yes. Band COGs support windowed per-pixel reads",
+      "unit": null,
+      "note": "The USGS tutorial reads a pixel window from each band file through GDAL /vsis3/. This assessment has not tested it. Phase B probes the bucket.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-tutorial"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-raw_pixel_access"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-raw_pixel_access-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "raw_pixel_access",
+      "value": "Yes. The tutorial reads with unsigned requests in us-west-2",
+      "unit": null,
+      "note": "The same cell sets bucket usgs-wma-sentinel-2-aqr-acolite-dsf, prefix version_01, and AWS_REGION us-west-2.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-tutorial"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-raw_pixel_access-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-region",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "region",
+      "value": "us-west-2",
+      "unit": null,
+      "note": "The SNS topic for new scene notification is also listed in us-west-2.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-region"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-region-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "region",
+      "value": "The FGDC metadata names a second imagery location, bucket ngwos-rswq-development in us-west-2",
+      "unit": null,
+      "note": "This bucket differs from the registry bucket. No page states its payer, contents, or relation to version_01. This research did not access it.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-region-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-reprocessed_products",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "reprocessed_products",
+      "value": "One version prefix, version_01. No reprocessing policy stated",
+      "unit": null,
+      "note": "No page read describes other versions, or reprocessing of earlier scenes with a newer ACOLITE release.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-reprocessed_products"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-reprocessed_products-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "reprocessed_products",
+      "value": "File names keep the Level-1C processing baseline and product discriminator",
+      "unit": null,
+      "note": "The Nxxyy field carries the processing baseline number, for example N0204. The discriminator is the second date in the name.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-reprocessed_products-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-reprocessed_products-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "reprocessed_products",
+      "value": "Dynamic data release whose title carries the latest update date",
+      "unit": null,
+      "note": "The metadata XML carries edition 20261011. The record lists publication date 2024-11-21 and update frequency Continually.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-sciencebase-json",
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-reprocessed_products-3"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-source_dataset",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "source_dataset",
+      "value": "Sentinel-2A and 2B MSI Level-1C, corrected with ACOLITE 20221114.0 dark spectrum fitting",
+      "unit": null,
+      "note": "The page links the ACOLITE release tag 20221114.0 on GitHub. The registry Description names the same ACOLITE version.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-registry"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-source_dataset"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-source_dataset-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "source_dataset",
+      "value": "Level-1C retrieved from ESA through the Copernicus Data Space OData API",
+      "unit": null,
+      "note": "The lineage source cites https://catalogue.dataspace.copernicus.eu/odata/v1/ for the Level-1C input. No page names an AWS Level-1C bucket as input.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-source_dataset-2"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-source_dataset-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "source_dataset",
+      "value": "DSF tiling dimensions set to 300 pixels",
+      "unit": null,
+      "note": "No USGS page names the dsf_aot_estimate setting. ACOLITE 20221114.0 defaults for S2A_MSI set dsf_aot_estimate=tiled and dsf_tile_dimensions=600,600. The per-scene settings file would settle the mode.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml",
+        "src-acolite-s2a-defaults-20221114"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-source_dataset-3"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-source_dataset-4",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "source_dataset",
+      "value": "Pressure from the SRTM DEM. Other settings are ACOLITE defaults",
+      "unit": null,
+      "note": "The same step states that all other settings used the default values in the ACOLITE user manual. Sensor-specific defaults may differ.",
+      "status": "documented",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-source_dataset-4"
+      }
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-source_dataset-5",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "source_dataset",
+      "value": "ACOLITE 20221114.0 is a tagged GitHub release dated 2022-11-14",
+      "unit": null,
+      "note": "Confirms only that the version exists. The release carries a manual and binaries for Windows, Mac, and Linux.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-release-20221114"
+      ],
+      "check": {
+        "file": "assessment-checks/access-route-usgs-aqr-checks.json",
+        "id": "chk-cl-ar-usgs-acolite-aqr-source_dataset-5"
       }
     },
     {
@@ -4947,6 +6026,980 @@
       }
     },
     {
+      "id": "cl-wf-acolite-self-run-engineering_effort",
+      "candidate": "wf-acolite-self-run",
+      "field": "engineering_effort",
+      "value": "Medium for one-off gap fills, high as a repeatable pipeline",
+      "unit": null,
+      "note": "Relative to the other workflows in this assessment. Needs Level-1C access, local disk per scene, a conda install with GDAL JPEG 2000, LUTs, and EarthData or ancillary off.",
+      "status": "estimated",
+      "basis": [
+        "cl-wf-acolite-self-run-read_pattern",
+        "cl-wf-acolite-self-run-read_pattern-5",
+        "cl-wf-acolite-self-run-read_pattern-6",
+        "cl-wf-acolite-self-run-scaling_water_bodies",
+        "cl-wf-acolite-self-run-resampling_policy",
+        "cl-wf-acolite-self-run-idempotency",
+        "cl-wf-acolite-self-run-engineering_effort-4",
+        "cl-wf-acolite-self-run-engineering_effort-6",
+        "cl-wf-acolite-self-run-engineering_effort-7"
+      ],
+      "reasoning": "One scene runs from a documented settings file, but ACOLITE reads only local Level-1C SAFE folders and downloads from CDSE. Staging from AWS, per-lake runs, single-grid NetCDF conversion, and baseline-aware keys are custom."
+    },
+    {
+      "id": "cl-wf-acolite-self-run-engineering_effort-10",
+      "candidate": "wf-acolite-self-run",
+      "field": "engineering_effort",
+      "value": "Release 20221114.0 exists, published 2022-11-14",
+      "unit": null,
+      "note": "Its notes name an OLCI smile fix and Planet, WorldView, and Pléiades Neo changes. None concern Sentinel-2.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-release-20221114"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-engineering_effort-10"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-engineering_effort-2",
+      "candidate": "wf-acolite-self-run",
+      "field": "engineering_effort",
+      "value": "License: GNU General Public License version 3",
+      "unit": null,
+      "note": "Copyleft terms apply to redistributed modified code. This is not a legal review.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-licence"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-engineering_effort-2"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-engineering_effort-3",
+      "candidate": "wf-acolite-self-run",
+      "field": "engineering_effort",
+      "value": "Written in Python 3 with a conda-forge environment",
+      "unit": null,
+      "note": "The README conda command lists numpy, scipy, gdal, netcdf4, pyproj, scikit-image, zarr, and others.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-readme"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-engineering_effort-3"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-engineering_effort-4",
+      "candidate": "wf-acolite-self-run",
+      "field": "engineering_effort",
+      "value": "Needs GDAL with JPEG 2000 support to read Sentinel-2",
+      "unit": null,
+      "note": "With GDAL 3.9 or later the packages libgdal-jp2openjpeg and libgdal-netcdf provide it.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-readme"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-engineering_effort-4"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-engineering_effort-5",
+      "candidate": "wf-acolite-self-run",
+      "field": "engineering_effort",
+      "value": "Installed by git clone plus a Python environment, or binary releases",
+      "unit": null,
+      "note": "A binary package is on the releases page. No PyPI or conda package of ACOLITE itself is named.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-readme"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-engineering_effort-5"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-engineering_effort-6",
+      "candidate": "wf-acolite-self-run",
+      "field": "engineering_effort",
+      "value": "Lookup tables download from GitHub on first use",
+      "unit": null,
+      "note": "The manual also offers --retrieve_luts to fetch them before processing, for example in a container build.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-readme",
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-engineering_effort-6"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-engineering_effort-7",
+      "candidate": "wf-acolite-self-run",
+      "field": "engineering_effort",
+      "value": "Default ancillary retrieval needs a NASA EarthData account",
+      "unit": null,
+      "note": "Default ancillary_data=True. It retrieves ozone, water vapor, and pressure. The manual reports small differences without ancillary at moderate latitudes.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-engineering_effort-7"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-engineering_effort-8",
+      "candidate": "wf-acolite-self-run",
+      "field": "engineering_effort",
+      "value": "Provided as an experimental tool without warranty",
+      "unit": null,
+      "note": "Relevant to any production use.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-readme"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-engineering_effort-8"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-engineering_effort-9",
+      "candidate": "wf-acolite-self-run",
+      "field": "engineering_effort",
+      "value": "Latest release 20260421.0, published 2026-04-21",
+      "unit": null,
+      "note": "It added Sentinel-2 Zarr processing and geometry-based automatic glint correction.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-release-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-engineering_effort-9"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-geolocation_handling",
+      "candidate": "wf-acolite-self-run",
+      "field": "geolocation_handling",
+      "value": "Each tile is processed on its own unless merge_tiles is set",
+      "unit": null,
+      "note": "Default merge_tiles=False in config/defaults.txt line 37. Merging needs scenes from one orbit. Without merging there is no mosaic.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421",
+        "src-acolite-defaults"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-geolocation_handling"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-geolocation_handling-2",
+      "candidate": "wf-acolite-self-run",
+      "field": "geolocation_handling",
+      "value": "Unmerged outputs carry the MGRS tile code, merged outputs carry 'merged'",
+      "unit": null,
+      "note": "The tile code enters the output name and the tile_code attribute. A merged output names no single tile.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-s2-l1-convert"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-geolocation_handling-2"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-geolocation_handling-3",
+      "candidate": "wf-acolite-self-run",
+      "field": "geolocation_handling",
+      "value": "Merging tiles from two UTM zones reprojects them to the first tile's zone",
+      "unit": null,
+      "note": "Shown in a manual example with four tiles in zones 32 and 33.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-geolocation_handling-3"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-geolocation_handling-4",
+      "candidate": "wf-acolite-self-run",
+      "field": "geolocation_handling",
+      "value": "By default the output covers only the part of the region inside the tile",
+      "unit": null,
+      "note": "Default extend_region=False. A water body across a tile edge would yield a partial output from each tile.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-geolocation_handling-4"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-idempotency",
+      "candidate": "wf-acolite-self-run",
+      "field": "idempotency",
+      "value": "Output names: sensor, sensing time, tile code, and optional region name",
+      "unit": null,
+      "note": "No processing baseline enters the name. Two products of one acquisition would map to one name. That is an inference, not tested.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-s2-l1-convert"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-idempotency"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-idempotency-2",
+      "candidate": "wf-acolite-self-run",
+      "field": "idempotency",
+      "value": "A new output deletes any existing file of the same name",
+      "unit": null,
+      "note": "A rerun that writes the same output name replaces the earlier file.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-gem"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-idempotency-2"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-idempotency-3",
+      "candidate": "wf-acolite-self-run",
+      "field": "idempotency",
+      "value": "Each run writes its full settings to a text file keyed by run ID",
+      "unit": null,
+      "note": "The run ID defaults to the start time. A user-settings file is written as well.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-run"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-idempotency-3"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-idempotency-4",
+      "candidate": "wf-acolite-self-run",
+      "field": "idempotency",
+      "value": "L2R files record the ACOLITE version in their global attributes",
+      "unit": null,
+      "note": "This supports tracing outputs to a release.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-l2r"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-idempotency-4"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-idempotency-5",
+      "candidate": "wf-acolite-self-run",
+      "field": "idempotency",
+      "value": "Ozone falls back to a fixed 0.3 when ancillary data is off or unavailable",
+      "unit": null,
+      "note": "Water vapor falls back to uwv_default=1.5. Ancillary retrieval is on by default, so service availability can change a rerun's inputs.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-idempotency-5"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-offset_handling",
+      "candidate": "wf-acolite-self-run",
+      "field": "offset_handling",
+      "value": "Adds each band's RADIO_ADD_OFFSET, then divides by QUANTIFICATION_VALUE",
+      "unit": null,
+      "note": "quant is read from QUANTIFICATION_VALUE at line 666. No offset is added when the tag is absent, as in products before baseline 4.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-s2-l1-convert"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-offset_handling"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-offset_handling-2",
+      "candidate": "wf-acolite-self-run",
+      "field": "offset_handling",
+      "value": "Offsets are read per band from RADIO_ADD_OFFSET tags in the product metadata",
+      "unit": null,
+      "note": "The tags are parsed from the scene metadata XML of the .SAFE product.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-s2-metadata-scene"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-offset_handling-2"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-offset_handling-3",
+      "candidate": "wf-acolite-self-run",
+      "field": "offset_handling",
+      "value": "Zarr route applies scale_factor and add_offset only to uint16 arrays",
+      "unit": null,
+      "note": "A source comment questions whether current Zarr scenes arrive already scaled. Not tested.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-s2-zarr-l1-convert"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-offset_handling-3"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-orchestrator_dependency",
+      "candidate": "wf-acolite-self-run",
+      "field": "orchestrator_dependency",
+      "value": "Docker images exist for parallel runs, and the manual names no scheduler",
+      "unit": null,
+      "note": "Images acolite/acolite:all_latest and acolite/acolite:tact_latest are on DockerHub. The manual names no orchestrator or scheduler.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-orchestrator_dependency"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-orchestrator_dependency-2",
+      "candidate": "wf-acolite-self-run",
+      "field": "orchestrator_dependency",
+      "value": "Runs as a CLI with a settings file, or from Python with a settings dict",
+      "unit": null,
+      "note": "The CLI call is python launch_acolite.py --cli --settings=settings_file. The Python call is ac.acolite.acolite_run(settings=settings).",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-orchestrator_dependency-2"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-quality_layers",
+      "candidate": "wf-acolite-self-run",
+      "field": "quality_layers",
+      "value": "L2W l2_flags bitmask of ACOLITE's own masking steps",
+      "unit": null,
+      "note": "Bits: SWIR threshold 0, cirrus 1, TOA threshold 2, negative 3, out-of-scene 4, VIIRS mixed 5, DEM shadow 6. The listed flags name no Sentinel-2 scene classification.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-quality_layers"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-quality_layers-2",
+      "candidate": "wf-acolite-self-run",
+      "field": "quality_layers",
+      "value": "Non-water test: TOA reflectance above 0.0215 in the band nearest 1600 nm",
+      "unit": null,
+      "note": "Defaults l2w_mask_wave=1600 and l2w_mask_threshold=0.0215. It is a single-band threshold, not a classification. A manual example raises it to 0.05.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-quality_layers-2"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-quality_layers-3",
+      "candidate": "wf-acolite-self-run",
+      "field": "quality_layers",
+      "value": "Fixed DSF stores its single aerosol optical thickness in NetCDF global attributes",
+      "unit": null,
+      "note": "A per-pixel aerosol layer is written only with dsf_write_aot_550=True. This records which aerosol value produced each scene.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-quality_layers-3"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "Surface level reflectance (ρs) as geolocated datasets in a NetCDF file",
+      "unit": null,
+      "note": "The README calls surface level reflectance and derived products Level 2 outputs. They can also be exported as PNG maps.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-readme"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access-10",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "Developer: tiles of mostly land or cloud can overestimate aerosol",
+      "unit": null,
+      "note": "Reply in a 2024-07-16 forum thread about tile size over a narrow lagoon. The reply calls 6 by 6 km tiles probably fine.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-forum-lagoon-tiles"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-10"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access-11",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "Sun glint remains in rhos unless the SWIR-based glint correction runs",
+      "unit": null,
+      "note": "The alternative glint method works only with fixed aerosol, per the same paragraph.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-11"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access-12",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "Residual glint correction is off by default, with default or alternative methods",
+      "unit": null,
+      "note": "config/defaults.txt line 351 also sets False, and the Sentinel-2 defaults do not override it. An angle-based automatic option, dsf_residual_glint_correction_glint_angle, is off by default.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421",
+        "src-acolite-defaults"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-12"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access-13",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "Air-water interface reflectance correction is off by default",
+      "unit": null,
+      "note": "The reason given is sensitivity to local wind speed near nadir.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-13"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access-2",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "L2W rhow is rhos with a SWIR non-water mask, and Rrs is rhow divided by pi",
+      "unit": null,
+      "note": "Requested through l2w_parameters, for example rhow_* or Rrs_*.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-2"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access-3",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "Optional GeoTIFF export of NetCDF datasets",
+      "unit": null,
+      "note": "Settings l1r_export_geotiff, l2r_export_geotiff, and l2w_export_geotiff default to False.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-3"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access-4",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "GeoTIFF export writes one file per dataset",
+      "unit": null,
+      "note": "File names append the dataset name to the NetCDF base name.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-nc-to-geotiff"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-4"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access-5",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "Four DSF aerosol modes: fixed, tiled, segmented, and experimental resolved",
+      "unit": null,
+      "note": "Fixed gives one aerosol for the scene or subscene. Tiled uses about 6 by 6 km tiles. Segmented gives one value per lake polygon.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-5"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access-6",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "Sentinel-2 default: tiled DSF with 600 by 600 pixel tiles",
+      "unit": null,
+      "note": "At 10 m this is 6 by 6 km. Manual section 4.5 lists fixed as default but says sensor defaults may differ.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-s2a-defaults",
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-6"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access-7",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "Release 20221114.0 had the same tiled Sentinel-2 default",
+      "unit": null,
+      "note": "dsf_tile_dimensions=600,600 at line 23 of the same file. Relevant if a product used that version.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-s2a-defaults-20221114"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-7"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access-8",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "A region of one 600-pixel tile or less in either dimension falls back to fixed DSF",
+      "unit": null,
+      "note": "Tile size is in pixels, so the threshold is 6 km at 10 m and 12 km at 20 m. Clips under that size run fixed.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-l2r"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-8"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-raw_pixel_access-9",
+      "candidate": "wf-acolite-self-run",
+      "field": "raw_pixel_access",
+      "value": "The aerosol estimate comes from the darkest pixels of the processed region or tile",
+      "unit": null,
+      "note": "So the aerosol, and every rhos value, depends on the window processed. A clip and a whole-tile run can differ.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-9"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-read_pattern",
+      "candidate": "wf-acolite-self-run",
+      "field": "read_pattern",
+      "value": "Full download: one local .SAFE folder per scene, compressed inputs extracted first",
+      "unit": null,
+      "note": "Input is a local path. ACOLITE extracts compressed inputs by default (extract_inputfile=True). The .SAFE product must sit on local disk.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-read_pattern"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-read_pattern-10",
+      "candidate": "wf-acolite-self-run",
+      "field": "read_pattern",
+      "value": "Optional clip to the polygon outline, off by default",
+      "unit": null,
+      "note": "Default polygon_clip=False. In l1_convert.py line 685, clipped pixels become NaN in the top-of-atmosphere bands before atmospheric correction.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421",
+        "src-acolite-s2-l1-convert"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-read_pattern-10"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-read_pattern-11",
+      "candidate": "wf-acolite-self-run",
+      "field": "read_pattern",
+      "value": "Each band is read through an in-memory GDAL warp to the region bounds",
+      "unit": null,
+      "note": "No ACOLITE page documents partial reads. Whether GDAL decodes only the needed JPEG 2000 tiles was not checked. The SAFE still has to be local.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-read-band"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-read_pattern-11"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-read_pattern-2",
+      "candidate": "wf-acolite-self-run",
+      "field": "read_pattern",
+      "value": "Sentinel-2 input must be Level-1C, not Level-2A",
+      "unit": null,
+      "note": "Atmospheric correction starts from top-of-atmosphere data. A Level-2A surface reflectance product is not a valid input.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-read_pattern-2"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-read_pattern-3",
+      "candidate": "wf-acolite-self-run",
+      "field": "read_pattern",
+      "value": "The Sentinel-2 converter skips any product whose level is not Level-1C",
+      "unit": null,
+      "note": "The level comes from PROCESSING_LEVEL in the product metadata. The Zarr converter has the same test on processing:level 'L1C' at line 73.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-s2-l1-convert",
+        "src-acolite-s2-zarr-l1-convert"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-read_pattern-3"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-read_pattern-4",
+      "candidate": "wf-acolite-self-run",
+      "field": "read_pattern",
+      "value": "A separate Sen2Cor Level-2A converter only reformats the product to NetCDF",
+      "unit": null,
+      "note": "It writes Sen2Cor reflectance as rhos_l2a datasets without ACOLITE correction. At commit ca477dd no caller of this Sentinel-2 function was found.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-s2-l2-convert"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-read_pattern-4"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-read_pattern-5",
+      "candidate": "wf-acolite-self-run",
+      "field": "read_pattern",
+      "value": "Optional built-in scene download from CDSE, off by default",
+      "unit": null,
+      "note": "Default scene_download=False. CDSE credentials are required. The setting names CDSE, not AWS, as the Sentinel-2 source.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-read_pattern-5"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-read_pattern-6",
+      "candidate": "wf-acolite-self-run",
+      "field": "read_pattern",
+      "value": "The CDSE helper downloads each whole product as one zip on local disk",
+      "unit": null,
+      "note": "Defaults extract_zip=True and remove_zip=True unzip the archive and delete the zip. A product already on disk is not downloaded again.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-cdse-download"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-read_pattern-6"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-read_pattern-7",
+      "candidate": "wf-acolite-self-run",
+      "field": "read_pattern",
+      "value": "Sentinel-2 Zarr inputs may be remote URLs read through GDAL /vsicurl",
+      "unit": null,
+      "note": "Release 20260421.0 notes announce Zarr support. A path that does not exist locally is treated as a URL. This is a Zarr input, not a SAFE or GeoTIFF route. It was not tested here.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-s2-zarr-l1-convert",
+        "src-acolite-release-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-read_pattern-7"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-read_pattern-8",
+      "candidate": "wf-acolite-self-run",
+      "field": "read_pattern",
+      "value": "Region limit as south, west, north, east bounds in decimal degrees",
+      "unit": null,
+      "note": "Setting limit. Without limit or polygon the full tile is processed. Default limit=None.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-read_pattern-8"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-read_pattern-9",
+      "candidate": "wf-acolite-self-run",
+      "field": "read_pattern",
+      "value": "A polygon file, WKT, or GeoJSON string, whose envelope crops the scene by default",
+      "unit": null,
+      "note": "With polygon_limit=False the full scene is processed and data kept for covered polygons.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-read_pattern-9"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-resampling_policy",
+      "candidate": "wf-acolite-self-run",
+      "field": "resampling_policy",
+      "value": "All bands share one output grid of 10, 20, or 60 m, default 10 m",
+      "unit": null,
+      "note": "Bands do not keep their native resolutions. The Sentinel-2 defaults file sets s2_target_res=10 at line 25.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421",
+        "src-acolite-s2a-defaults"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-resampling_policy"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-resampling_policy-2",
+      "candidate": "wf-acolite-self-run",
+      "field": "resampling_policy",
+      "value": "Bands are resampled to that grid with GDAL 'average'",
+      "unit": null,
+      "note": "The warp settings apply to every band read for the run.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-s2-l1-convert"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-resampling_policy-2"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-scaling_history",
+      "candidate": "wf-acolite-self-run",
+      "field": "scaling_history",
+      "value": "Linear in tile-dates: one whole Level-1C product staged and one run per date",
+      "unit": null,
+      "note": "Unmeasured. No page gives run time or disk use per scene.",
+      "status": "estimated",
+      "basis": [
+        "cl-wf-acolite-self-run-read_pattern",
+        "cl-wf-acolite-self-run-read_pattern-6",
+        "cl-wf-acolite-self-run-scaling_history-2"
+      ],
+      "reasoning": "ACOLITE corrects one local Level-1C product per scene, or first downloads the whole product from CDSE. History cost therefore grows with the number of tile-dates."
+    },
+    {
+      "id": "cl-wf-acolite-self-run-scaling_history-2",
+      "candidate": "wf-acolite-self-run",
+      "field": "scaling_history",
+      "value": "Developer: 10 m Sentinel-2 runs use a lot of memory",
+      "unit": null,
+      "note": "Forum reply of 2024-04-17 on a full-tile run. It suggests 20 or 60 m output on a laptop. The developer gives no figure.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-forum-memory"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-scaling_history-2"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-scaling_history-3",
+      "candidate": "wf-acolite-self-run",
+      "field": "scaling_history",
+      "value": "Keeping L2R data in memory for L2W can exhaust RAM on large scenes",
+      "unit": null,
+      "note": "The manual lists True, but config/defaults.txt line 257 sets l2w_data_in_memory=False.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421",
+        "src-acolite-defaults"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-scaling_history-3"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-scaling_water_bodies",
+      "candidate": "wf-acolite-self-run",
+      "field": "scaling_water_bodies",
+      "value": "Developer advice for single lakes: one run per lake, limited ROI, fixed DSF",
+      "unit": null,
+      "note": "Forum reply of 2025-12-15 in a RAdCor thread about lakes of 3 to 22 ha. It means a single fixed aerosol estimate per lake window, not a user-set aerosol value.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-forum-radcor-lakes"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-scaling_water_bodies"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-scaling_water_bodies-2",
+      "candidate": "wf-acolite-self-run",
+      "field": "scaling_water_bodies",
+      "value": "Developer: whole-scene tiled DSF approximates per-target runs",
+      "unit": null,
+      "note": "Same reply. It also warns that very bright tiles, such as clouds, distort neighbors through interpolation.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-forum-radcor-lakes"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-scaling_water_bodies-2"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-scaling_water_bodies-3",
+      "candidate": "wf-acolite-self-run",
+      "field": "scaling_water_bodies",
+      "value": "Segmented DSF gives one aerosol per lake polygon in a single run",
+      "unit": null,
+      "note": "Manual section 4.5 calls segmented experimental. The polylakes keyword uses global lake databases, worldlakes or hydrolakes.",
+      "status": "documented",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "check": {
+        "file": "assessment-checks/processing-workflow-acolite-checks.json",
+        "id": "chk-cl-wf-acolite-self-run-scaling_water_bodies-3"
+      }
+    },
+    {
+      "id": "cl-wf-acolite-self-run-scaling_water_bodies-4",
+      "candidate": "wf-acolite-self-run",
+      "field": "scaling_water_bodies",
+      "value": "Per-lake runs grow with lakes per tile-date, but one tiled or segmented run does not",
+      "unit": null,
+      "note": "Unmeasured. A whole-tile run at 10 m needs much memory, per the developer reply in cl-wf-acolite-self-run-scaling_history-2.",
+      "status": "estimated",
+      "basis": [
+        "cl-wf-acolite-self-run-scaling_water_bodies",
+        "cl-wf-acolite-self-run-scaling_water_bodies-2",
+        "cl-wf-acolite-self-run-scaling_water_bodies-3",
+        "cl-wf-acolite-self-run-raw_pixel_access-8",
+        "cl-wf-acolite-self-run-read_pattern"
+      ],
+      "reasoning": "The advised per-lake runs repeat conversion and aerosol fitting for every lake on the same local product. A tiled or segmented whole-tile run pays tile-sized compute once per tile-date."
+    },
+    {
       "id": "cl-wf-chip-archive-engineering_effort",
       "candidate": "wf-chip-archive",
       "field": "engineering_effort",
@@ -6495,6 +8548,46 @@
   ],
   "candidates": [
     {
+      "id": "ar-usgs-acolite-aqr",
+      "name": "USGS ACOLITE aquatic reflectance bucket on AWS Open Data",
+      "dimension": "access_route",
+      "class": "public-aws",
+      "specs": {
+        "data_level": "cl-ar-usgs-acolite-aqr-data_level",
+        "format": "cl-ar-usgs-acolite-aqr-format",
+        "region": "cl-ar-usgs-acolite-aqr-region",
+        "operator": "cl-ar-usgs-acolite-aqr-operator",
+        "source_dataset": "cl-ar-usgs-acolite-aqr-source_dataset",
+        "payer": "cl-ar-usgs-acolite-aqr-payer",
+        "discovery_mechanism": "cl-ar-usgs-acolite-aqr-discovery_mechanism",
+        "coverage_start_l2a": "cl-ar-usgs-acolite-aqr-coverage_start_l2a",
+        "reprocessed_products": "cl-ar-usgs-acolite-aqr-reprocessed_products",
+        "quality_layers": "cl-ar-usgs-acolite-aqr-quality_layers",
+        "offset_delivery": "cl-ar-usgs-acolite-aqr-offset_delivery",
+        "publication_latency": "cl-ar-usgs-acolite-aqr-publication_latency",
+        "raw_pixel_access": "cl-ar-usgs-acolite-aqr-raw_pixel_access",
+        "global_coverage": "cl-ar-usgs-acolite-aqr-global_coverage",
+        "unit_price": null,
+        "monthly_price": null,
+        "license": "cl-ar-usgs-acolite-aqr-license"
+      },
+      "questions": [
+        "When does coverage start? ScienceBase gives a start date of 2015-07-25. The metadata says imagery from 2016 and a time period from 2015. The scene list or a bucket probe would settle it.",
+        "Does DSF run in tiled or fixed aerosol mode? USGS names only the 300-pixel tile dimension. The per-scene settings file would settle it.",
+        "Are non-water pixels written as no-data? USGS names the 0.05 non-water mask threshold but does not say how masked pixels are stored.",
+        "Which license governs reuse? The registry names CC BY-SA 3.0 IGO for the Copernicus data. ScienceBase and usgs.gov mark the release CC0 1.0.",
+        "How long after sensing does a scene appear? Pages state only daily additions and continual updates.",
+        "What does an SNS message carry? No page documents the message format or filter attributes.",
+        "Will a newer ACOLITE release create a version_02 prefix, and will earlier scenes be reprocessed? No page says.",
+        "Are Sentinel-2C scenes processed, and with which ACOLITE version? Pages name only S2A and S2B. ACOLITE 20221114.0 ships no S2C defaults file.",
+        "What is bucket ngwos-rswq-development, which the metadata names as an imagery location? No page explains it.",
+        "Which tiles are covered, and how many scenes are skipped for cloud cover above 30 percent? The tile shapefile and scene list were not read.",
+        "Do the ACOLITE defaults l2w_mask_negative_rhow=True and l2w_mask_water_parameters=True conflict with the statement that negatives are retained? The settings file and a pixel probe would show.",
+        "Does any read cost apply, for example egress outside us-west-2? No page states a price or a condition."
+      ],
+      "role": "primary"
+    },
+    {
       "id": "ar-earth-search-cogs",
       "name": "Earth Search STAC over the Sentinel-2 COG bucket on AWS Open Data",
       "dimension": "access_route",
@@ -6524,7 +8617,7 @@
         "What does a read cost? The registry states no price. The AWS Open Data Sponsorship Program page says AWS covers storing and sharing, but names no rate and no condition on the reader's region. Not settled.",
         "Does the offset stay unapplied for every item? The README says the offset has been applied to some Items. Only two items were sampled, both with offset -0.1."
       ],
-      "role": "primary"
+      "role": "supplementary"
     },
     {
       "id": "ar-aws-requester-pays",
@@ -6874,6 +8967,34 @@
         "quality_layers is left null. A chip archive can hold any layer the access route delivers."
       ],
       "role": "primary"
+    },
+    {
+      "id": "wf-acolite-self-run",
+      "name": "Self-run ACOLITE from Level-1C, clipped to water bodies",
+      "dimension": "processing_workflow",
+      "class": "self-built",
+      "specs": {
+        "quality_layers": "cl-wf-acolite-self-run-quality_layers",
+        "read_pattern": "cl-wf-acolite-self-run-read_pattern",
+        "geolocation_handling": "cl-wf-acolite-self-run-geolocation_handling",
+        "offset_handling": "cl-wf-acolite-self-run-offset_handling",
+        "resampling_policy": "cl-wf-acolite-self-run-resampling_policy",
+        "raw_pixel_access": "cl-wf-acolite-self-run-raw_pixel_access",
+        "scaling_water_bodies": "cl-wf-acolite-self-run-scaling_water_bodies",
+        "scaling_history": "cl-wf-acolite-self-run-scaling_history",
+        "orchestrator_dependency": "cl-wf-acolite-self-run-orchestrator_dependency",
+        "idempotency": "cl-wf-acolite-self-run-idempotency",
+        "engineering_effort": "cl-wf-acolite-self-run-engineering_effort"
+      },
+      "questions": [
+        "Does GDAL read only the JPEG 2000 tiles a clip needs from a local SAFE? Test: time and trace one clipped run against a full-tile run on one product.",
+        "How large is the aerosol difference between a per-lake fixed run and a whole-tile tiled run on pilot lakes? Test: run both on a few pilot tile-dates.",
+        "Does segmented DSF accept user polygons through polygon and polygon_clip, or only polylakes databases? The code segments connected finite pixels. Test on one tile.",
+        "Can a Level-1C SAFE be staged from the AWS Level-1C bucket in a layout ACOLITE accepts? Not checked here. It needs a separate access-route check.",
+        "Which ACOLITE version and settings does the USGS product use? Its settings would set the target for a consistent gap fill. Phase B work.",
+        "What are run time, peak memory, and disk per scene at 20 m on a clip and on a full tile? No page gives them. Measure."
+      ],
+      "role": "context"
     },
     {
       "id": "cp-serverless-functions",
@@ -7426,6 +9547,75 @@
         "docs/reviews/2026-09-16-claude-stage-4-full-run-review.md",
         "docs/reviews/2026-09-16-codex-stage-4-review-response.md"
       ]
+    },
+    {
+      "id": "F-27",
+      "title": "The USGS aquatic reflectance bucket is a public, provider-paid route of 20 m scaled-integer COGs with per-scene settings",
+      "text": "USGS documents the product on AWS Open Data in us-west-2, readable without credentials, as 20 m COGs scaled by 10,000. Probe T1 found one version prefix and 14 objects per scene. The grid aligns with the Level-2A 20 m grid, and the settings files name tiled aerosol estimation. The headers carry no reflectance scale, so the conversion comes from the documentation. Findings 26 and 29 in the measurements document own the numbers and their limits.",
+      "claim_ids": [
+        "cl-ar-usgs-acolite-aqr-region",
+        "cl-ar-usgs-acolite-aqr-payer",
+        "cl-ar-usgs-acolite-aqr-format",
+        "cl-ar-usgs-acolite-aqr-format-2",
+        "cl-ar-usgs-acolite-aqr-offset_delivery",
+        "cl-ar-usgs-acolite-aqr-source_dataset"
+      ],
+      "evidence": [
+        "benchmarks/results/aqr-headers.json",
+        "docs/measurements.md#26-the-product-is-one-20-m-cloud-optimized-geotiff-per-band-scaled-integers-and-a-settings-file-per-scene"
+      ],
+      "role": "primary"
+    },
+    {
+      "id": "F-28",
+      "title": "Level-2A stays necessary beside the primary product, for missing scenes and for shadow and snow flags",
+      "text": "From 2018 the primary product holds 41 to 61 percent of Earth Search's acquisitions per year on the survey tiles. It ships no shadow or snow layer. 92 percent of its scenes join to a Level-2A item of the same pass. Only 51 percent join to the same processing baseline. Before 2022 the joined item is usually a reprocessed version. Findings 27 and 28 in the measurements document own the numbers.",
+      "claim_ids": [
+        "cl-ar-usgs-acolite-aqr-quality_layers",
+        "cl-ar-usgs-acolite-aqr-global_coverage-2",
+        "cl-ar-usgs-acolite-aqr-discovery_mechanism",
+        "cl-ar-earth-search-cogs-quality_layers"
+      ],
+      "evidence": [
+        "benchmarks/results/aqr-coverage.json",
+        "docs/measurements.md#28-level-2a-quality-layers-join-by-tile-platform-and-sensing-start-often-from-another-processing-of-the-same-pass"
+      ],
+      "role": "primary"
+    },
+    {
+      "id": "F-29",
+      "title": "The GeoTIFF archives cannot be reprocessed to ACOLITE values, and Level-1C comes from a requester-pays bucket or the Copernicus service",
+      "text": "ACOLITE accepts Level-1C only, and both Earth Search GeoTIFF archives hold Level-2A. Earth Search's Level-1C collection lists the exact input product of 81 percent of the USGS scenes on the survey tiles. Its files are JPEG 2000 in a requester-pays bucket in eu-central-1. USGS reads its input from the Copernicus Data Space Ecosystem instead. ACOLITE reads local SAFE folders or downloads whole products, so a gap fill stages whole products before clipping. Measurement finding 28 owns the 81 percent.",
+      "claim_ids": [
+        "cl-wf-acolite-self-run-read_pattern-2",
+        "cl-wf-acolite-self-run-read_pattern-3",
+        "cl-wf-acolite-self-run-read_pattern",
+        "cl-wf-acolite-self-run-read_pattern-6",
+        "cl-ar-aws-requester-pays-payer",
+        "cl-ar-aws-requester-pays-format",
+        "cl-ar-usgs-acolite-aqr-source_dataset-2",
+        "cl-ar-cdse-payer"
+      ],
+      "evidence": [
+        "benchmarks/results/aqr-coverage.json"
+      ],
+      "role": "context"
+    },
+    {
+      "id": "F-30",
+      "title": "A clipped self-run ACOLITE estimates aerosol from a different window than the USGS whole-tile run",
+      "text": "ACOLITE estimates aerosol from the darkest pixels of the processed region or tile. The USGS settings name tiled estimation on 300-pixel tiles. A region of one 600-pixel tile or less falls back to one fixed estimate, and the developer advises per-lake runs with a fixed estimate. A clipped gap fill therefore uses another aerosol estimate than the scenes it fills. The size of the difference is unmeasured, probe T9.",
+      "claim_ids": [
+        "cl-wf-acolite-self-run-raw_pixel_access-9",
+        "cl-wf-acolite-self-run-raw_pixel_access-8",
+        "cl-wf-acolite-self-run-scaling_water_bodies",
+        "cl-wf-acolite-self-run-scaling_water_bodies-2",
+        "cl-ar-usgs-acolite-aqr-source_dataset-3"
+      ],
+      "evidence": [
+        "benchmarks/results/aqr-headers.json"
+      ],
+      "role": "context"
     }
   ],
   "combinations": [
@@ -7447,7 +9637,7 @@
         "Is the detector footprint mask available as an asset?",
         "What commit protocol makes Parquet publications immutable?"
       ],
-      "role": "primary"
+      "role": "supplementary"
     },
     {
       "id": "C-02",
@@ -7467,7 +9657,7 @@
         "What does per-object monitoring cost when partitioned by water body?",
         "What is Batch startup latency per array job?"
       ],
-      "role": "primary"
+      "role": "supplementary"
     },
     {
       "id": "C-03",
@@ -7561,12 +9751,12 @@
         "Does 1024 pixel chunking make single-pixel ponds uneconomic?",
         "Is a cluster fee justified at the workload sizes in workloads.json?"
       ],
-      "role": "primary"
+      "role": "supplementary"
     },
     {
       "id": "C-08",
       "title": "Earth Search COG fallback, windowed reads, Batch, Parquet",
-      "role": "primary",
+      "role": "supplementary",
       "text": "Where Collection 1 is missing, read COG windows from the older collection. Batch array jobs and Parquet are candidate compute and storage choices.",
       "claim_ids": [
         "cl-ar-earth-search-cogs-format",
@@ -7582,6 +9772,45 @@
         "How do windowed reads compare with shared whole-tile reads on the public pilot?",
         "How are missing quality layers and processing-version differences represented?"
       ]
+    },
+    {
+      "id": "C-09",
+      "title": "USGS aquatic reflectance, windowed reads, Earth Search join, Parquet",
+      "text": "Find new scenes by bucket listing or notification topic. Read 20 m windows from the USGS COGs. Join the Level-2A item of the same pass from Earth Search for shadow and snow layers and missing scenes. Write both records with their product identities.",
+      "claim_ids": [
+        "cl-ar-usgs-acolite-aqr-payer",
+        "cl-ar-usgs-acolite-aqr-discovery_mechanism",
+        "cl-ar-usgs-acolite-aqr-raw_pixel_access",
+        "cl-wf-mask-once-windowed-read_pattern",
+        "cl-ar-earth-search-cogs-quality_layers",
+        "cl-sl-parquet-object-store-idempotency"
+      ],
+      "questions": [
+        "How many shoreline and near-land pixels carry processor flags, per band and size class?",
+        "How do the two corrections differ on the same pixels?",
+        "What do the reads cost on the 20 m files, compared with the Level-2A series?",
+        "How does a quality layer from another processing baseline map onto the product's pixels?"
+      ],
+      "role": "primary"
+    },
+    {
+      "id": "C-10",
+      "title": "Self-run ACOLITE from Level-1C, clipped to lakes, as a gap fill",
+      "text": "Stage the whole Level-1C product from the requester-pays bucket or the Copernicus service. Run ACOLITE with a region per lake or a segmented run per tile. Convert the NetCDF output and key it by tile, sensing time, and baseline.",
+      "claim_ids": [
+        "cl-wf-acolite-self-run-read_pattern-2",
+        "cl-wf-acolite-self-run-read_pattern-8",
+        "cl-wf-acolite-self-run-scaling_water_bodies",
+        "cl-wf-acolite-self-run-engineering_effort",
+        "cl-wf-acolite-self-run-idempotency",
+        "cl-ar-cdse-payer"
+      ],
+      "questions": [
+        "How large is the aerosol difference between a clipped run and the USGS scene? Probe T9, only on request.",
+        "What do run time, memory, and disk cost per scene at 20 m?",
+        "Can a reader clip Level-1C JPEG 2000 before download, or must the whole product be staged?"
+      ],
+      "role": "context"
     }
   ],
   "gaps": [],
@@ -7590,8 +9819,12 @@
     "checkers": [
       "access_route: research opus (Claude Code subagent, requested model override)",
       "access_route: checks sonnet (Claude Code subagent, requested model override)",
+      "access_route (access-route-usgs-aqr): research opus (Claude Code subagent, requested model override)",
+      "access_route (access-route-usgs-aqr): checks sonnet (Claude Code subagent, requested model override)",
       "processing_workflow: research opus (Claude Code subagent, requested model override)",
       "processing_workflow: checks sonnet (Claude Code subagent, requested model override)",
+      "processing_workflow (processing-workflow-acolite): research opus (Claude Code subagent, requested model override)",
+      "processing_workflow (processing-workflow-acolite): checks sonnet (Claude Code subagent, requested model override)",
       "compute_platform: research opus (Claude Code subagent, requested model override)",
       "compute_platform: checks sonnet (Claude Code subagent, requested model override)",
       "storage_layout: research opus (Claude Code subagent, requested model override)",
@@ -7603,7 +9836,7 @@
       "compute_platform",
       "storage_layout"
     ],
-    "limits": "The Amazon S3 pricing page at https://aws.amazon.com/s3/pricing/ renders its price tables from client-side placeholders such as {priceOf!s3/s3-standard!GET!...}. No number could be quoted from it. The request and data transfer prices were taken from the AWS Price List offer files for eu-central-1 instead, which are official AWS files with a stated publication date. No currency price for Sentinel Hub could be quoted. https://www.sentinel-hub.com/pricing/ redirects to https://www.planet.com/pricing/, whose plan table is rendered with JavaScript, and the Planet support pricing article is behind a bot check. unit_price and monthly_price stay null for that candidate. Every Microsoft Planetary Computer web page tried, including the dataset page, the docs pages and the terms page, returned only a JavaScript shell. Claims for that candidate cite the STAC API and the provider's own documentation source files in the microsoft/PlanetaryComputerDataCatalog repository. Google Earth Engine developer guide pages under developers.google.com/earth-engine/guides also returned JavaScript shells. Only the data catalog pages, the Google Cloud pricing page and the Earth Engine terms page could be quoted. The raw pixel access claim for that route therefore rests on the pricing page's description of batch output rather than on an export guide. LP DAAC product URLs under lpdaac.usgs.gov redirect to the NASA Earthdata site. The HLSS30 v2.0 claims cite https://www.earthdata.nasa.gov/data/catalog/lpcloud-hlss30-2.0 instead. One STAC item per collection was sampled, all over a bounding box near the Texas coast on the access date. Item-level values such as processing baseline, timeliness and asset scale or offset may differ for other items and other dates. No image asset bytes were read. No requester-pays bucket was contacted. No credentials were used. All values come from documentation pages and from catalog and metadata endpoints that return JSON or HTML. Prices are quoted as published. None was converted between currencies and none was summed with another. Coverage start dates conflict between prose and STAC temporal extents for three routes. Both values are recorded, and the conflict is left open rather than resolved. The offset_delivery field is settled for five routes and open for two: the requester-pays buckets and the Planetary Computer. Neither publishes a statement about the processing-baseline offset on any page read. The operator of the JPEG 2000 buckets was expected to be Sinergise. Both the rendered registry entry at https://registry.opendata.aws/sentinel-2/ and its source YAML name Element 84 under ManagedBy, accessed on 2026-09-11. The pages read do not name the owner of the sentinel-s2-l1c and sentinel-s2-l2a buckets, and registry entry management is not the same as bucket ownership. Sinergise remains the publisher of the linked readmes and the contact forum. No page read states that the sentinel-s2-l2a bucket mirrors the Copernicus archive or holds ESA SAFE packages. The source_dataset value for that route rests on the Sinergise readme's tile layout statement and the registry's Copernicus OpenHub sentence. The zipped product buckets were not examined. All 100 draft claims cite documentation pages, STAC catalog/search JSON endpoints, or AWS Price List offer files; every cited source was refetched fresh with curl (JSON endpoints and AWS pricing files) or curl with a browser user agent (HTML pages), never assumed from the draft's own transcription. No page needed a second retry attempt. Per the researcher's limitations, github.com blob URLs for the Element 84 README and the two Microsoft PlanetaryComputerDataCatalog doc source files were fetched from raw.githubusercontent.com instead, since the rendered github.com page needs JavaScript; content matches the cited blob path. Per the researcher's limitations, Microsoft Planetary Computer's dataset, docs and terms pages, and Google Earth Engine's developer-guide pages, were not independently re-fetched from planetarycomputer.microsoft.com or developers.google.com/earth-engine/guides beyond confirming they are JS-only shells; claims for those two candidates were checked against the STAC API responses and the GitHub-hosted documentation source files instead, matching the researcher's own approach. The Legal Notice on the use of Copernicus Sentinel Data and Service Information is a PDF; it was fetched with curl and converted to text with pdftotext for quote verification. The AWS S3 request price and AWS Data Transfer price were verified directly against the AWS Price List offer files for eu-central-1 (SKU-level price dimensions and offer-file version numbers), not against the JavaScript-rendered aws.amazon.com/s3/pricing/ page, matching the researcher's own approach. Page titles were checked against each source's recorded title for substance rather than exact string match; several Copernicus Data Space Ecosystem documentation pages render a generic '<Page> – Documentation' <title> tag and the Google/AWS/GitHub pages append a site-name suffix, but every title matches its source's declared subject with no material mismatch found. No image asset bytes were read, no requester-pays bucket was contacted, no credentials were used, and no package was installed, consistent with the bounds of this check. One item per STAC collection was checked against the same single sampled item the researcher recorded (Texas-coast bounding box, accessed 2026-09-09); this check re-fetched each search query fresh rather than trusting the researcher's transcription, and the returned item ids, properties and asset structures match what the research file reports. Two claim pairs describe genuinely conflicting sources rather than checker uncertainty: the AWS registry (no-sign-request) versus the Sinergise readme (Requester Pays) for the sentinel-s2-l2a bucket, and the Sentinel Hub L2A page's own Basic Facts table (October 2016) versus its Endpoint Locations table (November 2016) for the European coverage start. Both sides of each conflict were independently fetched and read; see the corresponding check records' reasons for which source states which fact. No claim in this dimension required a corrected or not_verifiable verdict: every cited quote was found verbatim (whitespace and, in one case, HTML-entity decoding aside) on its cited page or in its cited JSON/PDF, and every value, unit and note follows from the quoted text. Two of the seven newly checked draft claims (both operator claims) rest on a registry page's 'Managed By' section, which names who manages the registry entry, not who owns or operates the underlying S3 bucket; a case-insensitive search of both registry.opendata.aws/sentinel-2-l2a-cogs/ and registry.opendata.aws/sentinel-2/ for the word 'owner' found no match on either page, so bucket ownership stays unstated by these sources for both routes. The Sinergise readme at roda.sentinel-hub.com/sentinel-s2-l2a/readme.html names no operator for the sentinel-s2-l2a bucket; it gives only a Sentinel Hub forum contact and a Copernicus/AWS Public Datasets license line, so the source_dataset claim's producing organization rests on the registry page's Copernicus OpenHub reference, not on an explicit operator statement. Workflows are designs, not products. Every documented claim here is a claim about a documented default or behavior of a named tool. It is not a claim that the design as a whole behaves that way, and it is not a measurement. No image asset was opened. No GeoTIFF, JPEG 2000 or Zarr chunk bytes were read. No package was installed. Every claim comes from a documentation page or, in one case, a process-listing API response. Library documentation states the default of the version the page describes. Version numbers appear in several page titles: rasterio 1.4.4, rioxarray 0.22.0, odc-stac 0.5.3, rasterstats 0.10.3, GDAL stable. A pinned environment may differ and must be checked at prototyping time. The Sentinel Hub pages carry a notice that the documentation is moving to a new home at docs.planet.com and that these pages will stop being accessible. The processing unit page already redirects there and did not return readable content over plain HTTP. The Icechunk expiration page and the Icechunk version-control page did not return readable content over plain HTTP, so snapshot retention and conflict resolution are not covered. No primary page gave a Level-2A product volume in bytes, so the transfer cost of the full-tile workflow is stated only as a tile footprint and left for measurement. Third-party blogs, forums and question-and-answer sites were excluded. Two facts that circulate widely, the Sentinel Hub synchronous 2500 by 2500 pixel output limit and the polygon limits of the Statistical API, were dropped because only forum posts stated them. The field quality_layers is left null for four candidates. For a workflow that reads delivered assets, which quality layers exist is a property of the access route. Only the two candidates whose tool documentation names layers carry a claim. Values here are proposals. None is checked. A different agent must verify each quote against its page before any of this reaches the inventory. All 37 cited HTTPS documentation pages plus the openEO process-listing JSON endpoint were fetched on 2026-09-09 and returned readable content on the first attempt; no page required a second curl-with-browser-user-agent retry and none was unreadable, so there are no not_verifiable records in this pass. Verification combined an automated whitespace-normalized exact-substring match of every draft quote against the fetched page text with manual re-reading of the surrounding context for every claim touching resampling defaults, scale/offset handling, pixel-selection semantics, and overlap handling, and for every claim whose automated match failed. Two claims (cl-wf-server-side-extraction-quality_layers and cl-wf-server-side-extraction-resampling_policy) failed the automated substring match only because the source page's HTML table cells contain no separating whitespace in the underlying markup; manual inspection of the same extracted text confirmed the quoted figures are correct, so both are recorded as confirmed. cl-wf-mask-once-windowed-read_pattern-4 is recorded as confirmed, not corrected: the value is accurate and both halves are documented on the cited page, but the draft's single quote supported only the random-access half, so the recorded quote covers only that half and the reason field cites the page's separate 512-pixel BLOCKSIZE statement for the other half. The fetched title tag for https://zarr.eopf.copernicus.eu/ ('zarr.eopf.copernicus.eu |') does not substantially match its recorded source title ('EOPF Sentinel Zarr Samples Service'); this is noted on cl-wf-datacube-read_pattern-3's check record. All other fetched page titles matched their recorded source titles in substance, and all cited URLs use HTTPS. The Sentinel Hub pages (docs.sentinel-hub.com) all resolved directly to their cited canonical URLs at fetch time and did not redirect to docs.planet.com, contrary to the migration notice recorded in the research file's limitations; a future recheck should confirm the URLs still resolve. This check did not re-derive or challenge the six estimated claims per workflow candidate (scaling_water_bodies, scaling_history, engineering_effort where estimated); those are listed in skipped_estimated for the parent to review. No image, GeoTIFF, JPEG2000, or Zarr chunk asset was downloaded. No package was installed. The only non-HTML fetch was the openEO process-listing JSON endpoint already cited by the research file. Every AWS pricing page reads its rate tables from a JavaScript pricing endpoint. A plain fetch returns placeholder tokens such as {priceOf!lambda/lambda!Lambda!Duration}. Every AWS rate recorded here therefore comes from a worked example on the same official pricing page, and each note says which example and which Region. The Amazon EC2 On-Demand pricing page returned no instance rates at all. The one representative instance rate recorded, c4.2xlarge at 0.398 USD hourly, comes from the Amazon EMR pricing page example headed \"Pricing based on US-East-1 pricing.\" The Sentinel Hub pricing page redirected to a landing page and returned no plan prices, so no Sentinel Hub currency price is recorded. No page read documents a native deduplication feature on any of the five platforms. Retry is documented everywhere. Deduplication is documented nowhere, and two pages state the opposite: Lambda tells the caller to handle duplicate events and Kubernetes states the same program may sometimes be started twice. Global coverage claims rest on the AWS Regional Services List statement about core services in Region launches. That page's per-service Region table renders with JavaScript and was not read. Region counts per service were not claimed. The four AWS endpoints-and-quotas pages for Lambda, Batch, EKS, and EMR each listed 34 commercial Region codes on the access date. That count is a reading of a table, not a page statement, so it is recorded here as a limitation rather than as a claim. No measurement was taken. Nothing here says how long one unit of work runs or what one tile-date costs on any platform. Every price is a rate, not a cost. No cloud API was called and no package was installed. All evidence comes from documentation and pricing pages fetched over HTTPS on 2026-09-09. Every cited page was fetched fresh over HTTPS with curl using a browser user agent on 2026-09-09; none of the 25 pages cited by documented claims required a second retry, and none returned JavaScript placeholder tokens for the specific worked examples the draft quoted. Two sources listed in the research file, src-cdse-quotas and src-rasterframes, are not cited by any documented claim's source_ids (they appear only in candidate_notes observations) and were not fetched for this check, which covers documented claims only. HTML-to-text extraction for this check replaces tags with spaces, which occasionally inserts a stray space around inline <code> or <em> elements at a hyphen or before a comma/period. Three quotes (cl-cp-batch-containers-orchestrator_dependency-2, cl-cp-kubernetes-dask-idempotency, cl-cp-spark-cluster-scaling_water_bodies-2) needed punctuation-aware whitespace normalization to match for this reason; each was manually inspected in context on the source page and confirmed as a rendering artifact, not a wording difference. Verification covered each claim's quote, value, unit, and the specific factual assertions in its note. It did not re-verify every sentence in candidate_notes, not_assessed, or the draft's own limitations section, since those are not claim records under the check schema. No cloud API was called, no package was installed, and no page requiring an authenticated session or a JavaScript-executing browser was used, consistent with the documentation-and-pricing-pages-only bound on this check. Checks were not performed for claims with proposed_status 'estimated'; their IDs are listed in skipped_estimated for the parent to review. The AWS pricing pages render every price in the browser from a data file. The static HTML carries only tokens such as {priceOf!s3/s3-standard!Standard!Storage!First!50!TB!per!GB!Mo}. Numeric prices in this draft are therefore quoted from the pricing data files at https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps, which is the endpoint named in the pricing page's own data-pricing-endpoint attribute. Those files are gzip-encoded JSON and carry hawkFilePublicationDate 2026-08-31. Conditions such as minimum object size and minimum storage duration are quoted from the pricing page itself, where they are static text. The S3 Tables price keys in the data file are opaque hashes, not readable labels. The mapping from the pricing page row to the hash is recorded in each claim note so a checker can follow it. The AWS Glue Data Catalog prices are quoted from static page text that carries no Region label. The page states that pricing can vary by AWS Region. No claim is made about size per water-body-scene, records per file, chip size in bytes or object counts. No primary page carries those numbers. They are measurements, not documentation. No cloud API was called and no package was installed. Every page was read with curl or WebFetch. The Apache Parquet site does not state a numbered format version on the pages reached. Only GeoParquet, Zarr, Icechunk, Iceberg and COG carry a version number in this draft. Icechunk virtual chunks, the Amazon S3 conditional-write documentation, the S3 Tables maintenance configuration page and the GDAL COG driver page were not quoted. Each is named as an open question. All AWS numeric prices were re-fetched fresh from the pricing data files named in each pricing page's own data-pricing-endpoint attribute (https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/...), and matched by rate code or RegionlessRateCode hash under the 'US East (N. Virginia)' region key, not assumed from the draft's own transcription. The pricing data files carry no human-readable labels for most S3 Tables line items (opaque hash keys). Where the cited pricing page's static HTML text supplied a readable label next to the same hash (S3 Tables Standard storage, monitoring, compaction binpack, compaction sort/Z-order, compaction objects processed), that mapping was independently re-derived from the fetched page text rather than trusted from the draft's note. cl-sl-lakehouse-table-format-3 note asserted default quotas (10 table buckets per account per Region, 10,000 tables per table bucket) that do not appear on the cited 'Working with Amazon S3 Tables and table buckets' page; that page only links to a separate quotas page that is not among the cited sources. Verdict corrected; see the check record's reason. GeoParquet's two cited pages (v1.1.0 and Releases) render with an empty <title> tag in the static HTML; substance was confirmed instead against each page's <h1>, which matches the source titles recorded in the research file. No cloud API was called and no package was installed. Every page and data file was fetched fresh with curl using a browser user agent; none required a second retry."
+    "limits": "The Amazon S3 pricing page at https://aws.amazon.com/s3/pricing/ renders its price tables from client-side placeholders such as {priceOf!s3/s3-standard!GET!...}. No number could be quoted from it. The request and data transfer prices were taken from the AWS Price List offer files for eu-central-1 instead, which are official AWS files with a stated publication date. No currency price for Sentinel Hub could be quoted. https://www.sentinel-hub.com/pricing/ redirects to https://www.planet.com/pricing/, whose plan table is rendered with JavaScript, and the Planet support pricing article is behind a bot check. unit_price and monthly_price stay null for that candidate. Every Microsoft Planetary Computer web page tried, including the dataset page, the docs pages and the terms page, returned only a JavaScript shell. Claims for that candidate cite the STAC API and the provider's own documentation source files in the microsoft/PlanetaryComputerDataCatalog repository. Google Earth Engine developer guide pages under developers.google.com/earth-engine/guides also returned JavaScript shells. Only the data catalog pages, the Google Cloud pricing page and the Earth Engine terms page could be quoted. The raw pixel access claim for that route therefore rests on the pricing page's description of batch output rather than on an export guide. LP DAAC product URLs under lpdaac.usgs.gov redirect to the NASA Earthdata site. The HLSS30 v2.0 claims cite https://www.earthdata.nasa.gov/data/catalog/lpcloud-hlss30-2.0 instead. One STAC item per collection was sampled, all over a bounding box near the Texas coast on the access date. Item-level values such as processing baseline, timeliness and asset scale or offset may differ for other items and other dates. No image asset bytes were read. No requester-pays bucket was contacted. No credentials were used. All values come from documentation pages and from catalog and metadata endpoints that return JSON or HTML. Prices are quoted as published. None was converted between currencies and none was summed with another. Coverage start dates conflict between prose and STAC temporal extents for three routes. Both values are recorded, and the conflict is left open rather than resolved. The offset_delivery field is settled for five routes and open for two: the requester-pays buckets and the Planetary Computer. Neither publishes a statement about the processing-baseline offset on any page read. The operator of the JPEG 2000 buckets was expected to be Sinergise. Both the rendered registry entry at https://registry.opendata.aws/sentinel-2/ and its source YAML name Element 84 under ManagedBy, accessed on 2026-09-11. The pages read do not name the owner of the sentinel-s2-l1c and sentinel-s2-l2a buckets, and registry entry management is not the same as bucket ownership. Sinergise remains the publisher of the linked readmes and the contact forum. No page read states that the sentinel-s2-l2a bucket mirrors the Copernicus archive or holds ESA SAFE packages. The source_dataset value for that route rests on the Sinergise readme's tile layout statement and the registry's Copernicus OpenHub sentence. The zipped product buckets were not examined. All 100 draft claims cite documentation pages, STAC catalog/search JSON endpoints, or AWS Price List offer files; every cited source was refetched fresh with curl (JSON endpoints and AWS pricing files) or curl with a browser user agent (HTML pages), never assumed from the draft's own transcription. No page needed a second retry attempt. Per the researcher's limitations, github.com blob URLs for the Element 84 README and the two Microsoft PlanetaryComputerDataCatalog doc source files were fetched from raw.githubusercontent.com instead, since the rendered github.com page needs JavaScript; content matches the cited blob path. Per the researcher's limitations, Microsoft Planetary Computer's dataset, docs and terms pages, and Google Earth Engine's developer-guide pages, were not independently re-fetched from planetarycomputer.microsoft.com or developers.google.com/earth-engine/guides beyond confirming they are JS-only shells; claims for those two candidates were checked against the STAC API responses and the GitHub-hosted documentation source files instead, matching the researcher's own approach. The Legal Notice on the use of Copernicus Sentinel Data and Service Information is a PDF; it was fetched with curl and converted to text with pdftotext for quote verification. The AWS S3 request price and AWS Data Transfer price were verified directly against the AWS Price List offer files for eu-central-1 (SKU-level price dimensions and offer-file version numbers), not against the JavaScript-rendered aws.amazon.com/s3/pricing/ page, matching the researcher's own approach. Page titles were checked against each source's recorded title for substance rather than exact string match; several Copernicus Data Space Ecosystem documentation pages render a generic '<Page> – Documentation' <title> tag and the Google/AWS/GitHub pages append a site-name suffix, but every title matches its source's declared subject with no material mismatch found. No image asset bytes were read, no requester-pays bucket was contacted, no credentials were used, and no package was installed, consistent with the bounds of this check. One item per STAC collection was checked against the same single sampled item the researcher recorded (Texas-coast bounding box, accessed 2026-09-09); this check re-fetched each search query fresh rather than trusting the researcher's transcription, and the returned item ids, properties and asset structures match what the research file reports. Two claim pairs describe genuinely conflicting sources rather than checker uncertainty: the AWS registry (no-sign-request) versus the Sinergise readme (Requester Pays) for the sentinel-s2-l2a bucket, and the Sentinel Hub L2A page's own Basic Facts table (October 2016) versus its Endpoint Locations table (November 2016) for the European coverage start. Both sides of each conflict were independently fetched and read; see the corresponding check records' reasons for which source states which fact. No claim in this dimension required a corrected or not_verifiable verdict: every cited quote was found verbatim (whitespace and, in one case, HTML-entity decoding aside) on its cited page or in its cited JSON/PDF, and every value, unit and note follows from the quoted text. Two of the seven newly checked draft claims (both operator claims) rest on a registry page's 'Managed By' section, which names who manages the registry entry, not who owns or operates the underlying S3 bucket; a case-insensitive search of both registry.opendata.aws/sentinel-2-l2a-cogs/ and registry.opendata.aws/sentinel-2/ for the word 'owner' found no match on either page, so bucket ownership stays unstated by these sources for both routes. The Sinergise readme at roda.sentinel-hub.com/sentinel-s2-l2a/readme.html names no operator for the sentinel-s2-l2a bucket; it gives only a Sentinel Hub forum contact and a Copernicus/AWS Public Datasets license line, so the source_dataset claim's producing organization rests on the registry page's Copernicus OpenHub reference, not on an explicit operator statement. No page gives a time from sensing to availability. The registry states daily additions only. The coverage start is unsettled. ScienceBase gives 2015-07-25, the metadata completeness report says 2016, and the metadata time period begins in 2015. The scene list S2_AQR_Scenes.zip was not read because it is data, not documentation. The license is unsettled. The registry License field names CC BY-SA 3.0 IGO for the Copernicus data. ScienceBase and usgs.gov mark the release CC0 1.0. data.usgs.gov, read only through a summarizing fetch, links a public domain label. That page is not cited. Lead not confirmed as stated: no page explicitly says the product has no cloud or shadow layer. The file lists simply name none. Lead not found: no USGS page names the DSF aerosol estimation mode. Only the 300-pixel tile dimension is documented. Lead corrected: the registry License sentence ties CC BY-SA 3.0 IGO to the Copernicus Sentinel data, and USGS marks the release CC0 1.0. No page states whether non-water pixels are no-data or carry values. The tutorial output hints that they carry values. No USGS publication validating the product was found by web search. The metadata states that no formal attribute accuracy tests were conducted. The metadata XML is replaced as the dynamic release updates. The cited URL uses the file name parameter, which served the same bytes as the hashed file path on 2026-10-13. A later checker may see a newer edition. The tutorial is a zip file. Checking its quotes requires downloading and unzipping it. Quotes come from aqr_extraction_tutorial.ipynb cell sources. Quotes from the registry and ScienceBase HTML pages join text from adjacent page elements with single spaces. The metadata's registry link returns HTTP 404. The metadata names a second bucket, ngwos-rswq-development, that the registry does not list. No page states a price. unit_price and monthly_price have no draft claims. No S3 object was listed, read, or requested. Bucket facts rest on documentation only. All twelve cited sources were fetched fresh on 2026-10-13 at about 14:24-04:00 with curl, using a Chrome browser user agent for HTML pages. Every request returned HTTP 200 and no retry was needed. HTML pages were converted to text with a local script and quotes were matched after whitespace normalization. XML entities in the metadata were unescaped before matching. tutorial.zip was downloaded into an empty scratch directory and unzipped there. Quotes were matched against the source text of the code cells in aqr_extraction_tutorial.ipynb. Nothing from the download was executed. The zip size of 98,128 bytes matches the ScienceBase file listing. The metadata XML is replaced as the dynamic release updates. The fetched copy was 36,592 bytes with edition 20261011, matching the ScienceBase file listing. A later checker may see a newer edition. The XML title says updated 2026-10-11 and the ScienceBase title says 2026-10-12. Two conflicts between pages stay unsettled and are stated in the approved notes. Coverage start is 2015-07-25 on ScienceBase and 2016 in the metadata completeness report. The license is CC BY-SA 3.0 IGO in the registry and CC0 1.0 on ScienceBase and usgs.gov. The scene list S2_AQR_Scenes.zip was not read. No cited page names who pays for reads in words. The three payer claims rest on unsigned access with no AWS account and on statements that the Open Data Sponsorship Program covers storage and sharing costs. The registry YAML has no RequesterPays entry. Phase B probes settle the payer. Absence statements, such as 'No page states ...', were checked only against the twelve cited pages. A grep of the fetched registry, ScienceBase, metadata, usgs.gov, Marketplace, and sponsorship text found no mention of requester, STAC, inventory, shadow, or aot_estimate. The metadata registry link https://registry.opendata.aws/usgs-sentinel-2-aqr-acolite-dsf returned HTTP 404, as the researcher reported. The metadata names bucket ngwos-rswq-development, which the registry does not list. It was not accessed. Two metadata oddities are outside the claims. The spref block for UTM zone 17 lists central meridian -87, the same as zone 16. The NDWI entity lists both range limits as -10,000. Both look like typing errors in the source. No S3 bucket was contacted and no aws command was run. Only documentation pages, ScienceBase files, the registry YAML on GitHub, the ACOLITE release page, and two raw ACOLITE configuration files were fetched. Workflows are designs, not products. Every documented claim here is a claim about a documented default or behavior of a named tool. It is not a claim that the design as a whole behaves that way, and it is not a measurement. No image asset was opened. No GeoTIFF, JPEG 2000 or Zarr chunk bytes were read. No package was installed. Every claim comes from a documentation page or, in one case, a process-listing API response. Library documentation states the default of the version the page describes. Version numbers appear in several page titles: rasterio 1.4.4, rioxarray 0.22.0, odc-stac 0.5.3, rasterstats 0.10.3, GDAL stable. A pinned environment may differ and must be checked at prototyping time. The Sentinel Hub pages carry a notice that the documentation is moving to a new home at docs.planet.com and that these pages will stop being accessible. The processing unit page already redirects there and did not return readable content over plain HTTP. The Icechunk expiration page and the Icechunk version-control page did not return readable content over plain HTTP, so snapshot retention and conflict resolution are not covered. No primary page gave a Level-2A product volume in bytes, so the transfer cost of the full-tile workflow is stated only as a tile footprint and left for measurement. Third-party blogs, forums and question-and-answer sites were excluded. Two facts that circulate widely, the Sentinel Hub synchronous 2500 by 2500 pixel output limit and the polygon limits of the Statistical API, were dropped because only forum posts stated them. The field quality_layers is left null for four candidates. For a workflow that reads delivered assets, which quality layers exist is a property of the access route. Only the two candidates whose tool documentation names layers carry a claim. Values here are proposals. None is checked. A different agent must verify each quote against its page before any of this reaches the inventory. All 37 cited HTTPS documentation pages plus the openEO process-listing JSON endpoint were fetched on 2026-09-09 and returned readable content on the first attempt; no page required a second curl-with-browser-user-agent retry and none was unreadable, so there are no not_verifiable records in this pass. Verification combined an automated whitespace-normalized exact-substring match of every draft quote against the fetched page text with manual re-reading of the surrounding context for every claim touching resampling defaults, scale/offset handling, pixel-selection semantics, and overlap handling, and for every claim whose automated match failed. Two claims (cl-wf-server-side-extraction-quality_layers and cl-wf-server-side-extraction-resampling_policy) failed the automated substring match only because the source page's HTML table cells contain no separating whitespace in the underlying markup; manual inspection of the same extracted text confirmed the quoted figures are correct, so both are recorded as confirmed. cl-wf-mask-once-windowed-read_pattern-4 is recorded as confirmed, not corrected: the value is accurate and both halves are documented on the cited page, but the draft's single quote supported only the random-access half, so the recorded quote covers only that half and the reason field cites the page's separate 512-pixel BLOCKSIZE statement for the other half. The fetched title tag for https://zarr.eopf.copernicus.eu/ ('zarr.eopf.copernicus.eu |') does not substantially match its recorded source title ('EOPF Sentinel Zarr Samples Service'); this is noted on cl-wf-datacube-read_pattern-3's check record. All other fetched page titles matched their recorded source titles in substance, and all cited URLs use HTTPS. The Sentinel Hub pages (docs.sentinel-hub.com) all resolved directly to their cited canonical URLs at fetch time and did not redirect to docs.planet.com, contrary to the migration notice recorded in the research file's limitations; a future recheck should confirm the URLs still resolve. This check did not re-derive or challenge the six estimated claims per workflow candidate (scaling_water_bodies, scaling_history, engineering_effort where estimated); those are listed in skipped_estimated for the parent to review. No image, GeoTIFF, JPEG2000, or Zarr chunk asset was downloaded. No package was installed. The only non-HTML fetch was the openEO process-listing JSON endpoint already cited by the research file. No Sentinel-2 data was read and ACOLITE was not run. Every claim comes from the manual, the README, defaults files, source code, release pages, or forum posts. Source code claims cite the main branch at commit ca477dd, dated 2026-10-07. That is later than release 20260421.0. Line numbers apply to that commit only. The manual is a PDF. Quotes join wrapped lines with single spaces and remove line-end hyphens, as in 'surface'. Greek symbols follow the PDF text layer. No ACOLITE page documents whether a clipped run reads only part of each band file. read_pattern-11 cites code only. GDAL behavior on local JPEG 2000 was not checked. No page gives run time, memory, or disk figures per scene. The only resource statements are qualitative developer replies and one manual note on RAM. The developer's small-lake advice appears in forum replies, not in the manual. Forum posts can change or vanish. Timestamps in locators identify the replies. The Optics Express sensitivity paper (doi 10.1364/OE.397456) was blocked by a bot check. Its region-size findings, quoted second hand in a forum post, are not used. acolite.readthedocs.io hosts a 'User Guide' labeled version 20240101.0, which is not a release. Its publisher is unclear, so it was not used. POLYMER, C2RCC, and iCOR did not appear on any cited page. They are not listed in not_assessed. The leading claim on window dependence is confirmed in mechanism only. No page reports the size of the difference between clipped and whole-tile runs. Every cited page returned HTTP 200 on the first attempt. That covers the 21 cited sources: README, LICENCE, defaults files, source files at commit ca477dd91dfb5f8eb77333824b38cb0bcce5e083, two release pages, three forum thread pages, and the 67-page manual PDF. I extracted the manual with pdftotext in raw and layout modes. Every PDF page number in a manual locator matched the page where the quote begins, and every code line locator matched the pinned file. Besides the cited URLs, I fetched the 20221114.0 manual PDF to read one sentence, the GitHub releases API for publish times and the Latest flag, and a depth-1 fetch of the pinned commit. The fetch was used only for repository-wide text searches. Nothing was executed. The repository-wide searches covered callers of sentinel2 l2_convert, scheduler words in the manual, and download helpers that skip existing files. They support the no-caller note in read_pattern-4 and the corrections to orchestrator_dependency and idempotency-2. The forum links p=2378 and p=2115 open question posts and p=2069 opens a developer reply, but each page renders the whole thread. I located the cited replies by UTC time: p2377 at 2025-12-15T05:56:01+00:00, p2116 at 2024-07-16T05:11:31+00:00, and p2069 at 2024-04-17T08:37:22+00:00. The forum pages carry no role label for the replying account. The developer attribution rests on the account name, the signatures, and the README and code headers that name the same developer. The thread behind scaling_history-2 contains user-reported memory figures, about 14 GB at one step and a failed 28.7 GiB allocation. This contradicts the draft limitation that no page gives memory figures. No page gives a figure for a clip against a full tile. Manual section 2.2.1 says four DSF settings are implemented, but section 4.5 lists seven dsf_aot_estimate values. The claim raw_pixel_access-5 reflects section 2.2.1 only. Code claims were verified by reading the files. No ACOLITE code was run and no Sentinel-2 data or S3 bucket was touched. I did not check the estimated claims, the candidate_notes, or the open questions in the research file. The draft attributes replies to the developer and mechanisms to the code, and I checked only the cited claims. Every AWS pricing page reads its rate tables from a JavaScript pricing endpoint. A plain fetch returns placeholder tokens such as {priceOf!lambda/lambda!Lambda!Duration}. Every AWS rate recorded here therefore comes from a worked example on the same official pricing page, and each note says which example and which Region. The Amazon EC2 On-Demand pricing page returned no instance rates at all. The one representative instance rate recorded, c4.2xlarge at 0.398 USD hourly, comes from the Amazon EMR pricing page example headed \"Pricing based on US-East-1 pricing.\" The Sentinel Hub pricing page redirected to a landing page and returned no plan prices, so no Sentinel Hub currency price is recorded. No page read documents a native deduplication feature on any of the five platforms. Retry is documented everywhere. Deduplication is documented nowhere, and two pages state the opposite: Lambda tells the caller to handle duplicate events and Kubernetes states the same program may sometimes be started twice. Global coverage claims rest on the AWS Regional Services List statement about core services in Region launches. That page's per-service Region table renders with JavaScript and was not read. Region counts per service were not claimed. The four AWS endpoints-and-quotas pages for Lambda, Batch, EKS, and EMR each listed 34 commercial Region codes on the access date. That count is a reading of a table, not a page statement, so it is recorded here as a limitation rather than as a claim. No measurement was taken. Nothing here says how long one unit of work runs or what one tile-date costs on any platform. Every price is a rate, not a cost. No cloud API was called and no package was installed. All evidence comes from documentation and pricing pages fetched over HTTPS on 2026-09-09. Every cited page was fetched fresh over HTTPS with curl using a browser user agent on 2026-09-09; none of the 25 pages cited by documented claims required a second retry, and none returned JavaScript placeholder tokens for the specific worked examples the draft quoted. Two sources listed in the research file, src-cdse-quotas and src-rasterframes, are not cited by any documented claim's source_ids (they appear only in candidate_notes observations) and were not fetched for this check, which covers documented claims only. HTML-to-text extraction for this check replaces tags with spaces, which occasionally inserts a stray space around inline <code> or <em> elements at a hyphen or before a comma/period. Three quotes (cl-cp-batch-containers-orchestrator_dependency-2, cl-cp-kubernetes-dask-idempotency, cl-cp-spark-cluster-scaling_water_bodies-2) needed punctuation-aware whitespace normalization to match for this reason; each was manually inspected in context on the source page and confirmed as a rendering artifact, not a wording difference. Verification covered each claim's quote, value, unit, and the specific factual assertions in its note. It did not re-verify every sentence in candidate_notes, not_assessed, or the draft's own limitations section, since those are not claim records under the check schema. No cloud API was called, no package was installed, and no page requiring an authenticated session or a JavaScript-executing browser was used, consistent with the documentation-and-pricing-pages-only bound on this check. Checks were not performed for claims with proposed_status 'estimated'; their IDs are listed in skipped_estimated for the parent to review. The AWS pricing pages render every price in the browser from a data file. The static HTML carries only tokens such as {priceOf!s3/s3-standard!Standard!Storage!First!50!TB!per!GB!Mo}. Numeric prices in this draft are therefore quoted from the pricing data files at https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps, which is the endpoint named in the pricing page's own data-pricing-endpoint attribute. Those files are gzip-encoded JSON and carry hawkFilePublicationDate 2026-08-31. Conditions such as minimum object size and minimum storage duration are quoted from the pricing page itself, where they are static text. The S3 Tables price keys in the data file are opaque hashes, not readable labels. The mapping from the pricing page row to the hash is recorded in each claim note so a checker can follow it. The AWS Glue Data Catalog prices are quoted from static page text that carries no Region label. The page states that pricing can vary by AWS Region. No claim is made about size per water-body-scene, records per file, chip size in bytes or object counts. No primary page carries those numbers. They are measurements, not documentation. No cloud API was called and no package was installed. Every page was read with curl or WebFetch. The Apache Parquet site does not state a numbered format version on the pages reached. Only GeoParquet, Zarr, Icechunk, Iceberg and COG carry a version number in this draft. Icechunk virtual chunks, the Amazon S3 conditional-write documentation, the S3 Tables maintenance configuration page and the GDAL COG driver page were not quoted. Each is named as an open question. All AWS numeric prices were re-fetched fresh from the pricing data files named in each pricing page's own data-pricing-endpoint attribute (https://b0.p.awsstatic.com/pricing/2.0/meteredUnitMaps/...), and matched by rate code or RegionlessRateCode hash under the 'US East (N. Virginia)' region key, not assumed from the draft's own transcription. The pricing data files carry no human-readable labels for most S3 Tables line items (opaque hash keys). Where the cited pricing page's static HTML text supplied a readable label next to the same hash (S3 Tables Standard storage, monitoring, compaction binpack, compaction sort/Z-order, compaction objects processed), that mapping was independently re-derived from the fetched page text rather than trusted from the draft's note. cl-sl-lakehouse-table-format-3 note asserted default quotas (10 table buckets per account per Region, 10,000 tables per table bucket) that do not appear on the cited 'Working with Amazon S3 Tables and table buckets' page; that page only links to a separate quotas page that is not among the cited sources. Verdict corrected; see the check record's reason. GeoParquet's two cited pages (v1.1.0 and Releases) render with an empty <title> tag in the static HTML; substance was confirmed instead against each page's <h1>, which matches the source titles recorded in the research file. No cloud API was called and no package was installed. Every page and data file was fetched fresh with curl using a browser user agent; none required a second retry."
   },
   "not_assessed": [
     {
@@ -7661,6 +9894,30 @@
       "dimension": "access_route"
     },
     {
+      "name": "Globus Access Portal for the same USGS data release",
+      "why": "A non-AWS transfer route to the same files. Outside the AWS access-route comparison. Context only.",
+      "seen_on": "src-usgs-aqr-sciencebase-item",
+      "dimension": "access_route"
+    },
+    {
+      "name": "S3 bucket ngwos-rswq-development, named in the FGDC metadata",
+      "why": "Named as an imagery location but not listed in the registry. Owner, payer, and contents are not documented. Not accessed under the no-bucket rule.",
+      "seen_on": "src-usgs-aqr-metadata-xml",
+      "dimension": "access_route"
+    },
+    {
+      "name": "AWS Marketplace listing of the same dataset",
+      "why": "Lists the same bucket, prefix, and SNS topic as the registry entry. A listing, not a separate route.",
+      "seen_on": "src-usgs-aqr-aws-marketplace",
+      "dimension": "access_route"
+    },
+    {
+      "name": "ScienceBase WMS and WFS services for the tile footprint layer",
+      "why": "Serve the sentinel_2_tiles_CONUS footprint layer, not reflectance. Not an access route for pixels.",
+      "seen_on": "src-usgs-aqr-sciencebase-json",
+      "dimension": "access_route"
+    },
+    {
       "name": "Sentinel Hub Batch Processing API",
       "why": "Named on the Sentinel Hub pages read as a route to larger outputs. It is a provider feature of the server-side workflow, not a separate workflow candidate, and its own reference page was not read.",
       "seen_on": null,
@@ -7688,6 +9945,36 @@
       "name": "GDAL /vsis3 with requester-pays configuration",
       "why": "Present on the GDAL virtual file systems page. It changes who pays and how credentials are supplied, which is an access-route field, not a workflow field.",
       "seen_on": null,
+      "dimension": "processing_workflow"
+    },
+    {
+      "name": "RAdCor adjacency correction (ACOLITE option)",
+      "why": "An alternative ACOLITE method recommended for small inland waters. It is a setting of this candidate, not assessed separately here.",
+      "seen_on": "src-acolite-manual-20260421",
+      "dimension": "processing_workflow"
+    },
+    {
+      "name": "Sen2Cor Level-2A",
+      "why": "ACOLITE has a converter for Sen2Cor products but does not correct them. Sen2Cor is the supplementary route, covered elsewhere.",
+      "seen_on": "src-acolite-s2-l2-convert",
+      "dimension": "processing_workflow"
+    },
+    {
+      "name": "T-Mart adjacency correction",
+      "why": "Named by a forum user in comparison with RAdCor. No page for it was read.",
+      "seen_on": "src-acolite-forum-radcor-lakes",
+      "dimension": "processing_workflow"
+    },
+    {
+      "name": "SNAP gpt geometry",
+      "why": "Optional geometry_type=gpt uses SNAP to compute view angles. It is a sub-option, not a processor candidate.",
+      "seen_on": "src-acolite-manual-20260421",
+      "dimension": "processing_workflow"
+    },
+    {
+      "name": "SeaDAS l2gen",
+      "why": "Cited in the manual references and handled by an ACOLITE NetCDF converter. Not a Sentinel-2 workflow candidate here.",
+      "seen_on": "src-acolite-manual-20260421",
       "dimension": "processing_workflow"
     },
     {
@@ -8244,6 +10531,161 @@
       ],
       "plain": "A pond near a tile edge can have multiple products per date. Grids or values can differ. Stitching tiles can hide those differences.",
       "why": "Seven of twenty survey sites lie in two to four tiles. Which value the model sees, and whether the two agree, is unknown until measured. The store never mosaics, and the difference is measured before any stitched value is trusted."
+    },
+    {
+      "id": "I-31",
+      "title": "A land processor corrects the water pixels of every Earth Search collection",
+      "text": "Every Earth Search Level-2A collection comes from Sen2Cor. Its algorithm document states it is not designed for water, and ESA validates it at land sites only. Peer-reviewed comparisons over inland water do not rank Sen2Cor and ACOLITE consistently. Their behavior for small ponds is unmeasured.",
+      "consequence": "The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states. Level-2A keeps four supporting roles. Both corrections are stored side by side, so the modeling team can compare them.",
+      "status": "decided",
+      "decision": "Decision 0008, owner direction of 2026-10-13.",
+      "evidence": [
+        "W1",
+        "R3",
+        "W5",
+        "W6",
+        "W7",
+        "W8",
+        "cl-ar-usgs-acolite-aqr-source_dataset",
+        "cl-ar-usgs-acolite-aqr-data_level-2"
+      ],
+      "plain": "Earth Search's surface reflectance comes from a processor its makers did not design for water. Its accuracy over small water bodies is unknown.",
+      "why": "Water reflects far less light than land, so a small error in the atmospheric correction is a large error in the water signal. The primary source now uses a correction built for water."
+    },
+    {
+      "id": "I-32",
+      "title": "The primary product has no cloud, shadow, or snow layer",
+      "text": "The USGS product delivers bands, NDWI, a flags layer, and a settings file. Its flags mark non-water, cirrus, bright, and negative pixels. No layer marks cloud shadow or snow. The join test matched 92 percent of scenes to a Level-2A item, but only 51 percent to the same processing baseline.",
+      "consequence": "Cloud, shadow, and snow flags come from the joined Level-2A item or from a tested derivation. Before 2022 the joined item is usually another processing of the same pass, with possibly different geometry. The association rule is open.",
+      "status": "open",
+      "decision": "Open. Phase C of the replan record measures what the store needs.",
+      "evidence": [
+        "cl-ar-usgs-acolite-aqr-quality_layers",
+        "PR-09",
+        "PR-10",
+        "G7"
+      ],
+      "plain": "The water-focused product carries no cloud-shadow or snow layer. Those flags must come from the land product of the same pass, often a differently processed version.",
+      "why": "Shadowed and snow-covered pixels look like dark or bright water. Without a flag the model cannot screen them, and a flag from another version may not line up pixel for pixel."
+    },
+    {
+      "id": "I-33",
+      "title": "The primary product is documented for the conterminous United States only",
+      "text": "USGS documents the product for the conterminous United States. The bucket also holds tile prefixes in UTM zones outside the lower 48, and Alaska tile 05VLG holds scenes. Those holdings are unassessed.",
+      "consequence": "The initial scope is the lower 48 states, assumption A4. Service elsewhere needs a workflow redraft: Level-1C access, compute, processor provenance, a cloud mask, and validation.",
+      "status": "decided",
+      "decision": "Decision 0008 and assumption A4, owner direction of 2026-10-13.",
+      "evidence": [
+        "cl-ar-usgs-acolite-aqr-global_coverage",
+        "PR-09",
+        "PR-10"
+      ],
+      "plain": "The water-focused product is documented for the lower 48 states only. Expanding beyond them means running the correction ourselves or finding another source.",
+      "why": "The infrastructure must scale globally. The primary source does not, so expansion is a redesign, not a configuration change."
+    },
+    {
+      "id": "I-34",
+      "title": "One pinned processor version meets changing Level-1C baselines",
+      "text": "USGS names ACOLITE 20221114.0 for the whole record. The inputs span Level-1C baselines from 02.01 to 05.13, mostly original products rather than the Collection 1 reprocessing. No page states a reprocessing policy or a plan for a second version prefix.",
+      "consequence": "Every record carries the processor version, the Level-1C baseline, and the settings-file digest. A new ACOLITE version or a version_02 prefix is a structural change to review.",
+      "status": "open",
+      "decision": "Open. Phase C of the replan record measures what the store needs.",
+      "evidence": [
+        "cl-ar-usgs-acolite-aqr-source_dataset",
+        "cl-ar-usgs-acolite-aqr-reprocessed_products",
+        "PR-10",
+        "R5"
+      ],
+      "plain": "One processor version corrects a record whose input versions keep changing. A future reprocessing could change every past value.",
+      "why": "A change in the input or the processor can look like a trend in the water. The store must keep both versions to tell them apart."
+    },
+    {
+      "id": "I-35",
+      "title": "The processor flags non-water pixels instead of removing them",
+      "text": "The settings enable ACOLITE's water mask at 1,600 nm. In one crop every pixel carried a value, and the flags layer marked 64 percent of the cells. Land, shoreline, and water all hold values.",
+      "consequence": "Store the values and the flags. Shoreline and near-land classes come from the same product, with their flags. Probe T4 measures validity per band and pixel class on the pilot lakes.",
+      "status": "measure",
+      "decision": "Open. Phase C of the replan record measures what the store needs.",
+      "evidence": [
+        "cl-ar-usgs-acolite-aqr-quality_layers-5",
+        "PR-09",
+        "PR-11"
+      ],
+      "plain": "The water-focused product keeps values for land and shoreline pixels and marks them with a flag. A reader must check the flag before using a value.",
+      "why": "A shoreline pixel mixes land and water. Whether the model uses it is a model decision, so the store keeps the value and the flag."
+    },
+    {
+      "id": "I-36",
+      "title": "The primary product has one 20 m grid",
+      "text": "Every band arrives at 20 m on the Level-2A 20 m grid of the same tile. The 10 m bands arrive resampled. On the pilot, 10 of 30 lakes inside their tile have no interior pixel at 20 m.",
+      "consequence": "Pixel classes for the primary product are computed at 20 m. Level-2A keeps its 10 m bands for comparison and land monitoring.",
+      "status": "decided",
+      "decision": "Owner direction of 2026-10-13, decision 0008.",
+      "evidence": [
+        "cl-ar-usgs-acolite-aqr-format-2",
+        "PR-09",
+        "G3"
+      ],
+      "plain": "The water-focused product delivers every band at 20 m. A small pond has fewer pixels, and some have no pixel entirely inside the water.",
+      "why": "The smallest ponds become shoreline pixels only. The model sees that from the pixel-class counts."
+    },
+    {
+      "id": "I-37",
+      "title": "No catalog beyond bucket listing, a notification topic, and a scene list",
+      "text": "USGS documents an SNS topic for new objects, a bucket listing command, and a scene list file. No STAC catalog or inventory file is documented. The survey found scenes missing objects, and acquisitions with more than one product.",
+      "consequence": "Discovery lists the bucket or subscribes to the topic, then parses object names. A scene is complete only when its expected objects exist.",
+      "status": "open",
+      "decision": "Open. Phase C of the replan record measures what the store needs.",
+      "evidence": [
+        "cl-ar-usgs-acolite-aqr-discovery_mechanism",
+        "cl-ar-usgs-acolite-aqr-discovery_mechanism-2",
+        "PR-10"
+      ],
+      "plain": "The water-focused product has no searchable catalog. New scenes are found by listing files or by subscribing to a notification.",
+      "why": "Without a catalog, the ingestion must check completeness and product identity itself."
+    },
+    {
+      "id": "I-38",
+      "title": "A single agency provides the primary product without a service commitment",
+      "text": "One USGS mission area produces the product as a continually updated data release. No page states a latency, an availability commitment, or a retention policy.",
+      "consequence": "Monitor arrival and completeness. Keep every ingested revision locally. The Level-2A fallback covers scenes the product lacks.",
+      "status": "open",
+      "decision": "Open. Phase C of the replan record measures what the store needs.",
+      "evidence": [
+        "cl-ar-usgs-acolite-aqr-operator",
+        "cl-ar-usgs-acolite-aqr-publication_latency",
+        "cl-ar-usgs-acolite-aqr-reprocessed_products-3"
+      ],
+      "plain": "One agency produces the water-focused product, with no stated service level. A change on its side can pause or alter the feed.",
+      "why": "A daily model input needs a predictable feed. The fallback and local revisions limit the risk."
+    },
+    {
+      "id": "I-39",
+      "title": "The license pages disagree, and share-alike terms may reach derived data",
+      "text": "The AWS registry names CC BY-SA 3.0 IGO for the Copernicus data. ScienceBase and usgs.gov mark the release CC0 1.0. Recorded, not assessed.",
+      "consequence": "The owner handles licensing with legal counsel. The store records the source product, so any attribution remains possible.",
+      "status": "deferred",
+      "decision": "Owner direction of 2026-10-13: licensing is outside this assessment.",
+      "evidence": [
+        "cl-ar-usgs-acolite-aqr-license",
+        "cl-ar-usgs-acolite-aqr-license-2"
+      ],
+      "plain": "The license pages for the water-focused product disagree. Legal counsel decides which terms apply.",
+      "why": "Share-alike terms could reach derived data. The assessment records the conflict and leaves the decision to counsel."
+    },
+    {
+      "id": "I-40",
+      "title": "The primary product holds about half of the acquisitions",
+      "text": "On 24 lower-48 tiles, the product holds 41 to 61 percent of Earth Search's acquisitions per year from 2018. Cloudy and partial acquisitions are missing most often. USGS documents that scenes over 30 percent cloud cover are not prioritized.",
+      "consequence": "The Level-2A fallback fills absent scenes, and the accounting counts every missing primary scene. Whether absent scenes arrive later is unknown.",
+      "status": "open",
+      "decision": "Open. Phase C of the replan record measures what the store needs.",
+      "evidence": [
+        "cl-ar-usgs-acolite-aqr-global_coverage-2",
+        "PR-10"
+      ],
+      "plain": "The water-focused product skips many acquisitions, most often cloudy or partial ones. The land product fills the gaps.",
+      "why": "Missing dates are not random. A cloudy-season gap can bias seasonal water-quality estimates."
     }
   ],
   "probes": [
@@ -8339,6 +10781,46 @@
         "I-05"
       ],
       "record": "assessment-checks/probes-2026-09-11.json"
+    },
+    {
+      "id": "PR-09",
+      "date": "2026-10-13",
+      "question": "What layout, encoding, grid, and processing settings does the USGS aquatic reflectance bucket use?",
+      "result": "One version prefix and 1,340 tile prefixes. Each scene is 14 objects: 11 bands, NDWI, flags, and a settings file. Every GeoTIFF is a 20 m, 5,490 by 5,490 COG with 512-pixel blocks, deflate, and four overviews. Bands are int16 with no-data -32768 and header scale 1. The grid matches the Level-2A 20 m grid. Settings name tiled aerosol on 300-pixel tiles, no residual glint correction, and an enabled water mask. Unsigned requests succeeded. No pixel was read.",
+      "bears_on": [
+        "I-32",
+        "I-34",
+        "I-35",
+        "I-36",
+        "I-05"
+      ],
+      "record": "../benchmarks/results/aqr-headers.json"
+    },
+    {
+      "id": "PR-10",
+      "date": "2026-10-13",
+      "question": "Which acquisitions does the USGS product hold on the lower-48 survey tiles, how fast do scenes arrive, and do they join to Level-2A items?",
+      "result": "19,336 scenes on 24 tiles. From 2018 the product holds 41 to 61 percent of Earth Search's acquisitions per year, with cloudy and partial acquisitions missing most often. Inputs are mostly original Level-1C baselines. Recent scenes appear a median 0.33 days after sensing. 92 percent join to a Level-2A item by tile, platform, and sensing start, 51 percent to the same baseline. Alaska tile 05VLG holds scenes. Listings only.",
+      "bears_on": [
+        "I-32",
+        "I-33",
+        "I-34",
+        "I-37",
+        "I-40",
+        "I-24"
+      ],
+      "record": "../benchmarks/results/aqr-coverage.json"
+    },
+    {
+      "id": "PR-11",
+      "date": "2026-10-13",
+      "question": "Does the USGS product keep values for land and shoreline pixels in the Lake Lanier map window?",
+      "result": "One authorized crop, 400 by 400 cells at 20 m. Every band pixel carries a value. Flag values are multiples of 10,000. 36 percent of cells carry no flag, and the rest carry the water-mask, bright, or negative flags. One scene, an illustration, not probe T4.",
+      "bears_on": [
+        "I-35",
+        "I-32"
+      ],
+      "record": "assets/discovery/provenance.json"
     }
   ],
   "themes": [
@@ -8353,7 +10835,11 @@
         "I-26",
         "I-17",
         "I-24",
-        "I-18"
+        "I-18",
+        "I-33",
+        "I-34",
+        "I-39",
+        "I-40"
       ]
     },
     {
@@ -8367,7 +10853,9 @@
         "I-15",
         "I-10",
         "I-09",
-        "I-28"
+        "I-28",
+        "I-35",
+        "I-36"
       ]
     },
     {
@@ -8379,7 +10867,8 @@
         "I-06",
         "I-07",
         "I-11",
-        "I-19"
+        "I-19",
+        "I-31"
       ]
     },
     {
@@ -8391,7 +10880,8 @@
         "I-12",
         "I-14",
         "I-13",
-        "I-02"
+        "I-02",
+        "I-32"
       ]
     },
     {
@@ -8411,7 +10901,9 @@
       "issues": [
         "I-27",
         "I-21",
-        "I-22"
+        "I-22",
+        "I-37",
+        "I-38"
       ]
     }
   ]

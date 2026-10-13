@@ -202,14 +202,17 @@ class Client:
         self.timeout = timeout
         self.log: list[dict] = []
 
-    def _request(self, url: str, body: bytes | None, note: str, accept: str) -> tuple:
+    def _request(
+        self, url: str, body: bytes | None, note: str, accept: str, method: str | None = None
+    ) -> tuple:
         host = urllib.parse.urlparse(url).netloc
+        method = method or ("POST" if body is not None else "GET")
         headers = {"accept": accept, "user-agent": USER_AGENT}
         if body is not None:
             headers["content-type"] = "application/json"
         delay = 2.0
         for attempt in range(1, self.retries + 1):
-            request = urllib.request.Request(url, data=body, headers=headers)
+            request = urllib.request.Request(url, data=body, headers=headers, method=method)
             started = time.perf_counter()
             status, raw, error, response_headers = None, b"", None, {}
             try:
@@ -225,7 +228,7 @@ class Client:
             self.log.append(
                 {
                     "host": host,
-                    "method": "POST" if body is not None else "GET",
+                    "method": method,
                     "path": url[len(f"https://{host}") :],
                     "note": note,
                     "status": status,
@@ -270,3 +273,15 @@ class Client:
             "request_charged": headers.get("x-amz-request-charged"),
         }
         return raw, meta
+
+    def get_text(
+        self, url: str, note: str = "", accept: str = "application/xml"
+    ) -> tuple[str, dict]:
+        """One GET whose body is text, such as an S3 listing. Returns the text and headers."""
+        raw, _, headers, _ = self._request(url, None, note, accept)
+        return raw.decode(), headers
+
+    def head(self, url: str, note: str = "") -> dict:
+        """One HEAD request. Returns the status and the lower-cased response headers."""
+        _, status, headers, seconds = self._request(url, None, note, "*/*", method="HEAD")
+        return {"status": status, "seconds": seconds, "headers": headers}

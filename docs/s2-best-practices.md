@@ -1,8 +1,8 @@
 # Sentinel-2 facts and practices for per-water-body extraction, 2026-09-09
 
 This document collects the Sentinel-2 facts that bear on extracting pixel values for small standing water bodies, and the practices that follow from them.
-Every fact carries a claim status from [CLAUDE.md](../CLAUDE.md). A `documented` fact cites a source in section 7 and a verdict in the [recheck record](assessment-checks/best-practices-recheck.json).
-Section 6 lists the facts that remain `unverified` after the recheck, with the test each still needs.
+Every fact carries a claim status from [CLAUDE.md](../CLAUDE.md). A `documented` fact cites a source in section 8 and a verdict in the [recheck record](assessment-checks/best-practices-recheck.json). Section 5 cites the [water-correction check record](assessment-checks/water-correction-checks.json) instead.
+Section 7 lists the facts that remain `unverified` after the recheck, with the test each still needs. Sections 6 to 8 were numbered 5 to 7 before 2026-10-13.
 
 The first draft came from the supplied geolocation report listed in [references/](references/README.md). The recheck on 2026-09-09 read the primary pages, confirmed nine claims, corrected ten, and contradicted one.
 The report had conflated the Global Reference Image accuracy with product accuracy. It missed the two-stage 2021 rollout. The first draft's own adjacency claim, which did not come from the report, gave a distance the cited study does not support.
@@ -50,12 +50,14 @@ The ingestion and processing issues these claims raise are registered in the inv
 | R2 | Each product records its baseline in its name, the `Nxxyy` field, and in its metadata. Reprocessed products do not always sit beside originals. The Copernicus Data Space Ecosystem removed Collection 0 products up to 13 December 2023 and keeps only baselines 05.00, 05.10, and 05.11. | documented | S1, S2 |
 | R3 | Level-2A surface reflectance is validated at vegetation, arid, forest, and agricultural sites. No inland water site appears. The scene classification is validated as clear versus cloud on products with under 20 percent water pixels. | documented | S6 |
 | R4 | A Level-2A product is about 800 MB per 110 km tile and is available within 8 hours of sensing. A Level-1C product is about 700 MB and available within 6 hours. | documented | S8 |
-| R5 | Operational baselines: 05.10 from 13 December 2023, 05.11 from 23 July 2024, and 05.12 from 4 February 2026 under product specification 15.1. Baseline 05.13 with specification 15.2 is scheduled for 21 September 2026, announced and not yet operational. Reprocessing baselines for older acquisitions are separate: 05.00 to 2021 and 05.10 for 2022 to 2023, with 05.11 on a few products across the range. So the baseline is not a function of sensing date. | documented | S2, S13, S11, S14 |
+| R5 | Operational baselines: 05.10 from 13 December 2023, 05.11 from 23 July 2024, and 05.12 from 4 February 2026 under product specification 15.1. ESA activated baseline 05.13 on 21 September 2026, claim W3. Reprocessing baselines for older acquisitions are separate: 05.00 to 2021 and 05.10 for 2022 to 2023, with 05.11 on a few products across the range. So the baseline is not a function of sensing date. | documented | S2, S13, S11, S14, S23 |
 | R6 | Baseline 05.12 introduces tile-part length markers in the JPEG 2000 images. The markers give the position and size of each JPEG 2000 tile, so decoders reach small regions more efficiently. They apply to Level-1C and Level-2A products under specification 15.1. | documented | S12, S11 |
 
 - **Practice P8.** Read the conversion state from the delivered asset's metadata for every product. The offset is at `General_Info/Product_Image_Characteristics/BOA_ADD_OFFSET_VALUES_LIST/BOA_ADD_OFFSET` in the user product metadata (R1). Some routes applied the offset for some items and publish per-asset scale and offset for the remainder, recorded in the inventory field `offset_delivery`. ESA metadata and catalog metadata use different conventions, mapped in the [draft contract](data-contract.md). Store which source supplied the conversion beside the value. Treat DN 0 as no data. Never hard-code the offset.
 - **Practice P9.** Key stored values by tile, sensing time, processing baseline, and product id. Keep reprocessed products as new revisions. Never overwrite. Upstream services can delete superseded products (R2). Retain ingested revisions locally without relying on indefinite source retention. Expect several baselines across any history, and treat each new operational baseline as a structural change to review (G8, R5, issue I-29). Measured on 2026-09-10 in [measurements.md](measurements.md): Both Earth Search collections contain acquisitions with multiple products. The older collection has more competing versions in the sample. Neither survey establishes a retention guarantee.
-- **Practice P10.** Serve Level-2A values as delivered (assumption A1). Level-2A is not validated over inland water (R3). Whether Level-1C plus a water-specific correction belongs in the store is a discovery question, not a practice.
+- **Practice P10.** Serve each product's values as delivered (assumption A1). For water pixels in the lower 48 states the primary product is ACOLITE aquatic reflectance, [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md).
+  Sen2Cor is not designed for water (W1), and ESA validates it at land sites only (R3). The peer-reviewed comparisons do not rank either processor consistently ahead over inland water (W5 to W8).
+  Store both corrections side by side for the same pixels, so the modeling team can compare them. Record the processor, its version, and the settings digest with every value.
 
 ## 4. Quality layers and water-specific interference
 
@@ -78,7 +80,29 @@ The ingestion and processing issues these claims raise are registered in the inv
 - **Practice P13.** Treat the scene classification water class as a hint, not as the water mask. It depends on a DEM and a 150 m water map that cannot resolve a 10 m pond (Q10). The polygon defines the water body (assumption A9).
 - **Practice P14.** Derive the quality flags per resolution the layer was produced at. The 60 m scene classification is a mode resample of the 20 m layer, so a 10 m pond can sit under one 60 m class and several 20 m classes (Q1).
 
-## 5. Open questions for discovery
+## 5. Atmospheric correction over water
+
+Rechecked on 2026-10-13 for Phase B of the [replan record](reviews/2026-10-13-acolite-first-replan.md). A research agent drafted each claim and a different agent checked it, [water-correction-checks.json](assessment-checks/water-correction-checks.json).
+Each intercomparison row reports one study as its authors state it. The studies differ in processor versions, sites, and methods, so no row generalizes to the others.
+
+| # | Claim | Status | Source |
+|---|---|---|---|
+| W1 | The Sen2Cor Level-2A ATBD, issue 2.10, states that the processor is not designed for applications over water or coastal regions. SentiWiki still lists issue 2.10 as current. The 2.13.02 user manual describes processing of imagery over land. | documented | S18, S43, S20 |
+| W2 | The ATBD assumes a 1 km adjacency range and recommends changing it for dark lake pixels surrounded by forest. The October 2026 Level-2A quality report lists operational products with a 1 km range. By default Sen2Cor gives water pixels the scene-average water vapor. | documented | S18, S21, S20 |
+| W3 | Sen2Cor 2.13.01 mitigates an aerosol artifact over water. Baseline 05.13 and Sen2Cor 2.13.02 list enhanced atmospheric correction over water through improved use of CAMS aerosol information. ESA activated 05.13 on 21 September 2026. | documented | S19, S21, S22, S23, S26 |
+| W4 | STEP states that Sen2Cor 2.11 matches the default configuration of baseline 04.00, 2.12.04 that of 05.11, and 2.13.02 that of 05.13. SentiBoard records the 2.12.04 executable delivered with baseline 05.12. The two pages name different baselines for 2.12.04. | documented | S24, S25, S26, S27, S19 |
+| W5 | Warren et al. (2019) evaluated six processors on Sentinel-2A at two coastal regions and 13 inland water bodies, with Sen2Cor v2.4.0 and Acolite v20170718. Over inland waters, Polymer and C2RCC generally performed best. | documented | S28 |
+| W6 | In the same study, Sen2Cor had the second-lowest inland median spectral angle, after C2RCC and ahead of Acolite. Across all datasets, Sen2Cor and l2gen performed worst. Half the inland matchups lay within 0.5 km of shore. | documented | S28 |
+| W7 | ACIX-Aqua (Pahlevan et al. 2021) evaluated eight processors on Landsat-8 and Sentinel-2 and did not include Sen2Cor. ACOLITE and iCOR performed best for mostly freshwater and for turbid or eutrophic waters, with 20 to 30 percent errors in green and red. Excluded measurements included some in small lakes and near shorelines. | documented | S29 |
+| W8 | Over Valencia lakes and reservoirs, Pereira-Sandoval et al. (2019) found Polymer and C2RCC best, and lower visible-band errors for ACOLITE than for Sen2Cor in meso- to hypertrophic waters. Over two Chinese reservoirs, Shan et al. (2026) found C2RCC best, and Sen2Cor's pooled r2 above ACOLITE's. | documented | S30, S31 |
+| W9 | Level-1C on AWS is JPEG 2000 in the requester-pays bucket `sentinel-s2-l1c` in eu-central-1. Earth Search lists one Sentinel-2 Level-1C collection and no Collection 1 counterpart. It mixes 05.00 items generated in 2023 with originals, and some items point every asset to the Level-2A bucket. | documented | S32, S33 |
+| W10 | GDAL documents that its OpenJPEG-based driver ingests each whole tile-part a request touches and does not use tile-part length markers. OpenJPEG 2.5.3, released in December 2024, uses those markers to optimize decoding. GDAL reads requester-pays buckets when told to. | documented | S34, S35, S36 |
+| W11 | The Copernicus Data Space Ecosystem serves Level-1C JPEG 2000 over S3 to registered users, free and not requester pays. General users get 12 TB per rolling 30 days. Google Cloud lists a Sentinel-2 bucket without a stated level. The Planetary Computer lists no Level-1C. | documented | S37, S38, S39, S40, S41, S42 |
+
+- **Practice P15.** Key every ACOLITE value by processor version, settings digest, and aerosol mode. A run clipped to one lake estimates aerosol from another window than a whole-tile run. A self-run gap fill is therefore a different product from the scene it fills. Inventory finding F-30.
+- **Practice P16.** Do not treat the intercomparisons as a ranking for this store. They tested older processor versions and different methods on different waters (W5 to W8). The modeling comparison of the two corrections on the pilot lakes is the relevant test.
+
+## 6. Open questions for discovery
 
 Each question below is tracked with its status in the issue register in the [Discovery tab](s2-options.html#issues).
 
@@ -86,10 +110,10 @@ Each question below is tracked with its status in the issue register in the [Dis
 - Does any route deliver a cloud mask other than the scene classification, for example a machine-learning cloud probability?
 - Which routes carry Collection 1 reprocessed products, and which still carry the Collection 0 originals the primary service deleted (R2)? Answered for Earth Search on 2026-09-11: the collections can carry conversions of the same ESA product. Collection 1 holds baseline 05.00 and later, including operational originals. Both contain multiple-product acquisitions. The sample establishes neither complete version histories nor future retention. Measurement finding 7 and probe PR-08 in the inventory.
 - Is glint detectable from the delivered bands alone at 10 m ponds? The ESA product carries no flag (Q5).
-- Does adjacency correction belong to the consumer, or does any route offer a water-specific correction? The store serves delivered values (assumption A1).
+- Does adjacency correction belong to the consumer, or does any route offer a water-specific correction? The store serves delivered values (assumption A1). Answered in part on 2026-10-13: the USGS product offers ACOLITE dark spectrum fitting for the lower 48 states, decision 0008. Adjacency stays with the consumer, issue I-02.
 - Does any route serve raw pixels through a server-side extraction, or only aggregates?
 
-## 6. Still unverified
+## 7. Still unverified
 
 | Item | Status | Test |
 |---|---|---|
@@ -97,11 +121,13 @@ Each question below is tracked with its status in the issue register in the [Dis
 | The 0.5 to 1 pixel steep-terrain misregistration figure the supplied report gave. | unverified | Read the European Journal of Remote Sensing study on DEM influence, doi 10.1080/22797254.2018.1478676. The publisher domain returned 403 on 2026-09-09. |
 | Per-class accuracy of the scene classification water class over small inland water bodies. | unverified | Compare classes with a public water mask over the pilot set for one year. No ESA validation covers it (R3, Q4). |
 | The specific adjacency range for inland water from the aquatic literature. | unverified | Read doi 10.3390/rs14081829 and doi 10.1016/j.rse.2019.03.018. Both publisher domains returned 403 on 2026-09-09. |
+| Whether any peer-reviewed study evaluates Sen2Cor 2.12 or 2.13 over inland water. The newest version named in the studies read is 2.4.0. | unverified | Search again after the 05.13 rollout. The 2026-10-13 search queries are in the [research record](assessment-checks/water-correction-research.json). |
+| Whether a reader can fetch a lake-sized window of a Level-1C JPEG 2000 band without the whole file (W10, R6). | unverified | Trace one windowed read of one product in each bucket with tile-part length markers. |
 | Every metadata field name above, as observed in a real product. | unverified | Open one Level-1C and one Level-2A product per baseline on the chosen route and read `Image_Refining`, the offset list, and the masks. No product was opened in discovery. |
 
-## 7. Sources
+## 8. Sources
 
-All pages were read on 2026-09-09, except S11 to S14 on 2026-09-10 and S15 to S17 on 2026-09-23. The G8, G11, and Q7 additions of 2026-09-23 have an [independent check record](assessment-checks/presentation-review-sources.json). The Q8 dilation conditions were re-read from S2 on 2026-09-10. The domain `sentinel.esa.int` did not resolve from the research environment, so its user guides were read from their SentiWiki and Sentinel Online equivalents. Data Quality Report and Product Specification Document links carry query strings that ESA may change. The stable entry point is the [SentiWiki S2 documents page](https://sentiwiki.copernicus.eu/web/s2-documents).
+All pages were read on 2026-09-09, except S11 to S14 on 2026-09-10, S15 to S17 on 2026-09-23, and S18 to S43 on 2026-10-13. The G8, G11, and Q7 additions of 2026-09-23 have an [independent check record](assessment-checks/presentation-review-sources.json). The Q8 dilation conditions were re-read from S2 on 2026-09-10. The domain `sentinel.esa.int` did not resolve from the research environment, so its user guides were read from their SentiWiki and Sentinel Online equivalents. Data Quality Report and Product Specification Document links carry query strings that ESA may change. The stable entry point is the [SentiWiki S2 documents page](https://sentiwiki.copernicus.eu/web/s2-documents).
 
 | ID | Source |
 |---|---|
@@ -122,5 +148,31 @@ All pages were read on 2026-09-09, except S11 to S14 on 2026-09-10 and S15 to S1
 | S16 | [Sentinel-2 Collection-1 Phase-2 products availability, Copernicus Data Space Ecosystem, 2025-09-08](https://dataspace.copernicus.eu/news/2025-9-8-sentinel-2-collection-1-phase-2-products-availability), accessed 2026-09-23 |
 | S17 | [Sentinel-2A extension campaign prolonged until end 2026, Copernicus Data Space Ecosystem, 2026-05-15](https://dataspace.copernicus.eu/news/2026-5-15-sentinel-2a-extension-campaign-prolonged-until-end-2026), accessed 2026-09-23 |
 | S10 | [Suitability of different in-water algorithms for eutrophic and absorbing waters applied to Sentinel-2 MSI and Sentinel-3 OLCI data, Frontiers in Remote Sensing, 2024](https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2024.1423332/full) |
+| S18 | [S2 MPC Level-2A Algorithm Theoretical Basis Document, ref. S2-PDGS-MPC-ATBD-L2A, issue 2.10, 2021-11-15](https://step.esa.int/thirdparties/sen2cor/2.10.0/docs/S2-PDGS-MPC-L2A-ATBD-V2.10.0.pdf), accessed 2026-10-13 |
+| S19 | [Sen2Cor 2.13.02 Software Release Note, ref. OMPC.TPZG.SRN.010, issue 1.0, 2026-05-29](https://step.esa.int/thirdparties/sen2cor/2.13.0/docs/OMPC.TPZG.SRN.010%20-%20i1r0%20-%20Sen2Cor%202.13.02%20Software%20Release%20Note.pdf), accessed 2026-10-13 |
+| S20 | [Sen2Cor 2.13.02 Configuration and User Manual, ref. OMPC.TPZ.SUM.004, issue 1.0, 2026-05-29](https://step.esa.int/thirdparties/sen2cor/2.13.0/docs/OMPC.TPZ.SUM.004%20-%20i1r0%20-%20Sen2Cor%202.13.02%20Configuration%20and%20User%20Manual.pdf), accessed 2026-10-13 |
+| S21 | [Data Quality Report, Sentinel-2 MSI L2A, October 2026, ref. OMPC.CS.DQR.002.09-2026, issue 102.0, 2026-10-09](https://sentiwiki.copernicus.eu/__attachments/a_05551f216ff3e0ff859cd12fcc162978f08d70b32eaace391ba2ee5423bdc86b/S2-OMPC.CS.DQR.002.09-2026-i102r0-MSI-L2A-DQR-October-2026.pdf?cb=e04214f3627872643ed8771f787cc7b8), accessed 2026-10-13 |
+| S22 | [Introduction of Copernicus Sentinel-2 Processing Baseline 05.13, 2026-08-07](https://dataspace.copernicus.eu/news/2026-8-7-introduction-copernicus-sentinel-2-processing-baseline-0513), accessed 2026-10-13 |
+| S23 | [Activation of Copernicus Sentinel-2 Processing Baseline 05.13 on 21 September 2026, 2026-09-15](https://sentinels.copernicus.eu/web/sentinel/-/activation-of-copernicus-sentinel-2-processing-baseline-05.13-on-21-september-2026), accessed 2026-10-13 |
+| S24 | [Sen2Cor v2.11, STEP](https://step.esa.int/main/snap-supported-plugins/sen2cor/sen2cor-v2-11/), accessed 2026-10-13 |
+| S25 | [Sen2Cor v2.12, STEP](https://step.esa.int/main/snap-supported-plugins/sen2cor/sen2cor-v2-12/), accessed 2026-10-13 |
+| S26 | [Sen2Cor v2.13, STEP](https://step.esa.int/main/snap-supported-plugins/sen2cor/sen2cor-v2-13/), accessed 2026-10-13 |
+| S27 | [SentiBoard Processors page, Sentinel-2 processor releases](https://operations.dashboard.copernicus.eu/processors-viewer.html?search=S2), accessed 2026-10-13 |
+| S28 | [Assessment of atmospheric correction algorithms for the Sentinel-2A MultiSpectral Imager over coastal and inland waters. Remote Sensing of Environment 225 (2019) 267-289, doi 10.1016/j.rse.2019.03.018](https://plymsea.ac.uk/id/eprint/8168/1/1-s2.0-S0034425719301099-main%20%281%29.pdf), accessed 2026-10-13 |
+| S29 | [ACIX-Aqua: A global assessment of atmospheric correction methods for Landsat-8 and Sentinel-2 over lakes, rivers, and coastal waters. Remote Sensing of Environment 258 (2021) 112366, doi 10.1016/j.rse.2021.112366, 2021-03-09](https://www.vliz.be/imisdocs/publications/379951.pdf), accessed 2026-10-13 |
+| S30 | [Evaluation of Atmospheric Correction Algorithms over Spanish Inland Waters for Sentinel-2 Multi Spectral Imagery Data. Remote Sensing 2019, 11, 1469, doi 10.3390/rs11121469, 2019-06-21](https://mdpi-res.com/d_attachment/remotesensing/remotesensing-11-01469/article_deploy/remotesensing-11-01469.pdf), accessed 2026-10-13 |
+| S31 | [Comparative Analysis of Atmospheric Correction Methods for Complex Inland Waters. Atmosphere 2026, 17, 869, doi 10.3390/atmos17090869, 2026-09-04](https://mdpi-res.com/d_attachment/atmosphere/atmosphere-17-00869/article_deploy/atmosphere-17-00869.pdf), accessed 2026-10-13 |
+| S32 | [Sentinel-2, Registry of Open Data on AWS](https://registry.opendata.aws/sentinel-2/), accessed 2026-10-13 |
+| S33 | [Earth Search STAC collection sentinel-2-l1c](https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c), accessed 2026-10-13 |
+| S34 | [GDAL Virtual File Systems](https://gdal.org/en/stable/user/virtual_file_systems.html), accessed 2026-10-13 |
+| S35 | [OpenJPEG NEWS](https://github.com/uclouvain/openjpeg/blob/master/NEWS.md), accessed 2026-10-13 |
+| S36 | [JP2OpenJPEG -- JPEG2000 driver based on OpenJPEG library, GDAL documentation (stable, release 3.13 source link)](https://gdal.org/en/stable/drivers/raster/jp2openjpeg.html), accessed 2026-10-13 |
+| S37 | [Access to EO data via S3, Copernicus Data Space Ecosystem documentation](https://documentation.dataspace.copernicus.eu/APIs/S3.html), accessed 2026-10-13 |
+| S38 | [Quotas and Limitations, Copernicus Data Space Ecosystem documentation](https://documentation.dataspace.copernicus.eu/Quotas.html), accessed 2026-10-13 |
+| S39 | [Terms and Conditions, Copernicus Data Space Ecosystem](https://dataspace.copernicus.eu/terms-and-conditions), accessed 2026-10-13 |
+| S40 | [CDSE STAC collection sentinel-2-l1c](https://stac.dataspace.copernicus.eu/v1/collections/sentinel-2-l1c), accessed 2026-10-13 |
+| S41 | [Cloud Storage public datasets, 2026-10-13](https://docs.cloud.google.com/storage/docs/public-datasets), accessed 2026-10-13 |
+| S42 | [Microsoft Planetary Computer STAC API collections listing](https://planetarycomputer.microsoft.com/api/stac/v1/collections), accessed 2026-10-13 |
+| S43 | [SentiWiki Document Library](https://sentiwiki.copernicus.eu/web/document-library), accessed 2026-10-13 |
 
 The recheck was performed by an AI agent and recorded in [best-practices-recheck.json](assessment-checks/best-practices-recheck.json), with a verbatim quote per verdict. It is a documentation check, not a product inspection.

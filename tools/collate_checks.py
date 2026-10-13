@@ -1,7 +1,8 @@
 """Rebuild the evidence-derived parts of docs/options-inventory.json from check records.
 
 Reads docs/assessment-checks/<dimension>-research.json and <dimension>-checks.json for every
-dimension that has both. Rebuilds sources, claims, candidate specs and questions, gaps,
+dimension that has both, then any supplementary pair <dimension>-<topic>-research.json and
+<dimension>-<topic>-checks.json. Rebuilds sources, claims, candidate specs and questions, gaps,
 not_assessed, and verification. Preserves selection, scope, fields, findings, and combinations.
 Standard library only. No network. `--check` fails when the inventory is stale.
 """
@@ -28,9 +29,21 @@ METHOD = (
 )
 
 
-def dimension_files(dimension: str) -> tuple[Path, Path]:
+def dimension_files(dimension: str) -> list[tuple[Path, Path]]:
+    """The dimension's research and check pair, then its supplementary pairs by name.
+
+    A research file without its checks file is skipped, so a draft awaiting its check binds
+    nothing.
+    """
     slug = dimension.replace("_", "-")
-    return CHECKS / f"{slug}-research.json", CHECKS / f"{slug}-checks.json"
+    pairs = [(CHECKS / f"{slug}-research.json", CHECKS / f"{slug}-checks.json")]
+    for research in sorted(CHECKS.glob(f"{slug}-*-research.json")):
+        pairs.append(
+            (research, research.with_name(research.name[: -len("research.json")] + "checks.json"))
+        )
+    return [
+        (research, checks) for research, checks in pairs if research.exists() and checks.exists()
+    ]
 
 
 def load(path: Path) -> dict:
@@ -52,88 +65,33 @@ def collate(inventory: dict) -> dict:
     dimensions_done: list[str] = []
 
     for dim in out["dimensions"]:
-        research_path, checks_path = dimension_files(dim)
-        if not (research_path.exists() and checks_path.exists()):
+        pairs = dimension_files(dim)
+        if not pairs:
             continue
         dimensions_done.append(dim)
-        research, checks = load(research_path), load(checks_path)
-        draft_sources = {s["id"]: s for s in research["sources"]}
-        drafts = {c["id"]: c for c in research["claims"]}
-        verdicts = {c["claim_id"]: c for c in checks["checks"]}
-        checkers.append(f"{dim}: research {research['researcher']['model']}")
-        checkers.append(f"{dim}: checks {checks['checker']['model']}")
-        limits.extend(research.get("limitations", []))
-        limits.extend(checks.get("limitations", []))
-        for item in research.get("not_assessed", []):
-            not_assessed.append(
-                {
-                    "name": item.get("name") or item.get("option"),
-                    "why": item.get("why") or item.get("reason"),
-                    "seen_on": item.get("seen_on"),
-                    "dimension": dim,
-                }
-            )
-        notes = research.get("candidate_notes", {})
-        if isinstance(notes, list):
-            notes = {n["candidate"]: n for n in notes}
-        for cand_id, note in notes.items():
-            if note.get("questions_open"):
-                questions[cand_id] = list(note["questions_open"])
-
         documented_ids: set[str] = set()
-        for draft in research["claims"]:
-            if draft.get("proposed_status") != "documented":
-                continue
-            check = verdicts.get(draft["id"])
-            if check is None:
-                gaps.append(_gap(draft, "no check record"))
-                continue
-            if check["verdict"] not in BINDING_VERDICTS:
-                gaps.append(_gap(draft, f"{check['verdict']}: {check.get('reason', '')}".strip()))
-                continue
-            source_ids = check.get("source_ids") or draft["source_ids"]
-            missing = [s for s in source_ids if s not in draft_sources]
-            if missing:
-                gaps.append(_gap(draft, f"source ids not in research file: {missing}"))
-                continue
-            for sid in source_ids:
-                sources.setdefault(sid, {k: draft_sources[sid].get(k) for k in SOURCE_KEYS})
-            claims.append(
-                {
-                    "id": draft["id"],
-                    "candidate": draft["candidate"],
-                    "field": draft["field"],
-                    "value": check["approved_value"],
-                    "unit": check.get("approved_unit"),
-                    "note": check.get("approved_note") or draft["note"],
-                    "status": "documented",
-                    "source_ids": source_ids,
-                    "check": {"file": f"assessment-checks/{checks_path.name}", "id": check["id"]},
-                }
+        for research_path, checks_path in pairs:
+            research, checks = load(research_path), load(checks_path)
+            label = (
+                dim
+                if research_path.name == f"{dim.replace('_', '-')}-research.json"
+                else (f"{dim} ({research_path.name.removesuffix('-research.json')})")
             )
-            documented_ids.add(draft["id"])
-
-        for draft in research["claims"]:
-            if draft.get("proposed_status") != "estimated":
-                continue
-            basis = [b for b in draft.get("basis", []) if b in documented_ids]
-            if not basis or not draft.get("reasoning"):
-                gaps.append(_gap(draft, "estimate without a documented basis"))
-                continue
-            claims.append(
-                {
-                    "id": draft["id"],
-                    "candidate": draft["candidate"],
-                    "field": draft["field"],
-                    "value": draft["value"],
-                    "unit": draft.get("unit"),
-                    "note": draft["note"],
-                    "status": "estimated",
-                    "basis": basis,
-                    "reasoning": draft["reasoning"],
-                }
+            _collate_pair(
+                research,
+                checks,
+                checks_path,
+                label,
+                sources,
+                claims,
+                gaps,
+                not_assessed,
+                checkers,
+                limits,
+                questions,
+                documented_ids,
+                dim,
             )
-        del drafts
 
     claims.sort(key=lambda c: c["id"])
     by_candidate_field: dict[tuple[str, str], list[str]] = {}
@@ -166,6 +124,98 @@ def collate(inventory: dict) -> dict:
         "limits": " ".join(dict.fromkeys(limits)) if limits else "No dimension collated yet.",
     }
     return out
+
+
+def _collate_pair(
+    research: dict,
+    checks: dict,
+    checks_path: Path,
+    label: str,
+    sources: dict,
+    claims: list,
+    gaps: list,
+    not_assessed: list,
+    checkers: list,
+    limits: list,
+    questions: dict,
+    documented_ids: set,
+    dim: str,
+) -> None:
+    """Bind one research file's drafts through its check file into the shared lists."""
+    draft_sources = {s["id"]: s for s in research["sources"]}
+    verdicts = {c["claim_id"]: c for c in checks["checks"]}
+    checkers.append(f"{label}: research {research['researcher']['model']}")
+    checkers.append(f"{label}: checks {checks['checker']['model']}")
+    limits.extend(research.get("limitations", []))
+    limits.extend(checks.get("limitations", []))
+    for item in research.get("not_assessed", []):
+        not_assessed.append(
+            {
+                "name": item.get("name") or item.get("option"),
+                "why": item.get("why") or item.get("reason"),
+                "seen_on": item.get("seen_on"),
+                "dimension": dim,
+            }
+        )
+    notes = research.get("candidate_notes", {})
+    if isinstance(notes, list):
+        notes = {n["candidate"]: n for n in notes}
+    for cand_id, note in notes.items():
+        if note.get("questions_open"):
+            questions[cand_id] = list(note["questions_open"])
+
+    for draft in research["claims"]:
+        if draft.get("proposed_status") != "documented":
+            continue
+        check = verdicts.get(draft["id"])
+        if check is None:
+            gaps.append(_gap(draft, "no check record"))
+            continue
+        if check["verdict"] not in BINDING_VERDICTS:
+            gaps.append(_gap(draft, f"{check['verdict']}: {check.get('reason', '')}".strip()))
+            continue
+        source_ids = check.get("source_ids") or draft["source_ids"]
+        missing = [s for s in source_ids if s not in draft_sources]
+        if missing:
+            gaps.append(_gap(draft, f"source ids not in research file: {missing}"))
+            continue
+        for sid in source_ids:
+            sources.setdefault(sid, {k: draft_sources[sid].get(k) for k in SOURCE_KEYS})
+        claims.append(
+            {
+                "id": draft["id"],
+                "candidate": draft["candidate"],
+                "field": draft["field"],
+                "value": check["approved_value"],
+                "unit": check.get("approved_unit"),
+                "note": check.get("approved_note") or draft["note"],
+                "status": "documented",
+                "source_ids": source_ids,
+                "check": {"file": f"assessment-checks/{checks_path.name}", "id": check["id"]},
+            }
+        )
+        documented_ids.add(draft["id"])
+
+    for draft in research["claims"]:
+        if draft.get("proposed_status") != "estimated":
+            continue
+        basis = [b for b in draft.get("basis", []) if b in documented_ids]
+        if not basis or not draft.get("reasoning"):
+            gaps.append(_gap(draft, "estimate without a documented basis"))
+            continue
+        claims.append(
+            {
+                "id": draft["id"],
+                "candidate": draft["candidate"],
+                "field": draft["field"],
+                "value": draft["value"],
+                "unit": draft.get("unit"),
+                "note": draft["note"],
+                "status": "estimated",
+                "basis": basis,
+                "reasoning": draft["reasoning"],
+            }
+        )
 
 
 def _gap(draft: dict, reason: str) -> dict:

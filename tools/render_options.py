@@ -35,6 +35,8 @@ TILE_EXTRACTION = RESULTS / "tile-extraction.json"
 CROSS_TILE_EXTRACTION = RESULTS / "cross-tile-extraction.json"
 LAZY_WORKLOADS = RESULTS / "lazy-reader-workloads.json"
 WORKLOAD_AUDIT = RESULTS / "lazy-reader-workloads-audit.json"
+AQR_COVERAGE = RESULTS / "aqr-coverage.json"
+AQR_HEADERS = RESULTS / "aqr-headers.json"
 COST_ESTIMATES = DOCS / "cost-analysis" / "estimates.json"
 COST_INPUTS = DOCS / "cost-analysis" / "inputs.json"
 COST_MODEL = ROOT / "tools" / "estimate_aws_costs.py"
@@ -117,12 +119,15 @@ OUTPUT = DOCS / "s2-options.html"
 
 # Inventory issues shown as bullets under each risk category, in page order.
 RISK_GROUPS = {
+    "RISK_CORRECTION": ["I-31", "I-35"],
     "RISK_LAND": ["I-03", "I-15", "I-10", "I-09", "I-28", "I-02"],
-    "RISK_FLAGS": ["I-01", "I-12", "I-14", "I-13", "I-11", "I-26"],
+    "RISK_FLAGS": ["I-32", "I-01", "I-12", "I-14", "I-13", "I-11", "I-26"],
     "RISK_TILES": ["I-30", "I-04"],
-    "RISK_VERSIONS": ["I-05", "I-06", "I-29", "I-16", "I-17", "I-19"],
-    "RISK_GRID": ["I-07"],
+    "RISK_VERSIONS": ["I-34", "I-05", "I-06", "I-29", "I-16", "I-17", "I-19"],
+    "RISK_GRID": ["I-36", "I-07"],
     "RISK_MISSING": ["I-08", "I-24", "I-25", "I-27"],
+    # Issues about the primary archive itself, shown in the archives section.
+    "ARCHIVE_ITEMS": ["I-33", "I-40", "I-37", "I-38", "I-39"],
 }
 # Issues about cost and daily operation, shown in the workload section.
 COST_ITEMS = ["I-20", "I-21", "I-22", "I-23"]
@@ -194,6 +199,78 @@ def coverage_strip(rows: list[dict]) -> str:
             )
     parts.append("</svg>")
     return "".join(parts)
+
+
+def aqr_coverage_strip(rows: list[dict]) -> str:
+    """Monthly share of Earth Search acquisitions held by the USGS product and by Collection 1."""
+    rows = [r for r in rows if r["reference"]]
+    cell, left, top, height, gap = 10, 170, 16, 22, 6
+    width = left + len(rows) * cell + 8
+    total = top + 2 * (height + gap) + 20
+    series = [("USGS aquatic reflectance", "aqr"), ("Collection 1 copy", "collection1")]
+    parts = [
+        f'<svg viewBox="0 0 {width} {total}" role="img" aria-labelledby="aqr-coverage-title">',
+        '<title id="aqr-coverage-title">Monthly share of Earth Search acquisitions held by the '
+        "USGS aquatic reflectance product and by the Collection 1 copy, across the surveyed "
+        "lower-48 tiles.</title>",
+    ]
+    for j, (label, key) in enumerate(series):
+        y = top + j * (height + gap)
+        parts.append(
+            f'<text x="{left - 8}" y="{y + 15}" text-anchor="end" font-size="12">{label}</text>'
+        )
+        for i, row in enumerate(rows):
+            fraction = min(row[key] / row["reference"], 1.0)
+            tip = f"{row['month']}: {fraction:.0%} of {row['reference']} acquisitions"
+            parts.append(
+                f'<rect x="{left + i * cell}" y="{y}" width="{cell - 1}" height="{height}" '
+                f'fill="{shade(fraction)}"><title>{tip}</title></rect>'
+            )
+    for i, row in enumerate(rows):
+        if row["month"].endswith("-01"):
+            year = row["month"][:4]
+            parts.append(
+                f'<text x="{left + i * cell}" y="{total - 5}" font-size="11">{year}</text>'
+            )
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def aqr_markers(coverage: dict, headers: dict) -> dict[str, str]:
+    """Numbers the archive section states about the primary product, from probes T1 to T3."""
+    summary = coverage["summary"]
+    rows = summary["coverage_by_month"]
+    shares = []
+    for year in sorted({r["month"][:4] for r in rows}):
+        reference = sum(r["reference"] for r in rows if r["month"].startswith(year))
+        held = sum(r["aqr"] for r in rows if r["month"].startswith(year))
+        # Full years with a reference, from the first year Earth Search covers in full.
+        if reference and year >= "2018" and year < coverage["window"]["end"][:4]:
+            shares.append(held / reference)
+    joins = summary["join_totals"]
+    scenes = sum(joins.values())
+    joined = scenes - joins.get("none none", 0)
+    exact = sum(v for k, v in joins.items() if k.startswith("exact"))
+    if scenes != summary["scenes"]:
+        raise ValueError("Join totals do not cover every scene")
+    latency = summary["latency_recent"]
+    return {
+        "AQR_COVERAGE_STRIP": aqr_coverage_strip(rows),
+        "AQR_DATE": html.escape(coverage["measured_at"][:10]),
+        "AQR_TILES": str(summary["tiles"]),
+        "AQR_SCENES": f"{summary['scenes']:,}",
+        "AQR_SHARE_LOW": f"{100 * min(shares):.0f}",
+        "AQR_SHARE_HIGH": f"{100 * max(shares):.0f}",
+        "AQR_FIRST_YEAR": "2018",
+        "AQR_JOIN_PERCENT": f"{100 * joined / scenes:.0f}",
+        "AQR_SAME_BASELINE_PERCENT": f"{100 * exact / scenes:.0f}",
+        "AQR_LATENCY_HOURS": f"{24 * latency['median_days']:.0f}",
+        "AQR_LATENCY_SCENES": f"{latency['scenes']:,}",
+        "AQR_TILE_PREFIXES": f"{headers['summary']['tile_prefixes']:,}",
+        "AQR_DIGEST": ", ".join(
+            hashlib.sha256(path.read_bytes()).hexdigest() for path in (AQR_HEADERS, AQR_COVERAGE)
+        ),
+    }
 
 
 def read_seconds(run: dict) -> float:
@@ -1081,6 +1158,7 @@ def build_html(inventory: Path = INVENTORY) -> str:
         **sensor_band_markers(sensor_bands),
         "COST_DIGEST": hashlib.sha256(COST_ESTIMATES.read_bytes()).hexdigest(),
         **cost_markers(cost_estimates(), json.loads(COST_INPUTS.read_text())),
+        **aqr_markers(json.loads(AQR_COVERAGE.read_text()), json.loads(AQR_HEADERS.read_text())),
         "WORKLOAD_COMPARISON": workload_comparison(workloads, workload_audit()),
         "WORKLOAD_RERUN_NOTE": workload_rerun_note(workloads),
     }

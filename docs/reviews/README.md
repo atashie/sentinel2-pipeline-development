@@ -8,6 +8,9 @@ The latest handoff records subsequent corrections and resolved wording.
 
 | Date | Review | Reviewer |
 |---|---|---|
+| 2026-10-13 | [Phase B, Discovery II: three check-record pairs, probes T1 to T3, one map crop, and the Discovery rewrite for the primary product](2026-10-13-phase-b-discovery-ii.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-10-13 | [Phase A re-scope: decision 0008 activated, four assumptions revised and six added, data contract v2, and the planning documents restated](2026-10-13-phase-a-rescope.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-10-13 | [ACOLITE-first replan: owner direction, document changes, nine owner-invoked tests, and six phases, with proposed decision 0008](2026-10-13-acolite-first-replan.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-09-23 | [Claude Code final accuracy review of the assessment page: no wrong numbers, eight findings in today's rewrites, seven in committed text, and proposed wording](2026-09-23-claude-final-page-accuracy-review.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-09-23 | [Prototyping tab reordered answer-first: nine-recipe grid, main comparison before costs, collapsed method notes and earlier experiments](2026-09-23-prototyping-flow.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-09-23 | [Whole-page accuracy fixes: reprocessing dates, overstated issue lines, reversed version note, restored NHD note, and independent source checks](2026-09-23-page-accuracy-fixes.md) | Claude Code (AI coding agent), directed by the repository owner |

@@ -1,0 +1,835 @@
+{
+  "dimension": "processing_workflow",
+  "checker": {
+    "agent": "self-run ACOLITE checking subagent",
+    "model": "sonnet (Claude Code subagent, requested model override)",
+    "started_at": "2026-10-13T14:35:00-04:00",
+    "finished_at": "2026-10-13T14:46:49-04:00"
+  },
+  "checks": [
+    {
+      "id": "chk-cl-wf-acolite-self-run-quality_layers",
+      "claim_id": "cl-wf-acolite-self-run-quality_layers",
+      "verdict": "confirmed",
+      "approved_value": "L2W l2_flags bitmask of ACOLITE's own masking steps",
+      "approved_unit": null,
+      "approved_note": "Bits: SWIR threshold 0, cirrus 1, TOA threshold 2, negative 3, out-of-scene 4, VIIRS mixed 5, DEM shadow 6. The listed flags name no Sentinel-2 scene classification.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "flag_exponent_swir=0 Bit index that will be used to store the SWIR threshold masking step (2**0). flag_exponent_cirrus=1 Bit index that will be used to store the cirrus masking step (2**1). flag_exponent_toa=2 Bit index that will be used to store the top-of-atmosphere threshold masking step (2**2). flag_exponent_negative=3 Bit index that will be used to store the negative retrievals masking step (2**3). flag_exponent_outofscene=4 Bit index that will be used to store the out-of-scene masking step (2**4). flag_exponent_mixed=5 Bit index that will be used to store the VIIRS mixed pixel masking step (2**5). flag_exponent_dem_shadow=6 Bit index that will be used to store the DEM shadow masking step (2**6).",
+      "reason": "Fetched the 20260421.0 manual PDF and matched the quote on PDF page 23 in section 4.1.2. The manual changelog says l2_flags is written to the L2W file, and config/defaults.txt lines 274 to 280 hold the same seven exponents.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-quality_layers-2",
+      "claim_id": "cl-wf-acolite-self-run-quality_layers-2",
+      "verdict": "confirmed",
+      "approved_value": "Non-water test: TOA reflectance above 0.0215 in the band nearest 1600 nm",
+      "approved_unit": null,
+      "approved_note": "Defaults l2w_mask_wave=1600 and l2w_mask_threshold=0.0215. It is a single-band threshold, not a classification. A manual example raises it to 0.05.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "l2w_mask_wave=1600 Wavelength (nm) for the non-water masking. The closest band will be selected. l2w_mask_threshold=0.0215 Threshold for the non-water masking. Pixels with ρt in the masking band above this threshold will be masked.",
+      "reason": "Matched the quote on PDF page 22 in section 4.1.2. The 0.05 example is the Zeebrugge 60 m settings file in section 3.4.1, and config/defaults.txt lines 244 and 245 hold the same defaults.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-quality_layers-3",
+      "claim_id": "cl-wf-acolite-self-run-quality_layers-3",
+      "verdict": "confirmed",
+      "approved_value": "Fixed DSF stores its single aerosol optical thickness in NetCDF global attributes",
+      "approved_unit": null,
+      "approved_note": "A per-pixel aerosol layer is written only with dsf_write_aot_550=True. This records which aerosol value produced each scene.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "dsf_write_aot_550=False Controls output of a per pixel (interpolated or resampled) aerosol optical thickness dataset. Note that in fixed processing this is also output as a single float in the NetCDF global attributes. Options: True/False",
+      "reason": "Matched the quote on PDF page 30 in section 4.5. The pinned acolite_l2r.py agrees, because fixed runs store ac_aot_550 in the global attributes and the per-pixel aot_550 dataset is written only when dsf_write_aot_550 is set.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-read_pattern",
+      "claim_id": "cl-wf-acolite-self-run-read_pattern",
+      "verdict": "corrected",
+      "approved_value": "Full download: one local .SAFE folder per scene, compressed inputs extracted first",
+      "approved_unit": null,
+      "approved_note": "Input is a local path. ACOLITE extracts compressed inputs by default (extract_inputfile=True). The .SAFE product must sit on local disk.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "Scene or comma separated list of scenes to be processed. Full paths to the scene directory (Landsat bundle or Sentinel-2 .SAFE file) have to be specified. The comma separated list has to be on a single line. Automatic extraction of compressed files is supported, see also delete_extracted_input to remove the extracted files after processing.",
+      "reason": "Matched the quote on PDF page 21 in section 4.1, and extract_inputfile=True is on PDF page 22. The manual says compressed files, not zip or tar, so I removed those names and limited the local-disk statement to .SAFE input.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-read_pattern-2",
+      "claim_id": "cl-wf-acolite-self-run-read_pattern-2",
+      "verdict": "corrected",
+      "approved_value": "Sentinel-2 input must be Level-1C, not Level-2A",
+      "approved_unit": null,
+      "approved_note": "Atmospheric correction starts from top-of-atmosphere data. A Level-2A surface reflectance product is not a valid input.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "Sentinel-2 Provide the full path to the .SAFE file. Make sure you have a L1C TOA bundle, not a L2 SR bundle.",
+      "reason": "Matched the quote on PDF page 8 in section 3.3. The same sentence is in the 20221114.0 manual, which I also read, but that manual is not a cited source here, so I removed that sentence from the note.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-read_pattern-3",
+      "claim_id": "cl-wf-acolite-self-run-read_pattern-3",
+      "verdict": "confirmed",
+      "approved_value": "The Sentinel-2 converter skips any product whose level is not Level-1C",
+      "approved_unit": null,
+      "approved_note": "The level comes from PROCESSING_LEVEL in the product metadata. The Zarr converter has the same test on processing:level 'L1C' at line 73.",
+      "source_ids": [
+        "src-acolite-s2-l1-convert",
+        "src-acolite-s2-zarr-l1-convert"
+      ],
+      "quote": "if meta['PROCESSING_LEVEL'] != 'Level-1C':\n            print('Processing of {} Sentinel-2 {} data not supported'.format(bundle, meta['PROCESSING_LEVEL']))",
+      "reason": "Fetched sentinel2/l1_convert.py and sentinel2/zarr/l1_convert.py at the pinned commit. Lines 96 to 97 match the quote and skip any product not at Level-1C, the Zarr test is at line 73, and metadata_scene.py reads PROCESSING_LEVEL as a tag.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-read_pattern-4",
+      "claim_id": "cl-wf-acolite-self-run-read_pattern-4",
+      "verdict": "confirmed",
+      "approved_value": "A separate Sen2Cor Level-2A converter only reformats the product to NetCDF",
+      "approved_unit": null,
+      "approved_note": "It writes Sen2Cor reflectance as rhos_l2a datasets without ACOLITE correction. At commit ca477dd no caller of this Sentinel-2 function was found.",
+      "source_ids": [
+        "src-acolite-s2-l2-convert"
+      ],
+      "quote": "## converts Sentinel-2 L2A Sen2Cor .SAFE bundle data to s2c_l2a NetCDF",
+      "reason": "Fetched sentinel2/l2_convert.py at the pinned commit and line 2 matches. The function reads Level-2A bands, applies BOA_ADD_OFFSET and the quantification value, and writes rhos_l2a datasets, and a search of the whole repository at that commit found no caller.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-read_pattern-5",
+      "claim_id": "cl-wf-acolite-self-run-read_pattern-5",
+      "verdict": "confirmed",
+      "approved_value": "Optional built-in scene download from CDSE, off by default",
+      "approved_unit": null,
+      "approved_note": "Default scene_download=False. CDSE credentials are required. The setting names CDSE, not AWS, as the Sentinel-2 source.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "Controls whether to attempt to download a Sentinel-2 or Sentinel-3 scene from the CDSE or a Landsat scene from EarthExplorer. Options: True/False",
+      "reason": "Matched the quote on PDF page 25 under section 4.1.3, and config/defaults.txt line 650 sets scene_download=False. Section 3.4.3 says the download works if CDSE credentials are configured.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-read_pattern-6",
+      "claim_id": "cl-wf-acolite-self-run-read_pattern-6",
+      "verdict": "confirmed",
+      "approved_value": "The CDSE helper downloads each whole product as one zip on local disk",
+      "approved_unit": null,
+      "approved_note": "Defaults extract_zip=True and remove_zip=True unzip the archive and delete the zip. A product already on disk is not downloaded again.",
+      "source_ids": [
+        "src-acolite-cdse-download"
+      ],
+      "quote": "## download file\n            if os.path.exists(zfile): os.remove(zfile)\n            dl = session.get(url, verify=True, allow_redirects=True)\n            print('Writing file to {}'.format(zfile))",
+      "reason": "Lines 105 to 108 of api/cdse/download.py at the pinned commit match the quote. Line 11 sets extract_zip and remove_zip to True, line 80 skips the download when the product or zip exists, and lines 121 to 135 unzip and delete the zip.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-read_pattern-7",
+      "claim_id": "cl-wf-acolite-self-run-read_pattern-7",
+      "verdict": "corrected",
+      "approved_value": "Sentinel-2 Zarr inputs may be remote URLs read through GDAL /vsicurl",
+      "approved_unit": null,
+      "approved_note": "Release 20260421.0 notes announce Zarr support. A path that does not exist locally is treated as a URL. This is a Zarr input, not a SAFE or GeoTIFF route. It was not tested here.",
+      "source_ids": [
+        "src-acolite-s2-zarr-l1-convert",
+        "src-acolite-release-20260421"
+      ],
+      "quote": "if not url:\n                gdal_file = 'ZARR:\"{}\"'.format(ifile)\n            else:\n                gdal_file = 'ZARR:\"/vsicurl/{}\"'.format(ifile)",
+      "reason": "Lines 632 to 635 of sentinel2/zarr/l1_convert.py at the pinned commit match, and lines 59 to 62 set url to True when the path does not exist locally. Neither cited page says HTTPS or Copernicus, so I generalized to URLs and removed the Copernicus label.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-read_pattern-8",
+      "claim_id": "cl-wf-acolite-self-run-read_pattern-8",
+      "verdict": "confirmed",
+      "approved_value": "Region limit as south, west, north, east bounds in decimal degrees",
+      "approved_unit": null,
+      "approved_note": "Setting limit. Without limit or polygon the full tile is processed. Default limit=None.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "Comma separated list of the bounding box coordinates of the region of interest in decimal degrees in S,W,N,E order. If empty, and polygon=None the full scene will be processed.",
+      "reason": "Matched the quote on PDF page 21 in section 4.1, and config/defaults.txt line 18 sets limit=None.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-read_pattern-9",
+      "claim_id": "cl-wf-acolite-self-run-read_pattern-9",
+      "verdict": "confirmed",
+      "approved_value": "A polygon file, WKT, or GeoJSON string, whose envelope crops the scene by default",
+      "approved_unit": null,
+      "approved_note": "With polygon_limit=False the full scene is processed and data kept for covered polygons.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "A polygon file (e.g. geojson) specifying the bounding box for the region of interest. Alternatively a string in WKT or GeoJSON format can also be provided. If None, and limit is empty, the full scene will be processed. polygon_limit=True Whether to use the bounding envelope of the polygon file to crop the scene. If False, the full scene will be processed retaining data for the polygons covered by the scene. Options=True/False",
+      "reason": "Matched the quote on PDF page 21 in section 4.1, including polygon_limit=True and the full-scene behavior when it is False.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-read_pattern-10",
+      "claim_id": "cl-wf-acolite-self-run-read_pattern-10",
+      "verdict": "confirmed",
+      "approved_value": "Optional clip to the polygon outline, off by default",
+      "approved_unit": null,
+      "approved_note": "Default polygon_clip=False. In l1_convert.py line 685, clipped pixels become NaN in the top-of-atmosphere bands before atmospheric correction.",
+      "source_ids": [
+        "src-acolite-manual-20260421",
+        "src-acolite-s2-l1-convert"
+      ],
+      "quote": "polygon_clip=False Whether to crop the subsetted scene using the polygon boundaries. Can be used for subsetting to non rectangular regions of interest. Options=True/False",
+      "reason": "Matched the manual quote on PDF page 21. Line 685 of sentinel2/l1_convert.py sets clipped pixels to NaN right after offset and scaling, and config/defaults.txt line 25 sets polygon_clip=False.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-read_pattern-11",
+      "claim_id": "cl-wf-acolite-self-run-read_pattern-11",
+      "verdict": "confirmed",
+      "approved_value": "Each band is read through an in-memory GDAL warp to the region bounds",
+      "approved_unit": null,
+      "approved_note": "No ACOLITE page documents partial reads. Whether GDAL decodes only the needed JPEG 2000 tiles was not checked. The SAFE still has to be local.",
+      "source_ids": [
+        "src-acolite-read-band"
+      ],
+      "quote": "## warp in memory and read dataset to array\n            ## https://gdal.org/python/osgeo.gdal-module.html\n            ds = gdal.Warp('', file,\n                            xRes = xRes, yRes = yRes,\n                            outputBounds = outputBounds, outputBoundsSRS = outputBoundsSRS,",
+      "reason": "Lines 103 to 107 of shared/read_band.py match. The gdal.Warp call has an empty destination name and format VRT, so it is an in-memory warp bounded by outputBounds, and the warp path has no other read logic.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-geolocation_handling",
+      "claim_id": "cl-wf-acolite-self-run-geolocation_handling",
+      "verdict": "confirmed",
+      "approved_value": "Each tile is processed on its own unless merge_tiles is set",
+      "approved_unit": null,
+      "approved_note": "Default merge_tiles=False in config/defaults.txt line 37. Merging needs scenes from one orbit. Without merging there is no mosaic.",
+      "source_ids": [
+        "src-acolite-manual-20260421",
+        "src-acolite-defaults"
+      ],
+      "quote": "Controls whether inputfiles have to be merged before processing. Merging is only supported for scenes from the same orbit. Supported sensors are Landsat, Sentinel-2/MSI, PlanetScope, Sentinel-3/OLCI and MERIS, VIIRS, and PACE/OCI. If no region of interest is specified when merging projected data from Landsat, Sentinel-2 or PlanetScope, merge_full_tiles also has to be set. Options: True/False",
+      "reason": "Matched the quote on PDF page 22 in section 4.1, and config/defaults.txt line 37 sets merge_tiles=False. Lines 242 to 243 of sentinel2/l1_convert.py reset the warp target for each tile when merging is off.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-geolocation_handling-2",
+      "claim_id": "cl-wf-acolite-self-run-geolocation_handling-2",
+      "verdict": "confirmed",
+      "approved_value": "Unmerged outputs carry the MGRS tile code, merged outputs carry 'merged'",
+      "approved_unit": null,
+      "approved_note": "The tile code enters the output name and the tile_code attribute. A merged output names no single tile.",
+      "source_ids": [
+        "src-acolite-s2-l1-convert"
+      ],
+      "quote": "if setu['merge_tiles']:\n            gatts['tile_code'] = 'merged'\n        else:\n            gatts['tile_code'] = '{}'.format(gatts['mgrs_tile'])",
+      "reason": "Lines 176 to 179 of sentinel2/l1_convert.py at the pinned commit match the quote. Line 182 builds the output name from the sensor, the sensing time, and tile_code.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-geolocation_handling-3",
+      "claim_id": "cl-wf-acolite-self-run-geolocation_handling-3",
+      "verdict": "confirmed",
+      "approved_value": "Merging tiles from two UTM zones reprojects them to the first tile's zone",
+      "approved_unit": null,
+      "approved_note": "Shown in a manual example with four tiles in zones 32 and 33.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "A settings file for a larger region of interest, merging four Sentinel-2 tiles from two different UTM zones (two from zone 33, two from zone 32). Note that the zone from the first tile (in this case 33) will be used as reference to reproject the other tiles before merging",
+      "reason": "Matched the quote on PDF page 10 in section 3.4.1. The example lists tiles T33TUL, T33TUK, T32TQR, and T32TQQ.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-geolocation_handling-4",
+      "claim_id": "cl-wf-acolite-self-run-geolocation_handling-4",
+      "verdict": "confirmed",
+      "approved_value": "By default the output covers only the part of the region inside the tile",
+      "approved_unit": null,
+      "approved_note": "Default extend_region=False. A water body across a tile edge would yield a partial output from each tile.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "extend_region=False Controls whether the output file has to cover the entire limit or polygon, or whether it can be limited to the scene extent. Options: True/False",
+      "reason": "Matched the quote on PDF page 21 in section 4.1. The partial-output sentence in the note is an inference from this setting and per-tile processing, and the page does not state it.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-offset_handling",
+      "claim_id": "cl-wf-acolite-self-run-offset_handling",
+      "verdict": "confirmed",
+      "approved_value": "Adds each band's RADIO_ADD_OFFSET, then divides by QUANTIFICATION_VALUE",
+      "approved_unit": null,
+      "approved_note": "quant is read from QUANTIFICATION_VALUE at line 666. No offset is added when the tag is absent, as in products before baseline 4.",
+      "source_ids": [
+        "src-acolite-s2-l1-convert"
+      ],
+      "quote": "if 'RADIO_ADD_OFFSET' in band_data: data += band_data['RADIO_ADD_OFFSET'][Bn]\n                    data /= quant",
+      "reason": "Lines 682 to 683 of sentinel2/l1_convert.py match, and the comment at line 668 reads 'new offset in processing baseline 4'. Line 666 reads QUANTIFICATION_VALUE, and line 669 guards the offset on the tag being present.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-offset_handling-2",
+      "claim_id": "cl-wf-acolite-self-run-offset_handling-2",
+      "verdict": "confirmed",
+      "approved_value": "Offsets are read per band from RADIO_ADD_OFFSET tags in the product metadata",
+      "approved_unit": null,
+      "approved_note": "The tags are parsed from the scene metadata XML of the .SAFE product.",
+      "source_ids": [
+        "src-acolite-s2-metadata-scene"
+      ],
+      "quote": "tdom = xmldoc.getElementsByTagName('RADIO_ADD_OFFSET')\n    for t in tdom:\n        if 'RADIO_ADD_OFFSET' not in banddata: banddata['RADIO_ADD_OFFSET'] = {}",
+      "reason": "Lines 99 to 101 of sentinel2/metadata_scene.py match, and line 104 stores each value by band_id. Line 83 of sentinel2/l1_convert.py passes the .SAFE metadata path to this function.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-offset_handling-3",
+      "claim_id": "cl-wf-acolite-self-run-offset_handling-3",
+      "verdict": "confirmed",
+      "approved_value": "Zarr route applies scale_factor and add_offset only to uint16 arrays",
+      "approved_unit": null,
+      "approved_note": "A source comment questions whether current Zarr scenes arrive already scaled. Not tested.",
+      "source_ids": [
+        "src-acolite-s2-zarr-l1-convert"
+      ],
+      "quote": "if data.dtype == 'uint16':\n                data = data.astype(np.float32) * md['_eopf_attrs']['scale_factor']\n                data += md['_eopf_attrs']['add_offset']",
+      "reason": "Lines 649 to 651 of sentinel2/zarr/l1_convert.py match. The comments at lines 647 and 648 carry the developer's doubt about whether current scenes arrive already scaled.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-resampling_policy",
+      "claim_id": "cl-wf-acolite-self-run-resampling_policy",
+      "verdict": "confirmed",
+      "approved_value": "All bands share one output grid of 10, 20, or 60 m, default 10 m",
+      "approved_unit": null,
+      "approved_note": "Bands do not keep their native resolutions. The Sentinel-2 defaults file sets s2_target_res=10 at line 25.",
+      "source_ids": [
+        "src-acolite-manual-20260421",
+        "src-acolite-s2a-defaults"
+      ],
+      "quote": "s2_target_res=10 Output resolution of Sentinel-2 products in meter. Options: 10, 20, 60",
+      "reason": "Matched the quote on PDF page 38 in section 4.8.2, and config/defaults/S2A_MSI.txt line 25 sets s2_target_res=10. Every reflectance band is read with the same warp_to target at line 678 of sentinel2/l1_convert.py.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-resampling_policy-2",
+      "claim_id": "cl-wf-acolite-self-run-resampling_policy-2",
+      "verdict": "confirmed",
+      "approved_value": "Bands are resampled to that grid with GDAL 'average'",
+      "approved_unit": null,
+      "approved_note": "The warp settings apply to every band read for the run.",
+      "source_ids": [
+        "src-acolite-s2-l1-convert"
+      ],
+      "quote": "## warp settings for read_band\n        res_method = 'average'\n        warp_to = (dct_prj['proj4_string'], xyr, dct_prj['pixel_size'][0],dct_prj['pixel_size'][1], res_method)",
+      "reason": "Lines 281 to 283 of sentinel2/l1_convert.py match. Lines 92 to 93 and 110 of shared/read_band.py pass the fifth element of warp_to to gdal.Warp as resampleAlg, and line 678 of l1_convert.py applies it to each band.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access",
+      "verdict": "corrected",
+      "approved_value": "Surface level reflectance (ρs) as geolocated datasets in a NetCDF file",
+      "approved_unit": null,
+      "approved_note": "The README calls surface level reflectance and derived products Level 2 outputs. They can also be exported as PNG maps.",
+      "source_ids": [
+        "src-acolite-readme"
+      ],
+      "quote": "Level 2 outputs are surface level reflectance (ρs=Rrs⋅π) and derived products that are saved as geolocated datasets in a NetCDF file, and can be exported as PNG maps.",
+      "reason": "Matched the README quote in the third paragraph of About ACOLITE. The L1R, L2R, and L2W file roles in the note come from the manual, not the README, so I removed them and used the README wording.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-2",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access-2",
+      "verdict": "confirmed",
+      "approved_value": "L2W rhow is rhos with a SWIR non-water mask, and Rrs is rhow divided by pi",
+      "approved_unit": null,
+      "approved_note": "Requested through l2w_parameters, for example rhow_* or Rrs_*.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "rhow_*: ρw , the surface level reflectance for water pixels, with a SWIR based mask applied to non-water pixels. A wavelength can be specified, or the asterisk will be expanded to include all available wavelengths. Sensors: all sensors",
+      "reason": "Matched the quote on PDF page 46 in section 5, and the Rrs entry on the same page defines Rrs as rhow divided by pi. The l2w_parameters setting is on PDF page 22.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-3",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access-3",
+      "verdict": "confirmed",
+      "approved_value": "Optional GeoTIFF export of NetCDF datasets",
+      "approved_unit": null,
+      "approved_note": "Settings l1r_export_geotiff, l2r_export_geotiff, and l2w_export_geotiff default to False.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "Optionally the datasets from the NetCDF files can be output to GeoTIFF files if the original input data were in a projection supported by GeoTIFF, or if the data are reprojected within ACOLITE.",
+      "reason": "Matched the quote on PDF page 3 in section 2.5. PDF page 27 lists l1r_export_geotiff, l2r_export_geotiff, and l2w_export_geotiff as False.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-4",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access-4",
+      "verdict": "confirmed",
+      "approved_value": "GeoTIFF export writes one file per dataset",
+      "approved_unit": null,
+      "approved_note": "File names append the dataset name to the NetCDF base name.",
+      "source_ids": [
+        "src-acolite-nc-to-geotiff"
+      ],
+      "quote": "outfile = '{}_{}{}'.format(out, ds, '.tif')",
+      "reason": "Line 69 of output/nc_to_geotiff.py matches, and the loop at lines 64 to 87 runs gdal.Warp once per dataset to that file name. The other branch at line 141 uses the same name pattern.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-5",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access-5",
+      "verdict": "confirmed",
+      "approved_value": "Four DSF aerosol modes: fixed, tiled, segmented, and experimental resolved",
+      "approved_unit": null,
+      "approved_note": "Fixed gives one aerosol for the scene or subscene. Tiled uses about 6 by 6 km tiles. Segmented gives one value per lake polygon.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "Four settings for the DSF are implemented: 1. A \"fixed\" τa option, which computes a single τa for the scene or subscene if limits for a ROI are provided. 2. A \"tiled\" τa option, which divides the full scene in approximately 6x6 km tiles, retrieves τa per tile, and interpolates retrieved atmospheric parameters to the full scene. 3. A \"segmented\" τa option, which computes a single fixed τa per lake polygon in the scene/subscene, see polylakes keyword. 4. An experimental \"resolved\" τa setting, which treats each pixel individually. This option is currently only included for development purposes. Note that processing time is much longer for this option.",
+      "reason": "Matched the quote on PDF page 2 in section 2.2.1, including the 6 by 6 km tile size and the polylakes reference.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-6",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access-6",
+      "verdict": "corrected",
+      "approved_value": "Sentinel-2 default: tiled DSF with 600 by 600 pixel tiles",
+      "approved_unit": null,
+      "approved_note": "At 10 m this is 6 by 6 km. Manual section 4.5 lists fixed as default but says sensor defaults may differ.",
+      "source_ids": [
+        "src-acolite-s2a-defaults",
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "## dark spectrum fitting options\ndsf_aot_estimate=tiled\ndsf_spectrum_option=intercept\ndsf_wave_range=400,900\ns2_target_res=10",
+      "reason": "Lines 21 to 25 and 31 of config/defaults/S2A_MSI.txt at the pinned commit match. Section 4 on PDF page 21 says sensor defaults may differ, and section 4.5 lists fixed, but no cited source backs the S2B and S2C sentence, so I removed it.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-7",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access-7",
+      "verdict": "confirmed",
+      "approved_value": "Release 20221114.0 had the same tiled Sentinel-2 default",
+      "approved_unit": null,
+      "approved_note": "dsf_tile_dimensions=600,600 at line 23 of the same file. Relevant if a product used that version.",
+      "source_ids": [
+        "src-acolite-s2a-defaults-20221114"
+      ],
+      "quote": "## dark spectrum fitting options\ndsf_aot_estimate=tiled",
+      "reason": "Lines 13 to 14 of config/defaults/S2A_MSI.txt at tag 20221114.0 match, and line 23 sets dsf_tile_dimensions=600,600.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-8",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access-8",
+      "verdict": "confirmed",
+      "approved_value": "A region of one 600-pixel tile or less in either dimension falls back to fixed DSF",
+      "approved_unit": null,
+      "approved_note": "Tile size is in pixels, so the threshold is 6 km at 10 m and 12 km at 20 m. Clips under that size run fixed.",
+      "source_ids": [
+        "src-acolite-l2r"
+      ],
+      "quote": "if (ni <= 1) | (nj <= 1):\n            if setu['verbosity'] > 1: print('Scene too small for tiling ({}x{} tiles of {}x{} pixels), using fixed processing'.format(ni,nj,setu['dsf_tile_dimensions'][0], setu['dsf_tile_dimensions'][1]))\n            setu['dsf_aot_estimate'] = 'fixed'",
+      "reason": "Lines 437 to 439 of acolite/acolite_l2r.py match. The tile counts ni and nj are the ceiling of each dimension over dsf_tile_dimensions, so a dimension of 600 pixels or fewer gives 1 and triggers the fixed fallback.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-9",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access-9",
+      "verdict": "confirmed",
+      "approved_value": "The aerosol estimate comes from the darkest pixels of the processed region or tile",
+      "approved_unit": null,
+      "approved_note": "So the aerosol, and every rhos value, depends on the window processed. A clip and a whole-tile run can differ.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "The DSF uses the bands and pixels giving the lowest estimate of aerosol optical thickness over the processed region or tile.",
+      "reason": "Matched the quote on PDF page 2 in section 2.2.2. The conclusion that a clip and a whole-tile run can differ is an inference from the quote and is not measured.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-10",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access-10",
+      "verdict": "confirmed",
+      "approved_value": "Developer: tiles of mostly land or cloud can overestimate aerosol",
+      "approved_unit": null,
+      "approved_note": "Reply in a 2024-07-16 forum thread about tile size over a narrow lagoon. The reply calls 6 by 6 km tiles probably fine.",
+      "source_ids": [
+        "src-acolite-forum-lagoon-tiles"
+      ],
+      "quote": "You can use smaller tiles, but not that there may be issues near tiles containing mostly land or clouds. In those tiles the aerosol optical depth may be overestimated and the interpolation of the atmospheric correction parameters across such tiles may lead to poor results.",
+      "reason": "Fetched the forum thread. The quoted reply from the developer account is post p2116 dated 2024-07-16T05:11:31+00:00, and the question above it describes a large ROI 3 to 6 km wide. The cited p=2115 link opens the question post, and the reply is on the same page.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-11",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access-11",
+      "verdict": "confirmed",
+      "approved_value": "Sun glint remains in rhos unless the SWIR-based glint correction runs",
+      "approved_unit": null,
+      "approved_note": "The alternative glint method works only with fixed aerosol, per the same paragraph.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "The sun glint signal will however still be present in the resulting surface reflectance. A sun glint correction option is included, which by default uses the SWIR bands to estimate the glint signal, as in Harmel et al. (2018).",
+      "reason": "Matched the quote on PDF page 2 in section 2.2.2. The sentences after it on the same page say the alternative glint method needs fixed aerosol.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-12",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access-12",
+      "verdict": "confirmed",
+      "approved_value": "Residual glint correction is off by default, with default or alternative methods",
+      "approved_unit": null,
+      "approved_note": "config/defaults.txt line 351 also sets False, and the Sentinel-2 defaults do not override it. An angle-based automatic option, dsf_residual_glint_correction_glint_angle, is off by default.",
+      "source_ids": [
+        "src-acolite-manual-20260421",
+        "src-acolite-defaults"
+      ],
+      "quote": "dsf_residual_glint_correction=False Controls the residual glint correction. Options: True/False dsf_residual_glint_correction_method=default Residual glint correction method to use. Options: default/alternative",
+      "reason": "Matched the quote on PDF page 31 in section 4.5.3. config/defaults.txt lines 351 and 354 set both options to False, and S2A_MSI.txt does not override them.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-raw_pixel_access-13",
+      "claim_id": "cl-wf-acolite-self-run-raw_pixel_access-13",
+      "verdict": "confirmed",
+      "approved_value": "Air-water interface reflectance correction is off by default",
+      "approved_unit": null,
+      "approved_note": "The reason given is sensitivity to local wind speed near nadir.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "dsf_interface_reflectance=False Controls the air-water interface reflectance correction. Disabled by default at the moment since the surface reflectance is quite sensitive to (local) wind speed in nadir viewing conditions. Options: True/False",
+      "reason": "Matched the quote on PDF page 30 in section 4.5, and config/defaults.txt line 344 sets dsf_interface_reflectance=False.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-scaling_water_bodies",
+      "claim_id": "cl-wf-acolite-self-run-scaling_water_bodies",
+      "verdict": "confirmed",
+      "approved_value": "Developer advice for single lakes: one run per lake, limited ROI, fixed DSF",
+      "approved_unit": null,
+      "approved_note": "Forum reply of 2025-12-15 in a RAdCor thread about lakes of 3 to 22 ha. It means a single fixed aerosol estimate per lake window, not a user-set aerosol value.",
+      "source_ids": [
+        "src-acolite-forum-radcor-lakes"
+      ],
+      "quote": "My general recommendation for processing individual lakes with ACOLITE/DSF is to process them separately with a limited ROI covering the lake and a fixed aerosol (dsf_aot_estimate=fixed). For ACOLITE/RAdCor we have made the same recommendation. If the ROI is too large (or in your case, uses the full tile), TSDSF/DSF will find a target that is maybe too dark for the lake you are looking at.",
+      "reason": "Fetched the forum thread and found the developer-account reply dated 2025-12-15T05:56:01+00:00 with the quote in its second paragraph. The gloss that fixed means one estimate per lake window rests on manual section 2.2.1, which says fixed computes a single aerosol value for the scene or subscene, while dsf_fixed_aot is the separate user value.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-scaling_water_bodies-2",
+      "claim_id": "cl-wf-acolite-self-run-scaling_water_bodies-2",
+      "verdict": "confirmed",
+      "approved_value": "Developer: whole-scene tiled DSF approximates per-target runs",
+      "approved_unit": null,
+      "approved_note": "Same reply. It also warns that very bright tiles, such as clouds, distort neighbors through interpolation.",
+      "source_ids": [
+        "src-acolite-forum-radcor-lakes"
+      ],
+      "quote": "In DSF the setting dsf_aot_estimate=tiled cuts up the scene in subscenes and estimates the aerosol for each subscene. These aerosol estimates are then interpolated between the tiles, and the results should approximate those obtained when processing individual targets.",
+      "reason": "Same reply, third paragraph, quote verbatim. The bright-target caveat is the parenthetical sentence that follows.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-scaling_water_bodies-3",
+      "claim_id": "cl-wf-acolite-self-run-scaling_water_bodies-3",
+      "verdict": "confirmed",
+      "approved_value": "Segmented DSF gives one aerosol per lake polygon in a single run",
+      "approved_unit": null,
+      "approved_note": "Manual section 4.5 calls segmented experimental. The polylakes keyword uses global lake databases, worldlakes or hydrolakes.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "3. A \"segmented\" τa option, which computes a single fixed τa per lake polygon in the scene/subscene, see polylakes keyword.",
+      "reason": "Matched the quote on PDF page 2 in section 2.2.1. Section 4.5 lists segmented as experimental, and PDF page 21 lists the polylakes_database options worldlakes and hydrolakes.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-scaling_history-2",
+      "claim_id": "cl-wf-acolite-self-run-scaling_history-2",
+      "verdict": "corrected",
+      "approved_value": "Developer: 10 m Sentinel-2 runs use a lot of memory",
+      "approved_unit": null,
+      "approved_note": "Forum reply of 2024-04-17 on a full-tile run. It suggests 20 or 60 m output on a laptop. The developer gives no figure.",
+      "source_ids": [
+        "src-acolite-forum-memory"
+      ],
+      "quote": "Yes processing MSI data at 10 m resolution currently uses a lot of memory. For processing on a laptop I would suggest adapting the resolution of the MSI output products, e.g. s2_target_res=20 or s2_target_res=60.",
+      "reason": "Fetched the forum thread and found the developer-account reply dated 2024-04-17T08:37:22+00:00 with the quote verbatim. The reply gives no figure, but the opening post reports about 14 GB of memory use and a failed 28.7 GiB allocation, so I narrowed 'no figure is given' to the developer. The remark that each date pays this cost is not on the page, so I removed it.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-scaling_history-3",
+      "claim_id": "cl-wf-acolite-self-run-scaling_history-3",
+      "verdict": "confirmed",
+      "approved_value": "Keeping L2R data in memory for L2W can exhaust RAM on large scenes",
+      "approved_unit": null,
+      "approved_note": "The manual lists True, but config/defaults.txt line 257 sets l2w_data_in_memory=False.",
+      "source_ids": [
+        "src-acolite-manual-20260421",
+        "src-acolite-defaults"
+      ],
+      "quote": "l2w_data_in_memory=True Whether to load L2R data fully in memory when computing L2W data. When L2R data is kept into memory, L2W processing may be slightly faster at the cost of memory use. L2W processing for large scenes may run out of RAM with this option enabled. Options: True/False",
+      "reason": "Matched the quote on PDF page 23 in section 4.1.2, and config/defaults.txt line 257 sets l2w_data_in_memory=False.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-orchestrator_dependency",
+      "claim_id": "cl-wf-acolite-self-run-orchestrator_dependency",
+      "verdict": "corrected",
+      "approved_value": "Docker images exist for parallel runs, and the manual names no scheduler",
+      "approved_unit": null,
+      "approved_note": "Images acolite/acolite:all_latest and acolite/acolite:tact_latest are on DockerHub. The manual names no orchestrator or scheduler.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "ACOLITE can be installed in a Docker container for deploying and running the processing in parallel.",
+      "reason": "Matched the quote on PDF page 19 in section 3.8, and section 3.8.1 gives both image tags on DockerHub. A text search of the whole manual finds no scheduler or orchestrator, so I turned 'no scheduler required' into a statement about what the manual names.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-orchestrator_dependency-2",
+      "claim_id": "cl-wf-acolite-self-run-orchestrator_dependency-2",
+      "verdict": "confirmed",
+      "approved_value": "Runs as a CLI with a settings file, or from Python with a settings dict",
+      "approved_unit": null,
+      "approved_note": "The CLI call is python launch_acolite.py --cli --settings=settings_file. The Python call is ac.acolite.acolite_run(settings=settings).",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "The processing can then be integrated in other scripts, e.g. by using a Python dict to provide settings:",
+      "reason": "Matched the quote on PDF page 16 in section 3.5, which shows ac.acolite.acolite_run(settings=settings). Section 3.2 on PDF page 7 gives python launch_acolite.py --cli --settings=settings_file.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-idempotency",
+      "claim_id": "cl-wf-acolite-self-run-idempotency",
+      "verdict": "confirmed",
+      "approved_value": "Output names: sensor, sensing time, tile code, and optional region name",
+      "approved_unit": null,
+      "approved_note": "No processing baseline enters the name. Two products of one acquisition would map to one name. That is an inference, not tested.",
+      "source_ids": [
+        "src-acolite-s2-l1-convert"
+      ],
+      "quote": "oname = '{}_{}_{}'.format(gatts['sensor'], stime.strftime('%Y_%m_%d_%H_%M_%S'), gatts['tile_code'])\n        if setu['region_name'] != '': oname+='_{}'.format(setu['region_name'])",
+      "reason": "Lines 182 to 183 of sentinel2/l1_convert.py match. The isodate comes from the granule SENSING_TIME at line 127, and line 186 adds only the output directory and file type. The same-name inference is flagged in the note as untested.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-idempotency-2",
+      "claim_id": "cl-wf-acolite-self-run-idempotency-2",
+      "verdict": "corrected",
+      "approved_value": "A new output deletes any existing file of the same name",
+      "approved_unit": null,
+      "approved_note": "A rerun that writes the same output name replaces the earlier file.",
+      "source_ids": [
+        "src-acolite-gem"
+      ],
+      "quote": "## if creating new dataset, delete existing file\n                if (self.new) & (os.path.exists(self.file)): os.remove(self.file)",
+      "reason": "Lines 49 to 50 of gem.py at the pinned commit match, and line 301 of sentinel2/l1_convert.py opens the L1R output with new=True. The claim that only the CDSE helper skips work is not on that page, and the EarthExplorer download helper at the same commit also skips existing scenes, so I removed it.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-idempotency-3",
+      "claim_id": "cl-wf-acolite-self-run-idempotency-3",
+      "verdict": "confirmed",
+      "approved_value": "Each run writes its full settings to a text file keyed by run ID",
+      "approved_unit": null,
+      "approved_note": "The run ID defaults to the start time. A user-settings file is written as well.",
+      "source_ids": [
+        "src-acolite-run"
+      ],
+      "quote": "## save all used settings\n        settings_file = '{}/acolite_run_{}_l1r_settings.txt'.format(ac.settings['run']['output'], ac.settings['run']['runid'])",
+      "reason": "Lines 177 to 178 of acolite/acolite_run.py match. Line 28 sets runid from the start time when none is given, and line 149 writes a separate user settings file.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-idempotency-4",
+      "claim_id": "cl-wf-acolite-self-run-idempotency-4",
+      "verdict": "confirmed",
+      "approved_value": "L2R files record the ACOLITE version in their global attributes",
+      "approved_unit": null,
+      "approved_note": "This supports tracing outputs to a release.",
+      "source_ids": [
+        "src-acolite-l2r"
+      ],
+      "quote": "gemo.gatts['acolite_version'] = ac.version",
+      "reason": "Line 556 of acolite/acolite_l2r.py matches, in the block that sets acolite_file_type to L2R at line 551.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-idempotency-5",
+      "claim_id": "cl-wf-acolite-self-run-idempotency-5",
+      "verdict": "confirmed",
+      "approved_value": "Ozone falls back to a fixed 0.3 when ancillary data is off or unavailable",
+      "approved_unit": null,
+      "approved_note": "Water vapor falls back to uwv_default=1.5. Ancillary retrieval is on by default, so service availability can change a rerun's inputs.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "uoz_default=0.3 Fixed/fallback value for ozone concentration in cm−1 . This value will be used if the ancillary data is disabled or unavailable and gas_transmittance=True.",
+      "reason": "Matched the quote on PDF page 24 in section 4.1.3. The same page gives uwv_default=1.5, PDF page 23 lists ancillary_data=True, and the quote adds the condition gas_transmittance=True, which is the default in config/defaults.txt.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-engineering_effort-2",
+      "claim_id": "cl-wf-acolite-self-run-engineering_effort-2",
+      "verdict": "confirmed",
+      "approved_value": "License: GNU General Public License version 3",
+      "approved_unit": null,
+      "approved_note": "Copyleft terms apply to redistributed modified code. This is not a legal review.",
+      "source_ids": [
+        "src-acolite-licence"
+      ],
+      "quote": "GNU GENERAL PUBLIC LICENSE\n                       Version 3, 29 June 2007",
+      "reason": "Lines 1 to 2 of LICENCE.txt at the pinned commit match. Section 5(c) of the file requires licensing the whole modified work under the same license.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-engineering_effort-3",
+      "claim_id": "cl-wf-acolite-self-run-engineering_effort-3",
+      "verdict": "confirmed",
+      "approved_value": "Written in Python 3 with a conda-forge environment",
+      "approved_unit": null,
+      "approved_note": "The README conda command lists numpy, scipy, gdal, netcdf4, pyproj, scikit-image, zarr, and others.",
+      "source_ids": [
+        "src-acolite-readme"
+      ],
+      "quote": "ACOLITE is coded in Python 3, and requires a suitable environment with a number of Python packages to run.",
+      "reason": "Matched the quote in the README Dependencies section. The same section names micromamba or conda with conda-forge packages and lists numpy, scipy, gdal, netcdf4, pyproj, scikit-image, and zarr.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-engineering_effort-4",
+      "claim_id": "cl-wf-acolite-self-run-engineering_effort-4",
+      "verdict": "confirmed",
+      "approved_value": "Needs GDAL with JPEG 2000 support to read Sentinel-2",
+      "approved_unit": null,
+      "approved_note": "With GDAL 3.9 or later the packages libgdal-jp2openjpeg and libgdal-netcdf provide it.",
+      "source_ids": [
+        "src-acolite-readme"
+      ],
+      "quote": "Note that the above command assumes the use of GDAL >= 3.9, with JP2000 support to process Sentinel-2 imagery, and NetCDF support to output GeoTIFF files, which are installed by libgdal-jp2openjpeg and libgdal-netcdf.",
+      "reason": "Matched the quote in the README Dependencies section, in the paragraph after the manual conda command.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-engineering_effort-5",
+      "claim_id": "cl-wf-acolite-self-run-engineering_effort-5",
+      "verdict": "corrected",
+      "approved_value": "Installed by git clone plus a Python environment, or binary releases",
+      "approved_unit": null,
+      "approved_note": "A binary package is on the releases page. No PyPI or conda package of ACOLITE itself is named.",
+      "source_ids": [
+        "src-acolite-readme"
+      ],
+      "quote": "ACOLITE can be installed with a clone of this repository, and can be executed in an environment with the correct dependencies installed.",
+      "reason": "Matched the README quote in the Installation section, and the Distribution section names a binary package on the releases page. The README does not name Windows, Mac, or Linux, so I removed the platforms, and a text search finds no pip, PyPI, or conda install of ACOLITE itself.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-engineering_effort-6",
+      "claim_id": "cl-wf-acolite-self-run-engineering_effort-6",
+      "verdict": "confirmed",
+      "approved_value": "Lookup tables download from GitHub on first use",
+      "approved_unit": null,
+      "approved_note": "The manual also offers --retrieve_luts to fetch them before processing, for example in a container build.",
+      "source_ids": [
+        "src-acolite-readme",
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "Required LUTs will be retrieved automatically from a separate repository (https://github.com/acolite/acolite_luts) the first time they are needed.",
+      "reason": "Matched the README quote in the fourth paragraph of About ACOLITE. Section 3.2 of the manual on PDF page 7 offers --retrieve_luts for setting up a Docker container.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-engineering_effort-7",
+      "claim_id": "cl-wf-acolite-self-run-engineering_effort-7",
+      "verdict": "confirmed",
+      "approved_value": "Default ancillary retrieval needs a NASA EarthData account",
+      "approved_unit": null,
+      "approved_note": "Default ancillary_data=True. It retrieves ozone, water vapor, and pressure. The manual reports small differences without ancillary at moderate latitudes.",
+      "source_ids": [
+        "src-acolite-manual-20260421"
+      ],
+      "quote": "ancillary_data=True Controls whether ancillary data are to be used for retrieving ozone, water vapour and atmospheric pressure. Note that for retrieving ancillary data an EarthData account is required. Options: True/False",
+      "reason": "Matched the quote on PDF page 23 in section 4.1.3. Section 2.6 on PDF page 3 says the differences without ancillary data were very small at moderate latitudes.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-engineering_effort-8",
+      "claim_id": "cl-wf-acolite-self-run-engineering_effort-8",
+      "verdict": "confirmed",
+      "approved_value": "Provided as an experimental tool without warranty",
+      "approved_unit": null,
+      "approved_note": "Relevant to any production use.",
+      "source_ids": [
+        "src-acolite-readme"
+      ],
+      "quote": "ACOLITE is provided by RBINS as an experimental tool, without explicit or implied warranty. Use of the program is at your own discretion and risk.",
+      "reason": "Matched the README quote, the bold closing paragraph of About ACOLITE.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-engineering_effort-9",
+      "claim_id": "cl-wf-acolite-self-run-engineering_effort-9",
+      "verdict": "confirmed",
+      "approved_value": "Latest release 20260421.0, published 2026-04-21",
+      "approved_unit": null,
+      "approved_note": "It added Sentinel-2 Zarr processing and geometry-based automatic glint correction.",
+      "source_ids": [
+        "src-acolite-release-20260421"
+      ],
+      "quote": "Version of the code that went into the 20260421 binary release. Manual and binary releases for Windows, Mac (x86), and Linux are provided.",
+      "reason": "Fetched the release page. The body matches the quote, the page shows a Latest label, and the published time is 2026-04-21T12:45:10Z. The body says Sentinel-2 Zarr support was added and glint correction can run automatically from a geometry threshold.",
+      "checked_on": "2026-10-13"
+    },
+    {
+      "id": "chk-cl-wf-acolite-self-run-engineering_effort-10",
+      "claim_id": "cl-wf-acolite-self-run-engineering_effort-10",
+      "verdict": "confirmed",
+      "approved_value": "Release 20221114.0 exists, published 2022-11-14",
+      "approved_unit": null,
+      "approved_note": "Its notes name an OLCI smile fix and Planet, WorldView, and Pléiades Neo changes. None concern Sentinel-2.",
+      "source_ids": [
+        "src-acolite-release-20221114"
+      ],
+      "quote": "Version of the code that went into the 20221114.0 binary release. Manual and binary releases for Windows, Mac, and Linux provided.",
+      "reason": "Fetched the release page. The body matches the quote, and the published time is 2022-11-14T15:19:35Z. The body names an OLCI smile fix, Planet and WorldView updates, and beta Pléiades Neo processing.",
+      "checked_on": "2026-10-13"
+    }
+  ],
+  "skipped_estimated": [
+    "cl-wf-acolite-self-run-scaling_water_bodies-4",
+    "cl-wf-acolite-self-run-scaling_history",
+    "cl-wf-acolite-self-run-engineering_effort"
+  ],
+  "limitations": [
+    "Every cited page returned HTTP 200 on the first attempt. That covers the 21 cited sources: README, LICENCE, defaults files, source files at commit ca477dd91dfb5f8eb77333824b38cb0bcce5e083, two release pages, three forum thread pages, and the 67-page manual PDF.",
+    "I extracted the manual with pdftotext in raw and layout modes. Every PDF page number in a manual locator matched the page where the quote begins, and every code line locator matched the pinned file.",
+    "Besides the cited URLs, I fetched the 20221114.0 manual PDF to read one sentence, the GitHub releases API for publish times and the Latest flag, and a depth-1 fetch of the pinned commit. The fetch was used only for repository-wide text searches. Nothing was executed.",
+    "The repository-wide searches covered callers of sentinel2 l2_convert, scheduler words in the manual, and download helpers that skip existing files. They support the no-caller note in read_pattern-4 and the corrections to orchestrator_dependency and idempotency-2.",
+    "The forum links p=2378 and p=2115 open question posts and p=2069 opens a developer reply, but each page renders the whole thread. I located the cited replies by UTC time: p2377 at 2025-12-15T05:56:01+00:00, p2116 at 2024-07-16T05:11:31+00:00, and p2069 at 2024-04-17T08:37:22+00:00.",
+    "The forum pages carry no role label for the replying account. The developer attribution rests on the account name, the signatures, and the README and code headers that name the same developer.",
+    "The thread behind scaling_history-2 contains user-reported memory figures, about 14 GB at one step and a failed 28.7 GiB allocation. This contradicts the draft limitation that no page gives memory figures. No page gives a figure for a clip against a full tile.",
+    "Manual section 2.2.1 says four DSF settings are implemented, but section 4.5 lists seven dsf_aot_estimate values. The claim raw_pixel_access-5 reflects section 2.2.1 only.",
+    "Code claims were verified by reading the files. No ACOLITE code was run and no Sentinel-2 data or S3 bucket was touched.",
+    "I did not check the estimated claims, the candidate_notes, or the open questions in the research file. The draft attributes replies to the developer and mechanisms to the code, and I checked only the cited claims."
+  ]
+}

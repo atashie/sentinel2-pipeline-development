@@ -1,0 +1,1355 @@
+{
+  "dimension": "water_correction",
+  "researcher": {
+    "agent": "water-correction literature research subagent",
+    "model": "opus (Claude Code subagent, requested model override)",
+    "started_at": "2026-10-13T14:11:24-04:00",
+    "finished_at": "2026-10-13T14:43:46-04:00"
+  },
+  "endpoints_queried": [
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections",
+      "purpose": "List Earth Search collections and check for a Collection 1 Level-1C collection",
+      "accessed_on": "2026-10-13",
+      "returned": "JSON with 9 collections. One Level-1C collection, sentinel-2-l1c. Collection 1 only as sentinel-2-c1-l2a"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c",
+      "purpose": "Read Level-1C asset media types and providers",
+      "accessed_on": "2026-10-13",
+      "returned": "Collection JSON. item_assets declare type image/jp2. Providers ESA, Sinergise, AWS, Element 84"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items?limit=1",
+      "purpose": "See where current Level-1C item assets point",
+      "accessed_on": "2026-10-13",
+      "returned": "Item S2C_18FXD_20261013_0_L1C, baseline 05.13, assets at s3://sentinel-s2-l1c/tiles/18/F/XD/2026/10/13/0/"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items?datetime=2018-06-01T00:00:00Z/2018-06-01T23:59:59Z&limit=5",
+      "purpose": "Sample Level-1C baselines and asset buckets for one date",
+      "accessed_on": "2026-10-13",
+      "returned": "5 items: 05.00 and 02.06 baselines, assets in sentinel-s2-l1c and sentinel-s2-l2a"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items?datetime=2022-06-01T00:00:00Z/2022-06-01T23:59:59Z&limit=5",
+      "purpose": "Sample Level-1C baselines and asset buckets for one date",
+      "accessed_on": "2026-10-13",
+      "returned": "5 items, all baseline 04.00, 3 with assets in sentinel-s2-l2a"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items?datetime=2024-06-01T00:00:00Z/2024-06-01T23:59:59Z&limit=5",
+      "purpose": "Sample Level-1C baselines and asset buckets for one date",
+      "accessed_on": "2026-10-13",
+      "returned": "5 items, all baseline 05.10, assets in sentinel-s2-l1c"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items?datetime=2018-06-01T00:00:00Z/2018-06-01T23:59:59Z&limit=100",
+      "purpose": "Count Level-1C baselines and asset buckets in a 100-item sample",
+      "accessed_on": "2026-10-13",
+      "returned": "100 items: 59 at 02.06 in sentinel-s2-l1c, 19 at 02.06 in sentinel-s2-l2a, 22 at 05.00 in sentinel-s2-l1c"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items?datetime=2022-06-01T00:00:00Z/2022-06-01T23:59:59Z&limit=100",
+      "purpose": "Count Level-1C baselines and asset buckets in a 100-item sample",
+      "accessed_on": "2026-10-13",
+      "returned": "100 items at 04.00: 82 with red asset in sentinel-s2-l2a, 18 in sentinel-s2-l1c"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items?datetime=2024-06-01T00:00:00Z/2024-06-01T23:59:59Z&limit=100",
+      "purpose": "Count Level-1C baselines and asset buckets in a 100-item sample",
+      "accessed_on": "2026-10-13",
+      "returned": "100 items at 05.10, all in sentinel-s2-l1c"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items?datetime=2026-10-01T00:00:00Z/2026-10-01T23:59:59Z&limit=100",
+      "purpose": "Count Level-1C baselines and asset buckets in a 100-item sample",
+      "accessed_on": "2026-10-13",
+      "returned": "100 items at 05.13, all in sentinel-s2-l1c"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items/S2A_56HPK_20220601_0_L1C",
+      "purpose": "Read every asset link of one Level-1C item",
+      "accessed_on": "2026-10-13",
+      "returned": "Baseline 04.00. All 17 assets under s3://sentinel-s2-l2a/tiles/56/H/PK/2022/6/1/0/"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items/S2A_59UPV_20180601_0_L1C",
+      "purpose": "Read every asset link of one original 2018 Level-1C item",
+      "accessed_on": "2026-10-13",
+      "returned": "Baseline 02.06, N0206. All 17 assets under s3://sentinel-s2-l2a/tiles/59/U/PV/2018/6/1/0/"
+    },
+    {
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items/S2A_59UPV_20180601_1_L1C",
+      "purpose": "Read the reprocessed counterpart of the 2018 item",
+      "accessed_on": "2026-10-13",
+      "returned": "Baseline 05.00, product N0500 processed 2023-08-12, assets under s3://sentinel-s2-l1c/tiles/59/U/PV/2018/6/1/1/"
+    },
+    {
+      "url": "https://stac.dataspace.copernicus.eu/v1/collections/sentinel-2-l1c",
+      "purpose": "Read CDSE Level-1C asset types and storage terms",
+      "accessed_on": "2026-10-13",
+      "returned": "Collection JSON. Assets image/jp2. storage cdse-s3 requester_pays false, creodias-s3 requester_pays true"
+    },
+    {
+      "url": "https://planetarycomputer.microsoft.com/api/stac/v1/collections",
+      "purpose": "Check whether Planetary Computer carries Level-1C",
+      "accessed_on": "2026-10-13",
+      "returned": "139 collections. Sentinel-2 only as sentinel-2-l2a. HLS hls2-l30 and hls2-s30. No Level-1C"
+    },
+    {
+      "url": "https://operations.dashboard.copernicus.eu/processors-viewer.html?search=S2",
+      "purpose": "Read processor release records embedded as JSON in the page",
+      "accessed_on": "2026-10-13",
+      "returned": "Sentinel-2 release records by baseline. 05.12 record names Sen2Cor 2.12.04 for L2 IPF 6.5.1. No 05.13 record. 05.10 record names no Sen2Cor version"
+    },
+    {
+      "url": "https://operations.dashboard.copernicus.eu/static/assets/js/processors-releases/processors-viewer.js",
+      "purpose": "Find the data source of the SentiBoard viewer",
+      "accessed_on": "2026-10-13",
+      "returned": "JavaScript that reads records embedded in the page. No separate data endpoint"
+    },
+    {
+      "url": "https://api.openalex.org/works/https://doi.org/10.1016/j.rse.2021.112366",
+      "purpose": "Find metadata and open-access copies of a candidate paper",
+      "accessed_on": "2026-10-13",
+      "returned": "Work record with title, date, and open-access locations"
+    },
+    {
+      "url": "https://api.openalex.org/works/https://doi.org/10.3390/atmos17090869",
+      "purpose": "Find metadata and open-access copies of a candidate paper",
+      "accessed_on": "2026-10-13",
+      "returned": "Work record with title, date, and open-access locations"
+    },
+    {
+      "url": "https://api.openalex.org/works/https://doi.org/10.1002/lol2.70112",
+      "purpose": "Find metadata and open-access copies of a candidate paper",
+      "accessed_on": "2026-10-13",
+      "returned": "Work record with title, date, and open-access locations"
+    },
+    {
+      "url": "https://api.openalex.org/works/https://doi.org/10.3390/rs14081829",
+      "purpose": "Find metadata and open-access copies of a candidate paper",
+      "accessed_on": "2026-10-13",
+      "returned": "Work record with title, date, and open-access locations"
+    },
+    {
+      "url": "https://api.openalex.org/works/https://doi.org/10.3390/rs11121469",
+      "purpose": "Find metadata and open-access copies of a candidate paper",
+      "accessed_on": "2026-10-13",
+      "returned": "Work record with title, date, and open-access locations"
+    },
+    {
+      "url": "https://api.openalex.org/works/https://doi.org/10.3390/rs9040322",
+      "purpose": "Find metadata and open-access copies of a candidate paper",
+      "accessed_on": "2026-10-13",
+      "returned": "Work record with title, date, and open-access locations"
+    },
+    {
+      "url": "https://api.openalex.org/works?filter=fulltext.search:%22sen2cor%202.12%22&per_page=50&select=id,doi,title,publication_year,type",
+      "purpose": "Full-text search for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "0 to 3 works, none about inland water"
+    },
+    {
+      "url": "https://api.openalex.org/works?filter=fulltext.search:%22sen2cor%202.13%22&per_page=50&select=id,doi,title,publication_year,type",
+      "purpose": "Full-text search for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "0 to 3 works, none about inland water"
+    },
+    {
+      "url": "https://api.openalex.org/works?filter=fulltext.search:%22sen2cor%20v2.12%22&per_page=50&select=id,doi,title,publication_year,type",
+      "purpose": "Full-text search for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "0 to 3 works, none about inland water"
+    },
+    {
+      "url": "https://api.openalex.org/works?filter=fulltext.search:%22sen2cor%20version%202.12%22&per_page=50&select=id,doi,title,publication_year,type",
+      "purpose": "Full-text search for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "0 to 3 works, none about inland water"
+    },
+    {
+      "url": "https://api.openalex.org/works?filter=fulltext.search:%22sen2cor%202.11%22&per_page=50&select=id,doi,title,publication_year,type",
+      "purpose": "Full-text search for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "0 to 3 works, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%202.12%22&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "0 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%20v2.12%22&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "0 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%20version%202.12%22&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "0 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%202.13%22&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "0 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%20v2.13%22&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "0 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%202.11%22&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "2 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%20v2.11%22&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "2 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%20version%202.11%22&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for studies naming a recent Sen2Cor version",
+      "accessed_on": "2026-10-13",
+      "returned": "1 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%202.10%22%20AND%20%28lake%20OR%20reservoir%20OR%20%22inland%20water%22%29&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for inland-water studies naming Sen2Cor 2.8 to 2.10",
+      "accessed_on": "2026-10-13",
+      "returned": "0 or 1 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%20v2.10%22%20AND%20%28lake%20OR%20reservoir%20OR%20%22inland%20water%22%29&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for inland-water studies naming Sen2Cor 2.8 to 2.10",
+      "accessed_on": "2026-10-13",
+      "returned": "0 or 1 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%202.9%22%20AND%20%28lake%20OR%20reservoir%20OR%20%22inland%20water%22%29&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for inland-water studies naming Sen2Cor 2.8 to 2.10",
+      "accessed_on": "2026-10-13",
+      "returned": "0 or 1 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%202.8%22%20AND%20%28lake%20OR%20reservoir%20OR%20%22inland%20water%22%29&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for inland-water studies naming Sen2Cor 2.8 to 2.10",
+      "accessed_on": "2026-10-13",
+      "returned": "0 or 1 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22Sen2Cor%20v2.8%22%20AND%20%28lake%20OR%20reservoir%20OR%20%22inland%20water%22%29&format=json&pageSize=50",
+      "purpose": "Search Europe PMC for inland-water studies naming Sen2Cor 2.8 to 2.10",
+      "accessed_on": "2026-10-13",
+      "returned": "0 or 1 hits, none about inland water"
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:10.1002/lol2.70112&format=json&resultType=core",
+      "purpose": "Find an open copy of the 2026 Limnology and Oceanography Letters aquatic reflectance paper",
+      "accessed_on": "2026-10-13",
+      "returned": "0 hits"
+    },
+    {
+      "url": "https://api.crossref.org/works/10.1002/lol2.70112",
+      "purpose": "Read the abstract of the 2026 aquatic reflectance paper",
+      "accessed_on": "2026-10-13",
+      "returned": "Work record with abstract. The abstract does not mention Sen2Cor"
+    },
+    {
+      "url": "https://pubs.usgs.gov/pubs-services/publication/?q=10.1002/lol2.70112",
+      "purpose": "Find a USGS copy of the 2026 aquatic reflectance paper",
+      "accessed_on": "2026-10-13",
+      "returned": "0 records"
+    },
+    {
+      "url": "https://pubs.usgs.gov/pubs-services/publication/?q=Aquatic%20reflectance%20derived%20from%20Sentinel-2%20Multispectral%20Imager",
+      "purpose": "Find a USGS copy of the 2026 aquatic reflectance paper by title",
+      "accessed_on": "2026-10-13",
+      "returned": "1 record, index 70274124, linking only to the publisher DOI"
+    },
+    {
+      "url": "https://api.github.com/repos/awslabs/open-data-registry/git/trees/main?recursive=1",
+      "purpose": "List Sentinel-2 dataset entries in the AWS registry repository",
+      "accessed_on": "2026-10-13",
+      "returned": "Tree with sentinel-2.yaml, sentinel-2-l2a-cogs.yaml, deafrica entries, and others. No separate Level-1C entry"
+    },
+    {
+      "url": "https://api.github.com/repos/awslabs/open-data-registry/commits?path=datasets/sentinel-2.yaml&per_page=1",
+      "purpose": "Date the registry entry",
+      "accessed_on": "2026-10-13",
+      "returned": "Last commit 2026-07-16T21:01:55Z"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/awslabs/open-data-registry/main/datasets/sentinel-2.yaml",
+      "purpose": "Read the registry entry's resource list",
+      "accessed_on": "2026-10-13",
+      "returned": "YAML with sentinel-s2-l1c RequesterPays True in eu-central-1"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/awslabs/open-data-registry/main/datasets/nasa-sentinel-2.yaml",
+      "purpose": "Check whether this entry carries Level-1C",
+      "accessed_on": "2026-10-13",
+      "returned": "Glacier velocity products, not Level-1C"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/awslabs/open-data-registry/main/datasets/deafrica-sentinel-2-c1.yaml",
+      "purpose": "Check whether this entry carries Level-1C",
+      "accessed_on": "2026-10-13",
+      "returned": "Africa Collection 1 Level-2A. States it hosts no lower-level Sentinel-2 data"
+    },
+    {
+      "url": "https://api.github.com/repos/uclouvain/openjpeg/pulls/1538",
+      "purpose": "Read the OpenJPEG TLM decoding pull request",
+      "accessed_on": "2026-10-13",
+      "returned": "Merged 2024-07-08. Empty description"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/OSGeo/gdal/master/NEWS.md",
+      "purpose": "Search GDAL release notes for TLM handling",
+      "accessed_on": "2026-10-13",
+      "returned": "One TLM entry, a TLM=YES creation option for writing"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/uclouvain/openjpeg/master/NEWS.md",
+      "purpose": "Read OpenJPEG release notes",
+      "accessed_on": "2026-10-13",
+      "returned": "Markdown with 2.5.3 TLM decoding entry and 2.5.0 TLM encoding entry"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-wc-atbd-l2a-2-10",
+      "url": "https://step.esa.int/thirdparties/sen2cor/2.10.0/docs/S2-PDGS-MPC-L2A-ATBD-V2.10.0.pdf",
+      "title": "S2 MPC Level-2A Algorithm Theoretical Basis Document, ref. S2-PDGS-MPC-ATBD-L2A, issue 2.10",
+      "publisher": "ESA, Sentinel-2 Mission Performance Centre",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2021-11-15"
+    },
+    {
+      "id": "src-wc-sentiwiki-doclib",
+      "url": "https://sentiwiki.copernicus.eu/web/document-library",
+      "title": "SentiWiki Document Library",
+      "publisher": "ESA, Copernicus SentiWiki",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-srn-2-13-02",
+      "url": "https://step.esa.int/thirdparties/sen2cor/2.13.0/docs/OMPC.TPZG.SRN.010%20-%20i1r0%20-%20Sen2Cor%202.13.02%20Software%20Release%20Note.pdf",
+      "title": "Sen2Cor 2.13.02 Software Release Note, ref. OMPC.TPZG.SRN.010, issue 1.0",
+      "publisher": "ESA, Optical Mission Performance Cluster",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-05-29"
+    },
+    {
+      "id": "src-wc-sum-2-13-02",
+      "url": "https://step.esa.int/thirdparties/sen2cor/2.13.0/docs/OMPC.TPZ.SUM.004%20-%20i1r0%20-%20Sen2Cor%202.13.02%20Configuration%20and%20User%20Manual.pdf",
+      "title": "Sen2Cor 2.13.02 Configuration and User Manual, ref. OMPC.TPZ.SUM.004, issue 1.0",
+      "publisher": "ESA, Optical Mission Performance Cluster",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-05-29"
+    },
+    {
+      "id": "src-wc-step-sen2cor",
+      "url": "https://step.esa.int/main/snap-supported-plugins/sen2cor/",
+      "title": "Sen2Cor, STEP",
+      "publisher": "ESA, Science Toolbox Exploitation Platform",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-step-v2-13",
+      "url": "https://step.esa.int/main/snap-supported-plugins/sen2cor/sen2cor-v2-13/",
+      "title": "Sen2Cor v2.13, STEP",
+      "publisher": "ESA, Science Toolbox Exploitation Platform",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-step-v2-12",
+      "url": "https://step.esa.int/main/snap-supported-plugins/sen2cor/sen2cor-v2-12/",
+      "title": "Sen2Cor v2.12, STEP",
+      "publisher": "ESA, Science Toolbox Exploitation Platform",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-step-v2-11",
+      "url": "https://step.esa.int/main/snap-supported-plugins/sen2cor/sen2cor-v2-11/",
+      "title": "Sen2Cor v2.11, STEP",
+      "publisher": "ESA, Science Toolbox Exploitation Platform",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-sentiboard-processors",
+      "url": "https://operations.dashboard.copernicus.eu/processors-viewer.html?search=S2",
+      "title": "SentiBoard Processors page, Sentinel-2 processor releases",
+      "publisher": "Copernicus Sentinel Operations Dashboard",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-cdse-news-0513",
+      "url": "https://dataspace.copernicus.eu/news/2026-8-7-introduction-copernicus-sentinel-2-processing-baseline-0513",
+      "title": "Introduction of Copernicus Sentinel-2 Processing Baseline 05.13",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-08-07"
+    },
+    {
+      "id": "src-wc-activation-0513",
+      "url": "https://sentinels.copernicus.eu/web/sentinel/-/activation-of-copernicus-sentinel-2-processing-baseline-05.13-on-21-september-2026",
+      "title": "Activation of Copernicus Sentinel-2 Processing Baseline 05.13 on 21 September 2026",
+      "publisher": "ESA, Sentinel Online",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-09-15"
+    },
+    {
+      "id": "src-wc-dqr-l2a-102",
+      "url": "https://sentiwiki.copernicus.eu/__attachments/a_05551f216ff3e0ff859cd12fcc162978f08d70b32eaace391ba2ee5423bdc86b/S2-OMPC.CS.DQR.002.09-2026-i102r0-MSI-L2A-DQR-October-2026.pdf?cb=e04214f3627872643ed8771f787cc7b8",
+      "title": "Data Quality Report, Sentinel-2 MSI L2A, October 2026, ref. OMPC.CS.DQR.002.09-2026, issue 102.0",
+      "publisher": "ESA, Optical Mission Performance Cluster",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-10-09"
+    },
+    {
+      "id": "src-wc-warren-2019",
+      "url": "https://plymsea.ac.uk/id/eprint/8168/1/1-s2.0-S0034425719301099-main%20%281%29.pdf",
+      "title": "Assessment of atmospheric correction algorithms for the Sentinel-2A MultiSpectral Imager over coastal and inland waters. Remote Sensing of Environment 225 (2019) 267-289, doi 10.1016/j.rse.2019.03.018",
+      "publisher": "Elsevier, published version under CC BY 4.0, copy in the Plymouth Marine Laboratory repository",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-acix-aqua-2021",
+      "url": "https://www.vliz.be/imisdocs/publications/379951.pdf",
+      "title": "ACIX-Aqua: A global assessment of atmospheric correction methods for Landsat-8 and Sentinel-2 over lakes, rivers, and coastal waters. Remote Sensing of Environment 258 (2021) 112366, doi 10.1016/j.rse.2021.112366",
+      "publisher": "Elsevier, published version under CC BY 4.0, copy in the VLIZ Open Marine Archive",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2021-03-09"
+    },
+    {
+      "id": "src-wc-pereira-sandoval-2019",
+      "url": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-11-01469/article_deploy/remotesensing-11-01469.pdf",
+      "title": "Evaluation of Atmospheric Correction Algorithms over Spanish Inland Waters for Sentinel-2 Multi Spectral Imagery Data. Remote Sensing 2019, 11, 1469, doi 10.3390/rs11121469",
+      "publisher": "MDPI, open-access PDF",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2019-06-21"
+    },
+    {
+      "id": "src-wc-shan-2026",
+      "url": "https://mdpi-res.com/d_attachment/atmosphere/atmosphere-17-00869/article_deploy/atmosphere-17-00869.pdf",
+      "title": "Comparative Analysis of Atmospheric Correction Methods for Complex Inland Waters. Atmosphere 2026, 17, 869, doi 10.3390/atmos17090869",
+      "publisher": "MDPI, open-access PDF",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-09-04"
+    },
+    {
+      "id": "src-wc-aws-registry-s2",
+      "url": "https://registry.opendata.aws/sentinel-2/",
+      "title": "Sentinel-2, Registry of Open Data on AWS",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-aws-registry-yaml",
+      "url": "https://github.com/awslabs/open-data-registry/blob/main/datasets/sentinel-2.yaml",
+      "title": "open-data-registry datasets/sentinel-2.yaml",
+      "publisher": "Amazon Web Services, awslabs on GitHub",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-07-16"
+    },
+    {
+      "id": "src-wc-roda-l1c-readme",
+      "url": "https://roda.sentinel-hub.com/sentinel-s2-l1c/readme.html",
+      "title": "Sentinel-2 L1C dataset readme",
+      "publisher": "Sentinel Hub, linked from the AWS registry entry",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-es-collections",
+      "url": "https://earth-search.aws.element84.com/v1/collections",
+      "title": "Earth Search STAC API collections listing",
+      "publisher": "Element 84",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-es-l1c-collection",
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c",
+      "title": "Earth Search STAC collection sentinel-2-l1c",
+      "publisher": "Element 84",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-es-item-2022-l2a-href",
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items/S2A_56HPK_20220601_0_L1C",
+      "title": "Earth Search STAC item S2A_56HPK_20220601_0_L1C",
+      "publisher": "Element 84",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-es-item-2018-orig",
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items/S2A_59UPV_20180601_0_L1C",
+      "title": "Earth Search STAC item S2A_59UPV_20180601_0_L1C",
+      "publisher": "Element 84",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-es-item-2018-c1",
+      "url": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items/S2A_59UPV_20180601_1_L1C",
+      "title": "Earth Search STAC item S2A_59UPV_20180601_1_L1C",
+      "publisher": "Element 84",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-gdal-jp2openjpeg",
+      "url": "https://gdal.org/en/stable/drivers/raster/jp2openjpeg.html",
+      "title": "JP2OpenJPEG -- JPEG2000 driver based on OpenJPEG library, GDAL documentation (stable, release 3.13 source link)",
+      "publisher": "GDAL project",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-gdal-vsi",
+      "url": "https://gdal.org/en/stable/user/virtual_file_systems.html",
+      "title": "GDAL Virtual File Systems",
+      "publisher": "GDAL project",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-openjpeg-news",
+      "url": "https://github.com/uclouvain/openjpeg/blob/master/NEWS.md",
+      "title": "OpenJPEG NEWS",
+      "publisher": "OpenJPEG project, uclouvain on GitHub",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-cdse-s3",
+      "url": "https://documentation.dataspace.copernicus.eu/APIs/S3.html",
+      "title": "Access to EO data via S3, Copernicus Data Space Ecosystem documentation",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-cdse-quotas",
+      "url": "https://documentation.dataspace.copernicus.eu/Quotas.html",
+      "title": "Quotas and Limitations, Copernicus Data Space Ecosystem documentation",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-cdse-terms",
+      "url": "https://dataspace.copernicus.eu/terms-and-conditions",
+      "title": "Terms and Conditions, Copernicus Data Space Ecosystem",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-cdse-stac-l1c",
+      "url": "https://stac.dataspace.copernicus.eu/v1/collections/sentinel-2-l1c",
+      "title": "CDSE STAC collection sentinel-2-l1c",
+      "publisher": "Copernicus Data Space Ecosystem",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-wc-gcs-public-datasets",
+      "url": "https://docs.cloud.google.com/storage/docs/public-datasets",
+      "title": "Cloud Storage public datasets",
+      "publisher": "Google Cloud",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-10-13"
+    },
+    {
+      "id": "src-wc-pc-collections",
+      "url": "https://planetarycomputer.microsoft.com/api/stac/v1/collections",
+      "title": "Microsoft Planetary Computer STAC API collections listing",
+      "publisher": "Microsoft",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    }
+  ],
+  "claims": [
+    {
+      "id": "wc-sen2cor-atbd-water",
+      "candidate": null,
+      "field": "sen2cor_scope",
+      "value": "The Sen2Cor Level-2A ATBD, issue 2.10, states that the processing baseline and processor version are not designed for applications over water or coastal regions.",
+      "unit": null,
+      "note": "Issue 2.10 is dated 2021-11-15 and aligned with Sen2Cor 2.10.0. The SentiWiki document library still lists issue 2.10 as the Level-2A ATBD on 2026-10-13. The same restriction says AOT and water vapor are not estimated over water. The STEP and SentiWiki copies are byte-identical.",
+      "source_ids": [
+        "src-wc-atbd-l2a-2-10",
+        "src-wc-sentiwiki-doclib"
+      ],
+      "quote": "The current processing baseline and processor version are not designed for applications over water or on coastal regions. The processor doesn’t contain modules for correction of water surface effects like sunglint. Both Aerosol optical thickness (AOT) and Water vapour (WV) are not estimated over water surface. However, the current implementation does not prevent an application over water using AOT and WV from the nearby land surface and doing without correction of surface effects.",
+      "locator": "ATBD issue 2.10, section 1.1 Purpose of the document, Restrictions item 1, page 6/78. Document library entry: [S2-PDGS-MPC-ATBD-L2A] Sentinel-2 Level-2A ATBD 2021, ISSUE: 2.10",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-sen2cor-atbd-adjacency",
+      "candidate": null,
+      "field": "sen2cor_scope",
+      "value": "The ATBD assumes a 1 km adjacency range and recommends changing it for dark water pixels of a lake surrounded by forest in the NIR.",
+      "unit": null,
+      "note": "The ATBD says the standard adjacency kernel window is 2 km. It says users can change the range in L2A_GIPP.xml. It gives no lake-specific value.",
+      "source_ids": [
+        "src-wc-atbd-l2a-2-10"
+      ],
+      "quote": "However, modification of this default adjacency range of 1 km is recommended for dark pixels in a bright neighbourhood like water pixels of a lake in the NIR spectral region surrounded by forest.",
+      "locator": "ATBD issue 2.10, section 4.5 Correction of Adjacency effect, page 66/78",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-sen2cor-operational-config",
+      "candidate": null,
+      "field": "sen2cor_scope",
+      "value": "The October 2026 L2A Data Quality Report lists operational Sen2Cor parameters Adj_Km 1.000 and WV_Watermask 1: land-average.",
+      "unit": null,
+      "note": "The report says these parameters equal the standalone defaults since baseline 02.11. So operational products keep the ATBD default 1 km adjacency range.",
+      "source_ids": [
+        "src-wc-dqr-l2a-102"
+      ],
+      "quote": "Since PB 02.11, individual configuration parameters are set as follows and are the same default parameters provided with Sen2cor standalone version:",
+      "locator": "Data Quality Report issue 102.0, section 2.2 Configuration and differences with Sen2cor 'User' version, page 4. The parameter table on pages 4 to 5 has rows 'WV_Watermask' with value '1: land-average' and 'Adj_Km' with value '1.000'",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-sen2cor-sum-2-13-land",
+      "candidate": null,
+      "field": "sen2cor_scope",
+      "value": "The Sen2Cor 2.13.02 Configuration and User Manual describes the processor as Level-2A processing of Sentinel-2 imagery over land.",
+      "unit": null,
+      "note": "A text search found no 'not designed' statement in this manual or in the 2.13.02 Software Release Note. Neither document repeats the ATBD water restriction.",
+      "source_ids": [
+        "src-wc-sum-2-13-02",
+        "src-wc-srn-2-13-02"
+      ],
+      "quote": "The prototype implementation for the Level 2A processing of Sentinel-2 imagery over land is a combination of state-of-the-art techniques for performing Atmospheric Corrections (AC, including Cirrus clouds and terrain correction), tailored to the Copernicus Sentinel-2 environment and a Scene Classification (SCL) with two available modules since the version 2.10.",
+      "locator": "Configuration and User Manual OMPC.TPZ.SUM.004 issue 1.0, section 1.1 Purpose of the document, page 1",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-sen2cor-sum-wv-water",
+      "candidate": null,
+      "field": "sen2cor_scope",
+      "value": "By default, Sen2Cor fills water pixels with the scene-average water vapor column.",
+      "unit": null,
+      "note": "The manual says water vapor retrieval over land uses the APDA algorithm on bands B8A and B9. Users can configure other fill options.",
+      "source_ids": [
+        "src-wc-sum-2-13-02"
+      ],
+      "quote": "The user has several options to configure how water pixels are filled with WV-values. Default is to use the scene average of water vapour column for water pixels.",
+      "locator": "Configuration and User Manual OMPC.TPZ.SUM.004 issue 1.0, section 2.2.5 Water Vapour Retrieval, page 13",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-sen2cor-2-13-baseline-0513",
+      "candidate": null,
+      "field": "sen2cor_versions",
+      "value": "STEP states that Sen2Cor 2.13.02 uses the same default configuration as Level-2A core processing at baseline 05.13.",
+      "unit": null,
+      "note": "The page gives the 2.13.02 release date as 24 September 2026. The 2.13.02 release note lists implementation of PSD 15.2, the specification for baseline 05.13.",
+      "source_ids": [
+        "src-wc-step-v2-13",
+        "src-wc-srn-2-13-02",
+        "src-wc-cdse-news-0513"
+      ],
+      "quote": "It is important to know, that the default configuration of the L2A algorithm provided with Sen2Cor version 2.13.02 is the same configuration as for the L2A “Core” Products processing in Sentinel-2 Ground Segment with L2A processing baseline 05.13.",
+      "locator": "Sen2Cor v2.13 page, paragraph after the list of new features. Release note section 3.1.1.2.1",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-sen2cor-2-12-04-step-0511",
+      "candidate": null,
+      "field": "sen2cor_versions",
+      "value": "STEP states that Sen2Cor 2.12.04 uses the same default configuration as Level-2A core processing at baseline 05.11.",
+      "unit": null,
+      "note": "The page gives the 2.12.04 release date as 10 February 2026. SentiBoard instead ties 2.12.04 to baseline 05.12, claim wc-sen2cor-2-12-04-sentiboard-0512. The two pages disagree.",
+      "source_ids": [
+        "src-wc-step-v2-12"
+      ],
+      "quote": "It is important to know, that the default configuration of the L2A algorithm provided with Sen2Cor version 2.12.04 is the same configuration as for the L2A “Core” Products processing in Sentinel-2 Ground Segment with L2A processing baseline 05.11.",
+      "locator": "Sen2Cor v2.12 page, paragraph after the list of maintenance items",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-sen2cor-2-12-04-sentiboard-0512",
+      "candidate": null,
+      "field": "sen2cor_versions",
+      "value": "SentiBoard records that the baseline 05.12 release of 4 February 2026 delivered the Sen2Cor 2.12.04 executable for Level-2 IPF 6.5.",
+      "unit": null,
+      "note": "The record targets S2_L2:6.5.1 for Sentinel-2A, 2B, and 2C. The 2.13.02 release note lists TLM markers and PSD 15.1 handling under release 2.12.04 for the production service.",
+      "source_ids": [
+        "src-wc-sentiboard-processors",
+        "src-wc-srn-2-13-02"
+      ],
+      "quote": "This patch is the delivery of the Sen2Cor 2.12.04 executable for L2 IPF 6.5, which is missing in the Executables folder of the delivery package 6.5.0.",
+      "locator": "SentiBoard release record with processing_baseline 05.12, release_date 04/02/2026, target_ipfs S2_L2:6.5.1. Release note section 3.1.4.2.1",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-sen2cor-2-11-step-0400",
+      "candidate": null,
+      "field": "sen2cor_versions",
+      "value": "STEP states that Sen2Cor 2.11 uses the same default configuration as Level-2A core processing at baseline 04.00.",
+      "unit": null,
+      "note": "The page gives the 2.11 release date as 6 December 2022. SentiBoard records baseline 05.09 released on 06/12/2022, the same date. The same STEP page's table shows 'Official, e.g. 05.09'.",
+      "source_ids": [
+        "src-wc-step-v2-11",
+        "src-wc-sentiboard-processors"
+      ],
+      "quote": "It is important to know, that the default configuration of the L2A algorithm provided with Sen2Cor version 2.11 is the same configuration as for the L2A “Core” Products processing in Sentinel-2 Ground Segment with L2A processing baseline 04.00.",
+      "locator": "Sen2Cor v2.11 page, paragraph after the list of new features. SentiBoard release record with processing_baseline 05.09",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-pb-0513-activation",
+      "candidate": null,
+      "field": "sen2cor_versions",
+      "value": "ESA activated baseline 05.13 on 21 September 2026 for products from named cutover datatakes onward.",
+      "unit": null,
+      "note": "This updates claim R5, which recorded 05.13 as announced and not yet operational. The October 2026 L2A Data Quality Report also states deployment on 21 September 2026.",
+      "source_ids": [
+        "src-wc-activation-0513",
+        "src-wc-dqr-l2a-102"
+      ],
+      "quote": "Products generated from these Datatakes onwards will feature Processing Baseline 05.13.",
+      "locator": "Activation news of 15 September 2026, paragraph after the list of first datatakes",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-pb-0513-water-ac",
+      "candidate": null,
+      "field": "sen2cor_versions",
+      "value": "Baseline 05.13 and Sen2Cor 2.13.02 list enhanced atmospheric correction over water through improved use of CAMS aerosol information.",
+      "unit": null,
+      "note": "The CDSE news lists it among the 05.13 product enhancements. The STEP page lists it among 2.13.02 features relative to 2.12.04. No evaluation of the change was found.",
+      "source_ids": [
+        "src-wc-cdse-news-0513",
+        "src-wc-step-v2-13"
+      ],
+      "quote": "Enhanced atmospheric correction over water through improved use of CAMS aerosol information",
+      "locator": "CDSE news of 7 August 2026, list of enhancements. Sen2Cor v2.13 page, list of main new features",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-sen2cor-2-13-01-aot-water-fix",
+      "candidate": null,
+      "field": "sen2cor_versions",
+      "value": "Sen2Cor release 2.13.01 mitigates an AOT artifact over water that occurs when CAMS AOT data correct the path radiance.",
+      "unit": null,
+      "note": "The October 2026 L2A Data Quality Report describes the 05.13 change as mitigation of AOT artefacts over dark surfaces with the CAMS fallback retrieval.",
+      "source_ids": [
+        "src-wc-srn-2-13-02",
+        "src-wc-dqr-l2a-102"
+      ],
+      "quote": "[OMPC-3840] AOT Artefact over water in the S2 L2A data. This perfective maintenance consists in the mitigation of AOT Artefact over water occurring when CAMS AOT data are used to remove the effects of the atmosphere (path radiance) from the measured Top-of-Atmosphere signal.",
+      "locator": "Release note section 3.1.2.3.1, Release 2.13.01, page 4. Data Quality Report section 2.1, list of PB 05.13 improvements",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-warren-2019-scope",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "Warren et al. (2019) evaluated six processors, including Acolite, C2RCC, Polymer, and Sen2Cor, against above-water in situ reflectance at two coastal regions and 13 inland water bodies.",
+      "unit": null,
+      "note": "The study used Sentinel-2A only. Outputs were compared at 60 m. Inland matchups used a 24-hour window. Table 3 lists inland bodies from 0.125 to 3578 square kilometers in five European countries.",
+      "source_ids": [
+        "src-wc-warren-2019"
+      ],
+      "quote": "In this study, six publicly available atmospheric correction algorithms (Acolite, C2RCC, iCOR, l2gen, Polymer and Sen2Cor) are evaluated against above-water optical in situ measurements, within a robust methodology, in two optically diverse coastal regions (Baltic Sea, Western Channel) and from 13 inland waterbodies from 5 European countries with a range of optical properties.",
+      "locator": "Abstract",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-warren-2019-versions",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "Warren et al. (2019) ran Sen2Cor v2.4.0 and Acolite v20170718.",
+      "unit": null,
+      "note": "Table 2 gives Acolite's aerosol option as SWIR-NIR aerosol estimation, not dark spectrum fitting. The paper notes that a new Acolite algorithm was then undergoing validation.",
+      "source_ids": [
+        "src-wc-warren-2019"
+      ],
+      "quote": "Sen2Cor v2.4.0 (Main-Knorn et al., 2017), Acolite v20170718 (Vanhellemont and Ruddick, 2014)",
+      "locator": "Section 3.1 Atmospheric correction processors, and Table 2",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-warren-2019-inland-ranking",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "Over inland waters in Warren et al. (2019), processors performed more similarly than over coastal waters, and Polymer and C2RCC generally performed best.",
+      "unit": null,
+      "note": "Acolite had higher R2 in the red and NIR bands. Inland matchups ranged from 77 for l2gen to 230 for Polymer, with 160 for Sen2Cor and 163 for Acolite.",
+      "source_ids": [
+        "src-wc-warren-2019"
+      ],
+      "quote": "It can be seen (Fig. 12) that the algorithms performed more similarly over inland waters compared to coastal regions while, generally, Polymer and C2RCC performed the best and Polymer attained the most match-ups. Acolite attained higher R2 in the red and NIR bands, C2RCC achieved generally the lowest RMSD and ψ but with Polymer performing best in the 560 nm band.",
+      "locator": "Section 4.5 Inland match-up analysis, and Table A3",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-warren-2019-inland-spectral-angle",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "For inland waters in Warren et al. (2019), Sen2Cor had the second-lowest median spectral angle, after C2RCC and ahead of iCOR, Polymer, Acolite, and l2gen.",
+      "unit": null,
+      "note": "A smaller spectral angle means a spectral shape closer to the in situ spectrum. This ranking covers shape, not magnitude.",
+      "source_ids": [
+        "src-wc-warren-2019"
+      ],
+      "quote": "For the inland waters C2RCC has the lowest median spectral angle (20.4°), followed by Sen2Cor, iCOR, Polymer, Acolite and l2gen.",
+      "locator": "Section 4.7 Spectral similarity",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-warren-2019-sen2cor-inland",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "Warren et al. (2019) found Sen2Cor and iCOR poor in coastal waters but improved over inland waters.",
+      "unit": null,
+      "note": "The authors attribute this to land-based aerosol retrieval, which has more land pixels inland. They describe Sen2Cor as designed for land and included as the default Level-2A processor.",
+      "source_ids": [
+        "src-wc-warren-2019"
+      ],
+      "quote": "However, for the inland waters, they showed improved performance, suggesting that these algorithms are better suited to correct inland water bodies rather than coastal zones.",
+      "locator": "Section 4.9 Summary discussions",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-warren-2019-overall",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "Across all datasets in Warren et al. (2019), C2RCC, iCOR, Polymer, and Acolite outperformed l2gen and Sen2Cor, with the latter two worst in the Baltic Sea.",
+      "unit": null,
+      "note": "This statement pools coastal and inland datasets and three band ratios. Coastal matchups far outnumber inland matchups in the combined dataset.",
+      "source_ids": [
+        "src-wc-warren-2019"
+      ],
+      "quote": "The performance of AC algorithms across the three datasets and three band ratios varied, but C2RCC, iCOR, Polymer and Acolite out performed l2gen and Sen2cor when taking into account all datasets, the latter two performing particularly worse in the Baltic Sea.",
+      "locator": "Section 4.9 Summary discussions",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-warren-2019-adjacency",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "In Warren et al. (2019), half the inland matchups lay within 0.5 km of shore, and only iCOR had built-in adjacency correction.",
+      "unit": null,
+      "note": "This differs from ATBD section 4.5, which says Sen2Cor accounts for adjacency during reflectance retrieval. The paper cites another study for adjacency effects at least up to 20 km from shore.",
+      "source_ids": [
+        "src-wc-warren-2019"
+      ],
+      "quote": "Only the iCOR AC algorithm had an adjacency correction built-in. With 50% of the inland match-ups < 0.5 km from the shore, adjacency will be a significant error source and should be considered by all inland AC developers.",
+      "locator": "Section 5 Conclusions",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-acix-aqua-scope",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "ACIX-Aqua (Pahlevan et al. 2021) evaluated eight processors on Landsat-8 and Sentinel-2 with over 1000 matchups from rivers, lakes, reservoirs, and coastal waters.",
+      "unit": null,
+      "note": "Inland data came mostly from a Community Validation Database. Coastal data came mostly from AERONET-OC. Image values came from 150 m by 150 m boxes around each station.",
+      "source_ids": [
+        "src-wc-acix-aqua-2021"
+      ],
+      "quote": "Over 1000 radiometric matchups from both freshwaters (rivers, lakes, reservoirs) and coastal waters were utilized to examine the quality of derived aquatic reflectances",
+      "locator": "Abstract",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-acix-aqua-no-sen2cor",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "ACIX-Aqua did not include Sen2Cor. Its processors were ACOLITE, C2X, GRS, MEETC2, OC-SMART, POLYMER, SeaDAS, and iCOR.",
+      "unit": null,
+      "note": "A text search of the published PDF finds no occurrence of 'Sen2Cor'. C2X is the Case-2 Extreme Waters neural network, a C2RCC variant.",
+      "source_ids": [
+        "src-wc-acix-aqua-2021"
+      ],
+      "quote": "Eight AC methods were evaluated (Table 2).",
+      "locator": "Section 3.2 AC processors, and Table 2",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-acix-aqua-acolite-config",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "ACIX-Aqua ran ACOLITE with an area-based dark target aerosol approach, citing the dark spectrum fitting paper of 2019.",
+      "unit": null,
+      "note": "Table 2 gives the ACOLITE version as 20181210, rendered '20,181,210' in the PDF text layer. It lists a 10 m output grid and adjacency treatment as NA.",
+      "source_ids": [
+        "src-wc-acix-aqua-2021"
+      ],
+      "quote": "Dark target approach (area-based)",
+      "locator": "Table 2, ACOLITE column, Aerosol row. References: Vanhellemont, Q., 2019. Adaptation of the dark spectrum fitting atmospheric correction for aquatic applications of the Landsat and Sentinel-2 archives",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-acix-aqua-acolite-freshwater",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "In ACIX-Aqua, iCOR and ACOLITE outperformed the other processors for the mostly freshwater matchups and for turbid or eutrophic water types 3 to 7.",
+      "unit": null,
+      "note": "In clearer water types 1 and 2, OC-SMART and SeaDAS performed best. ACOLITE performed poorly in AERONET-OC coastal matchups.",
+      "source_ids": [
+        "src-wc-acix-aqua-2021"
+      ],
+      "quote": "suggest that iCOR and ACOLITE outperform other schemes for the diverse, mostly freshwater observations contained within the CVD or in turbid and/or eutrophic ecosystems represented by OWTs 3 through 7.",
+      "locator": "Section 5.2 Matchup assessments",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-acix-aqua-acolite-error",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "In ACIX-Aqua, the best freshwater processors, iCOR and ACOLITE, had 20 to 30 percent errors in the green and red bands.",
+      "unit": null,
+      "note": "The paper reports 25 to 70 percent uncertainties in derived chlorophyll-a and suspended solids. No processor met a 30 percent error threshold across all visible bands in freshwater.",
+      "source_ids": [
+        "src-wc-acix-aqua-2021"
+      ],
+      "quote": "Overall, the processors like iCOR and ACOLITE that often outperform other schemes for regions represented in CVD achieve 20 to 30% errors in the green and red bands",
+      "locator": "Section 5.2 Matchup assessments",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-acix-aqua-small-lakes-excluded",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "ACIX-Aqua excluded matchups in small lakes, near shorelines, or near man-made objects where adjacency effects may have impeded correction.",
+      "unit": null,
+      "note": "So its accuracy figures do not describe small lakes or ponds. The conclusion calls adjacency effects in small or hydrologically complex water bodies a field needing major advances.",
+      "source_ids": [
+        "src-wc-acix-aqua-2021"
+      ],
+      "quote": "Among the excluded measurements were in situ measurements in small lakes (e.g., Methods #6 and #9 in Table S1), close to shorelines, or in proximity of man-made objects where AE may have impeded a reliable AC.",
+      "locator": "Section 3.3 Matchup selection",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-pereira-sandoval-2019-ranking",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "Over lakes and reservoirs in the Valencia region, Pereira-Sandoval et al. (2019) found Polymer and C2RCC best among six processors that included ACOLITE and Sen2Cor.",
+      "unit": null,
+      "note": "ACOLITE was v.beta.20180925 with its default dark spectrum fitting. The paper names no Sen2Cor version and says images used the default mode. ACOLITE, iCOR, and Sen2Cor formed the less favorable group.",
+      "source_ids": [
+        "src-wc-pereira-sandoval-2019"
+      ],
+      "quote": "Polymer and C2RCC are the processors that give back the best statistics, with coefficients of determination higher than 0.83 and mean average errors less than 0.01.",
+      "locator": "Abstract. Methods section on ACOLITE and Sen2Cor, and section 4.1",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-pereira-sandoval-2019-trophic",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "Pereira-Sandoval et al. (2019) found ACOLITE, iCOR, and Sen2Cor performed better in meso- and hypereutrophic waters than in oligotrophic waters.",
+      "unit": null,
+      "note": "Their conclusion notes failures of ACOLITE and Sen2Cor in the clearest waters. For ACOLITE and Sen2Cor, the improvement is concentrated in visible bands, and relatively good excluding 443 nm.",
+      "source_ids": [
+        "src-wc-pereira-sandoval-2019"
+      ],
+      "quote": "ACOLITE, iCOR and Sen2Cor had a better performance when applied to meso- and hyper-eutrophic waters, compare with oligotrophic.",
+      "locator": "Abstract. Sections 4.3, 5.2, and 6",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-pereira-sandoval-2019-acolite-vs-sen2cor",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "In mesotrophic to hypertrophic waters, Pereira-Sandoval et al. (2019) found lower visible-band errors for ACOLITE than for Sen2Cor.",
+      "unit": null,
+      "note": "The comparison is by band per water type, Table 7. ACOLITE MAE ranged from 0.009 to 0.016 in these waters.",
+      "source_ids": [
+        "src-wc-pereira-sandoval-2019"
+      ],
+      "quote": "ACOLITE has lower errors than Sen2Cor does, with MAE between 0.009 to 0.016 and a R2 from 0.21 to 0.87.",
+      "locator": "Section 4.3 Results with All the Match-Ups by Water Type and Spectral Band",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-shan-2026-scope-ranking",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "Over two Chinese reservoirs, Shan et al. (2026) found C2RCC gave the most favorable pooled-band balance among seven processors that included Sen2Cor and ACOLITE.",
+      "unit": null,
+      "note": "POLYMER was not evaluated. The study used 67 matchups for Sentinel-2 and Landsat-8/9. ACOLITE was version 20251013.0. The paper names no Sen2Cor version.",
+      "source_ids": [
+        "src-wc-shan-2026"
+      ],
+      "quote": "This study evaluated seven atmospheric correction approaches (QUAC, FLAASH, Sen2Cor, LaSRC, 6S, C2RCC, and ACOLITE) for Sentinel-2 MSI and Landsat-8/9 OLI imagery over the Danjiangkou and Luhun reservoirs.",
+      "locator": "Abstract. Section 3.1 on ACOLITE",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-shan-2026-pooled-r2",
+      "candidate": null,
+      "field": "intercomparison",
+      "value": "For Sentinel-2 pooled bands in Shan et al. (2026), Sen2Cor's r2 of 0.9046 exceeded ACOLITE's 0.8808, and C2RCC's 0.9633 was highest.",
+      "unit": null,
+      "note": "The authors state that processor rankings depended on sensor, band, and metric. The evaluated Sentinel-2 bands B1 to B8 were resampled to 10 m in SNAP 13.0 before correction.",
+      "source_ids": [
+        "src-wc-shan-2026"
+      ],
+      "quote": "FLAASH, Sen2Cor, and 6S achieved r2 values of 0.8662, 0.9046, and 0.8762, respectively (Figure 11b–d). C2RCC achieved the highest r2 (0.9633) and the lowest RMSE and AURE (0.0021 and 44.57%; Figure 11e). ACOLITE yielded an r2 value of 0.8808 with intermediate error values (Figure 11f).",
+      "locator": "Pooled-band analysis paragraph before Figure 11. Section 2.2 for resampling",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-aws-l1c-bucket",
+      "candidate": null,
+      "field": "l1c_sources",
+      "value": "The AWS Open Data registry lists Level-1C scenes in bucket sentinel-s2-l1c, region eu-central-1, as Requester Pays.",
+      "unit": null,
+      "note": "Zipped Level-1C products sit in sentinel-s2-l1c-zips with a 3-day retention, also Requester Pays. The registry YAML marks RequesterPays True for both. Its last commit is dated 2026-07-16.",
+      "source_ids": [
+        "src-wc-aws-registry-s2",
+        "src-wc-aws-registry-yaml",
+        "src-wc-roda-l1c-readme"
+      ],
+      "quote": "Level 1C scenes and metadata, in Requester Pays S3 bucket",
+      "locator": "Resources on AWS, first resource, ARN arn:aws:s3:::sentinel-s2-l1c, AWS Region eu-central-1",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-es-l1c-format",
+      "candidate": null,
+      "field": "l1c_sources",
+      "value": "Earth Search's sentinel-2-l1c collection declares band assets as JPEG 2000 files, and current items point to s3://sentinel-s2-l1c.",
+      "unit": null,
+      "note": "Element 84 and Sinergise are listed as processors and AWS as host.",
+      "source_ids": [
+        "src-wc-es-l1c-collection",
+        "src-wc-es-item-2018-c1"
+      ],
+      "quote": "\"type\":\"image/jp2\",\"title\":\"Red (band 4) - 10m\"",
+      "locator": "Collection JSON, item_assets.red. Item S2A_59UPV_20180601_1_L1C, assets.red.href",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-es-no-c1-l1c",
+      "candidate": null,
+      "field": "l1c_sources",
+      "value": "Earth Search lists one Level-1C collection, sentinel-2-l1c, and no Collection 1 Level-1C collection.",
+      "unit": null,
+      "note": "The listing holds nine collections. Collection 1 exists only as Level-2A, sentinel-2-c1-l2a.",
+      "source_ids": [
+        "src-wc-es-collections"
+      ],
+      "quote": "\"title\":\"Sentinel-2 Level-1C\"",
+      "locator": "collections array, sentinel-2-l1c entry",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-es-l1c-mixed-baselines",
+      "candidate": null,
+      "field": "l1c_sources",
+      "value": "Earth Search's sentinel-2-l1c holds a Collection 1 baseline 05.00 item beside an original baseline 02.06 item for the same 2018 tile and acquisition.",
+      "unit": null,
+      "note": "Item S2A_59UPV_20180601_0_L1C is N0206 and item S2A_59UPV_20180601_1_L1C is N0500. In a 100-item sample for 1 June 2018, 22 items were 05.00.",
+      "source_ids": [
+        "src-wc-es-item-2018-c1",
+        "src-wc-es-item-2018-orig"
+      ],
+      "quote": "\"s2:product_uri\":\"S2A_MSIL1C_20180601T235131_N0500_R073_T59UPV_20230812T095734.SAFE\"",
+      "locator": "Item S2A_59UPV_20180601_1_L1C, properties",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-es-l1c-assets-in-l2a-bucket",
+      "candidate": null,
+      "field": "l1c_sources",
+      "value": "Some Earth Search Level-1C items point every asset to the sentinel-s2-l2a bucket instead of sentinel-s2-l1c.",
+      "unit": null,
+      "note": "In 100-item samples, 82 items for 1 June 2022 and 19 for 1 June 2018 did so. None did for 1 June 2024 or 1 October 2026. No bucket was contacted, so object existence is unverified.",
+      "source_ids": [
+        "src-wc-es-item-2022-l2a-href",
+        "src-wc-es-item-2018-orig"
+      ],
+      "quote": "\"href\":\"s3://sentinel-s2-l2a/tiles/56/H/PK/2022/6/1/0/B04.jp2\"",
+      "locator": "Item S2A_56HPK_20220601_0_L1C, assets.red.href. Every asset of this item and of S2A_59UPV_20180601_0_L1C names sentinel-s2-l2a",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-gdal-vsi-jpeg2000",
+      "candidate": null,
+      "field": "l1c_partial_reads",
+      "value": "GDAL documents that the OpenJPEG-based driver ingests each whole tile-part in a requested area and does not use TLM markers.",
+      "unit": null,
+      "note": "The page says this holds 'at the time of writing' and gives no date. It calls JPEG2000 generally unsuitable for network access. It says the Kakadu-based driver can use TLM and PLT markers.",
+      "source_ids": [
+        "src-wc-gdal-vsi"
+      ],
+      "quote": "at the time of writing, needs to ingest each tile-part that participates to the area of interest of the pixel query in a whole (and thus for a single-tiled file, to ingest the whole file). It also does not make use of the potentially present TLM (Tile-Part length) marker, which is the equivalent of a tile index",
+      "locator": "Section Network/cloud-friendliness and file formats, subsection JPEG2000",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-openjpeg-253-tlm",
+      "candidate": null,
+      "field": "l1c_partial_reads",
+      "value": "OpenJPEG 2.5.3, released December 2024, uses TLM segments to optimize decoding.",
+      "unit": null,
+      "note": "OpenJPEG 2.5.0, May 2022, added TLM generation in the encoder. The GDAL statement in wc-gdal-vsi-jpeg2000 is undated and does not mention this change.",
+      "source_ids": [
+        "src-wc-openjpeg-news"
+      ],
+      "quote": "Use TLM (Tile Length Marker) segments to optimize decoding",
+      "locator": "OpenJPEG 2.5.3 (Dec 2024), New Features. The raw Markdown escapes the parentheses",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-gdal-jp2openjpeg-options",
+      "candidate": null,
+      "field": "l1c_partial_reads",
+      "value": "The GDAL JP2OpenJPEG driver page documents TLM only as a write option and makes no statement on reading TLM markers.",
+      "unit": null,
+      "note": "The TLM creation option needs GDAL 3.4.0 and OpenJPEG 2.5.0. USE_TILE_AS_BLOCK defaults to NO and suits whole-image decompression of single-tiled images. The page does not mention /vsis3/ or /vsicurl/.",
+      "source_ids": [
+        "src-wc-gdal-jp2openjpeg"
+      ],
+      "quote": "Whether to write a TLM (Tile-part Length) marker segment in main header.",
+      "locator": "Creation Options, TLM. Open Options, USE_TILE_AS_BLOCK",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-gdal-vsicurl-range",
+      "candidate": null,
+      "field": "l1c_partial_reads",
+      "value": "GDAL's /vsicurl/ and /vsis3/ handlers read remote files randomly without downloading the whole file.",
+      "unit": null,
+      "note": "The page says /vsicurl/ relies on HTTP range requests. Whether a JPEG 2000 window read stays small depends on the driver and library, claim wc-gdal-vsi-jpeg2000.",
+      "source_ids": [
+        "src-wc-gdal-vsi"
+      ],
+      "quote": "/vsicurl/ is a file system handler that allows on-the-fly random reading of files available through HTTP/FTP web protocols, without prior download of the entire file.",
+      "locator": "Section /vsicurl/ (http/https/ftp files: random access). Section /vsis3/ (AWS S3 files) has the same wording for S3 buckets",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-gdal-requester-pays",
+      "candidate": null,
+      "field": "l1c_partial_reads",
+      "value": "GDAL reads Requester Pays buckets over /vsis3/ when AWS_REQUEST_PAYER is set to requester.",
+      "unit": null,
+      "note": "The page's credentials example sets this option for path /vsis3/sentinel-s2-l1c.",
+      "source_ids": [
+        "src-wc-gdal-vsi"
+      ],
+      "quote": "AWS_REQUEST_PAYER=requester: Set to requester to access a Requester Pays bucket and acknowledge associated charges.",
+      "locator": "Section /vsis3/ (AWS S3 files), configuration options. Section How to set credentials, example [.sentinel_s2_l1c]",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-cdse-s3-registration",
+      "candidate": null,
+      "field": "l1c_sources",
+      "value": "The Copernicus Data Space Ecosystem serves EO data over S3 at eodata.dataspace.copernicus.eu to registered account holders.",
+      "unit": null,
+      "note": "Users generate access and secret keys after logging in. A load balancer routes requests to CloudFerro or OpenTelekom Cloud storage.",
+      "source_ids": [
+        "src-wc-cdse-s3"
+      ],
+      "quote": "To generate the necessary credentials, you must have a registered account on dataspace.copernicus.eu.",
+      "locator": "Object Storage endpoints",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-cdse-stac-l1c",
+      "candidate": null,
+      "field": "l1c_sources",
+      "value": "The CDSE STAC Level-1C collection declares JPEG 2000 band assets on the CDSE S3 endpoint, which is not requester pays.",
+      "unit": null,
+      "note": "The same collection also lists a CREODIAS S3 storage that is requester pays and described as without predefined quota limits.",
+      "source_ids": [
+        "src-wc-cdse-stac-l1c"
+      ],
+      "quote": "\"cdse-s3\":{\"type\":\"custom-s3\",\"title\":\"Copernicus Data Space Ecosystem S3\",\"platform\":\"https://eodata.dataspace.copernicus.eu\"",
+      "locator": "Collection JSON, storage:schemes.cdse-s3 and creodias-s3, and item_assets.B01 to B12",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-cdse-quotas",
+      "candidate": null,
+      "field": "l1c_sources",
+      "value": "CDSE general users have a 12 TB transfer limit per rolling 30 days over S3, OData, and STAC, after which bandwidth drops to 1 MB/s.",
+      "unit": null,
+      "note": "The same column gives 20 MB/s per connection, 4 concurrent connections, and 2000 requests per minute for S3. Quotas apply per user account.",
+      "source_ids": [
+        "src-wc-cdse-quotas"
+      ],
+      "quote": "After reaching this monthly transfer limit, the maximum bandwidth drops to 1MB/s and the number of concurrent connections drops to 1.",
+      "locator": "Copernicus General Users table, column S3, OData, STAC, and footnotes 10 and 14",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-cdse-terms",
+      "candidate": null,
+      "field": "l1c_sources",
+      "value": "CDSE terms require user registration to access EO data and provide Sentinel data on a free, full and open basis.",
+      "unit": null,
+      "note": "The terms forbid bypassing quota limits with multiple user accounts. ESA does not guarantee data availability through the service.",
+      "source_ids": [
+        "src-wc-cdse-terms"
+      ],
+      "quote": "To access Earth observation data at the Copernicus Data Space Ecosystem, individuals and entities need to register as a user and provide the requested information.",
+      "locator": "Sections 3 Copyrights, 4 User registration, 7 Availability of the Service, and 9 Use of the Copernicus Data Space Ecosystem",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-gcs-sentinel2",
+      "candidate": null,
+      "field": "l1c_sources",
+      "value": "Google Cloud lists bucket gcp-public-data-sentinel-2 among its Cloud Storage public datasets, with Sentinel-2 imagery from 2015 to the present.",
+      "unit": null,
+      "note": "Google pays for hosting, and API links need no authentication. The page does not state a processing level. The former Sentinel-2 page URL now redirects here.",
+      "source_ids": [
+        "src-wc-gcs-public-datasets"
+      ],
+      "quote": "Sentinel-2: A satellite image dataset from the European Space Agency (ESA) that includes multispectral images of the Earth's land surface, with a resolution of 10–60 meters per pixel, from 2015 through the present.",
+      "locator": "Available public datasets on Cloud Storage, Sentinel-2 entry with link to gcp-public-data-sentinel-2",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "wc-pc-no-l1c",
+      "candidate": null,
+      "field": "l1c_sources",
+      "value": "The Microsoft Planetary Computer STAC API lists a Sentinel-2 Level-2A collection and no Level-1C collection.",
+      "unit": null,
+      "note": "The listing returned 139 collections. The only Sentinel-2 collection id was sentinel-2-l2a. The HLS collections hls2-l30 and hls2-s30 are also listed.",
+      "source_ids": [
+        "src-wc-pc-collections"
+      ],
+      "quote": "This dataset represents the global Sentinel-2 archive, from 2016 to the present, processed to L2A (bottom-of-atmosphere)",
+      "locator": "collections array, sentinel-2-l2a description. numberMatched 139",
+      "proposed_status": "documented"
+    }
+  ],
+  "candidate_notes": {
+    "water_correction": {
+      "questions_answered": [
+        "Q1. Yes. ATBD issue 2.10, section 1.1, page 6/78, says the baseline and processor 'are not designed for applications over water or on coastal regions'. Issue 2.10 is still the Level-2A ATBD on SentiWiki. The 2.13.02 release note and user manual carry no such sentence. The manual describes processing 'over land'.",
+        "Q1. Water handling changed after the ATBD. Release 2.13.01 mitigates an AOT artifact over water with CAMS AOT. Baseline 05.13 lists enhanced atmospheric correction over water.",
+        "Q2. Sen2Cor 2.13.02 matches baseline 05.13 per STEP. Sen2Cor 2.12.04 matches 05.11 per STEP and 05.12 per SentiBoard. Sen2Cor 2.11 matches 04.00 per STEP. No page ties 05.10 to a version.",
+        "Q3. None found. The newest Sen2Cor version named in a read inland-water intercomparison is v2.4.0, Warren et al. (2019).",
+        "Q4. Warren et al. (2019): six processors on Sentinel-2A at two coastal regions and 13 inland water bodies. Inland, Polymer and C2RCC generally best, Sen2Cor second on spectral angle. Across all datasets, Sen2Cor and l2gen last.",
+        "Q5. ACIX-Aqua: eight processors, over 1000 matchups. Sen2Cor was not included. ACOLITE with the area-based dark target method, version 20181210, ranked with iCOR as best for mostly freshwater and turbid or eutrophic types. It was poor in coastal AERONET-OC matchups. Small lakes and near-shore matchups were excluded.",
+        "Q6. Pereira-Sandoval et al. (2019), Spanish lakes and reservoirs: Polymer and C2RCC best, ACOLITE and Sen2Cor in the weaker group, ACOLITE lower errors than Sen2Cor in eutrophic waters. Shan et al. (2026), two Chinese reservoirs: C2RCC best, Sen2Cor pooled r2 above ACOLITE, no POLYMER.",
+        "Q7. AWS: sentinel-s2-l1c, eu-central-1, Requester Pays, JPEG 2000. Earth Search sentinel-2-l1c indexes it. No Collection 1 Level-1C collection exists on Earth Search, but sentinel-2-l1c holds some baseline 05.00 reprocessed items beside originals.",
+        "Q8. Not established. GDAL says OpenJPEG ingests whole tile-parts and ignores TLM. OpenJPEG 2.5.3 says it uses TLM to optimize decoding. The JP2OpenJPEG page documents TLM only for writing. /vsis3/ and /vsicurl/ read byte ranges.",
+        "Q9. CDSE: free registration, S3 at eodata.dataspace.copernicus.eu, JPEG 2000 Level-1C, not requester pays, 12 TB per 30 days. Google Cloud: gcp-public-data-sentinel-2 listed, level unstated. Planetary Computer: Level-2A only, no Level-1C.",
+        "Lead check: the lead sentence on Sen2Cor ranking behind POLYMER, C2RCC, and ACOLITE is not supported as one generalized statement. Each study differs, as the observations record."
+      ],
+      "questions_open": [
+        "Which Sen2Cor version produced operational baseline 05.10 products?",
+        "Which Sen2Cor version produced baseline 05.12 products, 2.12.04 per SentiBoard or another per the STEP v2.12 page?",
+        "How does the baseline 05.13 water AOT change affect reflectance over small inland water? No evaluation was found.",
+        "Do the Earth Search Level-1C items that point to the sentinel-s2-l2a bucket resolve to real Level-1C objects?",
+        "Does AWS sentinel-s2-l1c hold Collection 1 Level-1C for 2022 to 2023? The 1 June 2022 sample held only baseline 04.00.",
+        "How many bytes and requests does a GDAL window read of a Level-1C band take over /vsis3/? Compare baselines with and without TLM markers. A probe needs owner authorization.",
+        "What processing levels does gcp-public-data-sentinel-2 hold today, and is it still updated?",
+        "What does the 2026 Limnology and Oceanography Letters paper report when comparing ACOLITE with Sen2Cor?",
+        "What does a Level-1C read cost from the Requester Pays bucket in eu-central-1 for a US workload? Not assessed."
+      ],
+      "observations": [
+        "Lead check, Warren et al. (2019): inland, Polymer and C2RCC first. Sen2Cor ranked second on median spectral angle, ahead of Polymer and Acolite. Across all datasets Sen2Cor ranked last with l2gen. Acolite used SWIR-NIR, not dark spectrum fitting.",
+        "Lead check, ACIX-Aqua: Sen2Cor was absent, so this study cannot rank it. ACOLITE ranked first or near first for freshwater and turbid or eutrophic types.",
+        "Lead check, Pereira-Sandoval et al. (2019): Polymer and C2RCC first. ACOLITE, iCOR, and Sen2Cor grouped as less favorable. ACOLITE had lower errors than Sen2Cor in mesotrophic to hypertrophic waters.",
+        "Lead check, Shan et al. (2026): C2RCC first, no POLYMER. Sen2Cor's pooled Sentinel-2 r2 exceeded ACOLITE's. Sen2Cor had the lowest Sentinel-2 chlorophyll-a RMSE in temporal validation.",
+        "Lead check: no study read states an exception for turbid water at green to red-edge bands in those terms. Pereira-Sandoval et al. report ACOLITE and Sen2Cor improving in visible bands, excluding 443 nm, in meso- to hypertrophic waters.",
+        "Every intercomparison read used Sen2Cor versions or settings older than 2.12, or did not state the version. None reflects the 05.13 water AOT change.",
+        "ATBD section 4.5 says Sen2Cor corrects adjacency with a 1 km range. Warren et al. (2019) say only iCOR had built-in adjacency correction. The two statements differ.",
+        "ACIX-Aqua excluded small-lake and near-shore matchups, and Warren et al. had half their inland matchups within 0.5 km of shore. Neither describes 10 m ponds.",
+        "Earth Search Level-1C mixes original and Collection 1 products in one collection. Product identity needs the processing baseline.",
+        "The October 2026 L2A report says CDSE now holds only baselines 05.00, 05.10, and 05.11 for products up to 13 December 2023. No other Level-1C source found states Collection 1 coverage."
+      ]
+    }
+  },
+  "not_assessed": [
+    {
+      "name": "Aquatic reflectance derived from Sentinel-2 Multispectral Imager data for inland waters in the conterminous United States, Limnology and Oceanography Letters 2026, doi 10.1002/lol2.70112",
+      "why": "This paper describes the USGS ACOLITE product and a search snippet says it compares ACOLITE with Sen2Cor. Every publisher URL returned 403, so no claim was drafted.",
+      "seen_on": "https://api.crossref.org/works/10.1002/lol2.70112"
+    },
+    {
+      "name": "Assessment of Atmospheric Correction Methods for Sentinel-2 MSI Images Applied to Amazon Floodplain Lakes, Remote Sensing 2017, doi 10.3390/rs9040322",
+      "why": "It compares 6SV, ACOLITE 2016.05.20, and Sen2Cor 2.2.1 on one image over four lakes. Left out by the limit of two further studies.",
+      "seen_on": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-09-00322/article_deploy/remotesensing-09-00322.pdf"
+    },
+    {
+      "name": "Assessment of Adjacency Correction over Inland Waters Using Sentinel-2 MSI Images, Remote Sensing 2022, doi 10.3390/rs14081829",
+      "why": "Named in best-practices section 6 for the adjacency range. It evaluates neither Sen2Cor nor ACOLITE, so it does not answer question 6.",
+      "seen_on": "https://mdpi-res.com/d_attachment/remotesensing/remotesensing-14-01829/article_deploy/remotesensing-14-01829.pdf"
+    },
+    {
+      "name": "JP2KAK, the Kakadu-based GDAL JPEG 2000 driver",
+      "why": "GDAL says it can use TLM and PLT markers to limit bytes read. It needs a commercial library and was not assessed.",
+      "seen_on": "src-wc-gdal-vsi"
+    },
+    {
+      "name": "CREODIAS S3 storage for CDSE data",
+      "why": "Listed in the CDSE STAC collection as requester pays without predefined quota limits. A commercial option outside AWS, not assessed.",
+      "seen_on": "src-wc-cdse-stac-l1c"
+    },
+    {
+      "name": "AWS registry entry for the JPEG 2000 Level-2A bucket sentinel-s2-l2a",
+      "why": "The registry YAML marks it RequesterPays False, unlike Level-1C. It bears on the Earth Search Level-1C items that point to it. Not assessed.",
+      "seen_on": "src-wc-aws-registry-yaml"
+    },
+    {
+      "name": "Claim R5 status for baseline 05.13",
+      "why": "R5 records 05.13 as not yet operational. The activation news, the October 2026 L2A report, and Earth Search items with N0513 show it operational.",
+      "seen_on": "src-wc-activation-0513"
+    },
+    {
+      "name": "Deployment date inconsistency in the October 2026 L2A Data Quality Report",
+      "why": "Section 1.2 says 05.13 was deployed on September 9th, 2026, and section 2.1 says September 21st, 2026. Not resolved.",
+      "seen_on": "src-wc-dqr-l2a-102"
+    },
+    {
+      "name": "Harmonized Landsat Sentinel-2 collections hls2-s30 and hls2-l30 on Planetary Computer",
+      "why": "Derived surface reflectance, not Level-1C. Outside the question.",
+      "seen_on": "src-wc-pc-collections"
+    }
+  ],
+  "limitations": [
+    "Publisher pages returned 403: https://www.sciencedirect.com/science/article/pii/S0034425719301099, https://www.sciencedirect.com/science/article/pii/S0034425721000845, https://www.mdpi.com/2072-4292/11/12/1469, https://www.mdpi.com/2072-4292/11/12/1469/pdf?version=1561094521, and https://www.mdpi.com/2073-4433/17/9/869 (also reached through https://doi.org/10.3390/atmos17090869). The DOI links for the two Elsevier papers resolved only to linkinghub.elsevier.com redirect pages. Published-version copies were read from the PML repository, VLIZ, and mdpi-res.com instead.",
+    "Wiley returned 403 for https://aslopubs.onlinelibrary.wiley.com/doi/10.1002/lol2.70112, /doi/full/, /doi/pdf/, /doi/pdfdirect/, /doi/full-xml/, and https://onlinelibrary.wiley.com/doi/epdf/10.1002/lol2.70112. WebFetch also received 403. Europe PMC had no record and the USGS Publications Warehouse links only to the DOI.",
+    "Question 3: no peer-reviewed study evaluating Sen2Cor 2.12 or 2.13 over inland water was found. An absence is not documented. Queries: OpenAlex full-text search for \"sen2cor 2.12\", \"sen2cor 2.13\", \"sen2cor v2.12\", \"sen2cor version 2.12\", and \"sen2cor 2.11\". Europe PMC for \"Sen2Cor 2.12\", \"Sen2Cor v2.12\", \"Sen2Cor version 2.12\", \"Sen2Cor 2.13\", \"Sen2Cor v2.13\", \"Sen2Cor 2.11\", \"Sen2Cor v2.11\", and \"Sen2Cor version 2.11\". Europe PMC for \"Sen2Cor 2.8\" to \"Sen2Cor 2.10\" with lake, reservoir, or inland water. Web searches for \"Sen2Cor 2.12\" or \"Sen2Cor v2.12\" with inland water, and Sen2Cor 2.11 with lake or reservoir matchups. Scopus and Web of Science were not available.",
+    "Question 3: the newest Sen2Cor version named in a peer-reviewed inland-water intercomparison that was read is v2.4.0, in Warren et al. (2019). Martins et al. (2017) used 2.2.1. Pereira-Sandoval et al. (2019) and Shan et al. (2026) evaluate Sen2Cor without stating a version. Shan et al. used SNAP 13.0 for resampling, but that does not establish the Sen2Cor version.",
+    "Question 2: no page ties baseline 05.10 to a Sen2Cor version. The SentiBoard 05.10 record names none. The STEP v2.12 page ties 2.12.04 to 05.11, while SentiBoard ties 2.12.04 to 05.12. The STEP v2.11 page ties 2.11 to 04.00, while SentiBoard records 05.09 on the 2.11 release date. These conflicts are reported, not resolved.",
+    "SentiWiki S2 Processing no longer carries an L2A baseline table. It points to the SentiBoard Processors page, whose records are JSON embedded in the HTML and rendered by JavaScript.",
+    "The Google Cloud page https://cloud.google.com/storage/docs/public-datasets/sentinel-2 redirects to the general public datasets page, which names no processing level or update status. The Marketplace listing https://console.cloud.google.com/marketplace/product/esa-public-data/sentinel2 renders only with JavaScript. The bucket itself was not contacted, so its Level-1C content and currency are unverified.",
+    "Question 8: no page states whether GDAL fetches only part of a Sentinel-2 Level-1C JPEG 2000 file for a small window over /vsis3/. The GDAL statement that OpenJPEG ignores TLM is undated and may predate OpenJPEG 2.5.3. Which OpenJPEG version a given GDAL build links is unknown. A probe is needed.",
+    "Earth Search Level-1C items that point assets to the sentinel-s2-l2a bucket were not resolved. No S3 bucket was contacted under the hard rules.",
+    "Web search result summaries were used only to find pages. No claim rests on them.",
+    "The 2018, 2022, 2024, and 2026 Earth Search counts come from the first 100 items the API returned for one day each. They are not random samples and do not establish coverage."
+  ]
+}

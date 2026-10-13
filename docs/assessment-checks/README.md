@@ -2,6 +2,7 @@
 
 Research drafts, independent check records, and the best-practices recheck that bind claims in [options-inventory.json](../options-inventory.json).
 A research agent drafted each claim and a different agent checked it against its page, per the workflow in [CLAUDE.md](../../CLAUDE.md). The check records carry the verification limits.
+A supplementary pair named `<dimension>-<topic>-research.json` and `-checks.json` binds beside its dimension's pair, per the [format](../assessment-data-format.md#collation).
 
 | File | Purpose | Agent |
 |---|---|---|
@@ -22,6 +23,12 @@ A research agent drafted each claim and a different agent checked it against its
 | [aws-cost-review-sources.json](aws-cost-review-sources.json) | Storage-class, serving-transfer, Spot, and Savings Plan sensitivities with price qualifications | Researcher and separate-model checker named in the record |
 | [presentation-review-sources.json](presentation-review-sources.json) | Corrections from the whole-page accuracy review: reprocessing completion, tile overlap, swath-edge mask, Sentinel-2A campaign, NHDPlus HR status, and readme hosting | Claude Code researcher and separate claude-sonnet-5 checker |
 | [aws-cost-daily-sources.json](aws-cost-daily-sources.json) | Scheduling, queue, ledger, logs, monitoring, and registry pricing proxies | Researcher and independent checker named in the record |
+| [access-route-usgs-aqr-research.json](access-route-usgs-aqr-research.json) | 50 draft claims on the USGS aquatic reflectance product, 12 sources, 2026-10-13 | Opus researcher |
+| [access-route-usgs-aqr-checks.json](access-route-usgs-aqr-checks.json) | 49 confirmed, 1 corrected. Bound by collation beside the access-route pair | Sonnet checker |
+| [processing-workflow-acolite-research.json](processing-workflow-acolite-research.json) | 60 draft claims on self-run ACOLITE, 57 documented and 3 estimated, 21 sources, 2026-10-13 | Opus researcher |
+| [processing-workflow-acolite-checks.json](processing-workflow-acolite-checks.json) | 48 confirmed, 9 corrected. The parent agent reviewed the 3 estimates | Sonnet checker |
+| [water-correction-research.json](water-correction-research.json) | 46 draft claims on Sen2Cor over water, Sen2Cor versions, inland-water intercomparisons, and Level-1C sources, 33 sources, 2026-10-13. Feeds section 5 of [s2-best-practices.md](../s2-best-practices.md), not the inventory | Opus researcher |
+| [water-correction-checks.json](water-correction-checks.json) | 36 confirmed, 10 corrected. Binds claims W1 to W11 in the best-practices document | Sonnet checker |
 
 The original inventory pages were accessed on 2026-09-09. Only confirmed or corrected values populate the inventory.
 Estimated claims are reviewed by the parent agent, not by a checker.

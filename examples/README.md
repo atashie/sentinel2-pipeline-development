@@ -40,6 +40,8 @@ USGS states that The National Map data are free and in the public domain. It ask
 
 Each region names a gap survey site as its anchor and a box to search. Five regions carry the anchor lake itself, tier `large`.
 The Alaska region carries only small lakes, because Iliamna Lake is too large to store.
+The Alaska region lies outside the initial scope, the lower 48 states, [decision 0008](../docs/decisions/0008-acolite-aquatic-reflectance-first.md). It stays in the manifest as a Level-2A-only case.
+USGS documents the primary product for the conterminous United States. Its bucket also holds scenes for Alaska tile 05VLG, [measurement finding 27](../docs/measurements.md#27-the-product-holds-41-to-61-percent-of-earth-searchs-acquisitions-in-most-years-and-recent-scenes-arrive-within-hours).
 For each region and size class, the script selects the eligible feature nearest the target area-equivalent width.
 Explicit intermittent, treatment, disposal, evaporation, cooling, and pool codes are excluded. Unspecified reservoir-purpose codes remain eligible.
 The rules, the counts, and every request are in the manifest.

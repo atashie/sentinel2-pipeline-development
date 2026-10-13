@@ -1,0 +1,965 @@
+{
+  "dimension": "access_route",
+  "researcher": {
+    "agent": "USGS aquatic reflectance research subagent",
+    "model": "opus (Claude Code subagent, requested model override)",
+    "started_at": "2026-10-13T14:11:00-04:00",
+    "finished_at": "2026-10-13T14:22:00-04:00"
+  },
+  "endpoints_queried": [
+    {
+      "url": "https://api.github.com/repos/awslabs/open-data-registry/git/trees/main?recursive=1",
+      "purpose": "Find the registry YAML file for the USGS aquatic reflectance dataset",
+      "accessed_on": "2026-10-13",
+      "returned": "Recursive tree listing. One match for the product, datasets/usgs_aqr.yaml"
+    },
+    {
+      "url": "https://api.github.com/repos/awslabs/open-data-registry/commits?path=datasets/usgs_aqr.yaml",
+      "purpose": "Date the registry YAML file",
+      "accessed_on": "2026-10-13",
+      "returned": "Four commits. The file was added 2025-01-08. The latest commit is 2025-07-09, an ASDI tagging change"
+    },
+    {
+      "url": "https://www.sciencebase.gov/catalog/item/640f612dd34e254fd352e1ed?format=json",
+      "purpose": "Read the data release record: summary, body, dates, rights, contacts, files, and links",
+      "accessed_on": "2026-10-13",
+      "returned": "JSON item, lastUpdated 2026-10-12T20:02:57Z, start date 2015-07-25, rights CC0, files including S2_AQR_Metadata.xml and tutorial.zip"
+    },
+    {
+      "url": "https://doi.org/10.5066/P904243C",
+      "purpose": "Resolve the DOI",
+      "accessed_on": "2026-10-13",
+      "returned": "HTTP 302 to https://www.sciencebase.gov/catalog/item/640f612dd34e254fd352e1ed"
+    },
+    {
+      "url": "https://api.github.com/repos/acolite/acolite/releases/tags/20221114.0",
+      "purpose": "Confirm the ACOLITE release 20221114.0 exists",
+      "accessed_on": "2026-10-13",
+      "returned": "Release ACOLITE 20221114.0, published 2022-11-14T15:19:35Z, with a manual and three platform binaries"
+    },
+    {
+      "url": "https://api.github.com/repos/acolite/acolite/git/trees/20221114.0?recursive=1",
+      "purpose": "Locate the default settings files at tag 20221114.0",
+      "accessed_on": "2026-10-13",
+      "returned": "Untruncated tree. Sensor defaults include S2A_MSI.txt and S2B_MSI.txt and no S2C file"
+    },
+    {
+      "url": "https://registry.opendata.aws/usgs-sentinel-2-aqr-acolite-dsf/",
+      "purpose": "Follow the registry link given in the FGDC metadata citation",
+      "accessed_on": "2026-10-13",
+      "returned": "HTTP 404"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-usgs-aqr-registry",
+      "url": "https://registry.opendata.aws/usgs_aqr/",
+      "title": "Sentinel-2 ACOLITE-DSF Aquatic Reflectance for the Conterminous United States - Registry of Open Data on AWS",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-usgs-aqr-registry-yaml",
+      "url": "https://raw.githubusercontent.com/awslabs/open-data-registry/main/datasets/usgs_aqr.yaml",
+      "title": "open-data-registry datasets/usgs_aqr.yaml",
+      "publisher": "Amazon Web Services (awslabs/open-data-registry on GitHub)",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-usgs-aqr-sciencebase-item",
+      "url": "https://www.sciencebase.gov/catalog/item/640f612dd34e254fd352e1ed",
+      "title": "Sentinel-2 ACOLITE-DSF Aquatic Reflectance for the Conterminous United States (updated 2026-10-12) - ScienceBase-Catalog",
+      "publisher": "U.S. Geological Survey",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-10-12"
+    },
+    {
+      "id": "src-usgs-aqr-sciencebase-json",
+      "url": "https://www.sciencebase.gov/catalog/item/640f612dd34e254fd352e1ed?format=json",
+      "title": "ScienceBase item 640f612dd34e254fd352e1ed, JSON representation",
+      "publisher": "U.S. Geological Survey",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-10-12"
+    },
+    {
+      "id": "src-usgs-aqr-metadata-xml",
+      "url": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=S2_AQR_Metadata.xml",
+      "title": "S2_AQR_Metadata.xml, FGDC metadata for Sentinel-2 ACOLITE-DSF Aquatic Reflectance for the Conterminous United States (updated 2026-10-11)",
+      "publisher": "U.S. Geological Survey",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2026-10-11"
+    },
+    {
+      "id": "src-usgs-aqr-tutorial",
+      "url": "https://www.sciencebase.gov/catalog/file/get/640f612dd34e254fd352e1ed?name=tutorial.zip",
+      "title": "tutorial.zip, aquatic reflectance extraction tutorial (aqr_extraction_tutorial.ipynb and supporting files)",
+      "publisher": "U.S. Geological Survey",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-usgs-aqr-usgs-data-page",
+      "url": "https://www.usgs.gov/data/sentinel-2-acolite-dsf-aquatic-reflectance-conterminous-united-states",
+      "title": "Sentinel-2 ACOLITE-DSF Aquatic Reflectance for the Conterminous United States | U.S. Geological Survey",
+      "publisher": "U.S. Geological Survey",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2024-11-21"
+    },
+    {
+      "id": "src-usgs-aqr-aws-marketplace",
+      "url": "https://aws.amazon.com/marketplace/pp/prodview-4pf3e3jypppz2",
+      "title": "Sentinel-2 ACOLITE-DSF Aquatic Reflectance for the Conterminous United States | AWS Marketplace",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-usgs-aqr-aws-sponsorship",
+      "url": "https://aws.amazon.com/opendata/open-data-sponsorship-program/",
+      "title": "Open Data Sponsorship Program",
+      "publisher": "Amazon Web Services",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-release-20221114",
+      "url": "https://github.com/acolite/acolite/releases/tag/20221114.0",
+      "title": "Release ACOLITE 20221114.0 - acolite/acolite - GitHub",
+      "publisher": "ACOLITE project (acolite/acolite on GitHub)",
+      "accessed_on": "2026-10-13",
+      "page_updated": "2022-11-14"
+    },
+    {
+      "id": "src-acolite-defaults-20221114",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/20221114.0/config/defaults.txt",
+      "title": "ACOLITE general default settings, tag 20221114.0",
+      "publisher": "ACOLITE project (acolite/acolite on GitHub)",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    },
+    {
+      "id": "src-acolite-s2a-defaults-20221114",
+      "url": "https://raw.githubusercontent.com/acolite/acolite/20221114.0/config/defaults/S2A_MSI.txt",
+      "title": "ACOLITE default settings for S2A_MSI, tag 20221114.0",
+      "publisher": "ACOLITE project (acolite/acolite on GitHub)",
+      "accessed_on": "2026-10-13",
+      "page_updated": null
+    }
+  ],
+  "claims": [
+    {
+      "id": "cl-ar-usgs-acolite-aqr-data_level",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "data_level",
+      "value": "Aquatic reflectance from Level-1C for bands 1 to 8, 8A, 11, and 12, plus an NDWI layer",
+      "unit": null,
+      "note": "Each scene also carries an ACOLITE settings file. The metadata entity overview adds a processing log file. Bands 9 and 10 are not in the list.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "Each Sentinel-2 scene includes cloud optimized geotiffs (COG) of aquatic reflectance raters for band 1, 2, 3, 4, 5, 6, 7, 8, 8a, 11, and 12, a computed Normalized Difference Water Index (NDWI) COG, and an ACOLITE settings file.",
+      "locator": "Summary, paragraph on COG storage",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-data_level-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "data_level",
+      "value": "Unitless water-leaving radiance reflectance, named Rhow in ACOLITE",
+      "unit": null,
+      "note": "The same paragraph states it equals remote sensing reflectance multiplied by pi. The registry Description gives the same ratio definition.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-registry"
+      ],
+      "quote": "Aquatic reflectance, noted Rhow in ACOLITE documentation, is defined here as unitless water-leaving radiance reflectance",
+      "locator": "Summary, first product paragraph",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-data_level-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "data_level",
+      "value": "Correction applied to bands 1 to 8, 8a, 11, and 12, central wavelengths 443 to 2190 nm",
+      "unit": null,
+      "note": "The metadata lists 443, 490, 560, 665, 705, 740, 783, 842, 865, 1610, and 2190 nm in band order.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "The atmospheric correction was applied to MSI bands 1, 2, 3, 4, 5, 6, 7, 8, 8a, 11, and 12 which range from blue to short-wave infrared with central wavelengths of 443, 490, 560, 665, 705, 740, 783, 842, 865, 1610, and 2190 nm, respectively.",
+      "locator": "dataqual/lineage/procstep, second processing step (ACOLITE correction)",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-format",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "format",
+      "value": "Cloud Optimized GeoTIFF, one file per band plus one NDWI file",
+      "unit": null,
+      "note": "File names end in the band code, B01 to B08, B8A, B11, B12, or NDWI. The same summary states a 20-meter spatial resolution.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item"
+      ],
+      "quote": "The aquatic reflectance and NDWI products are stored as Cloud Optimized GeoTIFFs (COGs).",
+      "locator": "Summary, paragraph on NDWI and COG storage",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-format-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "format",
+      "value": "20 m pixels",
+      "unit": null,
+      "note": "The spatial data section gives 5490 rows by 5490 columns at 20 m. Grids use UTM zones 10 to 19 on WGS 84.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "Output pixel size (S2_TARGET_RES in the ACOLITE settings file) was set to 20 m",
+      "locator": "dataqual/lineage/procstep, second processing step. Also spdoinfo/rastinfo and spref",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-format-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "format",
+      "value": "Deflate-compressed COGs with 512-pixel blocks, converted from ACOLITE NetCDF output",
+      "unit": null,
+      "note": "The same step states the NetCDF outputs were converted to COGs with the GDAL Python package.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "The COGs are compressed using deflate lossless data compression and a 512-pixel block size.",
+      "locator": "dataqual/lineage/procstep, third processing step (NetCDF to COG conversion)",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-region",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "region",
+      "value": "us-west-2",
+      "unit": null,
+      "note": "The SNS topic for new scene notification is also listed in us-west-2.",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml"
+      ],
+      "quote": "Amazon Resource Name (ARN) arn:aws:s3:::usgs-wma-sentinel-2-aqr-acolite-dsf/version_01 AWS Region us-west-2",
+      "locator": "Resources on AWS, Scenes and metadata",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-region-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "region",
+      "value": "The FGDC metadata names a second imagery location, bucket ngwos-rswq-development in us-west-2",
+      "unit": null,
+      "note": "This bucket differs from the registry bucket. No page states its payer, contents, or relation to version_01. This research did not access it.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "The imagery can be access at https://ngwos-rswq-development.s3.us-west-2.amazonaws.com/.",
+      "locator": "distinfo/custom",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-operator",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "operator",
+      "value": "United States Geological Survey",
+      "unit": null,
+      "note": "The registry YAML gives ManagedBy as United States Geological Survey. The ScienceBase record names U.S. Geological Survey - ScienceBase as distributor.",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml",
+        "src-usgs-aqr-sciencebase-json"
+      ],
+      "quote": "Managed By United States Geological Survey",
+      "locator": "Managed By",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-operator-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "operator",
+      "value": "USGS Water Resources Mission Area",
+      "unit": null,
+      "note": "The ScienceBase point of contact organization is U.S. Geological Survey, NW-PACIFIC ISLAND REG. The usgs.gov page names Water Resources Mission Area - Headquarters.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-json",
+        "src-usgs-aqr-usgs-data-page"
+      ],
+      "quote": "\"type\":\"USGS Mission Area\",\"contactType\":\"organization\",\"organization\":{\"directoryId\":\"64247\",\"displayText\":\"Water Resources\"}",
+      "locator": "contacts, entry with type USGS Mission Area",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-source_dataset",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "source_dataset",
+      "value": "Sentinel-2A and 2B MSI Level-1C, corrected with ACOLITE 20221114.0 dark spectrum fitting",
+      "unit": null,
+      "note": "The page links the ACOLITE release tag 20221114.0 on GitHub. The registry Description names the same ACOLITE version.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-registry"
+      ],
+      "quote": "Level-1C top of atmosphere imagery collected with Multispectral Instrument (MSI) on the Sentinel-2A and Sentinel-2B satellites was atmospherically corrected using the dark spectrum fitting (DSF) algorithm and the Atmospheric Correction for OLI ‘lite’ (ACOLITE) version 20221114.0 processing software",
+      "locator": "Summary, first product paragraph",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-source_dataset-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "source_dataset",
+      "value": "Level-1C retrieved from ESA through the Copernicus Data Space OData API",
+      "unit": null,
+      "note": "The lineage source cites https://catalogue.dataspace.copernicus.eu/odata/v1/ for the Level-1C input. No page names an AWS Level-1C bucket as input.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "Sentinel-2 Level-1C imagery is retrieved from the European Space Agency (ESA) through the Open Data Protocol (OData) API (European Space Agency, 2023).",
+      "locator": "dataqual/lineage/procstep, first processing step. Also lineage/srcinfo onlink",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-source_dataset-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "source_dataset",
+      "value": "DSF tiling dimensions set to 300 pixels",
+      "unit": null,
+      "note": "No USGS page names the dsf_aot_estimate setting. ACOLITE 20221114.0 defaults for S2A_MSI set dsf_aot_estimate=tiled and dsf_tile_dimensions=600,600. The per-scene settings file would settle the mode.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml",
+        "src-acolite-s2a-defaults-20221114"
+      ],
+      "quote": "the tiling dimensions (DSF_TILE_DIMENSIONS in the ACOLITE settings file) was set to 300 pixels",
+      "locator": "dataqual/lineage/procstep, second processing step",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-source_dataset-4",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "source_dataset",
+      "value": "Pressure from the SRTM DEM. Other settings are ACOLITE defaults",
+      "unit": null,
+      "note": "The same step states that all other settings used the default values in the ACOLITE user manual. Sensor-specific defaults may differ.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "The pressure for the algorithm is computed from the Shuttle Radar Topography Mission (SRTM) Digital Elevation Model (DEM).",
+      "locator": "dataqual/lineage/procstep, second processing step",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-source_dataset-5",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "source_dataset",
+      "value": "ACOLITE 20221114.0 is a tagged GitHub release dated 2022-11-14",
+      "unit": null,
+      "note": "Confirms only that the version exists. The release carries a manual and binaries for Windows, Mac, and Linux.",
+      "source_ids": [
+        "src-acolite-release-20221114"
+      ],
+      "quote": "Version of the code that went into the 20221114.0 binary release.",
+      "locator": "Release ACOLITE 20221114.0, release notes",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-payer",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "payer",
+      "value": "Provider. The bucket is not requester pays",
+      "unit": null,
+      "note": "The registry shows unsigned access with no AWS account. The registry YAML carries no RequesterPays entry. No page states requester pays.",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml"
+      ],
+      "quote": "AWS CLI Access (No AWS account required) aws s3 ls --no-sign-request s3://usgs-wma-sentinel-2-aqr-acolite-dsf/version_01/",
+      "locator": "Resources on AWS, Scenes and metadata, AWS CLI",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-payer-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "payer",
+      "value": "Provider. The bucket is not requester pays",
+      "unit": null,
+      "note": "Second source. USGS places the AWS copy in the Open Data Sponsorship Program. AWS states the program covers the cost of storing and sharing registry datasets.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-aws-sponsorship"
+      ],
+      "quote": "Copies of the data are available on some third-party platforms including the Amazon* Web Services Open Data Sponsorship Program (https://registry.opendata.aws).",
+      "locator": "Summary, paragraph on Globus and third-party platforms",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-payer-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "payer",
+      "value": "Provider. The bucket is not requester pays",
+      "unit": null,
+      "note": "Third source. The Marketplace listing shows this text under Pricing. It names the same bucket, prefix, and SNS topic as the registry.",
+      "source_ids": [
+        "src-usgs-aqr-aws-marketplace"
+      ],
+      "quote": "This is a publicly available data set. No subscription is required.",
+      "locator": "Pricing",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-discovery_mechanism",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "discovery_mechanism",
+      "value": "SNS topic for new scene notification, and bucket listing",
+      "unit": null,
+      "note": "No page documents the message format. The registry also shows an S3 listing command. No page read names a STAC catalog or inventory files.",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml"
+      ],
+      "quote": "New scene notification Resource type SNS Topic Amazon Resource Name (ARN) arn:aws:sns:us-west-2:242201296900:usgs-wma-sentinel-2-aqr-acolite-dsf-object_created",
+      "locator": "Resources on AWS, New scene notification",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-discovery_mechanism-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "discovery_mechanism",
+      "value": "Scene list file S2_AQR_Scenes.zip on ScienceBase",
+      "unit": null,
+      "note": "The ScienceBase file list shows it uploaded 2026-10-12T20:02:34Z, about 10.5 MB. This research did not read its contents.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-sciencebase-json"
+      ],
+      "quote": "A list of all processes Sentinel-2 scenes are available here: S2_AQR_Scenes.zip.",
+      "locator": "Summary, first line",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-discovery_mechanism-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "discovery_mechanism",
+      "value": "Objects sit under version_01/<tile>/<scene>_<band>.tif",
+      "unit": null,
+      "note": "The tutorial builds the scene name by replacing L1C with AQR in the Level-1C product name. The tile folder comes from the scene name, for example T11TNN.",
+      "source_ids": [
+        "src-usgs-aqr-tutorial"
+      ],
+      "quote": "fn = '/vsis3/'+ bucket_base + '/' + aqr_dir + '/' + tile +'/{0}_{1}.tif'.format(scene, s2_bands[j])",
+      "locator": "tutorial.zip, aqr_extraction_tutorial.ipynb, fifth code cell (Run the extraction)",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-coverage_start_l2a",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "coverage_start_l2a",
+      "value": "2015-07-25",
+      "unit": "date",
+      "note": "This is the ScienceBase record's start date. The metadata completeness report says imagery from 2016. This research did not read the scene list.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-sciencebase-json"
+      ],
+      "quote": "Start Date 2015-07-25",
+      "locator": "Dates",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-coverage_start_l2a-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "coverage_start_l2a",
+      "value": "2016",
+      "unit": "date",
+      "note": "The same metadata gives a time period beginning 2015 and ending 2024-12-23. Its example file name has sensing date 2016-01-09.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "This dataset includes imagery collected from 2016 to present (2024 at the time of publication) and is updated as new Sentinel-2 imagery is collected.",
+      "locator": "dataqual/complete",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-reprocessed_products",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "reprocessed_products",
+      "value": "One version prefix, version_01. No reprocessing policy stated",
+      "unit": null,
+      "note": "No page read describes other versions, or reprocessing of earlier scenes with a newer ACOLITE release.",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml"
+      ],
+      "quote": "arn:aws:s3:::usgs-wma-sentinel-2-aqr-acolite-dsf/version_01",
+      "locator": "Resources on AWS, Scenes and metadata",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-reprocessed_products-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "reprocessed_products",
+      "value": "File names keep the Level-1C processing baseline and product discriminator",
+      "unit": null,
+      "note": "The Nxxyy field carries the processing baseline number, for example N0204. The discriminator is the second date in the name.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "which is 15 characters in length, and is used to distinguish between different end user products from the same datatake.",
+      "locator": "dataqual/lineage/procstep, fifth processing step (file naming)",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-reprocessed_products-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "reprocessed_products",
+      "value": "Dynamic data release whose title carries the latest update date",
+      "unit": null,
+      "note": "The metadata XML carries edition 20261011. The record lists publication date 2024-11-21 and update frequency Continually.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-sciencebase-json",
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "Sentinel-2 ACOLITE-DSF Aquatic Reflectance for the Conterminous United States (updated 2026-10-12)",
+      "locator": "Page title",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "NDWI COG, processing log, and ACOLITE settings file per scene. No cloud, shadow, or glint layer is listed",
+      "unit": null,
+      "note": "No page states explicitly that cloud or shadow masks are absent. The delivered file lists name none.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml",
+        "src-usgs-aqr-sciencebase-item"
+      ],
+      "quote": "Each Sentinel-2 scene includes cloud optimized geotiffs (COG) of aquatic reflectance raters for band 1, 2, 3, 4, 5, 6, 7, 8, 8a, 11, and 12, a computed Normalized Difference Water Index (NDWI) COG, a log file of the images processing, and an ACOLITE settings file.",
+      "locator": "eainfo/overview/eaover",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "Per-scene _settings.txt holds the ACOLITE settings, and _log.txt holds the processing log",
+      "unit": null,
+      "note": "The entity section describes the settings file only as a text file of the ACOLITE settings. No page lists its keys.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "Log files of the processing (_log.txt) and ACOLITE setting files (_settings.txt) are saved with the aquatic reflectance imagery.",
+      "locator": "dataqual/lineage/procstep, sixth processing step. Also eainfo/detailed entity types",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "Residual glint correction with the SWIR bands not applied",
+      "unit": null,
+      "note": "The metadata lineage repeats the statement. ACOLITE 20221114.0 general defaults also set dsf_residual_glint_correction=False.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-metadata-xml",
+        "src-acolite-defaults-20221114"
+      ],
+      "quote": "The optional residual glint correcting using the SWIR bands was not applied.",
+      "locator": "Summary, paragraph after the list of changed settings",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-4",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "USGS states that DSF largely avoids glint and adjacency effects",
+      "unit": null,
+      "note": "A qualitative statement. No glint layer appears in the delivered file lists.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item"
+      ],
+      "quote": "The DSF atmospheric correction largely avoids glint and adjacency effects making the technique an improvement over other atmospheric correction for inland waters.",
+      "locator": "Summary, first product paragraph",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-5",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "Non-water pixel mask threshold, L2W_MASK THRESHOLD, set to 0.05",
+      "unit": null,
+      "note": "No page states whether masked non-water pixels are written as no-data in the COGs.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "the non-water pixel mask (L2W_MASK THRESHOLD in the ACOLITE settings file) was set to 0.05",
+      "locator": "dataqual/lineage/procstep, second processing step",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-6",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "No formal attribute accuracy tests",
+      "unit": null,
+      "note": "No page read reports a validation of the reflectance values against field measurements.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "No formal attribute accuracy tests were conducted.",
+      "locator": "dataqual/attracc/attraccr",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-7",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "Horizontal accuracy equals that of the Level-1C input",
+      "unit": null,
+      "note": "Vertical accuracy was not assessed, per the same section.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "The dataset's horizontal accuracy is equivalent to the horizontal accuracy of the Sentinel-2 Level-1C imagery as described in the Sentinel-2 User Handbook (European Space Agency, 2015).",
+      "locator": "dataqual/posacc/horizpa/horizpar",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-quality_layers-8",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "quality_layers",
+      "value": "The USGS tutorial selects water pixels with NDWI above 0",
+      "unit": null,
+      "note": "Example code, not a delivered mask. The tutorial also sets negative band values to NaN before averaging.",
+      "source_ids": [
+        "src-usgs-aqr-tutorial"
+      ],
+      "quote": "ndwi_thresh = 0.0 # Set NDWI threshold to determine water pixels",
+      "locator": "tutorial.zip, aqr_extraction_tutorial.ipynb, second code cell (User inputs)",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-offset_delivery",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "offset_delivery",
+      "value": "Signed 16-bit integers, reflectance scaled by 10,000, no-data -32,768",
+      "unit": null,
+      "note": "A reflectance of 0.01 is stored as 100. No page names an additive offset.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "Reflectance values were converted to 16-bit signed integers with no data values being set to -32,768 and reflectance values were scaled by 10,000 such that an aquatic reflectance value of 0.01 (1%) is reported as 100.",
+      "locator": "dataqual/lineage/procstep, third processing step",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-offset_delivery-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "offset_delivery",
+      "value": "Negative reflectance values retained",
+      "unit": null,
+      "note": "The page attributes negative values to overestimated aerosol optical thickness. Users are asked to mask or adjust them.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "Negative values have been retained in this dataset for transparency, and end users are encouraged to mask or adjust these values prior to analysis.",
+      "locator": "Summary, paragraph on tile overlap and negative values",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-offset_delivery-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "offset_delivery",
+      "value": "Valid range -10,000 to 10,000, in reflectance scaled by 10,000",
+      "unit": null,
+      "note": "Whitespace between XML elements is collapsed in the quote. The NDWI entity lists both range limits as -10,000.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "<rdommin>-10,000</rdommin> <rdommax>10,000</rdommax> <attrunit>aquatic reflectance scaled by 10,000</attrunit>",
+      "locator": "eainfo/detailed, band COG entity, attr/attrdomv/rdom",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-offset_delivery-4",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "offset_delivery",
+      "value": "NDWI stored as int16 scaled by 10,000, with inputs floored at 0.0001",
+      "unit": null,
+      "note": "The same step states the NDWI is converted to a 16-bit signed integer, scaled by 10,000, and compressed as a COG.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "For bands 3 and 8a, aquatic reflectance values less than 0.0001 were set to 0.0001 prior to computing NDWI.",
+      "locator": "dataqual/lineage/procstep, fourth processing step (NDWI)",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-publication_latency",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "publication_latency",
+      "value": "New scenes added daily. No time from sensing to availability is stated",
+      "unit": null,
+      "note": "Cadence only. No numeric latency and no service level appear on any page read.",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml"
+      ],
+      "quote": "Update Frequency New scenes are added daily.",
+      "locator": "Update Frequency",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-publication_latency-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "publication_latency",
+      "value": "Scenes are added as new imagery is collected",
+      "unit": null,
+      "note": "The ScienceBase record gives update frequency Continually. The metadata says scenes over 30 percent cloud cover are not prioritized.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-sciencebase-json",
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "When new Sentinel-2 imagery is collected, the Level-1C product is atmospherically corrected and the aquatic reflectance and NDWI products are added to this data release.",
+      "locator": "Summary, paragraph on updates",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-raw_pixel_access",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "raw_pixel_access",
+      "value": "Yes. Band COGs support windowed per-pixel reads",
+      "unit": null,
+      "note": "The USGS tutorial reads a pixel window from each band file through GDAL /vsis3/. This assessment has not tested it. Phase B probes the bucket.",
+      "source_ids": [
+        "src-usgs-aqr-tutorial"
+      ],
+      "quote": "dat = ds_list[j].GetRasterBand(1).ReadAsArray(col_ndwi-center, row_ndwi-center, grid_size, grid_size)",
+      "locator": "tutorial.zip, aqr_extraction_tutorial.ipynb, fifth code cell (Run the extraction)",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-raw_pixel_access-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "raw_pixel_access",
+      "value": "Yes. The tutorial reads with unsigned requests in us-west-2",
+      "unit": null,
+      "note": "The same cell sets bucket usgs-wma-sentinel-2-aqr-acolite-dsf, prefix version_01, and AWS_REGION us-west-2.",
+      "source_ids": [
+        "src-usgs-aqr-tutorial"
+      ],
+      "quote": "gdal.SetConfigOption('AWS_NO_SIGN_REQUEST', 'YES')",
+      "locator": "tutorial.zip, aqr_extraction_tutorial.ipynb, third code cell (AWS bucket name)",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-global_coverage",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "global_coverage",
+      "value": "Conterminous United States only",
+      "unit": null,
+      "note": "The metadata bounding box spans -126 to -66 longitude and 24 to 50 latitude. A tile shapefile, sentinel_2_tiles_CONUS, is attached but was not read.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-metadata-xml",
+        "src-usgs-aqr-sciencebase-json"
+      ],
+      "quote": "derived from Sentinel-2 satellite imagery for the conterminous United States",
+      "locator": "Summary, first product paragraph",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-global_coverage-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "global_coverage",
+      "value": "Scenes over 30 percent cloud cover are not prioritized and may be missing",
+      "unit": null,
+      "note": "No page gives the share of scenes skipped.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "Imagery with cloud coverage greater than 30 percent are not prioritized for processing and therefore may not be included in the data release.",
+      "locator": "dataqual/complete",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-global_coverage-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "global_coverage",
+      "value": "Where tiles in adjacent UTM zones overlap, both tiles are processed and delivered",
+      "unit": null,
+      "note": "The same step states that tiles overlap neighboring tiles by 10 km.",
+      "source_ids": [
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "Some tiles in adjacent zones also overlap. Both tiles are processed and delivered.",
+      "locator": "dataqual/lineage/procstep, first processing step",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-global_coverage-4",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "global_coverage",
+      "value": "Values can differ between overlapping tiles",
+      "unit": null,
+      "note": "ACOLITE runs on each tile separately. The metadata logic report attributes the difference to DSF choosing the darkest pixels in each image.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "Users should be aware that aquatic reflectance values may differ between adjacent tiles within the 10 km of overlap between tiles.",
+      "locator": "Summary, paragraph on tile overlap and negative values. Also dataqual/logic",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-license",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "license",
+      "value": "CC BY-SA 3.0 IGO for the Copernicus data per the registry, with citation and attribution required",
+      "unit": null,
+      "note": "The registry ties the license to the Copernicus Sentinel data. USGS pages mark the release CC0 1.0. The two statements differ.",
+      "source_ids": [
+        "src-usgs-aqr-registry",
+        "src-usgs-aqr-registry-yaml",
+        "src-usgs-aqr-sciencebase-item"
+      ],
+      "quote": "Contains modified Copernicus Sentinel data, which is available under the Creative Commons CC BY-SA 3.0 IGO license. Please reference King et al., 2024 (doi 10.5066/P904243C) when referring to the aquatic reflectance, and include the statement 'Contains modified Copernicus Sentinel data [Year]' to acknowledge the data originator.",
+      "locator": "License",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-license-2",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "license",
+      "value": "CC0 1.0 Universal per the ScienceBase rights statement",
+      "unit": null,
+      "note": "The metadata access and use constraints both begin None. The metadata asks users to recognize the USGS for use of the data.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-sciencebase-json",
+        "src-usgs-aqr-metadata-xml"
+      ],
+      "quote": "This work is marked with Creative Commons Zero v1.0 Universal (https://creativecommons.org/publicdomain/zero/1.0/).",
+      "locator": "Rights",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-license-3",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "license",
+      "value": "CC0 1.0 Universal per the usgs.gov data page",
+      "unit": null,
+      "note": "Third source for the USGS marking. It agrees with ScienceBase and differs from the registry.",
+      "source_ids": [
+        "src-usgs-aqr-usgs-data-page"
+      ],
+      "quote": "This work is marked with CC0 1.0 Universal",
+      "locator": "Citation Information, Rights",
+      "proposed_status": "documented"
+    },
+    {
+      "id": "cl-ar-usgs-acolite-aqr-license-4",
+      "candidate": "ar-usgs-acolite-aqr",
+      "field": "license",
+      "value": "Cite the USGS data release, doi 10.5066/P904243C",
+      "unit": null,
+      "note": "The title in the citation carries the latest update date. The registry citation differs slightly in initials and omits the update date.",
+      "source_ids": [
+        "src-usgs-aqr-sciencebase-item",
+        "src-usgs-aqr-registry"
+      ],
+      "quote": "King, T.V., Meyer, M.F., Hundt, S.A., Ball, G., Hafen, K.C., Avouris, D.M., Ducar, S.D., Wakefield, B.F., Stengel, V.S., and Vanhellemont, Q., 2024, Sentinel-2 ACOLITE-DSF Aquatic Reflectance for the Conterminous United States (updated 2026-10-12): U.S. Geological Survey data release, https://doi.org/10.5066/P904243C.",
+      "locator": "Citation",
+      "proposed_status": "documented"
+    }
+  ],
+  "candidate_notes": {
+    "ar-usgs-acolite-aqr": {
+      "questions_answered": [
+        "Which bucket, prefix, and region hold the files? usgs-wma-sentinel-2-aqr-acolite-dsf under version_01, in us-west-2.",
+        "Who pays for reads? The provider. The registry shows unsigned access with no AWS account, and no page states requester pays.",
+        "What does each scene deliver? Aquatic reflectance COGs for bands 1 to 8, 8A, 11, and 12, an NDWI COG, an ACOLITE settings file, and a processing log.",
+        "How are values encoded? Signed 16-bit integers scaled by 10,000, no-data -32,768, negative values retained.",
+        "What is the input and processor? Level-1C from ESA through the OData API, corrected with ACOLITE 20221114.0 dark spectrum fitting at 20 m.",
+        "Is glint corrected? The optional SWIR residual glint correction was not applied.",
+        "How are new scenes announced? An SNS topic named object_created in us-west-2, plus a scene list file on ScienceBase.",
+        "How are tile overlaps handled? Both overlapping tiles are processed and delivered, and their values can differ."
+      ],
+      "questions_open": [
+        "When does coverage start? ScienceBase gives a start date of 2015-07-25. The metadata says imagery from 2016 and a time period from 2015. The scene list or a bucket probe would settle it.",
+        "Does DSF run in tiled or fixed aerosol mode? USGS names only the 300-pixel tile dimension. The per-scene settings file would settle it.",
+        "Are non-water pixels written as no-data? USGS names the 0.05 non-water mask threshold but does not say how masked pixels are stored.",
+        "Which license governs reuse? The registry names CC BY-SA 3.0 IGO for the Copernicus data. ScienceBase and usgs.gov mark the release CC0 1.0.",
+        "How long after sensing does a scene appear? Pages state only daily additions and continual updates.",
+        "What does an SNS message carry? No page documents the message format or filter attributes.",
+        "Will a newer ACOLITE release create a version_02 prefix, and will earlier scenes be reprocessed? No page says.",
+        "Are Sentinel-2C scenes processed, and with which ACOLITE version? Pages name only S2A and S2B. ACOLITE 20221114.0 ships no S2C defaults file.",
+        "What is bucket ngwos-rswq-development, which the metadata names as an imagery location? No page explains it.",
+        "Which tiles are covered, and how many scenes are skipped for cloud cover above 30 percent? The tile shapefile and scene list were not read.",
+        "Do the ACOLITE defaults l2w_mask_negative_rhow=True and l2w_mask_water_parameters=True conflict with the statement that negatives are retained? The settings file and a pixel probe would show.",
+        "Does any read cost apply, for example egress outside us-west-2? No page states a price or a condition."
+      ],
+      "observations": [
+        "The registry YAML file datasets/usgs_aqr.yaml was added 2025-01-08. Its latest commit, on 2025-07-09, added an ASDI tag.",
+        "The FGDC metadata citation links https://registry.opendata.aws/usgs-sentinel-2-aqr-acolite-dsf, which returned HTTP 404. The working entry is https://registry.opendata.aws/usgs_aqr/.",
+        "The metadata Globus link uses origin_id 9e967cb6-58c9-4189-b7d2-e28d5b1f0e3e. The ScienceBase web link and the registry use origin_id 8fd8727f-c464-4e86-a5ed-c6db72848c02.",
+        "The tutorial's example output reports center band values at site_3, where no NDWI water pixel was found. B01_center is 448.0. This suggests non-water pixels carry values, unverified.",
+        "ACOLITE 20221114.0 general defaults set l2w_mask=True, l2w_mask_wave=1600, l2w_mask_threshold=0.0215, l2w_mask_negative_rhow=True, and dsf_residual_glint_correction=False.",
+        "ACOLITE 20221114.0 general defaults set dem_pressure=False and dem_source=copernicus30. USGS states it computed pressure from SRTM instead.",
+        "ACOLITE 20221114.0 S2A_MSI defaults set dsf_aot_estimate=tiled, dsf_tile_dimensions=600,600, and s2_target_res=10. USGS changed the resolution to 20 m and the tile dimension to 300.",
+        "The metadata links the S2A_MSI defaults on the main branch, not the tag. On main the dsf_aot_estimate and dsf_tile_dimensions lines match the tag.",
+        "The tutorial scene is S2B_MSIL1C_20230630T183929_N0509_R070_T11TNN_20230630T222241. Its AQR files sit under folder T11TNN.",
+        "The ScienceBase summary in the JSON is truncated with [...]. The full text is in the JSON body field and on the item page.",
+        "The ScienceBase title, citation, and metadata edition change with each update. Quotes that include an update date will drift.",
+        "The usgs.gov data page returned HTTP 403 to a plain request and loaded with browser request headers.",
+        "The NDWI entity in the metadata lists a range of -10,000 to -10,000. The band entity lists -10,000 to 10,000."
+      ]
+    }
+  },
+  "not_assessed": [
+    {
+      "name": "Globus Access Portal for the same USGS data release",
+      "why": "A non-AWS transfer route to the same files. Outside the AWS access-route comparison. Context only.",
+      "seen_on": "src-usgs-aqr-sciencebase-item"
+    },
+    {
+      "name": "S3 bucket ngwos-rswq-development, named in the FGDC metadata",
+      "why": "Named as an imagery location but not listed in the registry. Owner, payer, and contents are not documented. Not accessed under the no-bucket rule.",
+      "seen_on": "src-usgs-aqr-metadata-xml"
+    },
+    {
+      "name": "AWS Marketplace listing of the same dataset",
+      "why": "Lists the same bucket, prefix, and SNS topic as the registry entry. A listing, not a separate route.",
+      "seen_on": "src-usgs-aqr-aws-marketplace"
+    },
+    {
+      "name": "ScienceBase WMS and WFS services for the tile footprint layer",
+      "why": "Serve the sentinel_2_tiles_CONUS footprint layer, not reflectance. Not an access route for pixels.",
+      "seen_on": "src-usgs-aqr-sciencebase-json"
+    }
+  ],
+  "limitations": [
+    "No page gives a time from sensing to availability. The registry states daily additions only.",
+    "The coverage start is unsettled. ScienceBase gives 2015-07-25, the metadata completeness report says 2016, and the metadata time period begins in 2015. The scene list S2_AQR_Scenes.zip was not read because it is data, not documentation.",
+    "The license is unsettled. The registry License field names CC BY-SA 3.0 IGO for the Copernicus data. ScienceBase and usgs.gov mark the release CC0 1.0. data.usgs.gov, read only through a summarizing fetch, links a public domain label. That page is not cited.",
+    "Lead not confirmed as stated: no page explicitly says the product has no cloud or shadow layer. The file lists simply name none.",
+    "Lead not found: no USGS page names the DSF aerosol estimation mode. Only the 300-pixel tile dimension is documented.",
+    "Lead corrected: the registry License sentence ties CC BY-SA 3.0 IGO to the Copernicus Sentinel data, and USGS marks the release CC0 1.0.",
+    "No page states whether non-water pixels are no-data or carry values. The tutorial output hints that they carry values.",
+    "No USGS publication validating the product was found by web search. The metadata states that no formal attribute accuracy tests were conducted.",
+    "The metadata XML is replaced as the dynamic release updates. The cited URL uses the file name parameter, which served the same bytes as the hashed file path on 2026-10-13. A later checker may see a newer edition.",
+    "The tutorial is a zip file. Checking its quotes requires downloading and unzipping it. Quotes come from aqr_extraction_tutorial.ipynb cell sources.",
+    "Quotes from the registry and ScienceBase HTML pages join text from adjacent page elements with single spaces.",
+    "The metadata's registry link returns HTTP 404. The metadata names a second bucket, ngwos-rswq-development, that the registry does not list.",
+    "No page states a price. unit_price and monthly_price have no draft claims.",
+    "No S3 object was listed, read, or requested. Bucket facts rest on documentation only."
+  ]
+}

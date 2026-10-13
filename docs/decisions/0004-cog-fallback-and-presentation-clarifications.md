@@ -1,6 +1,7 @@
 # 0004. COG fallback and presentation clarifications, 2026-09-11
 
 Status: active. Clarifies [decision 0003](0003-earth-search-2021-first-gap-survey-cross-tile.md), which remains active except for its fallback format.
+[Decision 0008](0008-acolite-aquatic-reflectance-first.md) made Earth Search the supplementary route for water pixels in the lower 48 states on 2026-10-13. The fallback order below governs that role.
 
 ## Context
 

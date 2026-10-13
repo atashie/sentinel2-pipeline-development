@@ -14,10 +14,10 @@ INVENTORY = DOCS / "options-inventory.json"
 INVENTORY_STATUSES = {"documented", "measured", "estimated"}
 CHECK_VERDICTS = {"confirmed", "corrected"}
 CLASSES = {"public-aws", "non-aws", "managed", "self-built"}
-ROLES = {"primary", "context"}
+ROLES = {"primary", "supplementary", "context"}
 ISSUE_STATUSES = {"decided", "deferred", "open", "probe", "measure"}
 ISSUE_FLAGS = {"major concern"}
-PRACTICE_CLAIM = re.compile(r"[GRQ]\d{1,2}")
+PRACTICE_CLAIM = re.compile(r"[GRQW]\d{1,2}")
 BEST_PRACTICES = DOCS / "s2-best-practices.md"
 NEVER_ESTIMATED = {"unit_price", "monthly_price", "coverage_start_l2a", "license"}
 TOP_KEYS = {
@@ -154,7 +154,7 @@ def test_findings_and_combinations_cite_claims(inventory, claims):
 
 
 def practice_claim_ids():
-    return set(re.findall(r"^\| ([GRQ]\d{1,2}) \|", BEST_PRACTICES.read_text(), re.MULTILINE))
+    return set(re.findall(r"^\| ([GRQW]\d{1,2}) \|", BEST_PRACTICES.read_text(), re.MULTILINE))
 
 
 def test_probes_are_recorded(inventory):

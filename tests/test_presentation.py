@@ -87,17 +87,43 @@ def test_vercel_rewrite_points_at_the_page():
         assert (ROOT / "docs" / rule["destination"].lstrip("/")).exists(), rule
 
 
-def test_presentation_names_the_three_archives_and_who_runs_them():
+def test_presentation_names_the_four_archives_and_who_runs_them():
     text = " ".join("".join(parse_page().text).split())
     for phrase in (
         "Element 84",
+        "The U.S. Geological Survey",
         "hosted on a Sentinel Hub domain",
+        "usgs-wma-sentinel-2-aqr-acolite-dsf",
         "sentinel-cogs",
         "e84-earth-search-sentinel-data",
         "sentinel-s2-l2a",
         "requester pays",
+        "Beyond the lower 48 states.",
     ):
         assert phrase in text, phrase
+
+
+def test_primary_product_numbers_come_from_the_coverage_survey():
+    result = json.loads((ROOT / "benchmarks" / "results" / "aqr-coverage.json").read_text())
+    summary = result["summary"]
+    shares = []
+    for year in range(2018, int(result["window"]["end"][:4])):
+        rows = [r for r in summary["coverage_by_month"] if r["month"].startswith(str(year))]
+        shares.append(sum(r["aqr"] for r in rows) / sum(r["reference"] for r in rows))
+    joins = summary["join_totals"]
+    joined = 100 * (summary["scenes"] - joins["none none"]) / summary["scenes"]
+    text = " ".join(" ".join(parse_page().text).split())
+    for phrase in (
+        f"holds {100 * min(shares):.0f} to {100 * max(shares):.0f} percent of Earth Search",
+        f"{joined:.0f} percent of its scenes match an Earth Search image of the same pass",
+        f"Listings of {summary['scenes']:,} USGS scenes",
+    ):
+        assert phrase in text, phrase
+    page = PAGE.read_text()
+    assert 'aria-labelledby="aqr-coverage-title"' in page
+    for view in ("aqr-true-color", "aqr-water-flag"):
+        assert f'value="{view}"' in page
+        assert (PAGE.parent / "assets" / "discovery" / f"{view}.png").exists(), view
 
 
 def test_presentation_cost_table_comes_from_the_generated_estimates():

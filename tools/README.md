@@ -31,7 +31,7 @@ The regular accounting tests use the checked-in aggregate and do not require tho
 
 ## Discovery map examples
 
-[build_discovery_maps.py](build_discovery_maps.py) creates six display images from one public Lake Lanier observation.
+[build_discovery_maps.py](build_discovery_maps.py) creates six display images from one public Lake Lanier observation, plus two from the USGS aquatic reflectance product of the same pass.
 It uses separately pinned NumPy, Rasterio, and Pillow dependencies through `uv` script metadata. The project's test environment stays unchanged.
 
 After explicit authorization for a public-data download:
@@ -43,6 +43,14 @@ uv run tools/build_discovery_maps.py --download
 This reads four 10 m band windows and one 20 m classification window through HTTP range requests.
 The source item, arrays, and retrieval record stay under ignored `data/discovery-map/`.
 GDAL prints request details to stderr. Redirect them to a local log when recording a download.
+
+The owner authorized one more crop on 2026-10-13. It reads the same window at 20 m from the USGS bucket: three bands, NDWI, and the flags layer.
+
+```sh
+uv run tools/build_discovery_maps.py --download-aqr
+```
+
+The reflectance scale comes from the USGS documentation, because the file headers state scale 1. The arrays stay under `data/discovery-map/`.
 
 Rebuild from the cached arrays without contacting a provider:
 

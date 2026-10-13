@@ -1,0 +1,5794 @@
+{
+ "schema_version": 1,
+ "measured_at": "2026-10-13T18:17:26+00:00",
+ "code_version": "84a4a7e-dirty",
+ "script": "benchmarks/aqr_headers.py",
+ "probe": "T1, docs/reviews/2026-10-13-acolite-first-replan.md",
+ "machine": {
+  "system": "Darwin",
+  "release": "25.3.0",
+  "machine": "arm64",
+  "python": "3.12.13",
+  "cpu_count": 10,
+  "memory_total_bytes": 17179869184,
+  "libraries": {
+   "rasterio": "1.5.1",
+   "numpy": "2.5.3",
+   "gdal": "3.12.4"
+  }
+ },
+ "endpoints": {
+  "bucket": "usgs-wma-sentinel-2-aqr-acolite-dsf",
+  "region": "us-west-2",
+  "endpoint": "https://usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+  "credentials": "none, unsigned requests",
+  "payer": "Bucket owner. Every request was unsigned, so no requester was charged. A requester-pays bucket refuses unsigned requests.",
+  "root_listing_headers": [
+   {
+    "x-amz-bucket-region": "us-west-2"
+   }
+  ],
+  "earth_search": "https://earth-search.aws.element84.com/v1"
+ },
+ "gdal_env": {
+  "CPL_DEBUG": "ON",
+  "GDAL_DISABLE_READDIR_ON_OPEN": "EMPTY_DIR",
+  "CPL_VSIL_CURL_ALLOWED_EXTENSIONS": ".tif",
+  "GDAL_HTTP_MAX_RETRY": "3",
+  "GDAL_HTTP_RETRY_DELAY": "2"
+ },
+ "rasterio": "1.5.1",
+ "gdal": "3.12.4",
+ "scene_specs": [
+  "17SKU:2025-10-15",
+  "10SGJ:2025-10-20",
+  "17SKU:2022-07"
+ ],
+ "selections": [
+  {
+   "spec": "17SKU:2025-10-15",
+   "products_listed": [
+    "S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355"
+   ],
+   "products_kept": [
+    "S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355"
+   ],
+   "unparsed_keys": []
+  },
+  {
+   "spec": "10SGJ:2025-10-20",
+   "products_listed": [
+    "S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341"
+   ],
+   "products_kept": [
+    "S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341"
+   ],
+   "unparsed_keys": []
+  },
+  {
+   "spec": "17SKU:2022-07",
+   "products_listed": [
+    "S2A_MSIAQR_20220705T160841_N0510_R140_T17SKU_20240623T130838",
+    "S2A_MSIAQR_20220708T161841_N0510_R040_T17SKU_20240723T142356",
+    "S2A_MSIAQR_20220715T160911_N0510_R140_T17SKU_20240724T022527",
+    "S2A_MSIAQR_20220718T161911_N0510_R040_T17SKU_20240714T020938",
+    "S2A_MSIAQR_20220728T161841_N0510_R040_T17SKU_20240715T155344",
+    "S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544",
+    "S2B_MSIAQR_20220710T160829_N0400_R140_T17SKU_20220710T195335",
+    "S2B_MSIAQR_20220713T161839_N0400_R040_T17SKU_20220713T182822",
+    "S2B_MSIAQR_20220720T160829_N0400_R140_T17SKU_20220720T195548",
+    "S2B_MSIAQR_20220723T161839_N0400_R040_T17SKU_20220723T182641",
+    "S2B_MSIAQR_20220730T160829_N0510_R140_T17SKU_20240711T153143"
+   ],
+   "products_kept": [
+    "S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544"
+   ],
+   "unparsed_keys": []
+  }
+ ],
+ "scenes": [
+  {
+   "product": "S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355",
+   "version": "version_01",
+   "prefix_tile": "17SKU",
+   "tile": "17SKU",
+   "platform": "S2B",
+   "sensing": "20251015T162149",
+   "sensing_time": "2025-10-15T16:21:49Z",
+   "baseline": "05.11",
+   "orbit": 40,
+   "generation_time": "2025-10-15T19:53:55Z",
+   "layers": {
+    "B01": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B01.tif",
+     "size": 11617740,
+     "etag": "27aec522d587e5af66d02ba16520d9c8-2",
+     "last_modified": "2025-12-24T16:03:10.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "11617740",
+      "content_type": "image/tiff",
+      "etag": "27aec522d587e5af66d02ba16520d9c8-2",
+      "last_modified": "Wed, 24 Dec 2025 16:03:10 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.5721
+     }
+    },
+    "B02": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B02.tif",
+     "size": 39214344,
+     "etag": "e8260d58311e3e984ea5f23093655ab1-5",
+     "last_modified": "2025-12-24T16:03:11.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "39214344",
+      "content_type": "image/tiff",
+      "etag": "e8260d58311e3e984ea5f23093655ab1-5",
+      "last_modified": "Wed, 24 Dec 2025 16:03:11 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3305
+     }
+    },
+    "B03": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B03.tif",
+     "size": 44130847,
+     "etag": "03b5ddfd3b7232d1c9c1a37d5063d700-6",
+     "last_modified": "2025-12-24T16:03:12.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "44130847",
+      "content_type": "image/tiff",
+      "etag": "03b5ddfd3b7232d1c9c1a37d5063d700-6",
+      "last_modified": "Wed, 24 Dec 2025 16:03:12 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.335
+     }
+    },
+    "B04": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B04.tif",
+     "size": 44043505,
+     "etag": "b21dbb9363856457e5a85048df6be4ff-6",
+     "last_modified": "2025-12-24T16:03:13.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "44043505",
+      "content_type": "image/tiff",
+      "etag": "b21dbb9363856457e5a85048df6be4ff-6",
+      "last_modified": "Wed, 24 Dec 2025 16:03:13 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3368
+     }
+    },
+    "B05": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B05.tif",
+     "size": 46412151,
+     "etag": "14db5ef199e68b136f1675b11ccdb574-6",
+     "last_modified": "2025-12-24T16:03:14.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "46412151",
+      "content_type": "image/tiff",
+      "etag": "14db5ef199e68b136f1675b11ccdb574-6",
+      "last_modified": "Wed, 24 Dec 2025 16:03:14 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.4508
+     }
+    },
+    "B06": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B06.tif",
+     "size": 49622117,
+     "etag": "c1b22d1fd34ee36c00fe68759add9f76-6",
+     "last_modified": "2025-12-24T16:03:15.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "49622117",
+      "content_type": "image/tiff",
+      "etag": "c1b22d1fd34ee36c00fe68759add9f76-6",
+      "last_modified": "Wed, 24 Dec 2025 16:03:15 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3484
+     }
+    },
+    "B07": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B07.tif",
+     "size": 50521091,
+     "etag": "2f07d1c32d311bd98b3c882323c0650a-7",
+     "last_modified": "2025-12-24T16:03:16.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "50521091",
+      "content_type": "image/tiff",
+      "etag": "2f07d1c32d311bd98b3c882323c0650a-7",
+      "last_modified": "Wed, 24 Dec 2025 16:03:16 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3073
+     }
+    },
+    "B08": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B08.tif",
+     "size": 51703677,
+     "etag": "ba3d7d619ff29b5e77c62f565a8ae1a0-7",
+     "last_modified": "2025-12-24T16:03:16.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "51703677",
+      "content_type": "image/tiff",
+      "etag": "ba3d7d619ff29b5e77c62f565a8ae1a0-7",
+      "last_modified": "Wed, 24 Dec 2025 16:03:16 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3301
+     }
+    },
+    "B11": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B11.tif",
+     "size": 49195890,
+     "etag": "f8daa5aa7e0148d399ac2f0c588a1d22-6",
+     "last_modified": "2025-12-24T16:03:17.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "49195890",
+      "content_type": "image/tiff",
+      "etag": "f8daa5aa7e0148d399ac2f0c588a1d22-6",
+      "last_modified": "Wed, 24 Dec 2025 16:03:17 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3553
+     }
+    },
+    "B12": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B12.tif",
+     "size": 46434459,
+     "etag": "b3fef0ab09fb59e8c6beab3ab7d40c7d-6",
+     "last_modified": "2025-12-24T16:03:18.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "46434459",
+      "content_type": "image/tiff",
+      "etag": "b3fef0ab09fb59e8c6beab3ab7d40c7d-6",
+      "last_modified": "Wed, 24 Dec 2025 16:03:18 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.2945
+     }
+    },
+    "B8A": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B8A.tif",
+     "size": 51178675,
+     "etag": "738dda37bbeedb4bf64509bc18b18b91-7",
+     "last_modified": "2025-12-24T16:03:19.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "51178675",
+      "content_type": "image/tiff",
+      "etag": "738dda37bbeedb4bf64509bc18b18b91-7",
+      "last_modified": "Wed, 24 Dec 2025 16:03:19 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.2847
+     }
+    },
+    "NDWI": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_NDWI.tif",
+     "size": 52189509,
+     "etag": "e0471e73ffc96d3166f49d4a96825c9c-7",
+     "last_modified": "2025-12-24T16:03:20.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "52189509",
+      "content_type": "image/tiff",
+      "etag": "e0471e73ffc96d3166f49d4a96825c9c-7",
+      "last_modified": "Wed, 24 Dec 2025 16:03:20 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3575
+     }
+    },
+    "l2_flags": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_l2_flags.tif",
+     "size": 3268790,
+     "etag": "3ccb85404b69f9cb507a39a2984db0f5",
+     "last_modified": "2025-12-24T16:03:21.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "3268790",
+      "content_type": "image/tiff",
+      "etag": "3ccb85404b69f9cb507a39a2984db0f5",
+      "last_modified": "Wed, 24 Dec 2025 16:03:21 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int32"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.2867
+     }
+    },
+    "settings": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_settings.txt",
+     "size": 10074,
+     "etag": "42de154c495ba72ba96bb8299cf21201",
+     "last_modified": "2025-12-24T16:03:22.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "10074",
+      "content_type": "text/plain",
+      "etag": "42de154c495ba72ba96bb8299cf21201",
+      "last_modified": "Wed, 24 Dec 2025 16:03:22 GMT",
+      "request_charged": null,
+      "storage_class": null,
+      "metadata": {}
+     },
+     "settings": {
+      "sha256": "08eaec127008360fac345e7cbd6a13aeeaa361fc26bd57ea45da6129c33c4d63",
+      "bytes": 10074,
+      "lines": 392,
+      "saved": "data/aqr-headers/2026-10-13T181726+0000/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_settings.txt",
+      "selected": {
+       "acolite_version": null,
+       "aerosol_correction": null,
+       "dsf_aot_estimate": "tiled",
+       "dsf_tile_dimensions": "300,300",
+       "dsf_residual_glint_correction": "False",
+       "glint_correction": null,
+       "l2w_mask": "True",
+       "l2w_mask_wave": "1600",
+       "l2w_mask_threshold": "0.05",
+       "l2w_mask_negative_rhow": "True",
+       "l2w_mask_cirrus": "True",
+       "l2w_mask_high_toa": "True",
+       "s2_target_res": "20",
+       "resolved_geometry": "True",
+       "output_geotiff": null,
+       "l2r_export_geotiff": "False",
+       "l2w_export_geotiff": "False",
+       "l2w_parameters": "tur_nechad2016,p3qaa,Rrs_*",
+       "dem_pressure": "True"
+      },
+      "all": {
+       "geofile": "None",
+       "l2cfile": "None",
+       "region_name": "",
+       "limit": "None",
+       "sub": "None",
+       "extend_region": "False",
+       "l1r_crop": "False",
+       "polygon": "None",
+       "polygon_limit": "True",
+       "polygon_clip": "False",
+       "polylakes": "False",
+       "polylakes_database": "worldlakes",
+       "station_lon": "None",
+       "station_lat": "None",
+       "station_box_size": "None",
+       "station_box_units": "km",
+       "limit_buffer": "None",
+       "limit_buffer_units": "degrees",
+       "merge_tiles": "False",
+       "merge_full_tiles": "False",
+       "output": "/output/acolite_out",
+       "output_geolocation": "True",
+       "output_xy": "False",
+       "output_geometry": "False",
+       "output_rhorc": "False",
+       "output_ed": "False",
+       "add_band_name": "False",
+       "add_detector_name": "False",
+       "compute_contrabands": "False",
+       "netcdf_projection": "True",
+       "netcdf_compression": "True",
+       "netcdf_compression_level": "2",
+       "netcdf_compression_least_significant_digit": "None",
+       "netcdf_discretisation": "False",
+       "landsat_qa_bands": "PIXEL,RADSAT,SATURATION,AEROSOL",
+       "landsat_qa_output": "False",
+       "s2_target_res": "20",
+       "s2_auxiliary_include": "False",
+       "s2_auxiliary_project": "False",
+       "s2_auxiliary_default": "False",
+       "s2_auxiliary_interpolate": "True",
+       "s2_write_dfoo": "False",
+       "s2_write_vaa": "False",
+       "s2_write_saa": "False",
+       "s2_dilate_blackfill": "False",
+       "s2_dilate_blackfill_iterations": "2",
+       "geometry_type": "grids_footprint",
+       "geometry_res": "60",
+       "geometry_per_band": "False",
+       "geometry_fixed_footprint": "False",
+       "geometry_override": "False",
+       "smile_correction": "True",
+       "smile_correction_tgas": "True",
+       "use_tpg": "False",
+       "use_supplied_ancillary": "True",
+       "inputfile_swir": "None",
+       "worldview_reproject": "False",
+       "worldview_reproject_resolution": "2.0",
+       "worldview_reproject_method": "nearest",
+       "planet_store_sr": "False",
+       "pleiades_skip_pan": "False",
+       "pleiades_force_metadata_geolocation": "False",
+       "prisma_rhot_per_pixel_sza": "True",
+       "prisma_store_l2c": "False",
+       "prisma_store_l2c_separate_file": "True",
+       "prisma_output_pan": "False",
+       "chris_interband_calibration": "False",
+       "chris_noise_reduction": "True",
+       "desis_mask_ql": "True",
+       "clear_scratch": "True",
+       "gf_reproject_to_utm": "False",
+       "viirs_option": "img+mod",
+       "viirs_scanline_projection": "True",
+       "viirs_scanline_width": "32",
+       "viirs_quality_flags": "4,8,512,1024,2048,4096",
+       "viirs_output_tir": "True",
+       "viirs_output_tir_lt": "False",
+       "viirs_mask_mband": "True",
+       "viirs_mask_immixed": "True",
+       "viirs_mask_immixed_rat": "False",
+       "viirs_mask_immixed_dif": "True",
+       "viirs_mask_immixed_bands": "I03/M10",
+       "viirs_mask_immixed_maxrat": "0.2",
+       "viirs_mask_immixed_maxdif": "0.002",
+       "seviri_hrv": "False",
+       "tact_run": "False",
+       "tact_profile_source": "era5",
+       "tact_reptran": "medium",
+       "tact_emissivity": "water",
+       "tact_emissivity_file": "None",
+       "tact_emissivity_ndvi_toa": "True",
+       "tact_output_atmosphere": "False",
+       "tact_output_intermediate": "False",
+       "ged_fill": "True",
+       "tact_range": "3.5,14.0",
+       "eminet_water_fill": "True",
+       "eminet_water_threshold": "0.0215",
+       "eminet_model_version": "20220809",
+       "eminet_netname": "Net2",
+       "eminet_fill": "True",
+       "eminet_fill_dilate": "False",
+       "verbosity": "5",
+       "output_lt": "False",
+       "solar_irradiance_reference": "Coddington2021_1_0nm",
+       "blackfill_skip": "True",
+       "blackfill_max": "1.0",
+       "blackfill_wave": "1600",
+       "copy_datasets": "lon,lat,rhot_*",
+       "output_bt": "False",
+       "l2w_parameters": "tur_nechad2016,p3qaa,Rrs_*",
+       "l2w_mask": "True",
+       "l2w_mask_wave": "1600",
+       "l2w_mask_threshold": "0.05",
+       "l2w_mask_water_parameters": "True",
+       "l2w_mask_negative_rhow": "True",
+       "l2w_mask_negative_wave_range": "450,700",
+       "l2w_mask_cirrus": "True",
+       "l2w_mask_cirrus_threshold": "0.005",
+       "l2w_mask_cirrus_wave": "1373",
+       "l2w_mask_high_toa": "True",
+       "l2w_mask_high_toa_threshold": "0.3",
+       "l2w_mask_high_toa_wave_range": "400,2500",
+       "l2w_mask_mixed": "True",
+       "l2w_data_in_memory": "False",
+       "nechad_range": "600,900",
+       "nechad_max_rhow_C_factor": "0.5",
+       "l2w_mask_smooth": "False",
+       "l2w_mask_smooth_sigma": "3",
+       "flag_exponent_swir": "0",
+       "flag_exponent_cirrus": "1",
+       "flag_exponent_toa": "2",
+       "flag_exponent_negative": "3",
+       "flag_exponent_outofscene": "4",
+       "flag_exponent_mixed": "5",
+       "flag_exponent_dem_shadow": "6",
+       "atmospheric_correction": "True",
+       "atmospheric_correction_method": "dark_spectrum",
+       "gas_transmittance": "True",
+       "min_tgas_aot": "0.85",
+       "min_tgas_rho": "0.7",
+       "sza_limit_replace": "False",
+       "sza_limit": "79.999",
+       "vza_limit_replace": "False",
+       "vza_limit": "71.999",
+       "cirrus_correction": "False",
+       "cirrus_range": "1350.0,1390.0",
+       "cirrus_g_vnir": "1.0",
+       "cirrus_g_swir": "0.5",
+       "rsr_version": "None",
+       "resolved_geometry": "True",
+       "ancillary_data": "True",
+       "ancillary_type": "GMAO_MERRA2_MET",
+       "uoz_default": "0.3",
+       "uwv_default": "1.5",
+       "pressure": "1013.25",
+       "pressure_default": "1013.25",
+       "elevation": "None",
+       "dem_pressure": "True",
+       "dem_pressure_resolved": "True",
+       "dem_pressure_percentile": "25.0",
+       "dem_pressure_write": "False",
+       "dem_source": "srtm",
+       "dem_shadow_mask": "False",
+       "dem_shadow_mask_extend": "True",
+       "dem_shadow_mask_extend_metres": "3000.0",
+       "dem_shadow_mask_filter": "True",
+       "dem_shadow_mask_filter_kernel": "3,3",
+       "dem_shadow_mask_erode_its": "1",
+       "dem_shadow_mask_dilate_its": "5",
+       "dsf_interface_reflectance": "False",
+       "dsf_interface_option": "default",
+       "dsf_interface_lut": "ACOLITE-RSKY-202102-82W",
+       "wind": "None",
+       "wind_default": "2.0",
+       "dsf_residual_glint_correction": "False",
+       "dsf_residual_glint_correction_method": "default",
+       "dsf_residual_glint_wave_range": "1500,2400",
+       "glint_force_band": "None",
+       "glint_mask_rhos_wave": "1600",
+       "glint_mask_rhos_threshold": "0.05",
+       "glint_write_rhog_ref": "False",
+       "glint_write_rhog_all": "False",
+       "adjacency_correction": "False",
+       "adjacency_correction_method": "None",
+       "optimise_target_rhos": "None",
+       "optimise_target_rhos_file": "None",
+       "optimise_target_lon": "None",
+       "optimise_target_lat": "None",
+       "optimise_target_type": "pixel",
+       "optimise_target_size": "1.0",
+       "optimise_target_units": "pixel",
+       "optimise_target_mask": "False",
+       "optimise_tolerance": "0.001",
+       "optimise_aot_cost": "rmsd",
+       "optimise_plot": "False",
+       "optimise_plot_range": "-0.01,0.06",
+       "radcor_kernel_radius": "5.0",
+       "radcor_kernel_complete_method": "neighbourhood",
+       "radcor_force_model": "None",
+       "radcor_force_aot": "None",
+       "radcor_crop_centre": "False",
+       "radcor_edge_extend": "False",
+       "radcor_edge_extend_method": "average",
+       "radcor_max_vza": "15.0",
+       "radcor_aot_estimate": "tsdsf",
+       "radcor_aot_estimate_centre_extent": "None",
+       "radcor_aot_estimate_centre_mask": "False",
+       "radcor_aot_selection": "lowest_positive_difference",
+       "radcor_skip_pan": "False",
+       "radcor_write_rhot": "True",
+       "radcor_write_rhotc": "False",
+       "radcor_write_rhotc_separate_file": "False",
+       "radcor_write_rhoe": "True",
+       "radcor_write_rhosu": "True",
+       "radcor_development": "False",
+       "radcor_diagnostic_plots": "False",
+       "tsdsf_initial_aot": "1.0",
+       "tsdsf_kernel_radius": "None",
+       "tsdsf_kernel_complete_method": "neighbourhood",
+       "tsdsf_psf_centre_zero": "False",
+       "tsdsf_bratio_option": "percentile",
+       "tsdsf_bratio_percentile": "1.0",
+       "tsdsf_wave_range": "400.0,2500.0",
+       "dsf_aot_estimate": "tiled",
+       "dsf_nbands": "2",
+       "dsf_nbands_fit": "2",
+       "dsf_aot_compute": "min",
+       "dsf_spectrum_option": "intercept",
+       "dsf_percentile": "1.0",
+       "dsf_intercept_pixels": "200",
+       "dsf_minimum_segment_size": "1",
+       "dsf_allow_lut_boundaries": "False",
+       "dsf_filter_rhot": "False",
+       "dsf_filter_percentile": "50.0",
+       "dsf_filter_box": "10,10",
+       "dsf_filter_aot": "False",
+       "dsf_smooth_aot": "False",
+       "dsf_smooth_box": "10,10",
+       "dsf_aot_fillnan": "True",
+       "dsf_aot_most_common_model": "True",
+       "dsf_model_selection": "min_drmsd",
+       "dsf_min_tile_cover": "0.1",
+       "dsf_min_tile_aot": "0.01",
+       "dsf_max_tile_aot": "1.2",
+       "dsf_write_tiled_parameters": "False",
+       "dsf_wave_range": "400.0,900.0",
+       "dsf_exclude_bands": "",
+       "dsf_write_aot_550": "False",
+       "dsf_fixed_aot": "None",
+       "dsf_fixed_lut": "ACOLITE-LUT-202110-MOD2",
+       "dsf_tile_dimensions": "300,300",
+       "dsf_tile_smoothing": "True",
+       "dsf_tile_smoothing_kernel_size": "3",
+       "dsf_tile_interp_method": "linear",
+       "exp_swir_threshold": "0.0215",
+       "exp_fixed_epsilon": "True",
+       "exp_fixed_epsilon_percentile": "50.0",
+       "exp_fixed_aerosol_reflectance": "True",
+       "exp_fixed_aerosol_reflectance_percentile": "5.0",
+       "exp_wave1": "1600",
+       "exp_wave2": "2200",
+       "exp_alpha": "None",
+       "exp_alpha_weighted": "True",
+       "exp_epsilon": "None",
+       "exp_gamma": "None",
+       "exp_output_intermediate": "False",
+       "gains": "False",
+       "gains_parameter": "radiance",
+       "gains_toa": "1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0",
+       "offsets": "False",
+       "offsets_toa": "0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0",
+       "rgb_rhot": "False",
+       "rgb_rhos": "False",
+       "rgb_rhosu": "False",
+       "rgb_rhoe": "False",
+       "rgb_rhorc": "False",
+       "rgb_rhow": "False",
+       "map_l1r": "False",
+       "map_l2r": "False",
+       "map_l2t": "False",
+       "map_l2w": "False",
+       "l1r_rgb_keys": "rhot",
+       "l2r_rgb_keys": "rhos,rhosu,rhorc,rhotc,rhoe",
+       "l2w_rgb_keys": "rhow",
+       "map_title": "True",
+       "map_title_rgb_wavelengths": "False",
+       "map_fontname": "sans-serif",
+       "map_fontsize": "12",
+       "map_usetex": "False",
+       "map_dpi": "300",
+       "map_ext": "png",
+       "map_limit": "None",
+       "map_scalebar": "False",
+       "map_scalebar_position": "UL",
+       "map_scalebar_color": "Black",
+       "map_scalebar_length": "None",
+       "map_scalebar_max_fraction": "0.33",
+       "map_scalebar_position_vu": "0.85",
+       "map_scalebar_position_vl": "0.1",
+       "map_scalebar_position_hr": "0.95",
+       "map_scalebar_position_hl": "0.05",
+       "map_points": "None",
+       "map_colorbar": "True",
+       "map_colorbar_orientation": "vertical",
+       "map_auto_range": "False",
+       "map_auto_range_percentiles": "1.0,99.0",
+       "map_fill_outrange": "False",
+       "map_fill_color": "LightGrey",
+       "map_default_colormap": "viridis",
+       "rgb_red_wl": "650",
+       "rgb_green_wl": "560",
+       "rgb_blue_wl": "480",
+       "rgb_min": "0.0,0.0,0.0",
+       "rgb_max": "0.15,0.15,0.15",
+       "rgb_gamma": "1.0,1.0,1.0",
+       "rgb_autoscale": "False",
+       "rgb_autoscale_percentiles": "5.0,95.0",
+       "rgb_stretch": "linear",
+       "pans": "False",
+       "pans_method": "panr",
+       "pans_output": "rgb",
+       "pans_bgr": "480,560,655",
+       "pans_rgb_rhot": "True",
+       "pans_rgb_rhos": "True",
+       "pans_export_geotiff_rgb": "False",
+       "pans_sensors": "L7_ETM,L8_OLI,L9_OLI,PRISMA,MSG1_SEVIRI,MSG2_SEVIRI,MSG3_SEVIRI,MSG4_SEVIRI",
+       "pans_scale_factor": "None",
+       "map_projected": "False",
+       "map_raster": "False",
+       "map_pcolormesh": "False",
+       "map_cartopy": "False",
+       "map_mask": "True",
+       "map_xtick_rotation": "0.0",
+       "map_ytick_rotation": "0.0",
+       "map_gridline_color": "white",
+       "l1r_export_geotiff": "False",
+       "l2t_export_geotiff": "False",
+       "l2r_export_geotiff": "False",
+       "l2w_export_geotiff": "False",
+       "export_geotiff_coordinates": "False",
+       "export_geotiff_match_file": "None",
+       "export_cloud_optimized_geotiff": "False",
+       "export_cloud_optimized_geotiff_options": "COMPRESS=LZW,PREDICTOR=YES,LEVEL=9,OVERVIEWS=AUTO,BLOCKSIZE=1024",
+       "l1r_export_geotiff_rgb": "False",
+       "l2r_export_geotiff_rgb": "False",
+       "use_gdal_merge_import": "False",
+       "l1r_delete_netcdf": "True",
+       "l2t_delete_netcdf": "False",
+       "l2r_delete_netcdf": "False",
+       "l2r_pans_delete_netcdf": "False",
+       "l2w_delete_netcdf": "False",
+       "delete_acolite_run_text_files": "False",
+       "delete_acolite_output_directory": "False",
+       "delete_extracted_input": "False",
+       "reproject_outputs": "L1R,L2R,L2W",
+       "reproject_before_ac": "False",
+       "output_projection": "False",
+       "output_projection_name": "None",
+       "output_projection_epsg": "None",
+       "output_projection_proj4": "None",
+       "output_projection_resolution": "None",
+       "output_projection_limit": "None",
+       "output_projection_polygon": "None",
+       "output_projection_metres": "False",
+       "output_projection_xrange": "None",
+       "output_projection_yrange": "None",
+       "output_projection_resolution_align": "True",
+       "output_projection_resampling_method": "bilinear",
+       "default_projection_resolution": "None",
+       "output_projection_fillnans": "False",
+       "output_projection_filldistance": "1",
+       "output_projection_radius": "3.0",
+       "output_projection_epsilon": "0.0",
+       "output_projection_neighbours": "32",
+       "reproject_inputfile": "False",
+       "reproject_inputfile_force": "False",
+       "reproject_inputfile_dem": "False",
+       "luts": "ACOLITE-LUT-202110-MOD1,ACOLITE-LUT-202110-MOD2",
+       "luts_pressures": "500,750,1013,1100",
+       "lut_base": "ACOLITE-LUT-202110",
+       "lut_models": "1,2",
+       "lut_pressures": "500,750,1013,1100",
+       "lut_base_interface": "ACOLITE-RSKY-202102-82W",
+       "luts_reduce_dimensions": "True",
+       "slicing": "False",
+       "scene_download": "False",
+       "scene_download_directory": "None",
+       "runid": "20251224_155347",
+       "inputfile": "/input/S2B_MSIL1C_20251015T162149_N0511_R040_T17SKU_20251015T195355.SAFE",
+       "new_path": "None"
+      },
+      "get": {
+       "status": 200,
+       "bytes": 10074,
+       "seconds": 0.294,
+       "content_length": "10074",
+       "etag": "\"42de154c495ba72ba96bb8299cf21201\"",
+       "request_charged": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "product": "S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341",
+   "version": "version_01",
+   "prefix_tile": "10SGJ",
+   "tile": "10SGJ",
+   "platform": "S2B",
+   "sensing": "20251020T185329",
+   "sensing_time": "2025-10-20T18:53:29Z",
+   "baseline": "05.11",
+   "orbit": 113,
+   "generation_time": "2025-10-20T20:43:41Z",
+   "layers": {
+    "B01": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B01.tif",
+     "size": 16182568,
+     "etag": "3d1f4e9a38df0542f5cb948c20b3acb6-2",
+     "last_modified": "2025-12-24T16:26:02.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "16182568",
+      "content_type": "image/tiff",
+      "etag": "3d1f4e9a38df0542f5cb948c20b3acb6-2",
+      "last_modified": "Wed, 24 Dec 2025 16:26:02 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.295
+     }
+    },
+    "B02": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B02.tif",
+     "size": 48357077,
+     "etag": "dc08413085e8a0c7b2b0869388b20cfb-6",
+     "last_modified": "2025-12-24T16:26:03.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "48357077",
+      "content_type": "image/tiff",
+      "etag": "dc08413085e8a0c7b2b0869388b20cfb-6",
+      "last_modified": "Wed, 24 Dec 2025 16:26:03 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3268
+     }
+    },
+    "B03": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B03.tif",
+     "size": 49818916,
+     "etag": "58277848700affc0b743e62cbf1d6c40-6",
+     "last_modified": "2025-12-24T16:26:04.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "49818916",
+      "content_type": "image/tiff",
+      "etag": "58277848700affc0b743e62cbf1d6c40-6",
+      "last_modified": "Wed, 24 Dec 2025 16:26:04 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3435
+     }
+    },
+    "B04": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B04.tif",
+     "size": 50758983,
+     "etag": "9d350de1c66c2ef2390ad2abb692c440-7",
+     "last_modified": "2025-12-24T16:26:05.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "50758983",
+      "content_type": "image/tiff",
+      "etag": "9d350de1c66c2ef2390ad2abb692c440-7",
+      "last_modified": "Wed, 24 Dec 2025 16:26:05 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3584
+     }
+    },
+    "B05": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B05.tif",
+     "size": 50668159,
+     "etag": "ff7e61614f9bdac59c23fbda3587fa07-7",
+     "last_modified": "2025-12-24T16:26:06.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "50668159",
+      "content_type": "image/tiff",
+      "etag": "ff7e61614f9bdac59c23fbda3587fa07-7",
+      "last_modified": "Wed, 24 Dec 2025 16:26:06 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3199
+     }
+    },
+    "B06": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B06.tif",
+     "size": 51934644,
+     "etag": "788c569567b1f5bd8bdbfde054253fea-7",
+     "last_modified": "2025-12-24T16:26:07.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "51934644",
+      "content_type": "image/tiff",
+      "etag": "788c569567b1f5bd8bdbfde054253fea-7",
+      "last_modified": "Wed, 24 Dec 2025 16:26:07 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3434
+     }
+    },
+    "B07": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B07.tif",
+     "size": 52479425,
+     "etag": "6fde73dbbd67368bb3d49bf2097220ab-7",
+     "last_modified": "2025-12-24T16:26:08.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "52479425",
+      "content_type": "image/tiff",
+      "etag": "6fde73dbbd67368bb3d49bf2097220ab-7",
+      "last_modified": "Wed, 24 Dec 2025 16:26:08 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.328
+     }
+    },
+    "B08": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B08.tif",
+     "size": 53547340,
+     "etag": "db819e7220a6d445e1814a243fc954fc-7",
+     "last_modified": "2025-12-24T16:26:09.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "53547340",
+      "content_type": "image/tiff",
+      "etag": "db819e7220a6d445e1814a243fc954fc-7",
+      "last_modified": "Wed, 24 Dec 2025 16:26:09 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3312
+     }
+    },
+    "B11": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B11.tif",
+     "size": 52781527,
+     "etag": "bc68943ca7d6949d13d1ec195ce30239-7",
+     "last_modified": "2025-12-24T16:26:10.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "52781527",
+      "content_type": "image/tiff",
+      "etag": "bc68943ca7d6949d13d1ec195ce30239-7",
+      "last_modified": "Wed, 24 Dec 2025 16:26:10 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3255
+     }
+    },
+    "B12": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B12.tif",
+     "size": 51509909,
+     "etag": "056031e6eb3c6bd71c934a94720466eb-7",
+     "last_modified": "2025-12-24T16:26:11.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "51509909",
+      "content_type": "image/tiff",
+      "etag": "056031e6eb3c6bd71c934a94720466eb-7",
+      "last_modified": "Wed, 24 Dec 2025 16:26:11 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3382
+     }
+    },
+    "B8A": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B8A.tif",
+     "size": 52894118,
+     "etag": "8f80cebd538c5952928fac734826fa9f-7",
+     "last_modified": "2025-12-24T16:26:12.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "52894118",
+      "content_type": "image/tiff",
+      "etag": "8f80cebd538c5952928fac734826fa9f-7",
+      "last_modified": "Wed, 24 Dec 2025 16:26:12 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.2996
+     }
+    },
+    "NDWI": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_NDWI.tif",
+     "size": 58651392,
+     "etag": "5c0123cd4bfe401a2a427ad554ec2480-7",
+     "last_modified": "2025-12-24T16:26:13.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "58651392",
+      "content_type": "image/tiff",
+      "etag": "5c0123cd4bfe401a2a427ad554ec2480-7",
+      "last_modified": "Wed, 24 Dec 2025 16:26:13 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.2805
+     }
+    },
+    "l2_flags": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_l2_flags.tif",
+     "size": 3515550,
+     "etag": "0c64bec4d776363f4e0b35e3d208741e",
+     "last_modified": "2025-12-24T16:26:14.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "3515550",
+      "content_type": "image/tiff",
+      "etag": "0c64bec4d776363f4e0b35e3d208741e",
+      "last_modified": "Wed, 24 Dec 2025 16:26:14 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int32"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32610",
+      "epsg": 32610,
+      "transform": [
+       20.0,
+       0.0,
+       699960.0,
+       0.0,
+       -20.0,
+       4400040.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.2719
+     }
+    },
+    "settings": {
+     "key": "version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_settings.txt",
+     "size": 10074,
+     "etag": "32cee5a23b895e8e3c6850ea3d8c7073",
+     "last_modified": "2025-12-24T16:26:15.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "10074",
+      "content_type": "text/plain",
+      "etag": "32cee5a23b895e8e3c6850ea3d8c7073",
+      "last_modified": "Wed, 24 Dec 2025 16:26:15 GMT",
+      "request_charged": null,
+      "storage_class": null,
+      "metadata": {}
+     },
+     "settings": {
+      "sha256": "7393f25c2d538e515b5eebff6aa225997ffab54adad25c1e1f7f3e35cf9d83c7",
+      "bytes": 10074,
+      "lines": 392,
+      "saved": "data/aqr-headers/2026-10-13T181726+0000/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_settings.txt",
+      "selected": {
+       "acolite_version": null,
+       "aerosol_correction": null,
+       "dsf_aot_estimate": "tiled",
+       "dsf_tile_dimensions": "300,300",
+       "dsf_residual_glint_correction": "False",
+       "glint_correction": null,
+       "l2w_mask": "True",
+       "l2w_mask_wave": "1600",
+       "l2w_mask_threshold": "0.05",
+       "l2w_mask_negative_rhow": "True",
+       "l2w_mask_cirrus": "True",
+       "l2w_mask_high_toa": "True",
+       "s2_target_res": "20",
+       "resolved_geometry": "True",
+       "output_geotiff": null,
+       "l2r_export_geotiff": "False",
+       "l2w_export_geotiff": "False",
+       "l2w_parameters": "tur_nechad2016,p3qaa,Rrs_*",
+       "dem_pressure": "True"
+      },
+      "all": {
+       "geofile": "None",
+       "l2cfile": "None",
+       "region_name": "",
+       "limit": "None",
+       "sub": "None",
+       "extend_region": "False",
+       "l1r_crop": "False",
+       "polygon": "None",
+       "polygon_limit": "True",
+       "polygon_clip": "False",
+       "polylakes": "False",
+       "polylakes_database": "worldlakes",
+       "station_lon": "None",
+       "station_lat": "None",
+       "station_box_size": "None",
+       "station_box_units": "km",
+       "limit_buffer": "None",
+       "limit_buffer_units": "degrees",
+       "merge_tiles": "False",
+       "merge_full_tiles": "False",
+       "output": "/output/acolite_out",
+       "output_geolocation": "True",
+       "output_xy": "False",
+       "output_geometry": "False",
+       "output_rhorc": "False",
+       "output_ed": "False",
+       "add_band_name": "False",
+       "add_detector_name": "False",
+       "compute_contrabands": "False",
+       "netcdf_projection": "True",
+       "netcdf_compression": "True",
+       "netcdf_compression_level": "2",
+       "netcdf_compression_least_significant_digit": "None",
+       "netcdf_discretisation": "False",
+       "landsat_qa_bands": "PIXEL,RADSAT,SATURATION,AEROSOL",
+       "landsat_qa_output": "False",
+       "s2_target_res": "20",
+       "s2_auxiliary_include": "False",
+       "s2_auxiliary_project": "False",
+       "s2_auxiliary_default": "False",
+       "s2_auxiliary_interpolate": "True",
+       "s2_write_dfoo": "False",
+       "s2_write_vaa": "False",
+       "s2_write_saa": "False",
+       "s2_dilate_blackfill": "False",
+       "s2_dilate_blackfill_iterations": "2",
+       "geometry_type": "grids_footprint",
+       "geometry_res": "60",
+       "geometry_per_band": "False",
+       "geometry_fixed_footprint": "False",
+       "geometry_override": "False",
+       "smile_correction": "True",
+       "smile_correction_tgas": "True",
+       "use_tpg": "False",
+       "use_supplied_ancillary": "True",
+       "inputfile_swir": "None",
+       "worldview_reproject": "False",
+       "worldview_reproject_resolution": "2.0",
+       "worldview_reproject_method": "nearest",
+       "planet_store_sr": "False",
+       "pleiades_skip_pan": "False",
+       "pleiades_force_metadata_geolocation": "False",
+       "prisma_rhot_per_pixel_sza": "True",
+       "prisma_store_l2c": "False",
+       "prisma_store_l2c_separate_file": "True",
+       "prisma_output_pan": "False",
+       "chris_interband_calibration": "False",
+       "chris_noise_reduction": "True",
+       "desis_mask_ql": "True",
+       "clear_scratch": "True",
+       "gf_reproject_to_utm": "False",
+       "viirs_option": "img+mod",
+       "viirs_scanline_projection": "True",
+       "viirs_scanline_width": "32",
+       "viirs_quality_flags": "4,8,512,1024,2048,4096",
+       "viirs_output_tir": "True",
+       "viirs_output_tir_lt": "False",
+       "viirs_mask_mband": "True",
+       "viirs_mask_immixed": "True",
+       "viirs_mask_immixed_rat": "False",
+       "viirs_mask_immixed_dif": "True",
+       "viirs_mask_immixed_bands": "I03/M10",
+       "viirs_mask_immixed_maxrat": "0.2",
+       "viirs_mask_immixed_maxdif": "0.002",
+       "seviri_hrv": "False",
+       "tact_run": "False",
+       "tact_profile_source": "era5",
+       "tact_reptran": "medium",
+       "tact_emissivity": "water",
+       "tact_emissivity_file": "None",
+       "tact_emissivity_ndvi_toa": "True",
+       "tact_output_atmosphere": "False",
+       "tact_output_intermediate": "False",
+       "ged_fill": "True",
+       "tact_range": "3.5,14.0",
+       "eminet_water_fill": "True",
+       "eminet_water_threshold": "0.0215",
+       "eminet_model_version": "20220809",
+       "eminet_netname": "Net2",
+       "eminet_fill": "True",
+       "eminet_fill_dilate": "False",
+       "verbosity": "5",
+       "output_lt": "False",
+       "solar_irradiance_reference": "Coddington2021_1_0nm",
+       "blackfill_skip": "True",
+       "blackfill_max": "1.0",
+       "blackfill_wave": "1600",
+       "copy_datasets": "lon,lat,rhot_*",
+       "output_bt": "False",
+       "l2w_parameters": "tur_nechad2016,p3qaa,Rrs_*",
+       "l2w_mask": "True",
+       "l2w_mask_wave": "1600",
+       "l2w_mask_threshold": "0.05",
+       "l2w_mask_water_parameters": "True",
+       "l2w_mask_negative_rhow": "True",
+       "l2w_mask_negative_wave_range": "450,700",
+       "l2w_mask_cirrus": "True",
+       "l2w_mask_cirrus_threshold": "0.005",
+       "l2w_mask_cirrus_wave": "1373",
+       "l2w_mask_high_toa": "True",
+       "l2w_mask_high_toa_threshold": "0.3",
+       "l2w_mask_high_toa_wave_range": "400,2500",
+       "l2w_mask_mixed": "True",
+       "l2w_data_in_memory": "False",
+       "nechad_range": "600,900",
+       "nechad_max_rhow_C_factor": "0.5",
+       "l2w_mask_smooth": "False",
+       "l2w_mask_smooth_sigma": "3",
+       "flag_exponent_swir": "0",
+       "flag_exponent_cirrus": "1",
+       "flag_exponent_toa": "2",
+       "flag_exponent_negative": "3",
+       "flag_exponent_outofscene": "4",
+       "flag_exponent_mixed": "5",
+       "flag_exponent_dem_shadow": "6",
+       "atmospheric_correction": "True",
+       "atmospheric_correction_method": "dark_spectrum",
+       "gas_transmittance": "True",
+       "min_tgas_aot": "0.85",
+       "min_tgas_rho": "0.7",
+       "sza_limit_replace": "False",
+       "sza_limit": "79.999",
+       "vza_limit_replace": "False",
+       "vza_limit": "71.999",
+       "cirrus_correction": "False",
+       "cirrus_range": "1350.0,1390.0",
+       "cirrus_g_vnir": "1.0",
+       "cirrus_g_swir": "0.5",
+       "rsr_version": "None",
+       "resolved_geometry": "True",
+       "ancillary_data": "True",
+       "ancillary_type": "GMAO_MERRA2_MET",
+       "uoz_default": "0.3",
+       "uwv_default": "1.5",
+       "pressure": "1013.25",
+       "pressure_default": "1013.25",
+       "elevation": "None",
+       "dem_pressure": "True",
+       "dem_pressure_resolved": "True",
+       "dem_pressure_percentile": "25.0",
+       "dem_pressure_write": "False",
+       "dem_source": "srtm",
+       "dem_shadow_mask": "False",
+       "dem_shadow_mask_extend": "True",
+       "dem_shadow_mask_extend_metres": "3000.0",
+       "dem_shadow_mask_filter": "True",
+       "dem_shadow_mask_filter_kernel": "3,3",
+       "dem_shadow_mask_erode_its": "1",
+       "dem_shadow_mask_dilate_its": "5",
+       "dsf_interface_reflectance": "False",
+       "dsf_interface_option": "default",
+       "dsf_interface_lut": "ACOLITE-RSKY-202102-82W",
+       "wind": "None",
+       "wind_default": "2.0",
+       "dsf_residual_glint_correction": "False",
+       "dsf_residual_glint_correction_method": "default",
+       "dsf_residual_glint_wave_range": "1500,2400",
+       "glint_force_band": "None",
+       "glint_mask_rhos_wave": "1600",
+       "glint_mask_rhos_threshold": "0.05",
+       "glint_write_rhog_ref": "False",
+       "glint_write_rhog_all": "False",
+       "adjacency_correction": "False",
+       "adjacency_correction_method": "None",
+       "optimise_target_rhos": "None",
+       "optimise_target_rhos_file": "None",
+       "optimise_target_lon": "None",
+       "optimise_target_lat": "None",
+       "optimise_target_type": "pixel",
+       "optimise_target_size": "1.0",
+       "optimise_target_units": "pixel",
+       "optimise_target_mask": "False",
+       "optimise_tolerance": "0.001",
+       "optimise_aot_cost": "rmsd",
+       "optimise_plot": "False",
+       "optimise_plot_range": "-0.01,0.06",
+       "radcor_kernel_radius": "5.0",
+       "radcor_kernel_complete_method": "neighbourhood",
+       "radcor_force_model": "None",
+       "radcor_force_aot": "None",
+       "radcor_crop_centre": "False",
+       "radcor_edge_extend": "False",
+       "radcor_edge_extend_method": "average",
+       "radcor_max_vza": "15.0",
+       "radcor_aot_estimate": "tsdsf",
+       "radcor_aot_estimate_centre_extent": "None",
+       "radcor_aot_estimate_centre_mask": "False",
+       "radcor_aot_selection": "lowest_positive_difference",
+       "radcor_skip_pan": "False",
+       "radcor_write_rhot": "True",
+       "radcor_write_rhotc": "False",
+       "radcor_write_rhotc_separate_file": "False",
+       "radcor_write_rhoe": "True",
+       "radcor_write_rhosu": "True",
+       "radcor_development": "False",
+       "radcor_diagnostic_plots": "False",
+       "tsdsf_initial_aot": "1.0",
+       "tsdsf_kernel_radius": "None",
+       "tsdsf_kernel_complete_method": "neighbourhood",
+       "tsdsf_psf_centre_zero": "False",
+       "tsdsf_bratio_option": "percentile",
+       "tsdsf_bratio_percentile": "1.0",
+       "tsdsf_wave_range": "400.0,2500.0",
+       "dsf_aot_estimate": "tiled",
+       "dsf_nbands": "2",
+       "dsf_nbands_fit": "2",
+       "dsf_aot_compute": "min",
+       "dsf_spectrum_option": "intercept",
+       "dsf_percentile": "1.0",
+       "dsf_intercept_pixels": "200",
+       "dsf_minimum_segment_size": "1",
+       "dsf_allow_lut_boundaries": "False",
+       "dsf_filter_rhot": "False",
+       "dsf_filter_percentile": "50.0",
+       "dsf_filter_box": "10,10",
+       "dsf_filter_aot": "False",
+       "dsf_smooth_aot": "False",
+       "dsf_smooth_box": "10,10",
+       "dsf_aot_fillnan": "True",
+       "dsf_aot_most_common_model": "True",
+       "dsf_model_selection": "min_drmsd",
+       "dsf_min_tile_cover": "0.1",
+       "dsf_min_tile_aot": "0.01",
+       "dsf_max_tile_aot": "1.2",
+       "dsf_write_tiled_parameters": "False",
+       "dsf_wave_range": "400.0,900.0",
+       "dsf_exclude_bands": "",
+       "dsf_write_aot_550": "False",
+       "dsf_fixed_aot": "None",
+       "dsf_fixed_lut": "ACOLITE-LUT-202110-MOD2",
+       "dsf_tile_dimensions": "300,300",
+       "dsf_tile_smoothing": "True",
+       "dsf_tile_smoothing_kernel_size": "3",
+       "dsf_tile_interp_method": "linear",
+       "exp_swir_threshold": "0.0215",
+       "exp_fixed_epsilon": "True",
+       "exp_fixed_epsilon_percentile": "50.0",
+       "exp_fixed_aerosol_reflectance": "True",
+       "exp_fixed_aerosol_reflectance_percentile": "5.0",
+       "exp_wave1": "1600",
+       "exp_wave2": "2200",
+       "exp_alpha": "None",
+       "exp_alpha_weighted": "True",
+       "exp_epsilon": "None",
+       "exp_gamma": "None",
+       "exp_output_intermediate": "False",
+       "gains": "False",
+       "gains_parameter": "radiance",
+       "gains_toa": "1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0",
+       "offsets": "False",
+       "offsets_toa": "0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0",
+       "rgb_rhot": "False",
+       "rgb_rhos": "False",
+       "rgb_rhosu": "False",
+       "rgb_rhoe": "False",
+       "rgb_rhorc": "False",
+       "rgb_rhow": "False",
+       "map_l1r": "False",
+       "map_l2r": "False",
+       "map_l2t": "False",
+       "map_l2w": "False",
+       "l1r_rgb_keys": "rhot",
+       "l2r_rgb_keys": "rhos,rhosu,rhorc,rhotc,rhoe",
+       "l2w_rgb_keys": "rhow",
+       "map_title": "True",
+       "map_title_rgb_wavelengths": "False",
+       "map_fontname": "sans-serif",
+       "map_fontsize": "12",
+       "map_usetex": "False",
+       "map_dpi": "300",
+       "map_ext": "png",
+       "map_limit": "None",
+       "map_scalebar": "False",
+       "map_scalebar_position": "UL",
+       "map_scalebar_color": "Black",
+       "map_scalebar_length": "None",
+       "map_scalebar_max_fraction": "0.33",
+       "map_scalebar_position_vu": "0.85",
+       "map_scalebar_position_vl": "0.1",
+       "map_scalebar_position_hr": "0.95",
+       "map_scalebar_position_hl": "0.05",
+       "map_points": "None",
+       "map_colorbar": "True",
+       "map_colorbar_orientation": "vertical",
+       "map_auto_range": "False",
+       "map_auto_range_percentiles": "1.0,99.0",
+       "map_fill_outrange": "False",
+       "map_fill_color": "LightGrey",
+       "map_default_colormap": "viridis",
+       "rgb_red_wl": "650",
+       "rgb_green_wl": "560",
+       "rgb_blue_wl": "480",
+       "rgb_min": "0.0,0.0,0.0",
+       "rgb_max": "0.15,0.15,0.15",
+       "rgb_gamma": "1.0,1.0,1.0",
+       "rgb_autoscale": "False",
+       "rgb_autoscale_percentiles": "5.0,95.0",
+       "rgb_stretch": "linear",
+       "pans": "False",
+       "pans_method": "panr",
+       "pans_output": "rgb",
+       "pans_bgr": "480,560,655",
+       "pans_rgb_rhot": "True",
+       "pans_rgb_rhos": "True",
+       "pans_export_geotiff_rgb": "False",
+       "pans_sensors": "L7_ETM,L8_OLI,L9_OLI,PRISMA,MSG1_SEVIRI,MSG2_SEVIRI,MSG3_SEVIRI,MSG4_SEVIRI",
+       "pans_scale_factor": "None",
+       "map_projected": "False",
+       "map_raster": "False",
+       "map_pcolormesh": "False",
+       "map_cartopy": "False",
+       "map_mask": "True",
+       "map_xtick_rotation": "0.0",
+       "map_ytick_rotation": "0.0",
+       "map_gridline_color": "white",
+       "l1r_export_geotiff": "False",
+       "l2t_export_geotiff": "False",
+       "l2r_export_geotiff": "False",
+       "l2w_export_geotiff": "False",
+       "export_geotiff_coordinates": "False",
+       "export_geotiff_match_file": "None",
+       "export_cloud_optimized_geotiff": "False",
+       "export_cloud_optimized_geotiff_options": "COMPRESS=LZW,PREDICTOR=YES,LEVEL=9,OVERVIEWS=AUTO,BLOCKSIZE=1024",
+       "l1r_export_geotiff_rgb": "False",
+       "l2r_export_geotiff_rgb": "False",
+       "use_gdal_merge_import": "False",
+       "l1r_delete_netcdf": "True",
+       "l2t_delete_netcdf": "False",
+       "l2r_delete_netcdf": "False",
+       "l2r_pans_delete_netcdf": "False",
+       "l2w_delete_netcdf": "False",
+       "delete_acolite_run_text_files": "False",
+       "delete_acolite_output_directory": "False",
+       "delete_extracted_input": "False",
+       "reproject_outputs": "L1R,L2R,L2W",
+       "reproject_before_ac": "False",
+       "output_projection": "False",
+       "output_projection_name": "None",
+       "output_projection_epsg": "None",
+       "output_projection_proj4": "None",
+       "output_projection_resolution": "None",
+       "output_projection_limit": "None",
+       "output_projection_polygon": "None",
+       "output_projection_metres": "False",
+       "output_projection_xrange": "None",
+       "output_projection_yrange": "None",
+       "output_projection_resolution_align": "True",
+       "output_projection_resampling_method": "bilinear",
+       "default_projection_resolution": "None",
+       "output_projection_fillnans": "False",
+       "output_projection_filldistance": "1",
+       "output_projection_radius": "3.0",
+       "output_projection_epsilon": "0.0",
+       "output_projection_neighbours": "32",
+       "reproject_inputfile": "False",
+       "reproject_inputfile_force": "False",
+       "reproject_inputfile_dem": "False",
+       "luts": "ACOLITE-LUT-202110-MOD1,ACOLITE-LUT-202110-MOD2",
+       "luts_pressures": "500,750,1013,1100",
+       "lut_base": "ACOLITE-LUT-202110",
+       "lut_models": "1,2",
+       "lut_pressures": "500,750,1013,1100",
+       "lut_base_interface": "ACOLITE-RSKY-202102-82W",
+       "luts_reduce_dimensions": "True",
+       "slicing": "False",
+       "scene_download": "False",
+       "scene_download_directory": "None",
+       "runid": "20251224_161542",
+       "inputfile": "/input/S2B_MSIL1C_20251020T185329_N0511_R113_T10SGJ_20251020T204341.SAFE",
+       "new_path": "None"
+      },
+      "get": {
+       "status": 200,
+       "bytes": 10074,
+       "seconds": 0.32,
+       "content_length": "10074",
+       "etag": "\"32cee5a23b895e8e3c6850ea3d8c7073\"",
+       "request_charged": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "product": "S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544",
+   "version": "version_01",
+   "prefix_tile": "17SKU",
+   "tile": "17SKU",
+   "platform": "S2B",
+   "sensing": "20220703T161839",
+   "sensing_time": "2022-07-03T16:18:39Z",
+   "baseline": "05.10",
+   "orbit": 40,
+   "generation_time": "2024-07-01T03:05:44Z",
+   "layers": {
+    "B01": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B01.tif",
+     "size": 22275806,
+     "etag": "d8370c899c29d7c929e2e8dce9898215-3",
+     "last_modified": "2026-02-15T01:18:08.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "22275806",
+      "content_type": "image/tiff",
+      "etag": "d8370c899c29d7c929e2e8dce9898215-3",
+      "last_modified": "Sun, 15 Feb 2026 01:18:08 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.291
+     }
+    },
+    "B02": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B02.tif",
+     "size": 50903309,
+     "etag": "4e23a3c7b08879ecdd0962ca5310a1c7-7",
+     "last_modified": "2026-02-15T01:18:09.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "50903309",
+      "content_type": "image/tiff",
+      "etag": "4e23a3c7b08879ecdd0962ca5310a1c7-7",
+      "last_modified": "Sun, 15 Feb 2026 01:18:09 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3299
+     }
+    },
+    "B03": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B03.tif",
+     "size": 52005476,
+     "etag": "45cfe3ecbadbc36705058ce69476058a-7",
+     "last_modified": "2026-02-15T01:18:09.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "52005476",
+      "content_type": "image/tiff",
+      "etag": "45cfe3ecbadbc36705058ce69476058a-7",
+      "last_modified": "Sun, 15 Feb 2026 01:18:09 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3116
+     }
+    },
+    "B04": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B04.tif",
+     "size": 51379607,
+     "etag": "c2af56605daaddc8f80c86473656439e-7",
+     "last_modified": "2026-02-15T01:18:10.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "51379607",
+      "content_type": "image/tiff",
+      "etag": "c2af56605daaddc8f80c86473656439e-7",
+      "last_modified": "Sun, 15 Feb 2026 01:18:10 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3096
+     }
+    },
+    "B05": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B05.tif",
+     "size": 52523544,
+     "etag": "19c8386c39ba03ce6774e9e55b97080e-7",
+     "last_modified": "2026-02-15T01:18:12.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "52523544",
+      "content_type": "image/tiff",
+      "etag": "19c8386c39ba03ce6774e9e55b97080e-7",
+      "last_modified": "Sun, 15 Feb 2026 01:18:12 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3507
+     }
+    },
+    "B06": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B06.tif",
+     "size": 54380484,
+     "etag": "7337ad95a05f3283972cc49a175fd1bb-7",
+     "last_modified": "2026-02-15T01:18:13.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "54380484",
+      "content_type": "image/tiff",
+      "etag": "7337ad95a05f3283972cc49a175fd1bb-7",
+      "last_modified": "Sun, 15 Feb 2026 01:18:13 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3478
+     }
+    },
+    "B07": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B07.tif",
+     "size": 54727828,
+     "etag": "36eee91f16a6be31a435f8309eb95292-7",
+     "last_modified": "2026-02-15T01:18:14.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "54727828",
+      "content_type": "image/tiff",
+      "etag": "36eee91f16a6be31a435f8309eb95292-7",
+      "last_modified": "Sun, 15 Feb 2026 01:18:14 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3302
+     }
+    },
+    "B08": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B08.tif",
+     "size": 55247247,
+     "etag": "86f3fb060f95446cbf6f8f157775e0be-7",
+     "last_modified": "2026-02-15T01:18:15.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "55247247",
+      "content_type": "image/tiff",
+      "etag": "86f3fb060f95446cbf6f8f157775e0be-7",
+      "last_modified": "Sun, 15 Feb 2026 01:18:15 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3457
+     }
+    },
+    "B11": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B11.tif",
+     "size": 52234285,
+     "etag": "1b90d041a3aa26de376e48a5e60b4e0b-7",
+     "last_modified": "2026-02-15T01:18:15.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "52234285",
+      "content_type": "image/tiff",
+      "etag": "1b90d041a3aa26de376e48a5e60b4e0b-7",
+      "last_modified": "Sun, 15 Feb 2026 01:18:15 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3215
+     }
+    },
+    "B12": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B12.tif",
+     "size": 50345061,
+     "etag": "1beb754dfd52c1cf4c00e1d1a82da0e5-7",
+     "last_modified": "2026-02-15T01:18:16.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "50345061",
+      "content_type": "image/tiff",
+      "etag": "1beb754dfd52c1cf4c00e1d1a82da0e5-7",
+      "last_modified": "Sun, 15 Feb 2026 01:18:16 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3673
+     }
+    },
+    "B8A": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B8A.tif",
+     "size": 54859688,
+     "etag": "06491132a988135ac16775e5bec12be4-7",
+     "last_modified": "2026-02-15T01:18:17.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "54859688",
+      "content_type": "image/tiff",
+      "etag": "06491132a988135ac16775e5bec12be4-7",
+      "last_modified": "Sun, 15 Feb 2026 01:18:17 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3334
+     }
+    },
+    "NDWI": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_NDWI.tif",
+     "size": 54213023,
+     "etag": "909576aec0efc20ae2f0ca5708a2fe29-7",
+     "last_modified": "2026-02-15T01:18:18.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "54213023",
+      "content_type": "image/tiff",
+      "etag": "909576aec0efc20ae2f0ca5708a2fe29-7",
+      "last_modified": "Sun, 15 Feb 2026 01:18:18 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int16"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.3432
+     }
+    },
+    "l2_flags": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_l2_flags.tif",
+     "size": 2895942,
+     "etag": "8a8ae8bdd430001aaf1ccc1d4383439a",
+     "last_modified": "2026-02-15T01:18:19.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "2895942",
+      "content_type": "image/tiff",
+      "etag": "8a8ae8bdd430001aaf1ccc1d4383439a",
+      "last_modified": "Sun, 15 Feb 2026 01:18:19 GMT",
+      "request_charged": null,
+      "storage_class": "INTELLIGENT_TIERING",
+      "metadata": {}
+     },
+     "header": {
+      "driver": "GTiff",
+      "width": 5490,
+      "height": 5490,
+      "count": 1,
+      "dtypes": [
+       "int32"
+      ],
+      "nodata": -32768.0,
+      "scales": [
+       1.0
+      ],
+      "offsets": [
+       0.0
+      ],
+      "crs": "EPSG:32617",
+      "epsg": 32617,
+      "transform": [
+       20.0,
+       0.0,
+       199980.0,
+       0.0,
+       -20.0,
+       3900000.0
+      ],
+      "resolution": [
+       20.0,
+       20.0
+      ],
+      "block_shapes": [
+       [
+        512,
+        512
+       ]
+      ],
+      "overviews": [
+       2,
+       4,
+       8,
+       16
+      ],
+      "image_structure": {
+       "LAYOUT": "COG",
+       "COMPRESSION": "DEFLATE",
+       "INTERLEAVE": "BAND"
+      },
+      "dataset_tags": {
+       "OVR_RESAMPLING_ALG": "NEAREST",
+       "AREA_OR_POINT": "Area"
+      },
+      "band_tags": {},
+      "descriptions": [
+       null
+      ],
+      "units": [
+       null
+      ],
+      "mask_flags": [
+       [
+        "nodata"
+       ]
+      ]
+     },
+     "gdal": {
+      "requests": 1,
+      "bytes": 16384,
+      "size_requests": 1,
+      "seconds": 0.2432
+     }
+    },
+    "settings": {
+     "key": "version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_settings.txt",
+     "size": 10074,
+     "etag": "1a7410272f102d7e34efc88ac0be3d70",
+     "last_modified": "2026-02-15T01:18:19.000Z",
+     "head": {
+      "status": 200,
+      "content_length": "10074",
+      "content_type": "text/plain",
+      "etag": "1a7410272f102d7e34efc88ac0be3d70",
+      "last_modified": "Sun, 15 Feb 2026 01:18:19 GMT",
+      "request_charged": null,
+      "storage_class": null,
+      "metadata": {}
+     },
+     "settings": {
+      "sha256": "6c1290bb9bf3eac13c0d045b43ab16f1b0b713f149a5e6536db08a9c730c1785",
+      "bytes": 10074,
+      "lines": 392,
+      "saved": "data/aqr-headers/2026-10-13T181726+0000/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_settings.txt",
+      "selected": {
+       "acolite_version": null,
+       "aerosol_correction": null,
+       "dsf_aot_estimate": "tiled",
+       "dsf_tile_dimensions": "300,300",
+       "dsf_residual_glint_correction": "False",
+       "glint_correction": null,
+       "l2w_mask": "True",
+       "l2w_mask_wave": "1600",
+       "l2w_mask_threshold": "0.05",
+       "l2w_mask_negative_rhow": "True",
+       "l2w_mask_cirrus": "True",
+       "l2w_mask_high_toa": "True",
+       "s2_target_res": "20",
+       "resolved_geometry": "True",
+       "output_geotiff": null,
+       "l2r_export_geotiff": "False",
+       "l2w_export_geotiff": "False",
+       "l2w_parameters": "tur_nechad2016,p3qaa,Rrs_*",
+       "dem_pressure": "True"
+      },
+      "all": {
+       "geofile": "None",
+       "l2cfile": "None",
+       "region_name": "",
+       "limit": "None",
+       "sub": "None",
+       "extend_region": "False",
+       "l1r_crop": "False",
+       "polygon": "None",
+       "polygon_limit": "True",
+       "polygon_clip": "False",
+       "polylakes": "False",
+       "polylakes_database": "worldlakes",
+       "station_lon": "None",
+       "station_lat": "None",
+       "station_box_size": "None",
+       "station_box_units": "km",
+       "limit_buffer": "None",
+       "limit_buffer_units": "degrees",
+       "merge_tiles": "False",
+       "merge_full_tiles": "False",
+       "output": "/output/acolite_out",
+       "output_geolocation": "True",
+       "output_xy": "False",
+       "output_geometry": "False",
+       "output_rhorc": "False",
+       "output_ed": "False",
+       "add_band_name": "False",
+       "add_detector_name": "False",
+       "compute_contrabands": "False",
+       "netcdf_projection": "True",
+       "netcdf_compression": "True",
+       "netcdf_compression_level": "2",
+       "netcdf_compression_least_significant_digit": "None",
+       "netcdf_discretisation": "False",
+       "landsat_qa_bands": "PIXEL,RADSAT,SATURATION,AEROSOL",
+       "landsat_qa_output": "False",
+       "s2_target_res": "20",
+       "s2_auxiliary_include": "False",
+       "s2_auxiliary_project": "False",
+       "s2_auxiliary_default": "False",
+       "s2_auxiliary_interpolate": "True",
+       "s2_write_dfoo": "False",
+       "s2_write_vaa": "False",
+       "s2_write_saa": "False",
+       "s2_dilate_blackfill": "False",
+       "s2_dilate_blackfill_iterations": "2",
+       "geometry_type": "grids_footprint",
+       "geometry_res": "60",
+       "geometry_per_band": "False",
+       "geometry_fixed_footprint": "False",
+       "geometry_override": "False",
+       "smile_correction": "True",
+       "smile_correction_tgas": "True",
+       "use_tpg": "False",
+       "use_supplied_ancillary": "True",
+       "inputfile_swir": "None",
+       "worldview_reproject": "False",
+       "worldview_reproject_resolution": "2.0",
+       "worldview_reproject_method": "nearest",
+       "planet_store_sr": "False",
+       "pleiades_skip_pan": "False",
+       "pleiades_force_metadata_geolocation": "False",
+       "prisma_rhot_per_pixel_sza": "True",
+       "prisma_store_l2c": "False",
+       "prisma_store_l2c_separate_file": "True",
+       "prisma_output_pan": "False",
+       "chris_interband_calibration": "False",
+       "chris_noise_reduction": "True",
+       "desis_mask_ql": "True",
+       "clear_scratch": "True",
+       "gf_reproject_to_utm": "False",
+       "viirs_option": "img+mod",
+       "viirs_scanline_projection": "True",
+       "viirs_scanline_width": "32",
+       "viirs_quality_flags": "4,8,512,1024,2048,4096",
+       "viirs_output_tir": "True",
+       "viirs_output_tir_lt": "False",
+       "viirs_mask_mband": "True",
+       "viirs_mask_immixed": "True",
+       "viirs_mask_immixed_rat": "False",
+       "viirs_mask_immixed_dif": "True",
+       "viirs_mask_immixed_bands": "I03/M10",
+       "viirs_mask_immixed_maxrat": "0.2",
+       "viirs_mask_immixed_maxdif": "0.002",
+       "seviri_hrv": "False",
+       "tact_run": "False",
+       "tact_profile_source": "era5",
+       "tact_reptran": "medium",
+       "tact_emissivity": "water",
+       "tact_emissivity_file": "None",
+       "tact_emissivity_ndvi_toa": "True",
+       "tact_output_atmosphere": "False",
+       "tact_output_intermediate": "False",
+       "ged_fill": "True",
+       "tact_range": "3.5,14.0",
+       "eminet_water_fill": "True",
+       "eminet_water_threshold": "0.0215",
+       "eminet_model_version": "20220809",
+       "eminet_netname": "Net2",
+       "eminet_fill": "True",
+       "eminet_fill_dilate": "False",
+       "verbosity": "5",
+       "output_lt": "False",
+       "solar_irradiance_reference": "Coddington2021_1_0nm",
+       "blackfill_skip": "True",
+       "blackfill_max": "1.0",
+       "blackfill_wave": "1600",
+       "copy_datasets": "lon,lat,rhot_*",
+       "output_bt": "False",
+       "l2w_parameters": "tur_nechad2016,p3qaa,Rrs_*",
+       "l2w_mask": "True",
+       "l2w_mask_wave": "1600",
+       "l2w_mask_threshold": "0.05",
+       "l2w_mask_water_parameters": "True",
+       "l2w_mask_negative_rhow": "True",
+       "l2w_mask_negative_wave_range": "450,700",
+       "l2w_mask_cirrus": "True",
+       "l2w_mask_cirrus_threshold": "0.005",
+       "l2w_mask_cirrus_wave": "1373",
+       "l2w_mask_high_toa": "True",
+       "l2w_mask_high_toa_threshold": "0.3",
+       "l2w_mask_high_toa_wave_range": "400,2500",
+       "l2w_mask_mixed": "True",
+       "l2w_data_in_memory": "False",
+       "nechad_range": "600,900",
+       "nechad_max_rhow_C_factor": "0.5",
+       "l2w_mask_smooth": "False",
+       "l2w_mask_smooth_sigma": "3",
+       "flag_exponent_swir": "0",
+       "flag_exponent_cirrus": "1",
+       "flag_exponent_toa": "2",
+       "flag_exponent_negative": "3",
+       "flag_exponent_outofscene": "4",
+       "flag_exponent_mixed": "5",
+       "flag_exponent_dem_shadow": "6",
+       "atmospheric_correction": "True",
+       "atmospheric_correction_method": "dark_spectrum",
+       "gas_transmittance": "True",
+       "min_tgas_aot": "0.85",
+       "min_tgas_rho": "0.7",
+       "sza_limit_replace": "False",
+       "sza_limit": "79.999",
+       "vza_limit_replace": "False",
+       "vza_limit": "71.999",
+       "cirrus_correction": "False",
+       "cirrus_range": "1350.0,1390.0",
+       "cirrus_g_vnir": "1.0",
+       "cirrus_g_swir": "0.5",
+       "rsr_version": "None",
+       "resolved_geometry": "True",
+       "ancillary_data": "True",
+       "ancillary_type": "GMAO_MERRA2_MET",
+       "uoz_default": "0.3",
+       "uwv_default": "1.5",
+       "pressure": "1013.25",
+       "pressure_default": "1013.25",
+       "elevation": "None",
+       "dem_pressure": "True",
+       "dem_pressure_resolved": "True",
+       "dem_pressure_percentile": "25.0",
+       "dem_pressure_write": "False",
+       "dem_source": "srtm",
+       "dem_shadow_mask": "False",
+       "dem_shadow_mask_extend": "True",
+       "dem_shadow_mask_extend_metres": "3000.0",
+       "dem_shadow_mask_filter": "True",
+       "dem_shadow_mask_filter_kernel": "3,3",
+       "dem_shadow_mask_erode_its": "1",
+       "dem_shadow_mask_dilate_its": "5",
+       "dsf_interface_reflectance": "False",
+       "dsf_interface_option": "default",
+       "dsf_interface_lut": "ACOLITE-RSKY-202102-82W",
+       "wind": "None",
+       "wind_default": "2.0",
+       "dsf_residual_glint_correction": "False",
+       "dsf_residual_glint_correction_method": "default",
+       "dsf_residual_glint_wave_range": "1500,2400",
+       "glint_force_band": "None",
+       "glint_mask_rhos_wave": "1600",
+       "glint_mask_rhos_threshold": "0.05",
+       "glint_write_rhog_ref": "False",
+       "glint_write_rhog_all": "False",
+       "adjacency_correction": "False",
+       "adjacency_correction_method": "None",
+       "optimise_target_rhos": "None",
+       "optimise_target_rhos_file": "None",
+       "optimise_target_lon": "None",
+       "optimise_target_lat": "None",
+       "optimise_target_type": "pixel",
+       "optimise_target_size": "1.0",
+       "optimise_target_units": "pixel",
+       "optimise_target_mask": "False",
+       "optimise_tolerance": "0.001",
+       "optimise_aot_cost": "rmsd",
+       "optimise_plot": "False",
+       "optimise_plot_range": "-0.01,0.06",
+       "radcor_kernel_radius": "5.0",
+       "radcor_kernel_complete_method": "neighbourhood",
+       "radcor_force_model": "None",
+       "radcor_force_aot": "None",
+       "radcor_crop_centre": "False",
+       "radcor_edge_extend": "False",
+       "radcor_edge_extend_method": "average",
+       "radcor_max_vza": "15.0",
+       "radcor_aot_estimate": "tsdsf",
+       "radcor_aot_estimate_centre_extent": "None",
+       "radcor_aot_estimate_centre_mask": "False",
+       "radcor_aot_selection": "lowest_positive_difference",
+       "radcor_skip_pan": "False",
+       "radcor_write_rhot": "True",
+       "radcor_write_rhotc": "False",
+       "radcor_write_rhotc_separate_file": "False",
+       "radcor_write_rhoe": "True",
+       "radcor_write_rhosu": "True",
+       "radcor_development": "False",
+       "radcor_diagnostic_plots": "False",
+       "tsdsf_initial_aot": "1.0",
+       "tsdsf_kernel_radius": "None",
+       "tsdsf_kernel_complete_method": "neighbourhood",
+       "tsdsf_psf_centre_zero": "False",
+       "tsdsf_bratio_option": "percentile",
+       "tsdsf_bratio_percentile": "1.0",
+       "tsdsf_wave_range": "400.0,2500.0",
+       "dsf_aot_estimate": "tiled",
+       "dsf_nbands": "2",
+       "dsf_nbands_fit": "2",
+       "dsf_aot_compute": "min",
+       "dsf_spectrum_option": "intercept",
+       "dsf_percentile": "1.0",
+       "dsf_intercept_pixels": "200",
+       "dsf_minimum_segment_size": "1",
+       "dsf_allow_lut_boundaries": "False",
+       "dsf_filter_rhot": "False",
+       "dsf_filter_percentile": "50.0",
+       "dsf_filter_box": "10,10",
+       "dsf_filter_aot": "False",
+       "dsf_smooth_aot": "False",
+       "dsf_smooth_box": "10,10",
+       "dsf_aot_fillnan": "True",
+       "dsf_aot_most_common_model": "True",
+       "dsf_model_selection": "min_drmsd",
+       "dsf_min_tile_cover": "0.1",
+       "dsf_min_tile_aot": "0.01",
+       "dsf_max_tile_aot": "1.2",
+       "dsf_write_tiled_parameters": "False",
+       "dsf_wave_range": "400.0,900.0",
+       "dsf_exclude_bands": "",
+       "dsf_write_aot_550": "False",
+       "dsf_fixed_aot": "None",
+       "dsf_fixed_lut": "ACOLITE-LUT-202110-MOD2",
+       "dsf_tile_dimensions": "300,300",
+       "dsf_tile_smoothing": "True",
+       "dsf_tile_smoothing_kernel_size": "3",
+       "dsf_tile_interp_method": "linear",
+       "exp_swir_threshold": "0.0215",
+       "exp_fixed_epsilon": "True",
+       "exp_fixed_epsilon_percentile": "50.0",
+       "exp_fixed_aerosol_reflectance": "True",
+       "exp_fixed_aerosol_reflectance_percentile": "5.0",
+       "exp_wave1": "1600",
+       "exp_wave2": "2200",
+       "exp_alpha": "None",
+       "exp_alpha_weighted": "True",
+       "exp_epsilon": "None",
+       "exp_gamma": "None",
+       "exp_output_intermediate": "False",
+       "gains": "False",
+       "gains_parameter": "radiance",
+       "gains_toa": "1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0",
+       "offsets": "False",
+       "offsets_toa": "0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0",
+       "rgb_rhot": "False",
+       "rgb_rhos": "False",
+       "rgb_rhosu": "False",
+       "rgb_rhoe": "False",
+       "rgb_rhorc": "False",
+       "rgb_rhow": "False",
+       "map_l1r": "False",
+       "map_l2r": "False",
+       "map_l2t": "False",
+       "map_l2w": "False",
+       "l1r_rgb_keys": "rhot",
+       "l2r_rgb_keys": "rhos,rhosu,rhorc,rhotc,rhoe",
+       "l2w_rgb_keys": "rhow",
+       "map_title": "True",
+       "map_title_rgb_wavelengths": "False",
+       "map_fontname": "sans-serif",
+       "map_fontsize": "12",
+       "map_usetex": "False",
+       "map_dpi": "300",
+       "map_ext": "png",
+       "map_limit": "None",
+       "map_scalebar": "False",
+       "map_scalebar_position": "UL",
+       "map_scalebar_color": "Black",
+       "map_scalebar_length": "None",
+       "map_scalebar_max_fraction": "0.33",
+       "map_scalebar_position_vu": "0.85",
+       "map_scalebar_position_vl": "0.1",
+       "map_scalebar_position_hr": "0.95",
+       "map_scalebar_position_hl": "0.05",
+       "map_points": "None",
+       "map_colorbar": "True",
+       "map_colorbar_orientation": "vertical",
+       "map_auto_range": "False",
+       "map_auto_range_percentiles": "1.0,99.0",
+       "map_fill_outrange": "False",
+       "map_fill_color": "LightGrey",
+       "map_default_colormap": "viridis",
+       "rgb_red_wl": "650",
+       "rgb_green_wl": "560",
+       "rgb_blue_wl": "480",
+       "rgb_min": "0.0,0.0,0.0",
+       "rgb_max": "0.15,0.15,0.15",
+       "rgb_gamma": "1.0,1.0,1.0",
+       "rgb_autoscale": "False",
+       "rgb_autoscale_percentiles": "5.0,95.0",
+       "rgb_stretch": "linear",
+       "pans": "False",
+       "pans_method": "panr",
+       "pans_output": "rgb",
+       "pans_bgr": "480,560,655",
+       "pans_rgb_rhot": "True",
+       "pans_rgb_rhos": "True",
+       "pans_export_geotiff_rgb": "False",
+       "pans_sensors": "L7_ETM,L8_OLI,L9_OLI,PRISMA,MSG1_SEVIRI,MSG2_SEVIRI,MSG3_SEVIRI,MSG4_SEVIRI",
+       "pans_scale_factor": "None",
+       "map_projected": "False",
+       "map_raster": "False",
+       "map_pcolormesh": "False",
+       "map_cartopy": "False",
+       "map_mask": "True",
+       "map_xtick_rotation": "0.0",
+       "map_ytick_rotation": "0.0",
+       "map_gridline_color": "white",
+       "l1r_export_geotiff": "False",
+       "l2t_export_geotiff": "False",
+       "l2r_export_geotiff": "False",
+       "l2w_export_geotiff": "False",
+       "export_geotiff_coordinates": "False",
+       "export_geotiff_match_file": "None",
+       "export_cloud_optimized_geotiff": "False",
+       "export_cloud_optimized_geotiff_options": "COMPRESS=LZW,PREDICTOR=YES,LEVEL=9,OVERVIEWS=AUTO,BLOCKSIZE=1024",
+       "l1r_export_geotiff_rgb": "False",
+       "l2r_export_geotiff_rgb": "False",
+       "use_gdal_merge_import": "False",
+       "l1r_delete_netcdf": "True",
+       "l2t_delete_netcdf": "False",
+       "l2r_delete_netcdf": "False",
+       "l2r_pans_delete_netcdf": "False",
+       "l2w_delete_netcdf": "False",
+       "delete_acolite_run_text_files": "False",
+       "delete_acolite_output_directory": "False",
+       "delete_extracted_input": "False",
+       "reproject_outputs": "L1R,L2R,L2W",
+       "reproject_before_ac": "False",
+       "output_projection": "False",
+       "output_projection_name": "None",
+       "output_projection_epsg": "None",
+       "output_projection_proj4": "None",
+       "output_projection_resolution": "None",
+       "output_projection_limit": "None",
+       "output_projection_polygon": "None",
+       "output_projection_metres": "False",
+       "output_projection_xrange": "None",
+       "output_projection_yrange": "None",
+       "output_projection_resolution_align": "True",
+       "output_projection_resampling_method": "bilinear",
+       "default_projection_resolution": "None",
+       "output_projection_fillnans": "False",
+       "output_projection_filldistance": "1",
+       "output_projection_radius": "3.0",
+       "output_projection_epsilon": "0.0",
+       "output_projection_neighbours": "32",
+       "reproject_inputfile": "False",
+       "reproject_inputfile_force": "False",
+       "reproject_inputfile_dem": "False",
+       "luts": "ACOLITE-LUT-202110-MOD1,ACOLITE-LUT-202110-MOD2",
+       "luts_pressures": "500,750,1013,1100",
+       "lut_base": "ACOLITE-LUT-202110",
+       "lut_models": "1,2",
+       "lut_pressures": "500,750,1013,1100",
+       "lut_base_interface": "ACOLITE-RSKY-202102-82W",
+       "luts_reduce_dimensions": "True",
+       "slicing": "False",
+       "scene_download": "False",
+       "scene_download_directory": "None",
+       "runid": "20260215_011151",
+       "inputfile": "/input/S2B_MSIL1C_20220703T161839_N0510_R040_T17SKU_20240701T030544.SAFE",
+       "new_path": "None"
+      },
+      "get": {
+       "status": 200,
+       "bytes": 10074,
+       "seconds": 0.381,
+       "content_length": "10074",
+       "etag": "\"1a7410272f102d7e34efc88ac0be3d70\"",
+       "request_charged": null
+      }
+     }
+    }
+   }
+  }
+ ],
+ "earth_search_pairs": [
+  {
+   "product": "S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355",
+   "collection": "sentinel-2-c1-l2a",
+   "es_baseline": "05.11",
+   "es_platform": "S2B",
+   "item_id": "S2B_T17SKU_20251015T162249_L2A",
+   "asset": "rededge1",
+   "es_transform": [
+    20,
+    0,
+    199980,
+    0,
+    -20,
+    3900000
+   ],
+   "es_shape": [
+    5490,
+    5490
+   ],
+   "es_crs": "EPSG:32617",
+   "aqr_transform": [
+    20.0,
+    0.0,
+    199980.0,
+    0.0,
+    -20.0,
+    3900000.0
+   ],
+   "aqr_shape": [
+    5490,
+    5490
+   ],
+   "aqr_crs": "EPSG:32617",
+   "origin_offset_pixels": [
+    0.0,
+    -0.0
+   ],
+   "same_pixel_size": true,
+   "same_crs": true,
+   "same_shape": true,
+   "aligned": true
+  },
+  {
+   "product": "S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355",
+   "collection": "sentinel-2-l2a",
+   "es_baseline": "05.11",
+   "es_platform": "S2B",
+   "item_id": "S2B_17SKU_20251015_0_L2A",
+   "asset": "rededge1",
+   "es_transform": [
+    20,
+    0,
+    199980,
+    0,
+    -20,
+    3900000
+   ],
+   "es_shape": [
+    5490,
+    5490
+   ],
+   "es_crs": "EPSG:32617",
+   "aqr_transform": [
+    20.0,
+    0.0,
+    199980.0,
+    0.0,
+    -20.0,
+    3900000.0
+   ],
+   "aqr_shape": [
+    5490,
+    5490
+   ],
+   "aqr_crs": "EPSG:32617",
+   "origin_offset_pixels": [
+    0.0,
+    -0.0
+   ],
+   "same_pixel_size": true,
+   "same_crs": true,
+   "same_shape": true,
+   "aligned": true
+  },
+  {
+   "product": "S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341",
+   "collection": "sentinel-2-c1-l2a",
+   "es_baseline": "05.11",
+   "es_platform": "S2B",
+   "item_id": "S2B_T10SGJ_20251020T185627_L2A",
+   "asset": "rededge1",
+   "es_transform": [
+    20,
+    0,
+    699960,
+    0,
+    -20,
+    4400040
+   ],
+   "es_shape": [
+    5490,
+    5490
+   ],
+   "es_crs": "EPSG:32610",
+   "aqr_transform": [
+    20.0,
+    0.0,
+    699960.0,
+    0.0,
+    -20.0,
+    4400040.0
+   ],
+   "aqr_shape": [
+    5490,
+    5490
+   ],
+   "aqr_crs": "EPSG:32610",
+   "origin_offset_pixels": [
+    0.0,
+    -0.0
+   ],
+   "same_pixel_size": true,
+   "same_crs": true,
+   "same_shape": true,
+   "aligned": true
+  },
+  {
+   "product": "S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341",
+   "collection": "sentinel-2-l2a",
+   "es_baseline": "05.11",
+   "es_platform": "S2B",
+   "item_id": "S2B_10SGJ_20251020_0_L2A",
+   "asset": "rededge1",
+   "es_transform": [
+    20,
+    0,
+    699960,
+    0,
+    -20,
+    4400040
+   ],
+   "es_shape": [
+    5490,
+    5490
+   ],
+   "es_crs": "EPSG:32610",
+   "aqr_transform": [
+    20.0,
+    0.0,
+    699960.0,
+    0.0,
+    -20.0,
+    4400040.0
+   ],
+   "aqr_shape": [
+    5490,
+    5490
+   ],
+   "aqr_crs": "EPSG:32610",
+   "origin_offset_pixels": [
+    0.0,
+    -0.0
+   ],
+   "same_pixel_size": true,
+   "same_crs": true,
+   "same_shape": true,
+   "aligned": true
+  },
+  {
+   "product": "S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544",
+   "collection": "sentinel-2-l2a",
+   "es_baseline": "04.00",
+   "es_platform": "S2B",
+   "item_id": "S2B_17SKU_20220703_0_L2A",
+   "asset": "rededge1",
+   "es_transform": [
+    20,
+    0,
+    199980,
+    0,
+    -20,
+    3900000
+   ],
+   "es_shape": [
+    5490,
+    5490
+   ],
+   "es_crs": "EPSG:32617",
+   "aqr_transform": [
+    20.0,
+    0.0,
+    199980.0,
+    0.0,
+    -20.0,
+    3900000.0
+   ],
+   "aqr_shape": [
+    5490,
+    5490
+   ],
+   "aqr_crs": "EPSG:32617",
+   "origin_offset_pixels": [
+    0.0,
+    -0.0
+   ],
+   "same_pixel_size": true,
+   "same_crs": true,
+   "same_shape": true,
+   "aligned": true
+  }
+ ],
+ "summary": {
+  "versions": [
+   "version_01/"
+  ],
+  "tile_prefixes": 1340,
+  "tile_prefixes_by_utm_zone": {
+   "01": 13,
+   "02": 29,
+   "03": 50,
+   "04": 83,
+   "05": 62,
+   "06": 43,
+   "07": 24,
+   "08": 19,
+   "09": 7,
+   "10": 69,
+   "11": 107,
+   "12": 116,
+   "13": 123,
+   "14": 143,
+   "15": 128,
+   "16": 118,
+   "17": 114,
+   "18": 51,
+   "19": 28,
+   "20": 2,
+   "54": 2,
+   "55": 2,
+   "59": 3,
+   "60": 4
+  },
+  "scenes_probed": 3,
+  "layer_sets": {
+   "B01 B02 B03 B04 B05 B06 B07 B08 B11 B12 B8A NDWI l2_flags settings": 3
+  },
+  "geotiffs_probed": 39,
+  "dtypes": {
+   "[\"int16\"]": 36,
+   "[\"int32\"]": 3
+  },
+  "nodata": {
+   "-32768.0": 39
+  },
+  "scales_offsets": {
+   "[[1.0], [0.0]]": 39
+  },
+  "crs": {
+   "\"EPSG:32610\"": 13,
+   "\"EPSG:32617\"": 26
+  },
+  "resolution": {
+   "[20.0, 20.0]": 39
+  },
+  "shape": {
+   "[5490, 5490]": 39
+  },
+  "block_shapes": {
+   "[[512, 512]]": 39
+  },
+  "overviews": {
+   "[2, 4, 8, 16]": 39
+  },
+  "image_structure": {
+   "{\"COMPRESSION\": \"DEFLATE\", \"INTERLEAVE\": \"BAND\", \"LAYOUT\": \"COG\"}": 39
+  },
+  "settings_selected": {
+   "{\"acolite_version\": null, \"aerosol_correction\": null, \"dem_pressure\": \"True\", \"dsf_aot_estimate\": \"tiled\", \"dsf_residual_glint_correction\": \"False\", \"dsf_tile_dimensions\": \"300,300\", \"glint_correction\": null, \"l2r_export_geotiff\": \"False\", \"l2w_export_geotiff\": \"False\", \"l2w_mask\": \"True\", \"l2w_mask_cirrus\": \"True\", \"l2w_mask_high_toa\": \"True\", \"l2w_mask_negative_rhow\": \"True\", \"l2w_mask_threshold\": \"0.05\", \"l2w_mask_wave\": \"1600\", \"l2w_parameters\": \"tur_nechad2016,p3qaa,Rrs_*\", \"output_geotiff\": null, \"resolved_geometry\": \"True\", \"s2_target_res\": \"20\"}": 3
+  },
+  "settings_digests": [
+   "08eaec127008360fac345e7cbd6a13aeeaa361fc26bd57ea45da6129c33c4d63",
+   "6c1290bb9bf3eac13c0d045b43ab16f1b0b713f149a5e6536db08a9c730c1785",
+   "7393f25c2d538e515b5eebff6aa225997ffab54adad25c1e1f7f3e35cf9d83c7"
+  ],
+  "head_statuses": {
+   "200": 42
+  },
+  "request_charged_headers": {
+   "None": 42
+  },
+  "grid_alignment": [
+   {
+    "product": "S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355",
+    "item_id": "S2B_T17SKU_20251015T162249_L2A",
+    "aligned": true,
+    "origin_offset_pixels": [
+     0.0,
+     -0.0
+    ]
+   },
+   {
+    "product": "S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355",
+    "item_id": "S2B_17SKU_20251015_0_L2A",
+    "aligned": true,
+    "origin_offset_pixels": [
+     0.0,
+     -0.0
+    ]
+   },
+   {
+    "product": "S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341",
+    "item_id": "S2B_T10SGJ_20251020T185627_L2A",
+    "aligned": true,
+    "origin_offset_pixels": [
+     0.0,
+     -0.0
+    ]
+   },
+   {
+    "product": "S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341",
+    "item_id": "S2B_10SGJ_20251020_0_L2A",
+    "aligned": true,
+    "origin_offset_pixels": [
+     0.0,
+     -0.0
+    ]
+   },
+   {
+    "product": "S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544",
+    "item_id": "S2B_17SKU_20220703_0_L2A",
+    "aligned": true,
+    "origin_offset_pixels": [
+     0.0,
+     -0.0
+    ]
+   }
+  ],
+  "header_requests": 39,
+  "header_bytes_requested": 638976
+ },
+ "raw_dir": "data/aqr-headers/2026-10-13T181726+0000",
+ "request_log": [
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=&max-keys=1000&delimiter=%2F",
+   "note": "root page 1",
+   "status": 200,
+   "bytes": 351,
+   "seconds": 0.315,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2F&max-keys=1000&delimiter=%2F",
+   "note": "tiles page 1",
+   "status": 200,
+   "bytes": 68575,
+   "seconds": 0.501,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2F&max-keys=1000&delimiter=%2F&continuation-token=1EBPy6ByJ4xA5ePyK4KcesK%2F5FzfoEvkBrSb896s9sc%2Bk8LBW%2BJqYhaS2o6jAVaF4EBbMgqh7nTDTDg0ToWWdUw%3D%3D",
+   "note": "tiles page 2",
+   "status": 200,
+   "bytes": 23619,
+   "seconds": 0.46,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2FT17SKU%2FS2A_MSIAQR_20251015&max-keys=1000",
+   "note": "scene 17SKU:2025-10-15 S2A page 1",
+   "status": 200,
+   "bytes": 303,
+   "seconds": 0.251,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2FT17SKU%2FS2B_MSIAQR_20251015&max-keys=1000",
+   "note": "scene 17SKU:2025-10-15 S2B page 1",
+   "status": 200,
+   "bytes": 5714,
+   "seconds": 0.252,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2FT17SKU%2FS2C_MSIAQR_20251015&max-keys=1000",
+   "note": "scene 17SKU:2025-10-15 S2C page 1",
+   "status": 200,
+   "bytes": 303,
+   "seconds": 0.273,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2FT17SKU%2FS2D_MSIAQR_20251015&max-keys=1000",
+   "note": "scene 17SKU:2025-10-15 S2D page 1",
+   "status": 200,
+   "bytes": 303,
+   "seconds": 0.254,
+   "attempt": 1
+  },
+  {
+   "host": "earth-search.aws.element84.com",
+   "method": "POST",
+   "path": "/v1/search",
+   "note": "items sentinel-2-c1-l2a 17SKU 20251015",
+   "status": 200,
+   "bytes": 18379,
+   "seconds": 0.355,
+   "attempt": 1
+  },
+  {
+   "host": "earth-search.aws.element84.com",
+   "method": "POST",
+   "path": "/v1/search",
+   "note": "items sentinel-2-l2a 17SKU 20251015",
+   "status": 200,
+   "bytes": 21580,
+   "seconds": 0.311,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B01.tif",
+   "note": "head B01",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.294,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B02.tif",
+   "note": "head B02",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.266,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B03.tif",
+   "note": "head B03",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.288,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B04.tif",
+   "note": "head B04",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.264,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B05.tif",
+   "note": "head B05",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.285,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B06.tif",
+   "note": "head B06",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.307,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B07.tif",
+   "note": "head B07",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.285,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B08.tif",
+   "note": "head B08",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.267,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B11.tif",
+   "note": "head B11",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.267,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B12.tif",
+   "note": "head B12",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.245,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B8A.tif",
+   "note": "head B8A",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.271,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_NDWI.tif",
+   "note": "head NDWI",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.269,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_l2_flags.tif",
+   "note": "head l2_flags",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.246,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_settings.txt",
+   "note": "head settings",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.268,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_settings.txt",
+   "note": "settings S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355",
+   "status": 200,
+   "bytes": 10074,
+   "seconds": 0.294,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2FT10SGJ%2FS2A_MSIAQR_20251020&max-keys=1000",
+   "note": "scene 10SGJ:2025-10-20 S2A page 1",
+   "status": 200,
+   "bytes": 303,
+   "seconds": 0.264,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2FT10SGJ%2FS2B_MSIAQR_20251020&max-keys=1000",
+   "note": "scene 10SGJ:2025-10-20 S2B page 1",
+   "status": 200,
+   "bytes": 5714,
+   "seconds": 0.273,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2FT10SGJ%2FS2C_MSIAQR_20251020&max-keys=1000",
+   "note": "scene 10SGJ:2025-10-20 S2C page 1",
+   "status": 200,
+   "bytes": 303,
+   "seconds": 0.283,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2FT10SGJ%2FS2D_MSIAQR_20251020&max-keys=1000",
+   "note": "scene 10SGJ:2025-10-20 S2D page 1",
+   "status": 200,
+   "bytes": 303,
+   "seconds": 0.261,
+   "attempt": 1
+  },
+  {
+   "host": "earth-search.aws.element84.com",
+   "method": "POST",
+   "path": "/v1/search",
+   "note": "items sentinel-2-c1-l2a 10SGJ 20251020",
+   "status": 200,
+   "bytes": 18400,
+   "seconds": 0.21,
+   "attempt": 1
+  },
+  {
+   "host": "earth-search.aws.element84.com",
+   "method": "POST",
+   "path": "/v1/search",
+   "note": "items sentinel-2-l2a 10SGJ 20251020",
+   "status": 200,
+   "bytes": 21599,
+   "seconds": 0.332,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B01.tif",
+   "note": "head B01",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.298,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B02.tif",
+   "note": "head B02",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.275,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B03.tif",
+   "note": "head B03",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.301,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B04.tif",
+   "note": "head B04",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.269,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B05.tif",
+   "note": "head B05",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.29,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B06.tif",
+   "note": "head B06",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.26,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B07.tif",
+   "note": "head B07",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.279,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B08.tif",
+   "note": "head B08",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.258,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B11.tif",
+   "note": "head B11",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.283,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B12.tif",
+   "note": "head B12",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.294,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_B8A.tif",
+   "note": "head B8A",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.284,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_NDWI.tif",
+   "note": "head NDWI",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.262,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_l2_flags.tif",
+   "note": "head l2_flags",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.272,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_settings.txt",
+   "note": "head settings",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.256,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/version_01/T10SGJ/S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341_settings.txt",
+   "note": "settings S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341",
+   "status": 200,
+   "bytes": 10074,
+   "seconds": 0.32,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2FT17SKU%2FS2A_MSIAQR_202207&max-keys=1000",
+   "note": "scene 17SKU:2022-07 S2A page 1",
+   "status": 200,
+   "bytes": 27352,
+   "seconds": 0.343,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2FT17SKU%2FS2B_MSIAQR_202207&max-keys=1000",
+   "note": "scene 17SKU:2022-07 S2B page 1",
+   "status": 200,
+   "bytes": 27830,
+   "seconds": 0.34,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2FT17SKU%2FS2C_MSIAQR_202207&max-keys=1000",
+   "note": "scene 17SKU:2022-07 S2C page 1",
+   "status": 200,
+   "bytes": 301,
+   "seconds": 0.253,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/?list-type=2&prefix=version_01%2FT17SKU%2FS2D_MSIAQR_202207&max-keys=1000",
+   "note": "scene 17SKU:2022-07 S2D page 1",
+   "status": 200,
+   "bytes": 301,
+   "seconds": 0.251,
+   "attempt": 1
+  },
+  {
+   "host": "earth-search.aws.element84.com",
+   "method": "POST",
+   "path": "/v1/search",
+   "note": "items sentinel-2-c1-l2a 17SKU 20220703",
+   "status": 200,
+   "bytes": 273,
+   "seconds": 0.149,
+   "attempt": 1
+  },
+  {
+   "host": "earth-search.aws.element84.com",
+   "method": "POST",
+   "path": "/v1/search",
+   "note": "items sentinel-2-l2a 17SKU 20220703",
+   "status": 200,
+   "bytes": 22065,
+   "seconds": 0.323,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B01.tif",
+   "note": "head B01",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.268,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B02.tif",
+   "note": "head B02",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.26,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B03.tif",
+   "note": "head B03",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.279,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B04.tif",
+   "note": "head B04",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.26,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B05.tif",
+   "note": "head B05",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.293,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B06.tif",
+   "note": "head B06",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.263,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B07.tif",
+   "note": "head B07",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.318,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B08.tif",
+   "note": "head B08",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.272,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B11.tif",
+   "note": "head B11",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.286,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B12.tif",
+   "note": "head B12",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.262,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_B8A.tif",
+   "note": "head B8A",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.29,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_NDWI.tif",
+   "note": "head NDWI",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.302,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_l2_flags.tif",
+   "note": "head l2_flags",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.283,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "HEAD",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_settings.txt",
+   "note": "head settings",
+   "status": 200,
+   "bytes": 0,
+   "seconds": 0.283,
+   "attempt": 1
+  },
+  {
+   "host": "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com",
+   "method": "GET",
+   "path": "/version_01/T17SKU/S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544_settings.txt",
+   "note": "settings S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544",
+   "status": 200,
+   "bytes": 10074,
+   "seconds": 0.381,
+   "attempt": 1
+  }
+ ],
+ "requests": {
+  "earth-search.aws.element84.com POST": 6,
+  "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com GET": 18,
+  "usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com HEAD": 42
+ },
+ "limitations": [
+  "Headers, listings, and settings text only. No pixel was decoded, so masking, value ranges, and negative values are untested. Probe T4 reads pixels.",
+  "GDAL requests and bytes come from its debug log of requested ranges, the first bytes of each file. They include no decoded block.",
+  "Three tile-dates. The layer set, encoding, and settings of other scenes can differ.",
+  "Grid alignment compares the Level-2A 20 m grid from catalog metadata, not from the Level-2A file headers.",
+  "Object last-modified times describe the bucket copy, not when USGS processed a scene.",
+  "The payer statement rests on unsigned requests succeeding. No price page was read."
+ ]
+}

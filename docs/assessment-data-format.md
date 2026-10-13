@@ -31,7 +31,8 @@ Once `assessed_on` is set, every candidate carries every field whose `applies_to
 Null covers undocumented, inaccessible, ambiguous, and conflicting facts. It does not encode zero, false, or an explicit absence. An explicit absence is a claim with value `Not listed`.
 
 Candidate `class` is one of `public-aws`, `non-aws`, `managed`, or `self-built`. Class describes where the option runs, not its price or its terms.
-Candidate and combination `role` is `primary` or `context`. Context entries are documented for reference and are not compared for selection, per decision 0002.
+Candidate and combination `role` is `primary`, `supplementary`, or `context`. Context entries are documented for reference and are not compared for selection, per decision 0002.
+A supplementary entry serves a selected supporting role under [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md), beside the primary source.
 Issue `status` is `decided`, `deferred`, `open`, `probe`, or `measure`. An issue may carry `flag` with the value `major concern`.
 The presentation explains major concerns without displaying internal IDs or status badges.
 Issue `evidence` lists inventory claim IDs, best-practices claim IDs such as `G11`, and probe IDs such as `PR-01`.
@@ -126,7 +127,8 @@ These are structural checks. They do not establish that a page was read correctl
 [collate_checks.py](../tools/collate_checks.py) rebuilds the evidence-derived parts of the inventory from the research and check records: sources, claims, candidate specifications and open questions, gaps, `not_assessed`, and `verification`.
 It preserves `selection`, `scope`, `fields`, `issues`, `themes`, `probes`, `findings`, `combinations`, and candidate roles, which are maintained by hand.
 `selection.next` lists open internal decisions.
-A dimension is collated only when both its research file and its checks file exist. The candidate's open questions are replaced by the research file's `questions_open`.
+A dimension is collated only when both its research file and its checks file exist.
+Supplementary pairs named `<dimension>-<topic>-research.json` and `<dimension>-<topic>-checks.json` are collated beside the dimension's own pair. A draft file without its checks file binds nothing. The candidate's open questions are replaced by the research file's `questions_open`.
 The specification for a field points to the claim named `cl-<candidate>-<field>` when it exists.
 Otherwise it points to the first claim for that field by ID. Further claims for the same field stay in `claims`.
 To change a bound claim, change its check record and rerun collation. Hand edits to bound claims are overwritten.

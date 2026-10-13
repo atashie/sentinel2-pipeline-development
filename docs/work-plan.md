@@ -3,40 +3,20 @@
 No dated milestones exist (assumption A19 in [assumptions.md](assumptions.md)). Steps run in order under the workflow in [CLAUDE.md](../CLAUDE.md).
 A checked box means the work exists in this repository with evidence.
 
-## Next session: Phase 2, Prototyping
+## Next step: Phase C, Prototyping II
 
-Review the completed [sleep-interrupted workload replacements](reviews/2026-09-21-sleep-rerun.md) with the owner and reviewing agent before starting another experiment.
-The [review response](reviews/2026-09-22-sleep-rerun-review-response.md) records timing caveats, qualified interpretations, and the next experiment's timing rule.
-All fourteen comparisons completed with matching outputs, no sleep overlap, and no worker memory stops.
-
-Stages 1 to 4 have reviewed laptop measurements. [Measurements](measurements.md) owns the results, dates, and limitations.
-The [Stage 4 response](reviews/2026-09-16-codex-stage-4-review-response.md) records the accepted interpretation and future selection corrections.
-The [Stage 3 rerun review](reviews/2026-09-16-codex-stage-3-rerun-review.md) supports the preceding evidence.
-Its four documentation corrections are closed in the [presentation update](reviews/2026-09-17-documentation-and-presentation.md).
-
-- The public pilot polygons exist since 2026-09-11. Identify the input product used by the existing model.
-- Treat small mapped polygons as geometry cases until their water-body type and shoreline suitability are checked.
-- Keep pilot survey evidence separate from Discovery. Resolve discovery scope and adapt the report before presenting new coverage findings.
-- The owner chose the stages, methods, and copies on 2026-09-14. Tolerances and resource bounds are declared per stage before comparison.
-- Prioritize offset correctness and cross-tile differences alongside runtime, bytes, requests, memory, and output size.
-- Carry unresolved fill policy, missing quality layers, Alaska scope, processing-version comparability, and record layout into those experiments.
-
-The detailed prototype workflow will develop jointly. These questions do not require a complete infrastructure design before experiments begin.
-The owner accepted the [Stage 4 response](reviews/2026-09-16-codex-stage-4-review-response.md) on 2026-09-17.
-Related records cover the [documentation update](reviews/2026-09-17-documentation-and-presentation.md), [sensor band comparison](reviews/2026-09-17-sensor-band-comparison.md), and [section 02 heading](reviews/2026-09-18-access-problem-first.md).
-The [workload review](reviews/2026-09-18-claude-lazy-reader-workload-review.md) informed the corrections below.
-The inventory includes Stage 4. Scientific validation, the primary-tile rule, and AWS measurements remain open. Stage 5 needs separate owner authorization.
-
-The owner authorized the [larger-workload plan](reviews/2026-09-18-lazy-reader-workload-plan.md) on 2026-09-18.
-Its [review response](reviews/2026-09-18-lazy-reader-review-response.md) adds resumable preflight, complete transfer scenarios, and acquisition splitting.
-The owner authorized replacing twelve sleep-affected attempts on 2026-09-21. The two unaffected observations and approved memory limits remain unchanged.
-The replacement comparison is complete. Its review owns CPU, elapsed-time, requested-byte, RAM, and operational findings.
-Geometry non-convergence is recorded without blocking workflow measurements.
+The owner re-scoped the assessment on 2026-10-13, [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md).
+The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states. Earth Search Level-2A is supplementary.
+The [replan record](reviews/2026-10-13-acolite-first-replan.md) owns the owner's directions, the document changes, the tests T1 to T9, and the phases A to F.
+Phase A restated the planning documents. Its [record](reviews/2026-10-13-phase-a-rescope.md) awaits owner review.
+Phase B ran on 2026-10-13: check records, probes T1 to T3, one map crop, and the Discovery rewrite. Its [record](reviews/2026-10-13-phase-b-discovery-ii.md) awaits review.
+Phase C starts only on owner authorization. Every test that contacts a provider runs only when the owner invokes it.
+Findings 26 to 29 describe the primary product's metadata and one crop. No pixel test describes it yet.
 
 ## How options are judged
 
 An access route moves products to us. A processing workflow turns products into per-water-body records. A compute platform runs the workflow. A storage layout holds the records.
-Two routes feeding one workflow test delivery. Two workflows on one route test processing. Every measurement says which it tests. The source and route are decided, with fallback format clarified in [decision 0004](decisions/0004-cog-fallback-and-presentation-clarifications.md). The other three dimensions are open.
+Two routes feeding one workflow test delivery. Two workflows on one route test processing. Every measurement says which it tests. The source and the two routes are decided in [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md), with the Level-2A fallback order from [decision 0004](decisions/0004-cog-fallback-and-presentation-clarifications.md). The other three dimensions are open.
 
 | Criterion | What to record |
 |---|---|
@@ -48,7 +28,7 @@ Two routes feeding one workflow test delivery. Two workflows on one route test p
 | Scaling | Behavior as water bodies, distinct tiles, and history grow (assumption A17) |
 | Cost | Compute, storage, requests, transfer, service fees, engineering effort (assumption A14) |
 | Operability | Idempotency, retry, backfill, reprocessing, monitoring, orchestrator independence (assumption A12) |
-| Global reach | Anything that limits use outside the United States (assumption A4) |
+| Global reach | Anything that limits use outside the lower 48 states (assumption A4) |
 | Terms | License, attribution, retention, redistribution, commercial use |
 
 Claims carry the statuses in [CLAUDE.md](../CLAUDE.md), plus `estimated` for a project inference that names the documented claims it rests on. [assessment-data-format.md](assessment-data-format.md) defines the binding.
@@ -86,8 +66,9 @@ Out of scope: validation against field observations (A15), the join with weather
 - [x] Extraction geometry: three pixel classes and a tile provenance marker, decision 0002.
 - [x] History scenario: 2021 onward first, decision 0003. The 2017 to 2020 tier is deferred.
 - [x] Route: Earth Search, Collection 1 COGs first with older-collection COGs for backfill, decisions 0003 and 0004.
+- [x] Route re-scoped: the USGS ACOLITE aquatic reflectance product primary for water pixels in the lower 48, Level-2A supplementary, [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md), 2026-10-13.
 - [x] Primary-tile rule: provisional, assumption A22, decision 0003. **Cross-tile mosaicking is a MAJOR CONCERN, issue I-30.**
-- [ ] Fill policy for each data gap and Alaska scope. Record the eventual choice in a new decision. Options are in the [gap survey review](reviews/2026-09-10-gap-survey.md) and the [report](reviews/2026-09-10-gap-survey-report.json).
+- [ ] Fill policy for each Level-2A data gap. Alaska is a Level-2A-only case under decision 0008. The primary product's gaps await test T2. Record the eventual choice in a new decision. Options are in the [gap survey review](reviews/2026-09-10-gap-survey.md) and the [report](reviews/2026-09-10-gap-survey-report.json).
 - [ ] Agree the first bounded prototype comparison together. Workflow, platform, and layout choices develop from its evidence.
 
 ## Step 3a: data gap survey, delivered 2026-09-10, Codex review answered
@@ -137,6 +118,39 @@ The owner requested a narrative for engineering and business colleagues with lim
 The owner set the structure on 2026-09-14: four workload stages first, then the scientific and quality checks.
 Each stage is one authorized step with its own record. Measurements run on the owner's laptop until AWS access exists (assumption A25).
 Every measurement reports wall time, CPU time, peak memory, bytes, requests, pixels read, and output bytes, with the machine and code version.
+The stages below are the Level-2A reference series, assumption A50. Phase C repeats the production-relevant tests on the primary product.
+
+### Status before the re-scope, 2026-10-13
+
+Review the completed [sleep-interrupted workload replacements](reviews/2026-09-21-sleep-rerun.md) with the owner and reviewing agent before starting another experiment.
+The [review response](reviews/2026-09-22-sleep-rerun-review-response.md) records timing caveats, qualified interpretations, and the next experiment's timing rule.
+All fourteen comparisons completed with matching outputs, no sleep overlap, and no worker memory stops.
+
+Stages 1 to 4 have reviewed laptop measurements. [Measurements](measurements.md) owns the results, dates, and limitations.
+The [Stage 4 response](reviews/2026-09-16-codex-stage-4-review-response.md) records the accepted interpretation and future selection corrections.
+The [Stage 3 rerun review](reviews/2026-09-16-codex-stage-3-rerun-review.md) supports the preceding evidence.
+Its four documentation corrections are closed in the [presentation update](reviews/2026-09-17-documentation-and-presentation.md).
+
+- The public pilot polygons exist since 2026-09-11. Identify the input product used by the existing model.
+- Treat small mapped polygons as geometry cases until their water-body type and shoreline suitability are checked.
+- Keep pilot survey evidence separate from Discovery. Resolve discovery scope and adapt the report before presenting new coverage findings.
+- The owner chose the stages, methods, and copies on 2026-09-14. Tolerances and resource bounds are declared per stage before comparison.
+- Prioritize offset correctness and cross-tile differences alongside runtime, bytes, requests, memory, and output size.
+- Carry unresolved fill policy, missing quality layers, Alaska scope, processing-version comparability, and record layout into those experiments.
+
+The detailed prototype workflow will develop jointly. These questions do not require a complete infrastructure design before experiments begin.
+The owner accepted the [Stage 4 response](reviews/2026-09-16-codex-stage-4-review-response.md) on 2026-09-17.
+Related records cover the [documentation update](reviews/2026-09-17-documentation-and-presentation.md), [sensor band comparison](reviews/2026-09-17-sensor-band-comparison.md), and [section 02 heading](reviews/2026-09-18-access-problem-first.md).
+The [workload review](reviews/2026-09-18-claude-lazy-reader-workload-review.md) informed the corrections below.
+The inventory includes Stage 4. Scientific validation, the primary-tile rule, and AWS measurements remain open. Stage 5 needs separate owner authorization.
+
+The owner authorized the [larger-workload plan](reviews/2026-09-18-lazy-reader-workload-plan.md) on 2026-09-18.
+Its [review response](reviews/2026-09-18-lazy-reader-review-response.md) adds resumable preflight, complete transfer scenarios, and acquisition splitting.
+The owner authorized replacing twelve sleep-affected attempts on 2026-09-21. The two unaffected observations and approved memory limits remain unchanged.
+The replacement comparison is complete. Its review owns CPU, elapsed-time, requested-byte, RAM, and operational findings.
+Geometry non-convergence is recorded without blocking workflow measurements.
+
+### Stages
 
 Preparation:
 
@@ -180,25 +194,60 @@ AWS cost estimates, an offline model built on the larger-workload measurements:
 - [x] Whole-page accuracy fixes with independent source checks, 2026-09-23. [Record](reviews/2026-09-23-page-accuracy-fixes.md). Owner review pending.
 - [x] Prototyping tab reordered answer-first: takeaways, what we tested, main comparison, costs, and collapsed earlier experiments, 2026-09-23. [Record](reviews/2026-09-23-prototyping-flow.md). Owner review pending.
 
-Stage 5, scientific and quality checks, after stages 1 to 4:
+Stage 5, scientific and quality checks, is replaced by phases B to D below. Its items move there.
 
-- [ ] Offset pixel check, issue I-05. Read one 60 m band window from a GeoTIFF and from its JPEG 2000 alternate. Do it for a flag-true and a flag-false 04.00 item.
-- [ ] Recheck of the 05.10 release note against claim R5, for the 05.09 products of 2023.
-- [ ] Quality-flag derivation prototyped and measured against the pilot set.
-- [ ] Cross-tile measurement: differences between tiles over the same pixels and dates, per band and quality layer, issue I-30.
+## Phase A: re-scope, delivered 2026-10-13
+
+- [x] Decision 0008 activated. Assumptions A3, A4, A13, and A20 revised. Rows A46 to A51 added.
+- [x] [Data contract](data-contract.md) draft v2: source-product provenance, the settings-file digest, the quality source product, a mask reason, and the delivered NDWI layer.
+- [x] This plan, [CLAUDE.md](../CLAUDE.md), [README.md](../README.md), and the [examples note](../examples/README.md) restated. [Record](reviews/2026-10-13-phase-a-rescope.md). Owner review pending.
+
+## Phase B: Discovery II, delivered 2026-10-13
+
+Research with check records, metadata-only probes, and the Discovery tab rewrite. [Record](reviews/2026-10-13-phase-b-discovery-ii.md). Owner review pending.
+
+- [x] Research drafts and independent check records for the seven literature inputs and the three raw-data questions of the [replan record](reviews/2026-10-13-acolite-first-replan.md). Three pairs under [assessment-checks/](assessment-checks/README.md).
+- [x] T1, bucket layout and file headers. T2, coverage survey against Earth Search. T3, join test. The owner invoked all three on 2026-10-13. [Measurement findings 26 to 28](measurements.md#phase-b-probes-on-the-usgs-aquatic-reflectance-product-2026-10-13).
+- [x] Inventory: candidates for the USGS product and for self-run ACOLITE as context, and Earth Search's supplementary role. Ten issues, three probes, four findings, and two combinations.
+- [x] Best practices: [section 5](s2-best-practices.md#5-atmospheric-correction-over-water) on atmospheric correction over water. Practice P10 revised.
+- [x] Gap survey plan extended with the [USGS coverage survey and the join test](gap-survey-plan.md#usgs-coverage-survey-and-join-test).
+- [x] Discovery tab rewritten: three archives, the atmospheric correction as the lead risk, the two-source join, the expansion statement, and ten new issues. One authorized crop adds two map views, [finding 29](measurements.md#29-in-one-crop-every-pixel-carries-a-value-and-the-flags-layer-marks-non-water-pixels).
+
+Carried into Phase C from Phase B:
+
+- [ ] Whether any pixel is processor-masked at scale, and how flags fall per band and pixel class. Probe T4.
+- [ ] How a quality layer from another processing baseline maps onto the product's pixels. Part of the two-source join prototype.
+- [ ] Whether a reader can clip Level-1C JPEG 2000 before download. A header-and-range probe on one product, context for the gap-fill estimate.
+
+## Phase C: Prototyping II
+
+- [ ] T4, validity per band and pixel class on the pilot lakes. T5, paired values against Collection 1. Tolerances declared first.
+- [ ] T6, access replay of stages 2 to 4 and readers B1 and B3 on the primary product. T7, overlap on the lakes in two tiles. T8, retention.
+- [ ] Two-source join prototype.
+- [ ] Cost analysis re-parameterized from T1 and T6, with the join work and the second source's storage.
+- [ ] Prototyping tab rebuilt: takeaways, main comparison, and costs from the primary product, with the Level-2A reference series pared to one table.
+
+## Phase D: scientific checks
+
+- [ ] T5 and T7 interpreted as the first validation items, with limits and no in situ claim.
+- [ ] Offset pixel check on Level-2A, issue I-05, and the recheck of the 05.10 release note against claim R5, carried from the former stage 5.
+- [ ] Quality-flag derivation prototyped and measured against the pilot set, for the flags the primary product lacks.
 - [ ] Contract revised from evidence. Processing version introduced.
+- [ ] T9, one self-run ACOLITE scene clipped to the pilot lakes, only if the owner asks for numbers behind the complexity estimate.
 
-## Phase 3: Integration Specs
+## Phase 3: Integration Specs, replan phase E
 
-- [ ] Orchestrator-agnostic specification of units of work, inputs, outputs, idempotency, retry, backfill, and reprocessing.
+- [ ] Orchestrator-agnostic specification of units of work: discover new USGS scenes, match the Level-2A item, extract per tile, publish with both provenances.
+- [ ] Idempotency, retry, backfill, and reprocessing, with revision rules for two sources.
 - [ ] Storage layout, partitioning, revision handling, and query interface specified.
 - [ ] Monitoring, accounting, and alert conditions specified.
 
-## Phase 4: Tradeoffs & Issues
+## Phase 4: Tradeoffs & Issues, replan phase F
 
+- [ ] Hosted ACOLITE against self-run ACOLITE against Level-2A, with the evidence for each.
 - [ ] Cost curves for 1,000 and 10,000 water bodies, 2017-onward and 2021-onward, backfill and steady state.
 - [ ] Data-quality risks per option with the evidence for each.
-- [ ] Recommendation with the evidence gaps that remain.
+- [ ] Recommendation with the evidence gaps that remain, including the hurdles of expansion beyond the United States.
 
 ## Final presentation
 

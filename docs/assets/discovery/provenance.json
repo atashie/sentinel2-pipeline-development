@@ -248,7 +248,7 @@
     "Small index denominators can exaggerate minor band differences. Display clipping also flattens extremes. The cause of visible texture is unverified.",
     "No performance measurements. GDAL transfer logs can be saved locally from stderr."
   ],
-  "code_sha256": "dd87c8e07c8b0263ceca0d466abd527e13c0930a4ad430b18c9a49a2735a5592",
+  "code_sha256": "ddea1a2100cd8dbd7212a09969f3a22a0227e6802c9a7cdb9685d0678176b1b1",
   "input_sha256": "97211722bda8fe8151d521cbd38d4122729544b58a8df69cad18e92667fbb550",
   "images": {
     "true-color": {
@@ -286,6 +286,86 @@
       "sha256": "8031a0d961f7c78266ffc7cda79608e01203c41a114fab8193573726096b93b9",
       "bytes": 1071330,
       "valid_fraction": 0.9776515625
+    },
+    "aqr-true-color": {
+      "file": "aqr-true-color.png",
+      "sha256": "ee0e08f8afd8bf153b4d880a1bb03d1bb2533b54dfd2d7496e8ac2a49630a4cb",
+      "bytes": 452436,
+      "valid_fraction": 1.0
+    },
+    "aqr-water-flag": {
+      "file": "aqr-water-flag.png",
+      "sha256": "2216c2e563314df8248fb5ba5e106105edca8f089ce3baf19bd8998a74bf75f8",
+      "bytes": 155863,
+      "valid_fraction": 0.36255625
     }
+  },
+  "aquatic_reflectance": {
+    "retrieved_at": "2026-10-13T18:26:34.818989+00:00",
+    "product": "S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355",
+    "window_20m": [
+      1268,
+      4944,
+      400,
+      400
+    ],
+    "files": {
+      "B04": {
+        "href": "https://usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B04.tif",
+        "dtype": "int16",
+        "nodata": -32768.0,
+        "header_scale": 1.0,
+        "header_offset": 0.0
+      },
+      "B03": {
+        "href": "https://usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B03.tif",
+        "dtype": "int16",
+        "nodata": -32768.0,
+        "header_scale": 1.0,
+        "header_offset": 0.0
+      },
+      "B02": {
+        "href": "https://usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_B02.tif",
+        "dtype": "int16",
+        "nodata": -32768.0,
+        "header_scale": 1.0,
+        "header_offset": 0.0
+      },
+      "NDWI": {
+        "href": "https://usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_NDWI.tif",
+        "dtype": "int16",
+        "nodata": -32768.0,
+        "header_scale": 1.0,
+        "header_offset": 0.0
+      },
+      "l2_flags": {
+        "href": "https://usgs-wma-sentinel-2-aqr-acolite-dsf.s3.us-west-2.amazonaws.com/version_01/T17SKU/S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355_l2_flags.tif",
+        "dtype": "int32",
+        "nodata": -32768.0,
+        "header_scale": 1.0,
+        "header_offset": 0.0
+      }
+    },
+    "flag_counts_20m": {
+      "0": 58009,
+      "1": 97727,
+      "4": 1,
+      "5": 4207,
+      "8": 38,
+      "9": 18
+    },
+    "present_fraction": 1.0,
+    "bucket": "usgs-wma-sentinel-2-aqr-acolite-dsf",
+    "region": "us-west-2",
+    "payer": "Public unsigned reads. The bucket owner pays.",
+    "attribution": "Contains modified Copernicus Sentinel data (2025), processed with ACOLITE by the U.S. Geological Survey.",
+    "calibration": "Stored integers times 0.0001, from the USGS documentation. The file headers state scale 1 and offset 0.",
+    "display": "Red, green, and blue at 0 to 0.3 reflectance, gamma 2.2, as above. Each 20 m cell is drawn as 2 x 2 display pixels.",
+    "flags": "l2_flags holds the ACOLITE flag integer times 10,000 in this crop. aqr-water-flag shows pixels whose flag integer is 0. Others are gray.",
+    "input_sha256": "54d46c8f89d3f6a49f2919af33b390b22ce94188978e46b6c9ebf78447179b9d",
+    "limitations": [
+      "One crop of one scene. Not probe T4, which measures validity on the pilot lakes.",
+      "The flag interpretation rests on the settings file's flag exponents."
+    ]
   }
 }

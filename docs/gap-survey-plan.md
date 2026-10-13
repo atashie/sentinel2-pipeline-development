@@ -12,7 +12,8 @@ Which quality assets does each collection deliver, and does that change with bas
 ## Bounds
 
 - Catalog metadata only. No imagery byte is read. No bucket is listed. No credentials are used.
-- Earth Search is the route (assumption A13). The Copernicus Data Space Ecosystem catalogs serve one purpose: a reference count of what ESA lists today. They are not a route and are not compared for selection.
+- Earth Search was the route when this survey ran on 2026-09-10. Since 2026-10-13 it is the supplementary route, assumption A13 and [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md). The survey's findings stand for that role.
+- The Copernicus Data Space Ecosystem catalogs serve one purpose: a reference count of what ESA lists today. They are not a route and are not compared for selection.
 - Every request is logged in the result file with host, path, status, bytes, and seconds.
 - One request stream, with a pause between requests and backoff on throttling.
 
@@ -100,6 +101,39 @@ For each such span it lists Collection 1 items, the older collection's items wit
 
 It also records whether aerosol and water vapor are GeoTIFFs, and whether cloud and snow probability exist at all. For each tile and month it sends a HEAD request, without credentials, for the scene classification and red band objects of the first `complete_cog` item.
 A HEAD returns headers only: status, size, entity tag, storage class, and whether the requester was charged. No pixel is read.
+
+## USGS coverage survey and join test
+
+Authority: Phase B of the [replan record](reviews/2026-10-13-acolite-first-replan.md), probes T2 and T3. The owner authorized both on 2026-10-13.
+The script is [../benchmarks/aqr_coverage.py](../benchmarks/aqr_coverage.py). Its result is [aqr-coverage.json](../benchmarks/results/aqr-coverage.json), read in [measurements.md](measurements.md#27-the-product-holds-41-to-61-percent-of-earth-searchs-acquisitions-in-most-years-and-recent-scenes-arrive-within-hours) as findings 27 and 28.
+
+Questions:
+
+- For the survey tiles in the lower 48, which Earth Search acquisitions does the USGS aquatic reflectance product hold, and which does it lack?
+- Which Level-1C baselines did the product use, and how many acquisitions hold more than one product?
+- How long after sensing does a scene's first object appear in the bucket?
+- Does every scene join to an Earth Search Level-2A item, and on which key?
+
+Bounds:
+
+- Listings and catalog metadata only. No object body and no pixel is read. Every request is unsigned and logged.
+- Tiles are the 24 lower-48 tiles of the 2026-09-10 survey. The six other survey tiles get one bucket listing page each, a presence check.
+- The window runs from 2015-06-01 to the run date. Earth Search's Level-1C, Collection 1 Level-2A, and older Level-2A collections are listed per tile.
+- An acquisition is a sensing date and platform letter, as above. The product takes both from its object names.
+
+Join rule: tile, platform, and sensing start from the product names. A match is exact when the processing baseline also agrees. Collection 1 is tried first, then the older collection.
+A Level-1C check asks whether Earth Search's Level-1C collection lists the exact input product the object name repeats.
+Recent latency covers scenes sensed in the last 120 days of the window. Scenes not yet published are absent, so it is biased low.
+
+The header probe T1, [../benchmarks/aqr_headers.py](../benchmarks/aqr_headers.py), precedes this survey. It reads the bucket layout, one HEAD per object, the settings files, and GeoTIFF headers for three tile-dates.
+
+Rerun steps:
+
+1. Print the plan without contacting anything: `uv run python benchmarks/aqr_coverage.py --dry-run`.
+2. Run the survey only when the owner invokes it: `uv run python benchmarks/aqr_coverage.py`.
+3. Recompute the result offline from saved listings: `uv run python benchmarks/aqr_coverage.py --from-raw data/aqr-coverage/STAMP`.
+
+The default output belongs to the 2026-10-13 evidence. Pass `--output` for a separate run, and `--tiles` to survey named tiles.
 
 ## Report
 

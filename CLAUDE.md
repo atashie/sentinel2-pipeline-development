@@ -8,11 +8,17 @@ build the production system. `README.md` is the human overview and the document 
 
 ## Current phase
 
-Discovery and the gap surveys are complete. Prototyping has laptop measurements for Stages 1 to 4.
+The owner re-scoped the assessment on 2026-10-13, [decision 0008](docs/decisions/0008-acolite-aquatic-reflectance-first.md).
+The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states. Earth Search Level-2A is supplementary.
+The [replan record](docs/reviews/2026-10-13-acolite-first-replan.md) owns the owner's directions, the tests T1 to T9, and the phases A to F.
+Phase A restated the planning documents on 2026-10-13. Its [record](docs/reviews/2026-10-13-phase-a-rescope.md) awaits owner review.
+Phase B, Discovery II, ran on 2026-10-13 under owner authorization. Its [record](docs/reviews/2026-10-13-phase-b-discovery-ii.md) awaits review. Phase C needs owner authorization.
+Phase B bound the primary product's documented facts and ran metadata probes T1 to T3, measurement findings 26 to 28. One authorized crop is finding 29. No pixel test describes the primary product yet.
+Discovery and the gap surveys for the Level-2A route are complete. Prototyping has laptop measurements for Stages 1 to 4 on Level-2A files, the reference series.
 Claude Code [reviewed Stage 4](docs/reviews/2026-09-16-claude-stage-4-full-run-review.md) and verified its extraction evidence.
 The owner accepted the [response](docs/reviews/2026-09-16-codex-stage-4-review-response.md) on 2026-09-17. It corrects interpretation and future selection.
 The measured results remain frozen. Ambiguous primary-tile roles still require an owner decision.
-Start with [docs/work-plan.md](docs/work-plan.md). The inventory and presentation include Stage 4. Scientific validation remains open.
+Start with [docs/work-plan.md](docs/work-plan.md). The inventory and the Discovery tab describe the primary product. The Prototyping tab still describes the Level-2A series until Phase C.
 No processing workflow, compute platform, or storage layout is selected. Measurements remain on the owner's laptop under assumption A25.
 The owner, Codex, and Claude Code develop each authorized step together under the workflow below.
 
@@ -109,8 +115,9 @@ The owner authorized one public image crop for the presentation on 2026-09-11. T
 - Keep unvalidated specifications null. Every populated claim needs primary evidence and an independent check.
 - The assessment has four phases: discovery, prototyping, integration specs, and tradeoffs. Discovery compares
   access routes, processing workflows, compute platforms, and storage layouts. It does not rank vendors.
-- Earth Search is the access route (assumption A13, decisions 0003 and 0004). Collection 1 GeoTIFF assets first, the older
-  collection's GeoTIFF assets as fallback. Non-AWS and managed options are context, never compared for selection.
+- The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states (assumption A13,
+  decision 0008). Its facts are `unverified` until Phase B. Earth Search Level-2A is supplementary: Collection 1 GeoTIFF assets
+  first, the older collection's GeoTIFF assets as fallback (decision 0004). Non-AWS and managed options are context, never compared for selection.
 - The store serves raw band values and quality flags. It serves no derived water-quality index (assumption A1).
 - Customer polygons never enter this repository. Prototypes use public water-body polygons (assumption A8).
 - Specifications name no orchestrator (assumption A12). Describe work as idempotent units with declared inputs and outputs.
@@ -130,8 +137,14 @@ The owner authorized one public image crop for the presentation on 2026-09-11. T
 Each gotcha points to its canonical claim in [docs/s2-best-practices.md](docs/s2-best-practices.md), its issue in the
 inventory, or its finding in [docs/measurements.md](docs/measurements.md). Numbers live there, not here.
 
-- Bands have three native resolutions, and every water body is stored as three pixel classes per resolution
-  (assumption A20). A 10 m pond has no interior pixel. Claim G3, practice P6.
+- Measurement findings 1 to 25 and the gotchas below describe Level-2A files from Earth Search, the reference series of
+  assumption A50. Findings 26 to 29 describe the primary product's metadata and one crop. Decision 0008.
+- The primary product's headers state scale 1 and offset 0. USGS documents a factor of 10,000. Its flags layer holds the
+  ACOLITE flag integer times 10,000 in the one crop read. Land pixels carry values, flagged. Findings 26 and 29.
+- The primary product holds about half of Earth Search's acquisitions, mostly from original Level-1C baselines. A Level-2A
+  join by tile, platform, and sensing start finds the same baseline only half the time. Findings 27 and 28, issues I-32 and I-40.
+- Level-2A bands have three native resolutions, and the primary product has one 20 m grid. Every water body is stored as
+  three pixel classes per source grid (assumption A20). A 10 m pond has no interior pixel. Claim G3, practice P6.
 - **Cross-tile mosaicking is a MAJOR CONCERN (issue I-30). The store never mosaics.** Tiles overlap and differ
   in their overlap. Every record carries its tile and a primary or overlap marker under assumption A22. Claim G11,
   practice P2, decisions 0002 and 0003. Seven of twenty survey sites lie in two to four tiles, measurement finding 8.
