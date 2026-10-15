@@ -25,7 +25,7 @@ The workload supervisor needs 5 GiB of free memory to start a worker. Each later
 Discovery and the gap surveys for the Level-2A route are complete. Prototyping has laptop measurements for Stages 1 to 4 on Level-2A files, the reference series.
 Claude Code [reviewed Stage 4](docs/reviews/2026-09-16-claude-stage-4-full-run-review.md) and verified its extraction evidence.
 The owner accepted the [response](docs/reviews/2026-09-16-codex-stage-4-review-response.md) on 2026-09-17. It corrects interpretation and future selection.
-The measured results remain frozen. Ambiguous primary-tile roles still require an owner decision.
+The measured results remain frozen. The owner set the primary-tile rule on 2026-10-15, [decision 0010](docs/decisions/0010-primary-tile-rule.md).
 Start with [docs/work-plan.md](docs/work-plan.md). The inventory and the Discovery tab describe the primary product. The Prototyping tab still describes the Level-2A series until the tab rebuild.
 No processing workflow, compute platform, or storage layout is selected. Measurements remain on the owner's laptop under assumption A25.
 The owner, Codex, and Claude Code develop each authorized step together under the workflow below.
@@ -173,7 +173,7 @@ inventory, or its finding in [docs/measurements.md](docs/measurements.md). Numbe
 - Level-2A bands have three native resolutions, and the primary product has one 20 m grid. Every water body is stored as
   three pixel classes per source grid (assumption A20). A 10 m pond has no interior pixel. Claim G3, practice P6.
 - **Cross-tile mosaicking is a MAJOR CONCERN (issue I-30). The store never mosaics.** Tiles overlap and differ
-  in their overlap. Every record carries its tile and a primary or overlap marker under assumption A22. Claim G11,
+  in their overlap. Every record carries its tile and a primary or overlap marker, one fixed primary tile per water body, decision 0010. Claim G11,
   practice P2, decisions 0002 and 0003. Seven of twenty survey sites lie in two to four tiles, measurement finding 8.
   On two acquisitions, each option's tiles of one zone agree closely pooled, but per pair their offsets are large against the water signal. Findings 38 and 39.
 - Collection 1 on Earth Search is nearly empty from January to November 2022 everywhere, and holds 05.09 originals

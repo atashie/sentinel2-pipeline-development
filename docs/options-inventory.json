@@ -9,7 +9,7 @@
       "Review Phases B and C: the check records, probes T1 to T7, the crop, the Discovery rewrite, and the per-option cost model.",
       "Rebuild the Prototyping tab from the primary product's results and the per-option costs.",
       "Run probe T8, retention, in a separately authorized step.",
-      "Resolve primary-tile roles and per-band validity using model requirements and matched-location evidence."
+      "Resolve per-band validity using model requirements and matched-location evidence. Decision 0010 sets the primary tile."
     ]
   },
   "scope": {
@@ -10522,9 +10522,9 @@
       "title": "Cross-tile mosaicking is a MAJOR CONCERN",
       "flag": "major concern",
       "text": "Adjacent tiles can differ in classification, reflectance, and pixel grids. Multiple products can cover one lake during a satellite pass. Tools that stitch tiles can hide these differences. The catalog survey records candidate overlap. Stage 4 establishes complete native-extent coverage for its selected lakes, with separate contributions. It does not establish valid measurements at every location or scientific agreement between observations.",
-      "consequence": "The store never mosaics. Stage 4 retains separate item and native-grid contributions, summarized in F-26. Ambiguous primary roles remain null until the owner selects a rule. Scientific comparison requires matched ground locations, per-band validity, and explicit quality-grid association. Equal extraction across methods does not establish equal values between tiles. Probe T7 compared the same pixels in two tiles of one zone, for both options, on two acquisitions. Pooled, the tiles agree within 0.005 on nearly every pixel. Per pair, offsets reach tens of percent of the dark-water signal in both options.",
+      "consequence": "The store never mosaics. Stage 4 retains separate item and native-grid contributions, summarized in F-26. Decision 0010 sets one fixed primary tile per water body, same zone first, then the largest buffered share. Stage 4's measured roles stay null. Scientific comparison requires matched ground locations, per-band validity, and explicit quality-grid association. Equal extraction across methods does not establish equal values between tiles. Probe T7 compared the same pixels in two tiles of one zone, for both options, on two acquisitions. Pooled, the tiles agree within 0.005 on nearly every pixel. Per pair, offsets reach tens of percent of the dark-water signal in both options.",
       "status": "open",
-      "decision": "Decision 0003. Owner direction on 2026-09-10: proceed with the provisional primary-tile rule and investigate thoroughly.",
+      "decision": "Decision 0003. Owner direction on 2026-09-10: investigate thoroughly. Decision 0010 of 2026-10-15 sets the primary-tile rule.",
       "evidence": [
         "G11",
         "G2",

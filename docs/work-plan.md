@@ -17,6 +17,7 @@ The owner authorized probes T5 and T6 on 2026-10-14, and both ran that day. Thei
 The owner then wrote "proceed with the next steps". The cost model now estimates both options. Its [record](reviews/2026-10-14-phase-c-cost-options.md) awaits review.
 Six AI reviewers then read the Phase C work. The [review response](reviews/2026-10-14-adversarial-review-response.md) records the fixes and the deferred items.
 On 2026-10-15 the owner wrote "proceed", and probe T7 ran. Its [record](reviews/2026-10-15-phase-c-t7-overlap.md) awaits review.
+The same day the owner set the primary-tile rule, [decision 0010](decisions/0010-primary-tile-rule.md), and kept the cost compression analysis at a high level. The [direction record](reviews/2026-10-15-primary-tile-and-compression-direction.md) quotes both.
 Each later Phase C step needs its own authorization.
 Every test that contacts a provider runs only when the owner invokes it.
 Findings 26 to 29 describe the primary product's metadata and one crop. Findings 30 to 33 describe pixel validity on the pilot lakes.
@@ -78,7 +79,7 @@ Out of scope: validation against field observations (A15), the join with weather
 - [x] Route: Earth Search, Collection 1 COGs first with older-collection COGs for backfill, decisions 0003 and 0004.
 - [x] Route re-scoped: the USGS ACOLITE aquatic reflectance product primary for water pixels in the lower 48, Level-2A supplementary, [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md), 2026-10-13.
 - [x] Sources made standalone options, ACOLITE only or Sen2Cor only, with the scene join deferred, [decision 0009](decisions/0009-standalone-options-join-deferred.md), 2026-10-14.
-- [x] Primary-tile rule: provisional, assumption A22, decision 0003. **Cross-tile mosaicking is a MAJOR CONCERN, issue I-30.**
+- [x] Primary-tile rule: provisional, assumption A22, decision 0003. Replaced on 2026-10-15 by [decision 0010](decisions/0010-primary-tile-rule.md). **Cross-tile mosaicking is a MAJOR CONCERN, issue I-30.**
 - [ ] Fill policy for each Level-2A data gap, within the Sen2Cor-only option. Alaska is a Sen2Cor-only case. Under decision 0009 neither option fills the other's gaps, so the primary product's gaps, finding 27, stay missing and counted. Record the eventual choice in a new decision. Options are in the [gap survey review](reviews/2026-09-10-gap-survey.md) and the [report](reviews/2026-09-10-gap-survey-report.json).
 - [ ] Agree the first bounded prototype comparison together. Workflow, platform, and layout choices develop from its evidence.
 

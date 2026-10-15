@@ -37,10 +37,16 @@ That factor also removes the model's conservative 10 m allowance for AOT and WVP
 Central Sen2Cor only keeps the measured layers' ratio of [decision 0006](decisions/0006-aws-cost-review-refinements.md). The payload-scaling table shows both options at whole-object scaling.
 On that acquisition, ACOLITE only's objects total 0.53 times Level-2A's. The model gives 0.42 centrally and 0.56 with both options scaled.
 
+**Limits of the compression analysis.** On 2026-10-15 the owner kept this analysis at a high level. A small difference here would not change the decision.
+
+- The byte ratios come from five layers per source in laptop trials. Whole-object sizes scale them, from three product scenes and one Level-2A acquisition.
+- Whole-object compression stands in for windowed reads of lake pixels, which can compress differently.
+- Central Sen2Cor only keeps decision 0006's 10 m allowance for AOT and WVP, which Collection 1 delivers at 20 m. That overstates its reads and its storage.
+- With both options scaled, ACOLITE only's B1 backfill is 31 percent of Sen2Cor only's. Treating AOT and WVP at 20 m would raise that share further.
+
 What the comparison does not show:
 
 - A1 has no trial on the product, so ACOLITE only has no A1 estimate.
-- Whole-object scaling rests on three product scenes and one Level-2A acquisition. Windowed reads of the other layers are unmeasured on both sources.
 - Acquisitions with only incomplete scenes still count, and complete products per acquisition span 2015 to 2026. Split datastrips are partial products priced as whole ones.
 - Point-to-tile activity fractions keep the Level-2A assumption, A42. Through 2023 the product mostly lacks partial tiles, finding 27, so this likely understates ACOLITE only.
 - Request counts follow blocks and files for ACOLITE only and bytes for Sen2Cor only. Per file and product, ACOLITE only gets 0.75 to 0.80 of Sen2Cor only's requests. T6 measured about parity.

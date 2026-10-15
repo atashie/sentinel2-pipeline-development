@@ -829,7 +829,7 @@ footer{display:block}
 <div class="effort depends"><i></i>Effort: varies with geometry</div>
 <details class="tech"><summary>Technical detail</summary><ul>
 <li>Reproject each polygon into the UTM zone of every tile it touches. Buffer it by the nearby-land distance.</li>
-<li>Use native tile extents for candidates. Treat catalog footprints as coarse hints. The primary-tile rule is not decided yet.</li>
+<li>Use native tile extents for candidates. Treat catalog footprints as coarse hints. Each water body has one fixed primary tile, chosen in its own UTM zone first.</li>
 <li>Compute the pixel window on the 10, 20, and 60 m grids of each tile. The water product uses the 20 m grid. Store it per polygon version.</li>
 </ul></details>
 </div>
@@ -897,7 +897,7 @@ footer{display:block}
 <p>Candidate: one row per pixel, per observation. A water-product row carries its eleven 20 m bands and the delivered water index. Land-product bands come on three grids, so each of its rows belongs to one grid.</p>
 <p>A 100 × 100 m square aligned with both grids contains 100 whole pixels at 10 m and 25 at 20 m. Actual pond counts depend on shape, grid alignment, and pixel selection. Each row also carries its position, pixel class, quality codes, and provenance.</p>
 <p class="small" style="margin-top:8px">Working picture, not a selected layout. Parquet with these columns is one candidate. One row per pixel per band, or arrays per water body, are the alternatives to compare. The <a href="data-contract.md">draft data contract</a> lists every field.</p>
-<p class="small">The illustration groups information. It does not specify a quality join. Primary-tile roles and the physical layout are open.</p>
+<p class="small">The illustration groups information. It does not specify a quality join. The primary-tile rule is set. The physical layout is open.</p>
 </figcaption>
 <div class="record-card">
 <div><span>Water body and polygon version</span><b>polygon id · v3</b></div>

@@ -15,5 +15,6 @@ For a partial change, name the replaced provision. The remaining provisions stay
 | [0007](0007-aws-daily-update-costs.md) | Forward update costs, storage accrual, and acquisition-rate distinctions | 2026-09-23 | active |
 | [0008](0008-acolite-aquatic-reflectance-first.md) | ACOLITE aquatic reflectance first for the lower 48, Level-2A supplementary. Replaces the route provision of 0003. Earth Search becomes supplementary under the fallback order of 0004. Its supplementary provision is replaced by 0009 | 2026-10-13 | active |
 | [0009](0009-standalone-options-join-deferred.md) | Standalone options, ACOLITE only or Sen2Cor only, with the scene join deferred. Amends 0008 | 2026-10-14 | active |
+| [0010](0010-primary-tile-rule.md) | Primary tile per water body: one fixed tile, same UTM zone first, then the largest buffered share. Replaces the primary tile provision of 0003 | 2026-10-15 | active |
 
 Template: title, date, status, context, decision, consequences, and the conditions that trigger a review.

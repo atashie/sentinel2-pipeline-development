@@ -21,7 +21,7 @@ Alternatives include one row per pixel per band and arrays per water body. The f
 | Identity | `water_body_id` | Stable id from the manifest. Never reused. Keeps the later weather join possible (assumption A16) |
 | Identity | `polygon_version` | Version of the polygon that produced the mask |
 | Identity | `tile_id` | MGRS tile, for example `17RLP` |
-| Identity | `tile_role` | `primary` or `overlap` under the provisional rule of assumption A22. Rationale in [decision 0002](decisions/0002-aws-source-pixel-classes-tile-provenance.md). Values from two tiles are never averaged. **The store never mosaics. Cross-tile mosaicking is a MAJOR CONCERN under investigation, issue I-30** |
+| Identity | `tile_role` | `primary` or `overlap` under the rule of assumption A22 and [decision 0010](decisions/0010-primary-tile-rule.md): one fixed primary tile per water body. Rationale in [decision 0002](decisions/0002-aws-source-pixel-classes-tile-provenance.md). Values from two tiles are never averaged. **The store never mosaics. Cross-tile mosaicking is a MAJOR CONCERN under investigation, issue I-30** |
 | Identity | `sensing_time` | Scene sensing time, UTC |
 | Identity | `product_family` | `aquatic_reflectance` under the ACOLITE-only option or `level_2a` under the Sen2Cor-only option. Every record carries one. Decision 0009 |
 | Identity | `product_id` | Product name as delivered by the route. For the primary product, the object name in the bucket. Two products of one pass on one tile, one per datastrip, are two records, finding 30 |

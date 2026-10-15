@@ -4,7 +4,7 @@ Status: active. Builds on [decision 0002](0002-aws-source-pixel-classes-tile-pro
 
 The fallback format below is historical. [Decision 0004](0004-cog-fallback-and-presentation-clarifications.md) replaces it with the older collection's COG assets.
 The route provision below is replaced for water pixels in the lower 48 states by [decision 0008](0008-acolite-aquatic-reflectance-first.md), active since 2026-10-13. Earth Search is the supplementary route there. Since 2026-10-14 it is the Sen2Cor-only option instead, [decision 0009](0009-standalone-options-join-deferred.md).
-The history, primary tile, and cross-tile provisions remain active.
+The history and cross-tile provisions remain active. [Decision 0010](0010-primary-tile-rule.md) replaced the primary tile provision on 2026-10-15.
 
 ## Context
 
