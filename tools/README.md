@@ -6,7 +6,7 @@ The four scripts in the table use the standard library and make no network reque
 |---|---|---|---|
 | [collate_checks.py](collate_checks.py) | `docs/assessment-checks/*-research.json` and `*-checks.json`, the current inventory | `docs/options-inventory.json` | `--check` fails when the inventory is stale |
 | [collate_sensor_bands.py](collate_sensor_bands.py) | `docs/assessment-checks/sensor-bands-research.json` and `sensor-bands-checks.json` | `docs/sensor-bands.json` | `--check` fails when the dataset is stale |
-| [render_options.py](render_options.py) | [Presentation template](s2-options.template.html), inventory issue `plain` lines, gap survey report, map provenance and image digests, pilot manifest, Stage 1 to 4 results, sensor band dataset, AWS cost estimates and inputs | `docs/s2-options.html` | `--check` fails when the HTML or map assets are stale. Rendering fails when the cost estimates predate their inputs or model |
+| [render_options.py](render_options.py) | [Presentation template](s2-options.template.html), inventory `plain` lines, survey report, map provenance, pilot manifest, Stage 1 to 4 and Phase C results, sensor bands, both options' cost estimates and inputs | `docs/s2-options.html` | `--check` fails when the HTML or map assets are stale. Rendering fails when the cost estimates predate their inputs or model, or when a result contradicts a stated takeaway |
 | [gap_report.py](gap_report.py) | `benchmarks/results/gap-survey.json`, `benchmarks/results/fallback-survey.json`, the probe record | `docs/reviews/2026-09-10-gap-survey-report.json` | `--check` fails when the report is stale |
 
 [../docs/assessment-data-format.md](../docs/assessment-data-format.md) defines the formats and the regeneration order.

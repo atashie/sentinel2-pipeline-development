@@ -3,9 +3,9 @@
 Edit s2-options.template.html for the narrative and layout. The renderer fills the markers:
 survey counts and the monthly coverage strip from the gap survey report, the risk and cost
 bullets from the inventory's plain-language lines, map facts from the provenance record,
-pilot counts from the manifest, prototype tables from saved results, the sensor band tables
-from the bound sensor band dataset, the AWS cost table from the generated cost estimates, and
-the input digests.
+pilot counts from the manifest, prototype tables and pixel checks from saved results, the sensor
+band tables from the bound sensor band dataset, the AWS cost table from both options' generated
+cost estimates, and the input digests.
 """
 
 from __future__ import annotations
@@ -37,9 +37,28 @@ LAZY_WORKLOADS = RESULTS / "lazy-reader-workloads.json"
 WORKLOAD_AUDIT = RESULTS / "lazy-reader-workloads-audit.json"
 AQR_COVERAGE = RESULTS / "aqr-coverage.json"
 AQR_HEADERS = RESULTS / "aqr-headers.json"
+AQR_VALIDITY = RESULTS / "aqr-validity.json"
+AQR_PAIRS = RESULTS / "aqr-pairs.json"
+AQR_WORKLOADS = RESULTS / "aqr-workloads.json"
+AQR_OVERLAP = RESULTS / "aqr-overlap.json"
 COST_ESTIMATES = DOCS / "cost-analysis" / "estimates.json"
+COST_ESTIMATES_ACOLITE = DOCS / "cost-analysis" / "estimates-acolite-only.json"
 COST_INPUTS = DOCS / "cost-analysis" / "inputs.json"
 COST_MODEL = ROOT / "tools" / "estimate_aws_costs.py"
+GAP_SURVEY = RESULTS / "gap-survey.json"
+COST_DEPENDENCIES = {
+    "acolite": {
+        "evidence_sha256": AQR_WORKLOADS,
+        "cohort_blocks_sha256": DOCS / "cost-analysis" / "aqr-cohort-blocks.json",
+        "survey_sha256": GAP_SURVEY,
+        "coverage_sha256": AQR_COVERAGE,
+    },
+    "sen2cor": {
+        "evidence_sha256": LAZY_WORKLOADS,
+        "cohort_blocks_sha256": DOCS / "cost-analysis" / "cohort-blocks.json",
+        "survey_sha256": GAP_SURVEY,
+    },
+}
 # Workload key: whether it is the national population, and whether it keeps nearby land.
 COST_WORKLOADS = {
     "all_land": (True, True),
@@ -47,20 +66,15 @@ COST_WORKLOADS = {
     "sample_land": (False, True),
     "sample_water_shore": (False, False),
 }
-COST_RECIPES = {"A1": ("lake-first", 1), "B1": ("tile-first", 1), "B3": ("tile-first", 3)}
-REGION_LABELS = {
-    "tahoe": "Tahoe",
-    "lanier": "Lanier",
-    "okeechobee": "Okeechobee",
-    "grand-st-marys": "Grand Lake St. Marys",
-    "washington": "Washington",
-    "iliamna": "Iliamna",
-}
-METHOD_LABELS = {
-    "naive-clip": "Boundary clip",
-    "raster-mask": "Prepared mask",
-    "index-lists": "Stored positions",
-    "lazy-stack": "Prepared mask",
+# Recipes estimated for both options. A1 has no trial on the primary product.
+COST_RECIPES = {"B1": ("tile-first", 1), "B3": ("tile-first", 3)}
+# The two standalone source options of decision 0009, in page order.
+SOURCE_OPTIONS = {"acolite": "ACOLITE only", "sen2cor": "Sen2Cor only"}
+# Frozen result keys of the readers that ran on both options, and their recipes.
+OPTION_READERS = {"B-raster": ("tile-first", 1), "B-lazy": ("tile-first", 3)}
+WORKLOAD_COHORTS = {
+    "dispersed": "Dispersed lakes across the continental U.S.",
+    "florida": "Lakes concentrated in Florida",
 }
 WORKFLOW_LABELS = {
     "lake-first": "A · Each lake separately",
@@ -71,25 +85,6 @@ READER_LABELS = {
     1: "Direct raster reads",
     2: "Large-chunk lazy reads",
     3: "Source-block lazy reads",
-}
-METHOD_READERS = {"naive-clip": 1, "raster-mask": 1, "index-lists": 1, "lazy-stack": 2}
-# Presentation identities only. Frozen result keys and experiment settings remain separate.
-WORKLOAD_CONFIGURATIONS = {
-    "A-raster": ("lake-first", 1),
-    "A-lazy": ("lake-first", 3),
-    "B-raster": ("tile-first", 1),
-    "B-lazy-control": ("tile-first", 2),
-    "B-lazy": ("tile-first", 3),
-    "C-raster": ("whole-tile", 1),
-    "C-lazy": ("whole-tile", 3),
-}
-SIZE_LABELS = {
-    "10 m": "10 m class",
-    "30 m": "30 m class",
-    "100 m": "100 m class",
-    "300 m": "300 m class",
-    "1000 m": "1,000 m class",
-    "anchor": "Anchor lakes",
 }
 GROUP_LABELS = {
     "10m": "Four 10 m bands",
@@ -386,105 +381,6 @@ def copy_difference_rows(result: dict) -> str:
     return "\n".join(parts)
 
 
-def megabytes_label(value: int) -> str:
-    return f"{value / 1e6:.1f} MB" if value < 1e7 else f"{value / 1e6:,.0f} MB"
-
-
-def lake_extraction_rows(result: dict) -> str:
-    """One table row per size class from the stage 2 summary: what is read and how long."""
-    rows = {(r["size_label"], r["method"]): r for r in result["summary"]["by_size_class_method"]}
-    prep = {r["size_label"]: r for r in result["summary"]["preparation_by_size_class"]}
-    parts = []
-    for size, label in SIZE_LABELS.items():
-        reference = rows.get((size, "raster-mask"))
-        if not reference or "read_seconds_median" not in reference:
-            continue
-        classes = prep.get(size, {}).get("classes", {}).get("10", {})
-        stored = classes.get("all_classes_median")
-        blocks = reference.get("blocks_touched_median")
-        blocks_max = reference.get("blocks_touched_max")
-        blocks_label = "" if blocks is None else f"{blocks} blocks"
-        if blocks is not None and blocks_max != blocks:
-            blocks_label = f"{blocks} to {blocks_max} blocks"
-        cells = [
-            f'<th scope="row">{label}</th>',
-            f"<td>{reference['lakes']}</td>",
-            f"<td>{stored:,}</td>" if stored is not None else "<td>not computed</td>",
-            f"<td>{blocks_label} · {megabytes_label(reference['bytes_requested_median'])} · "
-            f"{reference['requests_median']} requests</td>",
-        ]
-        peaks = []
-        for method in METHOD_LABELS:
-            row = rows.get((size, method))
-            if not row or "read_seconds_median" not in row:
-                cells.append("<td>failed</td>")
-                continue
-            cells.append(f"<td>{seconds_label(row['read_seconds_median'])}</td>")
-            peaks.append(row["peak_rss_bytes_max"])
-        cells.append(f"<td>{max(peaks) / 1e9:.1f} GB</td>" if peaks else "<td>failed</td>")
-        parts.append("<tr>" + "".join(cells) + "</tr>")
-    return "\n".join(parts)
-
-
-def pixel_class_rows(result: dict) -> str:
-    """One row per size class: median pixels per class at each resolution, and preparation time."""
-    parts = []
-    prep = {r["size_label"]: r for r in result["summary"]["preparation_by_size_class"]}
-    for size, label in SIZE_LABELS.items():
-        row = prep.get(size)
-        if not row:
-            continue
-        cells = [f'<th scope="row">{label}</th>', f"<td>{row['lakes']}</td>"]
-        for res in ("10", "20", "60"):
-            classes = row["classes"].get(res)
-            if not classes:
-                cells.append("<td>not read</td>")
-                continue
-            cells.append(
-                f"<td>{classes['interior']:,} · {classes['shoreline']:,} · "
-                f"{classes['near_land']:,}</td>"
-            )
-        cells.append(f"<td>{seconds_label(row['prepare_seconds_median'])}</td>")
-        parts.append("<tr>" + "".join(cells) + "</tr>")
-    return "\n".join(parts)
-
-
-def lake_method_rows(result: dict) -> str:
-    """Show both ends of the size range, with each method's own resource measurements."""
-    rows = {(r["size_label"], r["method"]): r for r in result["summary"]["by_size_class_method"]}
-    parts = []
-    for size, label in (
-        ("10 m", "Smallest ponds · 10 m size class"),
-        ("anchor", "Larger reference lakes"),
-    ):
-        parts.append(
-            f'<tbody><tr class="result-group"><th colspan="6" scope="rowgroup">{label}</th></tr>'
-        )
-        for method, description in METHOD_LABELS.items():
-            row = rows.get((size, method))
-            reader = METHOD_READERS[method]
-            selection = "Nearby land omitted" if method == "naive-clip" else "All three classes"
-            cells = (
-                f'<th scope="row" class="workflow-a"><a href="#reader-{reader}">'
-                f'A{reader} · {description}</a><span class="cell-note">'
-                f"{READER_LABELS[reader]}</span></th><td>{selection}</td>"
-            )
-            if not row:
-                cells += '<td colspan="4">Not measured</td>'
-            elif "read_seconds_median" not in row:
-                cells += '<td colspan="4">No successful read</td>'
-            else:
-                cells += (
-                    f"<td>{row['read_seconds_median']:.2f} s</td>"
-                    f"<td>{row['requests_median']:,}</td>"
-                    f"<td>{row['bytes_requested_median'] / 1e6:.2f} MB</td>"
-                    f"<td>{megabytes_label(row['peak_rss_bytes_max'])}</td>"
-                )
-            parts.append("<tr>" + cells + "</tr>")
-        parts.append("</tbody>")
-    return "\n".join(parts)
-
-
 def workflow_cell(workflow: str, reader: int, note: str = "") -> str:
     """Identify the recipe while preserving visible experiment-specific qualifications."""
     letter, label = WORKFLOW_LABELS[workflow].split(" · ", 1)
@@ -495,132 +391,11 @@ def workflow_cell(workflow: str, reader: int, note: str = "") -> str:
     )
 
 
-EXCLUDED_RUNS = (
-    ("runs_with_memory_pressure", "under memory pressure"),
-    ("runs_with_errors", "with errors"),
-    ("failed", "failed"),
-    ("stopped_for_memory", "stopped for memory"),
-)
-
-
-def _read_metric_cells(row: dict | None) -> str:
-    """Keep absent and excluded measurements explicit across five resource columns."""
-    if not row:
-        return '<td colspan="5">Not measured</td>'
-    if "read_seconds_median" not in row:
-        left_out = ", ".join(f"{row[k]} {text}" for k, text in EXCLUDED_RUNS if row.get(k))
-        return f'<td colspan="5">No clean run: {left_out or "nothing measured"}</td>'
-    used, runs = row.get("timings_from_runs"), row.get("runs")
-    basis = f"{used} of {runs} runs" if used is not None and runs else "Repetitions not recorded"
-    memory = row.get("peak_rss_bytes_max")
-    return (
-        f"<td>{row['read_seconds_median']:.2f} s</td>"
-        f"<td>{row['requests_median']:,}</td>"
-        f"<td>{row['bytes_requested_median'] / 1e6:.2f} MB</td>"
-        f"<td>{megabytes_label(memory) if memory is not None else 'Not recorded'}</td>"
-        f"<td>{basis}</td>"
-    )
-
-
-def tile_extraction_rows(result: dict, *, tile_ids: set[str] | None = None) -> str:
-    """Group alternatives by identical tile workload, keeping the earlier baseline separate."""
-    rows = {
-        (r["tile"], r["pattern"], r["method"]): r
-        for r in result["summary"]["by_tile_pattern_method"]
-    }
-    parts = []
-    for tile in result["summary"]["tiles"]:
-        if tile_ids is not None and tile["tile"] not in tile_ids:
-            continue
-        windowed = rows.get((tile["tile"], "tile-by-tile", "raster-mask"))
-        base = (windowed or {}).get("baseline_stage_2") or {}
-        with_baseline = base.get("lakes_with_baseline", [])
-        if not base.get("comparable") or not with_baseline:
-            baseline_cells = '<td colspan="5">No matching individual-lake comparison</td>'
-        else:
-            basis = "Sum of lake medians"
-            if len(with_baseline) != tile["lakes"]:
-                basis += f" · only {len(with_baseline)} of {tile['lakes']} lakes"
-            baseline_cells = (
-                f"<td>{base['read_seconds']:.2f} s</td><td>{base['requests']:,}</td>"
-                f"<td>{base['bytes_requested'] / 1e6:.2f} MB</td>"
-                f"<td>Not summarized</td><td>{basis}</td>"
-            )
-        partly = tile.get("lakes_partly_inside") or 0
-        lakes = f"{tile['lakes']} lakes" + (f", {partly} partly inside" if partly else "")
-        region = html.escape(REGION_LABELS.get(tile["region"], tile["region"]))
-        parts.append(
-            '<tbody><tr class="result-group"><th colspan="7" scope="rowgroup">'
-            f"{region} · {html.escape(tile['tile'])} · {lakes}</th></tr>"
-        )
-        parts.append(
-            "<tr>"
-            + workflow_cell("lake-first", 1, "Separate process per lake")
-            + f"<td>{READER_LABELS[1]}</td>"
-            + baseline_cells
-            + "</tr>"
-        )
-        for pattern, method, workflow, note in (
-            (
-                "lake-by-lake",
-                "raster-mask",
-                "lake-first",
-                "One process, reopen files for each lake",
-            ),
-            ("tile-by-tile", "raster-mask", "tile-first", "Keep files open across lakes"),
-            ("whole-tile", "raster-mask", "whole-tile", "Load complete band grids first"),
-            (
-                "tile-by-tile",
-                "lazy-stack",
-                "tile-first",
-                "Shared graph, compute each lake separately",
-            ),
-        ):
-            reader = METHOD_READERS[method]
-            parts.append(
-                "<tr>"
-                + workflow_cell(workflow, reader, note)
-                + f"<td>{READER_LABELS[reader]}</td>"
-                + _read_metric_cells(rows.get((tile["tile"], pattern, method)))
-                + "</tr>"
-            )
-        parts.append("</tbody>")
-    return "\n".join(parts)
-
-
 def machine_label(machine: dict) -> str:
     memory = machine.get("memory_total_bytes") or 0
     return (
         f"{machine['cpu_count']}-core {machine['machine']} laptop, {memory / 2**30:.1f} GiB memory"
     )
-
-
-def cross_tile_rows(result: dict) -> str:
-    """Whole-workload medians and ranges from clean repetitions, never per-worker averages."""
-    rows = {(r["path"], r["method"]): r for r in result["summary"]["medians"]}
-    parts = []
-    for method in ("raster-mask", "lazy-stack"):
-        for path in ("lake-first", "tile-first"):
-            row = rows.get((path, method))
-            times = [
-                w["end_to_end_seconds"]
-                for w in result["summary"]["workloads"]
-                if (w["path"], w["method"]) == (path, method) and w["clean"]
-            ]
-            reader = METHOD_READERS[method]
-            cells = workflow_cell(path, reader) + f"<td>{READER_LABELS[reader]}</td>"
-            if not row or not times or not row.get("clean_repetitions"):
-                cells += '<td colspan="4">No clean complete repetition</td>'
-            else:
-                cells += (
-                    f"<td>{row['wall_seconds']:.2f} s"
-                    f'<br><span class="small">{min(times):.2f}–{max(times):.2f} s</span></td>'
-                    f"<td>{row['requests']:,}</td><td>{row['bytes_requested'] / 1e6:.2f} MB</td>"
-                    f"<td>{row['clean_repetitions']} included"
-                    f", {row['excluded_repetitions']} excluded</td>"
-                )
-            parts.append("<tr>" + cells + "</tr>")
-    return "\n".join(parts)
 
 
 def cross_tile_markers(result: dict) -> dict[str, str]:
@@ -631,28 +406,15 @@ def cross_tile_markers(result: dict) -> dict[str, str]:
     rows = {(r["path"], r["method"]): r for r in summary["medians"]}
     lake = rows[("lake-first", "raster-mask")]
     tile = rows[("tile-first", "raster-mask")]
-    lazy_ratio = (
-        rows[("tile-first", "lazy-stack")]["bytes_requested"]
-        / rows[("lake-first", "lazy-stack")]["bytes_requested"]
-    )
     markers = {
-        "CROSS_ROWS": cross_tile_rows(result),
         "CROSS_DATE": html.escape(result["measured_at"][:10]),
-        "CROSS_MACHINE": html.escape(machine_label(result["machine"])),
-        "CROSS_RUNS": str(len(result["runs"])),
         "CROSS_EXPECTED": str(summary["expected_contributions_per_workload"]),
-        "CROSS_LAZY_BYTES": f"{lazy_ratio:.2f}",
     }
     for key in ("lakes", "tiles", "acquisitions", "memberships"):
         markers[f"CROSS_{key.upper()}"] = str(summary[key])
     metrics = (("REQUESTS", "requests"), ("BYTES", "bytes_requested"), ("TIME", "wall_seconds"))
     for key, metric in metrics:
-        markers[f"CROSS_SAVED_{key}"] = f"{100 * (1 - tile[metric] / lake[metric]):.1f}"
-    for region, anchor in (("lanier", "nhd-34974901"), ("okeechobee", "nhd-120024129")):
-        coverage = result["plan"]["selection"][region]["coverage"][anchor]
-        markers[f"CROSS_{region.upper()}_OVERLAP"] = (
-            f"{100 * coverage['support_overlap_m2'] / coverage['support_area_m2']:.2f}"
-        )
+        markers[f"CROSS_SAVED_{key}"] = f"{100 * (1 - tile[metric] / lake[metric]):.0f}"
     return markers
 
 
@@ -811,157 +573,6 @@ def sensor_band_markers(dataset: dict) -> dict[str, str]:
     }
 
 
-def workload_rerun_note(result: dict | None) -> str:
-    """How many sleep-affected attempts were replaced, for the method notes."""
-    lineage = (result or {}).get("rerun")
-    if not lineage:
-        return ""
-    retained = lineage.get("retained_configurations", [])
-    return (
-        "<p><b>Sleep-affected attempts were rerun.</b> "
-        f"{len(lineage['replacement_configurations'])} replacements use the same frozen "
-        f"inputs and memory limits. {len(retained)} unaffected results retain their original "
-        "dates and source versions. Replacement lazy readers use saved metadata without "
-        "live catalog lookups. "
-        '<a href="reviews/2026-09-21-sleep-rerun.md">Rerun review</a>.</p>'
-    )
-
-
-def workload_comparison(result: dict | None, execution_audit: dict | None = None) -> str:
-    """Keep all planned alternatives visible, and never rank partial work as complete."""
-    sections = []
-    lineage = (result or {}).get("rerun")
-    retained = {tuple(key) for key in (lineage or {}).get("retained_configurations", [])}
-    interrupted = {
-        (row["cohort"], row["configuration"])
-        for row in (execution_audit or {}).get("rows", [])
-        if row["sleep_intervals_overlapping"]
-    }
-    if interrupted:
-        sections.append(
-            '<p class="note-line"><strong>Sleep interrupted this experiment.</strong> '
-            f"{len(interrupted)} attempts overlapped laptop sleep. Their elapsed times do not "
-            "establish uninterrupted workload performance. "
-            '<a href="reviews/2026-09-19-larger-workload-execution.md">Execution review</a>.</p>'
-        )
-    for cohort, label in [
-        ("dispersed", "100 lakes across the continental U.S."),
-        ("florida", "1,000 lakes concentrated in Florida"),
-    ]:
-        data = (result or {}).get("cohorts", {}).get(cohort, {})
-        rows = {row["configuration"]: row for row in data.get("comparisons", [])}
-        rendered = []
-        for key, (workflow, reader) in WORKLOAD_CONFIGURATIONS.items():
-            row = rows.get(key, {})
-            complete = row.get("status") == "complete"
-            valid = complete and row.get("matches_all_complete_outputs") is True
-            state = "Complete · outputs agree" if valid else row.get("status", "Not measured")
-            if row.get("status") == "complete" and not valid:
-                state = "Complete · agreement unverified"
-            sleeping = (cohort, key) in interrupted
-            if sleeping:
-                state += " · sleep interrupted"
-            if (cohort, key) in retained:
-                state += " · retained original"
-            timed = complete and not sleeping
-            seconds = f"{row['extraction_seconds']:,.1f} s" if timed else "—"
-            cpu = row.get("cpu", {})
-            cpu_seconds = (
-                f"{cpu['user'] + cpu['system']:,.1f} s"
-                if complete and "user" in cpu and "system" in cpu
-                else "—"
-            )
-            reader_seconds = (
-                f"{row['read_and_extract_seconds']:,.1f} s"
-                if timed and "read_and_extract_seconds" in row
-                else "—"
-            )
-            io = row.get("io", {})
-            requests = f"{io['requests']:,}" if complete and "requests" in io else "—"
-            megabytes = (
-                f"{io['bytes_requested'] / 1e6:,.1f} MB"
-                if complete and "bytes_requested" in io
-                else "—"
-            )
-            peak = row.get("supervision", {}).get("peak_aggregate_rss_bytes")
-            memory = f"{peak / 1024**3:.2f} GiB" if peak is not None else "—"
-            note = "Control for this comparison" if key == "B-lazy-control" else ""
-            rendered.append(
-                "<tr>"
-                + workflow_cell(workflow, reader, note)
-                + "".join(
-                    f"<td>{html.escape(str(value))}</td>"
-                    for value in (
-                        READER_LABELS[reader],
-                        state,
-                        reader_seconds,
-                        seconds,
-                        cpu_seconds,
-                        requests,
-                        megabytes,
-                        memory,
-                    )
-                )
-                + "</tr>"
-            )
-        preflight = data.get("preflight", {})
-        coverage = (
-            f"<p>{preflight['products']:,} source products · {preflight['tiles']:,} tiles · "
-            f"{preflight['tile_dates']:,} tile-dates · "
-            f"{preflight['lake_product_memberships']:,} lake-product memberships.</p>"
-            if preflight
-            else "<p>Exact products and image coverage await input selection.</p>"
-        )
-        unconverged = preflight.get("unconverged_geometry_count", 0)
-        if unconverged:
-            coverage += (
-                f'<p class="small muted">{unconverged} '
-                f"{'lake uses' if unconverged == 1 else 'lakes use'} a recorded approximation "
-                "for image selection. Every reader uses the same prepared pixel selections.</p>"
-            )
-        sections.append(
-            f'<h3 class="comparison-heading">{label}</h3>{coverage}'
-            '<p class="scroll-hint">Scroll horizontally to compare all columns.</p>'
-            '<div class="table-scroll" role="region" tabindex="0" '
-            f'aria-label="{html.escape(label)} workflow and reader comparison">'
-            '<table class="plans results-table">'
-            "<caption>Seven workflow and reader combinations. Codes identify recipes, "
-            "with settings and timing qualifications in the method notes below.</caption>"
-            '<thead><tr><th scope="col">Workflow + reader</th><th scope="col">Reader</th>'
-            '<th scope="col">Status</th><th scope="col">Read + extract</th>'
-            '<th scope="col">Total extraction</th><th scope="col">Worker CPU</th>'
-            '<th scope="col">Requests</th><th scope="col">Requested bytes</th>'
-            '<th scope="col">Peak benchmark RAM</th></tr></thead>'
-            "<tbody>" + "\n".join(rendered) + "</tbody></table></div>"
-        )
-    if result:
-        partial_note = ""
-        if any(
-            row.get("status") == "incomplete"
-            for data in result.get("cohorts", {}).values()
-            for row in data.get("comparisons", [])
-        ):
-            partial_note = (
-                "Incomplete attempts retain their partial measurements in the evidence file. "
-                "Their times do not appear as completed comparisons. Their RAM peaks cover only "
-                "the work reached before failure. "
-            )
-        history_note = (
-            'Earlier attempts remain in the <a href="../benchmarks/results/'
-            'lazy-reader-workloads-before-sleep-rerun.json">preserved original result</a>. '
-            if lineage
-            else ""
-        )
-        sections.append(
-            '<p class="source-note"><a href="../benchmarks/results/lazy-reader-workloads.json">'
-            "Execution evidence, completion checks, resource limits, and cleanup audit</a>. "
-            "Worker CPU sums user and system CPU seconds. Peak RAM includes the supervisor "
-            "and worker processes, sampled every 0.1 seconds. Shorter spikes can be missed. "
-            f"{partial_note}{history_note}GDAL counters exclude Python catalog requests.</p>"
-        )
-    return "\n".join(sections)
-
-
 def workload_audit():
     if not WORKLOAD_AUDIT.exists() or not LAZY_WORKLOADS.exists():
         return None
@@ -969,6 +580,230 @@ def workload_audit():
     if value["result_sha256"] != hashlib.sha256(LAZY_WORKLOADS.read_bytes()).hexdigest():
         raise ValueError("workload audit does not match the current result")
     return value
+
+
+def option_workloads(product: dict, reference: dict, audit: dict | None) -> list[dict]:
+    """Readers B1 and B3 on each option and cohort. Refuse any run that is incomplete or unequal."""
+    if audit is None:
+        raise ValueError("The Level-2A rows need the sleep audit of their runs")
+    audited: dict[tuple[str, str], list[dict]] = {}
+    for row in audit["rows"]:
+        audited.setdefault((row["cohort"], row["configuration"]), []).append(row)
+    rows = []
+    for cohort in WORKLOAD_COHORTS:
+        sources = {
+            "acolite": (product["workloads"][cohort], product["workloads"][cohort]),
+            "sen2cor": (reference["cohorts"][cohort], reference["cohorts"][cohort]["preflight"]),
+        }
+        for key, (workflow, reader) in OPTION_READERS.items():
+            for option, (data, counts) in sources.items():
+                runs = [r for r in data["comparisons"] if r["configuration"] == key]
+                if len(runs) != 1:
+                    raise ValueError(f"Expected one {key} run for {option} {cohort}")
+                run = runs[0]
+                if (
+                    run["status"] != "complete"
+                    or run.get("matches_all_complete_outputs") is not True
+                ):
+                    raise ValueError(f"{option} {cohort} {key} lacks a complete, agreeing run")
+                if option == "sen2cor":
+                    checks = audited.get((cohort, key), [])
+                    if len(checks) != 1:
+                        raise ValueError(f"{cohort} {key} needs one sleep audit row")
+                    if checks[0]["sleep_intervals_overlapping"]:
+                        raise ValueError(f"{cohort} {key} overlapped laptop sleep")
+                rows.append(
+                    {
+                        "cohort": cohort,
+                        "option": option,
+                        "workflow": workflow,
+                        "reader": reader,
+                        "lakes": counts["lakes"],
+                        "products": counts["products"],
+                        "seconds": run["extraction_seconds"],
+                        "cpu": run["cpu"]["user"] + run["cpu"]["system"],
+                        "requests": run["io"]["requests"],
+                        "bytes": run["io"]["bytes_requested"],
+                        "peak": run["supervision"]["peak_aggregate_rss_bytes"],
+                        "date": run["started_at"][:10],
+                    }
+                )
+    return rows
+
+
+def option_workload_rows(rows: list[dict]) -> str:
+    """One group per cohort, then each reader on each option."""
+    parts = []
+    for cohort, label in WORKLOAD_COHORTS.items():
+        parts.append(
+            '<tbody><tr class="result-group">'
+            f'<th colspan="9" scope="rowgroup">{html.escape(label)}</th></tr>'
+        )
+        for row in (r for r in rows if r["cohort"] == cohort):
+            values = (
+                SOURCE_OPTIONS[row["option"]],
+                f"{row['lakes']:,} · {row['products']:,}",
+                f"{row['seconds']:,.1f} s",
+                f"{row['cpu']:,.1f} s",
+                f"{row['requests']:,}",
+                f"{row['bytes'] / 1e6:,.1f} MB",
+                f"{row['peak'] / 1024**3:.2f} GiB",
+                row["date"],
+            )
+            parts.append(
+                "<tr>"
+                + workflow_cell(row["workflow"], row["reader"], READER_LABELS[row["reader"]])
+                + "".join(f"<td>{html.escape(value)}</td>" for value in values)
+                + "</tr>"
+            )
+        parts.append("</tbody>")
+    return "\n".join(parts)
+
+
+def percent_range(values: list[float]) -> str:
+    """Whole percents, one value when they round alike, otherwise the lowest to the highest."""
+    low, high = (f"{100 * value:.0f}" for value in (min(values), max(values)))
+    return low if low == high else f"{low} to {high}"
+
+
+def option_workload_markers(product: dict, reference: dict, audit: dict | None) -> dict[str, str]:
+    """The main comparison and the takeaway numbers. Refuse any claim the runs contradict."""
+    rows = option_workloads(product, reference, audit)
+    pick = {(r["cohort"], r["option"], r["reader"]): r for r in rows}
+    for cohort in WORKLOAD_COHORTS:
+        for option in SOURCE_OPTIONS:
+            b1, b3 = pick[(cohort, option, 1)], pick[(cohort, option, 3)]
+            if not (
+                b1["cpu"] < b3["cpu"]
+                and b1["requests"] < b3["requests"]
+                and b3["bytes"] < b1["bytes"]
+                and b3["seconds"] < b1["seconds"]
+            ):
+                raise ValueError(f"B1 and B3 no longer split as the takeaways state: {option}")
+    for option in SOURCE_OPTIONS:
+        for reader in (1, 3):
+            florida, dispersed = (
+                pick[("florida", option, reader)],
+                pick[("dispersed", option, reader)],
+            )
+            if not (
+                florida["seconds"] < dispersed["seconds"] and florida["bytes"] < dispersed["bytes"]
+            ):
+                raise ValueError("Florida no longer runs faster on fewer bytes")
+    florida = [(pick[("florida", "acolite", r)], pick[("florida", "sen2cor", r)]) for r in (1, 3)]
+    if any(aco["requests"] < s2c["requests"] for aco, s2c in florida):
+        raise ValueError("ACOLITE files no longer take more requests in Florida")
+    if any(aco["bytes"] >= s2c["bytes"] for aco, s2c in florida):
+        raise ValueError("ACOLITE files no longer take fewer bytes in Florida")
+    disp = product["workloads"]["dispersed"]
+    fl = product["workloads"]["florida"]
+
+    def faster(cohort: str) -> str:
+        b1, b3 = pick[(cohort, "acolite", 1)], pick[(cohort, "acolite", 3)]
+        return f"{100 * (1 - b3['seconds'] / b1['seconds']):.0f}"
+
+    return {
+        "OPTION_WORKLOAD_ROWS": option_workload_rows(rows),
+        "T6_DATE": html.escape(product["measured_at"][:10]),
+        "T6_BYTE_SHARE": percent_range([aco["bytes"] / s2c["bytes"] for aco, s2c in florida]),
+        "T6_MORE_REQUESTS": percent_range(
+            [aco["requests"] / s2c["requests"] - 1 for aco, s2c in florida]
+        ),
+        "T6_DISP_B1_CPU": f"{pick[('dispersed', 'acolite', 1)]['cpu']:.1f}",
+        "T6_DISP_B3_CPU": f"{pick[('dispersed', 'acolite', 3)]['cpu']:.1f}",
+        "T6_B3_FASTER_DISP": faster("dispersed"),
+        "T6_B3_FASTER_FL": faster("florida"),
+        "T6_RAM_LOW": f"{min(r['peak'] for r in rows) / 1024**3:.2f}",
+        "T6_RAM_HIGH": f"{max(r['peak'] for r in rows) / 1024**3:.2f}",
+        "T6_DISP_LAKES": f"{disp['lakes']:,}",
+        "T6_DISP_DROPPED": str(len(disp["dropped_lakes"])),
+        "T6_DISP_PRODUCTS": f"{disp['products']:,}",
+        "T6_DISP_TILES": f"{disp['tiles']:,}",
+        "T6_DISP_SAME": f"{disp['same_acquisitions']['same_item_as_reference']:,}",
+        "T6_FL_LAKES": f"{fl['lakes']:,}",
+        "T6_FL_PRODUCTS": f"{fl['products']:,}",
+        "T6_FL_SAME": f"{fl['same_acquisitions']['same_item_as_reference']:,}",
+        "T6_FL_TILES": f"{fl['tiles']:,}",
+    }
+
+
+def no_data_exceptions(diagnostic: dict) -> None:
+    """The page states one record where counts differ: ten bands hold values on two flagged
+    near-land pixels, and B04 lacks two values. Refuse any other pattern."""
+    mismatches = diagnostic["mismatches"]
+    records = {(m["product"], m["water_body_id"], m["class"]) for m in mismatches}
+    if len(records) != 1 or any(m["no_data"] >= m["out_of_scene_flag"] for m in mismatches):
+        raise ValueError("Probe T4 no-data counts no longer follow the out-of-scene flag")
+    ((product, _, cls),) = records
+    bands = diagnostic["scenes_with_no_data"][product]["bands"]
+    flagged = {m["out_of_scene_flag"] for m in mismatches}
+    missing = {band: count for band, count in bands.items() if count}
+    if cls != "near_land" or flagged != {2} or len(mismatches) != 10 or missing != {"B04": 2}:
+        raise ValueError("Probe T4's no-data exception changed. Revise the pixel checks.")
+
+
+def pixel_check_markers(validity: dict, pairs: dict, overlap: dict) -> dict[str, str]:
+    """What the pixel checks state, from probes T4, T5, and T7 under their declared rules."""
+    t4 = validity["summary"]
+    if any(verdict["masked_by_processor"] for verdict in t4["verdicts"].values()):
+        raise ValueError("Probe T4 found a class the processor masks")
+    no_data_exceptions(t4["no_data_diagnostic"])
+    t5 = pairs["summary"]
+    if any(classes["agree"] for subset in t5["verdicts"].values() for classes in subset.values()):
+        raise ValueError("Probe T5 found a band where the options agree")
+    clear = t5["pooled"]["both_clear_water"]["interior"]
+    pooled = overlap["summary"]["pooled"]
+    differs = {
+        (option, cls, band)
+        for option, subsets in pooled.items()
+        for classes in subsets.values()
+        for cls, bands in classes.items()
+        for band, stats in bands.items()
+        if stats["verdict"] != "agree"
+    }
+    if differs != {("sen2cor", "shoreline", "B01"), ("sen2cor", "near_land", "B01")}:
+        raise ValueError("Probe T7's pooled exceptions changed. Revise the pixel checks.")
+    relative = overlap["diagnostics"]["relative_offsets"]
+
+    def largest(option: str) -> str:
+        offset, band = max(
+            (abs(value), band)
+            for pair in relative.values()
+            for band, value in pair[option]["interior"].items()
+            if value is not None
+        )
+        if band != "B01":
+            raise ValueError(f"{option}'s largest tile offset moved from B01 to {band}")
+        return f"{100 * offset:.0f}"
+
+    shares = t4["shares"]
+    cloud = shares["interior"]["cloud"]
+    markers = {
+        "T4_SCENES": str(t4["scenes_read"]),
+        "T4_TILES": str(t4["distinct_tiles"]),
+        "T4_LAKES": str(t4["lakes"]),
+        "T4_CLOUD_UNFLAGGED": f"{100 * cloud['scl_cloud_unflagged_of_cloud']:.0f}",
+        "T4_SHADOW_UNFLAGGED": f"{100 * cloud['scl_shadow_unflagged_of_shadow']:.0f}",
+        "T5_LOW": f"{100 * min(b['share_disagree'] for b in clear.values()):.0f}",
+        "T5_HIGH": f"{100 * max(b['share_disagree'] for b in clear.values()):.0f}",
+        "T7_PAIRS": str(overlap["summary"]["pairs_compared"]),
+        "T7_ACOLITE_MAX": largest("acolite"),
+        "T7_SEN2COR_MAX": largest("sen2cor"),
+    }
+    for cls, key in (("interior", "INTERIOR"), ("shoreline", "SHORE"), ("near_land", "NEAR")):
+        markers[f"T4_NONWATER_{key}"] = f"{100 * shares[cls]['flags']['bits']['swir']:.0f}"
+        markers[f"T4_NOFLAG_{key}"] = f"{100 * shares[cls]['flags']['none']:.0f}"
+    return markers
+
+
+def workload_dates(result: dict) -> str:
+    """The first and last run dates of the Level-2A larger-workload comparison."""
+    dates = sorted(
+        row["started_at"][:10]
+        for cohort in result["cohorts"].values()
+        for row in cohort["comparisons"]
+    )
+    return dates[0] if dates[0] == dates[-1] else f"{dates[0]} to {dates[-1]}"
 
 
 def usd(value: float, cents: bool = False) -> str:
@@ -999,91 +834,116 @@ def cost_workload_label(row: dict, land_m: str) -> str:
     return f"{scope} · {pixels}"
 
 
-def cost_table_rows(data: dict, land_m: str) -> str:
-    """One group per workload with its storage, then each recipe's processing costs."""
+def cost_table_rows(options: dict[str, dict], land_m: str) -> str:
+    """One group per workload with each option's storage, then each recipe on each option."""
     parts = []
     for workload in COST_WORKLOADS:
-        row, daily = cost_rows(data, workload)
-        label = cost_workload_label(row, land_m)
-        stored = row["historical_dynamic_TiB"] * 1024 + row["static_geometry_GiB"]
+        picked = {option: cost_rows(data, workload) for option, data in options.items()}
+        if len({row["bodies"] for row, _ in picked.values()}) != 1:
+            raise ValueError(f"The options estimate different body counts for {workload}")
+        label = cost_workload_label(next(iter(picked.values()))[0], land_m)
+        storage = []
+        for option, (row, daily) in picked.items():
+            stored = row["historical_dynamic_TiB"] * 1024 + row["static_geometry_GiB"]
+            storage.append(
+                f'<span class="cell-note">{SOURCE_OPTIONS[option]}: storage at completion '
+                f"{stored:,.0f} GiB of records and geometry · S3 Standard "
+                f"{usd(row['s3_monthly_at_cutoff_usd'], True)} per month, rising by "
+                f"{usd(daily['s3_monthly_added_after_one_year_usd'], True)} over the first year"
+                "</span>"
+            )
         parts.append(
-            '<tbody><tr class="result-group"><th colspan="6" scope="rowgroup">'
-            f'{label}<span class="cell-note">Storage at completion: '
-            f"{stored:,.0f} GiB of records and geometry · S3 Standard "
-            f"{usd(row['s3_monthly_at_cutoff_usd'], True)} per month, rising by "
-            f"{usd(daily['s3_monthly_added_after_one_year_usd'], True)} over the first year"
-            "</span></th></tr>"
+            '<tbody><tr class="result-group"><th colspan="7" scope="rowgroup">'
+            f"{label}{''.join(storage)}</th></tr>"
         )
         for code, (workflow, reader) in COST_RECIPES.items():
-            backfill, forward = row["recipes"][code], daily["recipes"][code]
-            parts.append(
-                "<tr>"
-                + workflow_cell(workflow, reader, READER_LABELS[reader])
-                + f"<td>{backfill['historical_requested_TB_decimal']:,.0f} TB</td>"
-                + f"<td>{usd(backfill['historical_ec2_total_including_prep_put_usd'])}</td>"
-                + f"<td>{usd(backfill['historical_lambda_total_including_ec2_prep_put_usd'])}</td>"
-                + f"<td>{usd(forward['ec2_ingest_usd_per_month'], True)}</td>"
-                + f"<td>{usd(forward['lambda_ingest_usd_per_month'], True)}</td></tr>"
-            )
+            for option, (row, daily) in picked.items():
+                backfill, forward = row["recipes"][code], daily["recipes"][code]
+                parts.append(
+                    "<tr>"
+                    + workflow_cell(workflow, reader, READER_LABELS[reader])
+                    + f"<td>{SOURCE_OPTIONS[option]}</td>"
+                    + f"<td>{backfill['historical_requested_TB_decimal']:,.0f} TB</td>"
+                    + f"<td>{usd(backfill['historical_ec2_total_including_prep_put_usd'])}</td>"
+                    + "<td>"
+                    + usd(backfill["historical_lambda_total_including_ec2_prep_put_usd"])
+                    + "</td>"
+                    + f"<td>{usd(forward['ec2_ingest_usd_per_month'], True)}</td>"
+                    + f"<td>{usd(forward['lambda_ingest_usd_per_month'], True)}</td></tr>"
+                )
         parts.append("</tbody>")
     return "\n".join(parts)
 
 
-def cost_estimates() -> dict:
-    """Load the generated estimates, refusing a file older than its inputs or its model."""
-    data = json.loads(COST_ESTIMATES.read_text())
-    for key, source in (("input_sha256", COST_INPUTS), ("model_sha256", COST_MODEL)):
-        if data[key] != hashlib.sha256(source.read_bytes()).hexdigest():
-            raise ValueError(
-                f"Cost estimates predate {source.name}. Run tools/estimate_aws_costs.py first."
-            )
-    return data
+def cost_estimates() -> dict[str, dict]:
+    """Load both options' estimates, refusing a file older than any input it records."""
+    options = {}
+    for option, path in (("acolite", COST_ESTIMATES_ACOLITE), ("sen2cor", COST_ESTIMATES)):
+        data = json.loads(path.read_text())
+        sources = {
+            "input_sha256": COST_INPUTS,
+            "model_sha256": COST_MODEL,
+        } | COST_DEPENDENCIES[option]
+        for key, source in sources.items():
+            if data[key] != hashlib.sha256(source.read_bytes()).hexdigest():
+                raise ValueError(
+                    f"Cost estimates predate {source.name}. Run tools/estimate_aws_costs.py first."
+                )
+        if data["option"] != f"{option}_only":
+            raise ValueError(f"{path.name} holds option {data['option']}")
+        options[option] = data
+    return options
 
 
-def cost_markers(data: dict, inputs: dict) -> dict[str, str]:
-    """The cost table and the experiment definitions, from the estimates and their inputs."""
-    if data["status"] != "estimated, not measured":
-        raise ValueError(f"Unexpected cost estimate status: {data['status']}")
-    national, _ = cost_rows(data, "all_land")
-    operations = sorted(
-        {cost_rows(data, w)[1]["operations"]["monthly_total_usd"] for w in COST_WORKLOADS}
-    )
-    residuals = {
-        cost_rows(data, w)[1]["operations"]["monthly_components_usd"]["residual_allowance"]
-        for w in COST_WORKLOADS
-    }
-    if len(residuals) != 1:
-        raise ValueError("Workloads carry different residual operations allowances")
-    cap = max(c["a1_b1_byte_ratio"] for c in data["calibration"]["byte_calibration"]["cohorts"])
+def cost_markers(options: dict[str, dict], inputs: dict) -> dict[str, str]:
+    """The cost table and the experiment definitions, from both options' estimates and inputs."""
+    for data in options.values():
+        if data["status"] != "estimated, not measured":
+            raise ValueError(f"Unexpected cost estimate status: {data['status']}")
+    sen2cor = options["sen2cor"]
+    cap = max(c["a1_b1_byte_ratio"] for c in sen2cor["calibration"]["byte_calibration"]["cohorts"])
     for workload in ("all_land", "all_water_shore"):
-        recipes = cost_rows(data, workload)[0]["recipes"]
+        recipes = cost_rows(sen2cor, workload)[0]["recipes"]
         bytes_a1, bytes_b1 = (recipes[c]["historical_requested_TB_decimal"] for c in ("A1", "B1"))
         if not math.isclose(bytes_a1 / bytes_b1, cap, rel_tol=1e-9):
             raise ValueError("National A1 bytes no longer sit at the largest measured A1/B1 ratio")
+    daily = [cost_rows(data, w)[1] for data in options.values() for w in COST_WORKLOADS]
+    operations = [row["operations"]["monthly_total_usd"] for row in daily]
+    residuals = {row["operations"]["monthly_components_usd"]["residual_allowance"] for row in daily}
+    if len(residuals) != 1:
+        raise ValueError("Workloads carry different residual operations allowances")
+    national = {option: cost_rows(data, "all_land")[0] for option, data in options.items()}
+    rates = {
+        option: data["survey_rate_evidence"]["recent_annual_tile_rate"]
+        for option, data in options.items()
+    }
+    ops = (min(operations), max(operations))
+    share = options["acolite"]["survey_rate_evidence"]["historical_share_of_earth_search_any"]
     cutoff = date.fromisoformat(inputs["end_exclusive"]) - timedelta(days=1)
     land_m = f"{1000 * inputs['land_radius_km']:,.0f}"
-    return {
-        "COST_ROWS": cost_table_rows(data, land_m),
-        "COST_REVISED": html.escape(inputs["revision_date"]),
+    markers = {
+        "COST_ROWS": cost_table_rows(options, land_m),
         "COST_A1_CAP": f"{cap:.1f}",
         "COST_START": html.escape(inputs["start"]),
         "COST_CUTOFF": cutoff.isoformat(),
-        "COST_BODIES": f"{national['bodies']:,}",
+        "COST_BODIES": f"{national['sen2cor']['bodies']:,}",
         "COST_SAMPLE": f"{inputs['sample_size']:,}",
         "COST_LAND_M": land_m,
         "COST_EC2_VCPU": plain_number(inputs["ec2_instance_vcpu"]),
         "COST_EC2_GIB": plain_number(inputs["ec2_instance_memory_gib"]),
         "COST_LAMBDA_GIB": plain_number(inputs["lambda_memory_gib"]),
-        "COST_OPS": " to ".join(dict.fromkeys(usd(v, True) for v in operations)),
+        "COST_OPS": " to ".join(dict.fromkeys(usd(v, True) for v in ops)),
         "COST_RESIDUAL": usd(residuals.pop(), True),
-        "COST_TAKEAWAY_B1": usd(
-            national["recipes"]["B1"]["historical_ec2_total_including_prep_put_usd"]
-        ),
-        "COST_TAKEAWAY_B3": usd(
-            national["recipes"]["B3"]["historical_ec2_total_including_prep_put_usd"]
-        ),
-        "COST_TAKEAWAY_S3": usd(national["s3_monthly_at_cutoff_usd"], True),
+        "COST_ACQ_SHARE": f"{100 * share:.0f}",
     }
+    for option, key in (("acolite", "ACO"), ("sen2cor", "S2C")):
+        recipes = national[option]["recipes"]
+        markers[f"COST_RATE_{key}"] = f"{rates[option]:.1f}"
+        markers[f"COST_TAKEAWAY_{key}_B1"] = usd(
+            recipes["B1"]["historical_ec2_total_including_prep_put_usd"]
+        )
+        markers[f"COST_TAKEAWAY_{key}_S3"] = usd(national[option]["s3_monthly_at_cutoff_usd"], True)
+    return markers
 
 
 def build_html(inventory: Path = INVENTORY) -> str:
@@ -1092,7 +952,7 @@ def build_html(inventory: Path = INVENTORY) -> str:
     report = json.loads(REPORT.read_text())
     maps = json.loads(MAPS.read_text())
     pilot = json.loads(PILOT.read_text())
-    workloads = json.loads(LAZY_WORKLOADS.read_text()) if LAZY_WORKLOADS.exists() else None
+    workloads = json.loads(LAZY_WORKLOADS.read_text())
     pilot_props = [feature["properties"] for feature in pilot["features"]]
     pilot_tiers = Counter(p["tier"] for p in pilot_props)
     pilot_classes = sorted({p["size_class_m"] for p in pilot_props if p["tier"] == "pilot"})
@@ -1143,35 +1003,35 @@ def build_html(inventory: Path = INVENTORY) -> str:
         "RAW_DIGESTS": ", ".join(hashlib.sha256(p.read_bytes()).hexdigest() for p in RAW_ACCESS),
         "DIFF_ROWS": copy_difference_rows(copy_difference),
         "DIFF_DIGEST": hashlib.sha256(COPY_DIFFERENCE.read_bytes()).hexdigest(),
-        "LAKE_ROWS": lake_extraction_rows(lake_extraction),
-        "LAKE_METHOD_ROWS": lake_method_rows(lake_extraction),
-        "LAKE_CLASS_ROWS": pixel_class_rows(lake_extraction),
         "LAKE_DATE": html.escape(lake_extraction["measured_at"][:10]),
-        "LAKE_MACHINE": html.escape(machine_label(lake_extraction["machine"])),
-        "LAKE_LAKES": str(lake_extraction["summary"]["lakes"]),
-        "LAKE_TILES": str(lake_extraction["summary"]["distinct_tiles"]),
-        "LAKE_RUNS": f"{len(lake_extraction['runs']):,}",
         "LAKE_DIGEST": hashlib.sha256(LAKE_EXTRACTION.read_bytes()).hexdigest(),
-        "TILE_ROWS": tile_extraction_rows(tile_extraction, tile_ids={"10SGJ"}),
-        "TILE_DETAIL_ROWS": tile_extraction_rows(
-            tile_extraction,
-            tile_ids={r["tile"] for r in tile_extraction["summary"]["tiles"]} - {"10SGJ"},
-        ),
         "TILE_DATE": html.escape(tile_extraction["measured_at"][:10]),
-        "TILE_MACHINE": html.escape(machine_label(tile_extraction["machine"])),
-        "TILE_LAKES": str(tile_extraction["summary"]["lakes"]),
-        "TILE_TILES": str(tile_extraction["summary"]["distinct_tiles"]),
-        "TILE_RUNS": f"{len(tile_extraction['runs']):,}",
         "TILE_DIGEST": hashlib.sha256(TILE_EXTRACTION.read_bytes()).hexdigest(),
         "CROSS_DIGEST": hashlib.sha256(CROSS_TILE_EXTRACTION.read_bytes()).hexdigest(),
         **cross_tile_markers(cross_tile_extraction),
         "SENSOR_DIGEST": hashlib.sha256(SENSOR_BANDS.read_bytes()).hexdigest(),
         **sensor_band_markers(sensor_bands),
-        "COST_DIGEST": hashlib.sha256(COST_ESTIMATES.read_bytes()).hexdigest(),
         **cost_markers(cost_estimates(), json.loads(COST_INPUTS.read_text())),
+        **option_workload_markers(
+            json.loads(AQR_WORKLOADS.read_text()), workloads, workload_audit()
+        ),
+        **pixel_check_markers(
+            json.loads(AQR_VALIDITY.read_text()),
+            json.loads(AQR_PAIRS.read_text()),
+            json.loads(AQR_OVERLAP.read_text()),
+        ),
+        "WORKLOAD_DIGEST": hashlib.sha256(LAZY_WORKLOADS.read_bytes()).hexdigest(),
+        "WORKLOAD_DATES": workload_dates(workloads),
+        "T6_DIGEST": hashlib.sha256(AQR_WORKLOADS.read_bytes()).hexdigest(),
+        "PIXEL_DIGEST": ", ".join(
+            hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in (AQR_VALIDITY, AQR_PAIRS, AQR_OVERLAP)
+        ),
+        "COST_DIGEST": ", ".join(
+            hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in (COST_ESTIMATES_ACOLITE, COST_ESTIMATES)
+        ),
         **aqr_markers(json.loads(AQR_COVERAGE.read_text()), json.loads(AQR_HEADERS.read_text())),
-        "WORKLOAD_COMPARISON": workload_comparison(workloads, workload_audit()),
-        "WORKLOAD_RERUN_NOTE": workload_rerun_note(workloads),
     }
     rendered = TEMPLATE.read_text()
     for key, value in replacements.items():

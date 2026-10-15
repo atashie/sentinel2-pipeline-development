@@ -12,9 +12,9 @@ The authorized [larger-workload comparison](docs/reviews/2026-09-18-lazy-reader-
 The [review response](docs/reviews/2026-09-18-lazy-reader-review-response.md) records implemented corrections and disagreements.
 **Current ingest status:** twelve sleep-affected attempts were rerun, retaining two unaffected results. All fourteen comparisons completed with matching outputs and no sleep overlap. The [rerun record](docs/reviews/2026-09-21-sleep-rerun.md) owns results, resource measurements, and verification.
 
-**Start here:** the [assessment presentation](docs/s2-options.html) explains Discovery, the partial results from Stages 1 to 4, and offline AWS cost estimates.
+**Start here:** the [assessment presentation](docs/s2-options.html) explains Discovery, the Phase C results for both options, and offline AWS cost estimates for each.
 It is written for engineering and business colleagues. Integration Specs and Tradeoffs & Issues remain placeholders.
-Discovery describes the three archives and the primary product. Prototyping still reports the Level-2A series until Phase C.
+Discovery describes the three archives and the primary product. Prototyping reports both options, with stages 2 to 4 and the larger workloads as a Level-2A reference table, [record](docs/reviews/2026-10-15-prototyping-tab-rebuild.md).
 Open the HTML locally with its `assets/discovery/` directory beside it. [Hosting](docs/vercel-hosting.md) is prepared, with no deployment recorded.
 
 This repository assesses how to ingest Sentinel-2 reflectance from public AWS repositories into an

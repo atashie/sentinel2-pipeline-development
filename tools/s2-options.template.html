@@ -1019,24 +1019,24 @@ footer{display:block}
 </section>
 <section id="prototyping" role="tabpanel" aria-labelledby="tab-prototyping" hidden>
 <div class="prototype-intro">
-<div class="eyebrow">Prototyping / Workflow comparisons</div>
-<h1>Comparing workflows and readers for lake-pixel extraction.</h1>
-<p>These laptop trials compare the time, processor work, data requests, and memory needed to extract lake pixels. Start with the takeaways, then explore the methods and results.</p>
-<p class="note-line"><strong>Measured on the land product.</strong> Every result on this tab used Earth Search Level-2A files, now the reference series. Probe T6 repeated the tests on the USGS water product, and the tab rebuild will show those results.</p>
+<div class="eyebrow">Prototyping / Two source options</div>
+<h1>Reading lake pixels from two source options.</h1>
+<p>These laptop trials measure how to read lake pixels from each source option, and how the two options’ values compare. Start with the takeaways, then explore the methods and results.</p>
+<p class="note-line"><strong>Two options, each used alone.</strong> ACOLITE only reads the USGS aquatic reflectance product. Sen2Cor only reads Earth Search Level-2A. Earlier experiments on Level-2A files form the reference series in section 05.</p>
 </div>
-<nav class="section-nav" aria-label="Prototype sections"><a href="#prototype-takeaways">High level takeaways</a><a href="#prototype-workflow">What we tested</a><a href="#larger-workloads">Main comparison</a><a href="#cost-estimates">Cost estimates</a><a href="#earlier-experiments">Earlier experiments</a></nav>
+<nav class="section-nav" aria-label="Prototype sections"><a href="#prototype-takeaways">High level takeaways</a><a href="#prototype-workflow">What we tested</a><a href="#larger-workloads">Main comparison</a><a href="#cost-estimates">Cost estimates</a><a href="#pixel-checks">Pixel checks</a><a href="#reference-series">Level-2A reference series</a></nav>
 
 <section class="chapter" aria-labelledby="prototype-takeaways">
 <div class="chapter-head"><div class="chapter-num">00 / High level takeaways</div><div>
 <h2 id="prototype-takeaways">Group lakes by tile image. Read only the pixels they need.</h2>
-<p>The results favor shared image windows, with <b>B1</b><sup><a class="takeaway-ref" href="#takeaway-b1" aria-label="Quick definition of B1">*</a></sup> and <b>B3</b><sup><a class="takeaway-ref" href="#takeaway-b3" aria-label="Quick definition of B3">*</a></sup> as the leading tested candidates.</p>
+<p>The results favor shared image windows, with <b>B1</b><sup><a class="takeaway-ref" href="#takeaway-b1" aria-label="Quick definition of B1">*</a></sup> and <b>B3</b><sup><a class="takeaway-ref" href="#takeaway-b3" aria-label="Quick definition of B3">*</a></sup> as the leading tested candidates. Both readers ran on each option.</p>
 </div></div>
 <div class="takeaway-overview">
-<div><h3>The largest gains come from reading less and reusing it.</h3><p>Group lakes using the same image and read their required areas. Reuse image data wherever their reads overlap.</p><p>In Florida, shared-window extraction took roughly one-sixth to one-tenth the time of the corresponding separate-lake workflows.</p><p>Whole-image reads requested over four times the shared-window bytes, even with 1,000 lakes. <a href="#larger-workloads">Compare the measured workflows →</a></p></div>
+<div><h3>The largest gains come from reading less and reusing it.</h3><p>Group lakes using the same image and read their required areas. Reuse image data wherever their reads overlap.</p><p>On Level-2A files in Florida, shared-window extraction took roughly one-sixth to one-tenth the time of the corresponding separate-lake workflows. <a href="#reference-series">Level-2A reference series →</a></p><p>The ACOLITE files take fewer bytes to read. For the same Florida lakes and acquisition, B1 and B3 requested @@T6_BYTE_SHARE@@ percent of Level-2A’s bytes, with @@T6_MORE_REQUESTS@@ percent more requests. <a href="#larger-workloads">Compare the options →</a></p></div>
 <figure class="takeaway-picture" aria-labelledby="takeaway-picture-caption">
 <svg viewBox="0 0 340 205" role="img" aria-labelledby="takeaway-image-title takeaway-image-desc">
-<title id="takeaway-image-title">Two lake windows sharing an image block</title>
-<desc id="takeaway-image-desc">A grid represents blocks in one image. Two lake windows overlap a highlighted block that can serve both lakes.</desc>
+<title id="takeaway-image-title">Two lakes sharing an image block</title>
+<desc id="takeaway-image-desc">A grid represents blocks in one image. Two lake areas overlap a highlighted block that can serve both lakes.</desc>
 <rect x="20" y="14" width="280" height="150" rx="3" fill="#f2f4ef" stroke="#aebdb9"/>
 <rect x="90" y="14" width="140" height="100" fill="#e0ece5"/>
 <rect x="160" y="64" width="70" height="50" fill="#94c5b7"/>
@@ -1048,7 +1048,7 @@ footer{display:block}
 <path d="M203 116l20 30h66" fill="none" stroke="#166864" stroke-width="1.5"/>
 <text x="227" y="140" fill="#163b43" font-size="11">Shared block</text>
 <rect x="67" y="181" width="15" height="12" fill="none" stroke="#386eaa" stroke-dasharray="4 2"/>
-<text x="90" y="191" fill="#526970" font-size="12">Lake windows</text>
+<text x="90" y="191" fill="#526970" font-size="12">Lake areas</text>
 <rect x="196" y="181" width="15" height="12" fill="#94c5b7"/>
 <text x="219" y="191" fill="#526970" font-size="12">Reusable data</text>
 </svg>
@@ -1059,23 +1059,29 @@ footer{display:block}
 <div class="takeaway-readers">
 <h3>* Quick definitions: two ways to share image reads</h3>
 <dl class="takeaway-cards">
-<div id="takeaway-b1" tabindex="-1"><dt>B1 · Direct raster reads</dt><dd><p>Keep image files open across lakes. Read each lake’s rectangle, reusing already-loaded data when it is available in the cache.</p><p class="takeaway-tradeoff"><b>Less CPU work and fewer requests</b> in both larger cohorts.</p><p>In the dispersed case, CPU time was 10.8 seconds, compared with 24.4 seconds for B3.</p><p><a href="#reader-1">How direct raster reads work in section 01 →</a></p></dd></div>
-<div id="takeaway-b3" tabindex="-1"><dt>B3 · Source-block lazy reads</dt><dd><p>Read each needed image block and use it for all lakes requesting it. Work through the blocks in small batches.</p><p class="takeaway-tradeoff"><b>Shorter observed elapsed time:</b> 8% less for dispersed lakes and 34% less for Florida, compared with B1.</p><p>It used more CPU and requests, but requested slightly fewer bytes. RAM had no consistent winner.</p><p><a href="#reader-3">How source-block lazy reads work in section 01 →</a></p></dd></div>
+<div id="takeaway-b1" tabindex="-1"><dt>B1 · Direct raster reads</dt><dd><p>Keep image files open across lakes. For each lake, read each stored block it touches, reusing blocks already in GDAL’s cache.</p><p class="takeaway-tradeoff"><b>Less CPU work and fewer requests</b> in both cohorts, on each option.</p><p>On ACOLITE files for the dispersed lakes, CPU time was @@T6_DISP_B1_CPU@@ seconds, compared with @@T6_DISP_B3_CPU@@ seconds for B3.</p><p><a href="#reader-1">How direct raster reads work in section 01 →</a></p></dd></div>
+<div id="takeaway-b3" tabindex="-1"><dt>B3 · Source-block lazy reads</dt><dd><p>Read each needed image block and use it for all lakes requesting it. Work through the blocks in small batches.</p><p class="takeaway-tradeoff"><b>Shorter observed elapsed time:</b> on ACOLITE files, @@T6_B3_FASTER_DISP@@ percent less for dispersed lakes and @@T6_B3_FASTER_FL@@ percent less for Florida, compared with B1.</p><p>It used more CPU and requests, but requested slightly fewer bytes. Level-2A files showed the same pattern.</p><p><a href="#reader-3">How source-block lazy reads work in section 01 →</a></p></dd></div>
 </dl>
 </div>
 
 <div class="takeaway-coverage">
 <h3>Count the images as well as the lakes.</h3>
 <div class="takeaway-cohorts">
-<p>100 dispersed lakes<strong>121 source products</strong>Across 120 tiles</p>
-<p>1,000 Florida lakes<strong>4 source products</strong>Across 4 tiles</p>
+<p>@@T6_DISP_LAKES@@ dispersed lakes<strong>@@T6_DISP_PRODUCTS@@ ACOLITE products</strong>Across @@T6_DISP_TILES@@ tiles</p>
+<p>@@T6_FL_LAKES@@ Florida lakes<strong>@@T6_FL_PRODUCTS@@ ACOLITE products</strong>Across @@T6_FL_TILES@@ tiles</p>
 </div>
-<p>Both shared-window readers processed Florida faster and requested fewer bytes, despite its larger lake count.</p>
-<p>Sharing offered little benefit for the dispersed lakes. Their separate-lake workflow took 30 percent less total time with direct raster reads and 11 percent more with source-block lazy reads. Those two separate-lake observations come from an earlier date and source version, so that comparison is weaker than Florida’s. Geography, lake sizes, and source products also differed between cohorts. <a href="#cohorts">Explore the test cohorts →</a></p>
+<p>On each option, both readers processed Florida faster and requested fewer bytes, despite its larger lake count. Geography, lake sizes, and source products also differ between the cohorts. <a href="#cohorts">Explore the test cohorts →</a></p>
 </div>
-<p class="takeaway-support"><b>Matching extraction outputs, modest extraction RAM.</b> All fourteen larger-workload configurations agreed on their extraction outputs. B1 and B3 peaked at 0.22–0.33 GiB, including supervision. Preparation and other pipeline stages can require more memory.</p>
-<p class="takeaway-support"><b>Estimated AWS cost.</b> For all eligible contiguous U.S. water bodies with nearby land, the B1 and B3 backfills cost @@COST_TAKEAWAY_B1@@ and @@COST_TAKEAWAY_B3@@ on EC2. Stored records then cost @@COST_TAKEAWAY_S3@@ per month. <a href="#cost-estimates">Cost estimates →</a></p>
-<p class="source-note"><b>Measured:</b> <a href="../benchmarks/results/lazy-reader-workloads.json">larger-workload results</a>, with one observation per configuration on one laptop and uncontrolled network conditions. RAM sampling can miss short spikes. <b>Interpretation:</b> <a href="reviews/2026-09-22-prototype-high-level-takeaways-review.md">takeaway evidence and qualifications</a>. No production reader is selected. Scientific validation remains open. <a href="#cost-estimates">Section 03</a> estimates AWS costs.</p>
+
+<div class="takeaway-coverage">
+<h3>Check the pixels as well as the cost.</h3>
+<p class="takeaway-support"><b>Missing values follow ACOLITE’s out-of-scene flag.</b> In @@T4_SCENES@@ scenes of 2025, each lake’s no-data count equals its out-of-scene count, with one two-pixel exception. Its flags call @@T4_NONWATER_SHORE@@ percent of shoreline and @@T4_NONWATER_NEAR@@ percent of nearby-land observations non-water. It has no shadow flag.</p>
+<p class="takeaway-support"><b>The two options give different values at the same locations.</b> Over clear interior water, @@T5_LOW@@ to @@T5_HIGH@@ percent of pixel observations differ by more than 0.005 reflectance, depending on the band. The sign of the difference changes between lakes.</p>
+<p class="takeaway-support"><b>Overlapping tiles agree closely when pooled, with large offsets in some pairs.</b> Per tile pair, the mean difference reaches @@T7_ACOLITE_MAX@@ percent of the mean value for ACOLITE and @@T7_SEN2COR_MAX@@ percent for Sen2Cor. Each water body keeps one fixed primary tile, and overlap values stay separate. <a href="#pixel-checks">Pixel checks →</a></p>
+</div>
+<p class="takeaway-support"><b>Matching extraction outputs, modest extraction RAM.</b> Within each option, B1 and B3 produced identical outputs in both cohorts. They peaked at @@T6_RAM_LOW@@–@@T6_RAM_HIGH@@ GiB, including supervision. Preparation and other pipeline stages can require more memory.</p>
+<p class="takeaway-support"><b>Estimated AWS cost.</b> For all eligible contiguous U.S. water bodies with nearby land, the B1 backfill costs @@COST_TAKEAWAY_ACO_B1@@ for ACOLITE only and @@COST_TAKEAWAY_S2C_B1@@ for Sen2Cor only on EC2. Stored records then cost @@COST_TAKEAWAY_ACO_S3@@ and @@COST_TAKEAWAY_S2C_S3@@ per month. ACOLITE only holds @@COST_ACQ_SHARE@@ percent of Earth Search’s acquisitions on the surveyed tiles, which explains part of the difference. <a href="#cost-estimates">Cost estimates →</a></p>
+<p class="source-note"><b>Measured:</b> <a href="../benchmarks/results/aqr-workloads.json">ACOLITE workload results</a> and <a href="../benchmarks/results/lazy-reader-workloads.json">Level-2A workload results</a>, with one observation per configuration on one laptop and uncontrolled network conditions. RAM sampling can miss short spikes. <a href="#pixel-checks">Section 04</a> cites the pixel checks. No production reader is selected. The assessment forms no view on which correction performs better.</p>
 </section>
 
 <section class="chapter" aria-labelledby="prototype-workflow">
@@ -1086,17 +1092,17 @@ footer{display:block}
 <figure class="workflow-chart" aria-labelledby="workflow-caption">
 <div class="workflow-prep">
 <div><span class="cadence setup">Prepare for each boundary and grid</span><h3>Map lakes to native pixels</h3></div>
-<p>Identify relevant tiles and classify interior, shoreline, and nearby-land pixels at 10, 20, and 60 m. Reuse the selections until boundaries or grids change. The <a href="#stage-2">boundary-clip baseline</a> instead prepares its selection afresh.</p>
+<p>Identify relevant tiles. Classify interior, shoreline, and nearby-land pixels on each option’s grids: 20 m for ACOLITE, and 10, 20, and 60 m for Sen2Cor. Reuse the selections until boundaries or grids change.</p>
 </div>
 <div class="workflow-connector" aria-hidden="true">↓</div>
 <div class="workflow-input">
 <div><span class="cadence refresh">Repeat for each acquisition</span><h3>Find the relevant images</h3></div>
-<p>Use Earth Search to identify products and band files. Collection 1 is the first choice, with the older copy for gaps. <a href="#aws">Archive choice and limitations ↗</a></p>
+<p>ACOLITE only lists the USGS bucket by tile and date, since the product has no catalog. Sen2Cor only searches Earth Search, with Collection 1 first and the older copy for gaps. <a href="#aws">Archive choice and limitations ↗</a></p>
 </div>
 <div class="workflow-connector" aria-hidden="true">↓</div>
 <p class="workflow-label">Alternative paths · use the same images and required pixel selections</p>
 <div class="workflow-path workflow-a">
-<div class="workflow-name"><span class="workflow-letter">A</span><h3>Each lake separately</h3><a href="#larger-workloads">Main comparison ↓</a></div>
+<div class="workflow-name"><span class="workflow-letter">A</span><h3>Each lake separately</h3><a href="#reference-series">Reference series ↓</a></div>
 <div class="workflow-operation"><span class="eyebrow">Read</span><h4>Choose a lake, then read its images</h4><p>Read the rectangular areas around that lake from its relevant band files.</p></div>
 <div class="workflow-operation"><span class="eyebrow">Extract and repeat</span><h4>Select its pixels, then move to the next lake</h4><p>Neighboring lakes may need the same image blocks again.</p></div>
 </div>
@@ -1106,43 +1112,43 @@ footer{display:block}
 <div class="workflow-operation"><span class="eyebrow">Extract and repeat</span><h4>Select every lake’s pixels, then move to the next image</h4><p>Downloaded blocks may serve several lakes. Reuse depends on the reader.</p></div>
 </div>
 <div class="workflow-path workflow-c">
-<div class="workflow-name"><span class="workflow-letter">C</span><h3>Read the whole image</h3><a href="#larger-workloads">Main comparison ↓</a></div>
+<div class="workflow-name"><span class="workflow-letter">C</span><h3>Read the whole image</h3><a href="#reference-series">Reference series ↓</a></div>
 <div class="workflow-operation"><span class="eyebrow">Read</span><h4>Load each complete band grid</h4><p>Read the full image before extracting lakes, including areas outside their windows.</p></div>
-<div class="workflow-operation"><span class="eyebrow">Extract and repeat</span><h4>Select every lake’s pixels from memory</h4><p>This trades additional reading and memory for access to the complete grid.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Extract and repeat</span><h4>Select every lake’s pixels from memory</h4><p>This trades extra reading and memory for access to the complete grid.</p></div>
 </div>
 <div class="workflow-connector" aria-hidden="true">↓</div>
 <div class="workflow-output">
-<div><span class="cadence refresh">Common extraction output</span><h3>Collect contributions for each lake</h3><p>Keep native pixels, their classes, quality codes, and product and tile identities. Keep overlapping observations separate. <a href="#stage-4">Check completeness and agreement ↓</a></p></div>
+<div><span class="cadence refresh">Common extraction output</span><h3>Collect contributions for each lake</h3><p>Keep native pixels, their classes, quality codes, and product and tile identities. Mark each record primary or overlap, and keep overlapping observations separate. <a href="#overlap-check">Check tile agreement ↓</a></p></div>
 <div class="workflow-future"><span class="cadence pending">Storage and retrieval untested</span><h3>Store and serve records</h3><p>The model needs retrievable values and quality information. Storage layout, revision handling, and retrieval performance remain open.</p></div>
 </div>
 <figcaption id="workflow-caption">Processing outline, not a selected production workflow. Arrows show data flow. A, B, and C identify alternatives, not sequential steps.</figcaption>
 </figure>
-<p class="source-note"><b>Basis:</b> <a href="work-plan.md#phase-2-prototyping">prototype comparisons</a>, <a href="data-contract.md">draft record requirements</a>, and the measured results below. Reuse is conditional on the selected pixels, image layout, and reading implementation.</p>
+<p class="source-note"><b>Basis:</b> <a href="work-plan.md#phase-2-prototyping">prototype comparisons</a>, <a href="data-contract.md">draft record requirements</a>, and the measured results below. Reuse depends on the selected pixels, image layout, and reading implementation.</p>
 
 <h3 class="comparison-heading" id="recipe-grid">Nine recipes: workflow × reader</h3>
 <p class="comparison-scope">A code pairs a workflow letter with a reader number, so B3 is workflow B with reader 3. Numbers identify readers, not speed rankings. Each cell names the sections that report the recipe.</p>
 <div class="table-scroll" role="region" aria-label="Recipes by workflow and reader" tabindex="0"><table class="plans recipe-grid">
 <thead><tr><th scope="col">Workflow</th><th scope="col"><a href="#reader-1">1 · Direct raster reads</a></th><th scope="col"><a href="#reader-2">2 · Large-chunk lazy reads</a></th><th scope="col"><a href="#reader-3">3 · Source-block lazy reads</a></th></tr></thead>
 <tbody>
-<tr><th scope="row" class="workflow-a">A · Each lake separately</th><td><b>A1</b> <a href="#larger-workloads">02</a> · <a href="#stage-2">04.1</a> · <a href="#stage-3">04.2</a> · <a href="#stage-4">04.3</a></td><td><b>A2</b> <a href="#stage-2">04.1</a> · <a href="#stage-4">04.3</a></td><td><b>A3</b> <a href="#larger-workloads">02</a></td></tr>
-<tr><th scope="row" class="workflow-b">B · Share image windows</th><td><b>B1</b> <a href="#larger-workloads">02</a> · <a href="#stage-3">04.2</a> · <a href="#stage-4">04.3</a></td><td><b>B2</b> <a href="#larger-workloads">02</a> · <a href="#stage-3">04.2</a> · <a href="#stage-4">04.3</a></td><td><b>B3</b> <a href="#larger-workloads">02</a></td></tr>
-<tr><th scope="row" class="workflow-c">C · Read the whole image</th><td><b>C1</b> <a href="#larger-workloads">02</a> · <a href="#stage-3">04.2</a></td><td><b>C2</b> <span class="muted">not shown</span></td><td><b>C3</b> <a href="#larger-workloads">02</a></td></tr>
+<tr><th scope="row" class="workflow-a">A · Each lake separately</th><td><b>A1</b> <a href="#reference-series">05</a></td><td><b>A2</b> <a href="#reference-series">05</a></td><td><b>A3</b> <a href="#reference-series">05</a></td></tr>
+<tr><th scope="row" class="workflow-b">B · Share image windows</th><td><b>B1</b> <a href="#larger-workloads">02</a> · <a href="#cost-estimates">03</a> · <a href="#reference-series">05</a></td><td><b>B2</b> <a href="#reference-series">05</a></td><td><b>B3</b> <a href="#larger-workloads">02</a> · <a href="#cost-estimates">03</a> · <a href="#reference-series">05</a></td></tr>
+<tr><th scope="row" class="workflow-c">C · Read the whole image</th><td><b>C1</b> <a href="#reference-series">05</a></td><td><b>C2</b> <a href="#reference-series">05</a></td><td><b>C3</b> <a href="#reference-series">05</a></td></tr>
 </tbody></table></div>
-<p class="small muted">Section 04.2 also measured A2 and C2 but shows neither. The multiple-tile experiment, 04.3, excluded workflow C.</p>
+<p class="small muted">In the larger workloads, only B1 and B3 ran on both options. The first three experiments of section 05 also ran again on ACOLITE files.</p>
 <p class="comparison-scope"><b>Terms:</b> A <b>tile</b> is a named satellite grid area. A <b>window</b> is a requested rectangle. A <b>source block</b> is a TIFF storage unit. A <b>chunk</b> is an array-processing unit, and its boundaries can differ from source blocks. A <b>tile-date</b> is one tile on one date. A <b>lake-product membership</b> is one lake read from one source product.</p>
-<p class="comparison-scope"><b>Shared test inputs:</b> five files per image: red, near-infrared, shortwave infrared, coastal aerosol, and scene classification. The tests retain native resolutions.</p>
+<p class="comparison-scope"><b>Shared test inputs:</b> five files per image. On Level-2A: red, near-infrared, shortwave infrared, coastal aerosol, and scene classification, at native resolutions. On ACOLITE: B04, B08, B11, B01, and the flags layer, all at 20 m.</p>
 <details class="benchmark-detail" id="reader-key"><summary>How the three readers work</summary>
 <figure class="workflow-chart reader-chart" aria-labelledby="reader-caption">
 <p class="workflow-label">One example for all three paths: two lakes need windows that touch the same source block. Each path uses workflow B.</p>
 <div class="workflow-path workflow-b" id="reader-1">
-<div class="workflow-name"><span class="workflow-letter">B1</span><h3>1 · Direct raster reads</h3><p>Call Rasterio directly for image windows.</p></div>
-<div class="workflow-operation"><span class="eyebrow">Request</span><h4>Read lake 1’s window, then lake 2’s</h4><p>Keep the band file open across both calls. Each call returns the requested rectangle.</p></div>
-<div class="workflow-operation"><span class="eyebrow">Reuse and select</span><h4>The second call may use a cached block</h4><p>GDAL caches can avoid repeated reading or decoding. Apply each lake’s pixel selection to its window.</p></div>
+<div class="workflow-name"><span class="workflow-letter">B1</span><h3>1 · Direct raster reads</h3><p>Call Rasterio directly for each stored block a lake touches.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Request</span><h4>Read lake 1’s blocks, then lake 2’s</h4><p>Keep the band file open across both lakes. Each call reads one stored block that the lake touches.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Reuse and select</span><h4>The second call may use a cached block</h4><p>GDAL caches can avoid repeated reading or decoding. Apply each lake’s pixel selection to each of its blocks.</p></div>
 </div>
 <div class="workflow-path workflow-b" id="reader-2">
 <div class="workflow-name"><span class="workflow-letter">B2</span><h3>2 · Large-chunk lazy reads</h3><p>Describe image reads in an array graph with configured chunks.</p></div>
 <div class="workflow-operation"><span class="eyebrow">Request</span><h4>Compute lake 1, then compute lake 2</h4><p>Build one full-image graph. Each lake starts a separate computation of its intersecting chunks.</p></div>
-<div class="workflow-operation"><span class="eyebrow">Reuse and select</span><h4>A shared graph can repeat chunk work</h4><p>Completed arrays are not retained between lake computations. Select each lake’s pixels from its returned window.</p></div>
+<div class="workflow-operation"><span class="eyebrow">Reuse and select</span><h4>A shared graph can repeat chunk work</h4><p>The graph keeps no completed array between lake computations. Select each lake’s pixels from its returned window.</p></div>
 </div>
 <div class="workflow-path workflow-b" id="reader-3">
 <div class="workflow-name"><span class="workflow-letter">B3</span><h3>3 · Source-block lazy reads</h3><p>Match array chunks to TIFF storage blocks.</p></div>
@@ -1153,7 +1159,7 @@ footer{display:block}
 </figure>
 <div class="reader-variants">
 <p><b>Reader 1 across workflows:</b> A1 reopens bands for each lake. B1 keeps them open across lakes. C1 directly reads complete bands.</p>
-<p><b>Reader 2 across workflows:</b> A2 starts its graph at each lake window, so chunk boundaries can shift between lakes. B2 starts at the full image. This changes chunk placement as well as graph sharing, while retaining the same native pixels. C2 computes complete bands using larger chunks.</p>
+<p><b>Reader 2 across workflows:</b> A2 starts its graph at each lake window, so chunk boundaries can shift between lakes. B2 starts at the full image. This changes chunk placement as well as graph sharing, while keeping the same native pixels. C2 computes complete bands using larger chunks.</p>
 <p><b>Reader 3 across workflows:</b> A3 batches blocks for the current lake. B3 shares each block array across its lakes. C3 computes an entire band, then gathers lake pixels. It uses source-block alignment without bounded batching.</p>
 </div>
 <p class="source-note"><b>Implementation basis:</b> <a href="reviews/2026-09-22-raster-lazy-extraction-walkthrough.md">step-by-step walkthrough and checked literature</a> and <a href="reviews/2026-09-22-prototype-extraction-naming-proposal.md">code mappings and settings</a>. C1 versus C3 changes the reading stack as well as alignment. It does not isolate alignment’s performance effect.</p>
@@ -1161,206 +1167,106 @@ footer{display:block}
 
 <h3 class="comparison-heading" id="cohorts">Test cohorts</h3>
 <div class="comparison-brief">
-<div><b>100 dispersed lakes</b><p>Lakes across the continental U.S. test the resource cost of processing many source products with limited opportunities to share blocks.</p></div>
+<div><b>100 dispersed lakes</b><p>Lakes across the continental U.S. test the resource cost of processing many source products with few chances to share blocks. On ACOLITE files, @@T6_DISP_DROPPED@@ lakes had no complete product in June 2025 and dropped out.</p></div>
 <div><b>1,000 Florida lakes</b><p>Concentrated lakes test block reuse across many lake selections. This cohort also has a different lake-size distribution.</p></div>
-<div><b>Seven recipes per cohort</b><p>A1, A3, B1, B2, B3, C1, and C3 use identical prepared selections within each cohort. Whole images remain separate across tiles.</p></div>
+<div><b>Pilot lakes</b><p>@@PILOT_TOTAL@@ public water bodies in @@PILOT_REGIONS@@ U.S. regions: @@PILOT_PICKS@@ size-class selections and @@PILOT_ANCHORS@@ larger reference lakes. The earlier experiments use them, and the pixel checks use those in the lower 48.</p></div>
 </div>
-<p class="comparison-scope">The <a href="#earlier-experiments">earlier experiments</a> used a pilot of @@PILOT_TOTAL@@ public water bodies. All these samples are deliberately selected, not representative production workloads.</p>
-<p class="source-note"><b>Measured:</b> <a href="#larger-workloads">larger-workload comparisons</a> and their <a href="../benchmarks/results/lazy-reader-workloads.json">saved inputs, coverage, and selection qualifications</a>. Geography, size distribution, and lake count all differ between these cohorts.</p>
+<p class="comparison-scope">On these cohorts, seven recipes ran on Level-2A files. B1 and B3 ran again on ACOLITE files, on the same acquisitions wherever the product holds them. Every sample here was chosen on purpose, and none represents a production workload.</p>
+<p class="source-note"><b>Documented:</b> USGS retired NHD on 2023-10-01. Its data remain available without maintenance. USGS also halted NHDPlus HR production to focus on the 3D Hydrography Program. A service refresh does not date shoreline observations. Some reservoir codes do not state purpose. <a href="reviews/2026-09-12-pilot-manifest-review.md#source-checks">Independent USGS source checks</a> and <a href="assessment-checks/presentation-review-sources.json">NHDPlus HR status</a>. <b>Unverified:</b> current boundaries, water extent, and suitability for the model.</p>
+<p class="source-note"><b>Measured:</b> <a href="../examples/water-bodies-public-pilot.geojson">public pilot manifest</a>, retrieved @@PILOT_DATE@@ UTC from the USGS National Hydrography Dataset. <a href="../examples/README.md">Selection rules</a> and <a href="reviews/2026-09-12-pilot-manifest-review.md">manifest review</a>. <a href="../benchmarks/results/lazy-reader-workloads.json">Cohort inputs, coverage, and selection qualifications</a>.</p>
 <p class="note-line"><strong>The samples differ.</strong> Discovery’s archive survey used 20 points in 30 tiles, not these polygons. Its satellite maps are separate teaching examples.</p>
 </section>
 
 <section class="chapter" aria-labelledby="larger-workloads">
-<div class="chapter-head"><div class="chapter-num">02 / Main comparison · Larger workloads</div><div>
-<h2 id="larger-workloads">Compare reader costs for dispersed and concentrated lakes.</h2>
-<p>How do direct raster reads, large-chunk lazy reads, and source-block lazy reads differ in elapsed time, CPU work, data requests, and peak RAM?</p>
+<div class="chapter-head"><div class="chapter-num">02 / Main comparison · B1 and B3 on each option</div><div>
+<h2 id="larger-workloads">Compare reader costs on each source option.</h2>
+<p>How do direct raster reads and source-block lazy reads differ in elapsed time, CPU work, data requests, and peak RAM, on ACOLITE and Level-2A files?</p>
 </div></div>
 <div class="comparison-brief">
-<div><b>B1 · Direct raster reads</b><p>Keep bands open. Read each lake’s window directly, with possible reuse through GDAL caches.</p></div>
-<div><b>B2 · Large-chunk lazy reads</b><p>The control for this comparison. Use nominal 2,048-pixel chunks and compute each lake separately from a full-image graph.</p></div>
+<div><b>B1 · Direct raster reads</b><p>Keep bands open. For each lake, read each stored block it touches, with possible reuse through GDAL caches.</p></div>
 <div><b>B3 · Source-block lazy reads</b><p>Align chunks to TIFF blocks. Compute each required block once and serve every requesting lake before releasing its array.</p></div>
+<div><b>Same code on both options</b><p>The ACOLITE runs reused the Level-2A code, memory limits, and output checks unchanged. Five ACOLITE layers stood in for the five Level-2A files.</p></div>
 </div>
-<p class="comparison-scope">The comparison reports one complete run per recipe and cohort, with identical inputs. Compare “Total extraction” across readers. “Read + extract” has different timing boundaries for each reader. The <a href="#workload-method-notes">method notes</a> give settings and definitions.</p>
-@@WORKLOAD_COMPARISON@@
-<p class="note-line"><strong>Read these comparisons within each workload.</strong> The workloads differ in lake count, geography, and size distribution. Differences between them cannot be attributed solely to concentration.</p>
-<details class="benchmark-detail" id="workload-method-notes"><summary>Method notes: settings, timing boundaries, and reruns</summary>
-<p class="comparison-scope">B3 changes chunk alignment and computation sharing together. The comparison measures the combined recipe’s resource use. It cannot assign savings to either change alone.</p>
-<p class="comparison-scope"><b>A and C extend the comparison:</b> A3 batches blocks for each lake separately. C3 computes a complete band without bounded batching. C1 versus C3 changes the reading stack, so it does not isolate alignment’s effect. A2 and C2 were not run for these cohorts.</p>
-<p class="comparison-scope"><b>Settings:</b> one worker, a 256 MiB GDAL block cache, and identical pixel selections across configurations. Both lazy readers use two threads. A3 and B3 take their maximum batch size from that setting: two blocks here. C3 does not use those batches.</p>
-<p class="small muted">Earlier B2 runs in section 04 used four threads and a 512 MiB cache. The recurring code identifies the recipe, not identical settings.</p>
-<p>“Total extraction” includes reader setup, image reads, value extraction, selection loading, output checks, and audit checkpoints. Compare this column across readers, accounting for different dates and source versions on retained rows.</p>
-<p><b>“Read + extract” has different timing boundaries.</b> Reader 1 setup includes file opens and any header or size requests. A1 reopens each product band for each lake. Readers 2 and 3 build graphs during setup. Their file opens occur inside timed reads, so these component times are not directly comparable with reader 1.</p>
-<p class="small muted">The retained dispersed A3 observation includes older catalog setup. Its total extraction time includes that extra work. The retained A1 and A3 rows keep their original dates and source versions.</p>
-@@WORKLOAD_RERUN_NOTE@@
+<p class="comparison-scope">The table reports one complete run per reader, option, and cohort. Within each option, B1 and B3 produced identical outputs. The <a href="#workload-method-notes">method notes</a> give settings and definitions.</p>
+<p class="scroll-hint">Scroll horizontally to compare all columns.</p>
+<div class="table-scroll" role="region" aria-label="Readers B1 and B3 on each source option" tabindex="0"><table class="plans results-table">
+<caption>Total extraction includes reader setup, image reads, value extraction, selection loading, output checks, and checkpoints. Worker CPU sums user and system time. Peak RAM includes the supervisor.</caption>
+<thead><tr><th scope="col">Workflow + reader</th><th scope="col">Source option</th><th scope="col">Lakes · products</th><th scope="col">Total extraction</th><th scope="col">Worker CPU</th><th scope="col">Requests</th><th scope="col">Requested bytes</th><th scope="col">Peak RAM</th><th scope="col">Run date</th></tr></thead>
+@@OPTION_WORKLOAD_ROWS@@
+</table></div>
+<p class="note-line"><strong>Compare readers within each option.</strong> The options ran on different dates over the same internet path, so their elapsed times compare only roughly. In the dispersed cohort, they also differ in lakes and products.</p>
+<details class="benchmark-detail" id="workload-method-notes"><summary>Method notes: settings, selection, and counts</summary>
+<p class="comparison-scope"><b>Settings:</b> one worker, a 256 MiB GDAL block cache, and identical pixel selections within each option. B3 uses two threads and batches of up to two blocks.</p>
+<p class="comparison-scope"><b>Selection:</b> the product has no catalog. Each ACOLITE product was found through the Collection 1 item of the same datastrip. The Level-2A runs’ acquisitions account for @@T6_DISP_SAME@@ of @@T6_DISP_PRODUCTS@@ dispersed products and @@T6_FL_SAME@@ of @@T6_FL_PRODUCTS@@ in Florida.</p>
+<p class="comparison-scope"><b>Layers:</b> ACOLITE’s B04, B08, B11, B01, and flags layer, all at 20 m, stood in for the Level-2A files. The product holds 13 raster layers in all.</p>
+<p class="comparison-scope"><b>CPU per megabyte:</b> CPU per requested megabyte is higher on the product. Stronger compression of its measured layers is the likely cause. Per decoded megabyte, B1 takes about the same CPU on both options.</p>
+<p class="small muted">Requests and bytes come from GDAL’s log of requested ranges, not metered transfer. They exclude Python catalog requests. The first dispersed B1 attempt on ACOLITE files was interrupted and replaced with the owner’s authorization. The Level-2A rows come from reruns free of laptop sleep.</p>
 </details>
-<details class="benchmark-detail"><summary>Historical transfer estimates use different reference readers</summary>
-<p>Requested bytes in the tables are measured for each displayed recipe. The earlier preflight estimates used historical proxies, not measurements of these configurations.</p>
-<p><b>Estimate for B3, based on historical B1 measurements.</b> The preflight scaled B1 bytes by lake-product memberships. A3 estimates used historical A2 measurements. C3 estimates used historical C2 measurements.</p>
-<p>The <a href="../benchmarks/results/lazy-reader-workloads.json">saved preflight</a> retains reference files, digests, settings, and formulas. Those proxies are not bounds. The new codes do not make their inputs or resource settings equivalent.</p>
-</details>
-<p class="source-note"><b>Plan:</b> <a href="reviews/2026-09-18-lazy-reader-workload-plan.md">Approved comparison and memory controls</a>. <a href="reviews/2026-09-21-sleep-rerun.md">Replacement execution, preserved evidence, and timing limits</a>. <a href="reviews/2026-09-22-sleep-rerun-review-response.md">Timing interpretation review response</a>. Each run deletes temporary imagery after use. No production storage system is tested.</p>
+<p class="source-note"><b>Measured:</b> <a href="../benchmarks/results/aqr-workloads.json">ACOLITE workload results</a> of @@T6_DATE@@, with <a href="measurements.md#phase-c-probe-t6-the-access-tests-on-the-primary-product-2026-10-14">findings and limits</a> and the <a href="reviews/2026-10-14-phase-c-t5-t6.md">probe record</a>. <a href="../benchmarks/results/lazy-reader-workloads.json">Level-2A workload results</a> and their <a href="reviews/2026-09-21-sleep-rerun.md">rerun record</a>. Each run deletes temporary imagery after use. The runs test no production storage system.</p>
 </section>
 
 <section class="chapter" aria-labelledby="cost-estimates">
 <div class="chapter-head"><div class="chapter-num">03 / AWS cost estimates</div><div>
-<h2 id="cost-estimates">Estimate AWS costs for four workloads.</h2>
+<h2 id="cost-estimates">Estimate AWS costs for each option and four workloads.</h2>
 <p>An offline model extends the section 02 measurements to national scale. It uses unconfirmed planning prices for Oregon. Nothing ran in AWS.</p>
 </div></div>
 <div class="comparison-brief">
 <div><b>Workloads</b><p>All eligible lakes, ponds, and reservoirs in the contiguous states, assumed to number @@COST_BODIES@@. A random sample of @@COST_SAMPLE@@, reported as expected values. Each keeps water and shoreline pixels, with or without nearby land within @@COST_LAND_M@@ m.</p></div>
-<div><b>Recipes and platforms</b><p>A1, B1, and B3. Section 02 supplies CPU time per megabyte and requested bytes per source block. Network time and overheads are assumed. EC2 instances with @@COST_EC2_VCPU@@ vCPU and @@COST_EC2_GIB@@ GiB. Lambda at @@COST_LAMBDA_GIB@@ GiB. Its cost rises with the memory setting.</p></div>
-<div><b>Periods and storage</b><p>Backfill from @@COST_START@@ to @@COST_CUTOFF@@. Most 2022 dates come from the older copy. Daily updates at the latest surveyed acquisition rate, priced as an average day. Records kept in S3 Standard.</p></div>
+<div><b>Recipes and platforms</b><p>B1 and B3 on each option. Section 02 supplies CPU time per megabyte and requested bytes per source block. The model assumes network time and overheads. EC2 instances with @@COST_EC2_VCPU@@ vCPU and @@COST_EC2_GIB@@ GiB. Lambda at @@COST_LAMBDA_GIB@@ GiB. Its cost rises with the memory setting.</p></div>
+<div><b>Periods, acquisitions, and storage</b><p>Backfill from @@COST_START@@ to @@COST_CUTOFF@@. Daily updates at the latest surveyed rate, priced as an average day. Per tile, ACOLITE only has @@COST_RATE_ACO@@ acquisitions a year, and Sen2Cor only @@COST_RATE_S2C@@. For Sen2Cor only, most 2022 dates come from the older copy. Records kept in S3 Standard.</p></div>
 </div>
 <p class="scroll-hint">Scroll horizontally to compare all columns.</p>
-<div class="table-scroll" role="region" aria-label="Estimated AWS costs for each workload and recipe" tabindex="0"><table class="plans results-table">
-<caption>Central assumptions. National A1 is held at the largest measured A1/B1 byte ratio, @@COST_A1_CAP@@×. Backfill includes preparation, extraction, and writes. Lambda backfill includes preparation on EC2. Daily updates include worker start, geometry reloads, requests, and monthly compaction.</caption>
-<thead><tr><th scope="col">Workflow + reader</th><th scope="col">Source imagery read, backfill</th><th scope="col">Backfill on EC2</th><th scope="col">Backfill on Lambda</th><th scope="col">Daily updates on EC2, per month</th><th scope="col">Daily updates on Lambda, per month</th></tr></thead>
+<div class="table-scroll" role="region" aria-label="Estimated AWS costs for each workload, recipe, and source option" tabindex="0"><table class="plans results-table">
+<caption>Central assumptions. Backfill includes preparation, extraction, and writes. Lambda backfill includes preparation on EC2. Daily updates include worker start, geometry reloads, requests, and monthly compaction.</caption>
+<thead><tr><th scope="col">Workflow + reader</th><th scope="col">Source option</th><th scope="col">Source imagery read, backfill</th><th scope="col">Backfill on EC2</th><th scope="col">Backfill on Lambda</th><th scope="col">Daily updates on EC2, per month</th><th scope="col">Daily updates on Lambda, per month</th></tr></thead>
 @@COST_ROWS@@
 </table></div>
-<p class="comparison-scope">Each workload also carries itemized operations of @@COST_OPS@@ per month, including an assumed @@COST_RESIDUAL@@ allowance. Storage during the backfill is excluded. Source reads use an S3 gateway endpoint, with no NAT charges.</p>
-<p class="source-note"><b>Estimated:</b> <a href="aws-cost-analysis.md">cost analysis</a>, with low and high cases, storage classes, and other sensitivities. <a href="cost-analysis/estimates.json">Generated estimates</a> and <a href="assumptions.md#aws-cost-analysis">assumptions</a>. Two review items remain open: <a href="reviews/2026-09-23-claude-aws-cost-daily-update-response-review.md">partial orbit coverage and the catalog network path</a>. Estimates revised @@COST_REVISED@@.</p>
+<p class="comparison-scope">The two options deliver different data, so the table does not price one delivery two ways. ACOLITE only keeps one 20 m grid and holds @@COST_ACQ_SHARE@@ percent of Earth Search’s acquisitions on the surveyed tiles.</p>
+<p class="comparison-scope">Each workload also carries itemized operations of @@COST_OPS@@ per month, including an assumed @@COST_RESIDUAL@@ allowance. The estimates exclude storage during the backfill. Source reads use an S3 gateway endpoint, with no NAT charges.</p>
+<p class="small muted">A1 has no larger-workload run on ACOLITE files. The cost analysis estimates it for Sen2Cor only, holding national A1 at the largest measured A1/B1 byte ratio, @@COST_A1_CAP@@×.</p>
+<p class="source-note"><b>Estimated:</b> <a href="aws-cost-analysis.md#two-standalone-options">cost analysis</a>, with low and high cases, storage classes, compression limits, and other sensitivities. Generated estimates for <a href="cost-analysis/estimates-acolite-only.json">ACOLITE only</a> and <a href="cost-analysis/estimates.json">Sen2Cor only</a>, and <a href="assumptions.md#aws-cost-analysis">assumptions</a>. The <a href="reviews/2026-10-14-phase-c-cost-options.md">per-option record</a> of 2026-10-14 sets the option inputs. Two review items remain open: <a href="reviews/2026-09-23-claude-aws-cost-daily-update-response-review.md">partial orbit coverage and the catalog network path</a>.</p>
 </section>
 
-<section class="chapter" aria-labelledby="earlier-experiments">
-<div class="chapter-head"><div class="chapter-num">04 / Earlier experiments</div><div>
-<h2 id="earlier-experiments">Pilot experiments with readers 1 and 2.</h2>
-<p>These experiments came before section 02. They used the original pilot lakes. Open each one for its methods and results.</p>
+<section class="chapter" aria-labelledby="pixel-checks">
+<div class="chapter-head"><div class="chapter-num">04 / Pixel checks</div><div>
+<h2 id="pixel-checks">Check pixel values on each option.</h2>
+<p>Three probes read lake pixels and compared values. Each fixed its rules before reading any pixel.</p>
 </div></div>
-<p class="pilot-summary"><b data-pilot-count="features">@@PILOT_TOTAL@@</b> public water bodies · <b data-pilot-count="regions">@@PILOT_REGIONS@@</b> U.S. regions · <b data-pilot-count="pilot">@@PILOT_PICKS@@</b> size-class selections · <b data-pilot-count="large">@@PILOT_ANCHORS@@</b> larger reference lakes</p>
-<details class="benchmark-detail" id="pilot-why"><summary>Original pilot: test cases, lake selection, and coverage</summary>
-<p class="comparison-scope">Sections <a href="#stage-2">04.1</a> and <a href="#stage-3">04.2</a> use the pilot’s selected lake portions. Section <a href="#stage-4">04.3</a> uses eleven lakes needing complete tile contributions.</p>
-<div class="table-scroll" role="region" aria-label="Test cases and their purpose" tabindex="0"><table class="plans comparison-questions">
-<thead><tr><th scope="col">Case</th><th scope="col">Why it matters</th><th scope="col">What we learned or still need</th></tr></thead>
+<div class="comparison-brief">
+<div><b>Validity · ACOLITE</b><p>@@T4_SCENES@@ ACOLITE scenes of 2025 on @@T4_TILES@@ pilot tiles, the first complete scene per tile and month. Counts no-data, flags, and negative values per band and pixel class.</p></div>
+<div><b>Same locations · both options</b><p>The same scenes and lake windows, each paired with the Collection 1 item of the same datastrip. The check compares values on ACOLITE’s 20 m grid. It averages Sen2Cor’s 10 m bands over four pixels, and takes B01 from the 60 m pixel containing each 20 m pixel.</p></div>
+<div><b>Overlapping tiles · each option</b><p>Lakes Lanier and Okeechobee on one October 2025 acquisition each. Compares each option’s two tiles over @@T7_PAIRS@@ tile pairs within one UTM zone.</p></div>
+</div>
+<div class="table-scroll" role="region" aria-label="Pixel check results" tabindex="0"><table class="plans results-table">
+<caption>The declared tolerance is a difference of 0.005 reflectance. A band and pixel class agrees when at least 90 percent of its pooled pixel observations differ by no more than that. In the same-locations check, clear water carries no ACOLITE flag and the Level-2A water class. Interior pixels lie inside the mapped boundary. Shoreline pixels intersect it. Nearby-land pixel centers lie within 100 m of it, outside intersecting pixels.</caption>
+<thead><tr><th scope="col">Check</th><th scope="col">Question</th><th scope="col">Result</th></tr></thead>
 <tbody>
-<tr><th scope="row">Small ponds</th><td>Test shoreline selection and the minimum amount of image data needed for a read.</td><td>All five 10 m size-class ponds have shoreline and nearby-land pixels, but no interior pixels at any native resolution.</td></tr>
-<tr><th scope="row">Large lakes and complex shorelines</th><td>Test larger reads and more demanding pixel preparation.</td><td>Larger lakes dominate reading and preparation. The tests do not separate shoreline complexity from area.</td></tr>
-<tr><th scope="row">Lakes sharing an image</th><td>Test whether neighboring lakes reuse already-read image blocks.</td><td>B1 reduced requests relative to A1. The benefit depends on reader behavior and lake distribution.</td></tr>
-<tr><th scope="row">Lakes crossing tile boundaries</th><td>Test complete collection of pixels without blending overlapping observations.</td><td>The selected tile grids cover all eleven lakes and their buffers. Grid coverage does not prove usable band values.</td></tr>
-<tr><th scope="row">Contrasting settings</th><td>Support later checks in mountain, hill, flat, and lowland settings.</td><td>Terrain labels are descriptive. Seasonal imagery and cloud-free coverage remain untested.</td></tr>
+<tr><th scope="row">Validity</th><td>Does every lake pixel inside a scene hold a value?</td><td>By counts, yes. Per lake, band, and pixel class, the no-data count equals the out-of-scene count, with one exception. There, ten bands hold values on two near-land pixels flagged out of scene, and B04 lacks two values. Counts cannot show whether these are the same pixels.</td></tr>
+<tr><th scope="row">Flags</th><td>How do ACOLITE’s flags fall per pixel class?</td><td>The non-water flag covers @@T4_NONWATER_INTERIOR@@ percent of interior, @@T4_NONWATER_SHORE@@ percent of shoreline, and @@T4_NONWATER_NEAR@@ percent of nearby-land observations. No flag is set on @@T4_NOFLAG_INTERIOR@@, @@T4_NOFLAG_SHORE@@, and @@T4_NOFLAG_NEAR@@ percent.</td></tr>
+<tr><th scope="row">Cloud and shadow</th><td>Do ACOLITE’s flags cover what the Level-2A classification calls cloud or shadow?</td><td>Over interior water, about @@T4_CLOUD_UNFLAGGED@@ percent of the cloud classes and @@T4_SHADOW_UNFLAGGED@@ percent of the shadow class carry no ACOLITE flag. ACOLITE has no shadow test.</td></tr>
+<tr><th scope="row">Same locations</th><td>Do the two options give the same values at the same locations?</td><td>No band agrees in any pixel class. Over clear interior water, @@T5_LOW@@ to @@T5_HIGH@@ percent of pixel observations differ by more than 0.005, depending on the band. The sign of the difference changes between lakes.</td></tr>
+<tr id="overlap-check"><th scope="row">Overlapping tiles</th><td>Do a lake’s two tiles give the same values, within each option?</td><td>Pooled over pairs, each option’s two tiles agree in every band and class, except Sen2Cor’s shoreline and nearby-land B01. Per pair, the mean difference reaches @@T7_ACOLITE_MAX@@ percent of the mean value for ACOLITE and @@T7_SEN2COR_MAX@@ percent for Sen2Cor, both in B01.</td></tr>
 </tbody></table></div>
-<p>Size classes use the square root of polygon area: 10, 30, 100, 300, and 1,000 m. These labels are not measured pond diameters.</p>
-<p>Tahoe, Lanier, Okeechobee, Grand Lake St. Marys, and Washington are the larger reference lakes, called “anchors” in the results. Alaska contributes smaller lakes near Iliamna, without the large lake itself.</p>
-<p>Saved downloads reproduce the committed manifest exactly. Every polygon passed a geometry validity check. Neither check proves an accurate shoreline or water presence on an image date.</p>
-<div class="diagrams"><figure class="diagram">
-<h3>Overlap in the multiple-tile test</h3>
-<p>Share of each reference lake’s buffered area inside two or more tile extents, counted once:</p>
-<div class="comparison-bars">
-<div><label for="lanier-overlap">Lanier · @@CROSS_LANIER_OVERLAP@@%</label><meter id="lanier-overlap" min="0" max="100" value="@@CROSS_LANIER_OVERLAP@@">@@CROSS_LANIER_OVERLAP@@%</meter></div>
-<div><label for="okeechobee-overlap">Okeechobee · @@CROSS_OKEECHOBEE_OVERLAP@@%</label><meter id="okeechobee-overlap" min="0" max="100" value="@@CROSS_OKEECHOBEE_OVERLAP@@">@@CROSS_OKEECHOBEE_OVERLAP@@%</meter></div>
-</div>
-<figcaption class="small muted">Both tile unions cover the whole buffered area. Neither reference lake fits in one tile. Extent coverage does not prove usable band values.</figcaption>
-</figure></div>
-<p class="source-note"><b>Documented:</b> USGS retired NHD on 2023-10-01. Its data remain available without maintenance. USGS also halted NHDPlus HR production to focus on the 3D Hydrography Program. A service refresh does not date shoreline observations. Some reservoir codes do not state purpose. <a href="reviews/2026-09-12-pilot-manifest-review.md#source-checks">Independent USGS source checks</a> and <a href="assessment-checks/presentation-review-sources.json">NHDPlus HR status</a>. <b>Unverified:</b> current boundaries, water extent, and suitability for the model.</p>
-<p class="source-note"><b>Measured:</b> <a href="../examples/water-bodies-public-pilot.geojson">public pilot manifest</a>, retrieved @@PILOT_DATE@@ UTC from the USGS National Hydrography Dataset. <a href="../examples/README.md">Selection rules</a>, <a href="reviews/2026-09-12-pilot-manifest-review.md">manifest review</a>, and <a href="../benchmarks/results/cross-tile-extraction.json">multiple-tile coverage evidence</a>.</p>
-</details>
-<details class="benchmark-detail earlier-experiment"><summary>04.1 · Pixel selection · A1 and A2</summary>
-<h3 id="stage-2">Separate the pixel selection from the reading technique.</h3>
-<p>Keep workflow A: each lake separately, using one selected tile. First vary selection within A1, then compare A1 and A2 with a prepared mask.</p>
-<dl class="extraction-methods" aria-label="A1 selection variants and A2 reader comparison">
-<div><dt>A1 · Boundary clip<span class="cell-note"><a href="#reader-1">Direct raster reads</a></span></dt><dd><p>Apply the lake boundary afresh to each image, keeping pixels selected by the clipping rule. Nearby-land pixels and prepared pixel classes are omitted.</p></dd></div>
-<div><dt>A1 · Prepared mask<span class="cell-note"><a href="#reader-1">Direct raster reads</a></span></dt><dd><p>Prepare a grid marking which pixels to keep and their classes. Read the surrounding image window and apply that grid.</p></dd></div>
-<div><dt>A1 · Stored positions<span class="cell-note"><a href="#reader-1">Direct raster reads</a></span></dt><dd><p>Save the row and column positions of the same selected pixels. Read their surrounding window, then retrieve values at those positions.</p></dd></div>
-<div><dt>A2 · Prepared mask<span class="cell-note"><a href="#reader-2">Large-chunk lazy reads</a></span></dt><dd><p>Use the same prepared mask, but schedule image reads as array chunks. The graph starts at the lake window, so chunk boundaries follow that window’s origin.</p></dd></div>
-</dl>
-<div class="comparison-brief">
-<div><b>What changes</b><p>Three selection variants use reader 1. The prepared-mask comparison changes reader 1 to reader 2. The boundary clip computes its selection afresh.</p></div>
-<div><b>What stays the same</b><p>Workflow A, the lake, source image, and five band files. Required output includes interior, shoreline, and nearby-land pixels.</p></div>
-<div><b>What we measure</b><p>Selected values and classes, read time, requests, requested bytes, and peak process memory.</p></div>
-</div>
-<p class="comparison-scope"><b>Measured sample:</b> @@LAKE_LAKES@@ water bodies across @@LAKE_TILES@@ tiles, with three repetitions per method. The table shows both ends of the size range: five small ponds and five larger reference lakes.</p>
-<p class="scroll-hint">Scroll horizontally to compare all columns.</p>
-<div class="table-scroll" role="region" aria-label="A1 selection variants and A2 results" tabindex="0"><table class="plans results-table">
-<caption>A1 and A2 process each lake separately. The selection qualifier distinguishes the three A1 rows. Read time, requests, and requested bytes are per-size-class medians. Memory is the highest process peak. Timings exclude preparation and storage writes.</caption>
-<thead><tr><th scope="col">Recipe + selection</th><th scope="col">Required pixel classes</th><th scope="col">Read time</th><th scope="col">Requests</th><th scope="col">Requested bytes</th><th scope="col">Peak RAM</th></tr></thead>
-@@LAKE_METHOD_ROWS@@
-</table></div>
-<div class="comparison-conclusion"><b>What this tells us</b><p>A1 with prepared masks or stored positions matched A2 with prepared masks. A1 with boundary clipping omitted nearby land and selected some boundary pixels differently.</p><p>Most small lakes with pixels required one internal block per file and 15 requests overall. Fewer selected pixels did not necessarily reduce reading.</p></div>
-<p class="note-line"><strong>Equivalent output matters.</strong> A faster clip that omits required context does different work. These trials do not establish a general speed ranking.</p>
-<details class="benchmark-detail"><summary>All size classes: read timings, selected pixels, and preparation</summary>
-<p class="small muted">The same recipe codes and selection qualifiers apply to every size class.</p>
-<div class="table-scroll" role="region" aria-label="Single lake timings by size class" tabindex="0"><table class="plans datasets">
-<caption class="small">Class summaries use medians. Block counts show the maximum where it differs. Bytes and requests use A1 with a prepared mask. Selected 10 m pixels include all three classes. Highest memory covers all methods.</caption>
-<thead><tr><th scope="col">Size class</th><th scope="col">Lakes</th><th scope="col">Selected 10 m pixels</th><th scope="col">Blocks and requests</th><th scope="col">A1 · Boundary clip</th><th scope="col">A1 · Prepared mask</th><th scope="col">A1 · Stored positions</th><th scope="col">A2 · Prepared mask</th><th scope="col">Highest process memory</th></tr></thead>
-<tbody>@@LAKE_ROWS@@</tbody></table></div>
-<p class="small muted">Interior pixels lie inside the mapped boundary. Shoreline pixels intersect it. Nearby-land pixel centers lie within 100 m of the boundary, outside intersecting pixels. Preparation computes all three native resolutions once per lake and tile.</p>
-<div class="table-scroll" role="region" aria-label="Pixel classes by size" tabindex="0"><table class="plans datasets">
-<caption class="small">Per-class median counts: interior · shoreline · nearby land. The measurement record lists the numerical tolerances.</caption>
-<thead><tr><th scope="col">Size class</th><th scope="col">Lakes</th><th scope="col">10 m</th><th scope="col">20 m</th><th scope="col">60 m</th><th scope="col">Preparation</th></tr></thead>
-<tbody>@@LAKE_CLASS_ROWS@@</tbody></table></div>
-<p class="small muted">Each lake ran in its own process: @@LAKE_RUNS@@ workers in all. Two ponds were outside their region’s selected tile and have no rows. Three larger polygons were partly inside. Later tests use additional tiles.</p>
-</details>
-<p class="source-note"><b>Measured:</b> @@LAKE_DATE@@, @@LAKE_MACHINE@@, over an uncontrolled internet connection. <a href="../benchmarks/results/lake-extraction.json">Individual-lake results</a> and <a href="measurements.md#prototype-stage-2-one-lake-at-a-time-2026-09-15">findings and limits</a>. One acquisition per region. Method order was fixed.</p>
-</details>
-<details class="benchmark-detail earlier-experiment"><summary>04.2 · Lakes sharing an image · A1, B1, C1, and B2</summary>
-<h3 id="stage-3">Compare A1, B1, C1 and B2 on one image.</h3>
-<p>Use direct raster reads to compare three workflows. Then compare B1 and B2: direct raster reads versus large-chunk lazy reads for shared image windows.</p>
-<div class="comparison-brief">
-<div><b>What changes</b><p>A1 processes lakes separately. B1 shares open files across lake windows. C1 loads complete bands. B2 computes lake windows separately from a shared graph.</p></div>
-<div><b>What stays the same</b><p>The lakes inside each selected tile, the image date, five band files, and prepared pixel selections.</p></div>
-<div><b>What we measure</b><p>Read time, requests, requested bytes, and memory. Check that each method preserves its selected values.</p></div>
-</div>
-<p class="comparison-scope"><b>How to read the table:</b> compare A1, B1, and C1 for the workflow effect, then B1 and B2 for the reader effect. The two A1 rows have different process arrangements and measurement bases.</p>
-<p class="comparison-scope"><b>Settings in this experiment:</b> a 512 MiB GDAL block cache. Reader 2 uses nominal 2,048-pixel chunks and four threads.</p>
-<p class="comparison-scope"><b>Example: Tahoe, six lakes in one tile.</b> This includes a large reference lake and smaller lakes, all within the selected tile. The other eight tiles appear below. The example is not an average or a production estimate.</p>
-<p class="scroll-hint">Scroll horizontally to compare all columns.</p>
-<div class="table-scroll" role="region" aria-label="Shared image workflow results" tabindex="0"><table class="plans results-table">
-<caption>Read times sum per-file timers, excluding startup, mask loading, and later work. Requested bytes are summed range lengths. Memory is peak process RAM.</caption>
-<thead><tr><th scope="col">Workflow + reader</th><th scope="col">Reader</th><th scope="col">Read time</th><th scope="col">Requests</th><th scope="col">Requested bytes</th><th scope="col">Peak RAM</th><th scope="col">Measurement basis</th></tr></thead>
-@@TILE_ROWS@@
-</table></div>
-<p class="small muted">The separate-process row sums earlier individual-lake medians for matching lakes and observations. Its memory is not summarized. Other rows use repeated tile runs.</p>
-<div class="comparison-conclusion"><b>What this tells us</b><p>Across five tiles, B1 used 24–46 percent of the requests and 49–87 percent of the bytes of matching separate-process A1 observations.</p><p>C1 requested 6–32 times B1’s bytes across the tested tiles. B2 requested 1.6–7.1 times B1’s bytes.</p></div>
-<p class="note-line"><strong>Grouping work only helps when reads are reused.</strong> B2 computed each lake separately and reread chunks. Its output values still agreed.</p>
-<details class="benchmark-detail"><summary>The other eight tiles: the same workflow comparison</summary>
-<p class="small muted">Each group is a separate workload. Some lakes lie partly inside a selected tile. Missing earlier comparisons are labeled explicitly.</p>
-<div class="table-scroll" role="region" aria-label="Other shared image workflow results" tabindex="0"><table class="plans results-table">
-<caption>The same definitions apply as above. Compare alternatives within a tile, not timings between different tiles.</caption>
-<thead><tr><th scope="col">Workflow + reader</th><th scope="col">Reader</th><th scope="col">Read time</th><th scope="col">Requests</th><th scope="col">Requested bytes</th><th scope="col">Peak RAM</th><th scope="col">Measurement basis</th></tr></thead>
-@@TILE_DETAIL_ROWS@@
-</table></div>
-</details>
-<details class="benchmark-detail"><summary>Value agreement, cache settings, and timing limitations</summary>
-<p>We tested @@TILE_LAKES@@ lakes across @@TILE_TILES@@ tiles, with three read patterns and four methods: @@TILE_RUNS@@ workers. Each tile run extracts only the lake portions within that tile.</p>
-<p>All 200 lake-band comparisons agreed across the three prepared-selection methods and read patterns. Boundary clipping agreed across patterns within its separate selection rule.</p>
-<p>The 130 comparisons with matching individual-lake observations agreed within each method family. The remaining 70 have no individual-lake comparison.</p>
-<p>Twenty-one of 26 pond memberships beside larger reference lakes needed no extra request. Lake size, position, and shared blocks matter alongside lake count.</p>
-<p>The rerun used a 512 MiB GDAL block cache. The earlier run mistakenly used 512 bytes, and its slow-clipping claim was withdrawn. Corrected median clip setup took under half a second per large lake.</p>
-<p>The full evidence includes combinations beyond these selected rows. Its C2 whole-image computations opened each 10 m file 36 times.</p>
-<p>This historical experiment did not test source-block alignment or shared consumption of computed blocks. <a href="#larger-workloads">Section 02 tests both together in B3</a>. Persistent chunk caching remains a separate, untested strategy.</p>
-<p>Nine workers were unusually slow. The largest had recorded timeouts and repeated range requests. The other eight have no known cause.</p>
-<p>If this lake mix and the bytes per lake stay constant, the byte break-even is 25–150 lakes per tile. This arithmetic on medians is not a measured timing, cost, or operating threshold.</p>
-</details>
-<p class="source-note"><b>Measured:</b> @@TILE_DATE@@, @@TILE_MACHINE@@, outside AWS. <a href="../benchmarks/results/tile-extraction.json">Corrected-cache results</a>, <a href="measurements.md#prototype-stage-3-many-lakes-in-one-tile-2026-09-16">findings and limits</a>, and <a href="reviews/2026-09-16-codex-stage-3-rerun-review.md">independent review</a>. One acquisition per tile, three repetitions, and three to six lakes per tile.</p>
-</details>
-<details class="benchmark-detail earlier-experiment"><summary>04.3 · Lakes spanning multiple tiles · A1, B1, A2, and B2</summary>
-<h3 id="stage-4">Compare A and B across tiles with readers 1 and 2.</h3>
-<p>Extend the comparison to lakes that need several tiles. A finishes each lake across its tiles. B finishes each tile across its lakes.</p>
-<div class="comparison-brief">
-<div><b>What changes</b><p>A1 versus B1 uses direct raster reads.<br>A2 versus B2 uses large-chunk lazy reads.<br>Compare lake-first with image-first processing.</p></div>
-<div><b>What stays the same</b><p>@@CROSS_LAKES@@ lakes, @@CROSS_TILES@@ tiles, five band files per item, and frozen source products. Lanier and Okeechobee each use one satellite pass.</p></div>
-<div><b>What we measure</b><p>Complete pixel contributions and value agreement, alongside workload time, requests, and requested bytes. Whole-image reading is not part of this comparison.</p></div>
-</div>
-<p class="comparison-scope"><b>How to read the table:</b> compare A1 with B1, then A2 with B2. Both workflows keep overlapping observations separate.</p>
-<p class="comparison-scope"><b>A2 and B2 change more than sharing:</b> A2 anchors each graph at the lake window. B2 anchors its graph at the full image. Chunk boundaries can shift, changing the chunks computed for the same native pixels.</p>
-<p class="comparison-scope"><b>Settings in this experiment:</b> a 512 MiB GDAL block cache. Reader 2 uses nominal 2,048-pixel chunks and four threads.</p>
-<p class="scroll-hint">Scroll horizontally to compare all columns.</p>
-<div class="table-scroll" role="region" aria-label="Cross-tile workload comparison" tabindex="0"><table class="plans results-table">
-<caption>Whole-workload medians and time ranges. Time sums worker durations, including startup and assembly. It excludes catalog selection, mask preparation, and final summary work.</caption>
-<thead><tr><th scope="col">Workflow + reader</th><th scope="col">Reader</th><th scope="col">Workload time<br>Median and range</th><th scope="col">Requests</th><th scope="col">Requested bytes</th><th scope="col">Repetitions</th></tr></thead>
-<tbody>@@CROSS_ROWS@@</tbody></table></div>
-<p class="small muted">Bytes count requested ranges, not metered network delivery. MB means decimal megabytes. These workload times cover more work than the read timers above.</p>
-<div class="comparison-conclusion"><b>What this tells us</b><p>B1 used @@CROSS_SAVED_REQUESTS@@ percent fewer requests and @@CROSS_SAVED_BYTES@@ percent fewer bytes than A1. Median workload time fell @@CROSS_SAVED_TIME@@ percent.</p><p>B2 requested @@CROSS_LAZY_BYTES@@ times A2’s bytes. Their time ranges overlap, so these repetitions show no stable timing advantage.</p></div>
-<div class="agreement-result"><b>Completeness and agreement: passed for matching source pixels</b><p>@@CROSS_MEMBERSHIPS@@ lake-tile combinations produced all @@CROSS_EXPECTED@@ expected band contributions per workload. Values, pixel identities, and classes agreed across readers, processing orders, and repetitions.</p><p>This checks different ways of reading the same source pixels. Agreement between overlapping observations of the same ground remains untested.</p></div>
-<details class="benchmark-detail"><summary>Memory use, source handling, and measurement limits</summary>
-<p>@@CROSS_RUNS@@ fresh extraction workers completed across @@CROSS_ACQUISITIONS@@ satellite passes and three repetitions. The medians include every complete repetition.</p>
-<p>Extraction peaked near 1.80 GiB. Selection reached 3.40 GiB and recorded host swapping, without a guard stop. These peaks cover different activities and are not per-workflow memory comparisons.</p>
-<p>The guard used a 4 GiB process budget and 1.5 GiB available-memory reserve. It sampled every 0.25 seconds, with a 128 MiB page-out threshold.</p>
-<p>Settings were fixed: 512 MiB GDAL cache, 2,048-pixel lazy chunks, and four threads. We did not tune the readers.</p>
-<p>The measured implementation is version 2. Version 3 corrects datastrip selection and coarse-footprint handling. The selected groups did not change. Revised code has local fixture tests and no new public-data run.</p>
-<p>Each lake retains an ordered list of contribution keys. This logical assembly does not blend tiles or select a storage layout.</p>
-</details>
-<p class="source-note"><b>Measured:</b> @@CROSS_DATE@@, @@CROSS_MACHINE@@. <a href="../benchmarks/results/cross-tile-extraction.json">Frozen multiple-tile results</a>, <a href="measurements.md#prototype-stage-4-lakes-across-tiles-2026-09-16">findings and limits</a>, and <a href="reviews/2026-09-16-codex-stage-4-review-response.md">accepted review response</a>. The run did not isolate window shape, compression, or grid alignment.</p>
-</details>
+<p class="note-line"><strong>Neither option is a reference.</strong> These checks show where values differ. The Level-2A classification is a land product with its own errors. Field data are outside this assessment, and the company’s own experiments will compare the two corrections.</p>
+<p class="source-note"><b>Measured:</b> <a href="../benchmarks/results/aqr-validity.json">validity</a>, <a href="../benchmarks/results/aqr-pairs.json">paired values</a>, and <a href="../benchmarks/results/aqr-overlap.json">overlapping tiles</a>. Findings and limits for <a href="measurements.md#phase-c-probe-t4-pixel-validity-on-the-pilot-lakes-2026-10-13">validity</a>, <a href="measurements.md#phase-c-probe-t5-the-two-options-on-the-same-pixels-2026-10-14">paired values</a>, and <a href="measurements.md#phase-c-probe-t7-each-option-across-two-overlapping-tiles-2026-10-15">overlapping tiles</a>. The larger reference lakes hold most observations, and neighboring pixels are correlated. Every tested scene dates from 2025.</p>
+</section>
+
+<section class="chapter" aria-labelledby="reference-series">
+<div class="chapter-head"><div class="chapter-num">05 / Level-2A reference series</div><div>
+<h2 id="reference-series">Earlier experiments on Level-2A files.</h2>
+<p>These experiments came before the two source options. They read Earth Search Level-2A files for the pilot lakes and the two larger cohorts. Their records keep every number.</p>
+<p>The ACOLITE access tests repeated the first three experiments on ACOLITE files, on the same acquisitions. The Alaska lakes had no ACOLITE product. <a href="measurements.md#phase-c-probe-t6-the-access-tests-on-the-primary-product-2026-10-14">Findings and limits</a>.</p>
+</div></div>
+<div class="table-scroll" role="region" aria-label="Level-2A reference series" tabindex="0"><table class="plans results-table">
+<caption>Measured on the owner’s laptop over an uncontrolled internet connection, outside AWS.</caption>
+<thead><tr><th scope="col">Experiment</th><th scope="col">Question</th><th scope="col">Headline</th><th scope="col">Record</th></tr></thead>
+<tbody>
+<tr id="stage-2"><th scope="row">One lake at a time<span class="cell-note">A1 and A2 · @@LAKE_DATE@@</span></th><td>Does the pixel selection or the reader change the values and the cost?</td><td>Prepared masks and stored positions matched the lazy reader. Boundary clipping omitted nearby land. Most small lakes needed 15 requests, whatever their pixel count.</td><td><a href="measurements.md#prototype-stage-2-one-lake-at-a-time-2026-09-15">Findings 16 to 18</a> · <a href="../benchmarks/results/lake-extraction.json">result</a></td></tr>
+<tr id="stage-3"><th scope="row">Many lakes in one tile<span class="cell-note">A1, A2, B1, B2, C1, and C2 · @@TILE_DATE@@</span></th><td>Does sharing open files across a tile’s lakes save reads?</td><td>Across five tiles, B1 used 24–46 percent of A1’s requests and 49–87 percent of its bytes. C1 requested 6–32 times B1’s bytes, and B2 1.6–7.1 times.</td><td><a href="measurements.md#prototype-stage-3-many-lakes-in-one-tile-2026-09-16">Findings 19 to 22</a> · <a href="../benchmarks/results/tile-extraction.json">result</a></td></tr>
+<tr id="stage-4"><th scope="row">Lakes across tiles<span class="cell-note">A1, A2, B1, and B2 · @@CROSS_DATE@@</span></th><td>Does tile-first processing keep every contribution while reading less?</td><td>All @@CROSS_EXPECTED@@ expected band contributions arrived in each workload, and values agreed across readers. B1 used @@CROSS_SAVED_REQUESTS@@ percent fewer requests and @@CROSS_SAVED_BYTES@@ percent fewer bytes than A1.</td><td><a href="measurements.md#prototype-stage-4-lakes-across-tiles-2026-09-16">Findings 23 to 25</a> · <a href="../benchmarks/results/cross-tile-extraction.json">result</a> · <a href="reviews/2026-09-16-codex-stage-4-review-response.md">accepted response</a></td></tr>
+<tr id="reference-workloads"><th scope="row">Larger workloads<span class="cell-note">Seven recipes · @@WORKLOAD_DATES@@</span></th><td>How do the readers compare for 100 dispersed and 1,000 concentrated lakes?</td><td>B1 and B3 were the leading tested candidates. In Florida, shared-window extraction took one-sixth to one-tenth the time of separate-lake workflows. Whole-image reads requested over four times the shared-window bytes. All fourteen configurations agreed on their outputs.</td><td><a href="../benchmarks/results/lazy-reader-workloads.json">Result</a> · <a href="reviews/2026-09-21-sleep-rerun.md">rerun record</a> · <a href="reviews/2026-09-22-prototype-high-level-takeaways-review.md">takeaway review</a></td></tr>
+</tbody></table></div>
+<p class="source-note">The <a href="measurements.md">measurement findings</a> keep every number, limit, and setting. The <a href="reviews/2026-09-23-prototyping-flow.md">earlier tab layout record</a> describes the panels this table replaces.</p>
 </section>
 </section>
 
@@ -1380,11 +1286,11 @@ footer{display:block}
 <p>Discovery is readable without JavaScript. To switch phases, change the map views, or pick two sensors to compare, enable JavaScript.</p></noscript>
 </main>
 <footer class="wrap">
-<p>Sentinel-2 assessment · Discovery &amp; partial Prototyping · Updated 2026-09-23</p>
+<p>Sentinel-2 assessment · Discovery &amp; partial Prototyping · Updated 2026-10-15</p>
 <p><a href="../README.md">Project documentation</a> · <a href="assets/discovery/provenance.json">Imagery attribution &amp; provenance</a>
 </p>
 </footer>
-<!-- Generated from inventory @@INVENTORY_DIGEST@@, survey @@REPORT_DIGEST@@, maps @@MAP_DIGEST@@, pilot @@PILOT_DIGEST@@, raw access @@RAW_DIGESTS@@, copy difference @@DIFF_DIGEST@@, lake extraction @@LAKE_DIGEST@@, tile extraction @@TILE_DIGEST@@, cross-tile extraction @@CROSS_DIGEST@@, sensor bands @@SENSOR_DIGEST@@, cost estimates @@COST_DIGEST@@, aquatic reflectance @@AQR_DIGEST@@. -->
+<!-- Generated from inventory @@INVENTORY_DIGEST@@, survey @@REPORT_DIGEST@@, maps @@MAP_DIGEST@@, pilot @@PILOT_DIGEST@@, raw access @@RAW_DIGESTS@@, copy difference @@DIFF_DIGEST@@, lake extraction @@LAKE_DIGEST@@, tile extraction @@TILE_DIGEST@@, cross-tile extraction @@CROSS_DIGEST@@, larger workloads @@WORKLOAD_DIGEST@@, sensor bands @@SENSOR_DIGEST@@, cost estimates @@COST_DIGEST@@, aquatic reflectance @@AQR_DIGEST@@, product workloads @@T6_DIGEST@@, pixel checks @@PIXEL_DIGEST@@. -->
 <script>
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 function activate(id, focus = false) {

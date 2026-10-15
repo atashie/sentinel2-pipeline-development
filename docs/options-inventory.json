@@ -7,7 +7,7 @@
     "note": "Two source options are compared, each used alone, under decision 0009. ACOLITE only is the USGS ACOLITE aquatic reflectance product, for water pixels in the lower 48 states, the initial primary source. Sen2Cor only is Earth Search Level-2A: Collection 1 GeoTIFF assets first, the older collection's GeoTIFF assets as fallback, under decision 0004. Neither option fills or flags the other, and the scene join is deferred. Self-run ACOLITE from Level-1C is context. The 2021 scenario is prototyped first. Workflow, compute platform, and storage layout remain open. Cross-tile mosaicking is a MAJOR CONCERN under investigation. Options marked context are not compared for selection.",
     "next": [
       "Review Phases B and C: the check records, probes T1 to T7, the crop, the Discovery rewrite, and the per-option cost model.",
-      "Rebuild the Prototyping tab from the primary product's results and the per-option costs.",
+      "Review the rebuilt Prototyping tab: both options' access, costs, and pixel checks, with the Level-2A reference table.",
       "Run probe T8, retention, in a separately authorized step.",
       "Resolve per-band validity using model requirements and matched-location evidence. Decision 0010 sets the primary tile."
     ]

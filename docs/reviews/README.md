@@ -8,6 +8,7 @@ The latest handoff records subsequent corrections and resolved wording.
 
 | Date | Review | Reviewer |
 |---|---|---|
+| 2026-10-15 | [Prototyping tab rebuilt for both options: takeaways, readers B1 and B3, costs, pixel checks, and a Level-2A reference table](2026-10-15-prototyping-tab-rebuild.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-15 | [Owner direction recorded: one fixed primary tile per water body, decision 0010, and the compression analysis kept at a high level](2026-10-15-primary-tile-and-compression-direction.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-15 | [Phase C probe T7: each option across two overlapping tiles, pooled agreement and per-pair offsets](2026-10-15-phase-c-t7-overlap.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-14 | [Adversarial review of the Phase C work: six AI reviewers, the fixes, and the deferred items](2026-10-14-adversarial-review-response.md) | Claude Code (AI coding agent), directed by the repository owner |

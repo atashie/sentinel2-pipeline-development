@@ -18,6 +18,7 @@ The owner then wrote "proceed with the next steps". The cost model now estimates
 Six AI reviewers then read the Phase C work. The [review response](reviews/2026-10-14-adversarial-review-response.md) records the fixes and the deferred items.
 On 2026-10-15 the owner wrote "proceed", and probe T7 ran. Its [record](reviews/2026-10-15-phase-c-t7-overlap.md) awaits review.
 The same day the owner set the primary-tile rule, [decision 0010](decisions/0010-primary-tile-rule.md), and kept the cost compression analysis at a high level. The [direction record](reviews/2026-10-15-primary-tile-and-compression-direction.md) quotes both.
+The owner then asked for the Prototyping tab rebuild. Its [record](reviews/2026-10-15-prototyping-tab-rebuild.md) awaits review.
 Each later Phase C step needs its own authorization.
 Every test that contacts a provider runs only when the owner invokes it.
 Findings 26 to 29 describe the primary product's metadata and one crop. Findings 30 to 33 describe pixel validity on the pilot lakes.
@@ -240,7 +241,7 @@ Carried into Phase C from Phase B:
 - [ ] T8, retention.
 - [ ] Deferred under decision 0009: the two-source join prototype, until evidence proves the model needs a join.
 - [x] Cost analysis re-parameterized from T1, T2, and T6, per standalone option, 2026-10-14. [Record](reviews/2026-10-14-phase-c-cost-options.md), [cost analysis](aws-cost-analysis.md#two-standalone-options). Owner review pending.
-- [ ] Prototyping tab rebuilt: takeaways, main comparison, and costs from the primary product, with the Level-2A reference series pared to one table.
+- [x] Prototyping tab rebuilt: takeaways, main comparison, costs, and pixel checks for both options, with the Level-2A reference series pared to one table, 2026-10-15. [Record](reviews/2026-10-15-prototyping-tab-rebuild.md). Owner review pending.
 
 ## Phase D: scientific checks
 
