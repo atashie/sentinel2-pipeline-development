@@ -20,6 +20,7 @@ On 2026-10-14 the owner decided that shoreline and near-land values stay with th
 The owner authorized probes T5 and T6 on 2026-10-14. T5, findings 34 and 35, and T6, findings 36 and 37, ran that day. Their [record](docs/reviews/2026-10-14-phase-c-t5-t6.md) awaits review.
 The same day the cost model was re-parameterized per option from T1, T2, and T6. Its [record](docs/reviews/2026-10-14-phase-c-cost-options.md) awaits review.
 Six AI reviewers then read that work. The [review response](docs/reviews/2026-10-14-adversarial-review-response.md) records the fixes and the deferred items.
+Probe T7 ran on 2026-10-15, findings 38 and 39. Its [record](docs/reviews/2026-10-15-phase-c-t7-overlap.md) awaits review.
 The workload supervisor needs 5 GiB of free memory to start a worker. Each later Phase C step needs owner authorization.
 Discovery and the gap surveys for the Level-2A route are complete. Prototyping has laptop measurements for Stages 1 to 4 on Level-2A files, the reference series.
 Claude Code [reviewed Stage 4](docs/reviews/2026-09-16-claude-stage-4-full-run-review.md) and verified its extraction evidence.
@@ -64,6 +65,7 @@ uv run python benchmarks/lazy_reader_workloads.py            # print the larger-
 uv run python benchmarks/aqr_validity.py --dry-run   # print the probe T4 plan and its declared rules, no network
 uv run python benchmarks/aqr_pairs.py --dry-run      # print the probe T5 plan and its declared rules, no network
 uv run python benchmarks/aqr_workloads.py            # print the probe T6 plan, no network
+uv run python benchmarks/aqr_overlap.py --dry-run    # print the probe T7 plan and its declared rules, no network
 uv run python tools/collate_checks.py --check && uv run python tools/collate_sensor_bands.py --check && uv run python tools/render_options.py --check && uv run python tools/gap_report.py --check
 python3 ~/github/cc-skills/html-review-comments/scripts/inject.py tools/s2-options.template.html --config "$(cat tools/review-layer.json)" --check   # review-comment layer, no network
 ```
@@ -77,7 +79,8 @@ invokes them. Requester-pays buckets charge the reader. Record bucket or endpoin
 `tools/build_pilot_manifest.py --fetch` contacts the USGS hydrography service for polygons only, and runs only when the owner asks.
 `benchmarks/aqr_validity.py` reads pilot-lake windows from the USGS aquatic reflectance bucket and Level-2A scene classification windows. It runs only when the user invokes it.
 `benchmarks/aqr_pairs.py` reads the same windows from the USGS bucket and the paired Collection 1 bands.
-`benchmarks/aqr_workloads.py` replays stages 2 to 4 and readers B1 and B3 on the USGS bucket. Each runs only when the user invokes it.
+`benchmarks/aqr_workloads.py` replays stages 2 to 4 and readers B1 and B3 on the USGS bucket.
+`benchmarks/aqr_overlap.py` reads the overlap pixels of stage 4's lakes from two tiles of each option. Each runs only when the user invokes it.
 `benchmarks/raw_access.py` and `benchmarks/copy_difference.py` read pixels from both public GeoTIFF buckets. `benchmarks/lake_extraction.py` reads lake windows from the Collection 1 bucket. `benchmarks/tile_extraction.py` reads every lake of a tile, windowed or whole. They run only when the user invokes them. `--dry-run` contacts nothing. `--reuse DIR` still queries the catalog, then repeats only what a saved pass did not measure. `--resummarize RESULT` recomputes a summary offline.
 
 `benchmarks/cross_tile_extraction.py` separates metadata selection from imagery extraction.
@@ -154,7 +157,8 @@ inventory, or its finding in [docs/measurements.md](docs/measurements.md). Numbe
 
 - Measurement findings 1 to 25 and the gotchas below describe Level-2A files from Earth Search, the reference series of
   assumption A50. Findings 26 to 29 describe the primary product's metadata and one crop. Findings 30 to 33 describe its pixels.
-  Findings 34 and 35 compare the two options' values. Findings 36 and 37 describe access on the primary product. Decision 0008.
+  Findings 34 and 35 compare the two options' values. Findings 36 and 37 describe access on the primary product.
+  Findings 38 and 39 compare each option across two overlapping tiles. Decision 0008.
 - In 59 scenes of 2025 on five pilot tiles, every pilot-lake pixel inside the product's scene holds a value in every band and class.
   No-data marks pixels ACOLITE flags out of scene. NDWI matches (B03 - B8A) / (B03 + B8A) times 10,000 on 96 percent or more. Findings 30 and 32.
 - Each primary product is a standalone observation. The bucket can hold two products of one pass on one tile, one per datastrip. Keep both, never the latest only. Finding 30, decision 0009.
@@ -171,6 +175,7 @@ inventory, or its finding in [docs/measurements.md](docs/measurements.md). Numbe
 - **Cross-tile mosaicking is a MAJOR CONCERN (issue I-30). The store never mosaics.** Tiles overlap and differ
   in their overlap. Every record carries its tile and a primary or overlap marker under assumption A22. Claim G11,
   practice P2, decisions 0002 and 0003. Seven of twenty survey sites lie in two to four tiles, measurement finding 8.
+  On two acquisitions, each option's two tiles of one zone agree within 0.005 on nearly every pixel, with small offsets. Findings 38 and 39.
 - Collection 1 on Earth Search is nearly empty from January to November 2022 everywhere, and holds 05.09 originals
   for December 2022 to December 2023. The older collection's GeoTIFFs cover 2022. One Alaska tile is on no
   collection for 52 months. Measurement findings 1 to 3 and 10, issue I-08.
