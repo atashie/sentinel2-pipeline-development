@@ -1,11 +1,12 @@
 # Sentinel-2 ingestion options for water-quality modeling
 
-**Re-scoped on 2026-10-13. The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states, [decision 0008](docs/decisions/0008-acolite-aquatic-reflectance-first.md). Earth Search Level-2A is supplementary. Stages 1 to 4 have reviewed laptop measurements on Level-2A files, now the reference series. Phase B probed the primary product's layout, coverage, and join with metadata, and read one authorized pixel crop. Workflow, platform, and layout remain open.**
+**Re-scoped on 2026-10-13, [decision 0008](docs/decisions/0008-acolite-aquatic-reflectance-first.md), and on 2026-10-14, [decision 0009](docs/decisions/0009-standalone-options-join-deferred.md). Two source options are compared, each used alone. ACOLITE only is the USGS aquatic reflectance product, for water pixels in the lower 48 states. Sen2Cor only is Earth Search Level-2A. The scene join is deferred. Stages 1 to 4 have reviewed laptop measurements on Level-2A files, now the reference series. Phase B probed the primary product's layout, coverage, and join with metadata, and read one authorized pixel crop. Phase C probe T4 measured pixel validity on the pilot lakes. Probe T5 compared the two options' values on the same pixels, and T6 replayed the access tests on the primary product. Workflow, platform, and layout remain open.**
 The [replan record](docs/reviews/2026-10-13-acolite-first-replan.md) sets the phases and the tests. The [Phase A record](docs/reviews/2026-10-13-phase-a-rescope.md) restated the planning documents. The [Phase B record](docs/reviews/2026-10-13-phase-b-discovery-ii.md) adds check records, probes T1 to T3, and the Discovery rewrite. Both await owner review.
 The owner accepted the Stage 4 response on 2026-09-17. The [presentation](docs/s2-options.html) and inventory include the corrected findings.
 Related records include the [documentation update](docs/reviews/2026-09-17-documentation-and-presentation.md), [wording pass](docs/reviews/2026-09-17-presentation-wording-pass.md), and [spelling follow-up](docs/reviews/2026-09-17-american-spelling.md).
 Further records cover the [sensor bands](docs/reviews/2026-09-17-sensor-band-comparison.md), [section 02 heading](docs/reviews/2026-09-18-access-problem-first.md), and [lazy-reader workload review](docs/reviews/2026-09-18-claude-lazy-reader-workload-review.md).
-Phase C, Prototyping II, requires owner authorization.
+Phase C, Prototyping II, runs one authorized step at a time. The [T4 record](docs/reviews/2026-10-13-phase-c-t4-validity.md) awaits owner review. The [direction record](docs/reviews/2026-10-14-standalone-options-direction.md) of 2026-10-14 awaits review.
+The [T5 and T6 record](docs/reviews/2026-10-14-phase-c-t5-t6.md) awaits review. The [cost analysis](docs/aws-cost-analysis.md) now estimates both options, with its own [record](docs/reviews/2026-10-14-phase-c-cost-options.md).
 The [work plan](docs/work-plan.md) tracks the broader assessment and remaining review gates.
 The authorized [larger-workload comparison](docs/reviews/2026-09-18-lazy-reader-workload-plan.md) now has separate, resumable preflight and extraction commands.
 The [review response](docs/reviews/2026-09-18-lazy-reader-review-response.md) records implemented corrections and disagreements.
@@ -18,8 +19,8 @@ Open the HTML locally with its `assets/discovery/` directory beside it. [Hosting
 
 This repository assesses how to ingest Sentinel-2 reflectance from public AWS repositories into an
 internal store that serves per-water-body pixel values to a water-quality modeling project. Water pixels in the
-lower 48 states come from the USGS ACOLITE aquatic reflectance product. ESA Level-2A surface reflectance from
-Earth Search is supplementary. The company runs on AWS. It serves thousands of standing water bodies in the
+lower 48 states come from the USGS ACOLITE aquatic reflectance product or, as the other option, ESA Level-2A surface
+reflectance from Earth Search. Each option is used alone. The company runs on AWS. It serves thousands of standing water bodies in the
 United States today, down to 10 m ponds. The initial scope is the lower 48 states. Expansion beyond the United
 States needs a workflow redraft, and the infrastructure must still be able to scale.
 
@@ -58,7 +59,7 @@ The tests check documentation links, the inventory schema, the survey logic, and
 | [docs/s2-best-practices.md](docs/s2-best-practices.md) | Sentinel-2 facts and practices for per-water-body extraction, with claim status |
 | [docs/data-contract.md](docs/data-contract.md) | Draft v2 of what the store serves from two source products. Not selected |
 | [docs/measurements.md](docs/measurements.md) | What was measured, and what the numbers do not show |
-| [docs/aws-cost-analysis.md](docs/aws-cost-analysis.md) | Estimated AWS costs for national and sampled A1, B1, and B3 workloads |
+| [docs/aws-cost-analysis.md](docs/aws-cost-analysis.md) | Estimated AWS costs per standalone option for national and sampled workloads |
 | [docs/gap-survey-plan.md](docs/gap-survey-plan.md) | Data gap survey: sites, collections, gap definitions, rerun steps |
 | [docs/s2-options.html](docs/s2-options.html) | Discovery story, satellite map examples, partial Prototyping results, and AWS cost estimates |
 | [docs/vercel-hosting.md](docs/vercel-hosting.md) | Prepared Vercel configuration and deployment instructions |

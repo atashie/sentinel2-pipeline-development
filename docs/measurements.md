@@ -10,6 +10,7 @@ The fifth is [prototype stage 3](#prototype-stage-3-many-lakes-in-one-tile-2026-
 The sixth is [prototype stage 4](#prototype-stage-4-lakes-across-tiles-2026-09-16), which preserves separate tile contributions while comparing work organization.
 The [larger-workload comparison](reviews/2026-09-21-sleep-rerun.md) records subsequent measurements, replacement attempts, and their limits.
 The seventh set is the [Phase B probes](#phase-b-probes-on-the-usgs-aquatic-reflectance-product-2026-10-13) of 2026-10-13. They describe the USGS aquatic reflectance product, the primary source under [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md).
+The eighth set is [probe T4](#phase-c-probe-t4-pixel-validity-on-the-pilot-lakes-2026-10-13) of 2026-10-13, the first pixel test of the primary product.
 Findings 1 to 25 describe Earth Search Level-2A files, the reference series of assumption A50 in [assumptions.md](assumptions.md).
 
 An acquisition is one sensing date and platform within one tile. Item counts stand beside acquisition counts because one acquisition can appear as several items.
@@ -729,3 +730,227 @@ This is one crop of one scene. Probe T4 measures validity per band and pixel cla
 - Retention. Object timestamps show when the bucket copy was written, not whether a scene was replaced. Probe T8 tracks it.
 - Completeness against ESA. Earth Search is the reference here, and it lists nothing on these tiles before 2017.
 - Whether a joined Level-2A quality layer describes the same pixels when the baselines differ.
+
+## Phase C probe T4: pixel validity on the pilot lakes, 2026-10-13
+
+Status: measured, awaiting review. The owner authorized probe T4 on 2026-10-13. The [T4 record](reviews/2026-10-13-phase-c-t4-validity.md) owns the commands and verification.
+Evidence: [aqr-validity.json](../benchmarks/results/aqr-validity.json). Its rules R1 to R7 were fixed before any pixel was read, `tolerances` in the result.
+The probe read the five pilot tiles in the lower 48 that stage 2 chose. It took the first complete scene of each month of 2025 per tile, by name only.
+59 of 60 tile-months had a complete scene. The Lake Washington tile, 10TET, had none for 2025-02. Source: `summary.months_without_scene`.
+All 59 scenes carry Level-1C baseline 05.11. 23 come from Sentinel-2C, 27 from Sentinel-2B, and 9 from Sentinel-2A. Source: `scenes`.
+Every scene joined to a Collection 1 item of the same baseline, finding 28. Two scenes matched two items each. Every classification grid aligned under rule R1. Source: `summary.join_status`, `summary.scenes_scl_aligned`.
+26 lakes have pixels on their stage 2 tile, in 306 scene-lake records. Two lakes lie outside it. Source: `summary.lakes_outside_tile`.
+The counts are pixel observations summed over scenes: 58,492,870 interior, 1,159,934 shoreline, and 3,272,302 near-land. The five anchor lakes hold all but 21,077 shoreline observations. `summary.shares_by_size` splits them.
+Every request was unsigned and returned HTTP 200 on its first attempt: 79 bucket GETs and 118 Earth Search searches. Source: `request_log`.
+GDAL made 4,128 range requests for 3,054,377,756 bytes requested from the product bucket. It made 314 requests for 13,101,091 bytes of scene classification from the Collection 1 bucket.
+One B05 header open per tile, which set the pixel grid, falls outside those counts.
+Reads took 1,158 s over the laptop's internet path, assumption A25. The median scene took 19.3 s and 63.1 MB. This is no cost test, probe T6.
+
+### 30. Inside the product's scene, every pilot-lake pixel holds a value in every band and class
+
+Rule R3 calls a pixel processor-masked when it holds no data and the joined scene classification holds data. A class counts as masked above 1 percent of its joined pixels.
+The largest shares are 0.39 percent interior, 0.76 percent shoreline, and 0.88 percent near-land. No class is masked by the processor. Source: `summary.verdicts`.
+Every processor-masked observation lies in two Lake Washington scenes. In the scene of 2025-11-02, 258,062 observations hold no data in all eleven bands and in NDWI. Source: `summary.no_data_diagnostic`.
+They include all 218,133 interior pixels of Lake Washington. That scene matched two Collection 1 items of the pass. The rule took the later created one, whose classification holds data there. Source: `summary.join_multiple`.
+In the scene of 2025-01-21, two near-land pixels hold no data in B04 only.
+A diagnostic added after the run compares counts. In every record, class, and band, the no-data count equals the count of pixels flagged out of scene by ACOLITE.
+The two B04 pixels are the exception. They carry the out-of-scene flag and hold values in the other ten bands. Equal counts do not prove the same pixels.
+The flags layer holds no no-data pixel. Every flag value read is an exact multiple of 10,000, rule R2. Source: `summary.pooled_counts`.
+
+**Two-item joins.** Both scenes with two matching items split one datatake into two datastrips, one Level-2A item each. Source: `s2:datastrip_id` in the run's saved Earth Search items.
+In both scenes, the rule took the item of the datastrip the product does not hold. Pixel coverage shows it, and the catalog numbering agrees.
+In the Lake Tahoe scene of 2025-08-01, the product holds values on all 1,283,802 lake observations. The chosen classification holds none, so finding 33 omits them. Source: `records`.
+In the Lake Washington scene, the product holds no lake pixel, and the chosen classification holds them all. Rule R3 counts them as processor-masked only through that item.
+Each settings file names its Level-1C input. In all 59 scenes, that name is the product's name with `MSIL1C` in place of `MSIAQR`. Source: the saved settings files.
+In the older collection, that Level-1C item and one Level-2A item share a sequence number and were created under 0.1 s apart. That Level-2A item holds the datastrip coverage points to.
+Sources: probe T3's saved Level-1C items under `data/aqr-coverage/` and the run's saved Level-2A items. This match was checked in these two scenes only.
+The bucket also held two products of the Tahoe pass, one per datastrip by the same numbering. The selection kept the later generation time. Source: `scenes`, key `same_sensing_not_chosen`.
+That product covers the Tahoe lakes, so the counts hold. Finding 23 already showed that split datastrips are distinct coverage, not revisions.
+
+### 31. The flags mark most shoreline and near-land pixels as non-water, and shortwave-infrared values over water are often negative
+
+Shares of pixel observations per class, from `summary.shares`. A pixel can carry several flags.
+
+| Class | No flag | Non-water | Bright | Cirrus | Negative | Out of scene |
+|---|---|---|---|---|---|---|
+| Interior | 57.8% | 35.0% | 15.4% | 13.8% | 2.1% | 0.38% |
+| Shoreline | 20.2% | 77.2% | 25.6% | 11.8% | 0.34% | 0.76% |
+| Near-land | 6.5% | 91.5% | 38.8% | 12.7% | 0.20% | 0.88% |
+
+The mixed-pixel and terrain-shadow flags never occur. All 59 settings files enable the mixed-pixel mask and disable the terrain-shadow mask. Source: the saved settings files under the run's raw directory.
+Interior values are negative in 20.4 percent of B11 observations and 14.1 percent of B12. B8A is negative in 4.0 percent, B04 to B08 in 1.7 to 2.3 percent, and B01 to B03 in 0.2 percent.
+Lake Tahoe's interior holds the most negatives in the visible and near-infrared: 14 percent of B8A and 7 percent of B04. Source: `summary.shares_by_tile`.
+In shoreline and near-land pixels, under 1.4 percent of any band is negative. Source: `summary.shares`.
+Values above 10,000, reflectance above one, make up 1.6 to 1.9 percent of interior observations in B01 to B8A. In B11 and B12 they make up under 0.002 percent.
+The settings files come in two variants. The 23 Sentinel-2C files set `rsr_version=V4` and `l2w_parameters=Rrs_*`.
+The 36 others set `rsr_version=None` and add `tur_nechad2016` and `p3qaa` to the parameters. Source: the saved settings files. Issue I-34 in the [inventory](options-inventory.json).
+
+### 32. The NDWI layer is the normalized difference of the delivered B03 and B8A, times 10,000
+
+Rule R7 recomputes NDWI from the stored band integers within their rounding. Source: `summary.shares`, key `ndwi_recompute`.
+With B03 and B8A, it agrees on 96.4 percent of comparable interior observations, 99.9 percent of shoreline, and 99.96 percent of near-land. With B08 it agrees on 0.6 to 1.2 percent.
+No NDWI value read lies outside -10,000 to 10,000.
+Agreement is lowest in Lake Tahoe's interior, 88 percent, where 14 percent of B8A values are negative. The other four interiors agree on 98.6 to 99.9 percent. Source: `summary.shares_by_tile`.
+So NDWI and the bands describe the same quantity on those pixels. Which quantity that is remains undocumented, finding 29.
+
+### 33. Against the Level-2A scene classification, the flags leave most cloud shadow and a few percent of cloud unflagged
+
+Water agreement counts observations where NDWI, the flags, and the classification all hold data, rule R5. NDWI water is a value above 0, the USGS tutorial's rule. Source: `summary.shares`, key `water`.
+
+| Class | Product test | Both water | Product only | Classification only | Neither |
+|---|---|---|---|---|---|
+| Interior | NDWI above 0 | 57.5% | 10.1% | 13.9% | 18.4% |
+| Interior | Non-water flag clear | 59.7% | 5.4% | 11.7% | 23.2% |
+| Shoreline | NDWI above 0 | 6.9% | 7.9% | 14.9% | 70.3% |
+| Shoreline | Non-water flag clear | 12.0% | 10.3% | 9.8% | 68.0% |
+| Near-land | NDWI above 0 | 1.1% | 4.6% | 4.1% | 90.2% |
+| Near-land | Non-water flag clear | 3.1% | 4.6% | 2.1% | 90.2% |
+
+The cloud classes, 8 to 10, cover 27.6 percent of joined interior observations and 23.6 percent of shoreline and near-land. Rule R6. Source: `summary.shares`, key `cloud`.
+ACOLITE sets no flag on 7.3 percent of those interior observations, 1.9 percent of shoreline, and 1.0 percent of near-land.
+By interior, that share is 9.5 percent at Lake Okeechobee, 7.3 percent at Grand Lake St. Marys, 6.0 percent at Lake Washington, 2.6 percent at Lake Lanier, and 0.03 percent at Lake Tahoe.
+The shadow class, 3, covers 0.28 percent of joined interior observations, 6.4 percent of shoreline, and 5.1 percent of near-land. ACOLITE sets no flag on 74, 38, and 32 percent of them.
+The product has no shadow flag, finding 26. The scene classification is a land product with its own errors, claims Q1, Q4, and Q8 in [s2-best-practices.md](s2-best-practices.md). Agreement with it shows where two products differ. It does not show which is right.
+
+### What T4 does not show
+
+- Scenes before 2025. Most earlier inputs are original Level-1C baselines, and their joins mostly reach another baseline, findings 27 and 28.
+- Whether the values are right. Probe T5 compares them with Level-2A values. Validation against field data is outside the assessment, assumption A15.
+- Whether no-data and the out-of-scene flag fall on the same pixels. The result keeps counts only.
+- A tested join rule. Finding 30 identifies the matching item in two scenes only. Decision 0009 defers the join.
+- Why the Sentinel-2C settings differ, or what the difference does to values.
+- Small-lake shares on their own carry few observations. 21,077 shoreline observations come from the 21 pilot-tier lakes with pixels.
+- Read cost at scale. Times and bytes come from a laptop over the internet, and probe T6 measures access.
+
+## Phase C probe T5: the two options on the same pixels, 2026-10-14
+
+Status: measured, awaiting review. The owner authorized probes T5 and T6 on 2026-10-14. The [T5 and T6 record](reviews/2026-10-14-phase-c-t5-t6.md) owns the commands and verification.
+Evidence: [aqr-pairs.json](../benchmarks/results/aqr-pairs.json). Its rules P1 to P9 were fixed before any pixel was read, `tolerances` in the result.
+The probe took probe T4's 59 scenes and the same pilot-lake windows. It read the product's 11 bands and flags, and the paired Collection 1 item's 11 bands and scene classification.
+Decision 0009 keeps the two options standalone. The pairing serves this comparison only. Neither product is a reference, assumption A52.
+The probe made 118 Earth Search searches, all unsigned and answered on the first attempt. Source: `request_log`.
+GDAL made 4,096 range requests for 2,757,480,336 bytes requested from the product bucket. It made 4,744 requests for 5,493,120,354 bytes from the Collection 1 bucket. Source: `summary`.
+Reads took 2,870 s over the laptop's internet path, assumption A25.
+
+### 34. The Level-1C datastrip pairs every T4 scene with exactly one Collection 1 item
+
+Rule P1 takes the product's Level-1C input name, finds Earth Search's Level-1C item of that name, and reads its datastrip sensing start.
+In all 59 scenes, that item exists, declares one datastrip, and exactly one Collection 1 item shares it. Source: `summary.pairing_status`.
+In the two split-datastrip scenes of finding 30, the rule picks the items that pixel coverage identified there. Source: `scenes`, key `pairing`.
+In the Lake Washington scene of 2025-11-02, the product holds no lake pixel, so that scene adds no comparable pixel.
+Every Collection 1 header read shares the product's CRS and tile origin, rule P2. Source: `scenes`, key `grid_checks`.
+Every Collection 1 asset declares a scale of 0.0001 and an offset of -0.1. No item carries the provider's offset flag. Source: `summary.declared_scale_offset`.
+Over interior pixels the scene classification calls water, the 1st percentile of the stored B11 integer lies between 964 and 1,604 in 58 scenes. Diagnostic P9.
+Stored values over water therefore start near 1,000, the declared offset. The declared offset matches the data in these scenes.
+The pairing found the matching item here. Decision 0009 still defers any join in the store, and this test used 59 scenes only.
+
+### 35. The two options give different values for the same pixels in every band and pixel class
+
+Under rule P7, a band and class agrees when at least 90 percent of its comparable pixels differ by 0.005 reflectance or less.
+No band agrees in any pixel class or either quality subset. Source: `summary.verdicts`.
+Both products call 32,420,587 interior observations clear water, rule P6. That is 56 percent of comparable interior observations. Source: `summary.pooled`.
+Differences are ACOLITE minus Sen2Cor, pooled over scenes and lakes. Quantiles of the difference are not differences of the medians.
+
+| Band | ACOLITE median | Sen2Cor median | Median difference | 5th to 95th percentile | Beyond 0.005 | Pearson r |
+|---|---|---|---|---|---|---|
+| B01 | 0.0167 | 0.0251 | -0.0091 | -0.0318 to 0.0225 | 81% | 0.56 |
+| B02 | 0.0167 | 0.0236 | -0.0083 | -0.0321 to 0.0148 | 79% | 0.75 |
+| B03 | 0.0180 | 0.0255 | -0.0071 | -0.0262 to 0.0146 | 76% | 0.88 |
+| B04 | 0.0187 | 0.0267 | -0.0063 | -0.0238 to 0.0114 | 72% | 0.92 |
+| B05 | 0.0209 | 0.0305 | -0.0078 | -0.0270 to 0.0110 | 77% | 0.93 |
+| B06 | 0.0139 | 0.0203 | -0.0048 | -0.0220 to 0.0109 | 66% | 0.91 |
+| B07 | 0.0153 | 0.0210 | -0.0043 | -0.0215 to 0.0103 | 64% | 0.91 |
+| B08 | 0.0124 | 0.0178 | -0.0044 | -0.0220 to 0.0091 | 62% | 0.90 |
+| B8A | 0.0103 | 0.0155 | -0.0041 | -0.0202 to 0.0086 | 57% | 0.89 |
+| B11 | 0.0021 | 0.0052 | -0.0034 | -0.0174 to 0.0011 | 35% | 0.89 |
+| B12 | 0.0023 | 0.0046 | -0.0023 | -0.0121 to 0.0003 | 25% | 0.95 |
+
+The sign of the difference changes by lake. Over clear interior water, the median B02 difference is +0.0101 at Lake Tahoe and -0.0112 at Lake Okeechobee. Source: `summary.by_tile`.
+It is -0.0151 at Grand Lake St. Marys, -0.0079 at Lake Lanier, and -0.0029 at Lake Washington.
+Per scene-lake record, the median B04 difference ranges from -0.0556 to +0.0211, with quartiles at -0.0096 and +0.0040. 78 records have at least 100 clear-water interior pixels. Rule P8, `summary.record_median_spread`.
+Over all comparable pixels, cloud included, 51 to 88 percent of interior observations differ by more than 0.005 per band. Shoreline and near-land fall in the same range.
+In that subset, 354,125 interior B01 differences exceed 0.5 and sit at the histogram limit. Source: `summary.pooled`, key `clipped_at_limit`.
+Over clear interior water, Sen2Cor values are negative in 15 to 17 percent of B04 to B8A observations, and ACOLITE values in under 4 percent.
+In B11 and B12, ACOLITE values are negative in 32 and 22 percent, and Sen2Cor values in 9 and 5 percent.
+The five anchor lakes hold all but 25,109 of the clear-water interior observations. At 20 m, the smallest pilot lakes have none. Source: `summary.by_size`.
+
+### What T5 does not show
+
+- Which correction is closer to the water's true reflectance. Neither product is a reference, and field data are outside the assessment, assumptions A15 and A52.
+- Why the values differ. The product does not name its delivered quantity, finding 29, and the probe tests no cause.
+- Scenes before 2025, or tiles beyond the five pilot tiles.
+- The effect of rule P3 alone. Averaging the 10 m bands and taking the containing 60 m pixel add their own differences.
+- Whether a difference of this size matters to the model. The company's own experiments decide that, an open owner decision in the [work plan](work-plan.md).
+
+## Phase C probe T6: the access tests on the primary product, 2026-10-14
+
+Status: measured, awaiting review. The [T5 and T6 record](reviews/2026-10-14-phase-c-t5-t6.md) owns the commands and verification.
+Evidence: [aqr-workloads.json](../benchmarks/results/aqr-workloads.json). It collects each stage's summary from intermediate files under `data/aqr-workloads/`.
+Stages 2 to 4 ran their own unchanged scripts. Each Collection 1 candidate became the primary product of the same datastrip, finding 34, or dropped out.
+The product's B04, B08, B11, B01, and l2_flags stood in for red, nir, swir16, coastal, and the scene classification, all at 20 m.
+Every stage chose the same acquisitions as the Level-2A reference. That holds for 5 of 5 stage 2 scenes, 7 of 7 stage 3 tiles, and 8 of 8 stage 4 tiles. Source: `same_acquisitions` per stage.
+The Alaska region dropped out. Its Collection 1 candidates had no paired product in the window, so 4 lakes and 2 tiles have no run. Source: `stage2.scenes`.
+Stage 2 and 3 searches saw 1,473 Collection 1 candidates, and 815 had a product of the same datastrip. 58 products had no Earth Search Level-1C item of their input name. Source: `stage2.pairing`.
+All 100 product layers the stages read match their declared grid, data type, and no-data value. Source: `header_checks_after_run` per stage.
+Every request was unsigned. The laptop read over the internet, outside us-west-2, assumption A25. Times are not AWS estimates.
+
+### 36. Per lake, the primary product takes the same requests and about 40 percent of the bytes
+
+In stage 2, 26 lakes ran in both series on the same acquisitions. All four methods return identical values. Source: `stage2.summary.equality`.
+21 of the 26 lakes take 15 requests in both. Their five files cost 1.18 to 1.61 MB against 2.82 to 3.87 MB for Level-2A. Source: `stage2.summary.by_lake_method`.
+Per lake, the bytes fall to 32 to 43 percent of Level-2A's, median 41 percent, in every method. Median wall time falls to 94 percent.
+The saving sits in two files. The product's 20 m red and near-infrared windows cost about 0.44 MB, against about 1.5 MB for Level-2A's 10 m files.
+The other three files cost about the same in both. Each file still takes three requests.
+Three anchor lakes need fewer requests on the product. Lake Sidney Lanier takes 25 against 36, Lake Tahoe 30 against 37, and Lake Okeechobee 35 against 48.
+
+Stage 3 completed all 252 runs on seven tiles. Values agree across methods and patterns, and with stage 2 on all 110 shared lake bands. Source: `stage3.summary`.
+Windowed raster reads cost 30 to 40 percent of Level-2A's bytes. Whole-tile reads cost 37 to 39 percent, 127 to 154 MB per tile against 327 to 410 MB.
+One process per tile takes 62 to 82 percent of the requests of one process per lake, against 67 to 81 percent for Level-2A.
+The lazy stack's 2,048-pixel chunks cover four times the ground at 20 m. In one process per tile, its bytes stay at 65 to 114 percent of Level-2A's.
+
+Stage 4 completed on 11 lakes, 8 tiles, 2 acquisitions, and 25 lake-tile memberships, the reference's counts. Every repetition is complete, clean, and equal. Source: `stage4.summary`.
+
+| Path and method | Requests, Level-2A | Requests, product | MB, Level-2A | MB, product | Seconds, Level-2A | Seconds, product |
+|---|---|---|---|---|---|---|
+| Lake-first, raster | 494 | 450 | 325.1 | 117.1 | 100.1 | 68.3 |
+| Lake-first, lazy | 524 | 455 | 350.9 | 117.2 | 106.5 | 70.3 |
+| Tile-first, raster | 294 | 270 | 258.4 | 94.3 | 54.0 | 36.9 |
+| Tile-first, lazy | 466 | 585 | 573.8 | 438.0 | 102.9 | 96.1 |
+
+Medians of three repetitions. Level-2A values come from [cross-tile-extraction.json](../benchmarks/results/cross-tile-extraction.json), `summary.medians`.
+On the product, tile-first raster reads take 40 percent fewer requests and 19 percent fewer bytes than lake-first. Level-2A showed 40 and 20 percent.
+Output bytes fall from 688 to 340 MB. At 20 m the red and near-infrared bands carry a quarter of their 10 m pixels, and B01 nine times its 60 m pixels.
+
+### 37. Readers B1 and B3 read about 40 percent of Level-2A's bytes, at higher CPU per megabyte
+
+The workload part ran readers B1 and B3 through the unchanged larger-workload code, limits, and validation. Source: `workloads`.
+The Florida cohort kept the reference's 1,000 lakes, 4 products, and 1,092 lake-product memberships, on the same acquisition.
+The dispersed cohort kept 93 of 100 lakes. Seven had no complete product in June 2025 and were dropped. 98 of its 112 products are the reference's acquisitions.
+In both cohorts, B1 and B3 complete every block contribution and produce identical outputs. Source: `workloads.dispersed.comparisons` and `workloads.florida.comparisons`.
+
+| Cohort and reader | Seconds, Level-2A | Seconds, product | CPU s, Level-2A | CPU s, product | Requests, Level-2A | Requests, product | MB, Level-2A | MB, product | Peak GiB, Level-2A | Peak GiB, product |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Dispersed, B1 | 496.2 | 413.4 | 10.77 | 7.57 | 1,997 | 1,850 | 569.7 | 226.9 | 0.22 | 0.19 |
+| Dispersed, B3 | 457.2 | 350.7 | 24.38 | 18.66 | 2,143 | 1,980 | 534.9 | 210.3 | 0.29 | 0.26 |
+| Florida, B1 | 101.9 | 65.5 | 9.12 | 4.57 | 464 | 507 | 352.0 | 139.2 | 0.33 | 0.24 |
+| Florida, B3 | 67.7 | 46.5 | 10.54 | 5.74 | 513 | 555 | 337.3 | 136.2 | 0.30 | 0.26 |
+
+Seconds are elapsed extraction time. CPU is user plus system time. Peak is aggregate resident memory, supervision included.
+Level-2A values come from [lazy-reader-workloads.json](../benchmarks/results/lazy-reader-workloads.json). Its dispersed cohort had 100 lakes and 121 products, so that row pair is not one to one.
+On the product, B3 takes 15 percent less elapsed time than B1 for the dispersed cohort and 29 percent less for Florida. Level-2A showed 8 and 34 percent.
+On both sources, B3 uses more CPU and more requests than B1 and slightly fewer bytes.
+Florida takes 9 percent more requests on the product than on Level-2A, and its block contributions rise from 6,349 to 6,405.
+A block of the product's 20 m B01 file spans 10.24 km on the ground, against 15.36 km for Level-2A's 60 m file.
+The cost model calibrates on CPU seconds per requested megabyte, [estimate_aws_costs.py](../tools/estimate_aws_costs.py). Averaged over the two cohorts, B1 takes 0.033 on the product against 0.022 on Level-2A.
+B3 takes 0.065 against 0.038. Bytes fall further than CPU, so CPU per megabyte rises on the product.
+Selected pixel entries and logical output roughly halve. Logical output is 41.2 against 84.5 MB for the dispersed cohort, and 180.9 against 349.9 MB for Florida.
+Source: `workloads.dispersed.preparation` and `workloads.florida.preparation`.
+The first dispersed B1 attempt was interrupted after 25 of 112 products and replaced with the owner's authorization. The [T5 and T6 record](reviews/2026-10-14-phase-c-t5-t6.md) owns the details.
+
+### What T6 does not show
+
+- AWS throughput or cost. Times come from a laptop over the internet, assumption A25. The cost model is not re-parameterized here.
+- Whether the product's higher CPU per megabyte holds on AWS hardware.
+- A store of every layer. The replay reads the five counterparts of the earlier band set, and the product holds 13 raster layers.
+- Scenes the product lacks. Each part kept only acquisitions the product holds. Stages 2 to 4 matched the reference, and the dispersed cohort matched 98 of 112.
+- Probe T7, the overlap comparison on lakes in two tiles. Stage 4 kept value digests, not values, so T7 reads pixels and needs its own authorization.

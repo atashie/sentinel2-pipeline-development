@@ -12,7 +12,7 @@ Which quality assets does each collection deliver, and does that change with bas
 ## Bounds
 
 - Catalog metadata only. No imagery byte is read. No bucket is listed. No credentials are used.
-- Earth Search was the route when this survey ran on 2026-09-10. Since 2026-10-13 it is the supplementary route, assumption A13 and [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md). The survey's findings stand for that role.
+- Earth Search was the route when this survey ran on 2026-09-10. Since 2026-10-14 it is the Sen2Cor-only option, assumption A13 and [decision 0009](decisions/0009-standalone-options-join-deferred.md). The survey's findings stand for that option.
 - The Copernicus Data Space Ecosystem catalogs serve one purpose: a reference count of what ESA listed when the survey ran on 2026-09-10. They are not a route and are not compared for selection.
 - Every request is logged in the result file with host, path, status, bytes, and seconds.
 - One request stream, with a pause between requests and backoff on throttling.

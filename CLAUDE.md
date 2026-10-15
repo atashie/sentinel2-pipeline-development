@@ -9,11 +9,17 @@ build the production system. `README.md` is the human overview and the document 
 ## Current phase
 
 The owner re-scoped the assessment on 2026-10-13, [decision 0008](docs/decisions/0008-acolite-aquatic-reflectance-first.md).
-The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states. Earth Search Level-2A is supplementary.
+On 2026-10-14 the owner made the two sources standalone options, [decision 0009](docs/decisions/0009-standalone-options-join-deferred.md): ACOLITE only or Sen2Cor only.
+Neither fills or flags the other, and the scene join is deferred. ACOLITE stays the initial primary source, assumption A52.
 The [replan record](docs/reviews/2026-10-13-acolite-first-replan.md) owns the owner's directions, the tests T1 to T9, and the phases A to F.
 Phase A restated the planning documents on 2026-10-13. Its [record](docs/reviews/2026-10-13-phase-a-rescope.md) awaits owner review.
-Phase B, Discovery II, ran on 2026-10-13 under owner authorization. Its [record](docs/reviews/2026-10-13-phase-b-discovery-ii.md) awaits review. Phase C needs owner authorization.
-Phase B bound the primary product's documented facts and ran metadata probes T1 to T3, measurement findings 26 to 28. One authorized crop is finding 29. No pixel test describes the primary product yet.
+Phase B, Discovery II, ran on 2026-10-13 under owner authorization. Its [record](docs/reviews/2026-10-13-phase-b-discovery-ii.md) awaits review.
+Phase B bound the primary product's documented facts and ran metadata probes T1 to T3, measurement findings 26 to 28. One authorized crop is finding 29.
+The owner authorized Phase C step 1, probe T4, on 2026-10-13. It measured pixel validity on the pilot lakes, findings 30 to 33. Its [record](docs/reviews/2026-10-13-phase-c-t4-validity.md) awaits review.
+On 2026-10-14 the owner decided that shoreline and near-land values stay with the primary product, issue I-35. The [direction record](docs/reviews/2026-10-14-standalone-options-direction.md) awaits review.
+The owner authorized probes T5 and T6 on 2026-10-14. T5, findings 34 and 35, and T6, findings 36 and 37, ran that day. Their [record](docs/reviews/2026-10-14-phase-c-t5-t6.md) awaits review.
+The same day the cost model was re-parameterized per option from T1, T2, and T6. Its [record](docs/reviews/2026-10-14-phase-c-cost-options.md) awaits review.
+The workload supervisor needs 5 GiB of free memory to start a worker. Each later Phase C step needs owner authorization.
 Discovery and the gap surveys for the Level-2A route are complete. Prototyping has laptop measurements for Stages 1 to 4 on Level-2A files, the reference series.
 Claude Code [reviewed Stage 4](docs/reviews/2026-09-16-claude-stage-4-full-run-review.md) and verified its extraction evidence.
 The owner accepted the [response](docs/reviews/2026-09-16-codex-stage-4-review-response.md) on 2026-09-17. It corrects interpretation and future selection.
@@ -54,6 +60,9 @@ uv run python benchmarks/lake_extraction.py --dry-run   # print the stage 2 plan
 uv run python benchmarks/tile_extraction.py --dry-run   # print the stage 3 plan, no network
 uv run python benchmarks/cross_tile_extraction.py --dry-run   # print the stage 4 workload, no network
 uv run python benchmarks/lazy_reader_workloads.py            # print the larger-workload plan, no network
+uv run python benchmarks/aqr_validity.py --dry-run   # print the probe T4 plan and its declared rules, no network
+uv run python benchmarks/aqr_pairs.py --dry-run      # print the probe T5 plan and its declared rules, no network
+uv run python benchmarks/aqr_workloads.py            # print the probe T6 plan, no network
 uv run python tools/collate_checks.py --check && uv run python tools/collate_sensor_bands.py --check && uv run python tools/render_options.py --check && uv run python tools/gap_report.py --check
 python3 ~/github/cc-skills/html-review-comments/scripts/inject.py tools/s2-options.template.html --config "$(cat tools/review-layer.json)" --check   # review-comment layer, no network
 ```
@@ -65,6 +74,9 @@ and the Copernicus catalogs, and `benchmarks/fallback_survey.py` adds header-onl
 Neither reads a pixel. Such scripts run only to produce a measurement that a document cites, and only when the user
 invokes them. Requester-pays buckets charge the reader. Record bucket or endpoint, region, and payer in every result.
 `tools/build_pilot_manifest.py --fetch` contacts the USGS hydrography service for polygons only, and runs only when the owner asks.
+`benchmarks/aqr_validity.py` reads pilot-lake windows from the USGS aquatic reflectance bucket and Level-2A scene classification windows. It runs only when the user invokes it.
+`benchmarks/aqr_pairs.py` reads the same windows from the USGS bucket and the paired Collection 1 bands.
+`benchmarks/aqr_workloads.py` replays stages 2 to 4 and readers B1 and B3 on the USGS bucket. Each runs only when the user invokes it.
 `benchmarks/raw_access.py` and `benchmarks/copy_difference.py` read pixels from both public GeoTIFF buckets. `benchmarks/lake_extraction.py` reads lake windows from the Collection 1 bucket. `benchmarks/tile_extraction.py` reads every lake of a tile, windowed or whole. They run only when the user invokes them. `--dry-run` contacts nothing. `--reuse DIR` still queries the catalog, then repeats only what a saved pass did not measure. `--resummarize RESULT` recomputes a summary offline.
 
 `benchmarks/cross_tile_extraction.py` separates metadata selection from imagery extraction.
@@ -115,10 +127,11 @@ The owner authorized one public image crop for the presentation on 2026-09-11. T
 - Keep unvalidated specifications null. Every populated claim needs primary evidence and an independent check.
 - The assessment has four phases: discovery, prototyping, integration specs, and tradeoffs. Discovery compares
   access routes, processing workflows, compute platforms, and storage layouts. It does not rank vendors.
-- The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states (assumption A13,
-  decision 0008). Phase B documented or measured its metadata facts on 2026-10-13. Pixel behavior stays `unverified` until probe T4.
-  Earth Search Level-2A is supplementary: Collection 1 GeoTIFF assets
-  first, the older collection's GeoTIFF assets as fallback (decision 0004). Non-AWS and managed options are context, never compared for selection.
+- Two source options are compared, each used alone (assumption A13, decision 0009). ACOLITE only is the USGS ACOLITE aquatic reflectance product,
+  the primary product, for water pixels in the lower 48 states. Phase B documented or measured its metadata facts on 2026-10-13. Probe T4 measured pixel validity on the pilot lakes, findings 30 to 33.
+  ACOLITE is treated as designed for water and is the initial primary source. Form no view on whether ACOLITE or Sen2Cor performs better until the company's own experiments (assumption A52).
+  Sen2Cor only is Earth Search Level-2A: Collection 1 GeoTIFF assets first, the older collection's GeoTIFF assets as fallback (decision 0004).
+  Neither option fills or flags the other. Do not design a scene join until evidence proves the model needs one. Non-AWS and managed options are context, never compared for selection.
 - The store serves raw band values and quality flags. It serves no derived water-quality index (assumption A1).
 - Customer polygons never enter this repository. Prototypes use public water-body polygons (assumption A8).
 - Specifications name no orchestrator (assumption A12). Describe work as idempotent units with declared inputs and outputs.
@@ -139,14 +152,19 @@ Each gotcha points to its canonical claim in [docs/s2-best-practices.md](docs/s2
 inventory, or its finding in [docs/measurements.md](docs/measurements.md). Numbers live there, not here.
 
 - Measurement findings 1 to 25 and the gotchas below describe Level-2A files from Earth Search, the reference series of
-  assumption A50. Findings 26 to 29 describe the primary product's metadata and one crop. Decision 0008.
-- GDAL reports scale 1 and offset 0 for the primary product, its defaults. USGS documents a factor of 10,000. In the one crop read,
-  the flags layer holds the ACOLITE flag integer times 10,000, and land pixels carry values with flags. Findings 26 and 29.
+  assumption A50. Findings 26 to 29 describe the primary product's metadata and one crop. Findings 30 to 33 describe its pixels.
+  Findings 34 and 35 compare the two options' values. Findings 36 and 37 describe access on the primary product. Decision 0008.
+- Inside the primary product's scene, every pilot-lake pixel holds a value in every band and class. No-data marks pixels ACOLITE
+  flags out of scene. NDWI is (B03 - B8A) / (B03 + B8A) times 10,000. Findings 30 and 32.
+- Each primary product is a standalone observation. The bucket can hold two products of one pass on one tile, one per datastrip. Keep both, never the latest only. Finding 30, decision 0009.
+- GDAL reports scale 1 and offset 0 for the primary product, its defaults. USGS documents a factor of 10,000. In every pixel probe T4
+  read, the flags layer holds the ACOLITE flag integer times 10,000, and land pixels carry values with flags. Findings 26, 29, and 30.
 - USGS documents ACOLITE 20221114.0, but the probed settings files carry the keys of release 20250402.0. Read the processor
   version per scene, never from the documentation. Finding 26, issue I-34.
-- The primary product holds about half of Earth Search's acquisitions, mostly from original Level-1C baselines. A Level-2A
-  join by tile, platform, and sensing start finds the same baseline for 51 percent with Collection 1 first, 58 percent with either.
-  Findings 27 and 28, issues I-32 and I-40.
+- The primary product holds about half of Earth Search's acquisitions, mostly from original Level-1C baselines. Under ACOLITE only, the rest stay missing.
+  A deferred Level-2A join by tile, platform, and sensing start would reach the same baseline for 51 percent. Its key identifies a pass, not one item.
+  The Level-1C datastrip identified one Collection 1 item for each of 59 products, finding 34. Probes use it for pairing only. Decision 0009 still defers any join.
+  Findings 27, 28, and 30, issues I-32 and I-40.
 - Level-2A bands have three native resolutions, and the primary product has one 20 m grid. Every water body is stored as
   three pixel classes per source grid (assumption A20). A 10 m pond has no interior pixel. Claim G3, practice P6.
 - **Cross-tile mosaicking is a MAJOR CONCERN (issue I-30). The store never mosaics.** Tiles overlap and differ
@@ -172,6 +190,8 @@ inventory, or its finding in [docs/measurements.md](docs/measurements.md). Numbe
   also Element 84's, and no page names the bucket owner. Neither GeoTIFF bucket is requester pays. Inventory claims
   `operator` and `source_dataset`, findings F-21 and F-22, probe PR-08.
 - On one product and three bands, the older copy's integer is Collection 1's minus 1,000, clamped to 1, on every pixel checked. The offset is already applied and reflectance at or below zero is lost. Its catalog still declares the offset. Its cloud and snow assets are JPEG 2000 links outside the GeoTIFF benchmark, and its aerosol and water-vapor grids differ. Measurement findings 14 and 15.
+- On the primary product, small lakes take the same 15 requests and about 40 percent of Level-2A's bytes. The saving is in the red and near-infrared
+  files. A 2,048-pixel lazy chunk covers four times the ground at 20 m. B1 and B3 take more CPU per requested megabyte. Findings 36 and 37.
 - Small-lake reads usually fit in one internal block per file. 24 of 25 in the pilot took 15 requests and 3 to 4 MB for five files, whatever the pixel count. One lake across a block boundary cost 20 requests. Requests are HTTP requests, not blocks. GDAL's all-touched rasterization and the coverage threshold select differently on a few hundred pixels out of millions. Pixel classes come from exact areas, `src/s2proto/masks.py`, and every distance is measured to the real boundary, never to a tile edge. Measurement findings 16 and 17.
 - Catalog grid codes are not normalized. The same Alaska tile appears as `MGRS-05VMG` and `MGRS-5VMG`. Measurement finding 18. `benchmarks/tile_extraction.py` normalizes them.
 - Reading every lake of a tile in one process cuts the requests by more than half against one process per lake. A block one lake loaded serves the next, and reopening a file per lake forfeits the block cache. A whole-tile read costs many times the windowed bytes at the pilot's density. The lazy stack's per-lake computes on a shared graph re-read whole chunks. `rasterio.Env` takes `GDAL_CACHEMAX` in bytes, and the environment variable takes megabytes. The stage 3 run of 2026-09-15 held a 512-byte cache and was rerun. Measurement findings 19 to 22.

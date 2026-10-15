@@ -16,6 +16,11 @@ REPORT = ROOT / "docs/aws-cost-analysis.md"
 EVIDENCE = ROOT / "benchmarks/results/lazy-reader-workloads.json"
 COHORTS = ROOT / "docs/cost-analysis/cohort-blocks.json"
 SURVEY = ROOT / "benchmarks/results/gap-survey.json"
+AQR_OUTPUT = ROOT / "docs/cost-analysis/estimates-acolite-only.json"
+AQR_EVIDENCE = ROOT / "benchmarks/results/aqr-workloads.json"
+AQR_COHORTS = ROOT / "docs/cost-analysis/aqr-cohort-blocks.json"
+AQR_COVERAGE = ROOT / "benchmarks/results/aqr-coverage.json"
+OPTIONS = ("sen2cor_only", "acolite_only")
 GIB = 2**30
 TIB = 2**40
 
@@ -58,9 +63,14 @@ def cpu_wall_seconds(cpu_seconds, memory_gib, parallel_fraction, max_threads):
     return cpu_seconds * (serial + parallel)
 
 
+def grids(settings):
+    """Native grids the store keeps: three for Level-2A, one for the primary product."""
+    return len(settings["value_bytes_per_grid_pixel"])
+
+
 def object_count(history_bytes, months, active_tiles, settings):
     """Compare tile-month partitions with cross-tile compaction per grid-month."""
-    groups = 3 * math.ceil(months)
+    groups = grids(settings) * math.ceil(months)
     target = settings["target_object_bytes"]
     if settings["object_layout"] == "tile_month":
         return math.ceil(max(groups * active_tiles, history_bytes / target))
@@ -93,15 +103,12 @@ def fit_concentration(draws, cells, fraction, target):
     return (lo + hi) / 2
 
 
-def calibration():
-    evidence = json.loads(EVIDENCE.read_text())
-    blocks = json.loads(COHORTS.read_text())
-    settings = json.loads(INPUT.read_text())
-    assert blocks["evidence_sha256"] == hashlib.sha256(EVIDENCE.read_bytes()).hexdigest()
+def reader_calibration(cohorts, blocks, readers):
+    """CPU per requested MB from the trials, and requested per decoded byte from block checks."""
     result = {}
-    for code, original in {"A1": "A-raster", "B1": "B-raster", "B3": "B-lazy"}.items():
+    for code, original in readers.items():
         rows = []
-        for name, cohort in evidence["cohorts"].items():
+        for name, cohort in cohorts.items():
             row = next(r for r in cohort["comparisons"] if r["configuration"] == original)
             cpu = sum(row["cpu"].values())
             rows.append(
@@ -122,6 +129,54 @@ def calibration():
             result[code]["requested_per_decoded_byte"] = sum(
                 c["requested_to_decoded_ratios"][original] for c in blocks["cohorts"].values()
             ) / len(blocks["cohorts"])
+    return result
+
+
+def spatial_fit(blocks, settings):
+    """Fit one concentration parameter to Florida's unique red blocks."""
+    florida = blocks["cohorts"]["florida"]
+    pool_per_product = (
+        settings["blocks_per_tile_proxy"] * settings["cases"]["base"]["accessible_block_fraction"]
+    )
+    fraction = settings["cases"]["base"]["concentrated_fraction"]
+    mass = fit_concentration(
+        florida["by_band"]["red"]["logical_blocks"],
+        florida["products"] * pool_per_product,
+        fraction,
+        florida["by_band"]["red"]["unique_blocks"],
+    )
+    return {
+        "training": "florida",
+        "fitted_concentrated_mass": mass,
+        "fixed_concentrated_fraction": fraction,
+        "fixed_pool_per_product": pool_per_product,
+        "checks": [
+            {
+                "cohort": name,
+                "role": "fit" if name == "florida" else "sparse_holdout",
+                "actual_unique_red_blocks": c["by_band"]["red"]["unique_blocks"],
+                "predicted_unique_red_blocks": occupancy(
+                    c["by_band"]["red"]["logical_blocks"],
+                    c["products"] * pool_per_product,
+                    fraction,
+                    mass,
+                ),
+            }
+            for name, c in blocks["cohorts"].items()
+        ],
+    }
+
+
+def calibration(option="sen2cor_only"):
+    if option == "acolite_only":
+        return aqr_calibration()
+    evidence = json.loads(EVIDENCE.read_text())
+    blocks = json.loads(COHORTS.read_text())
+    settings = json.loads(INPUT.read_text())
+    assert blocks["evidence_sha256"] == hashlib.sha256(EVIDENCE.read_bytes()).hexdigest()
+    result = reader_calibration(
+        evidence["cohorts"], blocks, {"A1": "A-raster", "B1": "B-raster", "B3": "B-lazy"}
+    )
     result["byte_calibration"] = {
         "cohorts": [
             {
@@ -141,36 +196,34 @@ def calibration():
         "cross_cohort_holdouts": blocks["cross_cohort_holdouts"],
         "qualification": "Holdouts condition on actual blocks. National occupancy is unvalidated.",
     }
-    florida = blocks["cohorts"]["florida"]
-    pool_per_product = (
-        settings["blocks_per_tile_proxy"] * settings["cases"]["base"]["accessible_block_fraction"]
-    )
-    fraction = settings["cases"]["base"]["concentrated_fraction"]
-    mass = fit_concentration(
-        florida["by_band"]["red"]["logical_blocks"],
-        florida["products"] * pool_per_product,
-        fraction,
-        florida["by_band"]["red"]["unique_blocks"],
-    )
-    result["byte_calibration"]["spatial_fit"] = {
-        "training": "florida",
-        "fitted_concentrated_mass": mass,
-        "fixed_concentrated_fraction": fraction,
-        "fixed_pool_per_product": pool_per_product,
-        "checks": [
+    result["byte_calibration"]["spatial_fit"] = spatial_fit(blocks, settings)
+    return result
+
+
+def aqr_calibration():
+    """Probe T6 replayed readers B1 and B3 on the primary product. A1 has no product trial."""
+    evidence = json.loads(AQR_EVIDENCE.read_text())
+    blocks = json.loads(AQR_COHORTS.read_text())
+    settings = json.loads(INPUT.read_text())
+    assert blocks["evidence_sha256"] == hashlib.sha256(AQR_EVIDENCE.read_bytes()).hexdigest()
+    result = reader_calibration(evidence["workloads"], blocks, {"B1": "B-raster", "B3": "B-lazy"})
+    result["byte_calibration"] = {
+        "cohorts": [
             {
                 "cohort": name,
-                "role": "fit" if name == "florida" else "sparse_holdout",
-                "actual_unique_red_blocks": c["by_band"]["red"]["unique_blocks"],
-                "predicted_unique_red_blocks": occupancy(
-                    c["by_band"]["red"]["logical_blocks"],
-                    c["products"] * pool_per_product,
-                    fraction,
-                    mass,
-                ),
+                "memberships_per_product": c["lake_product_memberships"] / c["products"],
+                "logical_to_unique_decoded_ratio": c["total"]["logical_decoded_bytes"]
+                / c["total"]["unique_decoded_bytes"],
+                "decoded_fraction_of_full": c["unique_decoded_fraction_of_full"],
             }
             for name, c in blocks["cohorts"].items()
         ],
+        "cross_cohort_holdouts": blocks["cross_cohort_holdouts"],
+        "qualification": (
+            "Holdouts condition on actual blocks. National occupancy is unvalidated. "
+            "Reader A1 was not replayed on the product."
+        ),
+        "spatial_fit": spatial_fit(blocks, settings),
     }
     return result
 
@@ -218,8 +271,66 @@ def survey_rates():
     }
 
 
+@lru_cache(maxsize=1)
+def aqr_rates():
+    """Primary-product acquisitions on survey_rates' tiles and months, from probe T2 listings."""
+    reference = survey_rates()
+    survey = json.loads(SURVEY.read_text())
+    coverage = json.loads(AQR_COVERAGE.read_text())
+    tiles = {tile["tile"]: tile for tile in coverage["tiles"]}
+    ids = reference["tile_ids"]
+    window = [m for m in survey["window"]["months"] if m < "2026-09"]
+    index = {month: i for i, month in enumerate(coverage["months"])}
+    counts = {m: sum(tiles[t]["monthly"]["aqr"][index[m]] for t in ids) for m in window}
+    earth_search = {
+        m: sum(tiles[t]["monthly"]["earth_search_any"][index[m]] for t in ids) for m in window
+    }
+    recent = {m: n for m, n in counts.items() if m >= "2025-09"}
+    annual = {
+        str(year): sum(n for m, n in counts.items() if m.startswith(str(year))) / len(ids)
+        for year in range(2021, 2026)
+    }
+    acquisitions = sum(tiles[t]["acquisitions"] for t in ids)
+    duplicates = sum(tiles[t]["duplicate_acquisitions"] for t in ids)
+    return {
+        "source": "benchmarks/results/aqr-coverage.json, probe T2",
+        "bucket": coverage["endpoints"]["bucket"],
+        "region": coverage["endpoints"]["region"],
+        "payer": coverage["endpoints"]["payer"],
+        "tile_ids": ids,
+        "site_ids": reference["site_ids"],
+        "annual_tile_acquisitions": annual,
+        "early_annual_tile_rate": sum(annual[str(y)] for y in range(2021, 2025)) / 4,
+        "recent_annual_tile_rate": sum(recent.values()) / len(ids),
+        "recent_monthly_counts": recent,
+        "recent_peak_month_count_over_mean": max(recent.values()) / (sum(recent.values()) / 12),
+        "historical_complete_month_epochs": sum(counts.values()) / len(ids),
+        "historical_complete_month_end": reference["historical_complete_month_end"],
+        "historical_share_of_earth_search_any": sum(counts.values()) / sum(earth_search.values()),
+        "replacement_2022_epochs": None,
+        "products_per_acquisition": (acquisitions + duplicates) / acquisitions,
+        "listed_scenes": sum(tiles[t]["scenes"] for t in ids),
+        "listed_scenes_without_full_layer_set": sum(
+            tiles[t]["scenes_without_observed_layers_count"] for t in ids
+        ),
+        "products_per_acquisition_period": "every listed product of the 23 tiles, 2015 to 2026",
+        "qualification": (
+            "Bucket listings on purpose-selected tiles, not national rates or valid pixel "
+            "observations. An acquisition is a sensing date and platform on one tile. A "
+            "repeat product of one acquisition, a reprocessed copy or a same-baseline "
+            "product, counts once here and again in products_per_acquisition. Counts "
+            "include listed scenes without the full layer set."
+        ),
+    }
+
+
+def rate_evidence(settings):
+    """Acquisition counts for the option: Earth Search Level-2A or the primary product."""
+    return aqr_rates() if settings["acquisition_evidence"] == "aqr_coverage" else survey_rates()
+
+
 def acquisition_rates(settings, case):
-    evidence = survey_rates()
+    evidence = rate_evidence(settings)
     days = (
         date.fromisoformat(settings["end_exclusive"]) - date.fromisoformat(settings["start"])
     ).days
@@ -261,10 +372,10 @@ def estimate(settings, case, sample, land, calibration_rows, rate_override=None)
     radius = s["land_radius_km"] if land else 0
     buffer = c["buffer_retention"] * (radius * perimeter + math.pi * radius**2 * n)
     pixels = {}
-    for resolution in (10, 20, 60):
-        r = resolution / 1000
+    for resolution in s["value_bytes_per_grid_pixel"]:
+        r = int(resolution) / 1000
         water_shore = water / r**2 + 2 * perimeter / (math.pi * r) + n
-        pixels[str(resolution)] = max(water_shore, (water + buffer) / r**2)
+        pixels[resolution] = max(water_shore, (water + buffer) / r**2)
     years = (date.fromisoformat(s["end_exclusive"]) - date.fromisoformat(s["start"])).days / 365.25
     acquisitions = years * c["acquisitions_per_year"]
     retained_epochs = acquisitions * c["pixel_overlap"] * c["revisions"]
@@ -307,10 +418,10 @@ def estimate(settings, case, sample, land, calibration_rows, rate_override=None)
     tile_dates = active_tiles * years * rates["tile"]
     source_epochs = years * rates["tile"] * c["revisions"]
     months = years * 12
-    # Three native-grid partitions per occupied tile-month. Larger partitions split.
+    # One partition per native grid and occupied tile-month. Larger partitions split.
     objects = object_count(history_bytes, months, active_tiles, s)
     daily_puts = max(
-        3 * active_tiles * rates["tile"] * c["revisions"] / 365.25,
+        grids(s) * active_tiles * rates["tile"] * c["revisions"] / 365.25,
         daily_bytes / s["target_object_bytes"],
     )
     # Backfill batches write final objects plus retry/compaction allowance.
@@ -401,7 +512,7 @@ def estimate(settings, case, sample, land, calibration_rows, rate_override=None)
             result["sample_area_SD_by_uncalibrated_large_lake_CV"][str(cv)] = math.sqrt(
                 n * (varied_second - mean**2) * (c["population"] - n) / (c["population"] - 1)
             )
-    for recipe in ("A1", "B1", "B3"):
+    for recipe in s["recipes"]:
         # Native payload replaces a free-standing compressed MB-per-block assumption.
         decoded_bytes_per_block = sum(
             block_km**2 * 1e6 / int(r) ** 2 * size
@@ -436,6 +547,8 @@ def estimate(settings, case, sample, land, calibration_rows, rate_override=None)
                 memberships * rates["point"] / rates["tile"] * c["a1_metadata_cache_miss_fraction"]
             )
         source_requests += metadata_opens * source_epochs * s["source_files"] * 2
+        # The primary product ships a settings text file, read whole once per product.
+        source_requests += active_tiles * source_epochs * s["text_files_per_product"]
         cpu_seconds = (
             source_mb
             * calibration_rows[recipe]["cpu_seconds_per_requested_MB"]
@@ -546,7 +659,7 @@ def storage_and_serving(settings, row):
     objects = row["archive_objects"]
     daily = (
         row["daily_new_GiB"]
-        * survey_rates()["recent_annual_tile_rate"]
+        * rate_evidence(settings)["recent_annual_tile_rate"]
         / row["annual_rates"]["tile"]
     )
     recent = min(history / GIB, 30 * daily)
@@ -709,25 +822,28 @@ def sensitivities(settings, calibrated, estimates):
     result["object_layouts"] = []
     for sample in (False, True):
         for land in (True, False):
+            workload = ("sample" if sample else "all") + ("_land" if land else "_water_shore")
+            base_row = next(e for e in base if e["workload"] == workload)
             varied = copy.deepcopy(settings)
-            varied["a1_byte_mode"] = "legacy_extrapolation"
-            legacy = estimate(varied, "base", sample, land, calibrated)
-            base_row = next(e for e in base if e["workload"] == legacy["workload"])
-            result["a1_extrapolation"].append(
-                {
-                    "workload": legacy["workload"],
-                    "observed_ratio_envelope_usd": base_row["recipes"]["A1"][
-                        "historical_ec2_total_including_prep_put_usd"
-                    ],
-                    "extrapolated_repeat_reads_usd": legacy["recipes"]["A1"][
-                        "historical_ec2_total_including_prep_put_usd"
-                    ],
-                    "extrapolated_A1_B1_source_ratio": legacy["recipes"]["A1"][
-                        "historical_requested_TB_decimal"
-                    ]
-                    / legacy["recipes"]["B1"]["historical_requested_TB_decimal"],
-                }
-            )
+            # A1 exists only where a trial measured it, on Level-2A.
+            if "A1" in settings["recipes"]:
+                varied["a1_byte_mode"] = "legacy_extrapolation"
+                legacy = estimate(varied, "base", sample, land, calibrated)
+                result["a1_extrapolation"].append(
+                    {
+                        "workload": legacy["workload"],
+                        "observed_ratio_envelope_usd": base_row["recipes"]["A1"][
+                            "historical_ec2_total_including_prep_put_usd"
+                        ],
+                        "extrapolated_repeat_reads_usd": legacy["recipes"]["A1"][
+                            "historical_ec2_total_including_prep_put_usd"
+                        ],
+                        "extrapolated_A1_B1_source_ratio": legacy["recipes"]["A1"][
+                            "historical_requested_TB_decimal"
+                        ]
+                        / legacy["recipes"]["B1"]["historical_requested_TB_decimal"],
+                    }
+                )
             varied["object_layout"] = "tile_month"
             tiled = estimate(varied, "base", sample, land, calibrated)
             result["object_layouts"].append(
@@ -874,7 +990,7 @@ def daily_estimate(settings, row, calibrated, rate_override=None):
     s, p = settings, settings["prices"]
     d = s["daily_updates"]
     c, u = s["cases"][row["case"]], d["cases"][row["case"]]
-    tile_rate = survey_rates()["recent_annual_tile_rate"]
+    tile_rate = rate_evidence(s)["recent_annual_tile_rate"]
     rates = rate_override or {"tile": tile_rate, "point": tile_rate * u["point_to_tile_fraction"]}
     forward = estimate(
         s,
@@ -893,7 +1009,7 @@ def daily_estimate(settings, row, calibrated, rate_override=None):
     geometry_gets = products * max(
         1, math.ceil(row["bodies"] / row["active_tiles"] / s["bodies_per_mask_object"])
     )
-    daily_objects = max(3 * products, daily_bytes / s["target_object_bytes"])
+    daily_objects = max(grids(s) * products, daily_bytes / s["target_object_bytes"])
     compact_objects = object_count(daily_bytes * month_days, 1, row["active_tiles"], s)
     daily_request_cost = (
         (daily_objects + compact_objects / month_days) * p["s3_put_per_1000"]
@@ -949,8 +1065,12 @@ def daily_estimate(settings, row, calibrated, rate_override=None):
         "storage_forecasts_by_annual_reserve": storage,
         "recipes": {},
     }
-    replacement_fraction = survey_rates()["replacement_2022_epochs"] / (
-        row["annual_rates"]["tile"] * days / 365.25
+    # The 2022 event replaces Collection 1's missing months. It has no primary-product analog.
+    replacement_epochs = rate_evidence(s)["replacement_2022_epochs"]
+    replacement_fraction = (
+        None
+        if replacement_epochs is None
+        else replacement_epochs / (row["annual_rates"]["tile"] * days / 365.25)
     )
     for code, r in forward["recipes"].items():
         baseline = row["recipes"][code]
@@ -1043,7 +1163,9 @@ def daily_estimate(settings, row, calibrated, rate_override=None):
                 }
                 for f in d["annual_reprocessing_fractions"]
             ],
-            "conditional_2022_replacement": {
+            "conditional_2022_replacement": None
+            if replacement_fraction is None
+            else {
                 "historical_acquisition_fraction": replacement_fraction,
                 "ec2_usd": campaign_costs["ec2"] * replacement_fraction,
                 "lambda_usd": campaign_costs["lambda"] * replacement_fraction,
@@ -1098,9 +1220,43 @@ def daily_estimate(settings, row, calibrated, rate_override=None):
     return result
 
 
-def build():
+def option_settings(option="sen2cor_only"):
+    """Merge one option's measured inputs over the shared inputs. Every other input is shared."""
     settings = json.loads(INPUT.read_text())
-    calibrated = calibration()
+    config = settings["options"][option]
+    for key, value in config["overrides"].items():
+        if key == "cases":
+            for case, values in value.items():
+                settings["cases"][case].update(values)
+        else:
+            settings[key] = value
+    if config.get("measured_base_revisions"):
+        settings["cases"]["base"]["revisions"] = aqr_rates()["products_per_acquisition"]
+    settings["option"] = option
+    return settings
+
+
+def rate_scenarios(settings):
+    """Forward-rate scenarios. The primary product's comparator is the Level-2A history."""
+    recent = rate_evidence(settings)["recent_annual_tile_rate"]
+    first = (
+        ("Legacy 73", {"tile": 73, "point": 73})
+        if settings["option"] == "sen2cor_only"
+        else (
+            "Sen2Cor-only history",
+            acquisition_rates(dict(settings, acquisition_evidence="gap_survey"), "base"),
+        )
+    )
+    return (
+        first,
+        ("Recent tile, half point", {"tile": recent, "point": recent / 2}),
+        ("Recent tile, full point", {"tile": recent, "point": recent}),
+    )
+
+
+def build(option="sen2cor_only"):
+    settings = option_settings(option)
+    calibrated = calibration(option)
     estimates = [
         estimate(settings, case, sample, land, calibrated)
         for sample in (False, True)
@@ -1112,23 +1268,7 @@ def build():
     for row in estimates:
         if row["case"] != "base":
             continue
-        for label, rates in (
-            ("Legacy 73", {"tile": 73, "point": 73}),
-            (
-                "Recent tile, half point",
-                {
-                    "tile": survey_rates()["recent_annual_tile_rate"],
-                    "point": survey_rates()["recent_annual_tile_rate"] / 2,
-                },
-            ),
-            (
-                "Recent tile, full point",
-                {
-                    "tile": survey_rates()["recent_annual_tile_rate"],
-                    "point": survey_rates()["recent_annual_tile_rate"],
-                },
-            ),
-        ):
+        for label, rates in rate_scenarios(settings):
             varied = estimate(
                 settings,
                 "base",
@@ -1153,21 +1293,32 @@ def build():
                     ],
                 }
             )
-    return {
+    evidence, blocks = (
+        (AQR_EVIDENCE, AQR_COHORTS) if option == "acolite_only" else (EVIDENCE, COHORTS)
+    )
+    data = {
         "status": "estimated, not measured",
+        "option": option,
+        "option_label": settings["options"][option]["label"],
         "as_of": settings["as_of"],
         "input_sha256": hashlib.sha256(INPUT.read_bytes()).hexdigest(),
-        "evidence_sha256": hashlib.sha256(EVIDENCE.read_bytes()).hexdigest(),
+        "evidence_sha256": hashlib.sha256(evidence.read_bytes()).hexdigest(),
         "model_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-        "cohort_blocks_sha256": hashlib.sha256(COHORTS.read_bytes()).hexdigest(),
+        "cohort_blocks_sha256": hashlib.sha256(blocks.read_bytes()).hexdigest(),
         "survey_sha256": hashlib.sha256(SURVEY.read_bytes()).hexdigest(),
-        "survey_rate_evidence": survey_rates(),
+        "survey_rate_evidence": rate_evidence(settings),
         "calibration": calibrated,
         "estimates": estimates,
         "daily_updates": daily,
         "rate_sensitivity": rate_sensitivity,
         "sensitivities": sensitivities(settings, calibrated, estimates),
     }
+    if option == "acolite_only":
+        data["coverage_sha256"] = hashlib.sha256(AQR_COVERAGE.read_bytes()).hexdigest()
+        data["option_inputs"] = {
+            key: settings[key] for key in settings["options"][option]["overrides"] if key != "cases"
+        } | {"base_revisions": settings["cases"]["base"]["revisions"]}
+    return data
 
 
 def report_tables(data):
@@ -1732,32 +1883,367 @@ def report_tables(data):
     return "\n".join(sections)
 
 
-def render_report(data):
-    start = "<!-- BEGIN GENERATED COST TABLES -->"
-    end = "<!-- END GENERATED COST TABLES -->"
-    existing = REPORT.read_text()
+NAMES = {
+    "all_land": "All, with land",
+    "all_water_shore": "All, water + shore",
+    "sample_land": "10,000, with land",
+    "sample_water_shore": "10,000, water + shore",
+}
+
+
+def option_tables(sen2cor, acolite):
+    """Compare the two standalone options from their generated estimates only."""
+    sections = []
+
+    def table(title, headers, rows):
+        sections.extend([f"### {title}", "", "| " + " | ".join(headers) + " |"])
+        sections.append("| " + " | ".join("---" for _ in headers) + " |")
+        sections.extend("| " + " | ".join(map(str, row)) + " |" for row in rows)
+        sections.append("")
+
+    def base(data, key="estimates"):
+        return {r["workload"]: r for r in data[key] if r["case"] == "base"}
+
+    s_est, a_est = base(sen2cor), base(acolite)
+    s_day, a_day = base(sen2cor, "daily_updates"), base(acolite, "daily_updates")
+    s_cal, a_cal = sen2cor["calibration"], acolite["calibration"]
+    s_rate, a_rate = sen2cor["survey_rate_evidence"], acolite["survey_rate_evidence"]
+    inputs = acolite["option_inputs"]
+    s_fit = s_cal["byte_calibration"]["spatial_fit"]["fitted_concentrated_mass"]
+    a_fit = a_cal["byte_calibration"]["spatial_fit"]["fitted_concentrated_mass"]
+    table(
+        "Inputs set per option",
+        ["Input", "Sen2Cor only", "ACOLITE only", "ACOLITE evidence"],
+        [
+            ["Native grids kept", "10, 20, and 60 m", "20 m", "T1"],
+            [
+                "Bytes kept per grid pixel",
+                "12, 15, and 4",
+                inputs["value_bytes_per_grid_pixel"]["20"],
+                "T1",
+            ],
+            ["GeoTIFF layers per product", 17, inputs["source_files"], "T1"],
+            ["Text files per product", 0, inputs["text_files_per_product"], "T1"],
+            ["Readers with a trial", "A1, B1, B3", ", ".join(inputs["recipes"]), "T6"],
+            *[
+                [
+                    f"{code} requested bytes per decoded byte",
+                    f"{s_cal[code]['requested_per_decoded_byte']:.3f}",
+                    f"{a_cal[code]['requested_per_decoded_byte']:.3f}",
+                    "T6",
+                ]
+                for code in ("B1", "B3")
+            ],
+            *[
+                [
+                    f"{code} CPU seconds per requested MB",
+                    f"{s_cal[code]['cpu_seconds_per_requested_MB']:.4f}",
+                    f"{a_cal[code]['cpu_seconds_per_requested_MB']:.4f}",
+                    "T6",
+                ]
+                for code in ("B1", "B3")
+            ],
+            [
+                "Tile acquisitions per year, 2025-09 through 2026-08",
+                f"{s_rate['recent_annual_tile_rate']:.1f}",
+                f"{a_rate['recent_annual_tile_rate']:.1f}",
+                "T2",
+            ],
+            [
+                "Tile acquisitions, 2021-01 through 2026-08",
+                f"{s_rate['historical_complete_month_epochs']:.1f}",
+                f"{a_rate['historical_complete_month_epochs']:.1f}",
+                "T2",
+            ],
+            [
+                "Products per acquisition, central case",
+                "1.050, assumed",
+                f"{inputs['base_revisions']:.4f}",
+                "T2",
+            ],
+            ["Fitted concentration on Florida red blocks", f"{s_fit:.4f}", f"{a_fit:.4f}", "T6"],
+        ],
+    )
+    sections.extend(
+        [
+            "Acquisition counts are means per tile over the same 23 selected tiles. "
+            "Every other input is shared, including every low and high stress value.",
+            "",
+        ]
+    )
+    table(
+        "Annual acquisitions per tile on the 23 selected tiles",
+        ["Period", "Sen2Cor only", "ACOLITE only", "ACOLITE share"],
+        [
+            [
+                period,
+                f"{s_rate['annual_tile_acquisitions'][period]:.1f}",
+                f"{a_rate['annual_tile_acquisitions'][period]:.1f}",
+                f"{share:.0%}",
+            ]
+            for period in s_rate["annual_tile_acquisitions"]
+            for share in [
+                a_rate["annual_tile_acquisitions"][period]
+                / s_rate["annual_tile_acquisitions"][period]
+            ]
+        ],
+    )
+    table(
+        "Retained storage by option, central case",
+        [
+            "Workload",
+            "Sen2Cor history GiB",
+            "ACOLITE history GiB",
+            "Sen2Cor new GiB/day",
+            "ACOLITE new GiB/day",
+            "Sen2Cor S3/month",
+            "ACOLITE S3/month",
+        ],
+        [
+            [
+                NAMES[w],
+                f"{s_est[w]['historical_dynamic_TiB'] * 1024:,.1f}",
+                f"{a_est[w]['historical_dynamic_TiB'] * 1024:,.1f}",
+                f"{s_day[w]['daily_new_GiB']:,.3f}",
+                f"{a_day[w]['daily_new_GiB']:,.3f}",
+                f"${s_est[w]['s3_monthly_at_cutoff_usd']:,.2f}",
+                f"${a_est[w]['s3_monthly_at_cutoff_usd']:,.2f}",
+            ]
+            for w in s_est
+        ],
+    )
+    table(
+        "Backfill cost by option, central case",
+        [
+            "Workload",
+            "Reader",
+            "Sen2Cor EC2",
+            "ACOLITE EC2",
+            "Sen2Cor Lambda",
+            "ACOLITE Lambda",
+        ],
+        [
+            [
+                NAMES[w],
+                code,
+                f"${s_est[w]['recipes'][code]['historical_ec2_total_including_prep_put_usd']:,.0f}",
+                f"${a_est[w]['recipes'][code]['historical_ec2_total_including_prep_put_usd']:,.0f}",
+                f"${s_est[w]['recipes'][code]['historical_lambda_total_including_ec2_prep_put_usd']:,.0f}",
+                f"${a_est[w]['recipes'][code]['historical_lambda_total_including_ec2_prep_put_usd']:,.0f}",
+            ]
+            for w in s_est
+            for code in a_est[w]["recipes"]
+        ],
+    )
+    table(
+        "Backfill work by option, central case",
+        [
+            "Workload",
+            "Reader",
+            "Sen2Cor source TB",
+            "ACOLITE source TB",
+            "Sen2Cor CPU hours",
+            "ACOLITE CPU hours",
+        ],
+        [
+            [
+                NAMES[w],
+                code,
+                f"{s_est[w]['recipes'][code]['historical_requested_TB_decimal']:,.1f}",
+                f"{a_est[w]['recipes'][code]['historical_requested_TB_decimal']:,.1f}",
+                f"{s_est[w]['recipes'][code]['historical_extraction_cpu_hours']:,.0f}",
+                f"{a_est[w]['recipes'][code]['historical_extraction_cpu_hours']:,.0f}",
+            ]
+            for w in s_est
+            for code in a_est[w]["recipes"]
+        ],
+    )
+    sections.extend(
+        [
+            "Sen2Cor only also has reader A1. Its rows are in the Sen2Cor-only tables below.",
+            "",
+        ]
+    )
+
+    def monthly(est, day, code):
+        return (
+            est["s3_monthly_at_cutoff_usd"]
+            + day["recipes"][code]["ec2_ingest_usd_per_month"]
+            + day["operations"]["monthly_total_usd"]
+        )
+
+    table(
+        "Recurring monthly budget by option, EC2, central case",
+        [
+            "Workload",
+            "Reader",
+            "Sen2Cor ingest/month",
+            "ACOLITE ingest/month",
+            "Sen2Cor total/month",
+            "ACOLITE total/month",
+        ],
+        [
+            [
+                NAMES[w],
+                code,
+                f"${s_day[w]['recipes'][code]['ec2_ingest_usd_per_month']:,.2f}",
+                f"${a_day[w]['recipes'][code]['ec2_ingest_usd_per_month']:,.2f}",
+                f"${monthly(s_est[w], s_day[w], code):,.2f}",
+                f"${monthly(a_est[w], a_day[w], code):,.2f}",
+            ]
+            for w in s_est
+            for code in a_est[w]["recipes"]
+        ],
+    )
+    sections.extend(
+        [
+            "Total adds cutoff retention, forward ingestion, itemized operations, "
+            "and the residual allowance, as in the Sen2Cor-only budget table.",
+            "",
+        ]
+    )
+    horizon = "60_ec2_standard"
+    table(
+        "Bill at 60 months by option, EC2, Standard storage, no reprocessing",
+        [
+            "Workload",
+            "Reader",
+            "Sen2Cor month 60",
+            "ACOLITE month 60",
+            "Sen2Cor cumulative",
+            "ACOLITE cumulative",
+        ],
+        [
+            [
+                NAMES[w],
+                code,
+                *[
+                    f"${day[w]['recipes'][code]['horizons_by_annual_reserve']['0'][horizon][key]:,.0f}"
+                    for key in ("end_month_total_usd",)
+                    for day in (s_day, a_day)
+                ],
+                *[
+                    f"${day[w]['recipes'][code]['horizons_by_annual_reserve']['0'][horizon][key]:,.0f}"
+                    for key in ("cumulative_backfill_and_updates_usd",)
+                    for day in (s_day, a_day)
+                ],
+            ]
+            for w in s_est
+            for code in a_est[w]["recipes"]
+        ],
+    )
+    sections.extend(
+        [
+            "Cumulative totals include the backfill and exclude storage during backfill "
+            "and consumer compute.",
+            "",
+        ]
+    )
+    history = {
+        r["workload"]: r
+        for r in acolite["rate_sensitivity"]
+        if r["scenario"] == "Sen2Cor-only history"
+    }
+    table(
+        "ACOLITE inputs with Sen2Cor-only acquisition history, central case",
+        [
+            "Workload",
+            "Sen2Cor history GiB",
+            "With Sen2Cor history GiB",
+            "ACOLITE history GiB",
+            "Sen2Cor B1 backfill",
+            "With Sen2Cor history B1",
+            "ACOLITE B1 backfill",
+        ],
+        [
+            [
+                NAMES[w],
+                f"{s_est[w]['historical_dynamic_TiB'] * 1024:,.1f}",
+                f"{history[w]['history_GiB_if_applied_throughout']:,.1f}",
+                f"{a_est[w]['historical_dynamic_TiB'] * 1024:,.1f}",
+                f"${s_est[w]['recipes']['B1']['historical_ec2_total_including_prep_put_usd']:,.0f}",
+                f"${history[w]['B1_backfill_usd']:,.0f}",
+                f"${a_est[w]['recipes']['B1']['historical_ec2_total_including_prep_put_usd']:,.0f}",
+            ]
+            for w in s_est
+        ],
+    )
+    sections.extend(
+        [
+            "The middle columns apply the Level-2A acquisition rates to the product's grid, "
+            "layers, and byte ratios. They separate the acquisition effect from the rest.",
+            "",
+        ]
+    )
+    table(
+        "Stress cases by option, national with land buffer",
+        ["Option", "Case", "History GiB", "B1 EC2 backfill", "B3 EC2 backfill"],
+        [
+            [
+                data["option_label"],
+                row["case"],
+                f"{row['historical_dynamic_TiB'] * 1024:,.1f}",
+                f"${row['recipes']['B1']['historical_ec2_total_including_prep_put_usd']:,.0f}",
+                f"${row['recipes']['B3']['historical_ec2_total_including_prep_put_usd']:,.0f}",
+            ]
+            for data in (sen2cor, acolite)
+            for row in data["estimates"]
+            if row["workload"] == "all_land"
+        ],
+    )
+    table(
+        "Product byte back-tests across the two T6 cohorts",
+        ["Training", "Held out", "Reader", "Predicted / observed"],
+        [
+            [h["training"], h["held_out"], h["recipe"], f"{h['predicted_over_observed']:.3f}"]
+            for h in a_cal["byte_calibration"]["cross_cohort_holdouts"]
+        ],
+    )
+    return "\n".join(sections)
+
+
+def splice(existing, start, end, body):
     before, remainder = existing.split(start)
     _, after = remainder.split(end)
-    return before + start + "\n\n" + report_tables(data) + "\n" + end + after
+    return before + start + "\n\n" + body + "\n" + end + after
+
+
+def render_report(sen2cor, acolite):
+    existing = REPORT.read_text()
+    existing = splice(
+        existing,
+        "<!-- BEGIN GENERATED OPTION TABLES -->",
+        "<!-- END GENERATED OPTION TABLES -->",
+        option_tables(sen2cor, acolite),
+    )
+    return splice(
+        existing,
+        "<!-- BEGIN GENERATED COST TABLES -->",
+        "<!-- END GENERATED COST TABLES -->",
+        report_tables(sen2cor),
+    )
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    data = build()
-    rendered = json.dumps(data, indent=2, sort_keys=True) + "\n"
-    report = render_report(data)
+    data = {option: build(option) for option in OPTIONS}
+    outputs = {OUTPUT: data["sen2cor_only"], AQR_OUTPUT: data["acolite_only"]}
+    rendered = {path: json.dumps(d, indent=2, sort_keys=True) + "\n" for path, d in outputs.items()}
+    report = render_report(data["sen2cor_only"], data["acolite_only"])
     if args.check:
-        if not OUTPUT.exists() or OUTPUT.read_text() != rendered:
-            raise SystemExit("Cost estimates differ. Run tools/estimate_aws_costs.py.")
+        for path, text in rendered.items():
+            if not path.exists() or path.read_text() != text:
+                raise SystemExit("Cost estimates differ. Run tools/estimate_aws_costs.py.")
         if REPORT.read_text() != report:
             raise SystemExit("Cost report tables differ. Run tools/estimate_aws_costs.py.")
-        print("Cost estimates match offline inputs, source evidence, and model.")
+        print("Cost estimates match offline inputs, source evidence, and model, for both options.")
     else:
-        OUTPUT.write_text(rendered)
+        for path, text in rendered.items():
+            path.write_text(text)
+            print(path.relative_to(ROOT))
         REPORT.write_text(report)
-        print(OUTPUT.relative_to(ROOT))
 
 
 if __name__ == "__main__":

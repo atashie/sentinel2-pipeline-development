@@ -6,17 +6,24 @@ A checked box means the work exists in this repository with evidence.
 ## Next step: Phase C, Prototyping II
 
 The owner re-scoped the assessment on 2026-10-13, [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md).
-The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states. Earth Search Level-2A is supplementary.
+On 2026-10-14 the owner made the two sources standalone options, [decision 0009](decisions/0009-standalone-options-join-deferred.md): ACOLITE only or Sen2Cor only. The scene join is deferred.
+ACOLITE is the initial primary source under assumption A52. The USGS product keeps the name primary product.
 The [replan record](reviews/2026-10-13-acolite-first-replan.md) owns the owner's directions, the document changes, the tests T1 to T9, and the phases A to F.
 Phase A restated the planning documents. Its [record](reviews/2026-10-13-phase-a-rescope.md) awaits owner review.
 Phase B ran on 2026-10-13: check records, probes T1 to T3, one map crop, and the Discovery rewrite. Its [record](reviews/2026-10-13-phase-b-discovery-ii.md) awaits review.
-Phase C starts only on owner authorization. Every test that contacts a provider runs only when the owner invokes it.
-Findings 26 to 29 describe the primary product's metadata and one crop. No pixel test describes it yet.
+The owner authorized Phase C step 1, probe T4, on 2026-10-13, and it ran that day. Its [record](reviews/2026-10-13-phase-c-t4-validity.md) awaits review.
+The [direction record](reviews/2026-10-14-standalone-options-direction.md) of 2026-10-14 awaits review.
+The owner authorized probes T5 and T6 on 2026-10-14, and both ran that day. Their [record](reviews/2026-10-14-phase-c-t5-t6.md) awaits review.
+The owner authorized the next step the same day. The cost model now estimates both options. Its [record](reviews/2026-10-14-phase-c-cost-options.md) awaits review.
+Each later Phase C step needs its own authorization.
+Every test that contacts a provider runs only when the owner invokes it.
+Findings 26 to 29 describe the primary product's metadata and one crop. Findings 30 to 33 describe pixel validity on the pilot lakes.
+Findings 34 and 35 compare the two options' values on the same pixels. Findings 36 and 37 describe access cost on the primary product.
 
 ## How options are judged
 
 An access route moves products to us. A processing workflow turns products into per-water-body records. A compute platform runs the workflow. A storage layout holds the records.
-Two routes feeding one workflow test delivery. Two workflows on one route test processing. Every measurement says which it tests. The source and the two routes are decided in [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md), with the Level-2A fallback order from [decision 0004](decisions/0004-cog-fallback-and-presentation-clarifications.md). The other three dimensions are open.
+Two routes feeding one workflow test delivery. Two workflows on one route test processing. Every measurement says which it tests. The two standalone source options are set in decisions [0008](decisions/0008-acolite-aquatic-reflectance-first.md) and [0009](decisions/0009-standalone-options-join-deferred.md), with the Level-2A fallback order from [decision 0004](decisions/0004-cog-fallback-and-presentation-clarifications.md). The other three dimensions are open.
 
 | Criterion | What to record |
 |---|---|
@@ -67,8 +74,9 @@ Out of scope: validation against field observations (A15), the join with weather
 - [x] History scenario: 2021 onward first, decision 0003. The 2017 to 2020 tier is deferred.
 - [x] Route: Earth Search, Collection 1 COGs first with older-collection COGs for backfill, decisions 0003 and 0004.
 - [x] Route re-scoped: the USGS ACOLITE aquatic reflectance product primary for water pixels in the lower 48, Level-2A supplementary, [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md), 2026-10-13.
+- [x] Sources made standalone options, ACOLITE only or Sen2Cor only, with the scene join deferred, [decision 0009](decisions/0009-standalone-options-join-deferred.md), 2026-10-14.
 - [x] Primary-tile rule: provisional, assumption A22, decision 0003. **Cross-tile mosaicking is a MAJOR CONCERN, issue I-30.**
-- [ ] Fill policy for each Level-2A data gap. Alaska is a Level-2A-only case under decision 0008. The primary product's gaps are measured in finding 27. The fill policy awaits the Phase C join prototype. Record the eventual choice in a new decision. Options are in the [gap survey review](reviews/2026-09-10-gap-survey.md) and the [report](reviews/2026-09-10-gap-survey-report.json).
+- [ ] Fill policy for each Level-2A data gap, within the Sen2Cor-only option. Alaska is a Sen2Cor-only case. Under decision 0009 neither option fills the other's gaps, so the primary product's gaps, finding 27, stay missing and counted. Record the eventual choice in a new decision. Options are in the [gap survey review](reviews/2026-09-10-gap-survey.md) and the [report](reviews/2026-09-10-gap-survey-report.json).
 - [ ] Agree the first bounded prototype comparison together. Workflow, platform, and layout choices develop from its evidence.
 
 ## Step 3a: data gap survey, delivered 2026-09-10, Codex review answered
@@ -215,16 +223,18 @@ Research with check records, metadata-only probes, and the Discovery tab rewrite
 
 Carried into Phase C from Phase B:
 
-- [ ] Whether any pixel is processor-masked at scale, and how flags fall per band and pixel class. Probe T4.
-- [ ] How a quality layer from another processing baseline maps onto the product's pixels. Part of the two-source join prototype.
+- [x] Whether any pixel is processor-masked at scale, and how flags fall per band and pixel class. Probe T4, [findings 30 to 33](measurements.md#phase-c-probe-t4-pixel-validity-on-the-pilot-lakes-2026-10-13).
+- [ ] Deferred under decision 0009: how a quality layer from another processing baseline maps onto the product's pixels.
 - [ ] Whether a reader can clip Level-1C JPEG 2000 before download. A header-and-range probe on one product, context for the gap-fill estimate.
 
 ## Phase C: Prototyping II
 
-- [ ] T4, validity per band and pixel class on the pilot lakes. T5, paired values against Collection 1. Tolerances declared first.
-- [ ] T6, access replay of stages 2 to 4 and readers B1 and B3 on the primary product. T7, overlap on the lakes in two tiles. T8, retention.
-- [ ] Two-source join prototype.
-- [ ] Cost analysis re-parameterized from T1 and T6, with the join work and the second source's storage.
+- [x] T4, validity per band and pixel class on the pilot lakes, rules declared first. Run on 2026-10-13, [record](reviews/2026-10-13-phase-c-t4-validity.md). Owner review pending.
+- [x] T5, paired values against Collection 1, the two options on the same pixels, rules declared first. Run on 2026-10-14, [findings 34 and 35](measurements.md#phase-c-probe-t5-the-two-options-on-the-same-pixels-2026-10-14). Owner review pending.
+- [x] T6, access replay of stages 2 to 4 and readers B1 and B3 on the primary product. Run on 2026-10-14, [findings 36 and 37](measurements.md#phase-c-probe-t6-the-access-tests-on-the-primary-product-2026-10-14). Owner review pending.
+- [ ] T7, overlap on the lakes in two tiles. T8, retention.
+- [ ] Deferred under decision 0009: the two-source join prototype, until evidence proves the model needs a join.
+- [x] Cost analysis re-parameterized from T1, T2, and T6, per standalone option, 2026-10-14. [Record](reviews/2026-10-14-phase-c-cost-options.md), [cost analysis](aws-cost-analysis.md#two-standalone-options). Owner review pending.
 - [ ] Prototyping tab rebuilt: takeaways, main comparison, and costs from the primary product, with the Level-2A reference series pared to one table.
 
 ## Phase D: scientific checks
@@ -232,21 +242,21 @@ Carried into Phase C from Phase B:
 - [ ] T5 and T7 interpreted as the first validation items, with limits and no in situ claim.
 - [ ] Offset pixel check on Level-2A, issue I-05, carried from the former stage 5.
 - [ ] Recheck of the 05.10 release note against claim R5, carried from the former stage 5.
-- [ ] Owner decision: whether an accuracy comparison of the two corrections belongs in the assessment. Assumption A15 keeps validation against field data out, and the literature shows no consistent ranking, claims W5 to W8.
-- [ ] Quality-flag derivation prototyped and measured against the pilot set, for the flags the primary product lacks.
+- [ ] Owner decision: where the company's own experiments comparing the two corrections run, and against which reference. Until then the assessment forms no view on which performs better, assumption A52. Assumption A15 keeps validation against field data out of this assessment.
+- [ ] Quality-flag derivation prototyped and measured against the pilot set, for the flags the primary product lacks. Derived from its own data only, decision 0009.
 - [ ] Contract revised from evidence. Processing version introduced.
 - [ ] T9, one self-run ACOLITE scene clipped to the pilot lakes, only if the owner asks for numbers behind the complexity estimate.
 
 ## Phase 3: Integration Specs, replan phase E
 
-- [ ] Orchestrator-agnostic specification of units of work: discover new USGS scenes, match the Level-2A item, extract per tile, publish with both provenances.
-- [ ] Idempotency, retry, backfill, and reprocessing, with revision rules for two sources.
+- [ ] Orchestrator-agnostic specification of units of work per option: discover new scenes, extract per tile, publish with the product's provenance.
+- [ ] Idempotency, retry, backfill, and reprocessing, with revision rules per option.
 - [ ] Storage layout, partitioning, revision handling, and query interface specified.
 - [ ] Monitoring, accounting, and alert conditions specified.
 
 ## Phase 4: Tradeoffs & Issues, replan phase F
 
-- [ ] Hosted ACOLITE against self-run ACOLITE against Level-2A, with the evidence for each.
+- [ ] ACOLITE only, hosted or self-run, against Sen2Cor only, with the evidence for each. Coverage, flags, and reach beyond the lower 48 differ, decision 0009.
 - [ ] Cost curves for 1,000 and 10,000 water bodies, 2017-onward and 2021-onward, backfill and steady state.
 - [ ] Data-quality risks per option with the evidence for each.
 - [ ] Recommendation with the evidence gaps that remain, including the hurdles of expansion beyond the United States.

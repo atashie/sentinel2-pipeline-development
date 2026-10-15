@@ -40,6 +40,25 @@ One caveat belongs beside direction 4. The analysis reports that ACOLITE's dark 
 A run clipped to one lake therefore uses a different aerosol estimate than the USGS whole-tile run. The developer recommends fixing the aerosol for small windows.
 Clipping cuts memory and time, as the owner expects. It also means self-run values will not reproduce the USGS values. Both statements are `unverified` until checked and, if the owner wants numbers, measured.
 
+## Owner direction on processor performance, 2026-10-13
+
+After the [Phase B validation review](2026-10-13-phase-b-claim-validation.md), the owner gave a further direction the same day:
+
+> "Let's hold off on forming a strong opinion on sen2cor vs acolite in terms of performance modeling water quality until we run our own experiments. In the meantime, we can defer to authority with the assumption that acolite is optimized for this purpose and is our initial primary resource"
+
+Assumption A52 in [assumptions.md](../assumptions.md) records it. [Decision 0008](../decisions/0008-acolite-aquatic-reflectance-first.md) keeps its provisions.
+Where those experiments run, and against which reference, is an open owner decision in Phase D of the [work plan](../work-plan.md).
+
+## Owner direction on standalone options, 2026-10-14
+
+After the [T4 record](2026-10-13-phase-c-t4-validity.md) showed that the join key can match two items of one pass, the owner directed:
+
+> "Treat acolite scenes as standalone products; they should include flags within the data to indicate that a pixel is masked due to data quality issues. We can defer joining scenes until we prove beyond a shadow of a doubt that we'd need to do so, and for now treat our options as "acolite only" or "sen2cor only""
+
+[Decision 0009](../decisions/0009-standalone-options-join-deferred.md) records it and amends direction 2 above. Level-2A's flag, land-value, and fallback roles pause. Its comparison role becomes the Sen2Cor-only option.
+The tables below keep the plan as proposed on 2026-10-13. These parts no longer apply: T3 as the store's join, the two-source join prototype in Phase C, and the Level-2A match in Phase E.
+The [work plan](../work-plan.md) carries the current steps. The [direction record](2026-10-14-standalone-options-direction.md) lists every changed document.
+
 ## What carries over and what changes
 
 | Element | Carries over | Needs rework |

@@ -1,6 +1,7 @@
 # 0008. ACOLITE aquatic reflectance first for the lower 48, Level-2A supplementary, 2026-10-13
 
 Status: active. The owner authorized it on 2026-10-13 with Phase A of the [replan record](../reviews/2026-10-13-acolite-first-replan.md). The [Phase A record](../reviews/2026-10-13-phase-a-rescope.md) lists the documents it changed.
+[Decision 0009](0009-standalone-options-join-deferred.md) replaced its supplementary provision on 2026-10-14.
 It replaces the route provision of [decision 0003](0003-earth-search-2021-first-gap-survey-cross-tile.md) for water pixels in the lower 48 states. Earth Search becomes the supplementary route there.
 The Collection 1 first, older copy fallback order of [decision 0004](0004-cog-fallback-and-presentation-clarifications.md) stays in force within that role.
 It keeps the pixel classes, the tile provenance marker, and the cross-tile caution of [decisions 0002](0002-aws-source-pixel-classes-tile-provenance.md) and 0003.
@@ -35,18 +36,31 @@ The owner's eight directions and the inputs to recheck are in the [replan record
 
 ## Evidence after Phase B, 2026-10-13
 
-This note records evidence that arrived after the decision. It changes no provision. The owner has not reviewed it.
+This note records evidence that arrived after the decision. It changes no provision. The owner's answer of the same day follows it.
 
 - Phase B confirmed the primary product's documented facts with check records and probes T1 to T3, [record](../reviews/2026-10-13-phase-b-discovery-ii.md).
 - The decision rests on Sen2Cor's design statement and land-only validation, claims W1 and R3 in [s2-best-practices.md](../s2-best-practices.md), and on the product's availability.
 - The peer-reviewed comparisons read do not show ACOLITE consistently ahead of Sen2Cor over inland water, claims W5 to W8. ESA's baseline 05.13 adds water-specific aerosol changes, claim W3.
 - The documented processor version does not match the probed settings files, measurement finding 26.
 
+## Owner direction on the basis, 2026-10-13
+
+The owner answered the evidence note the same day, quoted in the [replan record](../reviews/2026-10-13-acolite-first-replan.md#owner-direction-on-processor-performance-2026-10-13).
+The decision defers to authority. ACOLITE is treated as a correction designed for water, and the primary product is the initial primary source.
+The assessment forms no view on which correction serves water-quality modeling better until the company's own experiments compare them. Assumption A52 records this.
+No provision changes.
+
+## Amended by decision 0009, 2026-10-14
+
+[Decision 0009](0009-standalone-options-join-deferred.md) makes the two sources standalone options, ACOLITE only or Sen2Cor only, and defers the scene join.
+It replaces the supplementary provision above. Level-2A's quality, land-value, and fallback roles beside ACOLITE records pause. The other provisions stand.
+
 ## Review triggers
 
 - The header probe shows that the product masks shoreline or near-land pixels, or uses an encoding that breaks the integer-plus-conversion contract.
 - The coverage survey shows gaps or latency that the supplementary route cannot fill.
 - The join test fails for a material share of scenes.
+- The company's own experiments compare the two corrections, assumption A52.
 - USGS publishes a new version prefix, changes the ACOLITE version, or changes access terms.
 - The company expands service beyond the lower 48 states.
 - The legal review changes what the company may store or redistribute.

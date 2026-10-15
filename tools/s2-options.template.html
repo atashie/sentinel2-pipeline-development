@@ -554,7 +554,7 @@ footer{display:block}
 <p class="small">Illustration: the same 30 × 30 m area at two sampling sizes. Each square shows the one value a sensor reports for it, a mix where the shoreline crosses. The dark line is the true shoreline. Schematic only.</p>
 </figcaption>
 </figure>
-<p class="note-line"><strong>A different product: 30 m HLS.</strong> NASA’s Harmonized Landsat Sentinel-2 places both sensors on a common 30 m grid. It applies its own atmospheric correction and additional cross-sensor adjustments. Our primary source puts every band on Sentinel-2’s 20 m grid, and the supplementary source keeps the native 10, 20, and 60 m grids. Which product the existing model expects is still an open question.</p>
+<p class="note-line"><strong>A different product: 30 m HLS.</strong> NASA’s Harmonized Landsat Sentinel-2 places both sensors on a common 30 m grid. It applies its own atmospheric correction and additional cross-sensor adjustments. The USGS product puts every band on Sentinel-2’s 20 m grid, and the Level-2A copies keep the native 10, 20, and 60 m grids. Which product the existing model expects is still an open question.</p>
 <p class="choice"><strong>The choice.</strong> We prefer Sentinel-2 for its finer visible pixels, frequent revisits, red-edge bands, and consistent instrument family. Landsat remains useful for thermal observations and longer history.</p>
 <p class="source-note"><b>Documented:</b> <a href="https://sentiwiki.copernicus.eu/web/s2-mission">Copernicus sensor specifications</a>, <a href="https://www.usgs.gov/faqs/what-are-band-designations-landsat-satellites">USGS band specifications</a>, <a href="https://www.usgs.gov/faqs/what-are-acquisition-schedules-landsat-satellites">Landsat revisit</a>, and <a href="https://hls.gsfc.nasa.gov/algorithms/">NASA HLS processing</a>. Independently checked 2026-09-17. Band selection depends on the model. The preference comes from project direction. These benchmarks did not test it.</p>
 </section>
@@ -563,35 +563,35 @@ footer{display:block}
 <div class="chapter-head">
 <div class="chapter-num">02 / ACCESS</div>
 <div>
-<h2>Three public archives, one primary for water.</h2>
-<p>Sentinel-2 reflectance reaches AWS in three public GeoTIFF archives. The U.S. Geological Survey publishes aquatic reflectance for the lower 48 states, corrected for water with the ACOLITE processor. Element 84 publishes two conversions of ESA’s land-oriented product, and Earth Search catalogs both. Each archive serves a different purpose.</p>
+<h2>Three public archives, two separate options.</h2>
+<p>Sentinel-2 reflectance reaches AWS in three public GeoTIFF archives. The U.S. Geological Survey publishes aquatic reflectance for the lower 48 states, corrected for water with the ACOLITE processor. Element 84 publishes two conversions of ESA’s land-oriented product, and Earth Search catalogs both. We assess two options, each used alone: the USGS product, or Element 84’s copies.</p>
 </div>
 </div>
 <div class="needs">
 <div><b>Corrected for water</b><span>The USGS product uses a correction built for water. ESA validates its own correction at land sites only.</span></div>
 <div><b>About half the acquisitions</b><span>From @@AQR_FIRST_YEAR@@, the USGS product holds @@AQR_SHARE_LOW@@ to @@AQR_SHARE_HIGH@@ percent of Earth Search’s acquisitions per year on @@AQR_TILES@@ sampled tiles. Cloudy and partial images are missing most often.</span></div>
-<div><b>No dedicated cloud, shadow, or snow layer</b><span>Its flags mark non-water, cirrus, bright, and negative pixels. Shadow and snow flags must come from the land product of the same pass.</span></div>
-<div><b>The grids match, the versions often do not</b><span>@@AQR_JOIN_PERCENT@@ percent of its scenes match an Earth Search image of the same pass. @@AQR_SAME_BASELINE_PERCENT@@ percent match the same processing version in Collection 1 first, and @@AQR_ANY_BASELINE_PERCENT@@ percent in either copy.</span></div>
+<div><b>No dedicated cloud, shadow, or snow layer</b><span>Its flags mark non-water, cirrus, bright, and negative pixels. Used alone, it has no shadow or snow flag.</span></div>
+<div><b>Joining the two is deferred</b><span>@@AQR_JOIN_PERCENT@@ percent of its scenes match an Earth Search image of the same pass. @@AQR_SAME_BASELINE_PERCENT@@ percent match the same processing version in Collection 1 first, and @@AQR_ANY_BASELINE_PERCENT@@ percent in either copy. We join them only if the model proves it needs it.</span></div>
 </div>
-<h3 class="plans-title" style="margin-bottom:14px">Use the USGS product for water pixels, and Earth Search for everything around it.</h3>
+<h3 class="plans-title" style="margin-bottom:14px">Two options, each used alone: ACOLITE only or Sen2Cor only.</h3>
 <figure class="route">
-<div class="route-step"><span class="eyebrow">Find</span><h4>Two discovery paths</h4><p>List the USGS bucket or subscribe to its notifications. Search Earth Search for the same pass.</p></div>
+<div class="route-step"><span class="eyebrow">Find</span><h4>One discovery path per option</h4><p>List the USGS bucket or subscribe to its notifications. Or search Earth Search by tile and time.</p></div>
 <div class="route-arrow" aria-hidden="true">→</div>
-<div class="route-step"><span class="eyebrow">Read</span><h4>Three public AWS buckets</h4><p>Water pixels from the USGS bucket. Quality layers, land, comparison values, and missing scenes from Collection 1, then the older copy.</p></div>
+<div class="route-step"><span class="eyebrow">Read</span><h4>Public AWS buckets</h4><p>Water pixels and flags from the USGS bucket. Or bands and quality layers from Collection 1, then the older copy.</p></div>
 <div class="route-arrow" aria-hidden="true">→</div>
-<div class="route-step"><span class="eyebrow">Keep</span><h4>Both records, side by side</h4><p>Keep native pixels, flags, and both product identities. Never replace one correction with the other.</p></div>
-<figcaption>Our intended access path. A reader can fetch selected blocks of a cloud-optimized GeoTIFF and leave the rest of the file.</figcaption>
+<div class="route-step"><span class="eyebrow">Keep</span><h4>One product per record</h4><p>Keep native pixels, flags, and the product identity. Neither option fills or flags the other.</p></div>
+<figcaption>Our intended access path, for either option. A reader can fetch selected blocks of a cloud-optimized GeoTIFF and leave the rest of the file.</figcaption>
 </figure>
 <div class="table-scroll" role="region" aria-label="AWS archive comparison" tabindex="0">
 <table class="plans datasets">
-<thead><tr><th scope="col">Question</th><th scope="col">USGS aquatic reflectance · primary for water</th><th scope="col">Collection 1 copy · supplementary</th><th scope="col">Older copy · fallback</th></tr></thead>
+<thead><tr><th scope="col">Question</th><th scope="col">USGS aquatic reflectance · ACOLITE only</th><th scope="col">Collection 1 copy · Sen2Cor only</th><th scope="col">Older copy · Sen2Cor fallback</th></tr></thead>
 <tbody>
 <tr><th scope="row">Where is it?</th><td><code>usgs-wma-sentinel-2-aqr-acolite-dsf</code></td><td><code>e84-earth-search-sentinel-data</code></td><td><code>sentinel-cogs</code></td></tr>
 <tr><th scope="row">Who runs it?</th><td>The U.S. Geological Survey</td><td colspan="2">Element 84, converting ESA’s product</td></tr>
 <tr><th scope="row">What is shared?</th><td colspan="3">AWS Oregon. Public access without credentials or requester pays. Our compute, storage, and network costs are separate.</td></tr>
 <tr><th scope="row">Correction</th><td>ACOLITE dark spectrum fitting. USGS documents one version, but the scene settings read match a later release.</td><td colspan="2">ESA’s Sen2Cor, documented as not designed for water and validated at land sites only</td></tr>
 <tr><th scope="row">Grid</th><td>Every band at 20 m, aligned with the land product’s 20 m grid</td><td colspan="2">Native 10, 20, and 60 m grids</td></tr>
-<tr><th scope="row">Why use it?</th><td>The water correction. Published scenes sensed from @@AQR_RECENT_FROM@@ appeared a median @@AQR_LATENCY_HOURS@@ hours after sensing.</td><td>Quality layers, land values, and comparison values. Its sampled quality assets are more uniform.</td><td>Fills most gaps the survey found in Collection 1, especially in 2022.</td></tr>
+<tr><th scope="row">Why use it?</th><td>The water correction. Published scenes sensed from @@AQR_RECENT_FROM@@ appeared a median @@AQR_LATENCY_HOURS@@ hours after sensing.</td><td>More acquisitions, native grids, and scene classification with cloud and snow layers. Its sampled quality assets are more uniform.</td><td>Fills most gaps the survey found in Collection 1, especially in 2022.</td></tr>
 <tr><th scope="row">What complicates it?</th><td>About half the acquisitions. No searchable catalog. Documented for the lower 48 only.</td><td>Nearly empty from 2022-01 through 2022-11 in the sampled tiles.</td><td>More competing versions, different value conventions, and missing quality assets.</td></tr>
 </tbody></table></div>
 @@ARCHIVE_ITEMS@@
@@ -655,7 +655,7 @@ footer{display:block}
 @@COVERAGE_STRIP@@
 <figcaption class="small muted" style="margin-top:12px">Expected observations come from the Copernicus catalog. Of @@MISSING@@ missing from the Collection 1 copy in the incomplete months, @@FALLBACK@@ list the required GeoTIFF assets in the older copy. @@UNCOVERED@@ lack a matching fallback item. Most of those are one Alaska tile. Another @@OTHER_FORMAT@@ have only JPEG 2000 links. A catalog entry does not prove a usable water observation.</figcaption>
 </figure>
-<p class="choice"><strong>Why all three matter.</strong> The USGS product supplies the water correction but about half the acquisitions and no shadow or snow layer. Collection 1 supplies those layers and most missing scenes. Collection 1 alone leaves most of the surveyed 2022 gap, and the older copy supplies candidate GeoTIFF assets for @@FALLBACK_PERCENT@@ percent of those missing observations. The order is settled. Joining across processing versions, value conversion, and missing quality layers still need a fill policy.</p>
+<p class="choice"><strong>How the options differ.</strong> The USGS product supplies the water correction, about half the acquisitions, and no shadow or snow layer. Collection 1 supplies more acquisitions and those layers, but leaves most of the surveyed 2022 gap. The older copy supplies candidate GeoTIFF assets for @@FALLBACK_PERCENT@@ percent of those missing observations. Within the Sen2Cor option the order is settled. Value conversion and missing quality layers still need a fill policy.</p>
 <p class="note-line" id="expansion"><strong>Beyond the lower 48 states.</strong> The USGS product is documented for the conterminous United States. Serving water bodies elsewhere needs a redrafted workflow, not a configuration change. The hurdles are Level-1C access, compute to run the correction, and a record of processor versions and settings. A cloud mask and validation over the new waters follow. The bucket also holds tile folders outside the lower-48 zones, unassessed.</p>
 <p class="source-note"><b>Documented:</b> <a href="https://registry.opendata.aws/usgs_aqr/">USGS aquatic reflectance registry</a>, <a href="https://doi.org/10.5066/P904243C">USGS data release</a>, <a href="https://registry.opendata.aws/sentinel-2-l2a-cogs/">AWS GeoTIFF registry</a>, <a href="https://registry.opendata.aws/sentinel-2/">JPEG 2000 registry</a>, and <a href="https://github.com/Element84/earth-search/blob/main/README.md">Earth Search README</a>. USGS sources independently checked @@AQR_DATE@@. <b>Measured:</b> <a href="../benchmarks/results/aqr-headers.json">the USGS bucket listing</a> of @@AQR_TILE_PREFIXES@@ tile folders, with file headers from three scenes. Also <a href="../benchmarks/results/aqr-coverage.json">the USGS coverage and join survey</a>, <a href="reviews/2026-09-10-gap-survey-report.json">the Earth Search survey</a>, and <a href="#archive-values">one-product pixel comparison</a>. The surveys cover sampled tiles, not global completeness. No USGS pixel value has been compared yet. The ingestion history above is an inference.</p>
 </section>
@@ -672,8 +672,8 @@ footer{display:block}
 <article class="risk">
 <h3>The atmospheric correction can misread water.</h3>
 <p>Water reflects little sunlight, so a small correction error is a large share of the water signal. ESA documents Sen2Cor, the processor behind Earth Search, as not designed for water, and validates it at land sites only. Its latest version adds water-specific changes that no study has tested.</p>
-<p>Published comparisons over lakes do not rank the water correction consistently ahead, and none tested ponds. The choice rests on design intent and availability, not on a measured advantage.</p>
-<p class="response"><b>Our approach:</b> use the USGS water correction for water pixels. Keep the land product beside it for quality flags and comparison.</p>
+<p>Published comparisons over lakes do not put either correction consistently ahead, and none tested ponds. Until our own experiments compare the two, we assume the correction designed for water is the right starting point.</p>
+<p class="response"><b>Our approach:</b> assess two options, each used alone. The USGS water correction is the starting point, and the land product is the alternative our experiments compare.</p>
 @@RISK_CORRECTION@@
 </article>
 <article class="risk">
@@ -853,11 +853,11 @@ footer{display:block}
 <div class="step"><span class="step-number">3</span>
 <div>
 <h4>Find products and read image windows.</h4>
-<p>Find the water product’s scenes and the land product of the same pass. Resolve versions, and read the image blocks that cover the water bodies.</p>
+<p>Find the chosen option’s scenes. Resolve versions, and read the image blocks that cover the water bodies.</p>
 <div class="effort high"><i></i>Effort: high</div>
 <details class="tech"><summary>Technical detail</summary><ul>
-<li>List the USGS bucket by tile, or subscribe to its notifications. Parse product names, and check that every expected file exists.</li>
-<li>Query the Earth Search catalog by tile and time range. Keep product id, processing version, file locations, scale, and offset.</li>
+<li>ACOLITE only: list the USGS bucket by tile, or subscribe to its notifications. Parse product names, and check that every expected file exists.</li>
+<li>Sen2Cor only: query the Earth Search catalog by tile and time range. Keep product id, processing version, file locations, scale, and offset.</li>
 <li>Tell datastrips of one acquisition apart from reprocessed versions. Keep the product identity, and keep each contribution separate.</li>
 <li>Windowed approach: read the internal blocks that cover each window with HTTP range requests. Keep the native band grids.</li>
 <li>Alternatives to compare: one whole-tile read shared by every lake in the tile, and a lazy array stack.</li>
@@ -867,12 +867,12 @@ footer{display:block}
 <div class="step"><span class="step-number">4</span>
 <div>
 <h4>Attach quality, values, and source history.</h4>
-<p>Convert stored values one tested way. Attach quality codes, pixel classes, tile identity, and both product identities.</p>
+<p>Convert stored values one tested way. Attach quality codes, pixel classes, tile identity, and the product identity.</p>
 <div class="effort medium"><i></i>Effort: medium</div>
 <details class="tech"><summary>Technical detail</summary><ul>
 <li>Validate the conversion against source values. Keep the delivered integers and the conversion metadata. Whether to store converted reflectance is an open question.</li>
 <li>Join the mask table: pixel class, water fraction, edge distance.</li>
-<li>Join the land product of the same pass by tile, satellite, and sensing start, for shadow and snow layers. Record whether the processing versions match.</li>
+<li>Keep each product’s own flags. A join with the other option waits until the model proves it needs one.</li>
 <li>Keep the native quality grids and the per-band no-data. Test how they map onto finer pixels before you define a quality join.</li>
 </ul></details>
 </div>
@@ -904,12 +904,11 @@ footer{display:block}
 <div><span>Tile and role</span><b>17SKU · role unresolved</b></div>
 <div><span>Sensing time and satellite</span><b>@@MAP_SENSING_TIME@@ · Sentinel-2B</b></div>
 <div><span>Water product and processor</span><b>S2B_MSIAQR_…_T17SKU_… · ACOLITE · input 05.11</b></div>
-<div><span>Joined land product</span><b>S2B_MSIL2A_…_T17SKU_… · 05.11 · versions match</b></div>
 <div><span>Grid, row, column</span><b>20 m · 2,406 · 3,052</b></div>
 <div><span>Pixel class and water fraction</span><b>shoreline · 0.62 inside the polygon</b></div>
 <div><span>Band values on this grid</span><b>eleven bands and the water index, as stored integers</b></div>
 <div><span>Scale and its source</span><b>× 0.0001, from the USGS documentation</b></div>
-<div><span>Quality codes</span><b>Processor flags + joined land classification</b></div>
+<div><span>Quality codes</span><b>Processor flags, as delivered</b></div>
 <div><span>Processing settings</span><b>Digest of the scene’s settings file</b></div>
 <div><span>Visible to us since</span><b>the time we published it locally</b></div>
 </div>

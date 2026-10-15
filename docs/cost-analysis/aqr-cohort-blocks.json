@@ -1,0 +1,245 @@
+{
+  "status": "offline derived check, not a new measurement",
+  "generated_on": "2026-10-14",
+  "evidence_path": "benchmarks/results/aqr-workloads.json",
+  "evidence_sha256": "c780277f16d06bc205a1e3c16c2a6c7072aa9d1b57e2a9fc3319315f6f009b47",
+  "headers_path": "benchmarks/results/aqr-headers.json",
+  "headers_sha256": "6cde20758a7178789afb78f84e3b214aa12e759b0d2150f3560f04118594958f",
+  "reference_path": "docs/cost-analysis/cohort-blocks.json",
+  "reference_sha256": "233f2703e9c5c41722bfbfd9094d99cb285722673f74cb24fd5e2a711ee87bc6",
+  "decoded_bytes_definition": "Native dtype bytes for each actual source block window, clipped at image edges. Logical sums repeat each lake-layer-block contribution. Unique sums deduplicate item, layer, block row, block column. Full bytes sum native layer shapes. The method matches tools/backtest_source_bytes.py.",
+  "measured_layers": {
+    "red": "B04",
+    "nir": "B08",
+    "swir16": "B11",
+    "coastal": "B01",
+    "scl": "l2_flags"
+  },
+  "cohorts": {
+    "florida": {
+      "plan_path": "data/aqr-workloads/2026-10-14-run/workloads/florida/frozen-plan.json",
+      "plan_sha256": "1a86f08a9a4218772f4db8df399a3096d2844d6f85d521480098dc98787d132e",
+      "plan_internal_sha256": "6cf80f9c8666c46b52f8205698cb056095ffad8b7f7df19b30e064be40664192",
+      "expected_database_path": "data/aqr-workloads/2026-10-14-run/workloads/florida/expected.sqlite",
+      "expected_database_sha256": "784c5dfb89e74655b3fe64814b4d7544a7a43dc56fabe386534cacca3b671fb6",
+      "lake_count": 1000,
+      "products": 4,
+      "lake_product_memberships": 1092,
+      "by_band": {
+        "red": {
+          "logical_blocks": 1281,
+          "unique_blocks": 99,
+          "full_blocks": 484,
+          "logical_decoded_bytes": 660222256,
+          "unique_decoded_bytes": 49472904,
+          "full_decoded_bytes": 241120800
+        },
+        "nir": {
+          "logical_blocks": 1281,
+          "unique_blocks": 99,
+          "full_blocks": 484,
+          "logical_decoded_bytes": 660222256,
+          "unique_decoded_bytes": 49472904,
+          "full_decoded_bytes": 241120800
+        },
+        "swir16": {
+          "logical_blocks": 1281,
+          "unique_blocks": 99,
+          "full_blocks": 484,
+          "logical_decoded_bytes": 660222256,
+          "unique_decoded_bytes": 49472904,
+          "full_decoded_bytes": 241120800
+        },
+        "coastal": {
+          "logical_blocks": 1281,
+          "unique_blocks": 99,
+          "full_blocks": 484,
+          "logical_decoded_bytes": 660222256,
+          "unique_decoded_bytes": 49472904,
+          "full_decoded_bytes": 241120800
+        },
+        "scl": {
+          "logical_blocks": 1281,
+          "unique_blocks": 99,
+          "full_blocks": 484,
+          "logical_decoded_bytes": 1320444512,
+          "unique_decoded_bytes": 98945808,
+          "full_decoded_bytes": 482241600
+        }
+      },
+      "total": {
+        "logical_blocks": 6405,
+        "unique_blocks": 495,
+        "full_blocks": 2420,
+        "logical_decoded_bytes": 3961333536,
+        "unique_decoded_bytes": 296837424,
+        "full_decoded_bytes": 1446724800
+      },
+      "unique_decoded_fraction_of_full": 0.20517891446942776,
+      "observations": {
+        "B-raster": {
+          "requested_bytes": 139218816,
+          "http_requests": 507,
+          "read_units": 6405
+        },
+        "B-lazy": {
+          "requested_bytes": 136220544,
+          "http_requests": 555,
+          "read_units": 495
+        }
+      },
+      "requested_to_decoded_ratios": {
+        "B-raster": 0.46900695378625845,
+        "B-lazy": 0.45890623279361165
+      },
+      "reference_unique_red_blocks": 99,
+      "reference_products": 4
+    },
+    "dispersed": {
+      "plan_path": "data/aqr-workloads/2026-10-14-run/workloads/dispersed/frozen-plan.json",
+      "plan_sha256": "c2ca7015a7e41f41610c99dc8b760f8a9b41ac70ef0454de762c2ba8324632e1",
+      "plan_internal_sha256": "856e0cc35a38c22ab94bbe79b7f02f684a8f7182b2520205cf7caab050da4ada",
+      "expected_database_path": "data/aqr-workloads/2026-10-14-run/workloads/dispersed/expected.sqlite",
+      "expected_database_sha256": "b4834a779853e8b6753198f0b23577e54311261a474afdab89917470e8844194",
+      "lake_count": 93,
+      "products": 112,
+      "lake_product_memberships": 117,
+      "by_band": {
+        "red": {
+          "logical_blocks": 149,
+          "unique_blocks": 149,
+          "full_blocks": 13552,
+          "logical_decoded_bytes": 75356160,
+          "unique_decoded_bytes": 75356160,
+          "full_decoded_bytes": 6751382400
+        },
+        "nir": {
+          "logical_blocks": 149,
+          "unique_blocks": 149,
+          "full_blocks": 13552,
+          "logical_decoded_bytes": 75356160,
+          "unique_decoded_bytes": 75356160,
+          "full_decoded_bytes": 6751382400
+        },
+        "swir16": {
+          "logical_blocks": 149,
+          "unique_blocks": 149,
+          "full_blocks": 13552,
+          "logical_decoded_bytes": 75356160,
+          "unique_decoded_bytes": 75356160,
+          "full_decoded_bytes": 6751382400
+        },
+        "coastal": {
+          "logical_blocks": 149,
+          "unique_blocks": 149,
+          "full_blocks": 13552,
+          "logical_decoded_bytes": 75356160,
+          "unique_decoded_bytes": 75356160,
+          "full_decoded_bytes": 6751382400
+        },
+        "scl": {
+          "logical_blocks": 149,
+          "unique_blocks": 149,
+          "full_blocks": 13552,
+          "logical_decoded_bytes": 150712320,
+          "unique_decoded_bytes": 150712320,
+          "full_decoded_bytes": 13502764800
+        }
+      },
+      "total": {
+        "logical_blocks": 745,
+        "unique_blocks": 745,
+        "full_blocks": 67760,
+        "logical_decoded_bytes": 452136960,
+        "unique_decoded_bytes": 452136960,
+        "full_decoded_bytes": 40508294400
+      },
+      "unique_decoded_fraction_of_full": 0.01116158966199278,
+      "observations": {
+        "B-raster": {
+          "requested_bytes": 226857983,
+          "http_requests": 1850,
+          "read_units": 745
+        },
+        "B-lazy": {
+          "requested_bytes": 210342911,
+          "http_requests": 1980,
+          "read_units": 745
+        }
+      },
+      "requested_to_decoded_ratios": {
+        "B-raster": 0.5017461589514823,
+        "B-lazy": 0.4652194569539283
+      },
+      "reference_unique_red_blocks": 162,
+      "reference_products": 121
+    }
+  },
+  "native_payload_bytes_per_km2": {
+    "five_measured_layers": 30000.0,
+    "delivered_layers": 70000.0,
+    "delivered_to_five_ratio": 2.3333333333333335,
+    "delivered_layer_dtypes": {
+      "B01": "int16",
+      "B02": "int16",
+      "B03": "int16",
+      "B04": "int16",
+      "B05": "int16",
+      "B06": "int16",
+      "B07": "int16",
+      "B08": "int16",
+      "B11": "int16",
+      "B12": "int16",
+      "B8A": "int16",
+      "NDWI": "int16",
+      "l2_flags": "int32"
+    },
+    "delivered_bytes_per_20m_pixel": 28,
+    "reference_seventeen_modeled_assets": 158611.11111111112
+  },
+  "cross_cohort_holdouts": [
+    {
+      "training": "florida",
+      "held_out": "dispersed",
+      "recipe": "B-raster",
+      "predicted_requested_bytes": 212055378.3037794,
+      "observed_requested_bytes": 226857983,
+      "predicted_over_observed": 0.9347494652801325
+    },
+    {
+      "training": "florida",
+      "held_out": "dispersed",
+      "recipe": "B-lazy",
+      "predicted_requested_bytes": 207488469.02035588,
+      "observed_requested_bytes": 210342911,
+      "predicted_over_observed": 0.9864295784151997
+    },
+    {
+      "training": "dispersed",
+      "held_out": "florida",
+      "recipe": "B-raster",
+      "predicted_requested_bytes": 148937037.32505256,
+      "observed_requested_bytes": 139218816,
+      "predicted_over_observed": 1.0698053726089192
+    },
+    {
+      "training": "dispersed",
+      "held_out": "florida",
+      "recipe": "B-lazy",
+      "predicted_requested_bytes": 138094545.19688296,
+      "observed_requested_bytes": 136220544,
+      "predicted_over_observed": 1.0137571113860988
+    }
+  ],
+  "limitations": [
+    "T6 replayed readers B1 and B3 only. Reader A1 has no measurement on the product, so no A1 ratio exists.",
+    "Two cohorts give directional checks from two observations, not a broad statistical validation.",
+    "The dispersed cohort kept 93 of 100 lakes and 112 products. 98 of the 112 are the reference's acquisitions.",
+    "Requested bytes include range overhead and cache behavior. Requested-to-decoded ratios are not pure file compression ratios.",
+    "T6 read five of the thirteen delivered GeoTIFF layers. The other eight layers' compression is unmeasured.",
+    "Frozen plans and SQLite inputs remain local under data. Aggregate counts and hashes make the derivation reviewable without distributing polygons."
+  ],
+  "generator_path": "tools/backtest_aqr_source_bytes.py",
+  "generator_sha256": "2ade6d3be6e156bb40a4500fec6cf50882f371ea66695f05e546eeaf8a4a8944",
+  "reproduction_command": "uv run python tools/backtest_aqr_source_bytes.py"
+}

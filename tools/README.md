@@ -15,6 +15,7 @@ The four scripts in the table use the standard library and make no network reque
 
 [estimate_aws_costs.py](estimate_aws_costs.py) reads explicit planning inputs and frozen laptop measurements. It contacts no provider.
 The model also reads frozen acquisition counts and separates historical estimates from forward daily costs and retention forecasts.
+It estimates both standalone options. It writes [estimates.json](../docs/cost-analysis/estimates.json) for Sen2Cor only and [estimates-acolite-only.json](../docs/cost-analysis/estimates-acolite-only.json) for ACOLITE only.
 The [analysis](../docs/aws-cost-analysis.md) explains assumptions, formulas, uncertainty, and qualified price sources.
 
 ```sh
@@ -28,6 +29,9 @@ Use the pinned Python environment for reproducible floating-point output.
 It reads frozen local plans and SQLite selections without contacting a provider or changing benchmark evidence.
 It writes [cohort-blocks.json](../docs/cost-analysis/cohort-blocks.json). Its `--check` mode requires those preserved local inputs.
 The regular accounting tests use the checked-in aggregate and do not require those local inputs.
+
+[backtest_aqr_source_bytes.py](backtest_aqr_source_bytes.py) applies the same audit to probe T6's two cohorts on the primary product.
+It writes [aqr-cohort-blocks.json](../docs/cost-analysis/aqr-cohort-blocks.json). Its `--check` mode requires T6's frozen local plans and SQLite selections.
 
 ## Discovery map examples
 

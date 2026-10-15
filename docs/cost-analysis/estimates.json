@@ -10504,8 +10504,10 @@
     }
   ],
   "evidence_sha256": "56e402bf1188678a77462bceefc78d450203bf66e8da39e1b32a3693bd0f09a9",
-  "input_sha256": "feb0279ea46dd82cc080fcdb47320a1f5977ed0e0f69a25e15f809e3075232a2",
-  "model_sha256": "62405468a1625b7be1906edabd83e23553251c6113d45967e0d1f07c3b9a33ad",
+  "input_sha256": "734f7ad7188694e120046e5e83b2d987d63a3ca435ed946d6a85271a2665ff93",
+  "model_sha256": "16fcf566c9b4a18e175f3026e34f0d18882b9f49f7d29062a52e9ff4a54e21c0",
+  "option": "sen2cor_only",
+  "option_label": "Sen2Cor only",
   "rate_sensitivity": [
     {
       "B1_backfill_usd": 690.347106182997,

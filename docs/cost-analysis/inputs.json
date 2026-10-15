@@ -33,6 +33,13 @@
   "source_block_km_proxy": 10.24,
   "blocks_per_tile_proxy": 121,
   "source_files": 17,
+  "text_files_per_product": 0,
+  "recipes": [
+    "A1",
+    "B1",
+    "B3"
+  ],
+  "acquisition_evidence": "gap_survey",
   "target_object_bytes": 134217728,
   "write_amplification": 2,
   "bodies_per_mask_object": 1000,
@@ -298,6 +305,42 @@
         "alarm_metrics": 5,
         "custom_metrics": 5,
         "registry_GB": 2
+      }
+    }
+  },
+  "options": {
+    "sen2cor_only": {
+      "label": "Sen2Cor only",
+      "source": "Earth Search Level-2A, Collection 1 first, older collection as fallback",
+      "output": "estimates.json",
+      "overrides": {},
+      "basis": "The shared inputs above, calibrated on the Level-2A reference series."
+    },
+    "acolite_only": {
+      "label": "ACOLITE only",
+      "source": "USGS ACOLITE aquatic reflectance product, bucket usgs-wma-sentinel-2-aqr-acolite-dsf, us-west-2, bucket owner pays",
+      "output": "estimates-acolite-only.json",
+      "overrides": {
+        "recipes": [
+          "B1",
+          "B3"
+        ],
+        "acquisition_evidence": "aqr_coverage",
+        "value_bytes_per_grid_pixel": {
+          "20": 28
+        },
+        "source_files": 13,
+        "text_files_per_product": 1
+      },
+      "measured_base_revisions": true,
+      "basis": {
+        "recipes": "Probe T6 replayed readers B1 and B3. A1 has no product trial.",
+        "acquisition_evidence": "Probe T2 bucket listings on the same 23 tiles and months as the Level-2A rates. Counts include the 2.9 percent of listed scenes without the full layer set.",
+        "value_bytes_per_grid_pixel": "Probe T1: 11 bands and NDWI as int16 and the flags layer as int32, all on one 20 m grid. Assumptions A46 and A49 keep every delivered layer.",
+        "source_files": "Probe T1: 13 GeoTIFF layers per product.",
+        "text_files_per_product": "Probe T1: one settings text file per product, read whole.",
+        "measured_base_revisions": "Probe T2: products per acquisition on the 23 tiles, finding 27. Repeats are reprocessed copies and same-baseline products. Decision 0009 keeps each product as a standalone observation.",
+        "unchanged": "Every other input, including every low and high stress value, is shared with Sen2Cor only."
       }
     }
   }

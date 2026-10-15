@@ -13,6 +13,7 @@ For a partial change, name the replaced provision. The remaining provisions stay
 | [0005](0005-aws-cost-scenarios.md) | National and sampled AWS cost scenarios, offline estimates, and same-region serving | 2026-09-22 | active |
 | [0006](0006-aws-cost-review-refinements.md) | Cohort byte checks and explicit cost-driver sensitivities following review | 2026-09-23 | active |
 | [0007](0007-aws-daily-update-costs.md) | Forward update costs, storage accrual, and acquisition-rate distinctions | 2026-09-23 | active |
-| [0008](0008-acolite-aquatic-reflectance-first.md) | ACOLITE aquatic reflectance first for the lower 48, Level-2A supplementary. Replaces the route provision of 0003. Earth Search becomes supplementary under the fallback order of 0004 | 2026-10-13 | active |
+| [0008](0008-acolite-aquatic-reflectance-first.md) | ACOLITE aquatic reflectance first for the lower 48, Level-2A supplementary. Replaces the route provision of 0003. Earth Search becomes supplementary under the fallback order of 0004. Its supplementary provision is replaced by 0009 | 2026-10-13 | active |
+| [0009](0009-standalone-options-join-deferred.md) | Standalone options, ACOLITE only or Sen2Cor only, with the scene join deferred. Amends 0008 | 2026-10-14 | active |
 
 Template: title, date, status, context, decision, consequences, and the conditions that trigger a review.

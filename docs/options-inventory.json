@@ -2,13 +2,13 @@
   "schema_version": 2,
   "assessed_on": "2026-09-09",
   "selection": {
-    "status": "primary route and first history scenario decided, remainder open",
-    "decision": "decisions/0008-acolite-aquatic-reflectance-first.md",
-    "note": "The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states. Earth Search Level-2A is supplementary: Collection 1 GeoTIFF assets first, the older collection's GeoTIFF assets as fallback, under decision 0004. Self-run ACOLITE from Level-1C is context. The 2021 scenario is prototyped first. Workflow, compute platform, and storage layout remain open. Cross-tile mosaicking is a MAJOR CONCERN under investigation. Options marked context are not compared for selection.",
+    "status": "two standalone source options and first history scenario decided, remainder open",
+    "decision": "decisions/0009-standalone-options-join-deferred.md",
+    "note": "Two source options are compared, each used alone, under decision 0009. ACOLITE only is the USGS ACOLITE aquatic reflectance product, for water pixels in the lower 48 states, the initial primary source. Sen2Cor only is Earth Search Level-2A: Collection 1 GeoTIFF assets first, the older collection's GeoTIFF assets as fallback, under decision 0004. Neither option fills or flags the other, and the scene join is deferred. Self-run ACOLITE from Level-1C is context. The 2021 scenario is prototyped first. Workflow, compute platform, and storage layout remain open. Cross-tile mosaicking is a MAJOR CONCERN under investigation. Options marked context are not compared for selection.",
     "next": [
       "Review Phase B: the check records, probes T1 to T3, the crop, and the Discovery rewrite.",
       "Run Phase C in separately authorized steps: validity per band and pixel class, paired values, and the access replay on the primary product.",
-      "Resolve primary-tile roles, the quality-layer join across processing baselines, and per-band validity using model requirements and matched-location evidence."
+      "Resolve primary-tile roles and per-band validity using model requirements and matched-location evidence."
     ]
   },
   "scope": {
@@ -8617,7 +8617,7 @@
         "What does a read cost? The registry states no price. The AWS Open Data Sponsorship Program page says AWS covers storing and sharing, but names no rate and no condition on the reader's region. Not settled.",
         "Does the offset stay unapplied for every item? The README says the offset has been applied to some Items. Only two items were sampled, both with offset -0.1."
       ],
-      "role": "supplementary"
+      "role": "primary"
     },
     {
       "id": "ar-aws-requester-pays",
@@ -9638,7 +9638,7 @@
         "Is the detector footprint mask available as an asset?",
         "What commit protocol makes Parquet publications immutable?"
       ],
-      "role": "supplementary"
+      "role": "primary"
     },
     {
       "id": "C-02",
@@ -9658,7 +9658,7 @@
         "What does per-object monitoring cost when partitioned by water body?",
         "What is Batch startup latency per array job?"
       ],
-      "role": "supplementary"
+      "role": "primary"
     },
     {
       "id": "C-03",
@@ -9752,12 +9752,12 @@
         "Does 1024 pixel chunking make single-pixel ponds uneconomic?",
         "Is a cluster fee justified at the workload sizes in workloads.json?"
       ],
-      "role": "supplementary"
+      "role": "primary"
     },
     {
       "id": "C-08",
       "title": "Earth Search COG fallback, windowed reads, Batch, Parquet",
-      "role": "supplementary",
+      "role": "primary",
       "text": "Where Collection 1 is missing, read COG windows from the older collection. Batch array jobs and Parquet are candidate compute and storage choices.",
       "claim_ids": [
         "cl-ar-earth-search-cogs-format",
@@ -9776,8 +9776,8 @@
     },
     {
       "id": "C-09",
-      "title": "USGS aquatic reflectance, windowed reads, Earth Search join, Parquet",
-      "text": "Find new scenes by bucket listing or notification topic. Read 20 m windows from the USGS COGs. Join the Level-2A item of the same pass from Earth Search for shadow and snow layers and missing scenes. Write both records with their product identities.",
+      "title": "USGS aquatic reflectance alone, windowed reads, Parquet",
+      "text": "Find new scenes by bucket listing or notification topic. Read 20 m windows from the USGS COGs. Store each product as a standalone record with its own flags. Scenes the product lacks stay missing and counted, decision 0009.",
       "claim_ids": [
         "cl-ar-usgs-acolite-aqr-payer",
         "cl-ar-usgs-acolite-aqr-discovery_mechanism",
@@ -10368,7 +10368,8 @@
         "cl-wf-mask-once-windowed-read_pattern-3",
         "cl-wf-lazy-array-stack-read_pattern",
         "cl-wf-full-tile-then-mask-read_pattern-2",
-        "R4"
+        "R4",
+        "PR-14"
       ],
       "plain": "A windowed read moves whole internal blocks, not single pixels. Nearby ponds share blocks.",
       "why": "Cost scales with distinct blocks and dates, not with the number of ponds. Ten thousand clustered ponds may cost little more than one thousand. The benchmark must test that assumption."
@@ -10529,7 +10530,8 @@
         "G10",
         "cl-wf-lazy-array-stack-geolocation_handling-2",
         "cl-wf-server-side-extraction-geolocation_handling",
-        "PR-05"
+        "PR-05",
+        "PR-14"
       ],
       "plain": "A pond near a tile edge can have multiple products per date. Grids or values can differ. Stitching tiles can hide those differences.",
       "why": "Seven of twenty survey sites lie in two to four tiles. Which value the model sees, and whether the two agree, is unknown until measured. The store never mosaics, and the difference is measured before any stitched value is trusted."
@@ -10537,10 +10539,10 @@
     {
       "id": "I-31",
       "title": "A processor not designed for water corrects every Earth Search collection",
-      "text": "Every Earth Search Level-2A collection comes from Sen2Cor. Its algorithm document states it is not designed for water, and ESA validates it at land sites only. Baseline 05.13 adds water-specific aerosol changes that no study has tested. Peer-reviewed comparisons over inland water do not rank Sen2Cor and ACOLITE consistently.",
-      "consequence": "The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states. The choice rests on design intent and availability, not on a measured accuracy advantage. Level-2A keeps four supporting roles, and both corrections are stored side by side.",
+      "text": "Every Earth Search Level-2A collection comes from Sen2Cor. Its algorithm document states it is not designed for water, and ESA validates it at land sites only. Baseline 05.13 adds water-specific aerosol changes that no study has tested. Peer-reviewed comparisons over inland water do not rank Sen2Cor and ACOLITE consistently. Probe T5 compared them on clear interior water of the pilot lakes. Per band, 25 to 81 percent of pixels differ by more than 0.005 reflectance. The sign changes by lake.",
+      "consequence": "The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states. The assessment treats ACOLITE as designed for water and forms no view on which correction performs better until the company's own experiments, assumption A52. Under decision 0009 the assessment compares two standalone options, ACOLITE only and Sen2Cor only. Neither fills or flags the other.",
       "status": "decided",
-      "decision": "Decision 0008, owner direction of 2026-10-13.",
+      "decision": "Decisions 0008 and 0009, owner directions of 2026-10-13 and 2026-10-14.",
       "evidence": [
         "W1",
         "R3",
@@ -10550,7 +10552,8 @@
         "W7",
         "W8",
         "cl-ar-usgs-acolite-aqr-source_dataset",
-        "cl-ar-usgs-acolite-aqr-data_level-2"
+        "cl-ar-usgs-acolite-aqr-data_level-2",
+        "PR-13"
       ],
       "plain": "Earth Search's surface reflectance comes from a processor its makers did not design for water. Its accuracy over small water bodies is unknown.",
       "why": "Water reflects far less light than land, so a small error in the atmospheric correction is a large error in the water signal. The primary source now uses a correction built for water."
@@ -10558,18 +10561,19 @@
     {
       "id": "I-32",
       "title": "The primary product has no dedicated cloud, cloud-shadow, or snow layer",
-      "text": "The USGS product delivers bands, NDWI, a flags layer, and a settings file. Its flags mark non-water, cirrus, bright, and negative pixels. 92 percent of scenes join to a Level-2A item of the same pass. 51 percent join to the same baseline with Collection 1 tried first, and 58 percent when either collection may supply it.",
-      "consequence": "Cloud, shadow, and snow flags come from the joined Level-2A item or from a tested derivation. From 2017 to 2021, Collection 1 holds only reprocessed versions, with possibly different geometry. The join rule and the pixel association are Phase C work.",
-      "status": "open",
-      "decision": "Open. Phase C of the replan record measures what the store needs.",
+      "text": "The USGS product delivers bands, NDWI, a flags layer, and a settings file. Its flags mark non-water, cirrus, bright, and negative pixels. 92 percent of scenes join to a Level-2A item of the same pass. 51 percent join to the same baseline with Collection 1 tried first, and 58 percent when either collection may supply it. In probe T4, ACOLITE set no flag on 74 percent of interior pixels the joined classification calls shadow. It set none on 7 percent it calls cloud.",
+      "consequence": "Under decision 0009 the store carries the product's own flags only, so it has no cloud-shadow or snow flag. A tested derivation from the product's own data may add flags. A Level-2A join waits until evidence proves the model needs it. Such a join would often reach another processing version, and in probe T4 its key twice took the wrong datastrip.",
+      "status": "deferred",
+      "decision": "Decision 0009, owner direction of 2026-10-14: the join is deferred until evidence proves the model needs it.",
       "evidence": [
         "cl-ar-usgs-acolite-aqr-quality_layers",
         "PR-09",
         "PR-10",
-        "G7"
+        "G7",
+        "PR-12"
       ],
-      "plain": "The water-focused product carries no cloud-shadow or snow layer. Those flags must come from the land product of the same pass, often a differently processed version.",
-      "why": "Shadowed and snow-covered pixels look like dark or bright water. Without a flag the model cannot screen them, and a flag from another version may not line up pixel for pixel."
+      "plain": "The water-focused product carries no cloud-shadow or snow layer. The store uses its own flags, and borrowing flags from the land product is deferred.",
+      "why": "Shadowed and snow-covered pixels look like dark or bright water. Without a flag the model cannot screen them."
     },
     {
       "id": "I-33",
@@ -10589,7 +10593,7 @@
     {
       "id": "I-34",
       "title": "The documented processor version does not match the probed settings, and input baselines keep changing",
-      "text": "USGS names ACOLITE 20221114.0 for the whole record. The settings files of three scenes written in 2025-12 and 2026-02 carry the keys of release 20250402.0 and state no version. The inputs span Level-1C baselines from 02.01 to 05.13. No page states a reprocessing policy.",
+      "text": "USGS names ACOLITE 20221114.0 for the whole record. The settings files of three scenes written in 2025-12 and 2026-02 carry the keys of release 20250402.0 and state no version. The inputs span Level-1C baselines from 02.01 to 05.13. No page states a reprocessing policy. In probe T4, the 23 Sentinel-2C settings files of 2025 differ from the 36 others in two keys. The keys are the spectral response version and the output parameters.",
       "consequence": "Every record carries the processor version from a per-scene source, the Level-1C baseline, and the settings-file digest. A new ACOLITE version or a version_02 prefix is a structural change to review.",
       "status": "open",
       "decision": "Open. Phase C of the replan record measures what the store needs.",
@@ -10597,37 +10601,41 @@
         "cl-ar-usgs-acolite-aqr-source_dataset",
         "cl-ar-usgs-acolite-aqr-reprocessed_products",
         "PR-10",
-        "R5"
+        "R5",
+        "PR-12"
       ],
       "plain": "The water product's documented processor version does not match the settings of the scenes checked. Past values may come from several versions.",
       "why": "A change in the input or the processor can look like a trend in the water. The store must keep both versions to tell them apart."
     },
     {
       "id": "I-35",
-      "title": "In one crop, the processor flags non-water pixels instead of removing them",
-      "text": "The settings enable ACOLITE's water mask at 1,600 nm. In one crop every pixel of the five layers read carried a value, and the flags layer marked 64 percent of the cells. ACOLITE's own water-leaving output removes flagged pixels, so the delivered bands are another quantity.",
-      "consequence": "Store the values and the flags. Probe T4 measures validity per band and pixel class on the pilot lakes, including shoreline and near-land pixels.",
-      "status": "measure",
-      "decision": "Open. Phase C of the replan record measures what the store needs.",
+      "title": "The processor flags non-water pixels instead of removing them",
+      "text": "The settings enable ACOLITE's water mask at 1,600 nm. ACOLITE's own water-leaving output removes flagged pixels, so the delivered bands are another quantity. In 59 scenes of 2025 on the pilot lakes, every pixel inside the product's scene held a value in every band, pixel class included. No-data appeared only where ACOLITE flags a pixel out of scene.",
+      "consequence": "Store the values and the flags for every pixel class. The replan record's rule takes shoreline and near-land values from Level-2A only if the processor masks them, so they stay with the primary product. Measurement finding 30 owns the numbers.",
+      "status": "decided",
+      "decision": "Owner direction on 2026-10-14: the masking rule applies to the primary product. Shoreline and near-land values and flags stay with it. Measured by probe T4.",
       "evidence": [
         "cl-ar-usgs-acolite-aqr-quality_layers-5",
         "PR-09",
-        "PR-11"
+        "PR-11",
+        "PR-12"
       ],
-      "plain": "In the one image checked, the water-focused product keeps values for land pixels and marks them with a flag. A reader must check the flag before using a value.",
+      "plain": "The water-focused product keeps values for land and shoreline pixels and marks them with a flag. A reader must check the flag before using a value.",
       "why": "A shoreline pixel mixes land and water. Whether the model uses it is a model decision, so the store keeps the value and the flag."
     },
     {
       "id": "I-36",
       "title": "The primary product has one 20 m grid",
       "text": "Every band arrives at 20 m on the Level-2A 20 m grid of the same tile. The 10 m bands arrive resampled. On the pilot, 10 of 30 lakes inside their tile have no interior pixel at 20 m.",
-      "consequence": "Pixel classes for the primary product are computed at 20 m. Level-2A keeps its 10 m bands for comparison and land monitoring.",
+      "consequence": "Pixel classes for the primary product are computed at 20 m. The Sen2Cor-only option keeps the native 10 m bands, decision 0009.",
       "status": "decided",
       "decision": "Owner direction of 2026-10-13, decision 0008.",
       "evidence": [
         "cl-ar-usgs-acolite-aqr-format-2",
         "PR-09",
-        "G3"
+        "G3",
+        "PR-13",
+        "PR-14"
       ],
       "plain": "The water-focused product delivers every band at 20 m. A small pond has fewer pixels, and some have no pixel entirely inside the water.",
       "why": "The smallest ponds become shoreline pixels only. The model sees that from the pixel-class counts."
@@ -10651,7 +10659,7 @@
       "id": "I-38",
       "title": "A single agency provides the primary product without a service commitment",
       "text": "One USGS mission area produces the product as a continually updated data release. No page states a latency, an availability commitment, or a retention policy.",
-      "consequence": "Monitor arrival and completeness. Keep every ingested revision locally. The Level-2A fallback covers scenes the product lacks.",
+      "consequence": "Monitor arrival and completeness. Keep every ingested revision locally. Under the ACOLITE-only option no other source covers scenes the product lacks, decision 0009.",
       "status": "open",
       "decision": "Open. Phase C of the replan record measures what the store needs.",
       "evidence": [
@@ -10660,7 +10668,7 @@
         "cl-ar-usgs-acolite-aqr-reprocessed_products-3"
       ],
       "plain": "One agency produces the water-focused product, with no stated service level. A change on its side can pause or alter the feed.",
-      "why": "A daily model input needs a predictable feed. The fallback and local revisions limit the risk."
+      "why": "A daily model input needs a predictable feed. Local revisions limit the risk."
     },
     {
       "id": "I-39",
@@ -10680,14 +10688,14 @@
       "id": "I-40",
       "title": "The primary product holds about half of the acquisitions",
       "text": "On 24 lower-48 tiles, the product holds 41 to 61 percent of Earth Search's acquisitions per year from 2018. Cloudy and partial acquisitions are missing most often. The cloud screening tightened in 2023. USGS documents that scenes over 30 percent cloud cover are not prioritized.",
-      "consequence": "The Level-2A fallback fills absent scenes, and the accounting counts every missing primary scene. Whether absent scenes arrive later is unknown.",
+      "consequence": "Under the ACOLITE-only option absent scenes stay absent, decision 0009. The accounting counts every missing scene. Whether absent scenes arrive later is unknown.",
       "status": "open",
       "decision": "Open. Phase C of the replan record measures what the store needs.",
       "evidence": [
         "cl-ar-usgs-acolite-aqr-global_coverage-2",
         "PR-10"
       ],
-      "plain": "The water-focused product skips many acquisitions, most often cloudy or partial ones. The land product fills the gaps.",
+      "plain": "The water-focused product skips many acquisitions, most often cloudy or partial ones. Under the ACOLITE-only option nothing fills the gaps.",
       "why": "Missing dates are not random. A cloudy-season gap can bias seasonal water-quality estimates."
     }
   ],
@@ -10824,6 +10832,41 @@
         "I-32"
       ],
       "record": "assets/discovery/provenance.json"
+    },
+    {
+      "id": "PR-12",
+      "date": "2026-10-13",
+      "question": "Does the USGS product leave pilot-lake pixels without values, and how do its flags and NDWI fall per band and pixel class?",
+      "result": "59 scenes of 2025 on five pilot tiles, rules declared before the read. Inside the product's scene every pixel holds a value in every band and class. No-data counts equal ACOLITE's out-of-scene flag counts, apart from two pixels in one band. Non-water flags cover 35 percent of interior, 77 percent of shoreline, and 92 percent of near-land observations. NDWI is the normalized difference of the delivered B03 and B8A. ACOLITE leaves 7 percent of classification cloud and 74 percent of classification shadow over interior water unflagged. Counts only, no value stored.",
+      "bears_on": [
+        "I-35",
+        "I-32",
+        "I-34"
+      ],
+      "record": "../benchmarks/results/aqr-validity.json"
+    },
+    {
+      "id": "PR-13",
+      "date": "2026-10-14",
+      "question": "Where do the two standalone options give different values for the same pilot-lake pixels, per band and pixel class?",
+      "result": "Probe T4's 59 scenes, rules declared before the read. The Level-1C datastrip paired every product with exactly one Collection 1 item. No band agrees within 0.005 reflectance on 90 percent of pixels in any class. Over 32.4 million interior observations both products call clear water, 25 to 81 percent differ by more than 0.005 per band. The sign of the difference changes by lake. Statistics only, no value stored. Neither product is a reference.",
+      "bears_on": [
+        "I-31",
+        "I-36"
+      ],
+      "record": "../benchmarks/results/aqr-pairs.json"
+    },
+    {
+      "id": "PR-14",
+      "date": "2026-10-14",
+      "question": "What do the earlier access tests cost in requests, bytes, time, and memory when they read the primary product instead of Level-2A?",
+      "result": "Stages 2 to 4 and readers B1 and B3 ran their unchanged code on the product. Stages 2 to 4 used the Level-2A reference's acquisitions. Every method, path, and reader returned identical values. Small lakes took the same 15 requests and about 40 percent of the bytes. B1 and B3 read about 40 percent of the bytes on both larger cohorts. CPU per requested megabyte rose to 0.033 for B1 and 0.065 for B3, against 0.022 and 0.038 on Level-2A.",
+      "bears_on": [
+        "I-20",
+        "I-36",
+        "I-30"
+      ],
+      "record": "../benchmarks/results/aqr-workloads.json"
     }
   ],
   "themes": [

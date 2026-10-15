@@ -3,6 +3,7 @@
 import copy
 import importlib.util
 import json
+import math
 from pathlib import Path
 
 import pytest
@@ -88,9 +89,11 @@ def test_worker_packing_changes_ec2_billing_without_changing_cpu_work(settings):
 
 def test_output_and_source_accounting_and_reproducibility(settings):
     generated = model.build()
+    acolite = model.build("acolite_only")
     assert generated == json.loads(model.OUTPUT.read_text())
-    assert model.render_report(generated) == model.REPORT.read_text()
-    for row in generated["estimates"]:
+    assert acolite == json.loads(model.AQR_OUTPUT.read_text())
+    assert model.render_report(generated, acolite) == model.REPORT.read_text()
+    for row in generated["estimates"] + acolite["estimates"]:
         assert row["same_region_transfer_usd"] == 0
         for recipe in row["recipes"].values():
             assert recipe["source_request_charge_to_project_usd"] == 0
@@ -379,3 +382,106 @@ def test_daily_fleet_can_clear_average_work_and_compaction_is_partitioned(settin
         > settings["daily_updates"]["ec2_instances_per_run"]
     )
     assert daily["recipes"]["B1"]["lambda_compaction_invocations_per_month"] > 1
+
+
+def test_sen2cor_option_is_the_shared_input_file(settings):
+    merged = model.option_settings("sen2cor_only")
+    assert merged.pop("option") == "sen2cor_only"
+    assert merged == settings
+
+
+def test_acolite_inputs_follow_the_product_evidence(settings):
+    blocks = json.loads(model.AQR_COHORTS.read_text())
+    payload = blocks["native_payload_bytes_per_km2"]
+    acolite = model.option_settings("acolite_only")
+    assert acolite["value_bytes_per_grid_pixel"] == {"20": payload["delivered_bytes_per_20m_pixel"]}
+    assert acolite["source_files"] == len(payload["delivered_layer_dtypes"])
+    assert acolite["recipes"] == ["B1", "B3"]
+    headers = json.loads((model.ROOT / "benchmarks/results/aqr-headers.json").read_text())
+    assert headers["summary"]["block_shapes"] == {"[[512, 512]]": 39}
+    assert headers["summary"]["shape"] == {"[5490, 5490]": 39}
+    # The product's 512-pixel blocks at 20 m cover the Level-2A model's block ground.
+    assert 512 * 20 / 1000 == acolite["source_block_km_proxy"]
+    assert math.ceil(5490 / 512) ** 2 == acolite["blocks_per_tile_proxy"]
+    assert (
+        blocks["evidence_sha256"]
+        == model.hashlib.sha256(model.AQR_EVIDENCE.read_bytes()).hexdigest()
+    )
+    shared = {
+        k: v for k, v in acolite.items() if k not in acolite["options"]["acolite_only"]["overrides"]
+    }
+    shared.pop("option")
+    shared["cases"]["base"]["revisions"] = settings["cases"]["base"]["revisions"]
+    assert shared == {k: v for k, v in settings.items() if k in shared}
+
+
+def test_acolite_rates_use_the_same_tiles_and_months():
+    reference = model.survey_rates()
+    product = model.aqr_rates()
+    assert product["tile_ids"] == reference["tile_ids"]
+    assert product["recent_monthly_counts"].keys() == reference["recent_monthly_counts"].keys()
+    assert product["historical_complete_month_end"] == reference["historical_complete_month_end"]
+    assert product["replacement_2022_epochs"] is None
+    assert 1 < product["products_per_acquisition"] < 1.2
+    assert product["recent_annual_tile_rate"] < reference["recent_annual_tile_rate"]
+    assert product["payer"].startswith("Bucket owner")
+    assert product["region"] == "us-west-2"
+
+
+def test_acolite_estimate_has_no_a1_no_2022_event_and_one_grid(settings):
+    acolite = model.option_settings("acolite_only")
+    calibrated = model.calibration("acolite_only")
+    assert set(calibrated) == {"B1", "B3", "byte_calibration"}
+    row = model.estimate(acolite, "base", True, True, calibrated)
+    assert set(row["recipes"]) == {"B1", "B3"}
+    assert set(row["selected_pixels_per_epoch_before_overlap"]) == {"20"}
+    daily = model.daily_estimate(acolite, row, calibrated)
+    for recipe in daily["recipes"].values():
+        assert recipe["reprocessing"]["conditional_2022_replacement"] is None
+    assert model.build("acolite_only")["sensitivities"]["a1_extrapolation"] == []
+
+
+def test_one_grid_partitions_and_settings_file_requests(settings):
+    acolite = model.option_settings("acolite_only")
+    assert model.grids(settings) == 3 and model.grids(acolite) == 1
+    assert model.object_count(1, 12, 10, acolite) == 12
+    assert model.object_count(1, 12, 10, settings) == 36
+    calibrated = model.calibration("acolite_only")
+    with_text = model.estimate(acolite, "base", True, False, calibrated)
+    without = copy.deepcopy(acolite)
+    without["text_files_per_product"] = 0
+    plain = model.estimate(without, "base", True, False, calibrated)
+    epochs = (
+        with_text["history_months"]
+        / 12
+        * with_text["annual_rates"]["tile"]
+        * acolite["cases"]["base"]["revisions"]
+    )
+    added = (
+        with_text["recipes"]["B1"]["historical_source_requests"]
+        - plain["recipes"]["B1"]["historical_source_requests"]
+    )
+    assert added == pytest.approx(with_text["active_tiles"] * epochs)
+
+
+def test_acquisition_history_comparator_separates_the_rate_effect():
+    acolite = model.build("acolite_only")
+    sen2cor = model.build()
+    scenario = next(
+        r
+        for r in acolite["rate_sensitivity"]
+        if r["workload"] == "all_land" and r["scenario"] == "Sen2Cor-only history"
+    )
+    product = next(
+        e for e in acolite["estimates"] if e["case"] == "base" and e["workload"] == "all_land"
+    )
+    reference = next(
+        e for e in sen2cor["estimates"] if e["case"] == "base" and e["workload"] == "all_land"
+    )
+    assert scenario["rates"] == next(
+        e["annual_rates"] for e in sen2cor["estimates"] if e["case"] == "base"
+    )
+    assert product["historical_dynamic_TiB"] * 1024 < scenario["history_GiB_if_applied_throughout"]
+    assert (
+        scenario["history_GiB_if_applied_throughout"] < reference["historical_dynamic_TiB"] * 1024
+    )

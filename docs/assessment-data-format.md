@@ -32,7 +32,7 @@ Null covers undocumented, inaccessible, ambiguous, and conflicting facts. It doe
 
 Candidate `class` is one of `public-aws`, `non-aws`, `managed`, or `self-built`. Class describes where the option runs, not its price or its terms.
 Candidate and combination `role` is `primary`, `supplementary`, or `context`. Context entries are documented for reference and are not compared for selection, per decision 0002.
-A supplementary entry serves a selected supporting role under [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md), beside the primary source.
+A supplementary entry serves a supporting role beside a primary source. Since [decision 0009](decisions/0009-standalone-options-join-deferred.md) made the source options standalone, no entry carries it.
 Issue `status` is `decided`, `deferred`, `open`, `probe`, or `measure`. An issue may carry `flag` with the value `major concern`.
 The presentation explains major concerns without displaying internal IDs or status badges.
 Issue `evidence` lists inventory claim IDs, best-practices claim IDs such as `G11`, and probe IDs such as `PR-01`.

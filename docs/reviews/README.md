@@ -8,6 +8,11 @@ The latest handoff records subsequent corrections and resolved wording.
 
 | Date | Review | Reviewer |
 |---|---|---|
+| 2026-10-14 | [Phase C cost model per option: ACOLITE only at about a quarter of Sen2Cor only's backfill and storage](2026-10-14-phase-c-cost-options.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-10-14 | [Phase C probes T5 and T6: the options differ in every band, and stages 2 to 4 read 40 percent of the bytes](2026-10-14-phase-c-t5-t6.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-10-14 | [Owner direction recorded: standalone options, ACOLITE only or Sen2Cor only, the scene join deferred, and decision 0009](2026-10-14-standalone-options-direction.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-10-13 | [Phase C probe T4: pixel validity on the pilot lakes, no processor masking inside the scene, flags and NDWI per class, and rules declared first](2026-10-13-phase-c-t4-validity.md) | Claude Code (AI coding agent), directed by the repository owner |
+| 2026-10-13 | [Owner direction on processor performance recorded: assumption A52, decision 0008's basis, and the Phase D owner decision restated](2026-10-13-processor-performance-direction.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-13 | [Phase B claim validation: eight independent reviews, 34 validated, 18 partially validated, none denied, and the corrections applied](2026-10-13-phase-b-claim-validation.md) | Eight Claude Code subagents on Sonnet, collated by Claude Code |
 | 2026-10-13 | [Phase B, Discovery II: three check-record pairs, probes T1 to T3, one map crop, and the Discovery rewrite for the primary product](2026-10-13-phase-b-discovery-ii.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-13 | [Phase A re-scope: decision 0008 activated, four assumptions revised and six added, data contract v2, and the planning documents restated](2026-10-13-phase-a-rescope.md) | Claude Code (AI coding agent), directed by the repository owner |
