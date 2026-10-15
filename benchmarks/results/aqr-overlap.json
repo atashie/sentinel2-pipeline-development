@@ -55,6 +55,2061 @@
       "tile_b": "17SKU"
     }
   ],
+  "diagnostics": {
+    "distinct_tile_dates": 8,
+    "distinct_tiles": 8,
+    "generated_at": "2026-10-15T12:45:33+00:00",
+    "interior_absolute_pair_median_units": {
+      "acolite": {
+        "B01": [
+          6,
+          55
+        ],
+        "B02": [
+          8,
+          34
+        ],
+        "B03": [
+          1,
+          15
+        ],
+        "B04": [
+          3,
+          12
+        ],
+        "B05": [
+          4,
+          11
+        ],
+        "B06": [
+          3,
+          10
+        ],
+        "B07": [
+          0,
+          12
+        ],
+        "B08": [
+          0,
+          10
+        ],
+        "B11": [
+          1,
+          9
+        ],
+        "B12": [
+          1,
+          6
+        ],
+        "B8A": [
+          0,
+          13
+        ]
+      },
+      "sen2cor": {
+        "B01": [
+          2,
+          43
+        ],
+        "B02": [
+          1,
+          31
+        ],
+        "B03": [
+          0,
+          24
+        ],
+        "B04": [
+          3,
+          20
+        ],
+        "B05": [
+          2,
+          19
+        ],
+        "B06": [
+          4,
+          20
+        ],
+        "B07": [
+          4,
+          19
+        ],
+        "B08": [
+          4,
+          20
+        ],
+        "B11": [
+          1,
+          5
+        ],
+        "B12": [
+          0,
+          3
+        ],
+        "B8A": [
+          4,
+          19
+        ]
+      }
+    },
+    "per_pair_o7_differs": [
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 115925,
+        "option": "sen2cor",
+        "pair": "lanier 17SKT-17SKU",
+        "share_beyond": 0.1036,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 60195,
+        "option": "sen2cor",
+        "pair": "lanier 17SKT-17SKU",
+        "share_beyond": 0.2127,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 22872,
+        "option": "sen2cor",
+        "pair": "lanier 17SKT-17SKU",
+        "share_beyond": 0.2648,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 115925,
+        "option": "sen2cor",
+        "pair": "lanier 17SKT-17SKU",
+        "share_beyond": 0.1036,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 60195,
+        "option": "sen2cor",
+        "pair": "lanier 17SKT-17SKU",
+        "share_beyond": 0.2127,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 22872,
+        "option": "sen2cor",
+        "pair": "lanier 17SKT-17SKU",
+        "share_beyond": 0.2648,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 103,
+        "option": "sen2cor",
+        "pair": "lanier 17SKT-17SKU",
+        "share_beyond": 0.5728,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B02",
+        "class": "near_land",
+        "n": 103,
+        "option": "sen2cor",
+        "pair": "lanier 17SKT-17SKU",
+        "share_beyond": 0.1748,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 2870,
+        "option": "sen2cor",
+        "pair": "lanier 17SKT-17SKU",
+        "share_beyond": 0.4373,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B08",
+        "class": "near_land",
+        "n": 1827,
+        "option": "acolite",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.1412,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.1259,
+        "subset": "all"
+      },
+      {
+        "band": "B06",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.2529,
+        "subset": "all"
+      },
+      {
+        "band": "B07",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.2786,
+        "subset": "all"
+      },
+      {
+        "band": "B08",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.3487,
+        "subset": "all"
+      },
+      {
+        "band": "B8A",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.3421,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 631,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.2393,
+        "subset": "all"
+      },
+      {
+        "band": "B08",
+        "class": "near_land",
+        "n": 1827,
+        "option": "acolite",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.1412,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.1259,
+        "subset": "shared"
+      },
+      {
+        "band": "B06",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.2529,
+        "subset": "shared"
+      },
+      {
+        "band": "B07",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.2786,
+        "subset": "shared"
+      },
+      {
+        "band": "B08",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.3487,
+        "subset": "shared"
+      },
+      {
+        "band": "B8A",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.3421,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 631,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.2393,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 712,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.1952,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 481,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RML",
+        "share_beyond": 0.2516,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 12927,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RNL",
+        "share_beyond": 0.279,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RNL",
+        "share_beyond": 0.1932,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 631,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RNL",
+        "share_beyond": 0.2583,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 12927,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RNL",
+        "share_beyond": 0.279,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RNL",
+        "share_beyond": 0.1932,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 631,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RNL",
+        "share_beyond": 0.2583,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 12799,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RNL",
+        "share_beyond": 0.2788,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 712,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RNL",
+        "share_beyond": 0.236,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 481,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RMK-17RNL",
+        "share_beyond": 0.262,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 12927,
+        "option": "acolite",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.7942,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 1827,
+        "option": "acolite",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 1.0,
+        "subset": "all"
+      },
+      {
+        "band": "B08",
+        "class": "near_land",
+        "n": 1827,
+        "option": "acolite",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1013,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 631,
+        "option": "acolite",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 1.0,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 12927,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1005,
+        "subset": "all"
+      },
+      {
+        "band": "B06",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1128,
+        "subset": "all"
+      },
+      {
+        "band": "B07",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1357,
+        "subset": "all"
+      },
+      {
+        "band": "B08",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1648,
+        "subset": "all"
+      },
+      {
+        "band": "B8A",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1445,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 631,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1696,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 12927,
+        "option": "acolite",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.7942,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 1827,
+        "option": "acolite",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 1.0,
+        "subset": "shared"
+      },
+      {
+        "band": "B08",
+        "class": "near_land",
+        "n": 1827,
+        "option": "acolite",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1013,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 631,
+        "option": "acolite",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 1.0,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 12927,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1005,
+        "subset": "shared"
+      },
+      {
+        "band": "B06",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1128,
+        "subset": "shared"
+      },
+      {
+        "band": "B07",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1357,
+        "subset": "shared"
+      },
+      {
+        "band": "B08",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1648,
+        "subset": "shared"
+      },
+      {
+        "band": "B8A",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1445,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 631,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1696,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 12781,
+        "option": "acolite",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.7918,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 713,
+        "option": "acolite",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 1.0,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 480,
+        "option": "acolite",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 1.0,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 713,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1234,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 480,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNK",
+        "share_beyond": 0.1708,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 12927,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNL",
+        "share_beyond": 0.2129,
+        "subset": "all"
+      },
+      {
+        "band": "B06",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNL",
+        "share_beyond": 0.1932,
+        "subset": "all"
+      },
+      {
+        "band": "B07",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNL",
+        "share_beyond": 0.2228,
+        "subset": "all"
+      },
+      {
+        "band": "B08",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNL",
+        "share_beyond": 0.2479,
+        "subset": "all"
+      },
+      {
+        "band": "B8A",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNL",
+        "share_beyond": 0.2381,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 12927,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNL",
+        "share_beyond": 0.2129,
+        "subset": "shared"
+      },
+      {
+        "band": "B06",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNL",
+        "share_beyond": 0.1932,
+        "subset": "shared"
+      },
+      {
+        "band": "B07",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNL",
+        "share_beyond": 0.2228,
+        "subset": "shared"
+      },
+      {
+        "band": "B08",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNL",
+        "share_beyond": 0.2479,
+        "subset": "shared"
+      },
+      {
+        "band": "B8A",
+        "class": "near_land",
+        "n": 1827,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNL",
+        "share_beyond": 0.2381,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "interior",
+        "n": 12782,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNL",
+        "share_beyond": 0.2149,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 712,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RML-17RNL",
+        "share_beyond": 0.1292,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 12323,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RNK-17RNL",
+        "share_beyond": 0.1099,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 4196,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RNK-17RNL",
+        "share_beyond": 0.1182,
+        "subset": "all"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 12323,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RNK-17RNL",
+        "share_beyond": 0.1099,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 4196,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RNK-17RNL",
+        "share_beyond": 0.1182,
+        "subset": "shared"
+      },
+      {
+        "band": "B01",
+        "class": "near_land",
+        "n": 4453,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RNK-17RNL",
+        "share_beyond": 0.1424,
+        "subset": "shared_clear_water"
+      },
+      {
+        "band": "B01",
+        "class": "shoreline",
+        "n": 2682,
+        "option": "sen2cor",
+        "pair": "okeechobee 17RNK-17RNL",
+        "share_beyond": 0.1353,
+        "subset": "shared_clear_water"
+      }
+    ],
+    "per_pair_o8_not_similar": [
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "lanier 16SGC-16SGD",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0524,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "lanier 16SGC-16SGD",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0852,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "interior",
+        "pair": "lanier 17SKT-17SKU",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1036,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "lanier 17SKT-17SKU",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2127,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0028,
+        "band": "B8A",
+        "class": "near_land",
+        "pair": "lanier 17SKT-17SKU",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0564,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "lanier 17SKT-17SKU",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2648,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "interior",
+        "pair": "lanier 17SKT-17SKU",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0972,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "lanier 17SKT-17SKU",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.5728,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B02",
+        "class": "near_land",
+        "pair": "lanier 17SKT-17SKU",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1748,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "lanier 17SKT-17SKU",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.4373,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "interior",
+        "pair": "okeechobee 17RMK-17RML",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.068,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "okeechobee 17RMK-17RML",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1259,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B06",
+        "class": "near_land",
+        "pair": "okeechobee 17RMK-17RML",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2529,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B07",
+        "class": "near_land",
+        "pair": "okeechobee 17RMK-17RML",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2786,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.1412,
+        "band": "B08",
+        "class": "near_land",
+        "pair": "okeechobee 17RMK-17RML",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.3487,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B11",
+        "class": "near_land",
+        "pair": "okeechobee 17RMK-17RML",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0504,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B8A",
+        "class": "near_land",
+        "pair": "okeechobee 17RMK-17RML",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.3421,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "okeechobee 17RMK-17RML",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2393,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "interior",
+        "pair": "okeechobee 17RMK-17RML",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0656,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "okeechobee 17RMK-17RML",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1952,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "okeechobee 17RMK-17RML",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2516,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "okeechobee 17RMK-17RNK",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.061,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "okeechobee 17RMK-17RNK",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0602,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "okeechobee 17RMK-17RNK",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0927,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "okeechobee 17RMK-17RNK",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0765,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "interior",
+        "pair": "okeechobee 17RMK-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.279,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "okeechobee 17RMK-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1932,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0788,
+        "band": "B08",
+        "class": "near_land",
+        "pair": "okeechobee 17RMK-17RNL",
+        "result": "widens",
+        "sen2cor_share_beyond": 0.0011,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "okeechobee 17RMK-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2583,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "interior",
+        "pair": "okeechobee 17RMK-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2788,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "okeechobee 17RMK-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.236,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "okeechobee 17RMK-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.262,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.7942,
+        "band": "B01",
+        "class": "interior",
+        "pair": "okeechobee 17RML-17RNK",
+        "result": "widens",
+        "sen2cor_share_beyond": 0.1005,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 1.0,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "okeechobee 17RML-17RNK",
+        "result": "widens",
+        "sen2cor_share_beyond": 0.0996,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B06",
+        "class": "near_land",
+        "pair": "okeechobee 17RML-17RNK",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1128,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B07",
+        "class": "near_land",
+        "pair": "okeechobee 17RML-17RNK",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1357,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.1013,
+        "band": "B08",
+        "class": "near_land",
+        "pair": "okeechobee 17RML-17RNK",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1648,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B8A",
+        "class": "near_land",
+        "pair": "okeechobee 17RML-17RNK",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1445,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 1.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "okeechobee 17RML-17RNK",
+        "result": "widens",
+        "sen2cor_share_beyond": 0.1696,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.7918,
+        "band": "B01",
+        "class": "interior",
+        "pair": "okeechobee 17RML-17RNK",
+        "result": "widens",
+        "sen2cor_share_beyond": 0.0986,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 1.0,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "okeechobee 17RML-17RNK",
+        "result": "widens",
+        "sen2cor_share_beyond": 0.1234,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 1.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "okeechobee 17RML-17RNK",
+        "result": "widens",
+        "sen2cor_share_beyond": 0.1708,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "interior",
+        "pair": "okeechobee 17RML-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2129,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0049,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "okeechobee 17RML-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0706,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B06",
+        "class": "near_land",
+        "pair": "okeechobee 17RML-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1932,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B07",
+        "class": "near_land",
+        "pair": "okeechobee 17RML-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2228,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0038,
+        "band": "B08",
+        "class": "near_land",
+        "pair": "okeechobee 17RML-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2479,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B8A",
+        "class": "near_land",
+        "pair": "okeechobee 17RML-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2381,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "okeechobee 17RML-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0729,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "interior",
+        "pair": "okeechobee 17RML-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.2149,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0126,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "okeechobee 17RML-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1292,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "okeechobee 17RML-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0956,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "interior",
+        "pair": "okeechobee 17RNK-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.063,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "okeechobee 17RNK-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1099,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "okeechobee 17RNK-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1182,
+        "subset": "shared"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "interior",
+        "pair": "okeechobee 17RNK-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.0625,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "near_land",
+        "pair": "okeechobee 17RNK-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1424,
+        "subset": "shared_clear_water"
+      },
+      {
+        "acolite_share_beyond": 0.0,
+        "band": "B01",
+        "class": "shoreline",
+        "pair": "okeechobee 17RNK-17RNL",
+        "result": "narrows",
+        "sen2cor_share_beyond": 0.1353,
+        "subset": "shared_clear_water"
+      }
+    ],
+    "relative_offset_definition": "Mean of tile A minus tile B over the mean of the two tile means, shared pixels. Left out below 100 pixels or when the mean level is 50 units or less.",
+    "relative_offsets": {
+      "lanier 16SGC-16SGD": {
+        "acolite": {
+          "interior": {
+            "B01": 0.1393,
+            "B02": 0.0855,
+            "B03": 0.0405,
+            "B04": 0.044,
+            "B05": 0.037,
+            "B06": 0.0298,
+            "B07": 0.0258,
+            "B08": 0.0218,
+            "B11": 0.0217,
+            "B12": 0.0156,
+            "B8A": 0.024
+          },
+          "near_land": {
+            "B01": 0.1144,
+            "B02": 0.0717,
+            "B03": 0.026,
+            "B04": 0.0201,
+            "B05": 0.0055,
+            "B06": -0.0003,
+            "B07": 0.0006,
+            "B08": -0.0012,
+            "B11": 0.0004,
+            "B12": -0.0014,
+            "B8A": 0.0003
+          },
+          "shoreline": {
+            "B01": 0.1128,
+            "B02": 0.0622,
+            "B03": 0.0232,
+            "B04": 0.0155,
+            "B05": 0.0057,
+            "B06": 0.0008,
+            "B07": 0.0015,
+            "B08": -0.0004,
+            "B11": 0.0009,
+            "B12": -0.001,
+            "B8A": 0.0011
+          }
+        },
+        "sen2cor": {
+          "interior": {
+            "B01": 0.2174,
+            "B02": 0.0986,
+            "B03": 0.0541,
+            "B04": 0.0669,
+            "B05": 0.0446,
+            "B06": 0.053,
+            "B07": 0.0379,
+            "B08": 0.0595,
+            "B11": 0.0085,
+            "B12": 0.0087,
+            "B8A": 0.0532
+          },
+          "near_land": {
+            "B01": 0.1421,
+            "B02": 0.073,
+            "B03": 0.0254,
+            "B04": 0.02,
+            "B05": 0.0007,
+            "B06": -0.0019,
+            "B07": -0.0019,
+            "B08": -0.003,
+            "B11": -0.0016,
+            "B12": -0.002,
+            "B8A": -0.0026
+          },
+          "shoreline": {
+            "B01": 0.149,
+            "B02": 0.0633,
+            "B03": 0.0234,
+            "B04": 0.0154,
+            "B05": 0.0048,
+            "B06": 0.0019,
+            "B07": 0.0008,
+            "B08": -0.0002,
+            "B11": 0.0003,
+            "B12": 0.0015,
+            "B8A": 0.0002
+          }
+        }
+      },
+      "lanier 17SKT-17SKU": {
+        "acolite": {
+          "interior": {
+            "B01": 0.0638,
+            "B02": 0.0384,
+            "B03": 0.0173,
+            "B04": 0.0165,
+            "B05": 0.016,
+            "B06": 0.013,
+            "B07": 0.0076,
+            "B08": 0.0084,
+            "B11": -0.0016,
+            "B12": 0.0026,
+            "B8A": 0.0056
+          },
+          "near_land": {
+            "B01": 0.0527,
+            "B02": 0.032,
+            "B03": 0.0113,
+            "B04": 0.0077,
+            "B05": 0.0042,
+            "B06": 0.0022,
+            "B07": 0.0005,
+            "B08": 0.0018,
+            "B11": -0.0002,
+            "B12": 0.0012,
+            "B8A": 0.0002
+          },
+          "shoreline": {
+            "B01": 0.0499,
+            "B02": 0.0262,
+            "B03": 0.0091,
+            "B04": 0.0051,
+            "B05": 0.0041,
+            "B06": 0.0027,
+            "B07": 0.0009,
+            "B08": 0.0019,
+            "B11": -0.0002,
+            "B12": 0.0012,
+            "B8A": 0.0005
+          }
+        },
+        "sen2cor": {
+          "interior": {
+            "B01": 0.3611,
+            "B02": 0.1822,
+            "B03": 0.1132,
+            "B04": 0.1614,
+            "B05": 0.1,
+            "B06": 0.1463,
+            "B07": 0.1159,
+            "B08": 0.1851,
+            "B11": 0.0256,
+            "B12": 0.0195,
+            "B8A": 0.1696
+          },
+          "near_land": {
+            "B01": 0.2506,
+            "B02": 0.1389,
+            "B03": 0.0547,
+            "B04": 0.0495,
+            "B05": 0.0019,
+            "B06": -0.005,
+            "B07": -0.0054,
+            "B08": -0.0067,
+            "B11": -0.0024,
+            "B12": -0.0013,
+            "B8A": -0.007
+          },
+          "shoreline": {
+            "B01": 0.258,
+            "B02": 0.1161,
+            "B03": 0.0474,
+            "B04": 0.0347,
+            "B05": 0.0075,
+            "B06": 0.0021,
+            "B07": 0.0004,
+            "B08": -0.0008,
+            "B11": 0.0006,
+            "B12": 0.0034,
+            "B8A": -0.0005
+          }
+        }
+      },
+      "okeechobee 17RMK-17RML": {
+        "acolite": {
+          "interior": {
+            "B01": 0.39,
+            "B02": null,
+            "B03": 0.2142,
+            "B04": null,
+            "B05": 0.1323,
+            "B06": 0.1074,
+            "B07": 0.0782,
+            "B08": 0.0997,
+            "B11": null,
+            "B12": null,
+            "B8A": 0.0652
+          },
+          "near_land": {
+            "B01": 0.1606,
+            "B02": 0.103,
+            "B03": 0.0389,
+            "B04": 0.0355,
+            "B05": 0.0271,
+            "B06": 0.0161,
+            "B07": 0.008,
+            "B08": 0.0188,
+            "B11": 0.0033,
+            "B12": 0.0138,
+            "B8A": 0.0026
+          },
+          "shoreline": {
+            "B01": 0.2618,
+            "B02": 0.2006,
+            "B03": 0.0809,
+            "B04": 0.0782,
+            "B05": 0.0462,
+            "B06": 0.0275,
+            "B07": 0.0165,
+            "B08": 0.0281,
+            "B11": 0.011,
+            "B12": 0.0226,
+            "B8A": 0.0091
+          }
+        },
+        "sen2cor": {
+          "interior": {
+            "B01": -0.0341,
+            "B02": -0.0491,
+            "B03": -0.0667,
+            "B04": -0.0851,
+            "B05": -0.0167,
+            "B06": -0.0326,
+            "B07": -0.0377,
+            "B08": -0.0549,
+            "B11": -0.0084,
+            "B12": null,
+            "B8A": -0.0586
+          },
+          "near_land": {
+            "B01": -0.0526,
+            "B02": -0.0002,
+            "B03": 0.0093,
+            "B04": -0.0019,
+            "B05": 0.0196,
+            "B06": 0.0221,
+            "B07": 0.021,
+            "B08": 0.0219,
+            "B11": 0.0166,
+            "B12": 0.0179,
+            "B8A": 0.0205
+          },
+          "shoreline": {
+            "B01": -0.1039,
+            "B02": -0.033,
+            "B03": -0.016,
+            "B04": -0.0374,
+            "B05": 0.0154,
+            "B06": 0.0158,
+            "B07": 0.0132,
+            "B08": 0.0108,
+            "B11": 0.014,
+            "B12": 0.0227,
+            "B8A": 0.0094
+          }
+        }
+      },
+      "okeechobee 17RMK-17RNK": {
+        "acolite": {
+          "interior": {
+            "B01": -0.2931,
+            "B02": -0.1618,
+            "B03": 0.0013,
+            "B04": 0.0835,
+            "B05": 0.072,
+            "B06": 0.1241,
+            "B07": 0.1333,
+            "B08": 0.1722,
+            "B11": null,
+            "B12": null,
+            "B8A": null
+          },
+          "near_land": {
+            "B01": -0.2242,
+            "B02": -0.1251,
+            "B03": -0.0322,
+            "B04": -0.0098,
+            "B05": -0.0015,
+            "B06": -0.0004,
+            "B07": -0.0011,
+            "B08": 0.0017,
+            "B11": 0.0017,
+            "B12": 0.0044,
+            "B8A": -0.0012
+          },
+          "shoreline": {
+            "B01": -0.3444,
+            "B02": -0.2323,
+            "B03": -0.0634,
+            "B04": -0.0168,
+            "B05": -0.0011,
+            "B06": 0.0006,
+            "B07": 0.0006,
+            "B08": 0.0047,
+            "B11": 0.0114,
+            "B12": 0.0192,
+            "B8A": 0.0017
+          }
+        },
+        "sen2cor": {
+          "interior": {
+            "B01": -0.0729,
+            "B02": -0.0602,
+            "B03": -0.0023,
+            "B04": 0.0258,
+            "B05": 0.0264,
+            "B06": 0.0382,
+            "B07": 0.0422,
+            "B08": 0.0471,
+            "B11": null,
+            "B12": null,
+            "B8A": 0.0539
+          },
+          "near_land": {
+            "B01": -0.0962,
+            "B02": -0.0519,
+            "B03": -0.0069,
+            "B04": 0.0058,
+            "B05": 0.012,
+            "B06": 0.0107,
+            "B07": 0.0109,
+            "B08": 0.0112,
+            "B11": 0.0148,
+            "B12": 0.0161,
+            "B8A": 0.0114
+          },
+          "shoreline": {
+            "B01": -0.1317,
+            "B02": -0.1,
+            "B03": -0.019,
+            "B04": 0.0062,
+            "B05": 0.0199,
+            "B06": 0.0192,
+            "B07": 0.0194,
+            "B08": 0.0171,
+            "B11": 0.0194,
+            "B12": 0.0194,
+            "B8A": 0.0175
+          }
+        }
+      },
+      "okeechobee 17RMK-17RNL": {
+        "acolite": {
+          "interior": {
+            "B01": -0.2349,
+            "B02": -0.1622,
+            "B03": -0.0258,
+            "B04": 0.0648,
+            "B05": 0.0781,
+            "B06": 0.0709,
+            "B07": 0.0552,
+            "B08": 0.0877,
+            "B11": null,
+            "B12": null,
+            "B8A": 0.0593
+          },
+          "near_land": {
+            "B01": -0.1087,
+            "B02": -0.0539,
+            "B03": -0.0086,
+            "B04": 0.0086,
+            "B05": 0.0159,
+            "B06": 0.0108,
+            "B07": 0.0038,
+            "B08": 0.0152,
+            "B11": 0.0026,
+            "B12": 0.0142,
+            "B8A": -0.0003
+          },
+          "shoreline": {
+            "B01": -0.1584,
+            "B02": -0.0884,
+            "B03": -0.01,
+            "B04": 0.0242,
+            "B05": 0.0261,
+            "B06": 0.017,
+            "B07": 0.0087,
+            "B08": 0.0225,
+            "B11": 0.0118,
+            "B12": 0.0277,
+            "B8A": 0.0043
+          }
+        },
+        "sen2cor": {
+          "interior": {
+            "B01": 0.1677,
+            "B02": 0.2736,
+            "B03": 0.2258,
+            "B04": 0.2223,
+            "B05": 0.1841,
+            "B06": 0.1783,
+            "B07": 0.1587,
+            "B08": 0.1419,
+            "B11": 0.0773,
+            "B12": null,
+            "B8A": 0.1416
+          },
+          "near_land": {
+            "B01": -0.0071,
+            "B02": 0.076,
+            "B03": 0.0391,
+            "B04": 0.0433,
+            "B05": 0.0266,
+            "B06": 0.0126,
+            "B07": 0.0104,
+            "B08": 0.0099,
+            "B11": 0.0136,
+            "B12": 0.0186,
+            "B8A": 0.0096
+          },
+          "shoreline": {
+            "B01": 0.0011,
+            "B02": 0.171,
+            "B03": 0.0975,
+            "B04": 0.1063,
+            "B05": 0.0713,
+            "B06": 0.0468,
+            "B07": 0.0394,
+            "B08": 0.0336,
+            "B11": 0.0267,
+            "B12": 0.037,
+            "B8A": 0.0314
+          }
+        }
+      },
+      "okeechobee 17RML-17RNK": {
+        "acolite": {
+          "interior": {
+            "B01": -0.695,
+            "B02": -0.5786,
+            "B03": -0.2496,
+            "B04": null,
+            "B05": -0.0584,
+            "B06": -0.0336,
+            "B07": -0.0007,
+            "B08": -0.0074,
+            "B11": null,
+            "B12": null,
+            "B8A": 0.0353
+          },
+          "near_land": {
+            "B01": -0.332,
+            "B02": -0.1945,
+            "B03": -0.0583,
+            "B04": -0.0331,
+            "B05": -0.0238,
+            "B06": -0.0148,
+            "B07": -0.0076,
+            "B08": -0.0162,
+            "B11": -0.0006,
+            "B12": -0.0089,
+            "B8A": -0.0027
+          },
+          "shoreline": {
+            "B01": -0.5048,
+            "B02": -0.3524,
+            "B03": -0.1123,
+            "B04": -0.0665,
+            "B05": -0.0364,
+            "B06": -0.0215,
+            "B07": -0.0113,
+            "B08": -0.0197,
+            "B11": 0.0021,
+            "B12": -0.0038,
+            "B8A": -0.0036
+          }
+        },
+        "sen2cor": {
+          "interior": {
+            "B01": 0.0158,
+            "B02": -0.02,
+            "B03": 0.0648,
+            "B04": 0.1252,
+            "B05": 0.0558,
+            "B06": 0.0781,
+            "B07": 0.0863,
+            "B08": 0.1045,
+            "B11": 0.0486,
+            "B12": null,
+            "B8A": 0.1097
+          },
+          "near_land": {
+            "B01": -0.0093,
+            "B02": -0.0382,
+            "B03": -0.0112,
+            "B04": 0.0127,
+            "B05": -0.0074,
+            "B06": -0.0119,
+            "B07": -0.0105,
+            "B08": -0.01,
+            "B11": -0.0016,
+            "B12": -0.0017,
+            "B8A": -0.0088
+          },
+          "shoreline": {
+            "B01": 0.0234,
+            "B02": -0.0371,
+            "B03": 0.0095,
+            "B04": 0.0537,
+            "B05": 0.0048,
+            "B06": 0.0027,
+            "B07": 0.0058,
+            "B08": 0.0081,
+            "B11": 0.0062,
+            "B12": -0.0024,
+            "B8A": 0.0095
+          }
+        }
+      },
+      "okeechobee 17RML-17RNL": {
+        "acolite": {
+          "interior": {
+            "B01": -0.6109,
+            "B02": -0.5194,
+            "B03": -0.2397,
+            "B04": null,
+            "B05": -0.0543,
+            "B06": -0.0366,
+            "B07": -0.023,
+            "B08": -0.0119,
+            "B11": null,
+            "B12": null,
+            "B8A": -0.0059
+          },
+          "near_land": {
+            "B01": -0.2681,
+            "B02": -0.1566,
+            "B03": -0.0475,
+            "B04": -0.0268,
+            "B05": -0.0112,
+            "B06": -0.0054,
+            "B07": -0.0042,
+            "B08": -0.0035,
+            "B11": -0.0006,
+            "B12": 0.0004,
+            "B8A": -0.0029
+          },
+          "shoreline": {
+            "B01": -0.4158,
+            "B02": -0.2877,
+            "B03": -0.0909,
+            "B04": -0.0541,
+            "B05": -0.0202,
+            "B06": -0.0106,
+            "B07": -0.0078,
+            "B08": -0.0056,
+            "B11": 0.0008,
+            "B12": 0.0051,
+            "B8A": -0.0048
+          }
+        },
+        "sen2cor": {
+          "interior": {
+            "B01": 0.2015,
+            "B02": 0.3216,
+            "B03": 0.2912,
+            "B04": 0.3061,
+            "B05": 0.2008,
+            "B06": 0.2106,
+            "B07": 0.1962,
+            "B08": 0.1964,
+            "B11": 0.0858,
+            "B12": null,
+            "B8A": 0.1997
+          },
+          "near_land": {
+            "B01": 0.0455,
+            "B02": 0.0762,
+            "B03": 0.0297,
+            "B04": 0.0453,
+            "B05": 0.0071,
+            "B06": -0.0095,
+            "B07": -0.0106,
+            "B08": -0.0119,
+            "B11": -0.003,
+            "B12": 0.0007,
+            "B8A": -0.0109
+          },
+          "shoreline": {
+            "B01": 0.105,
+            "B02": 0.2037,
+            "B03": 0.1134,
+            "B04": 0.1435,
+            "B05": 0.0559,
+            "B06": 0.0309,
+            "B07": 0.0262,
+            "B08": 0.0228,
+            "B11": 0.0126,
+            "B12": 0.0143,
+            "B8A": 0.0219
+          }
+        }
+      },
+      "okeechobee 17RNK-17RNL": {
+        "acolite": {
+          "interior": {
+            "B01": -0.0665,
+            "B02": -0.0865,
+            "B03": -0.0826,
+            "B04": -0.0808,
+            "B05": -0.0531,
+            "B06": -0.092,
+            "B07": -0.1038,
+            "B08": -0.102,
+            "B11": null,
+            "B12": null,
+            "B8A": -0.1954
+          },
+          "near_land": {
+            "B01": -0.0012,
+            "B02": -0.0178,
+            "B03": -0.016,
+            "B04": -0.0226,
+            "B05": 0.0015,
+            "B06": 0.0055,
+            "B07": 0.0005,
+            "B08": 0.0104,
+            "B11": -0.0026,
+            "B12": 0.0083,
+            "B8A": -0.0025
+          },
+          "shoreline": {
+            "B01": 0.0057,
+            "B02": -0.0217,
+            "B03": -0.0255,
+            "B04": -0.0417,
+            "B05": -0.0055,
+            "B06": 0.0011,
+            "B07": -0.0043,
+            "B08": 0.0065,
+            "B11": -0.0091,
+            "B12": 0.0016,
+            "B8A": -0.0073
+          }
+        },
+        "sen2cor": {
+          "interior": {
+            "B01": 0.1914,
+            "B02": 0.1604,
+            "B03": 0.0811,
+            "B04": 0.0465,
+            "B05": 0.0602,
+            "B06": 0.0696,
+            "B07": 0.0542,
+            "B08": 0.0458,
+            "B11": null,
+            "B12": null,
+            "B8A": 0.055
+          },
+          "near_land": {
+            "B01": 0.1504,
+            "B02": 0.1074,
+            "B03": 0.034,
+            "B04": 0.0253,
+            "B05": 0.0082,
+            "B06": -0.0004,
+            "B07": -0.002,
+            "B08": -0.0035,
+            "B11": -0.0029,
+            "B12": -0.0005,
+            "B8A": -0.0035
+          },
+          "shoreline": {
+            "B01": 0.221,
+            "B02": 0.1916,
+            "B03": 0.0719,
+            "B04": 0.0605,
+            "B05": 0.0318,
+            "B06": 0.0145,
+            "B07": 0.0097,
+            "B08": 0.0055,
+            "B11": 0.0018,
+            "B12": 0.0077,
+            "B8A": 0.0047
+          }
+        }
+      }
+    },
+    "source_digests": {
+      "benchmarks/aqr_overlap.py": "3b805d02f3050d78e9549e28dde979aa64ba5a212ddfae197d1f7d148ea6d5e8",
+      "benchmarks/aqr_validity.py": "043da5c69eadefe148a768806eb81ae5eafdf83e5551fa40c661a1409e559c31",
+      "src/s2proto/aqr.py": "e6cb3e7b88f166df35551754ae0c38714d05541fab152d30a304e4f7598110ae",
+      "src/s2proto/aqr_pairing.py": "6648b022b4e05086f8cca34c5c6c6b17f60e488f946bc8c7d8d516e350d02a2c",
+      "src/s2proto/harness.py": "6b52ae4bcb7867f4753882316d50a7a594947f70c62f7d48378b3aa64d81cdd1",
+      "src/s2proto/masks.py": "e9f3dbd5ea92fae9f7deb92bcb4c0e330141fe0aacd6d46e542c7f3dfd907f1e",
+      "src/s2proto/overlap.py": "59d3066a77bd054cfecf7a4eb8f474cadf6c6f1f245f58f060279de5cd62ca78",
+      "src/s2proto/pairs.py": "f9b5646be3cb8fc9b60c697b02edfa07471fe95dcd70caee2a224a332097c269",
+      "src/s2proto/validity.py": "ae88a238266221be64c590cb1db8f37c1996a985fdc939ba4b98f28123c378b5"
+    },
+    "status": "post-run diagnostics from stored statistics, never rules",
+    "tiles": {
+      "16SGC": {
+        "acquisition_date": "20251015",
+        "c1_cloud_cover": 0.008644,
+        "c1_nodata_pixel_percentage": 1.658648,
+        "product": "S2B_MSIAQR_20251015T162149_N0511_R040_T16SGC_20251015T195355"
+      },
+      "16SGD": {
+        "acquisition_date": "20251015",
+        "c1_cloud_cover": 0.000358,
+        "c1_nodata_pixel_percentage": 0,
+        "product": "S2B_MSIAQR_20251015T162149_N0511_R040_T16SGD_20251015T195355"
+      },
+      "17RMK": {
+        "acquisition_date": "20251031",
+        "c1_cloud_cover": 0.139976,
+        "c1_nodata_pixel_percentage": 74.905777,
+        "product": "S2C_MSIAQR_20251031T160521_N0511_R054_T17RMK_20251031T174737"
+      },
+      "17RML": {
+        "acquisition_date": "20251031",
+        "c1_cloud_cover": 0.010555,
+        "c1_nodata_pixel_percentage": 94.18475,
+        "product": "S2C_MSIAQR_20251031T160521_N0511_R054_T17RML_20251031T174737"
+      },
+      "17RNK": {
+        "acquisition_date": "20251031",
+        "c1_cloud_cover": 0.035813,
+        "c1_nodata_pixel_percentage": 0,
+        "product": "S2C_MSIAQR_20251031T160521_N0511_R054_T17RNK_20251031T174737"
+      },
+      "17RNL": {
+        "acquisition_date": "20251031",
+        "c1_cloud_cover": 0.593887,
+        "c1_nodata_pixel_percentage": 5.055431,
+        "product": "S2C_MSIAQR_20251031T160521_N0511_R054_T17RNL_20251031T174737"
+      },
+      "17SKT": {
+        "acquisition_date": "20251015",
+        "c1_cloud_cover": 0.015737,
+        "c1_nodata_pixel_percentage": 47.481784,
+        "product": "S2B_MSIAQR_20251015T162149_N0511_R040_T17SKT_20251015T195355"
+      },
+      "17SKU": {
+        "acquisition_date": "20251015",
+        "c1_cloud_cover": 0.000635,
+        "c1_nodata_pixel_percentage": 21.577115,
+        "product": "S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355"
+      }
+    }
+  },
   "endpoints": {
     "bucket": "usgs-wma-sentinel-2-aqr-acolite-dsf",
     "c1_buckets": [

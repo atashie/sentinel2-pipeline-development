@@ -13,6 +13,7 @@ Decision 0009 keeps the two options standalone. Each option is compared only wit
     uv run python benchmarks/aqr_overlap.py --dry-run
     uv run python benchmarks/aqr_overlap.py
     uv run python benchmarks/aqr_overlap.py --pair lanier:16SGC-16SGD --output data/t7.json
+    uv run python benchmarks/aqr_overlap.py --resummarize benchmarks/results/aqr-overlap.json
 """
 
 from __future__ import annotations
@@ -144,7 +145,8 @@ def scale_offset(asset: dict) -> tuple[float, float]:
 def layer_check(header: dict, grid: masks.TileGrid, resolution: int) -> bool:
     a, _, c, _, e, f = header["transform"]
     return (
-        header["epsg"] == grid.epsg
+        list(header["shape"]) == list(grid.shape(resolution))
+        and header["epsg"] == grid.epsg
         and abs(a - resolution) < 1e-9
         and abs(e + resolution) < 1e-9
         and abs((c - grid.x0) / resolution) <= overlap.GRID_TOLERANCE_PIXELS
@@ -424,6 +426,103 @@ def summarize(infos: list[dict], records: list[dict], acc: Accumulator) -> dict:
     }
 
 
+def relative_offset(cell: dict) -> float | None:
+    """Mean tile difference over the mean of the two tile means. None for small or dark cells."""
+    if cell.get("n", 0) < pairs.MIN_RECORD_PIXELS:
+        return None
+    level = (cell["mean_units"]["tile_a"] + cell["mean_units"]["tile_b"]) / 2
+    if level <= pairs.DISAGREE_UNITS:
+        return None
+    return round(cell["difference_units"]["mean"] / level, 4)
+
+
+def diagnostics(result: dict) -> dict:
+    """Post-run diagnostics from the stored per-pair statistics. None of them is a rule."""
+    by_pair = result["summary"]["by_pair"]
+    catalog = json.loads(CATALOG.read_text())
+    items = {item["id"]: item for group in catalog.values() for item in group}
+    tiles = {}
+    for pair in result["pairs"]:
+        for tile, item_id, product in zip(
+            (pair["tile_a"], pair["tile_b"]), pair["c1_items"], pair["products"], strict=True
+        ):
+            props = items[item_id]["properties"]
+            tiles[tile] = {
+                "product": product,
+                "acquisition_date": product.split("_")[2][:8],
+                "c1_nodata_pixel_percentage": props.get("s2:nodata_pixel_percentage"),
+                "c1_cloud_cover": props.get("eo:cloud_cover"),
+            }
+    failures, widening, offsets, medians = [], [], {}, {}
+    for label, table in sorted(by_pair.items()):
+        for subset in ("all", "shared", "shared_clear_water"):
+            for option in overlap.OPTIONS:
+                for name, bands in table.get(option, {}).get(subset, {}).items():
+                    for band, cell in bands.items():
+                        if cell.get("verdict") == "differs":
+                            failures.append(
+                                {
+                                    "pair": label,
+                                    "option": option,
+                                    "subset": subset,
+                                    "class": name,
+                                    "band": band,
+                                    "share_beyond": cell["share_disagree"],
+                                    "n": cell["n"],
+                                }
+                            )
+                        if subset == "shared":
+                            rel = relative_offset(cell)
+                            offsets.setdefault(label, {}).setdefault(option, {}).setdefault(
+                                name, {}
+                            )[band] = rel
+                            if name == "interior" and cell.get("n", 0) >= pairs.MIN_RECORD_PIXELS:
+                                medians.setdefault(option, {}).setdefault(band, []).append(
+                                    abs(cell["difference_units"]["p50"])
+                                )
+            if subset == "all":
+                continue
+            a_table = table.get("acolite", {}).get(subset, {})
+            s_table = table.get("sen2cor", {}).get(subset, {})
+            for name, bands in a_table.items():
+                for band, cell in bands.items():
+                    other = s_table.get(name, {}).get(band, {})
+                    if min(cell.get("n", 0), other.get("n", 0)) < pairs.MIN_RECORD_PIXELS:
+                        continue
+                    outcome = overlap.widening(cell["share_disagree"], other["share_disagree"])
+                    if outcome != "similar":
+                        widening.append(
+                            {
+                                "pair": label,
+                                "subset": subset,
+                                "class": name,
+                                "band": band,
+                                "result": outcome,
+                                "acolite_share_beyond": cell["share_disagree"],
+                                "sen2cor_share_beyond": other["share_disagree"],
+                            }
+                        )
+    return {
+        "generated_at": harness.utc_now(),
+        "source_digests": source_digests(),
+        "status": "post-run diagnostics from stored statistics, never rules",
+        "distinct_tiles": len(tiles),
+        "distinct_tile_dates": len({(t, v["acquisition_date"]) for t, v in tiles.items()}),
+        "tiles": tiles,
+        "per_pair_o7_differs": failures,
+        "per_pair_o8_not_similar": widening,
+        "relative_offset_definition": (
+            "Mean of tile A minus tile B over the mean of the two tile means, shared pixels. "
+            "Left out below 100 pixels or when the mean level is 50 units or less."
+        ),
+        "relative_offsets": offsets,
+        "interior_absolute_pair_median_units": {
+            option: {band: [min(v), max(v)] for band, v in bands.items()}
+            for option, bands in medians.items()
+        },
+    }
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -432,7 +531,15 @@ def main(argv=None) -> int:
     parser.add_argument("--lake", action="append", help="limit to these lakes, for a smoke run")
     parser.add_argument("--output", type=Path, default=RESULT)
     parser.add_argument("--dry-run", action="store_true", help="print the plan, contact nothing")
+    parser.add_argument("--resummarize", type=Path, help="add post-run diagnostics offline")
     args = parser.parse_args(argv)
+
+    if args.resummarize:
+        result = json.loads(args.resummarize.read_text())
+        result["diagnostics"] = diagnostics(result)
+        write_json(args.resummarize, result)
+        print(f"Added diagnostics to {args.resummarize}")
+        return 0
 
     scenes, lakes, stage4 = load_inputs()
     same, cross = overlap.zone_pairs(scenes)
@@ -489,7 +596,10 @@ def main(argv=None) -> int:
             "bucket": aqr.BUCKET,
             "region": aqr.REGION,
             "endpoint": aqr.ENDPOINT,
-            "c1_buckets": sorted({s["c1"]["assets"]["scl"]["href"].split("/")[2] for s in scenes}),
+            "c1_buckets": sorted(
+                {s["c1"]["assets"]["scl"]["href"].split("/")[2].split(".")[0] for s in scenes}
+            ),
+            "c1_region": aqr.REGION,
             "catalog_queries": "none. Items come from the saved stage 4 catalogs.",
             "credentials": "none, unsigned requests",
             "payer": (

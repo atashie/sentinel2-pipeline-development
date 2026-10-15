@@ -6,9 +6,9 @@
     "decision": "decisions/0009-standalone-options-join-deferred.md",
     "note": "Two source options are compared, each used alone, under decision 0009. ACOLITE only is the USGS ACOLITE aquatic reflectance product, for water pixels in the lower 48 states, the initial primary source. Sen2Cor only is Earth Search Level-2A: Collection 1 GeoTIFF assets first, the older collection's GeoTIFF assets as fallback, under decision 0004. Neither option fills or flags the other, and the scene join is deferred. Self-run ACOLITE from Level-1C is context. The 2021 scenario is prototyped first. Workflow, compute platform, and storage layout remain open. Cross-tile mosaicking is a MAJOR CONCERN under investigation. Options marked context are not compared for selection.",
     "next": [
-      "Review Phases B and C: the check records, probes T1 to T6, the crop, the Discovery rewrite, and the per-option cost model.",
-      "Run probe T7, the overlap comparison on lakes in two tiles, and probe T8, retention, in separately authorized steps.",
+      "Review Phases B and C: the check records, probes T1 to T7, the crop, the Discovery rewrite, and the per-option cost model.",
       "Rebuild the Prototyping tab from the primary product's results and the per-option costs.",
+      "Run probe T8, retention, in a separately authorized step.",
       "Resolve primary-tile roles and per-band validity using model requirements and matched-location evidence."
     ]
   },
@@ -10522,7 +10522,7 @@
       "title": "Cross-tile mosaicking is a MAJOR CONCERN",
       "flag": "major concern",
       "text": "Adjacent tiles can differ in classification, reflectance, and pixel grids. Multiple products can cover one lake during a satellite pass. Tools that stitch tiles can hide these differences. The catalog survey records candidate overlap. Stage 4 establishes complete native-extent coverage for its selected lakes, with separate contributions. It does not establish valid measurements at every location or scientific agreement between observations.",
-      "consequence": "The store never mosaics. Stage 4 retains separate item and native-grid contributions, summarized in F-26. Ambiguous primary roles remain null until the owner selects a rule. Scientific comparison requires matched ground locations, per-band validity, and explicit quality-grid association. Equal extraction across methods does not establish equal values between tiles. Probe T7 compared the same pixels in two tiles of one zone, for both options, on two acquisitions. The tiles agree within 0.005 on nearly every pixel, and both options carry offsets of up to a few thousandths.",
+      "consequence": "The store never mosaics. Stage 4 retains separate item and native-grid contributions, summarized in F-26. Ambiguous primary roles remain null until the owner selects a rule. Scientific comparison requires matched ground locations, per-band validity, and explicit quality-grid association. Equal extraction across methods does not establish equal values between tiles. Probe T7 compared the same pixels in two tiles of one zone, for both options, on two acquisitions. Pooled, the tiles agree within 0.005 on nearly every pixel. Per pair, offsets reach tens of percent of the dark-water signal in both options.",
       "status": "open",
       "decision": "Decision 0003. Owner direction on 2026-09-10: proceed with the provisional primary-tile rule and investigate thoroughly.",
       "evidence": [
@@ -10536,7 +10536,7 @@
         "PR-15"
       ],
       "plain": "A pond near a tile edge can have multiple products per date. Grids or values can differ. Stitching tiles can hide those differences.",
-      "why": "Seven of twenty survey sites lie in two to four tiles. Which value the model sees, and whether the two agree, is unknown until measured. The store never mosaics, and the difference is measured before any stitched value is trusted."
+      "why": "Seven of twenty survey sites lie in two to four tiles. Which value the model sees is unknown until a primary rule is chosen. Probe T7 measured same-zone tile differences on two dates. The store never mosaics, and the difference is measured before any stitched value is trusted."
     },
     {
       "id": "I-31",
@@ -10880,7 +10880,7 @@
         "I-31"
       ],
       "record": "../benchmarks/results/aqr-overlap.json",
-      "result": "Eight same-zone tile pairs at Lake Lanier and Lake Okeechobee, two acquisitions of October 2025, rules declared before the read. Both options' tiles agree within 0.005 reflectance on 90 percent of pixels or more in every band and class. Sen2Cor's 60 m B01 at the shore is the exception. ACOLITE does not widen tile disagreement against Sen2Cor in any band and class. Both options carry tile offsets of up to a few thousandths. Pairs across UTM zones were not compared. Statistics only, no value stored. Neither option is a reference."
+      "result": "Eight same-zone tile pairs at Lake Lanier and Lake Okeechobee, two acquisitions of October 2025, rules declared before the read. Pooled over pairs, both options' tiles agree within 0.005 reflectance on 90 percent of pixels or more, except Sen2Cor's B01 at the shore. Per pair, ACOLITE's B01 differs on 79 to 100 percent of pixels at one Okeechobee corner pair, and Sen2Cor's B01 differs at six pairs. Tile offsets reach tens of percent of the dark-water signal in both options. Pooled, ACOLITE does not widen tile disagreement against Sen2Cor. Per pair it widens in 4 strata and narrows in 32. Statistics only, no value stored. Neither option is a reference."
     }
   ],
   "themes": [

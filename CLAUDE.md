@@ -175,7 +175,7 @@ inventory, or its finding in [docs/measurements.md](docs/measurements.md). Numbe
 - **Cross-tile mosaicking is a MAJOR CONCERN (issue I-30). The store never mosaics.** Tiles overlap and differ
   in their overlap. Every record carries its tile and a primary or overlap marker under assumption A22. Claim G11,
   practice P2, decisions 0002 and 0003. Seven of twenty survey sites lie in two to four tiles, measurement finding 8.
-  On two acquisitions, each option's two tiles of one zone agree within 0.005 on nearly every pixel, with small offsets. Findings 38 and 39.
+  On two acquisitions, each option's tiles of one zone agree closely pooled, but per pair their offsets are large against the water signal. Findings 38 and 39.
 - Collection 1 on Earth Search is nearly empty from January to November 2022 everywhere, and holds 05.09 originals
   for December 2022 to December 2023. The older collection's GeoTIFFs cover 2022. One Alaska tile is on no
   collection for 52 months. Measurement findings 1 to 3 and 10, issue I-08.

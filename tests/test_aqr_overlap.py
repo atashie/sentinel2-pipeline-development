@@ -88,3 +88,63 @@ def test_rules_cover_o1_to_o9():
         "O8_widening",
         "O9_flag_diagnostic",
     ]
+
+
+def test_origin_offset_carries_the_row_sign():
+    north = masks.TileGrid(32617, 399960.0, 3100020.0)
+    south = masks.TileGrid(32617, 399960.0, 3000000.0)
+    dr, dc = overlap.origin_offset(north, south)
+    assert (dr, dc) == (-5001.0, 0.0)
+    # The north tile's row 5100 lies 102,000 m below its top, row 99 of the south tile.
+    assert 5100 + dr == 99
+
+
+class FakeSource:
+    def __init__(self, array):
+        self.array = array
+
+    def read(self, band, window):
+        r, c = int(window.row_off), int(window.col_off)
+        return self.array[r : r + int(window.height), c : c + int(window.width)]
+
+
+def test_c1_dn_resamples_10m_means_and_60m_parents():
+    import aqr_overlap as t7
+
+    ten = np.arange(1, 1 + 12 * 12, dtype=np.uint16).reshape(12, 12)
+    values, valid = t7.c1_dn(FakeSource(ten), {"proj:transform": [10]}, (1, 1, 2, 2))
+    assert valid.all()
+    assert values[0, 0] == ten[2:4, 2:4].mean()
+    sixty = np.array([[100, 200], [300, 400]], dtype=np.uint16)
+    values, valid = t7.c1_dn(FakeSource(sixty), {"proj:transform": [60]}, (2, 2, 3, 3))
+    assert values.tolist() == [[100, 200, 200], [300, 400, 400], [300, 400, 400]]
+
+
+def test_layer_check_needs_shape_grid_and_crs():
+    import aqr_overlap as t7
+
+    grid = masks.TileGrid(32617, 399960.0, 3000000.0)
+    header = {
+        "epsg": 32617,
+        "transform": [20, 0, 399960.0, 0, -20, 3000000.0],
+        "shape": [5490, 5490],
+    }
+    assert t7.layer_check(header, grid, 20)
+    assert not t7.layer_check(dict(header, shape=[5489, 5490]), grid, 20)
+    assert not t7.layer_check(dict(header, epsg=32616), grid, 20)
+    assert not t7.layer_check(
+        dict(header, transform=[20, 0, 399980.0, 0, -20, 3000000.0]), grid, 20
+    )
+
+
+def test_relative_offset_skips_small_and_dark_cells():
+    import aqr_overlap as t7
+
+    cell = {
+        "n": 500,
+        "mean_units": {"tile_a": 51.0, "tile_b": 105.0},
+        "difference_units": {"mean": -54.0},
+    }
+    assert t7.relative_offset(cell) == round(-54.0 / 78.0, 4)
+    assert t7.relative_offset(dict(cell, n=99)) is None
+    assert t7.relative_offset(dict(cell, mean_units={"tile_a": 20.0, "tile_b": 30.0})) is None

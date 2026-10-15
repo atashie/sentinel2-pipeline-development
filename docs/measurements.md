@@ -975,56 +975,72 @@ The first dispersed B1 attempt was interrupted after 25 of 112 products and repl
 - Elapsed-time gains. The reference ran on other dates, and the network path varies.
 - A store of every layer. The replay reads the five counterparts of the earlier band set, and the product holds 13 raster layers.
 - Scenes the product lacks. Each part kept only acquisitions the product holds. Stages 2 to 4 matched the reference, and the dispersed cohort matched 98 of 112.
-- The overlap comparison on lakes in two tiles. Stage 4 kept value digests, not values, so probe T7 read pixels again, findings 38 and 39.
+- The overlap comparison on lakes in two tiles. Stage 4 kept only value digests, so probe T7 read pixels again, findings 38 and 39.
 
 ## Phase C probe T7: each option across two overlapping tiles, 2026-10-15
 
 Status: measured, awaiting review. The [T7 record](reviews/2026-10-15-phase-c-t7-overlap.md) owns the commands and verification.
 Evidence: [aqr-overlap.json](../benchmarks/results/aqr-overlap.json). Its rules O1 to O9 were fixed before any pixel was read, `tolerances` in the result.
+Post-run diagnostics, added offline from the stored statistics, sit under `diagnostics`. None of them is a rule.
 Probe T6's stage 4 plan fixed the lakes, the acquisitions of 2025-10-15 at Lake Lanier and 2025-10-31 at Lake Okeechobee, and the products.
 Each tile's Sen2Cor source is the Collection 1 item its product was paired with, finding 34. No catalog was queried.
-Eight tile pairs share a UTM zone and a lake, two at Lake Lanier and six at Lake Okeechobee. Four Lanier pairs cross zones 16 and 17 and were not compared. Source: `cross_zone_pairs`.
+Eight tile pairs share a UTM zone and a lake, two at Lake Lanier and six at Lake Okeechobee. They span 8 distinct tiles and 8 tile-dates. Source: `diagnostics`.
+Four Lanier pairs cross zones 16 and 17 and were not compared. Source: `cross_zone_pairs`.
 Every pair's grids align, and every offset is a whole number of 60 m pixels, so B01 is compared for both options. Source: `pairs`.
 GDAL made 624 range requests for 178,753,662 bytes from the product bucket and 627 for 351,598,336 bytes from the Collection 1 bucket. Reads took 349 s. Source: `summary`.
-Each option is compared only with itself. A tile difference is a difference in processing, and it ranks neither correction, assumption A52.
+Each option is compared only with itself. A tile difference ranks neither correction, assumption A52.
 
-### 38. Each option's two tiles agree on the overlap pixels, except Sen2Cor's 60 m B01 at the shore
+### 38. Pooled, each option's two tiles agree within 0.005 on nearly every pixel. Per pair, their offsets reach tens of percent of the water signal
 
 The 12 pair-lake records hold 1,267,879 interior overlap observations. Lake Okeechobee holds 1,039,321 of them. Source: `records`.
-The four corner pairs at Lake Okeechobee repeat the same 12,927 interior pixels, so observations repeat across pairs.
-Under rule O7, both options' tiles agree in every band, class, and subset, with two exceptions. Sen2Cor's B01 differs in shoreline and near-land. Source: `summary.pooled`.
-There, 15.1 and 12.3 percent of Sen2Cor's B01 pixels differ between tiles by more than 0.005. ACOLITE's B01 differs on 1.1 and 1.2 percent.
-Over interior pixels, at most 0.06 percent of any other band differs by more than 0.005, in either option. B01 differs on 0.8 percent for ACOLITE and 5.8 percent for Sen2Cor.
-Over shoreline pixels, other bands reach 3.1 percent for ACOLITE and 5.1 percent for Sen2Cor, both in B8A.
+The 12,927 interior pixels of Lake Okeechobee's four-tile corner repeat across six pairs, so observations repeat.
+Under rule O7, pooled over pairs and lakes, both options' tiles agree in every band, class, and subset, except Sen2Cor's B01. Source: `summary.pooled`.
+Sen2Cor's B01 differs in shoreline and near-land in all four subsets, 12 to 19 percent beyond 0.005. ACOLITE's B01 there is 1 to 6 percent.
+Over interior pixels, at most 0.06 percent of any other band differs by more than 0.005, in either option.
+Pair by pair, agreement fails more often. Source: `diagnostics.per_pair_o7_differs`, a diagnostic outside the pooled rule.
+- ACOLITE fails in 5 strata of the shared set. B01 at the corner pair 17RML-17RNK differs on 79 percent of interior pixels and on all shoreline and near-land pixels.
+- Near-land B08 fails at two corner pairs, on 10 and 14 percent of 1,827 pixels.
+- Sen2Cor fails in 25 strata of the shared set. B01 differs at six pairs, up to 28 percent of interior pixels. Near-land B06 to B8A fail at three corner pairs, up to 35 percent.
+- Those 1,827 near-land pixels are one set of land pixels, shared by four corner pairs.
 
-| Band | ACOLITE median | ACOLITE 5th to 95th | Sen2Cor median | Sen2Cor 5th to 95th |
-|---|---|---|---|---|
-| B01 | -9 | -39 to 21 | 25 | -20 to 48 |
-| B02 | -9 | -24 to 15 | 22 | -8 to 31 |
-| B04 | -1 | -18 to 16 | 8 | 2 to 18 |
-| B8A | 2 | -19 to 20 | 5 | 2 to 20 |
-| B11 | 1 | -13 to 16 | 2 | 0 to 4 |
+Signed medians depend on which tile comes first by name, so pooled signed medians cancel across pairs. The per-pair absolute medians, over interior pixels, show the offsets.
 
-Tile A minus tile B over shared interior pixels, in units of 1e-04 reflectance. Source: `summary.pooled.<option>.shared.interior`.
-The tiles of each option carry small offsets. Per pair, the median difference reaches 55 units for ACOLITE's B01 and 34 for its B02. Source: `summary.by_pair`.
-For Sen2Cor it reaches 43 units in B01 and 31 in B02, on the Lanier pair 17SKT-17SKU.
-Near land at one Okeechobee corner pair, 17RMK-17RML, 35 percent of Sen2Cor's B08 pixels and 14 percent of ACOLITE's differ beyond 0.005. That stratum holds 1,827 pixels.
-The quality codes differ between tiles less often under ACOLITE. Its flag integer differs on 0.09 percent of interior, 0.44 percent of shoreline, and 0.12 percent of near-land pixels.
-The scene classification differs on 0.31, 9.75, and 1.20 percent. Source: `summary.flag_diagnostic`, diagnostic O9.
+| Band | ACOLITE, range over pairs | Sen2Cor, range over pairs |
+|---|---|---|
+| B01 | 6 to 55 | 2 to 43 |
+| B02 | 8 to 34 | 1 to 31 |
+| B04 | 3 to 12 | 3 to 20 |
+| B8A | 0 to 13 | 4 to 19 |
+| B11 | 1 to 9 | 1 to 5 |
 
-### 39. On these pixels, ACOLITE's per-tile aerosol fitting does not widen tile disagreement against Sen2Cor's
+Absolute median tile difference over shared interior pixels, in units of 1e-04 reflectance. Source: `diagnostics.interior_absolute_pair_median_units`.
+Over dark water these offsets are large against the signal. At 17RML-17RNK, ACOLITE's B01 tile means are 51 and 105 units, a mean difference of 70 percent of their mean.
+Sen2Cor's offsets reach 36 percent of the mean in B01 at Lanier's 17SKT-17SKU, and 32 percent in B02 at 17RML-17RNL. Source: `diagnostics.relative_offsets`.
+Two pairs have tiles that both hold under 6 percent no-data. There, B01 and B02 offsets still run 7 to 14 percent for ACOLITE and 10 to 22 percent for Sen2Cor.
+The corner tiles hold little valid data. Collection 1 declares 94 percent no-data for 17RML and 75 percent for 17RMK. Source: `diagnostics.tiles`.
+The quality codes also differ between tiles. ACOLITE's flag integer differs on 0.09, 0.44, and 0.12 percent of interior, shoreline, and near-land pixels.
+The scene classification differs on 0.31, 9.75, and 1.20 percent. The two codes have different numbers of classes, so the shares do not compare. Source: `summary.flag_diagnostic`.
 
-Rule O8 compares the two options' shares beyond 0.005 on the same pixels. Source: `summary.widening`.
-On the shared and shared clear-water sets, the result is similar in every band and class but one. In shoreline and near-land B01, ACOLITE narrows the disagreement.
-That exception comes from Sen2Cor's B01, a 60 m band. Each 60 m pixel spans nine 20 m pixels and covers more shore.
-So the question of the replan record has an answer on 8 pairs and 2 acquisitions. Per-tile aerosol fitting leaves ACOLITE's tiles as consistent as Sen2Cor's.
-Both options still carry tile offsets of up to a few thousandths. A store that picks one tile per lake picks those offsets with it, assumption A22.
+### 39. Pooled, ACOLITE does not widen tile disagreement beyond rule O8's margin. Per pair, it widens at one corner, with offsets that fall with wavelength
+
+Rule O8 compares the two options' shares beyond 0.005 on the same pixels, pooled. Source: `summary.widening`.
+Pooled, the result is similar in every band and class, except shoreline and near-land B01, where ACOLITE narrows the disagreement.
+Both options' shares are near zero in 10 of 11 bands, so the rule can say little there. It has little power to detect widening below 0.005.
+Applied to each pair, a diagnostic, ACOLITE widens in 4 strata of the shared set and narrows in 32. Source: `diagnostics.per_pair_o8_not_similar`.
+The widening falls at 17RML-17RNK in B01, every class, and at 17RMK-17RNL in near-land B08.
+At 17RML-17RNK, ACOLITE's median tile difference falls with wavelength: -55 units in B01, -34 in B02, -15 in B03, and -5 in B04. From B06 on it stays within 4 units of zero. Source: `summary.by_pair`.
+That pattern is what a difference in fitted aerosol would produce. The pair's tiles hold little valid data. T7 did not test the cause.
+Sen2Cor's B01 also differs between tiles at most pairs. Its cause is untested too.
+On one date, a lake's values differ between tiles by a median of up to 0.0055 for ACOLITE and 0.0043 for Sen2Cor, over interior pixels. A series that changes tile can step by that much, assumption A22.
 
 ### What T7 does not show
 
 - Other dates, seasons, or aerosol loads. Both acquisitions fall in October 2025.
+- Whether tile offsets persist from date to date, or only on these acquisitions.
 - Pairs across UTM zones. Their grids differ, and the four Lanier pairs that cross zones 16 and 17 were not compared.
-- Pixels far from a tile edge. Overlap pixels lie within about 10 km of an edge, where each tile's processing has less context.
+- Pixels far from a tile edge. Overlap strips are 489 to 492 pixels wide, 9.8 km, and lie at tile edges.
+- Small lakes. The three small lakes in overlaps hold 0, 12, and 753 interior pixels.
 - Which tile, or which option, is closer to the water's true reflectance, assumption A52.
-- Independent samples. Lake Okeechobee holds 82 percent of interior observations, and its corner pixels repeat across four pairs.
+- The source of each tile. The result records no datastrip and no ACOLITE settings per product, issue I-34.
+- Independent samples. Lake Okeechobee holds 82 percent of interior observations, and the replicate unit is closer to the 8 pair-dates than to the pixels.
 - Whether offsets of this size matter to the model.
