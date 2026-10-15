@@ -19,7 +19,7 @@ The owner answered by making each source a standalone option.
 - **Neither option fills or flags the other.** Where the chosen option has no scene, the record is missing and counted.
 - **Initial preference.** Assumption A52 stands. ACOLITE is treated as designed for water, and the USGS product is the initial primary source. It keeps the name primary product in this repository.
 - **Paused roles.** Level-2A's quality, land-value, and fallback roles beside ACOLITE records pause. Its comparison role becomes the Sen2Cor-only option, which the company's own experiments compare with ACOLITE.
-- **Self-run ACOLITE.** Running ACOLITE from Level-1C stays the documented gap-fill context of assumption A48. It uses the same processor, so it fits the ACOLITE-only option.
+- **Self-run ACOLITE.** Running ACOLITE from Level-1C stays the documented gap-fill context of assumption A48. It uses the same processor. Adding it to the ACOLITE-only option needs a later owner decision. Until then, missing scenes stay missing.
 
 ## Consequences
 

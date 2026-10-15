@@ -1,7 +1,7 @@
 # Owner direction on processor performance recorded, 2026-10-13
 
 Author: Claude Code (AI coding agent), directed by the repository owner.
-Status: delivered, awaiting owner review. No provider script ran. No pixel was read. Nothing is committed.
+Status: delivered, awaiting owner review. No provider script ran. No pixel was read. Committed as `ddbaebf` on the owner's instruction of 2026-10-14.
 
 ## Step and authorization
 

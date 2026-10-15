@@ -19,12 +19,13 @@ The owner authorized Phase C step 1, probe T4, on 2026-10-13. It measured pixel 
 On 2026-10-14 the owner decided that shoreline and near-land values stay with the primary product, issue I-35. The [direction record](docs/reviews/2026-10-14-standalone-options-direction.md) awaits review.
 The owner authorized probes T5 and T6 on 2026-10-14. T5, findings 34 and 35, and T6, findings 36 and 37, ran that day. Their [record](docs/reviews/2026-10-14-phase-c-t5-t6.md) awaits review.
 The same day the cost model was re-parameterized per option from T1, T2, and T6. Its [record](docs/reviews/2026-10-14-phase-c-cost-options.md) awaits review.
+Six AI reviewers then read that work. The [review response](docs/reviews/2026-10-14-adversarial-review-response.md) records the fixes and the deferred items.
 The workload supervisor needs 5 GiB of free memory to start a worker. Each later Phase C step needs owner authorization.
 Discovery and the gap surveys for the Level-2A route are complete. Prototyping has laptop measurements for Stages 1 to 4 on Level-2A files, the reference series.
 Claude Code [reviewed Stage 4](docs/reviews/2026-09-16-claude-stage-4-full-run-review.md) and verified its extraction evidence.
 The owner accepted the [response](docs/reviews/2026-09-16-codex-stage-4-review-response.md) on 2026-09-17. It corrects interpretation and future selection.
 The measured results remain frozen. Ambiguous primary-tile roles still require an owner decision.
-Start with [docs/work-plan.md](docs/work-plan.md). The inventory and the Discovery tab describe the primary product. The Prototyping tab still describes the Level-2A series until Phase C.
+Start with [docs/work-plan.md](docs/work-plan.md). The inventory and the Discovery tab describe the primary product. The Prototyping tab still describes the Level-2A series until the tab rebuild.
 No processing workflow, compute platform, or storage layout is selected. Measurements remain on the owner's laptop under assumption A25.
 The owner, Codex, and Claude Code develop each authorized step together under the workflow below.
 
@@ -154,15 +155,15 @@ inventory, or its finding in [docs/measurements.md](docs/measurements.md). Numbe
 - Measurement findings 1 to 25 and the gotchas below describe Level-2A files from Earth Search, the reference series of
   assumption A50. Findings 26 to 29 describe the primary product's metadata and one crop. Findings 30 to 33 describe its pixels.
   Findings 34 and 35 compare the two options' values. Findings 36 and 37 describe access on the primary product. Decision 0008.
-- Inside the primary product's scene, every pilot-lake pixel holds a value in every band and class. No-data marks pixels ACOLITE
-  flags out of scene. NDWI is (B03 - B8A) / (B03 + B8A) times 10,000. Findings 30 and 32.
+- In 59 scenes of 2025 on five pilot tiles, every pilot-lake pixel inside the product's scene holds a value in every band and class.
+  No-data marks pixels ACOLITE flags out of scene. NDWI matches (B03 - B8A) / (B03 + B8A) times 10,000 on 96 percent or more. Findings 30 and 32.
 - Each primary product is a standalone observation. The bucket can hold two products of one pass on one tile, one per datastrip. Keep both, never the latest only. Finding 30, decision 0009.
 - GDAL reports scale 1 and offset 0 for the primary product, its defaults. USGS documents a factor of 10,000. In every pixel probe T4
   read, the flags layer holds the ACOLITE flag integer times 10,000, and land pixels carry values with flags. Findings 26, 29, and 30.
 - USGS documents ACOLITE 20221114.0, but the probed settings files carry the keys of release 20250402.0. Read the processor
   version per scene, never from the documentation. Finding 26, issue I-34.
 - The primary product holds about half of Earth Search's acquisitions, mostly from original Level-1C baselines. Under ACOLITE only, the rest stay missing.
-  A deferred Level-2A join by tile, platform, and sensing start would reach the same baseline for 51 percent. Its key identifies a pass, not one item.
+  A deferred Level-2A join by tile, platform, and sensing start would reach the same baseline for 51 percent. Its key identifies a pass, which can hold two items.
   The Level-1C datastrip identified one Collection 1 item for each of 59 products, finding 34. Probes use it for pairing only. Decision 0009 still defers any join.
   Findings 27, 28, and 30, issues I-32 and I-40.
 - Level-2A bands have three native resolutions, and the primary product has one 20 m grid. Every water body is stored as

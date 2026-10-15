@@ -1,7 +1,7 @@
 # Phase C, step 1: probe T4, pixel validity on the pilot lakes, 2026-10-13
 
 Author: Claude Code (AI coding agent), directed by the repository owner.
-Status: delivered, uncommitted on the owner's instruction. The owner decided the masking question on 2026-10-14 and deferred the join, decision 0009. Awaiting further review.
+Status: delivered, committed as `ddbaebf` on the owner's instruction of 2026-10-14. The owner decided the masking question on 2026-10-14 and deferred the join, decision 0009. Awaiting further review.
 
 ## For the owner
 
@@ -9,8 +9,8 @@ Status: delivered, uncommitted on the owner's instruction. The owner decided the
 - The only no-data pixels are those ACOLITE flags out of scene. Almost all lie in one Lake Washington scene where the join matched two Level-2A items.
 - The replan record's rule takes shoreline and near-land values from Level-2A only if the processor masks them. They stay with the primary product. The owner confirmed this on 2026-10-14.
 - In both scenes with two Level-2A matches, the join took the other datastrip's item. The owner then deferred the join, decision 0009.
-- NDWI is the normalized difference of the delivered B03 and B8A, times 10,000.
-- Against the Level-2A scene classification, ACOLITE sets no flag on 74 percent of shadow and 7 percent of cloud over interior water.
+- NDWI matches the normalized difference of the delivered B03 and B8A, times 10,000, on 96 to 100 percent of comparable observations.
+- ACOLITE sets no flag on 74 percent of interior pixels the Level-2A scene classification calls shadow, and on 7 percent of those it calls cloud. ACOLITE has no shadow test.
 - Sentinel-2C scenes run a second settings variant. This adds to issue I-34 on the processor version.
 
 ## Step and authorization
@@ -23,7 +23,7 @@ Deferred: T5 and the later Phase C steps, the Prototyping tab rebuild, and any c
 ## Rules declared before the read
 
 The rules are `TOLERANCES` in [validity.py](../../src/s2proto/validity.py) and `tolerances` in the result. They were fixed before any pixel was read.
-`uv run python benchmarks/aqr_validity.py --dry-run` printed them, with the source digests, to `data/aqr-validity/declared-before-run.txt` at 2026-10-13T22:47:32+00:00.
+One shell command wrote the UTC time, `shasum -a 256` digests of the script and rule modules, and the `--dry-run` output to `data/aqr-validity/declared-before-run.txt`. The time is 2026-10-13T22:47:32+00:00.
 The full run started at 22:48:25 UTC. Its recorded digests of the script and the rules module equal the declared ones.
 
 | Rule | What it fixes |
@@ -67,10 +67,11 @@ Provider contact, all unsigned, all under the owner's instruction:
 Payer: the bucket owners. Every logged request was unsigned and returned HTTP 200 on its first attempt. A requester-pays bucket refuses unsigned requests.
 The product bucket is `usgs-wma-sentinel-2-aqr-acolite-dsf` and the classification bucket `e84-earth-search-sentinel-data`, both in us-west-2.
 GDAL also opened one B05 header per tile to build the pixel grid, outside its request log. Those five opens are missing from the range counts.
-The machine was the owner's laptop over the internet, assumption A25. The code version is `5806678-dirty`, because the probe is uncommitted.
+The machine was the owner's laptop over the internet, assumption A25. The code version is `5806678-dirty`, because the probe was uncommitted when it ran.
 Settings files and Earth Search items are saved under `data/aqr-validity/2026-10-13T224825+0000/`, outside git.
 
-`/check` on 2026-10-13: `uv sync --locked`, `uv run ruff check .`, `uv run ruff format --check .`, and `uv run pytest -q` passed, 360 tests in 37.80 s.
+`/check` passed on 2026-10-13, 360 tests in 37.80 s.
+It ran `uv sync --locked`, `uv run ruff check .`, `uv run ruff format --check .`, and `uv run pytest -q`.
 Pytest reported 13,000 warnings from a rasterio deprecation in earlier tests. The new test file alone raises none.
 The collation, sensor-band, renderer, gap-report, and review-layer `--check` commands all report their outputs current.
 A style scan of the added Markdown and inventory text found no semicolon and no forbidden modal verb. Only the owner's verbatim quotes exceed 25 words.
@@ -81,9 +82,9 @@ A style scan of the added Markdown and inventory text found no semicolon and no 
 
 - 59 of 60 tile-months had a complete scene. All joined to a Collection 1 item of baseline 05.11, and every classification grid aligned.
 - Rule R3's largest shares are 0.39 percent interior, 0.76 percent shoreline, and 0.88 percent near-land, all below 1 percent.
-- Those observations lie in one Lake Washington scene, plus two pixels in one band of another. Each no-data count equals the out-of-scene flag count.
+- Those observations lie in one Lake Washington scene, plus two pixels in one band of another. Two out-of-scene pixels there hold values in ten bands and NDWI.
 - The flags layer never holds no-data, and every value read is a multiple of 10,000.
-- Non-water flags cover 35 percent of interior, 77 percent of shoreline, and 92 percent of near-land observations. The mixed-pixel flag never occurs, though enabled.
+- Non-water flags cover 35 percent of interior, 77 percent of shoreline, and 92 percent of near-land observations. The mixed-pixel flag never occurs, though `l2w_mask_mixed=True`.
 - B11 and B12 are negative in 20 and 14 percent of interior observations.
 - NDWI agrees with B03 and B8A within rounding on 96 to 100 percent of comparable observations, and with B08 on 0.6 to 1.2 percent.
 
@@ -97,9 +98,11 @@ A style scan of the added Markdown and inventory text found no semicolon and no 
 ## Limits
 
 - One year, 2025, five tiles, and one scene per tile and month. Earlier inputs are mostly original baselines with poorer joins, finding 28.
-- Counts only. The result cannot show that no-data and the out-of-scene flag fall on the same pixels.
+- Counts only. Where no-data covers a whole record, the counts prove the same pixels. Elsewhere, as for the two B04 pixels, they cannot.
+- Rule R3's verdict holds pooled. Split by tile or size, Lake Washington's tile and every non-anchor size group pass 1 percent through the wrong-item scene alone.
+- Finding 33's cloud shares include that scene. Without it, Lake Washington's unflagged share is 8.3 percent, not 6.0.
 - The scene classification is a land product with its own errors. Water and cloud agreement shows where two products differ. It does not show which is right.
-- Anchor lakes dominate pooled shares. Splits by tile and size class are in the result.
+- Anchor lakes dominate pooled shares. Splits by tile and size class are in the result. Interior is a polygon class, and not every interior pixel is water.
 - NHD shorelines are not observations of a given date. Some pilot ponds can hold no water on a scene date.
 - Times and bytes are a laptop over the internet. They are not production estimates.
 - This record and its findings are an AI agent's work, reviewed by tests only so far.
@@ -110,7 +113,7 @@ The owner wrote "masking rule: yes, same rule applies to acolite products" and a
 Issue I-35 is now `decided`. Shoreline and near-land values and flags stay with the primary product.
 Answering the second question found an error in this record. It said one two-item choice covered other pixels. Both choices took the item of the other datastrip.
 The evidence came from saved files, with no new provider contact. Finding 30 owns it. No count changes, and rule R3's verdict holds.
-In the Tahoe scene, the chosen classification holds no lake pixel, so finding 33 omits that scene. In the Washington scene, R3's processor-masked count depends on the wrong item.
+In the Tahoe scene, the chosen classification holds no lake pixel, so finding 33 omits that scene. In the Washington scene, R3's count and R6's cloud shares depend on the wrong item.
 The selection rule kept one of two Tahoe products of one pass, treating split datastrips as revisions. Finding 23 had already recorded that defect for Level-2A.
 Later on 2026-10-14 the owner made each ACOLITE product standalone and deferred the join, [decision 0009](../decisions/0009-standalone-options-join-deferred.md). Both Tahoe products count as observations.
 

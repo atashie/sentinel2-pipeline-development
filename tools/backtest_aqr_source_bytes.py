@@ -29,6 +29,42 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def whole_file_compression(measured):
+    """Object size over native bytes per T1 scene, for the measured layers and for all layers."""
+    headers = json.loads(HEADERS.read_text())
+    rows = []
+    for scene in headers["scenes"]:
+        layers = {name: layer for name, layer in scene["layers"].items() if layer.get("header")}
+        native = {
+            name: layer["header"]["width"]
+            * layer["header"]["height"]
+            * SIZES[layer["header"]["dtypes"][0]]
+            for name, layer in layers.items()
+        }
+        size = {name: layer["size"] for name, layer in layers.items()}
+        five = sum(size[n] for n in measured) / sum(native[n] for n in measured)
+        every = sum(size.values()) / sum(native.values())
+        rows.append(
+            {
+                "product": scene["product"],
+                "object_bytes_all_layers": sum(size.values()),
+                "measured_layers": five,
+                "delivered_layers": every,
+                "delivered_over_measured": every / five,
+                "flags_layer": size["l2_flags"] / native["l2_flags"],
+            }
+        )
+    return {
+        "scenes": rows,
+        "delivered_over_measured_mean": sum(r["delivered_over_measured"] for r in rows) / len(rows),
+        "definition": (
+            "Whole-object bytes over native bytes, from T1's listed object sizes. The ratio "
+            "of all delivered layers to the five measured layers scales T6's windowed "
+            "requested-to-decoded ratio to the full payload."
+        ),
+    }
+
+
 def delivered_payload():
     """Native bytes per square kilometer of every GeoTIFF layer T1 found in one scene."""
     headers = json.loads(HEADERS.read_text())
@@ -181,6 +217,7 @@ def build():
                 "seventeen_modeled_assets"
             ],
         },
+        "whole_file_compression": whole_file_compression(list(measured.values())),
         "cross_cohort_holdouts": holdouts,
         "limitations": [
             (
@@ -200,8 +237,10 @@ def build():
                 "Requested-to-decoded ratios are not pure file compression ratios."
             ),
             (
-                "T6 read five of the thirteen delivered GeoTIFF layers. The other eight "
-                "layers' compression is unmeasured."
+                "T6 read five of the thirteen delivered GeoTIFF layers. The int32 flags "
+                "layer holds a third of their native bytes and compresses to about 3 "
+                "percent. T1's whole-object sizes scale the ratio to all thirteen layers, "
+                "on three scenes."
             ),
             (
                 "Frozen plans and SQLite inputs remain local under data. Aggregate counts "

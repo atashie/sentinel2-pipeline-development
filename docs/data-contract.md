@@ -4,7 +4,7 @@ Status: draft under assessment. [Decision 0002](decisions/0002-aws-source-pixel-
 The draft exists so that discovery candidates are compared against one target and so the modeling project can see what to expect.
 Draft v2 adds source-product provenance for the primary product. Probes T1 to T3 of the [replan record](reviews/2026-10-13-acolite-first-replan.md) answered its encoding and join questions on 2026-10-13.
 Probe T4 answered its masking question the same day, findings 30 to 33. On 2026-10-14 decision 0009 removed the join fields.
-Findings 26 to 33 in [measurements.md](measurements.md#phase-b-probes-on-the-usgs-aquatic-reflectance-product-2026-10-13) hold the evidence. The new fields stay candidates until a prototype exists.
+Findings [26 to 29](measurements.md#phase-b-probes-on-the-usgs-aquatic-reflectance-product-2026-10-13) and [30 to 33](measurements.md#phase-c-probe-t4-pixel-validity-on-the-pilot-lakes-2026-10-13) hold the evidence. The new fields stay candidates until a prototype exists.
 Once a prototype exists, a change here is a contract change. It then needs a processing version bump, a documentation update, and a test.
 
 ## What the store serves

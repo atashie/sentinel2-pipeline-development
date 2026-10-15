@@ -14,7 +14,8 @@ Phase B ran on 2026-10-13: check records, probes T1 to T3, one map crop, and the
 The owner authorized Phase C step 1, probe T4, on 2026-10-13, and it ran that day. Its [record](reviews/2026-10-13-phase-c-t4-validity.md) awaits review.
 The [direction record](reviews/2026-10-14-standalone-options-direction.md) of 2026-10-14 awaits review.
 The owner authorized probes T5 and T6 on 2026-10-14, and both ran that day. Their [record](reviews/2026-10-14-phase-c-t5-t6.md) awaits review.
-The owner authorized the next step the same day. The cost model now estimates both options. Its [record](reviews/2026-10-14-phase-c-cost-options.md) awaits review.
+The owner then wrote "proceed with the next steps". The cost model now estimates both options. Its [record](reviews/2026-10-14-phase-c-cost-options.md) awaits review.
+Six AI reviewers then read the Phase C work. The [review response](reviews/2026-10-14-adversarial-review-response.md) records the fixes and the deferred items.
 Each later Phase C step needs its own authorization.
 Every test that contacts a provider runs only when the owner invokes it.
 Findings 26 to 29 describe the primary product's metadata and one crop. Findings 30 to 33 describe pixel validity on the pilot lakes.
@@ -239,7 +240,7 @@ Carried into Phase C from Phase B:
 
 ## Phase D: scientific checks
 
-- [ ] T5 and T7 interpreted as the first validation items, with limits and no in situ claim.
+- [ ] T5 and T7 interpreted as the first comparisons between the options, with limits. Neither tests correctness, and no in situ claim is made.
 - [ ] Offset pixel check on Level-2A, issue I-05, carried from the former stage 5.
 - [ ] Recheck of the 05.10 release note against claim R5, carried from the former stage 5.
 - [ ] Owner decision: where the company's own experiments comparing the two corrections run, and against which reference. Until then the assessment forms no view on which performs better, assumption A52. Assumption A15 keeps validation against field data out of this assessment.

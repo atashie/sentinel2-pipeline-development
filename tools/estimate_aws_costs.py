@@ -20,6 +20,7 @@ AQR_OUTPUT = ROOT / "docs/cost-analysis/estimates-acolite-only.json"
 AQR_EVIDENCE = ROOT / "benchmarks/results/aqr-workloads.json"
 AQR_COHORTS = ROOT / "docs/cost-analysis/aqr-cohort-blocks.json"
 AQR_COVERAGE = ROOT / "benchmarks/results/aqr-coverage.json"
+RAW_ACCESS = ROOT / "benchmarks/results/raw-access.json"
 OPTIONS = ("sen2cor_only", "acolite_only")
 GIB = 2**30
 TIB = 2**40
@@ -292,6 +293,9 @@ def aqr_rates():
     }
     acquisitions = sum(tiles[t]["acquisitions"] for t in ids)
     duplicates = sum(tiles[t]["duplicate_acquisitions"] for t in ids)
+    scenes = sum(tiles[t]["scenes"] for t in ids)
+    fragments = sum(tiles[t]["scenes_without_observed_layers_count"] for t in ids)
+    assert all(sum(tiles[t]["monthly"]["aqr"]) == tiles[t]["acquisitions"] for t in ids)
     return {
         "source": "benchmarks/results/aqr-coverage.json, probe T2",
         "bucket": coverage["endpoints"]["bucket"],
@@ -308,25 +312,53 @@ def aqr_rates():
         "historical_complete_month_end": reference["historical_complete_month_end"],
         "historical_share_of_earth_search_any": sum(counts.values()) / sum(earth_search.values()),
         "replacement_2022_epochs": None,
-        "products_per_acquisition": (acquisitions + duplicates) / acquisitions,
-        "listed_scenes": sum(tiles[t]["scenes"] for t in ids),
-        "listed_scenes_without_full_layer_set": sum(
-            tiles[t]["scenes_without_observed_layers_count"] for t in ids
+        "listed_scenes": scenes,
+        "listed_scenes_without_full_layer_set": fragments,
+        "repeat_products": duplicates,
+        "products_per_acquisition": (scenes - fragments) / acquisitions,
+        "products_per_acquisition_definition": (
+            "Listed scenes with the full layer set over acquisitions, on the 23 tiles from "
+            "2015 to 2026. Times the acquisitions, it gives the complete products exactly."
         ),
-        "products_per_acquisition_period": "every listed product of the 23 tiles, 2015 to 2026",
         "qualification": (
             "Bucket listings on purpose-selected tiles, not national rates or valid pixel "
-            "observations. An acquisition is a sensing date and platform on one tile. A "
-            "repeat product of one acquisition, a reprocessed copy or a same-baseline "
-            "product, counts once here and again in products_per_acquisition. Counts "
-            "include listed scenes without the full layer set."
+            "observations. An acquisition is a sensing date and platform on one tile. "
+            "Acquisitions with only incomplete scenes still count. Repeat products are "
+            "reprocessed copies, split datastrips, and fragments without the full layers."
         ),
+    }
+
+
+@lru_cache(maxsize=1)
+def sen2cor_whole_file_factor():
+    """The same whole-object scaling for Level-2A, from one Collection 1 acquisition."""
+    raw = json.loads(RAW_ACCESS.read_text())
+    sizes = {a["key"]: a["file_size"] for a in raw["assets"]["c1"]["all"]["assets"]}
+    pixels = {10: 10980**2, 20: 5490**2, 60: 1830**2}
+    measured = {"red": (10, 2), "nir": (10, 2), "swir16": (20, 2), "coastal": (60, 2)}
+    measured["scl"] = (20, 1)
+    five_native = sum(pixels[g] * b for g, b in measured.values())
+    five = sum(sizes[k] for k in measured) / five_native
+    # The modeled payload keeps the conservative 10 m allowance for AOT and WVP.
+    modeled = sum(
+        pixels[int(r)] * b
+        for r, b in json.loads(INPUT.read_text())["value_bytes_per_grid_pixel"].items()
+    )
+    every = sum(sizes.values()) / modeled
+    return {
+        "source": "benchmarks/results/raw-access.json, Collection 1 assets of one acquisition",
+        "assets": len(sizes),
+        "object_bytes_all_assets": sum(sizes.values()),
+        "measured_assets": five,
+        "modeled_payload": every,
+        "modeled_over_measured": every / five,
     }
 
 
 def rate_evidence(settings):
     """Acquisition counts for the option: Earth Search Level-2A or the primary product."""
-    return aqr_rates() if settings["acquisition_evidence"] == "aqr_coverage" else survey_rates()
+    evidence = aqr_rates() if settings["acquisition_evidence"] == "aqr_coverage" else survey_rates()
+    return copy.deepcopy(evidence)
 
 
 def acquisition_rates(settings, case):
@@ -516,7 +548,7 @@ def estimate(settings, case, sample, land, calibration_rows, rate_override=None)
         # Native payload replaces a free-standing compressed MB-per-block assumption.
         decoded_bytes_per_block = sum(
             block_km**2 * 1e6 / int(r) ** 2 * size
-            for r, size in s["value_bytes_per_grid_pixel"].items()
+            for r, size in s["source_bytes_per_grid_pixel"].items()
         )
         coefficient = calibration_rows["B1" if recipe == "A1" else recipe][
             "requested_per_decoded_byte"
@@ -529,7 +561,7 @@ def estimate(settings, case, sample, land, calibration_rows, rate_override=None)
             )
         else:
             blocks = distinct_blocks
-        source_mb = (
+        calibrated_mb = (
             blocks
             * decoded_bytes_per_block
             / 1e6
@@ -537,6 +569,9 @@ def estimate(settings, case, sample, land, calibration_rows, rate_override=None)
             * c["source_compression_multiplier"]
             * source_epochs
         )
+        # Whole-object sizes scale the measured layers' ratio to the full payload. CPU keeps
+        # the calibrated bytes, because decode work follows native bytes.
+        source_mb = calibrated_mb * s["payload_compression_factor"]
         source_requests = max(
             source_mb / c["mean_request_MB"],
             blocks * source_epochs * s["source_files"] * c["requests_per_band_block"],
@@ -550,7 +585,7 @@ def estimate(settings, case, sample, land, calibration_rows, rate_override=None)
         # The primary product ships a settings text file, read whole once per product.
         source_requests += active_tiles * source_epochs * s["text_files_per_product"]
         cpu_seconds = (
-            source_mb
+            calibrated_mb
             * calibration_rows[recipe]["cpu_seconds_per_requested_MB"]
             * c["cpu_transfer_multiplier"]
         )
@@ -1232,6 +1267,11 @@ def option_settings(option="sen2cor_only"):
             settings[key] = value
     if config.get("measured_base_revisions"):
         settings["cases"]["base"]["revisions"] = aqr_rates()["products_per_acquisition"]
+    if config.get("measured_payload_compression"):
+        blocks = json.loads(AQR_COHORTS.read_text())
+        settings["payload_compression_factor"] = blocks["whole_file_compression"][
+            "delivered_over_measured_mean"
+        ]
     settings["option"] = option
     return settings
 
@@ -1315,10 +1355,63 @@ def build(option="sen2cor_only"):
     }
     if option == "acolite_only":
         data["coverage_sha256"] = hashlib.sha256(AQR_COVERAGE.read_bytes()).hexdigest()
-        data["option_inputs"] = {
-            key: settings[key] for key in settings["options"][option]["overrides"] if key != "cases"
-        } | {"base_revisions": settings["cases"]["base"]["revisions"]}
+    data["option_inputs"] = {
+        key: settings[key]
+        for key in (
+            "recipes",
+            "value_bytes_per_grid_pixel",
+            "source_bytes_per_grid_pixel",
+            "source_files",
+            "text_files_per_product",
+            "payload_compression_factor",
+        )
+    } | {
+        "base_revisions": settings["cases"]["base"]["revisions"],
+        "base_revisions_measured": bool(settings["options"][option].get("measured_base_revisions")),
+    }
+    data["option_sensitivities"] = option_sensitivities(settings, calibrated)
     return data
+
+
+def option_sensitivities(settings, calibrated):
+    """National buffered rows that vary one input the two options treat differently."""
+
+    def row(varied):
+        e = estimate(varied, "base", False, True, calibrated)
+        return {
+            "history_GiB": e["historical_dynamic_TiB"] * 1024,
+            **{
+                f"{code}_source_TB": e["recipes"][code]["historical_requested_TB_decimal"]
+                for code in ("B1", "B3")
+            },
+            **{
+                f"{code}_ec2_backfill_usd": e["recipes"][code][
+                    "historical_ec2_total_including_prep_put_usd"
+                ]
+                for code in ("B1", "B3")
+            },
+        }
+
+    whole_file = (
+        sen2cor_whole_file_factor()["modeled_over_measured"]
+        if settings["option"] == "sen2cor_only"
+        else settings["payload_compression_factor"]
+    )
+    compression = []
+    for label, factor in (("Measured layers' ratio", 1.0), ("Whole-object scaling", whole_file)):
+        varied = copy.deepcopy(settings)
+        varied["payload_compression_factor"] = factor
+        compression.append({"scaling": label, "factor": factor, **row(varied)})
+    point = []
+    for fraction in (0.75, 1.0):
+        varied = copy.deepcopy(settings)
+        varied["daily_updates"]["cases"]["base"]["point_to_tile_fraction"] = fraction
+        point.append({"point_to_tile_fraction": fraction, **row(varied)})
+    return {
+        "payload_compression": compression,
+        "point_to_tile_fraction": point,
+        "sen2cor_whole_file_evidence": sen2cor_whole_file_factor(),
+    }
 
 
 def report_tables(data):
@@ -1908,37 +2001,71 @@ def option_tables(sen2cor, acolite):
     s_day, a_day = base(sen2cor, "daily_updates"), base(acolite, "daily_updates")
     s_cal, a_cal = sen2cor["calibration"], acolite["calibration"]
     s_rate, a_rate = sen2cor["survey_rate_evidence"], acolite["survey_rate_evidence"]
-    inputs = acolite["option_inputs"]
     s_fit = s_cal["byte_calibration"]["spatial_fit"]["fitted_concentrated_mass"]
     a_fit = a_cal["byte_calibration"]["spatial_fit"]["fitted_concentrated_mass"]
+    s_in, a_in = sen2cor["option_inputs"], acolite["option_inputs"]
+
+    def grids_text(inputs):
+        return ", ".join(f"{r} m" for r in inputs["value_bytes_per_grid_pixel"])
+
+    def bytes_text(inputs):
+        return ", ".join(str(b) for b in inputs["value_bytes_per_grid_pixel"].values())
+
+    def decoded_cpu(reader):
+        return reader["cpu_seconds_per_requested_MB"] * reader["requested_per_decoded_byte"]
+
+    def revisions_text(inputs):
+        state = "measured" if inputs["base_revisions_measured"] else "assumed"
+        return f"{inputs['base_revisions']:.4f}, {state}"
+
     table(
         "Inputs set per option",
         ["Input", "Sen2Cor only", "ACOLITE only", "ACOLITE evidence"],
         [
-            ["Native grids kept", "10, 20, and 60 m", "20 m", "T1"],
+            ["Native grids kept", grids_text(s_in), grids_text(a_in), "T1"],
+            ["Bytes kept per grid pixel", bytes_text(s_in), bytes_text(a_in), "T1"],
+            ["GeoTIFF layers per product", s_in["source_files"], a_in["source_files"], "T1"],
             [
-                "Bytes kept per grid pixel",
-                "12, 15, and 4",
-                inputs["value_bytes_per_grid_pixel"]["20"],
+                "Text files per product",
+                s_in["text_files_per_product"],
+                a_in["text_files_per_product"],
                 "T1",
             ],
-            ["GeoTIFF layers per product", 17, inputs["source_files"], "T1"],
-            ["Text files per product", 0, inputs["text_files_per_product"], "T1"],
-            ["Readers with a trial", "A1, B1, B3", ", ".join(inputs["recipes"]), "T6"],
+            [
+                "Readers with a trial",
+                ", ".join(s_in["recipes"]),
+                ", ".join(a_in["recipes"]),
+                "T6",
+            ],
             *[
                 [
-                    f"{code} requested bytes per decoded byte",
+                    f"{code} requested bytes per decoded byte, measured layers",
                     f"{s_cal[code]['requested_per_decoded_byte']:.3f}",
                     f"{a_cal[code]['requested_per_decoded_byte']:.3f}",
                     "T6",
                 ]
                 for code in ("B1", "B3")
             ],
+            [
+                "Whole-object scaling to the full payload",
+                f"{s_in['payload_compression_factor']:.3f}",
+                f"{a_in['payload_compression_factor']:.3f}",
+                "T1",
+            ],
             *[
                 [
-                    f"{code} CPU seconds per requested MB",
+                    f"{code} CPU seconds per requested MB, measured layers",
                     f"{s_cal[code]['cpu_seconds_per_requested_MB']:.4f}",
                     f"{a_cal[code]['cpu_seconds_per_requested_MB']:.4f}",
+                    "T6",
+                ]
+                for code in ("B1", "B3")
+            ],
+            *[
+                [
+                    f"{code} CPU seconds per decoded MB, measured layers",
+                    f"{decoded_cpu(s_cal[code]):.4f}",
+                    f"{decoded_cpu(a_cal[code]):.4f}",
                     "T6",
                 ]
                 for code in ("B1", "B3")
@@ -1957,8 +2084,8 @@ def option_tables(sen2cor, acolite):
             ],
             [
                 "Products per acquisition, central case",
-                "1.050, assumed",
-                f"{inputs['base_revisions']:.4f}",
+                revisions_text(s_in),
+                revisions_text(a_in),
                 "T2",
             ],
             ["Fitted concentration on Florida red blocks", f"{s_fit:.4f}", f"{a_fit:.4f}", "T6"],
@@ -2171,7 +2298,92 @@ def option_tables(sen2cor, acolite):
     sections.extend(
         [
             "The middle columns apply the Level-2A acquisition rates to the product's grid, "
-            "layers, and byte ratios. They separate the acquisition effect from the rest.",
+            "layers, and reader calibration. They separate the acquisition effect from the rest.",
+            "",
+        ]
+    )
+    rows = []
+    for data in (sen2cor, acolite):
+        for r in data["option_sensitivities"]["payload_compression"]:
+            rows.append(
+                [
+                    data["option_label"],
+                    f"{r['scaling']}, {r['factor']:.3f}",
+                    f"{r['B1_source_TB']:,.1f}",
+                    f"${r['B1_ec2_backfill_usd']:,.0f}",
+                    f"${r['B3_ec2_backfill_usd']:,.0f}",
+                ]
+            )
+    table(
+        "Payload scaling by option, national with land buffer, central case",
+        ["Option", "Scaling", "B1 source TB", "B1 EC2 backfill", "B3 EC2 backfill"],
+        rows,
+    )
+    sections.extend(
+        [
+            "Central ACOLITE only uses whole-object scaling. Central Sen2Cor only keeps "
+            "the measured layers' ratio of decision 0006.",
+            "",
+        ]
+    )
+    table(
+        "Point-to-tile fraction by option, national with land buffer, central case",
+        ["Option", "Fraction", "History GiB", "B1 EC2 backfill", "B3 EC2 backfill"],
+        [
+            [
+                data["option_label"],
+                f"{r['point_to_tile_fraction']:.2f}",
+                f"{r['history_GiB']:,.1f}",
+                f"${r['B1_ec2_backfill_usd']:,.0f}",
+                f"${r['B3_ec2_backfill_usd']:,.0f}",
+            ]
+            for data in (sen2cor, acolite)
+            for r in data["option_sensitivities"]["point_to_tile_fraction"]
+        ],
+    )
+    evidence = sen2cor["option_sensitivities"]["sen2cor_whole_file_evidence"]
+    product = acolite_whole_files()
+    km2 = 1e6
+
+    def per_block(data, factor):
+        inputs = data["option_inputs"]
+        native = sum(
+            km2 / int(r) ** 2 * b for r, b in inputs["source_bytes_per_grid_pixel"].items()
+        )
+        return native * data["calibration"]["B1"]["requested_per_decoded_byte"] * factor
+
+    s_block = per_block(sen2cor, 1.0)
+    s_scaled = per_block(sen2cor, evidence["modeled_over_measured"])
+    a_block = per_block(acolite, a_in["payload_compression_factor"])
+    table(
+        "Whole-product check on one acquisition, tile 17SKU, 2025-10-15",
+        ["Quantity", "Sen2Cor only", "ACOLITE only", "ACOLITE / Sen2Cor"],
+        [
+            [
+                "Object bytes, every layer",
+                f"{evidence['object_bytes_all_assets'] / 1e6:,.1f} MB",
+                f"{product / 1e6:,.1f} MB",
+                f"{product / evidence['object_bytes_all_assets']:.2f}",
+            ],
+            [
+                "Model B1 bytes per km2, central",
+                f"{s_block:,.0f}",
+                f"{a_block:,.0f}",
+                f"{a_block / s_block:.2f}",
+            ],
+            [
+                "Model B1 bytes per km2, both scaled",
+                f"{s_scaled:,.0f}",
+                f"{a_block:,.0f}",
+                f"{a_block / s_scaled:.2f}",
+            ],
+        ],
+    )
+    sections.extend(
+        [
+            "Object bytes come from T1's listing and the raw-access result for the same pass. "
+            "The model's bytes add T6's and the larger-workload trials' requested-to-decoded "
+            "ratios.",
             "",
         ]
     )
@@ -2200,6 +2412,16 @@ def option_tables(sen2cor, acolite):
         ],
     )
     return "\n".join(sections)
+
+
+def acolite_whole_files():
+    """Object bytes of the T1 product that shares raw-access's Collection 1 pass."""
+    blocks = json.loads(AQR_COHORTS.read_text())
+    return next(
+        r["object_bytes_all_layers"]
+        for r in blocks["whole_file_compression"]["scenes"]
+        if "_20251015T162149_" in r["product"] and "_T17SKU_" in r["product"]
+    )
 
 
 def splice(existing, start, end, body):

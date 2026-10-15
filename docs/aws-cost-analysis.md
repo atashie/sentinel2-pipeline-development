@@ -6,13 +6,15 @@ The model was built on Earth Search Level-2A files, the reference series of [dec
 
 ## Two standalone options
 
-**In the central case, ACOLITE only costs about a quarter of Sen2Cor only to backfill and to store. The two options deliver different data.**
+**In the central case, ACOLITE only costs about a quarter of Sen2Cor only to backfill and to store. The two options deliver different data, so the ratio does not price one delivery two ways.**
 
 - ACOLITE only keeps one 20 m grid. Sen2Cor only keeps the 10 m bands at 10 m, so a small pond has more cells under Sen2Cor only.
 - The primary product holds 55 percent of Earth Search's acquisitions on the 23 selected tiles from 2021-01 through 2026-08. Cloudy acquisitions are missing most often, [finding 27](measurements.md#27-the-product-holds-41-to-61-percent-of-earth-searchs-acquisitions-in-most-years-and-new-scenes-arrive-a-median-eight-hours-after-sensing).
-- The comparison prices two different deliveries. It says nothing about which correction serves the model better, [assumption A52](assumptions.md).
-- The product's grid and layers alone cut storage and backfill by more than half. Fewer acquisitions then cut each by another 42 to 45 percent.
+- With Sen2Cor only's acquisition history, ACOLITE only's B1 backfill is 47 percent of Sen2Cor only's, and its storage 41 to 44 percent. The grid, layers, and reader calibration cause that part.
+- Fewer acquisitions then cut each by another 42 to 45 percent.
+- Two sensitivities each raise the backfill share to about 30 percent: whole-object scaling for Sen2Cor only, and full point coverage for ACOLITE only.
 - Fixed operations dominate the 10,000-body sample's monthly budget. There, ACOLITE only saves about a fifth of the monthly total.
+- The comparison says nothing about which correction serves the model better, [assumption A52](assumptions.md).
 
 Only inputs measured on the primary product changed, [assumption A53](assumptions.md). Every other input is shared, including every low and high stress value.
 The [input file](cost-analysis/inputs.json) lists each changed input under `options` with its basis.
@@ -20,22 +22,31 @@ The [input file](cost-analysis/inputs.json) lists each changed input under `opti
 - Probe T1 fixed the delivered layers: 11 bands and NDWI as int16, and the flags layer as int32, on one 20 m grid. The store keeps 28 bytes per pixel under assumptions A46 and A49.
 - T1 also fixed the source layout: 13 GeoTIFF layers and one settings text file per product, in 512-pixel blocks. A block covers 10.24 km, the same ground as the Level-2A model's block.
 - Probe T2's bucket listings give acquisition counts on the same 23 tiles and months as the Level-2A rates. The model reads them from the committed T2 result.
-- T2 also gives 1.050 products per acquisition. That measured value replaces the assumed central revision multiplier. Repeats are reprocessed copies and same-baseline products, finding 27.
-- Probe T6 gives CPU seconds per requested megabyte for readers B1 and B3, [finding 37](measurements.md). They are 1.5 to 1.7 times Level-2A's.
-- A new offline check derives requested bytes per decoded byte from T6's frozen plans, the [product byte checks](cost-analysis/aqr-cohort-blocks.json). The product's ratios are about two thirds of Level-2A's.
+- T2 also gives 1.019 complete products per acquisition, which replaces the assumed central multiplier of 1.05. Repeats are reprocessed copies and split datastrips, finding 27.
+- Probe T6 gives requested bytes per decoded byte and CPU seconds per requested megabyte for readers B1 and B3, [finding 37](measurements.md). A new offline check, the [product byte checks](cost-analysis/aqr-cohort-blocks.json), derives the byte ratios from T6's frozen plans.
+- T6 read 5 of the 13 layers. The int32 flags layer holds a third of their native bytes and compresses to about 3 percent, so the measured ratio understates the full payload.
+- T1's whole-object sizes scale it: all 13 layers compress 1.43 times worse than the 5 measured ones. The scaling applies to transfer and requests, and CPU keeps the calibrated bytes.
+- Per decoded megabyte, CPU is about equal on the two sources for B1 and 14 percent higher on the product for B3. Per requested megabyte the product looks costlier, because its measured layers compress well.
 - Each T6 cohort predicts the other's requested bytes within 7 percent for B1 and 2 percent for B3. Those checks condition on known blocks.
 - The Florida fit sets block concentration as before. T6's Florida cohort read the same 99 red blocks as the Level-2A trial.
-- The conditional 2022 replacement does not apply. It refills Collection 1's missing months, and the product has its own 2022 coverage.
+- No product-specific replacement event is modeled. The Level-2A event refills Collection 1's missing months of 2022.
 - The USGS bucket is in us-west-2, the baseline region of assumption A28. Every request was unsigned, so the bucket owner pays. Source: the T2 and T6 results.
+
+The same whole-object check applied to Level-2A runs the other way. Its 17 assets compress better than the 5 measured ones, a factor of 0.758 on one acquisition.
+That factor also removes the model's conservative 10 m allowance for AOT and WVP, which Collection 1 delivers at 20 m.
+Central Sen2Cor only keeps the measured layers' ratio of [decision 0006](decisions/0006-aws-cost-review-refinements.md). The payload-scaling table shows both options at whole-object scaling.
+On that acquisition, ACOLITE only's objects total 0.53 times Level-2A's. The model gives 0.42 centrally and 0.56 with both options scaled.
 
 What the comparison does not show:
 
 - A1 has no trial on the product, so ACOLITE only has no A1 estimate.
-- T6 read 5 of the 13 layers. The other 8 layers' compression is unmeasured, as Level-2A's 12 unmeasured assets are.
-- Acquisition counts include 2.9 percent of listed scenes without the full layer set. The estimate prices them as complete products.
-- Point-to-tile activity fractions keep the Level-2A assumption, A42. T2 recorded only medians of partial coverage, which cannot set a mean point fraction.
-- The store keeps the flags layer at its native 4 bytes. A store could pack the flag integer smaller. That saving is unmeasured.
-- Request latency is a large share of worker time in both options. It rests on the shared request assumptions of A41, measured on neither source in AWS.
+- Whole-object scaling rests on three product scenes and one Level-2A acquisition. Windowed reads of the other layers are unmeasured on both sources.
+- Acquisitions with only incomplete scenes still count, and complete products per acquisition span 2015 to 2026. Split datastrips are partial products priced as whole ones.
+- Point-to-tile activity fractions keep the Level-2A assumption, A42. Through 2023 the product mostly lacks partial tiles, finding 27, so this likely understates ACOLITE only.
+- Request counts follow blocks and files for ACOLITE only and bytes for Sen2Cor only. Per file and product, ACOLITE only gets 0.75 to 0.80 of Sen2Cor only's requests. T6 measured about parity.
+- Parity would add about a tenth to ACOLITE only's worker hours, where request latency is a third of the total.
+- Request latency is a large share of worker time in both options. Its inputs are the shared request assumptions of A41, measured on neither source in AWS.
+- The store keeps the flags layer at its native 4 bytes. A packed flag integer would shrink storage. That saving is unmeasured.
 - Laptop CPU seconds calibrate both options. No AWS measurement exists for either.
 
 <!-- BEGIN GENERATED OPTION TABLES -->
@@ -44,18 +55,21 @@ What the comparison does not show:
 
 | Input | Sen2Cor only | ACOLITE only | ACOLITE evidence |
 | --- | --- | --- | --- |
-| Native grids kept | 10, 20, and 60 m | 20 m | T1 |
-| Bytes kept per grid pixel | 12, 15, and 4 | 28 | T1 |
+| Native grids kept | 10 m, 20 m, 60 m | 20 m | T1 |
+| Bytes kept per grid pixel | 12, 15, 4 | 28 | T1 |
 | GeoTIFF layers per product | 17 | 13 | T1 |
 | Text files per product | 0 | 1 | T1 |
 | Readers with a trial | A1, B1, B3 | B1, B3 | T6 |
-| B1 requested bytes per decoded byte | 0.727 | 0.485 | T6 |
-| B3 requested bytes per decoded byte | 0.690 | 0.462 | T6 |
-| B1 CPU seconds per requested MB | 0.0224 | 0.0331 | T6 |
-| B3 CPU seconds per requested MB | 0.0384 | 0.0654 | T6 |
+| B1 requested bytes per decoded byte, measured layers | 0.727 | 0.485 | T6 |
+| B3 requested bytes per decoded byte, measured layers | 0.690 | 0.462 | T6 |
+| Whole-object scaling to the full payload | 1.000 | 1.433 | T1 |
+| B1 CPU seconds per requested MB, measured layers | 0.0224 | 0.0331 | T6 |
+| B3 CPU seconds per requested MB, measured layers | 0.0384 | 0.0654 | T6 |
+| B1 CPU seconds per decoded MB, measured layers | 0.0163 | 0.0161 | T6 |
+| B3 CPU seconds per decoded MB, measured layers | 0.0265 | 0.0302 | T6 |
 | Tile acquisitions per year, 2025-09 through 2026-08 | 174.2 | 98.2 | T2 |
 | Tile acquisitions, 2021-01 through 2026-08 | 867.6 | 478.8 | T2 |
-| Products per acquisition, central case | 1.050, assumed | 1.0499 | T2 |
+| Products per acquisition, central case | 1.0500, assumed | 1.0194, measured | T2 |
 | Fitted concentration on Florida red blocks | 0.9885 | 0.9885 | T6 |
 
 Acquisition counts are means per tile over the same 23 selected tiles. Every other input is shared, including every low and high stress value.
@@ -74,36 +88,36 @@ Acquisition counts are means per tile over the same 23 selected tiles. Every oth
 
 | Workload | Sen2Cor history GiB | ACOLITE history GiB | Sen2Cor new GiB/day | ACOLITE new GiB/day | Sen2Cor S3/month | ACOLITE S3/month |
 | --- | --- | --- | --- | --- | --- | --- |
-| All, with land | 36,140.2 | 8,338.6 | 19.626 | 4.626 | $832.29 | $192.01 |
-| All, water + shore | 13,951.4 | 3,526.0 | 7.576 | 1.956 | $321.29 | $81.19 |
-| 10,000, with land | 72.3 | 16.7 | 0.039 | 0.009 | $1.66 | $0.38 |
-| 10,000, water + shore | 27.9 | 7.1 | 0.015 | 0.004 | $0.64 | $0.16 |
+| All, with land | 36,140.2 | 8,096.2 | 19.626 | 4.492 | $832.29 | $186.43 |
+| All, water + shore | 13,951.4 | 3,423.4 | 7.576 | 1.899 | $321.29 | $78.84 |
+| 10,000, with land | 72.3 | 16.2 | 0.039 | 0.009 | $1.66 | $0.37 |
+| 10,000, water + shore | 27.9 | 6.8 | 0.015 | 0.004 | $0.64 | $0.16 |
 
 ### Backfill cost by option, central case
 
 | Workload | Reader | Sen2Cor EC2 | ACOLITE EC2 | Sen2Cor Lambda | ACOLITE Lambda |
 | --- | --- | --- | --- | --- | --- |
-| All, with land | B1 | $1,262 | $327 | $2,631 | $641 |
-| All, with land | B3 | $1,542 | $431 | $2,836 | $750 |
-| All, water + shore | B1 | $1,234 | $321 | $2,576 | $628 |
-| All, water + shore | B3 | $1,510 | $423 | $2,777 | $736 |
-| 10,000, with land | B1 | $164 | $40 | $346 | $84 |
-| 10,000, with land | B3 | $200 | $54 | $373 | $98 |
-| 10,000, water + shore | B1 | $159 | $39 | $336 | $82 |
-| 10,000, water + shore | B3 | $194 | $52 | $362 | $95 |
+| All, with land | B1 | $1,262 | $344 | $2,631 | $685 |
+| All, with land | B3 | $1,542 | $444 | $2,836 | $788 |
+| All, water + shore | B1 | $1,234 | $338 | $2,576 | $671 |
+| All, water + shore | B3 | $1,510 | $436 | $2,777 | $773 |
+| 10,000, with land | B1 | $164 | $43 | $346 | $89 |
+| 10,000, with land | B3 | $200 | $55 | $373 | $103 |
+| 10,000, water + shore | B1 | $159 | $41 | $336 | $87 |
+| 10,000, water + shore | B3 | $194 | $54 | $362 | $100 |
 
 ### Backfill work by option, central case
 
 | Workload | Reader | Sen2Cor source TB | ACOLITE source TB | Sen2Cor CPU hours | ACOLITE CPU hours |
 | --- | --- | --- | --- | --- | --- |
-| All, with land | B1 | 652.3 | 106.2 | 4,060 | 976 |
-| All, with land | B3 | 618.8 | 101.1 | 6,603 | 1,837 |
-| All, water + shore | B1 | 642.2 | 104.6 | 3,997 | 961 |
-| All, water + shore | B3 | 609.3 | 99.5 | 6,501 | 1,809 |
-| 10,000, with land | B1 | 83.9 | 13.7 | 522 | 126 |
-| 10,000, with land | B3 | 79.6 | 13.0 | 850 | 236 |
-| 10,000, water + shore | B1 | 81.4 | 13.2 | 506 | 122 |
-| 10,000, water + shore | B3 | 77.2 | 12.6 | 824 | 229 |
+| All, with land | B1 | 652.3 | 147.8 | 4,060 | 948 |
+| All, with land | B3 | 618.8 | 140.7 | 6,603 | 1,784 |
+| All, water + shore | B1 | 642.2 | 145.5 | 3,997 | 933 |
+| All, water + shore | B3 | 609.3 | 138.5 | 6,501 | 1,756 |
+| 10,000, with land | B1 | 83.9 | 19.0 | 522 | 122 |
+| 10,000, with land | B3 | 79.6 | 18.1 | 850 | 229 |
+| 10,000, water + shore | B1 | 81.4 | 18.4 | 506 | 118 |
+| 10,000, water + shore | B3 | 77.2 | 17.5 | 824 | 222 |
 
 Sen2Cor only also has reader A1. Its rows are in the Sen2Cor-only tables below.
 
@@ -111,14 +125,14 @@ Sen2Cor only also has reader A1. Its rows are in the Sen2Cor-only tables below.
 
 | Workload | Reader | Sen2Cor ingest/month | ACOLITE ingest/month | Sen2Cor total/month | ACOLITE total/month |
 | --- | --- | --- | --- | --- | --- |
-| All, with land | B1 | $22.12 | $5.82 | $867.82 | $210.73 |
-| All, with land | B3 | $26.74 | $7.58 | $872.44 | $212.49 |
-| All, water + shore | B1 | $21.15 | $5.65 | $355.86 | $99.75 |
-| All, water + shore | B3 | $25.70 | $7.38 | $360.41 | $101.48 |
-| 10,000, with land | B1 | $3.67 | $1.46 | $18.54 | $14.63 |
-| 10,000, with land | B3 | $4.26 | $1.69 | $19.14 | $14.86 |
-| 10,000, water + shore | B1 | $3.59 | $1.44 | $17.44 | $14.39 |
-| 10,000, water + shore | B3 | $4.16 | $1.66 | $18.02 | $14.61 |
+| All, with land | B1 | $22.12 | $6.11 | $867.82 | $205.42 |
+| All, with land | B3 | $26.74 | $7.79 | $872.44 | $207.10 |
+| All, water + shore | B1 | $21.15 | $5.94 | $355.86 | $97.66 |
+| All, water + shore | B3 | $25.70 | $7.59 | $360.41 | $99.31 |
+| 10,000, with land | B1 | $3.67 | $1.50 | $18.54 | $14.64 |
+| 10,000, with land | B3 | $4.26 | $1.71 | $19.14 | $14.86 |
+| 10,000, water + shore | B1 | $3.59 | $1.48 | $17.44 | $14.41 |
+| 10,000, water + shore | B3 | $4.16 | $1.69 | $18.02 | $14.62 |
 
 Total adds cutoff retention, forward ingestion, itemized operations, and the residual allowance, as in the Sen2Cor-only budget table.
 
@@ -126,14 +140,14 @@ Total adds cutoff retention, forward ingestion, itemized operations, and the res
 
 | Workload | Reader | Sen2Cor month 60 | ACOLITE month 60 | Sen2Cor cumulative | ACOLITE cumulative |
 | --- | --- | --- | --- | --- | --- |
-| All, with land | B1 | $1,672 | $405 | $77,707 | $18,804 |
-| All, with land | B3 | $1,676 | $407 | $78,264 | $19,014 |
-| All, water + shore | B1 | $674 | $182 | $32,140 | $8,775 |
-| All, water + shore | B3 | $679 | $184 | $32,689 | $8,980 |
-| 10,000, with land | B1 | $20 | $15 | $1,332 | $934 |
-| 10,000, with land | B3 | $21 | $15 | $1,404 | $961 |
-| 10,000, water + shore | B1 | $18 | $15 | $1,231 | $911 |
-| 10,000, water + shore | B3 | $19 | $15 | $1,300 | $937 |
+| All, with land | B1 | $1,672 | $394 | $77,707 | $18,333 |
+| All, with land | B3 | $1,676 | $396 | $78,264 | $18,534 |
+| All, water + shore | B1 | $674 | $178 | $32,140 | $8,594 |
+| All, water + shore | B3 | $679 | $179 | $32,689 | $8,792 |
+| 10,000, with land | B1 | $20 | $15 | $1,332 | $936 |
+| 10,000, with land | B3 | $21 | $15 | $1,404 | $962 |
+| 10,000, water + shore | B1 | $18 | $15 | $1,231 | $914 |
+| 10,000, water + shore | B3 | $19 | $15 | $1,300 | $939 |
 
 Cumulative totals include the backfill and exclude storage during backfill and consumer compute.
 
@@ -141,12 +155,42 @@ Cumulative totals include the backfill and exclude storage during backfill and c
 
 | Workload | Sen2Cor history GiB | With Sen2Cor history GiB | ACOLITE history GiB | Sen2Cor B1 backfill | With Sen2Cor history B1 | ACOLITE B1 backfill |
 | --- | --- | --- | --- | --- | --- | --- |
-| All, with land | 36,140.2 | 15,106.6 | 8,338.6 | $1,262 | $563 | $327 |
-| All, water + shore | 13,951.4 | 6,387.8 | 3,526.0 | $1,234 | $551 | $321 |
-| 10,000, with land | 72.3 | 30.2 | 16.7 | $164 | $73 | $40 |
-| 10,000, water + shore | 27.9 | 12.8 | 7.1 | $159 | $71 | $39 |
+| All, with land | 36,140.2 | 14,667.3 | 8,096.2 | $1,262 | $594 | $344 |
+| All, water + shore | 13,951.4 | 6,202.0 | 3,423.4 | $1,234 | $582 | $338 |
+| 10,000, with land | 72.3 | 29.3 | 16.2 | $164 | $77 | $43 |
+| 10,000, water + shore | 27.9 | 12.4 | 6.8 | $159 | $75 | $41 |
 
-The middle columns apply the Level-2A acquisition rates to the product's grid, layers, and byte ratios. They separate the acquisition effect from the rest.
+The middle columns apply the Level-2A acquisition rates to the product's grid, layers, and reader calibration. They separate the acquisition effect from the rest.
+
+### Payload scaling by option, national with land buffer, central case
+
+| Option | Scaling | B1 source TB | B1 EC2 backfill | B3 EC2 backfill |
+| --- | --- | --- | --- | --- |
+| Sen2Cor only | Measured layers' ratio, 1.000 | 652.3 | $1,262 | $1,542 |
+| Sen2Cor only | Whole-object scaling, 0.758 | 494.5 | $1,094 | $1,388 |
+| ACOLITE only | Measured layers' ratio, 1.000 | 103.1 | $318 | $419 |
+| ACOLITE only | Whole-object scaling, 1.433 | 147.8 | $344 | $444 |
+
+Central ACOLITE only uses whole-object scaling. Central Sen2Cor only keeps the measured layers' ratio of decision 0006.
+
+### Point-to-tile fraction by option, national with land buffer, central case
+
+| Option | Fraction | History GiB | B1 EC2 backfill | B3 EC2 backfill |
+| --- | --- | --- | --- | --- |
+| Sen2Cor only | 0.75 | 36,140.2 | $1,262 | $1,542 |
+| Sen2Cor only | 1.00 | 48,186.9 | $1,411 | $1,724 |
+| ACOLITE only | 0.75 | 8,096.2 | $344 | $444 |
+| ACOLITE only | 1.00 | 10,794.9 | $381 | $493 |
+
+### Whole-product check on one acquisition, tile 17SKU, 2025-10-15
+
+| Quantity | Sen2Cor only | ACOLITE only | ACOLITE / Sen2Cor |
+| --- | --- | --- | --- |
+| Object bytes, every layer | 1,018.8 MB | 539.5 MB | 0.53 |
+| Model B1 bytes per km2, central | 115,276 | 48,704 | 0.42 |
+| Model B1 bytes per km2, both scaled | 87,395 | 48,704 | 0.56 |
+
+Object bytes come from T1's listing and the raw-access result for the same pass. The model's bytes add T6's and the larger-workload trials' requested-to-decoded ratios.
 
 ### Stress cases by option, national with land buffer
 
@@ -155,9 +199,9 @@ The middle columns apply the Level-2A acquisition rates to the product's grid, l
 | Sen2Cor only | low | 7,892.9 | $217 | $269 |
 | Sen2Cor only | base | 36,140.2 | $1,262 | $1,542 |
 | Sen2Cor only | high | 202,044.5 | $17,041 | $19,426 |
-| ACOLITE only | low | 1,823.1 | $46 | $65 |
-| ACOLITE only | base | 8,338.6 | $327 | $431 |
-| ACOLITE only | high | 46,441.8 | $4,624 | $5,603 |
+| ACOLITE only | low | 1,823.1 | $53 | $72 |
+| ACOLITE only | base | 8,096.2 | $344 | $444 |
+| ACOLITE only | high | 46,441.8 | $4,873 | $5,840 |
 
 ### Product byte back-tests across the two T6 cohorts
 
@@ -732,7 +776,7 @@ The coverage sensitivity varies the available pool explicitly.
 Tile occupancy retains separate geographic assumptions, rather than copying Florida's within-image clustering to national tile counts.
 
 Native-resolution payload expansion is approximately 3.3006 times the measured five-asset set, compared with a simple asset-count factor of 3.4.
-The payload includes the conservative ten-meter AOT/WVP allowance. Additional bands' compression remains unmeasured.
+The payload includes the conservative ten-meter AOT/WVP allowance. Additional bands' windowed compression remains unmeasured. Whole-object sizes on one acquisition suggest a factor of 0.758, shown in the payload-scaling table above.
 The central national source volume therefore need not fall by the review's proposed factor after correcting both errors.
 
 ## A1's penalty and request latency

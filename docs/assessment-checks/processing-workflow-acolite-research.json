@@ -1113,7 +1113,7 @@
     },
     {
       "name": "Sen2Cor Level-2A",
-      "why": "ACOLITE has a converter for Sen2Cor products but does not correct them. Sen2Cor is the supplementary route, covered elsewhere.",
+      "why": "ACOLITE has a converter for Sen2Cor products but does not correct them. Sen2Cor is the other source option, covered elsewhere.",
       "seen_on": "src-acolite-s2-l2-convert"
     },
     {

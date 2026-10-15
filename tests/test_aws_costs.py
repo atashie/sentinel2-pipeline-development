@@ -412,6 +412,7 @@ def test_acolite_inputs_follow_the_product_evidence(settings):
     }
     shared.pop("option")
     shared["cases"]["base"]["revisions"] = settings["cases"]["base"]["revisions"]
+    shared["payload_compression_factor"] = settings["payload_compression_factor"]
     assert shared == {k: v for k, v in settings.items() if k in shared}
 
 
@@ -422,7 +423,7 @@ def test_acolite_rates_use_the_same_tiles_and_months():
     assert product["recent_monthly_counts"].keys() == reference["recent_monthly_counts"].keys()
     assert product["historical_complete_month_end"] == reference["historical_complete_month_end"]
     assert product["replacement_2022_epochs"] is None
-    assert 1 < product["products_per_acquisition"] < 1.2
+    assert 1 < product["products_per_acquisition"] < 1.05
     assert product["recent_annual_tile_rate"] < reference["recent_annual_tile_rate"]
     assert product["payer"].startswith("Bucket owner")
     assert product["region"] == "us-west-2"
@@ -484,4 +485,59 @@ def test_acquisition_history_comparator_separates_the_rate_effect():
     assert product["historical_dynamic_TiB"] * 1024 < scenario["history_GiB_if_applied_throughout"]
     assert (
         scenario["history_GiB_if_applied_throughout"] < reference["historical_dynamic_TiB"] * 1024
+    )
+
+
+def test_acolite_whole_object_scaling_moves_transfer_and_not_cpu():
+    acolite = model.option_settings("acolite_only")
+    blocks = json.loads(model.AQR_COHORTS.read_text())
+    mean = blocks["whole_file_compression"]["delivered_over_measured_mean"]
+    assert acolite["payload_compression_factor"] == mean
+    assert all(
+        1.3 < r["delivered_over_measured"] < 1.6 for r in blocks["whole_file_compression"]["scenes"]
+    )
+    assert acolite["source_bytes_per_grid_pixel"] == acolite["value_bytes_per_grid_pixel"]
+    calibrated = model.calibration("acolite_only")
+    scaled = model.estimate(acolite, "base", False, True, calibrated)["recipes"]["B1"]
+    flat = copy.deepcopy(acolite)
+    flat["payload_compression_factor"] = 1.0
+    plain = model.estimate(flat, "base", False, True, calibrated)["recipes"]["B1"]
+    assert scaled["historical_requested_TB_decimal"] == pytest.approx(
+        plain["historical_requested_TB_decimal"] * mean
+    )
+    assert scaled["historical_extraction_cpu_hours"] == plain["historical_extraction_cpu_hours"]
+
+
+def test_acolite_counts_follow_t1_and_t2_fields():
+    coverage = json.loads(model.AQR_COVERAGE.read_text())
+    headers = json.loads((model.ROOT / "benchmarks/results/aqr-headers.json").read_text())
+    ids = model.survey_rates()["tile_ids"]
+    tiles = {t["tile"]: t for t in coverage["tiles"]}
+    assert all(sum(tiles[t]["monthly"]["aqr"]) == tiles[t]["acquisitions"] for t in ids)
+    complete = sum(
+        tiles[t]["scenes"] - tiles[t]["scenes_without_observed_layers_count"] for t in ids
+    )
+    acquisitions = sum(tiles[t]["acquisitions"] for t in ids)
+    assert model.aqr_rates()["products_per_acquisition"] == complete / acquisitions
+    acolite = model.option_settings("acolite_only")
+    assert acolite["cases"]["base"]["revisions"] == complete / acquisitions
+    layer_sets = list(headers["summary"]["layer_sets"])
+    assert len(layer_sets) == 1 and layer_sets[0].split()[-1] == "settings"
+    assert acolite["source_files"] == len(layer_sets[0].split()) - 1
+    assert acolite["text_files_per_product"] == 1
+
+
+def test_option_sensitivities_cover_both_scalings_and_point_fractions():
+    for option in model.OPTIONS:
+        data = model.build(option)
+        rows = data["option_sensitivities"]["payload_compression"]
+        assert [r["scaling"] for r in rows] == ["Measured layers' ratio", "Whole-object scaling"]
+        fractions = data["option_sensitivities"]["point_to_tile_fraction"]
+        assert [r["point_to_tile_fraction"] for r in fractions] == [0.75, 1.0]
+        assert fractions[1]["history_GiB"] > fractions[0]["history_GiB"]
+    sen2cor = model.build()["option_sensitivities"]["payload_compression"]
+    assert sen2cor[0]["B1_ec2_backfill_usd"] == next(
+        e["recipes"]["B1"]["historical_ec2_total_including_prep_put_usd"]
+        for e in model.build()["estimates"]
+        if e["case"] == "base" and e["workload"] == "all_land"
     )

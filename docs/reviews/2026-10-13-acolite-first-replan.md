@@ -1,8 +1,8 @@
 # ACOLITE-first replan: owner direction, document changes, tests, and phases, 2026-10-13
 
 Author: Claude Code (AI coding agent), directed by the repository owner.
-Status: proposed plan. This step adds this record and [proposed decision 0008](../decisions/0008-acolite-aquatic-reflectance-first.md). Nothing else changes. No provider script ran.
-The owner has not authorized any phase below. Each phase runs as one or more authorized steps under the workflow in [CLAUDE.md](../../CLAUDE.md).
+Status: plan of 2026-10-13, as proposed, with later owner directions in dated sections below. The owner activated [decision 0008](../decisions/0008-acolite-aquatic-reflectance-first.md) and authorized phases step by step.
+Each phase runs as one or more authorized steps under the workflow in [CLAUDE.md](../../CLAUDE.md). The work plan tracks which ran.
 
 ## Why the plan changes
 

@@ -503,13 +503,21 @@ def worker(spec: dict) -> None:
         write_json(spec["result"], result)
 
 
+def attempted_status(spec_path: Path) -> dict:
+    """A launched extraction's status. A stopped supervisor leaves its initial not_started."""
+    path = spec_path.with_suffix(".supervision.json")
+    saved = json.loads(path.read_text()) if path.exists() else {"status": "not_started"}
+    if saved["status"] == "not_started":
+        return {"status": "interrupted", "saved_status": saved}
+    return saved
+
+
 def run_phase(base: Path, cohort: str, phase: str, temporary: Path, **extra) -> dict:
     directory = base / cohort
     name = phase + ("-" + extra["configuration"] if "configuration" in extra else "")
     spec_path = directory / f"{name}.json"
     if phase == "extract" and lazy.extraction_attempted(spec_path):
-        status = spec_path.with_suffix(".supervision.json")
-        return json.loads(status.read_text()) if status.exists() else {"status": "interrupted"}
+        return attempted_status(spec_path)
     if phase in ("freeze", "prepare") and lazy.phase_complete(spec_path):
         return {"status": "complete", "reused": True}
     lazy.archive_phase(spec_path)
@@ -560,8 +568,8 @@ def run_workloads(run_dir: Path) -> None:
                     status = run_phase(
                         base, cohort, "extract", temporary, configuration=configuration
                     )
-                    if status["status"] == "not_started":
-                        raise RuntimeError(f"{cohort} {configuration} not started: {status}")
+                    if status["status"] in ("not_started", "interrupted"):
+                        raise RuntimeError(f"{cohort} {configuration} {status['status']}: {status}")
                 run_phase(base, cohort, "validate", temporary)
         finally:
             write_json(base / "cleanup.json", clean_workspace(base))
@@ -645,7 +653,7 @@ def compact_run(run: dict, keys: tuple[str, ...]) -> dict:
     return out
 
 
-def reference_ids(part: str) -> set[str]:
+def reference_ids(part: str, cohort: str | None = None) -> set[str]:
     data = json.loads(REFERENCES[part].read_text())
     if part == "stage2":
         return {s["item"]["id"] for s in data["scenes"].values() if s.get("item")}
@@ -654,14 +662,14 @@ def reference_ids(part: str) -> set[str]:
     if part == "stage4":
         return {s["item"]["id"] for s in data["plan"]["scenes"]}
     ids = set()
-    for cohort in CONFIGURATIONS:
-        plan = json.loads((WORKLOAD_REFERENCE / cohort / "frozen-plan.json").read_text())
+    for name in [cohort] if cohort else CONFIGURATIONS:
+        plan = json.loads((WORKLOAD_REFERENCE / name / "frozen-plan.json").read_text())
         ids |= {s["item"]["id"] for s in plan["scenes"]}
     return ids
 
 
-def same_acquisitions(paired: list[str], part: str) -> dict:
-    reference = reference_ids(part)
+def same_acquisitions(paired: list[str], part: str, cohort: str | None = None) -> dict:
+    reference = reference_ids(part, cohort)
     return {
         "products": len(paired),
         "same_item_as_reference": sum(1 for p in paired if p in reference),
@@ -772,7 +780,7 @@ def collate_workloads(run_dir: Path) -> dict:
             ),
             "acquisitions": len({s["group"] for s in plan["scenes"]}),
             "lake_product_memberships": sum(len(s["members"]) for s in plan["scenes"]),
-            "same_acquisitions": same_acquisitions(paired, "workloads"),
+            "same_acquisitions": same_acquisitions(paired, "workloads", cohort),
             "preparation": plan["preparation"],
             "unconverged_geometry": plan.get("unconverged_geometry", []),
             "limits": plan["limits"],

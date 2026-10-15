@@ -6,7 +6,7 @@ The owner accepted the Stage 4 response on 2026-09-17. The [presentation](docs/s
 Related records include the [documentation update](docs/reviews/2026-09-17-documentation-and-presentation.md), [wording pass](docs/reviews/2026-09-17-presentation-wording-pass.md), and [spelling follow-up](docs/reviews/2026-09-17-american-spelling.md).
 Further records cover the [sensor bands](docs/reviews/2026-09-17-sensor-band-comparison.md), [section 02 heading](docs/reviews/2026-09-18-access-problem-first.md), and [lazy-reader workload review](docs/reviews/2026-09-18-claude-lazy-reader-workload-review.md).
 Phase C, Prototyping II, runs one authorized step at a time. The [T4 record](docs/reviews/2026-10-13-phase-c-t4-validity.md) awaits owner review. The [direction record](docs/reviews/2026-10-14-standalone-options-direction.md) of 2026-10-14 awaits review.
-The [T5 and T6 record](docs/reviews/2026-10-14-phase-c-t5-t6.md) awaits review. The [cost analysis](docs/aws-cost-analysis.md) now estimates both options, with its own [record](docs/reviews/2026-10-14-phase-c-cost-options.md).
+The [T5 and T6 record](docs/reviews/2026-10-14-phase-c-t5-t6.md) awaits review. The [cost analysis](docs/aws-cost-analysis.md) now estimates both options, with its own [record](docs/reviews/2026-10-14-phase-c-cost-options.md). The [adversarial review response](docs/reviews/2026-10-14-adversarial-review-response.md) records the fixes that followed.
 The [work plan](docs/work-plan.md) tracks the broader assessment and remaining review gates.
 The authorized [larger-workload comparison](docs/reviews/2026-09-18-lazy-reader-workload-plan.md) now has separate, resumable preflight and extraction commands.
 The [review response](docs/reviews/2026-09-18-lazy-reader-review-response.md) records implemented corrections and disagreements.
@@ -57,7 +57,7 @@ The tests check documentation links, the inventory schema, the survey logic, and
 | [docs/decisions/](docs/decisions/README.md) | Why something was decided, including the ACOLITE-first re-scope |
 | [docs/work-plan.md](docs/work-plan.md) | How options are judged, and the ordered steps with what is open |
 | [docs/s2-best-practices.md](docs/s2-best-practices.md) | Sentinel-2 facts and practices for per-water-body extraction, with claim status |
-| [docs/data-contract.md](docs/data-contract.md) | Draft v2 of what the store serves from two source products. Not selected |
+| [docs/data-contract.md](docs/data-contract.md) | Draft v2 of what the store serves under either standalone source option. Not selected |
 | [docs/measurements.md](docs/measurements.md) | What was measured, and what the numbers do not show |
 | [docs/aws-cost-analysis.md](docs/aws-cost-analysis.md) | Estimated AWS costs per standalone option for national and sampled workloads |
 | [docs/gap-survey-plan.md](docs/gap-survey-plan.md) | Data gap survey: sites, collections, gap definitions, rerun steps |

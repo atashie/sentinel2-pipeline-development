@@ -1,7 +1,7 @@
 # Owner direction: standalone options and a deferred scene join, 2026-10-14
 
 Author: Claude Code (AI coding agent), directed by the repository owner.
-Status: recorded, uncommitted on the owner's instruction. Awaiting review by Codex and the owner.
+Status: recorded, committed as `ddbaebf` on the owner's instruction of 2026-10-14. Awaiting review by Codex and the owner.
 
 ## For the owner
 
@@ -59,7 +59,7 @@ Where the words leave room, this record chose these readings:
 These are tradeoffs for Phase F. This record forms no view on which option serves the model better, assumption A52.
 
 - **Flags.** Under ACOLITE only, the store has no cloud-shadow or snow flag, finding 26. In probe T4, ACOLITE set no flag on 74 percent of interior observations the classification calls shadow, finding 33.
-- That classification is a land product, so the figure shows disagreement, not error.
+- That classification is a land product, so the figure shows where two products disagree. It measures no error.
 - **Coverage.** From 2018 the product holds 41 to 61 percent of Earth Search's acquisitions per year, cloudy and partial ones missing most often, finding 27. Under ACOLITE only they stay missing and counted.
 - **Reach.** The product is documented for the lower 48 states. Under ACOLITE only, the Alaska pilot region and waters elsewhere have no source. Sen2Cor only covers them.
 - **Grid.** The product has one 20 m grid. Sen2Cor only keeps native 10 m bands, which give small ponds more pixels, finding 18.

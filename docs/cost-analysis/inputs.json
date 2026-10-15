@@ -26,6 +26,11 @@
     "20": 15,
     "60": 4
   },
+  "source_bytes_per_grid_pixel": {
+    "10": 12,
+    "20": 15,
+    "60": 4
+  },
   "flag_bytes_per_grid_pixel": 2,
   "observation_metadata_bytes": 256,
   "static_bytes_per_grid_pixel": 16,
@@ -34,6 +39,7 @@
   "blocks_per_tile_proxy": 121,
   "source_files": 17,
   "text_files_per_product": 0,
+  "payload_compression_factor": 1.0,
   "recipes": [
     "A1",
     "B1",
@@ -330,18 +336,24 @@
           "20": 28
         },
         "source_files": 13,
-        "text_files_per_product": 1
+        "text_files_per_product": 1,
+        "source_bytes_per_grid_pixel": {
+          "20": 28
+        }
       },
       "measured_base_revisions": true,
       "basis": {
         "recipes": "Probe T6 replayed readers B1 and B3. A1 has no product trial.",
-        "acquisition_evidence": "Probe T2 bucket listings on the same 23 tiles and months as the Level-2A rates. Counts include the 2.9 percent of listed scenes without the full layer set.",
+        "acquisition_evidence": "Probe T2 bucket listings on the same 23 tiles and months as the Level-2A rates. Acquisitions with only incomplete scenes still count.",
         "value_bytes_per_grid_pixel": "Probe T1: 11 bands and NDWI as int16 and the flags layer as int32, all on one 20 m grid. Assumptions A46 and A49 keep every delivered layer.",
+        "source_bytes_per_grid_pixel": "Probe T1: the same 13 layers, read from the source at native size.",
         "source_files": "Probe T1: 13 GeoTIFF layers per product.",
         "text_files_per_product": "Probe T1: one settings text file per product, read whole.",
-        "measured_base_revisions": "Probe T2: products per acquisition on the 23 tiles, finding 27. Repeats are reprocessed copies and same-baseline products. Decision 0009 keeps each product as a standalone observation.",
+        "measured_base_revisions": "Probe T2: listed scenes with the full layer set over acquisitions on the 23 tiles. Repeats are reprocessed copies and split datastrips. Decision 0009 keeps each product.",
+        "measured_payload_compression": "Probe T1 whole-object sizes: all 13 layers over the 5 layers T6 read, mean of three scenes. It scales transfer and requests, not CPU.",
         "unchanged": "Every other input, including every low and high stress value, is shared with Sen2Cor only."
-      }
+      },
+      "measured_payload_compression": true
     }
   }
 }

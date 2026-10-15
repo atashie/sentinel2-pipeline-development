@@ -8,6 +8,7 @@ The latest handoff records subsequent corrections and resolved wording.
 
 | Date | Review | Reviewer |
 |---|---|---|
+| 2026-10-14 | [Adversarial review of the Phase C work: six AI reviewers, the fixes, and the deferred items](2026-10-14-adversarial-review-response.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-14 | [Phase C cost model per option: ACOLITE only at about a quarter of Sen2Cor only's backfill and storage](2026-10-14-phase-c-cost-options.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-14 | [Phase C probes T5 and T6: the options differ in every band, and stages 2 to 4 read 40 percent of the bytes](2026-10-14-phase-c-t5-t6.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-14 | [Owner direction recorded: standalone options, ACOLITE only or Sen2Cor only, the scene join deferred, and decision 0009](2026-10-14-standalone-options-direction.md) | Claude Code (AI coding agent), directed by the repository owner |

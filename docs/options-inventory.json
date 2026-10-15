@@ -6,8 +6,9 @@
     "decision": "decisions/0009-standalone-options-join-deferred.md",
     "note": "Two source options are compared, each used alone, under decision 0009. ACOLITE only is the USGS ACOLITE aquatic reflectance product, for water pixels in the lower 48 states, the initial primary source. Sen2Cor only is Earth Search Level-2A: Collection 1 GeoTIFF assets first, the older collection's GeoTIFF assets as fallback, under decision 0004. Neither option fills or flags the other, and the scene join is deferred. Self-run ACOLITE from Level-1C is context. The 2021 scenario is prototyped first. Workflow, compute platform, and storage layout remain open. Cross-tile mosaicking is a MAJOR CONCERN under investigation. Options marked context are not compared for selection.",
     "next": [
-      "Review Phase B: the check records, probes T1 to T3, the crop, and the Discovery rewrite.",
-      "Run Phase C in separately authorized steps: validity per band and pixel class, paired values, and the access replay on the primary product.",
+      "Review Phases B and C: the check records, probes T1 to T6, the crop, the Discovery rewrite, and the per-option cost model.",
+      "Run probe T7, the overlap comparison on lakes in two tiles, and probe T8, retention, in separately authorized steps.",
+      "Rebuild the Prototyping tab from the primary product's results and the per-option costs.",
       "Resolve primary-tile roles and per-band validity using model requirements and matched-location evidence."
     ]
   },
@@ -9568,8 +9569,8 @@
     },
     {
       "id": "F-28",
-      "title": "Level-2A stays necessary beside the primary product, for missing scenes and for shadow and snow flags",
-      "text": "From 2018 the primary product holds 41 to 61 percent of Earth Search's acquisitions per year on the survey tiles. It ships no dedicated shadow or snow layer. 92 percent of its scenes join to a Level-2A item of the same pass. 51 percent join to the same baseline with Collection 1 first, and 58 percent when either collection may supply it. Findings 27 and 28 in the measurements document own the numbers.",
+      "title": "Under ACOLITE only, about half of Earth Search's acquisitions are missing, and no shadow or snow layer exists",
+      "text": "From 2018 the primary product holds 41 to 61 percent of Earth Search's acquisitions per year on the survey tiles. It ships no dedicated shadow or snow layer. Under decision 0009 neither gap is filled from Level-2A. A deferred join would find a Level-2A item of the same pass for 92 percent of its scenes. It would reach the same baseline for 51 percent with Collection 1 first, and 58 percent when either collection may supply it. Findings 27 and 28 in the measurements document own the numbers.",
       "claim_ids": [
         "cl-ar-usgs-acolite-aqr-quality_layers",
         "cl-ar-usgs-acolite-aqr-global_coverage-2",
@@ -9957,7 +9958,7 @@
     },
     {
       "name": "Sen2Cor Level-2A",
-      "why": "ACOLITE has a converter for Sen2Cor products but does not correct them. Sen2Cor is the supplementary route, covered elsewhere.",
+      "why": "ACOLITE has a converter for Sen2Cor products but does not correct them. Sen2Cor is the other source option, covered elsewhere.",
       "seen_on": "src-acolite-s2-l2-convert",
       "dimension": "processing_workflow"
     },
@@ -10539,7 +10540,7 @@
     {
       "id": "I-31",
       "title": "A processor not designed for water corrects every Earth Search collection",
-      "text": "Every Earth Search Level-2A collection comes from Sen2Cor. Its algorithm document states it is not designed for water, and ESA validates it at land sites only. Baseline 05.13 adds water-specific aerosol changes that no study has tested. Peer-reviewed comparisons over inland water do not rank Sen2Cor and ACOLITE consistently. Probe T5 compared them on clear interior water of the pilot lakes. Per band, 25 to 81 percent of pixels differ by more than 0.005 reflectance. The sign changes by lake.",
+      "text": "Every Earth Search Level-2A collection comes from Sen2Cor. Its algorithm document states it is not designed for water, and ESA validates it at land sites only. Baseline 05.13 adds water-specific aerosol changes that no study has tested. Peer-reviewed comparisons over inland water do not rank Sen2Cor and ACOLITE consistently. Probe T5 compared them on clear interior water of the pilot lakes. Per band, 25 to 81 percent of pixels differ by more than 0.005 reflectance. The sign varies between lakes and scenes. Neither product is a reference, so T5 shows difference, never error.",
       "consequence": "The USGS ACOLITE aquatic reflectance product is the primary source for water pixels in the lower 48 states. The assessment treats ACOLITE as designed for water and forms no view on which correction performs better until the company's own experiments, assumption A52. Under decision 0009 the assessment compares two standalone options, ACOLITE only and Sen2Cor only. Neither fills or flags the other.",
       "status": "decided",
       "decision": "Decisions 0008 and 0009, owner directions of 2026-10-13 and 2026-10-14.",
@@ -10556,7 +10557,7 @@
         "PR-13"
       ],
       "plain": "Earth Search's surface reflectance comes from a processor its makers did not design for water. Its accuracy over small water bodies is unknown.",
-      "why": "Water reflects far less light than land, so a small error in the atmospheric correction is a large error in the water signal. The primary source now uses a correction built for water."
+      "why": "Water reflects far less light than land, so a small error in the atmospheric correction is a large error in the water signal. The primary source is treated as designed for water, assumption A52."
     },
     {
       "id": "I-32",
@@ -10837,7 +10838,7 @@
       "id": "PR-12",
       "date": "2026-10-13",
       "question": "Does the USGS product leave pilot-lake pixels without values, and how do its flags and NDWI fall per band and pixel class?",
-      "result": "59 scenes of 2025 on five pilot tiles, rules declared before the read. Inside the product's scene every pixel holds a value in every band and class. No-data counts equal ACOLITE's out-of-scene flag counts, apart from two pixels in one band. Non-water flags cover 35 percent of interior, 77 percent of shoreline, and 92 percent of near-land observations. NDWI is the normalized difference of the delivered B03 and B8A. ACOLITE leaves 7 percent of classification cloud and 74 percent of classification shadow over interior water unflagged. Counts only, no value stored.",
+      "result": "59 scenes of 2025 on five pilot tiles, rules declared before the read. Inside the product's scene every pixel holds a value in every band and class. No-data counts equal ACOLITE's out-of-scene flag counts, apart from two out-of-scene pixels that hold values in ten bands and NDWI. Non-water flags cover 35 percent of interior, 77 percent of shoreline, and 92 percent of near-land observations. NDWI matches the normalized difference of the delivered B03 and B8A on 96 to 100 percent of comparable observations. ACOLITE sets no flag on 7 percent of interior pixels the classification calls cloud and 74 percent of those it calls shadow. ACOLITE has no shadow test. Counts only, no value stored.",
       "bears_on": [
         "I-35",
         "I-32",
@@ -10849,7 +10850,7 @@
       "id": "PR-13",
       "date": "2026-10-14",
       "question": "Where do the two standalone options give different values for the same pilot-lake pixels, per band and pixel class?",
-      "result": "Probe T4's 59 scenes, rules declared before the read. The Level-1C datastrip paired every product with exactly one Collection 1 item. No band agrees within 0.005 reflectance on 90 percent of pixels in any class. Over 32.4 million interior observations both products call clear water, 25 to 81 percent differ by more than 0.005 per band. The sign of the difference changes by lake. Statistics only, no value stored. Neither product is a reference.",
+      "result": "Probe T4's 59 scenes, rules declared before the read. The Level-1C datastrip paired every product with exactly one Collection 1 item. No band agrees within 0.005 reflectance on 90 percent of pixels in any class, an absolute tolerance. Over 32.4 million interior observations both products call clear water, 25 to 81 percent differ by more than 0.005 per band. The sign of the difference varies between lakes and between scenes. Statistics only, no value stored. Neither product is a reference, so the probe shows difference, never error.",
       "bears_on": [
         "I-31",
         "I-36"
@@ -10860,7 +10861,7 @@
       "id": "PR-14",
       "date": "2026-10-14",
       "question": "What do the earlier access tests cost in requests, bytes, time, and memory when they read the primary product instead of Level-2A?",
-      "result": "Stages 2 to 4 and readers B1 and B3 ran their unchanged code on the product. Stages 2 to 4 used the Level-2A reference's acquisitions. Every method, path, and reader returned identical values. Small lakes took the same 15 requests and about 40 percent of the bytes. B1 and B3 read about 40 percent of the bytes on both larger cohorts. CPU per requested megabyte rose to 0.033 for B1 and 0.065 for B3, against 0.022 and 0.038 on Level-2A.",
+      "result": "Stages 2 to 4 and readers B1 and B3 ran their unchanged code on the product. Stages 2 to 4 used the Level-2A reference's acquisitions. The mask methods, paths, and readers returned identical values. The naive clip differed where preparation predicts. Small lakes took the same 15 requests and about 40 percent of the bytes. B1 and B3 read about 40 percent of the bytes on both larger cohorts. CPU seconds per requested megabyte rose to 0.033 for B1 and 0.065 for B3, against 0.022 and 0.038 on Level-2A. Per decoded megabyte, B1 is equal and B3 14 percent higher.",
       "bears_on": [
         "I-20",
         "I-36",

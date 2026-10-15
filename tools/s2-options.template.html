@@ -568,7 +568,7 @@ footer{display:block}
 </div>
 </div>
 <div class="needs">
-<div><b>Corrected for water</b><span>The USGS product uses a correction built for water. ESA validates its own correction at land sites only.</span></div>
+<div><b>Corrected for water</b><span>The assessment treats the USGS product's correction as designed for water, assumption A52. ESA validates its own correction at land sites only.</span></div>
 <div><b>About half the acquisitions</b><span>From @@AQR_FIRST_YEAR@@, the USGS product holds @@AQR_SHARE_LOW@@ to @@AQR_SHARE_HIGH@@ percent of Earth Search’s acquisitions per year on @@AQR_TILES@@ sampled tiles. Cloudy and partial images are missing most often.</span></div>
 <div><b>No dedicated cloud, shadow, or snow layer</b><span>Its flags mark non-water, cirrus, bright, and negative pixels. Used alone, it has no shadow or snow flag.</span></div>
 <div><b>Joining the two is deferred</b><span>@@AQR_JOIN_PERCENT@@ percent of its scenes match an Earth Search image of the same pass. @@AQR_SAME_BASELINE_PERCENT@@ percent match the same processing version in Collection 1 first, and @@AQR_ANY_BASELINE_PERCENT@@ percent in either copy. We join them only if the model proves it needs it.</span></div>
@@ -1022,7 +1022,7 @@ footer{display:block}
 <div class="eyebrow">Prototyping / Workflow comparisons</div>
 <h1>Comparing workflows and readers for lake-pixel extraction.</h1>
 <p>These laptop trials compare the time, processor work, data requests, and memory needed to extract lake pixels. Start with the takeaways, then explore the methods and results.</p>
-<p class="note-line"><strong>Measured on the land product.</strong> Every result on this tab used Earth Search Level-2A files, now the reference series. The next phase repeats the tests on the USGS water product.</p>
+<p class="note-line"><strong>Measured on the land product.</strong> Every result on this tab used Earth Search Level-2A files, now the reference series. Probe T6 repeated the tests on the USGS water product, and the tab rebuild will show those results.</p>
 </div>
 <nav class="section-nav" aria-label="Prototype sections"><a href="#prototype-takeaways">High level takeaways</a><a href="#prototype-workflow">What we tested</a><a href="#larger-workloads">Main comparison</a><a href="#cost-estimates">Cost estimates</a><a href="#earlier-experiments">Earlier experiments</a></nav>
 

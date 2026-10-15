@@ -77,3 +77,13 @@ def test_plan_prints_without_network(capsys):
     text = capsys.readouterr().out
     assert "red = B04" in text and "scl = l2_flags" in text
     assert "B-raster then B-lazy" in text
+
+
+def test_a_launched_extraction_with_a_stopped_supervisor_reads_as_interrupted(tmp_path):
+    spec = tmp_path / "extract-B-raster.json"
+    spec.write_text("{}")
+    spec.with_suffix(".launch.json").write_text('{"state": "spawned"}')
+    spec.with_suffix(".supervision.json").write_text('{"status": "not_started"}')
+    assert t6.attempted_status(spec)["status"] == "interrupted"
+    spec.with_suffix(".supervision.json").write_text('{"status": "complete"}')
+    assert t6.attempted_status(spec) == {"status": "complete"}

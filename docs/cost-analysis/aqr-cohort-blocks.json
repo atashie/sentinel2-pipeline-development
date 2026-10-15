@@ -197,6 +197,36 @@
     "delivered_bytes_per_20m_pixel": 28,
     "reference_seventeen_modeled_assets": 158611.11111111112
   },
+  "whole_file_compression": {
+    "scenes": [
+      {
+        "product": "S2B_MSIAQR_20251015T162149_N0511_R040_T17SKU_20251015T195355",
+        "object_bytes_all_layers": 539532795,
+        "measured_layers": 0.4419074090663269,
+        "delivered_layers": 0.6393153437731508,
+        "delivered_over_measured": 1.446717865907504,
+        "flags_layer": 0.027113297567028644
+      },
+      {
+        "product": "S2B_MSIAQR_20251020T185329_N0511_R113_T10SGJ_20251020T204341",
+        "object_bytes_all_layers": 593099608,
+        "measured_layers": 0.4887894864316973,
+        "delivered_layers": 0.7027889375663272,
+        "delivered_over_measured": 1.4378151680325348,
+        "flags_layer": 0.02916007246160431
+      },
+      {
+        "product": "S2B_MSIAQR_20220703T161839_N0510_R040_T17SKU_20240701T030544",
+        "object_bytes_all_layers": 607991300,
+        "measured_layers": 0.5088262453232294,
+        "delivered_layers": 0.720434736447457,
+        "delivered_over_measured": 1.4158757396442951,
+        "flags_layer": 0.02402067345496531
+      }
+    ],
+    "delivered_over_measured_mean": 1.433469591194778,
+    "definition": "Whole-object bytes over native bytes, from T1's listed object sizes. The ratio of all delivered layers to the five measured layers scales T6's windowed requested-to-decoded ratio to the full payload."
+  },
   "cross_cohort_holdouts": [
     {
       "training": "florida",
@@ -236,10 +266,10 @@
     "Two cohorts give directional checks from two observations, not a broad statistical validation.",
     "The dispersed cohort kept 93 of 100 lakes and 112 products. 98 of the 112 are the reference's acquisitions.",
     "Requested bytes include range overhead and cache behavior. Requested-to-decoded ratios are not pure file compression ratios.",
-    "T6 read five of the thirteen delivered GeoTIFF layers. The other eight layers' compression is unmeasured.",
+    "T6 read five of the thirteen delivered GeoTIFF layers. The int32 flags layer holds a third of their native bytes and compresses to about 3 percent. T1's whole-object sizes scale the ratio to all thirteen layers, on three scenes.",
     "Frozen plans and SQLite inputs remain local under data. Aggregate counts and hashes make the derivation reviewable without distributing polygons."
   ],
   "generator_path": "tools/backtest_aqr_source_bytes.py",
-  "generator_sha256": "2ade6d3be6e156bb40a4500fec6cf50882f371ea66695f05e546eeaf8a4a8944",
+  "generator_sha256": "3f33a100613f3177f7cc7bc432746c1e3cc6aa1ba3f62b874cb2ea246173da7d",
   "reproduction_command": "uv run python tools/backtest_aqr_source_bytes.py"
 }

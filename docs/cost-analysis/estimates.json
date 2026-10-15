@@ -10504,10 +10504,80 @@
     }
   ],
   "evidence_sha256": "56e402bf1188678a77462bceefc78d450203bf66e8da39e1b32a3693bd0f09a9",
-  "input_sha256": "734f7ad7188694e120046e5e83b2d987d63a3ca435ed946d6a85271a2665ff93",
-  "model_sha256": "16fcf566c9b4a18e175f3026e34f0d18882b9f49f7d29062a52e9ff4a54e21c0",
+  "input_sha256": "d0ac6a71434e45c36f71f2980169f365c885569e071020af143ca5e0401c2e0b",
+  "model_sha256": "c84bfe080bb6566a28f7d557b31e9d20403907e6dedc63b68940343e2b7a17ca",
   "option": "sen2cor_only",
+  "option_inputs": {
+    "base_revisions": 1.05,
+    "base_revisions_measured": false,
+    "payload_compression_factor": 1.0,
+    "recipes": [
+      "A1",
+      "B1",
+      "B3"
+    ],
+    "source_bytes_per_grid_pixel": {
+      "10": 12,
+      "20": 15,
+      "60": 4
+    },
+    "source_files": 17,
+    "text_files_per_product": 0,
+    "value_bytes_per_grid_pixel": {
+      "10": 12,
+      "20": 15,
+      "60": 4
+    }
+  },
   "option_label": "Sen2Cor only",
+  "option_sensitivities": {
+    "payload_compression": [
+      {
+        "B1_ec2_backfill_usd": 1262.0370798196245,
+        "B1_source_TB": 652.2545713620619,
+        "B3_ec2_backfill_usd": 1541.9219021446336,
+        "B3_source_TB": 618.8215792264821,
+        "factor": 1.0,
+        "history_GiB": 36140.20933868126,
+        "scaling": "Measured layers' ratio"
+      },
+      {
+        "B1_ec2_backfill_usd": 1093.752016545589,
+        "B1_source_TB": 494.49819308594493,
+        "B3_ec2_backfill_usd": 1388.3907589792873,
+        "B3_source_TB": 469.15141143598737,
+        "factor": 0.758136799337896,
+        "history_GiB": 36140.20933868126,
+        "scaling": "Whole-object scaling"
+      }
+    ],
+    "point_to_tile_fraction": [
+      {
+        "B1_ec2_backfill_usd": 1262.0370798196245,
+        "B1_source_TB": 652.2545713620619,
+        "B3_ec2_backfill_usd": 1541.9219021446336,
+        "B3_source_TB": 618.8215792264821,
+        "history_GiB": 36140.20933868126,
+        "point_to_tile_fraction": 0.75
+      },
+      {
+        "B1_ec2_backfill_usd": 1410.5815102839367,
+        "B1_source_TB": 730.3230714609895,
+        "B3_ec2_backfill_usd": 1723.965811552788,
+        "B3_source_TB": 692.8884767848654,
+        "history_GiB": 48186.94578490836,
+        "point_to_tile_fraction": 1.0
+      }
+    ],
+    "sen2cor_whole_file_evidence": {
+      "assets": 17,
+      "measured_assets": 0.7027306939022511,
+      "modeled_over_measured": 0.758136799337896,
+      "modeled_payload": 0.5327659990715513,
+      "object_bytes_all_assets": 1018766811,
+      "source": "benchmarks/results/raw-access.json, Collection 1 assets of one acquisition"
+    }
+  },
   "rate_sensitivity": [
     {
       "B1_backfill_usd": 690.347106182997,

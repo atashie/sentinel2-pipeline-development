@@ -568,7 +568,7 @@ footer{display:block}
 </div>
 </div>
 <div class="needs">
-<div><b>Corrected for water</b><span>The USGS product uses a correction built for water. ESA validates its own correction at land sites only.</span></div>
+<div><b>Corrected for water</b><span>The assessment treats the USGS product's correction as designed for water, assumption A52. ESA validates its own correction at land sites only.</span></div>
 <div><b>About half the acquisitions</b><span>From 2018, the USGS product holds 41 to 61 percent of Earth Search’s acquisitions per year on 24 sampled tiles. Cloudy and partial images are missing most often.</span></div>
 <div><b>No dedicated cloud, shadow, or snow layer</b><span>Its flags mark non-water, cirrus, bright, and negative pixels. Used alone, it has no shadow or snow flag.</span></div>
 <div><b>Joining the two is deferred</b><span>92 percent of its scenes match an Earth Search image of the same pass. 51 percent match the same processing version in Collection 1 first, and 58 percent in either copy. We join them only if the model proves it needs it.</span></div>
@@ -1031,7 +1031,7 @@ footer{display:block}
 <div class="eyebrow">Prototyping / Workflow comparisons</div>
 <h1>Comparing workflows and readers for lake-pixel extraction.</h1>
 <p>These laptop trials compare the time, processor work, data requests, and memory needed to extract lake pixels. Start with the takeaways, then explore the methods and results.</p>
-<p class="note-line"><strong>Measured on the land product.</strong> Every result on this tab used Earth Search Level-2A files, now the reference series. The next phase repeats the tests on the USGS water product.</p>
+<p class="note-line"><strong>Measured on the land product.</strong> Every result on this tab used Earth Search Level-2A files, now the reference series. Probe T6 repeated the tests on the USGS water product, and the tab rebuild will show those results.</p>
 </div>
 <nav class="section-nav" aria-label="Prototype sections"><a href="#prototype-takeaways">High level takeaways</a><a href="#prototype-workflow">What we tested</a><a href="#larger-workloads">Main comparison</a><a href="#cost-estimates">Cost estimates</a><a href="#earlier-experiments">Earlier experiments</a></nav>
 
@@ -1511,7 +1511,7 @@ footer{display:block}
 <p><a href="../README.md">Project documentation</a> · <a href="assets/discovery/provenance.json">Imagery attribution &amp; provenance</a>
 </p>
 </footer>
-<!-- Generated from inventory dbe818201e432b150f49d68d1c5f74d8c4ba1f37c59d4e397612fdbffa56857d, survey e3d05373119cfeab7def0d305e164929e38ef16e533d9709d19cbdbaf671effe, maps 055ee4db7f8a7fd6eefe158f75bb8c6927910a1cb1b31d8d28fe53df822e07e7, pilot 9447c4b03ea0e4c04fd335c818993795bf84f82fe92af224e4ffdbebe882c177, raw access 40d50cd958062991fed9a3865e54990b3e486bbb2d8e433ceeb339bbd3cd6094, 36045dee373b5ea711710ea22c6fe8a212e03672b75b9bf47e76fda81bb507d4, copy difference d0091d1d36275c355d786de3d53a33f94f22689260d064f943ca3d8e81ead71e, lake extraction 186ef5505154cce0735216579cafd9d683ab0d75f9f5d2fe934da5ad56fc2d0a, tile extraction e951d1662156d978016cb0cd649493c6e645c22e6b99d150b7468e6b99f11aa2, cross-tile extraction fddea828f0a9516b999c40e879e46c8998e2ed4a8b8dfe16de01d571db4495e8, sensor bands c692b551b1f23a405435d2a28c2b36f7a4c836cd04f2d56509d1ff5775c3ab09, cost estimates 19abb00fbba3a730b78d807b0c231449d16750123aeb759fd2415ad60487b4e1, aquatic reflectance 6cde20758a7178789afb78f84e3b214aa12e759b0d2150f3560f04118594958f, e1df38edb0247ab257538e0f7d71177e14963c338f87887ed0ba3dd250431a40. -->
+<!-- Generated from inventory 427b1af45b73b0b7427da8c8ebc2209f86604e6ae6067291196effe1e52c5034, survey e3d05373119cfeab7def0d305e164929e38ef16e533d9709d19cbdbaf671effe, maps 055ee4db7f8a7fd6eefe158f75bb8c6927910a1cb1b31d8d28fe53df822e07e7, pilot 9447c4b03ea0e4c04fd335c818993795bf84f82fe92af224e4ffdbebe882c177, raw access 40d50cd958062991fed9a3865e54990b3e486bbb2d8e433ceeb339bbd3cd6094, 36045dee373b5ea711710ea22c6fe8a212e03672b75b9bf47e76fda81bb507d4, copy difference d0091d1d36275c355d786de3d53a33f94f22689260d064f943ca3d8e81ead71e, lake extraction 186ef5505154cce0735216579cafd9d683ab0d75f9f5d2fe934da5ad56fc2d0a, tile extraction e951d1662156d978016cb0cd649493c6e645c22e6b99d150b7468e6b99f11aa2, cross-tile extraction fddea828f0a9516b999c40e879e46c8998e2ed4a8b8dfe16de01d571db4495e8, sensor bands c692b551b1f23a405435d2a28c2b36f7a4c836cd04f2d56509d1ff5775c3ab09, cost estimates e997529d963a3cd4bab57df8c32fd4b0f11520504b993c1c56d884ad4a14cab7, aquatic reflectance 6cde20758a7178789afb78f84e3b214aa12e759b0d2150f3560f04118594958f, e1df38edb0247ab257538e0f7d71177e14963c338f87887ed0ba3dd250431a40. -->
 <script>
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 function activate(id, focus = false) {
