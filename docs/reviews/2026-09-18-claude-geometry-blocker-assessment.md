@@ -13,7 +13,7 @@ It accepts the first refinement whose relative change bound is at most 1.25e-7, 
 The bound divides four terms by the polygon area. They are the polygon's own change, the buffered support's change times a multiplier, the tile extent change, and the largest group footprint change.
 The multiplier is one plus the tile count plus the footprint count. In Florida it is nine.
 
-Lake Yale, `nhd-112613946`, sets the following budget under that arithmetic. The measurements come from Codex's saved [refinement log](../../data/lazy-reader-workloads/2026-09-18-approved/diagnostics/lake-yale/refinements.json).
+Lake Yale, `nhd-112613946`, sets the following budget under that arithmetic. The measurements come from Codex's saved refinement log, `data/lazy-reader-workloads/2026-09-18-approved/diagnostics/lake-yale/refinements.json`, ignored by git.
 
 | Quantity | Value |
 |---|---|

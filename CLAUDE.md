@@ -28,6 +28,7 @@ The owner accepted the [response](docs/reviews/2026-09-16-codex-stage-4-review-r
 The measured results remain frozen. The owner set the primary-tile rule on 2026-10-15, [decision 0010](docs/decisions/0010-primary-tile-rule.md).
 Start with [docs/work-plan.md](docs/work-plan.md). The inventory and the Discovery tab describe the primary product.
 The Prototyping tab was rebuilt for both options on 2026-10-15, with the Level-2A series as one reference table. Codex reviewed its accuracy, and the [record](docs/reviews/2026-10-15-prototyping-tab-rebuild.md) awaits owner review.
+The [session handoff](docs/reviews/2026-10-18-session-handoff.md) of 2026-10-18 lists the open reviews, the local-only data, and the open threads.
 No processing workflow, compute platform, or storage layout is selected. Measurements remain on the owner's laptop under assumption A25.
 The owner, Codex, and Claude Code develop each authorized step together under the workflow below.
 
