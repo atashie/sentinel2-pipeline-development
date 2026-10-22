@@ -8,6 +8,7 @@ The latest handoff records subsequent corrections and resolved wording.
 
 | Date | Review | Reviewer |
 |---|---|---|
+| 2026-10-21 | [Sen2Cor latency survey: Level-2A reaches Collection 1 a median of 0.26 days after sensing, mostly ESA's delay, against ACOLITE's 0.33](2026-10-21-sen2cor-latency.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-18 | [Session handoff for a new computer: where the work stands, records awaiting review, local-only data, and open threads](2026-10-18-session-handoff.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-15 | [Prototyping tab rebuilt for both options: takeaways, readers B1 and B3, costs, pixel checks, and a Level-2A reference table](2026-10-15-prototyping-tab-rebuild.md) | Claude Code (AI coding agent), directed by the repository owner |
 | 2026-10-15 | [Owner direction recorded: one fixed primary tile per water body, decision 0010, and the compression analysis kept at a high level](2026-10-15-primary-tile-and-compression-direction.md) | Claude Code (AI coding agent), directed by the repository owner |

@@ -10425,16 +10425,17 @@
       "id": "I-24",
       "title": "Publication latency is documented loosely",
       "text": "Both AWS routes state availability within a few hours of Copernicus. ESA states Level-2A within 8 hours of sensing.",
-      "consequence": "No target is set, assumption A11. Latency is a measurement over at least a month of live operation.",
+      "consequence": "No target is set, assumption A11. Probe PR-16 timed four months of history on 24 lower-48 tiles. ACOLITE's median was 0.33 days and Sen2Cor's 0.26. ACOLITE's 90th percentile was 3.76 days and Sen2Cor's 0.54. Live operation over at least a month remains the test.",
       "status": "measure",
       "decision": "Prototyping and later live observation.",
       "evidence": [
         "cl-ar-earth-search-cogs-publication_latency",
         "cl-ar-aws-requester-pays-publication_latency",
-        "R4"
+        "R4",
+        "PR-16"
       ],
       "plain": "Providers say new scenes appear within hours. Nobody states a guarantee.",
-      "why": "The near-real-time promise to the model has no number behind it yet. Latency is measured over a month of live operation."
+      "why": "No target backs the near-real-time promise to the model. Probe PR-16 measured past arrival, not live operation. Latency is measured over a month of live operation."
     },
     {
       "id": "I-25",
@@ -10662,13 +10663,14 @@
       "id": "I-38",
       "title": "A single agency provides the primary product without a service commitment",
       "text": "One USGS mission area produces the product as a continually updated data release. No page states a latency, an availability commitment, or a retention policy.",
-      "consequence": "Monitor arrival and completeness. Keep every ingested revision locally. Under the ACOLITE-only option no other source covers scenes the product lacks, decision 0009.",
+      "consequence": "Monitor arrival and completeness. Keep every ingested revision locally. Under the ACOLITE-only option no other source covers scenes the product lacks, decision 0009. On the same tiles and window, one recent scene in ten took 3.76 days or longer, against 0.54 for Sen2Cor, probe PR-16.",
       "status": "open",
       "decision": "Open. Phase C of the replan record measures what the store needs.",
       "evidence": [
         "cl-ar-usgs-acolite-aqr-operator",
         "cl-ar-usgs-acolite-aqr-publication_latency",
-        "cl-ar-usgs-acolite-aqr-reprocessed_products-3"
+        "cl-ar-usgs-acolite-aqr-reprocessed_products-3",
+        "PR-16"
       ],
       "plain": "One agency produces the water-focused product, with no stated service level. A change on its side can pause or alter the feed.",
       "why": "A daily model input needs a predictable feed. Local revisions limit the risk."
@@ -10881,6 +10883,17 @@
       ],
       "record": "../benchmarks/results/aqr-overlap.json",
       "result": "Eight same-zone tile pairs at Lake Lanier and Lake Okeechobee, two acquisitions of October 2025, rules declared before the read. Pooled over pairs, both options' tiles agree within 0.005 reflectance on 90 percent of pixels or more, except Sen2Cor's B01 at the shore. Per pair, ACOLITE's B01 differs on 79 to 100 percent of pixels at one Okeechobee corner pair, and Sen2Cor's B01 differs at six pairs. Tile offsets reach tens of percent of the dark-water signal in both options. Pooled, ACOLITE does not widen tile disagreement against Sen2Cor. Per pair it widens in 4 strata and narrows in 32. Statistics only, no value stored. Neither option is a reference."
+    },
+    {
+      "id": "PR-16",
+      "date": "2026-10-21",
+      "question": "How long after sensing does Sen2Cor Level-2A reach Earth Search's buckets, on finding 27's tiles, window, and clock?",
+      "result": "Catalog metadata and bucket listings only, products sensed from 2026-06-15 to 2026-10-13 on 24 lower-48 tiles. Collection 1 held all 1,502 Copernicus products. Its first object arrived a median of 0.26 days after sensing, 0.54 at the 90th percentile, and 4.88 at most. 98.9 percent arrived within 24 hours. Earth Search followed Copernicus publication by a median of 0.45 hours, so most of the delay is ESA's. At finding 27's listing time, ACOLITE's median was 0.33 days and its 90th percentile 3.76.",
+      "bears_on": [
+        "I-24",
+        "I-38"
+      ],
+      "record": "../benchmarks/results/l2a-latency.json"
     }
   ],
   "themes": [

@@ -19,11 +19,12 @@ Six AI reviewers then read the Phase C work. The [review response](reviews/2026-
 On 2026-10-15 the owner wrote "proceed", and probe T7 ran. Its [record](reviews/2026-10-15-phase-c-t7-overlap.md) awaits review.
 The same day the owner set the primary-tile rule, [decision 0010](decisions/0010-primary-tile-rule.md), and kept the cost compression analysis at a high level. The [direction record](reviews/2026-10-15-primary-tile-and-compression-direction.md) quotes both.
 The owner then asked for the Prototyping tab rebuild. Its [record](reviews/2026-10-15-prototyping-tab-rebuild.md) awaits review.
+On 2026-10-21 the owner asked for a Sen2Cor latency survey. Its [record](reviews/2026-10-21-sen2cor-latency.md) awaits review.
 Each later Phase C step needs its own authorization.
 Every test that contacts a provider runs only when the owner invokes it.
 Findings 26 to 29 describe the primary product's metadata and one crop. Findings 30 to 33 describe pixel validity on the pilot lakes.
 Findings 34 and 35 compare the two options' values on the same pixels. Findings 36 and 37 describe access cost on the primary product.
-Findings 38 and 39 compare each option's values in two overlapping tiles.
+Findings 38 and 39 compare each option's values in two overlapping tiles. Finding 40 times Sen2Cor's arrival against finding 27's.
 
 ## How options are judged
 
@@ -238,6 +239,7 @@ Carried into Phase C from Phase B:
 - [x] T5, paired values against Collection 1, the two options on the same pixels, rules declared first. Run on 2026-10-14, [findings 34 and 35](measurements.md#phase-c-probe-t5-the-two-options-on-the-same-pixels-2026-10-14). Owner review pending.
 - [x] T6, access replay of stages 2 to 4 and readers B1 and B3 on the primary product. Run on 2026-10-14, [findings 36 and 37](measurements.md#phase-c-probe-t6-the-access-tests-on-the-primary-product-2026-10-14). Owner review pending.
 - [x] T7, each option across two overlapping tiles, rules declared first. Run on 2026-10-15, [findings 38 and 39](measurements.md#phase-c-probe-t7-each-option-across-two-overlapping-tiles-2026-10-15). Owner review pending.
+- [x] Sen2Cor latency on finding 27's tiles and window, metadata only. Run on 2026-10-21, [finding 40](measurements.md#sen2cor-latency-survey-2026-10-21). Owner review pending.
 - [ ] T8, retention.
 - [ ] Deferred under decision 0009: the two-source join prototype, until evidence proves the model needs a join.
 - [x] Cost analysis re-parameterized from T1, T2, and T6, per standalone option, 2026-10-14. [Record](reviews/2026-10-14-phase-c-cost-options.md), [cost analysis](aws-cost-analysis.md#two-standalone-options). Owner review pending.

@@ -41,6 +41,7 @@ AQR_VALIDITY = RESULTS / "aqr-validity.json"
 AQR_PAIRS = RESULTS / "aqr-pairs.json"
 AQR_WORKLOADS = RESULTS / "aqr-workloads.json"
 AQR_OVERLAP = RESULTS / "aqr-overlap.json"
+L2A_LATENCY = RESULTS / "l2a-latency.json"
 COST_ESTIMATES = DOCS / "cost-analysis" / "estimates.json"
 COST_ESTIMATES_ACOLITE = DOCS / "cost-analysis" / "estimates-acolite-only.json"
 COST_INPUTS = DOCS / "cost-analysis" / "inputs.json"
@@ -271,11 +272,26 @@ def aqr_markers(coverage: dict, headers: dict) -> dict[str, str]:
         "AQR_ANY_BASELINE_PERCENT": f"{100 * any_same / scenes:.0f}",
         "AQR_RECENT_FROM": html.escape(latency["sensed_from"]),
         "AQR_LATENCY_HOURS": f"{24 * latency['median_days']:.0f}",
+        "AQR_LATENCY_P90_DAYS": f"{latency['p90_days']:.1f}",
         "AQR_LATENCY_SCENES": f"{latency['scenes']:,}",
         "AQR_TILE_PREFIXES": f"{headers['summary']['tile_prefixes']:,}",
         "AQR_DIGEST": ", ".join(
             hashlib.sha256(path.read_bytes()).hexdigest() for path in (AQR_HEADERS, AQR_COVERAGE)
         ),
+    }
+
+
+def l2a_latency_markers(latency: dict, coverage: dict) -> dict[str, str]:
+    """Sen2Cor arrival on the primary product's window, censored at its listing time."""
+    matched = latency["summary"]["sentinel-2-c1-l2a"]["bucket_first_matched_cutoff"]
+    if latency["window"]["start"] != coverage_recent_from(coverage):
+        raise ValueError("The latency survey and the coverage survey use different windows")
+    if matched["cutoff"] != coverage["measured_at"]:
+        raise ValueError("The latency survey is not censored at the coverage listing time")
+    return {
+        "L2A_LATENCY_HOURS": f"{24 * matched['median_days']:.0f}",
+        "L2A_LATENCY_P90_HOURS": f"{24 * matched['p90_days']:.0f}",
+        "L2A_LATENCY_DIGEST": hashlib.sha256(L2A_LATENCY.read_bytes()).hexdigest(),
     }
 
 
@@ -964,6 +980,7 @@ def build_html(inventory: Path = INVENTORY) -> str:
     tile_extraction = json.loads(TILE_EXTRACTION.read_text())
     cross_tile_extraction = json.loads(CROSS_TILE_EXTRACTION.read_text())
     sensor_bands = json.loads(SENSOR_BANDS.read_text())
+    coverage = json.loads(AQR_COVERAGE.read_text())
     for entry in maps["images"].values():
         path = MAPS.parent / entry["file"]
         if hashlib.sha256(path.read_bytes()).hexdigest() != entry["sha256"]:
@@ -1031,7 +1048,8 @@ def build_html(inventory: Path = INVENTORY) -> str:
             hashlib.sha256(path.read_bytes()).hexdigest()
             for path in (COST_ESTIMATES_ACOLITE, COST_ESTIMATES)
         ),
-        **aqr_markers(json.loads(AQR_COVERAGE.read_text()), json.loads(AQR_HEADERS.read_text())),
+        **aqr_markers(coverage, json.loads(AQR_HEADERS.read_text())),
+        **l2a_latency_markers(json.loads(L2A_LATENCY.read_text()), coverage),
     }
     rendered = TEMPLATE.read_text()
     for key, value in replacements.items():

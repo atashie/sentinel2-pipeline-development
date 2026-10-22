@@ -29,6 +29,7 @@ The measured results remain frozen. The owner set the primary-tile rule on 2026-
 Start with [docs/work-plan.md](docs/work-plan.md). The inventory and the Discovery tab describe the primary product.
 The Prototyping tab was rebuilt for both options on 2026-10-15, with the Level-2A series as one reference table. Codex reviewed its accuracy, and the [record](docs/reviews/2026-10-15-prototyping-tab-rebuild.md) awaits owner review.
 The [session handoff](docs/reviews/2026-10-18-session-handoff.md) of 2026-10-18 lists the open reviews, the local-only data, and the open threads.
+The owner authorized a Sen2Cor latency survey on 2026-10-21, finding 40. Its [record](docs/reviews/2026-10-21-sen2cor-latency.md) awaits review.
 No processing workflow, compute platform, or storage layout is selected. Measurements remain on the owner's laptop under assumption A25.
 The owner, Codex, and Claude Code develop each authorized step together under the workflow below.
 
@@ -68,6 +69,7 @@ uv run python benchmarks/aqr_validity.py --dry-run   # print the probe T4 plan a
 uv run python benchmarks/aqr_pairs.py --dry-run      # print the probe T5 plan and its declared rules, no network
 uv run python benchmarks/aqr_workloads.py            # print the probe T6 plan, no network
 uv run python benchmarks/aqr_overlap.py --dry-run    # print the probe T7 plan and its declared rules, no network
+uv run python benchmarks/l2a_latency.py --dry-run    # print the Sen2Cor latency survey plan, no network
 uv run python tools/collate_checks.py --check && uv run python tools/collate_sensor_bands.py --check && uv run python tools/render_options.py --check && uv run python tools/gap_report.py --check
 python3 ~/github/cc-skills/html-review-comments/scripts/inject.py tools/s2-options.template.html --config "$(cat tools/review-layer.json)" --check   # review-comment layer, no network
 ```
@@ -83,6 +85,7 @@ invokes them. Requester-pays buckets charge the reader. Record bucket or endpoin
 `benchmarks/aqr_pairs.py` reads the same windows from the USGS bucket and the paired Collection 1 bands.
 `benchmarks/aqr_workloads.py` replays stages 2 to 4 and readers B1 and B3 on the USGS bucket.
 `benchmarks/aqr_overlap.py` reads the overlap pixels of stage 4's lakes from two tiles of each option. Each runs only when the user invokes it.
+`benchmarks/l2a_latency.py` queries Earth Search and Copernicus metadata and lists both Level-2A buckets. It reads no object body. It runs only when the user invokes it.
 `benchmarks/raw_access.py` and `benchmarks/copy_difference.py` read pixels from both public GeoTIFF buckets. `benchmarks/lake_extraction.py` reads lake windows from the Collection 1 bucket. `benchmarks/tile_extraction.py` reads every lake of a tile, windowed or whole. They run only when the user invokes them. `--dry-run` contacts nothing. `--reuse DIR` still queries the catalog, then repeats only what a saved pass did not measure. `--resummarize RESULT` recomputes a summary offline.
 
 `benchmarks/cross_tile_extraction.py` separates metadata selection from imagery extraction.
@@ -160,7 +163,7 @@ inventory, or its finding in [docs/measurements.md](docs/measurements.md). Numbe
 - Measurement findings 1 to 25 and the gotchas below describe Level-2A files from Earth Search, the reference series of
   assumption A50. Findings 26 to 29 describe the primary product's metadata and one crop. Findings 30 to 33 describe its pixels.
   Findings 34 and 35 compare the two options' values. Findings 36 and 37 describe access on the primary product.
-  Findings 38 and 39 compare each option across two overlapping tiles. Decision 0008.
+  Findings 38 and 39 compare each option across two overlapping tiles. Finding 40 times Sen2Cor's arrival against finding 27's. Decision 0008.
 - In 59 scenes of 2025 on five pilot tiles, every pilot-lake pixel inside the product's scene holds a value in every band and class.
   No-data marks pixels ACOLITE flags out of scene. NDWI matches (B03 - B8A) / (B03 + B8A) times 10,000 on 96 percent or more. Findings 30 and 32.
 - Each primary product is a standalone observation. The bucket can hold two products of one pass on one tile, one per datastrip. Keep both, never the latest only. Finding 30, decision 0009.

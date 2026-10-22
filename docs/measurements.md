@@ -1,4 +1,4 @@
-# Measurements, 2026-09-10, updated 2026-10-13
+# Measurements, 2026-09-10, updated 2026-10-21
 
 The six measurement sets summarized below cover the surveys and first four prototype stages.
 The data gap survey required by [decision 0003](decisions/0003-earth-search-2021-first-gap-survey-cross-tile.md) ran once on 2026-09-10 and wrote [gap-survey.json](../benchmarks/results/gap-survey.json).
@@ -11,6 +11,7 @@ The sixth is [prototype stage 4](#prototype-stage-4-lakes-across-tiles-2026-09-1
 The [larger-workload comparison](reviews/2026-09-21-sleep-rerun.md) records subsequent measurements, replacement attempts, and their limits.
 The seventh set is the [Phase B probes](#phase-b-probes-on-the-usgs-aquatic-reflectance-product-2026-10-13) of 2026-10-13. They describe the USGS aquatic reflectance product, the primary source under [decision 0008](decisions/0008-acolite-aquatic-reflectance-first.md).
 The eighth set is [probe T4](#phase-c-probe-t4-pixel-validity-on-the-pilot-lakes-2026-10-13) of 2026-10-13, the first pixel test of the primary product.
+Probes [T5](#phase-c-probe-t5-the-two-options-on-the-same-pixels-2026-10-14), [T6](#phase-c-probe-t6-the-access-tests-on-the-primary-product-2026-10-14), and [T7](#phase-c-probe-t7-each-option-across-two-overlapping-tiles-2026-10-15) follow. The [Sen2Cor latency survey](#sen2cor-latency-survey-2026-10-21) of 2026-10-21 is the last set.
 Findings 1 to 25 describe Earth Search Level-2A files, the reference series of assumption A50 in [assumptions.md](assumptions.md).
 
 An acquisition is one sensing date and platform within one tile. Item counts stand beside acquisition counts because one acquisition can appear as several items.
@@ -693,7 +694,7 @@ From 2018 to 2022 the inputs are mostly original Level-1C products, baselines 02
 USGS documents a processing log file per scene. None of the 263,590 listed objects is one. Source: `tiles[].layer_sets`.
 Sentinel-2C appears in 1,844 scenes, although the USGS pages name Sentinel-2A and 2B only. Baselines 99.05 and 99.06 from its commissioning appear in 33 scenes, and baseline 05.13 in 133. Source: `tiles[].platforms` and `summary.baselines_by_year`.
 For 784 scenes sensed from 2026-06-15 and already published, the first object appeared a median 0.33 days after sensing. The 90th percentile was 3.76 days and the maximum 18.93 days. Source: `summary.latency_recent`.
-Scenes not yet published are absent from that count, so the statistic is biased low.
+Scenes not yet published are absent from that count, so the statistic is biased low. [Finding 40](#sen2cor-latency-survey-2026-10-21) times Sen2Cor on the same tiles, window, and clock.
 Older scenes arrived in batches. The earliest object timestamp falls in 2024-12 for 10,164 scenes, in 2025-05 for 1,947, and in 2026-05 for 2,484. Source: `summary.published_by_month`.
 The bucket also holds Alaska tile 05VLG, with a first scene sensed on 2015-11-15. The five context tiles outside the United States hold nothing. Source: `presence`.
 
@@ -1044,3 +1045,56 @@ On one date, a lake's values differ between tiles by a median of up to 0.0055 fo
 - The source of each tile. The result records no datastrip and no ACOLITE settings per product, issue I-34.
 - Independent samples. Lake Okeechobee holds 82 percent of interior observations, and the replicate unit is closer to the 8 pair-dates than to the pixels.
 - Whether offsets of this size matter to the model.
+
+## Sen2Cor latency survey, 2026-10-21
+
+Status: measured, awaiting review. The [latency record](reviews/2026-10-21-sen2cor-latency.md) owns the commands and verification.
+Evidence: [l2a-latency.json](../benchmarks/results/l2a-latency.json). It holds catalog metadata and bucket listings only. No object body and no pixel was read.
+The window and tiles are finding 27's: products sensed from 2026-06-15 to 2026-10-13 on its 24 lower-48 tiles. Source: `window` and `tiles`.
+The survey ran at 2026-10-21T21:55:19+00:00. It made 96 Earth Search requests, 24 Copernicus OData requests, and 240 bucket listings. Source: `requests`.
+It received 2,550,854 bytes from the two catalogs and 28,970,764 bytes of listings. Both buckets are in us-west-2 and not requester pays. Every request was unsigned.
+Collection 1 holds 1,502 items on 1,298 distinct tile-dates. Each item's product name matches one of the 1,502 Copernicus products of the window. Source: `summary`.
+Every latency counts from the sensing start in the product name, the reference finding 27 uses. Percentiles are nearest rank, as in finding 27.
+
+### 40. Sen2Cor Level-2A reaches the Collection 1 bucket a median of 0.26 days after sensing, and 98.9 percent of products arrive within a day
+
+| Clock | Median | 90th percentile | 99th percentile | Maximum |
+|---|---|---|---|---|
+| ESA product generation | 0.20 | 0.42 | 0.57 | 4.84 |
+| Copernicus origin | 0.24 | 0.46 | 0.61 | 4.87 |
+| Copernicus publication | 0.24 | 0.46 | 1.37 | 4.87 |
+| Earth Search catalog record | 0.26 | 0.54 | 1.39 | 4.88 |
+| First object in the Collection 1 bucket | 0.26 | 0.54 | 1.39 | 4.88 |
+| Last object in the Collection 1 bucket | 0.26 | 0.54 | 1.39 | 4.88 |
+
+Days after sensing over 1,502 items. Source: `summary.sentinel-2-c1-l2a.latency`.
+
+- 0.26 days is about 6 hours. Of the 1,502 Copernicus products, 43.5 percent reached the bucket within 6 hours and 89.5 percent within 12. Source: `share_of_cdse_products_in_bucket_within`.
+- 98.9 percent arrived within 24 hours and 99.9 percent within 72. A product not on Earth Search counts as not arrived.
+- Most of the delay is ESA's. The first object followed Copernicus publication by a median of 0.45 hours, 0.62 at the 90th percentile, and 16.93 at most. Source: `bucket_first_after_cdse_publication`.
+- The slowest items waited at ESA. The slowest, 4.88 days, was published by Copernicus at 4.87 days. Source: `slowest_bucket_first`.
+- One pass on 2026-09-03 accounts for many of the next slowest. ESA generated its products within 6 hours, and Copernicus published them about 1.9 days after sensing.
+- Per sensing month the median runs from 0.21 to 0.27 days, and per tile from 0.21 to 0.28. Source: `bucket_first_by_sensing_month` and `tiles`.
+- The older collection's first objects arrived a median of 0.26 days after sensing, 0.52 at the 90th percentile, and 4.88 at most. Source: `summary.sentinel-2-l2a.latency`.
+- The older collection lacks 8 of the 1,502 products, 48 to 124 days after sensing. Five come from the 2026-09-03 pass. Source: `summary.sentinel-2-l2a.cdse_absent`.
+- One older-collection item was rewritten 59.6 days after sensing. Its catalog record and some objects carry the new time. Its first object kept the original. Source: `items`.
+
+The two options on the same clock, window, tiles, and censoring time:
+
+| Option | Bucket | Listed at | Count | Median | 90th percentile | Maximum |
+|---|---|---|---|---|---|---|
+| ACOLITE only | USGS aquatic reflectance | 2026-10-13T18:22:53+00:00 | 784 scenes | 0.33 | 3.76 | 18.93 |
+| Sen2Cor only | Collection 1, objects first written by 2026-10-13T18:22:53+00:00 | 2026-10-21T21:55:19+00:00 | 1,486 items | 0.26 | 0.54 | 4.88 |
+
+Days from sensing to the first object. Source: `acolite_reference`, copied from finding 27's result, and `summary.sentinel-2-c1-l2a.bucket_first_matched_cutoff`.
+
+- At the median the options differ by about 0.07 days, under 2 hours. At the 90th percentile, ACOLITE takes 3.76 days and Sen2Cor 0.54.
+- Each row counts only products its bucket held. Scenes USGS never processed carry no latency in the ACOLITE row, finding 27.
+
+### What the latency survey does not show
+
+- Arrival during live operation over weeks, issue I-24. The survey looks back over four months from one listing.
+- A pass-by-pass comparison of the two options, or ACOLITE's share of passes within a day. The survey did not relist the USGS bucket.
+- Time from a bucket object to a usable store record. That is a property of the pipeline, not the source.
+- Outages, seasons, and tiles outside this window and the lower 48.
+- When each object was first written. A rewritten object resets its last-modified time.
